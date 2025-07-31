@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="res_partner_view_form" model="ir.ui.view">
+    <field name="name">res.partner - form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form" />
+    <field name="priority" eval="10" />
+    <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+            <page
+                    name="company_information"
+                    string="Company Information"
+                    attrs="{'invisible': [('is_company','=',False)]}"
+                >
+                <group name="company_information_1" colspan="4" col="2">
+                    <field
+                            name="ownership_type_id"
+                            attrs="{'invisible':[('is_company','!=',True)]}"
+                        />
+                    <field
+                            name="entity_type_id"
+                            attrs="{'invisible':[('is_company','!=',True)]}"
+                        />
+                </group>
+            </page>
+        </xpath>
+        <xpath expr="//field[@name='industry_id']" position="after">
+        </xpath>
+
+        <xpath expr="//field[@name='vat']" position="attributes">
+            <attribute
+                    name="attrs"
+                >{'readonly': [('parent_id','!=',False),('type','!=','branch')]}</attribute>
+        </xpath>
+
+        <xpath
+                expr="//field[@name='child_ids']/form//field[@name='name']"
+                position="after"
+            >
+            <field name="vat" attrs="{'invisible': [('type','!=','branch')]}" />
+        </xpath>
+
+        <xpath expr="//field[@name='child_ids']" position="before">
+            <button
+                    name="action_open_contact_address"
+                    string="Open"
+                    type="object"
+                    icon="fa-bars"
+                    class="oe_highlight"
+                />
+        </xpath>
+    </field>
+</record>
+<record id="view_personal_information_page_nationality" model="ir.ui.view">
+    <field name="name">res.partner - form</field>
+    <field name="model">res.partner</field>
+    <field
+            name="inherit_id"
+            ref="partner_contact_nationality.view_personal_information_page_nationality"
+        />
+    <field name="priority" eval="10" />
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='nationality_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
+</record>
+<record id="view_personal_information_gender" model="ir.ui.view">
+    <field name="name">res.partner - form</field>
+    <field name="model">res.partner</field>
+    <field
+            name="inherit_id"
+            ref="partner_contact_gender.view_personal_information_gender"
+        />
+    <field name="priority" eval="10" />
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='gender']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
+</record>
+<record id="view_partner_birthdate_form" model="ir.ui.view">
+    <field name="name">res.partner - form</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="partner_contact_birthdate.view_partner_form" />
+    <field name="priority" eval="10" />
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='birthdate_date']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='age']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
+</record>
+<record id="view_personal_information_birthplace" model="ir.ui.view">
+    <field name="name">res.partner - form</field>
+    <field name="model">res.partner</field>
+    <field
+            name="inherit_id"
+            ref="partner_contact_birthplace.view_personal_information_birthplace"
+        />
+    <field name="priority" eval="10" />
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='birth_city']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='birth_state_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='birth_country_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
+</record>
+<record id="personal_information" model="ir.ui.view">
+    <field name="name">res.partner - form</field>
+    <field name="model">res.partner</field>
+    <field
+            name="inherit_id"
+            ref="partner_contact_personal_information_page.personal_information"
+        />
+    <field name="priority" eval="20" />
+    <field name="arch" type="xml">
+        <xpath expr="//group[@name='personal_information_group']" position="inside">
+            <field name="nationality_id" string="Nationality (Country)" />
+            <field name="gender" />
+            <field name="birthdate_date" string="Date of Birth" />
+            <field name="birth_city" string="Place of Birth" />
+            <field name="birth_country_id" string="Country of Birth" />
+            <field name="birth_state_id" string="Birth State" />
+            <field name="religion_id" />
+            <field name="ethnicity_id" />
+            <field name="blood_type" />
+            <field name="blood_type_rhesus" />
+            <field name="marital" />
+            <field
+                    name="spouse_complete_name"
+                    attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"
+                />
+            <field
+                    name="spouse_birthdate"
+                    attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}"
+                />
+        </xpath>
+    </field>
+</record>
+
+<menuitem
+        id="contacts.res_partner_menu_contacts"
+        name="Contacts"
+        action="contacts.action_contacts"
+        parent="contacts.menu_contacts"
+        sequence="2"
+        groups="contacts_configurator_group"
+    />
+</odoo>

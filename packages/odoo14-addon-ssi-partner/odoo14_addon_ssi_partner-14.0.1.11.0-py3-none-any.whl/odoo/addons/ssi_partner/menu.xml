@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <menuitem
+        id="menu_contacts"
+        name="Contacts"
+        sequence="4"
+        web_icon="contacts,static/description/icon.png"
+    />
+
+    <menuitem
+        id="res_partner_menu_config"
+        name="Configuration"
+        parent="contacts.menu_contacts"
+        sequence="99"
+    />
+    <menuitem
+        id="menu_localisation"
+        name="Localization"
+        parent="res_partner_menu_config"
+        sequence="5"
+    />
+    <menuitem
+        id="menu_config_bank_accounts"
+        name="Bank Accounts"
+        parent="res_partner_menu_config"
+        sequence="6"
+    />
+</odoo>

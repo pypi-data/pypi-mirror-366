@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="partner_module_category" model="ir.module.category">
+        <field name="name">Partner</field>
+    </record>
+
+    <record id="partner_workflow_module_category" model="ir.module.category">
+        <field name="name">Partner - Workflow</field>
+        <field name="parent_id" ref="partner_module_category" />
+    </record>
+
+    <record id="partner_data_ownership_module_category" model="ir.module.category">
+        <field name="name">Partner - Data Ownership</field>
+        <field name="parent_id" ref="partner_module_category" />
+    </record>
+
+
+    <record id="partner_configurator_module_category" model="ir.module.category">
+        <field name="name">Partner - Configurator</field>
+        <field name="parent_id" ref="partner_module_category" />
+    </record>
+
+    <record id="partner_wizard_module_category" model="ir.module.category">
+        <field name="name">Partner - Wizard</field>
+        <field name="parent_id" ref="partner_module_category" />
+    </record>
+
+    <record id="partner_report_module_category" model="ir.module.category">
+        <field name="name">Partner - Report</field>
+        <field name="parent_id" ref="partner_module_category" />
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <menuitem
+        id="contacts.menu_partner_title_contact"
+        action="base.action_partner_title_contact"
+        name="Contact Titles"
+        parent="res_partner_menu_config"
+        sequence="3"
+        groups="contact_titles_configurator_group"
+    />
+</odoo>

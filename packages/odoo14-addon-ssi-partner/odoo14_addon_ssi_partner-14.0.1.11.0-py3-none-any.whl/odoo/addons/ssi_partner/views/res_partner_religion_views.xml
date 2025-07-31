@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 OpenSynergy Indonesia
+     Copyright 2024 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="res_partner_religion_view_search" model="ir.ui.view">
+    <field name="name">res_partner_religion - search</field>
+    <field name="model">res_partner_religion</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="res_partner_religion_view_tree" model="ir.ui.view">
+    <field name="name">res_partner_religion - tree</field>
+    <field name="model">res_partner_religion</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="res_partner_religion_view_form" model="ir.ui.view">
+    <field name="name">res_partner_religion - form</field>
+    <field name="model">res_partner_religion</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="res_partner_religion_action" model="ir.actions.act_window">
+    <field name="name">Religion</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res_partner_religion</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="res_partner_religion_menu"
+        name="Religion"
+        parent="res_partner_menu_config"
+        action="res_partner_religion_action"
+        groups="res_partner_religion_configurator_group"
+        sequence="4"
+    />
+
+</odoo>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="contacts_configurator_group" model="res.groups">
+    <field name="name">Contacts</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="contact_tags_configurator_group" model="res.groups">
+    <field name="name">Contact Tags</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="contact_titles_configurator_group" model="res.groups">
+    <field name="name">Contact Titles</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="industries_configurator_group" model="res.groups">
+    <field name="name">Industries</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="countries_configurator_group" model="res.groups">
+    <field name="name">Countries</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="fed_states_configurator_group" model="res.groups">
+    <field name="name">Fed. States</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="country_group_configurator_group" model="res.groups">
+    <field name="name">Country Group</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="banks_configurator_group" model="res.groups">
+    <field name="name">Banks</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+<record id="banks_account_configurator_group" model="res.groups">
+    <field name="name">Banks Account</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="ownership_type_configurator_group" model="res.groups">
+    <field name="name">Ownership Type</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="entity_type_configurator_group" model="res.groups">
+    <field name="name">Entity Type</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="partner_contact_group_configurator_group" model="res.groups">
+    <field name="name">Partner Contact Groups</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="res_partner_religion_configurator_group" model="res.groups">
+    <field name="name">Religion</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="res_partner_ethnicity_configurator_group" model="res.groups">
+    <field name="name">Ethnicity</field>
+    <field name="category_id" ref="partner_configurator_module_category" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+</odoo>
