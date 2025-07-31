@@ -1,0 +1,16 @@
+[project]
+name = "redix-client"
+version = "0.2.2"
+description = "Python client for Redix Healthcare Data Conversion REST API"
+authors = [{ name="Redix International, Inc.", email="sales@redix.com.com" }]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = ["httpx>=0.23.0,<1.0", "pydantic>=1.9.0,<2.0"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
