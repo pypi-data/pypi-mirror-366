@@ -1,0 +1,59 @@
+[project]
+name = "pydoc-markdown-nuxt"
+version = "0.2.1"
+description = "A Nuxt.js renderer for pydoc-markdown that generates documentation compatible with Nuxt Content and MDC"
+keywords = [
+    "pydoc-markdown",
+    "nuxt",
+    "documentation",
+    "python",
+    "mdc",
+    "nuxt-content",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+]
+authors = [{ name = "Uriel Curiel", email = "kratoz.00616@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+dependencies = [
+    "build>=1.2.2.post1",
+    "pydoc-markdown>=4.8.2",
+    "pytest>=8.3.5",
+    "pytest-cov>=5.0.0",
+    "PyYAML>=5.0",
+    "twine>=6.1.0",
+]
+
+[project.entry-points."pydoc_markdown.interfaces.Renderer"]
+nuxt = "pydoc_markdown_nuxt:NuxtRenderer"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "pytest-cov>=4.1.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
