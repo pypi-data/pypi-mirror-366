@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: mktmp
+Version: 0.1.0
+Summary: command-line tool for creating temporary directories along with symbolic links to them
+Project-URL: Homepage, https://github.com/y-guang/mktmp
+Project-URL: Repository, https://github.com/y-guang/mktmp
+Project-URL: Issues, https://github.com/y-guang/mktmp/issues
+Author-email: Guang Yang <guang.spike.yang@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: System :: Filesystems
+Classifier: Topic :: Utilities
+Requires-Python: >=3.12
+Requires-Dist: python-dotenv>=1.1.1
+Requires-Dist: typer>=0.16.0
+Description-Content-Type: text/markdown
+
+# MKTMP
+
+MKTMP is a command-line tool for creating temporary directories along with symbolic links to them — enabling centralized, consistent management of ephemeral files.
+
+## Setup
+
+Add your user to the "Create symbolic links" user right in Windows to avoid permission issues when creating symbolic links.
+
+```
+Security Settings > Local Policies > User Rights Assignment > Create symbolic links
+安全设置 > 本地策略 > 用户权限分配 > 创建符号链接
+```
