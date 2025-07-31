@@ -1,0 +1,20 @@
+[project]
+name = "telegram-notify"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "angusforrest", email = "contact@angusforrest.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32.4",
+]
+
+[project.scripts]
+notify = "telegram_notify:notify"
+record = "telegram_notify:record"
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
