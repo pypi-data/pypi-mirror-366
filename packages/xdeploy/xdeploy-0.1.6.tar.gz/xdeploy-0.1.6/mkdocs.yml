@@ -1,0 +1,134 @@
+site_name: XDeploy Docs
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  language: zh
+  font:
+    text: Helvetica
+    code: Roboto Mono
+
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      # primary: grey
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      # primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+    - navigation.top
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.footer
+    - navigation.tracking
+    - navigation.instant
+    - navigation.indexes
+    - content.tabs.link # all code tabs change simultaneously
+
+extra_css:
+  - stylesheets/style.css
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css
+
+markdown_extensions:
+  # Div text decorators
+  - admonition
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - attr_list
+  - def_list
+  # Syntax highlight
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ./
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  # Highlight
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+
+# Primary navigation ---------------------------------------------------------------------------------------------------
+nav:
+  - 主页: index.md
+  - 例子:
+      - 图像分类:
+          - YOLOv8_CLS: example/classification/yolov8_cls.md
+      - 目标检测:
+          - YOLOv8: example/detection/yolov8.md
+          - YOLOv10: example/detection/yolov10.md
+          - RT-DETR: example/detection/rtdert.md
+      - 旋转目标检测:
+          - YOLOv8_OBB: example/obb/yolov8_obb.md
+      - OCR:
+          - PPOCRv4: example/ocr/ppocrv4.md
+      - 姿态检测:
+          - YOLOv8_POSE: example/pose/yolov8_pose.md
+      - 图像分割:
+          - PaddleSeg: example/segmentation/paddleseg.md
+          - YOLOv8_SEG: example/segmentation/yolov8_seg.md
+  - API:
+      - xdeploy.classification:
+          - YOLOv8_CLS: api/classification/yolov8_cls.md
+      - xdeploy.detection:
+          - YOLOv8: api/detection/yolov8.md
+          - YOLOv10: api/detection/yolov10.md
+          - RTDETR: api/detection/rtdetr.md
+      - xdeploy.obb:
+          - YOLOv8_OBB: api/obb/yolov8_obb.md
+      - xdeploy.ocr:
+          - PPOCRv4: api/ocr/ppocrv4.md
+      - xdeploy.pose:
+          - YOLOv8_POSE: api/pose/yolov8_pose.md
+      - xdeploy.segmentation:
+          - PaddleSeg: api/segmentation/paddleseg.md
+          - YOLOv8_SEG: api/segmentation/yolov8_seg.md
+      - xdeploy.results:
+          - ClassifyResult: api/results/classify_result.md
+          - DetectionResult: api/results/detection_result.md
+          - OBBResult: api/results/obb_result.md
+          - OCRResult: api/results/ocr_result.md
+          - PoseResult: api/results/pose_result.md
+      - SegmentationResult: api/results/segmentation_result.md
+      - xdeploy.utils:
+          - data_load: api/utils/data_load.md
+          - visualize: api/utils/visualize.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      enabled: true
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_root_heading: true
+            show_source: true
