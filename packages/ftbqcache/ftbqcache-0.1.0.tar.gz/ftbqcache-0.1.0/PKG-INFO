@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: ftbqcache
+Version: 0.1.0
+Summary: Add your description here
+Author-email: George Fraser <george.w.fraser@gmail.com>
+Requires-Python: >=3.10
+Requires-Dist: db-dtypes>=1.4.3
+Requires-Dist: google-cloud-bigquery-storage>=2.32.0
+Requires-Dist: google-cloud-bigquery>=3.34.0
+Requires-Dist: pandas>=2.3.1
+Requires-Dist: pyarrow>=20.0.0
+Description-Content-Type: text/markdown
+
+This is a simple helper intended to be used at Fivetran to cache queries to BigQuery. It's used as follows:
+
+```python
+from ftbqcache import fetch_with_cache
+
+df = fetch_with_cache("select 1")
+```
+
+Queries are run in `analytics-only`. You need to have your own credentials, obviously. Results are cached for 1h as parquet files in `./cache`.

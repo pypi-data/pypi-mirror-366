@@ -1,0 +1,20 @@
+[project]
+name = "ftbqcache"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "George Fraser", email = "george.w.fraser@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "db-dtypes>=1.4.3",
+    "google-cloud-bigquery>=3.34.0",
+    "google-cloud-bigquery-storage>=2.32.0",
+    "pandas>=2.3.1",
+    "pyarrow>=20.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
