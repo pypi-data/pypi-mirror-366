@@ -1,0 +1,38 @@
+[CDF-24982] 🧑‍🎨➡ Canvas migration (#1755)
+
+# Description
+
+This it the final PR for supporting migration of Canvas from
+asset-centric to data modeling.
+
+It implements the migration command.
+
+![image](https://github.com/user-attachments/assets/6f2dfa1c-5bd7-4685-9b1a-28c66a43da14)
+
+
+### Before
+
+![image](https://github.com/user-attachments/assets/9572b866-7f24-448d-aa84-907a2db07d37)
+
+### After
+
+![image](https://github.com/user-attachments/assets/a357faf8-4a45-4698-98df-0fe518c2ebf2)
+
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Added
+
+- [alpha] New command `cdf migrate canvas` that enables migration of
+Canvas from asset-centric to data modeling.
+
+## templates
+
+No changes.
+
