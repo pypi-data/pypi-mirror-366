@@ -1,0 +1,6 @@
+orjson>=3.11.0
+psutil>=7.0.0
+setproctitle>=1.3.0
+
+[:sys_platform != "win32"]
+uvloop>=0.21.0
