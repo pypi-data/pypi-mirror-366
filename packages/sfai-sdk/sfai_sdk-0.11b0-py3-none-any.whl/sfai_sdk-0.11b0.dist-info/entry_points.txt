@@ -1,0 +1,11 @@
+[console_scripts]
+sfai = sfai.main:app
+
+[sfai.integrations]
+mulesoft = sfai.integrations.mulesoft.publish:MuleSoftIntegration
+
+[sfai.platforms]
+eks = sfai.platform.providers.eks.platform:EKSPlatform
+heroku = sfai.platform.providers.heroku.platform:HerokuPlatform
+local = sfai.platform.providers.local.platform:LocalPlatform
+minikube = sfai.platform.providers.minikube.platform:MinikubePlatform
