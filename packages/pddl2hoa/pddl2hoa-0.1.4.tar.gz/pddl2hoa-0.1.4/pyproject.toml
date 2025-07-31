@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pddl2hoa"
+version = "0.1.4"
+description = "Convert PDDL planning problems to HOA (Hanoi Omega Automata) format"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
+authors = [
+  { name = "Oz Gitelson", email = "oz@ozgitelson.com" }
+]
+
+dependencies = [
+  "pddlgym>=0.0.7"
+]
+
+keywords = ["pddl", "planning", "automata", "hoa", "formal-methods"]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/ozgitelson/pddl2hoa"
+Repository = "https://github.com/ozgitelson/pddl2hoa"
+Issues = "https://github.com/ozgitelson/pddl2hoa/issues"
+
+[project.scripts]
+pddl2hoa = "pddl2hoa.generate_hoa:convert_pddl_to_hoa"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pddl2hoa*"]
