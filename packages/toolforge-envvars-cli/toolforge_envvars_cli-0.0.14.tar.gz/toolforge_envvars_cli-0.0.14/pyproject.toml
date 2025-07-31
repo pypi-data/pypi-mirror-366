@@ -1,0 +1,49 @@
+[tool.poetry]
+authors = ["David Caro <dcaro@wikimedia.org>"]
+description = "Toolforge envvars client"
+homepage = "https://gitlab.wikimedia.org/repos/cloud/toolforge/toolforge-envvars-cli"
+license = "GPLv3"
+name = "toolforge-envvars-cli"
+version = "0.0.14"
+
+[tool.poetry.dependencies]
+click = "^8.0.3"
+python = "^3.7"
+requests = "^2.27.1"
+tabulate = "^0.9.0"
+toolforge-weld = ">=1.4,<2.0"
+
+[tool.poetry.plugins."console_scripts"]
+"toolforge-envvars" = "toolforge_envvars_cli.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+bats-core-pkg = "^0.1.3"
+coverage = "^6.2"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[tool.coverage.run]
+include = ["*/toolforge_envvars_cli/*"]
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 120
+multi_line_output = 3
+profile = "black"
+skip_gitignore = true
+
+[tool.black]
+line_length = 120
+
+[tool.mypy]
+exclude = [
+  "^debian/", # debian packaging files
+  "^.cache",
+  "^build",
+  "^dist",
+  "^.tox",
+]
