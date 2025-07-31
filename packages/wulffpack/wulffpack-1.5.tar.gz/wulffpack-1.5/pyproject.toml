@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wulffpack"
+description = "A package for making Wulff constructions"
+dynamic = ["version"]
+dependencies = [
+    "ase",
+    "numpy>=1.12",
+    "scipy>=0.12.0",
+    "spglib",
+    "matplotlib",
+]
+requires-python = ">=3.9"
+authors = [
+  {name = "J. Magnus Rahm"},
+  {name = "Paul Erhart"},
+]
+maintainers = [
+  {name = "The WulffPack developer team"}
+]
+readme = "README.rst"
+keywords = ["chemistry", "physics", "scientific"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python",
+  "Topic :: Scientific/Engineering :: Physics"
+]
+
+[project.license]
+file = "LICENSE"
+
+[project.optional-dependencies]
+test = [
+    "flake8",
+    "coverage",
+    "pytest",
+    "xdoctest",
+]
+documentation = [
+    "sphinx_autodoc_typehints",
+    "sphinx-sitemap",
+    "sphinx_rtd_theme",
+    "pydata-sphinx-theme",
+]
+
+[project.urls]
+Documentation = "https://wulffpack.materialsmodeling.org"
+Repository = "https://gitlab.com/materials-modeling/wulffpack/"
+
+[tool.setuptools.dynamic]
+version = {attr = "wulffpack.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wulffpack*"]
