@@ -1,0 +1,14 @@
+include LICENSE.txt
+
+include pyxel/_version.py
+
+include pyxel/static/*.json
+
+include pyxel/templates/*.py
+
+include pyxel/models/charge_generation/cosmix/data/inputs/*.ascii
+include pyxel/models/charge_generation/data/*.txt
+include pyxel/models/charge_generation/data/*.csv
+include pyxel/models/**/metadata.yaml
+
+include pyxel/gui/icons/*.svg

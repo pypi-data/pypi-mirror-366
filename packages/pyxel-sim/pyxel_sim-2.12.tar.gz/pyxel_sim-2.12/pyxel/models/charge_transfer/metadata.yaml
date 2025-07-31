@@ -1,0 +1,142 @@
+# $schema: ../metadata.schema.json
+group:
+  name: charge_transfer
+  description: >
+    .. important::
+        This model group is only for :term:`CCD` detectors!
+    
+    Charge transfer models are used to manipulate data in :py:class:`~pyxel.data_structure.Pixel` array
+    inside the :py:class:`~pyxel.detectors.Detector` object.
+    Multiple models can be linked together one after another.
+models:
+  - name: cdm
+    full_name: Charge Distortion Model (CDM)
+    detector: CCD
+    status: null
+    description: >
+      The Charge Distortion Model - CDM :cite:p:`2013:short` describes the effects of the radiation
+      damage causing charge deferral and image shape distortion. The analytical
+      model is physically realistic, yet fast enough. It was developed specifically
+      for the Gaia CCD operating mode, implemented in Fortran and Python. However,
+      a generalized version has already been applied in a broader context, for
+      example to investigate the impact of radiation damage on the Euclid mission.
+      This generalized version has been included and used in Pyxel.
+
+      Use this model to add radiation induced :term:`CTI` effects to :py:class:`~pyxel.data_structure.Pixel` array of the
+      to :py:class:`~pyxel.detectors.CCD` detector. Argument ``direction`` should be set as either ``"parallel"``
+      for parallel direction :term:`CTI` or ``"serial"`` for serial register :term:`CTI`.
+      User should also set arguments ``trap_release_times``, ``trap_densities`` and ``sigma``
+      as lists for an arbitrary number of trap species. See below for descriptions.
+      Other arguments include ``max_electron_volume``, ``transfer_period``,
+      ``charge injection`` for parallel mode and ``full_well_capacity`` to override the one set in
+      detector :py:class:`~pyxel.detectors.Characteristics`.
+
+      .. figure:: _static/cdm.png
+          :scale: 50%
+          :alt: Poppy
+          :align: center
+
+          CDM (Charge Distortion Model)
+    config: >
+      - name: cdm
+        func: pyxel.models.charge_transfer.cdm
+        enabled: true
+        arguments:
+          direction: "parallel"
+          trap_release_times: [0.1, 1.]
+          trap_densities: [0.307, 0.175]
+          sigma: [1.e-15, 1.e-15]
+          beta: 0.3
+          max_electron_volume: 1.e-10
+          transfer_period: 1.e-4
+          charge_injection: true  # only used for parallel mode
+          full_well_capacity: 1000.  # optional (otherwise one from detector characteristics is used)
+    notebooks:
+      - exposure
+      - examples/observation/product
+
+  - name: arctic_add
+    full_name: Add CTI trails
+    detector: CCD
+    description: >
+      Add image trails due to charge transfer inefficiency in :term:`CCD` detectors by modelling the
+      trapping, releasing, and moving of charge along pixels.
+
+      The primary inputs are the initial image followed by the properties of the :term:`CCD`,
+      readout electronics and trap species for serial clocking.
+
+      More information about adding :term:`CTI` trailing is described
+      in section 2.1 in :cite:p:`2010:massey`.
+    config: >
+      - name: arctic_add
+        func: pyxel.models.charge_transfer.arctic_add
+        enabled: true
+        arguments:
+          well_fill_power: 10.
+          trap_densities: [1., 2., 3.]                # Add three traps
+          trap_release_timescales: [10., 20., 30.]
+          express: 0
+
+  - name: arctic_remove
+    full_name: Remove CTI trails
+    detector: CCD
+    description: >
+      Remove :term:`CTI` trails is done by iteratively modelling the addition of :term:`CTI`, as described
+      in :cite:p:`2010:massey` section 3.2 and Table 1.
+    config: >
+      - name: arctic_remove
+        func: pyxel.models.charge_transfer.arctic_remove
+        enabled: true
+        arguments:
+          well_fill_power: 10.
+          instant_traps:                      # Add two traps
+            - density: 1.0
+              release_timescale: 10.0
+            - density: 2.0
+              release_timescale: 20.0
+          express: 0
+
+  - name: multiplication_register
+    full_name: EMCCD Model
+    detector: CCD
+    description: >
+      The Electron Multiplying CCD (EMCCD) model for the :term:`CCD` detector includes a ``multiplication_register``.
+      This register takes each pixel, and applies a Poisson distribution, centered around the ``total_gain``.
+      Each pixel is inputted and iterated through the number of ``gain_elements`` with probability of multiplication :math:`P`:
+
+      :math:`P = {G}^(\frac{1}{N_E}) - 1`
+
+      :math:`G` is the total gain, and :math:`N_E` is the number of gain elements.
+
+      The output is a :py:class:`~pyxel.data_structure.Pixel` array, with
+      each pixel having gone through a multiplication register.
+    config: >
+      - name: multiplication_register
+        func: pyxel.models.charge_transfer.multiplication_register
+        enabled: true
+        arguments:
+          gain_elements: 100
+          total_gain: 1000
+
+  - name: multiplication_register_cic
+    full_name: EMCCD Clock Induced Charge (CIC)
+    detector: CCD
+    description: >
+      Clock Induced Charge (CIC), can be included with ``multiplication_register_cic``.
+      Here a parallel CIC rate, ``pcic_rate``, and serial CIC rate ``scic_rate`` are specified,
+      and added to the :py:class:`~pyxel.data_structure.Pixel` array.
+      Each ``gain_elements`` has possibility to introduce a serial CIC event.
+      Serial and parallel CIC is assumed to be Poisson distributed.
+    config: >
+      - name: multiplication_register_cic
+        func: pyxel.models.charge_transfer.multiplication_register_cic
+        enabled: true
+        arguments:
+          gain_elements: 100
+          total_gain: 1000
+          pcic_rate: 0.01
+          scic_rate: 0.005
+    notes: >
+      This model is specific for photon counting, and should be used with very low individual pixel values.
+    notebooks:
+      - examples/models/multiplication_register/emccd_obs

@@ -1,0 +1,401 @@
+# With pip
+#   Normal install      : python -m pip install .
+#   Development install : python -m pip install -e .
+#   Build project       : python -m build . --wheel --sdist
+#   Running Pyxel       : python -m pyxel ...
+#
+# With uv (https://docs.astral.sh/uv)
+#   Normal install      : uv sync --no-dev --python 3.12
+#   Development install : uv sync
+#                         uv sync --extra model --extra io
+#   Build project       : uv build
+#   Running scirpt      : uv run pyxel ...
+
+[build-system]
+requires = ["setuptools>=77", "versioneer[toml]==0.29", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# https://peps.python.org/pep-0621
+[project]
+requires-python = ">= 3.10"
+name = "pyxel_sim"
+description = "Pyxel detector simulation framework."
+readme = "README.md"
+authors = [{"name" = "The Pyxel development team", "email" = "pyxel@esa.int" }]
+license = "MIT"
+license-files = [ "LICENSE.txt" ]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Typing :: Typed",
+]
+keywords = ["ESA", "data modeling", "sensors", "calibration", "CCD",
+    "CMOS", "active sensors", "electronics"]
+dependencies = [
+    # Scientific computing
+    "numba>=0.56.4",
+    "numpy>=1.24",
+    "pandas>=1.5",
+    "scipy>=1.10",
+    "xarray[io]>=2024.10.0",
+
+    # Plotting
+    "matplotlib>=3.6",
+    "seaborn",
+    "hvplot>=0.9",
+    "bokeh>=3.3.0",
+    "panel",
+
+    # Parallel computing
+    "dask[dataframe]",
+    "distributed",
+
+    # Jupyter notebook
+    "ipywidgets>=7.5",
+
+    # Input/Output
+    "astropy>=5.2",
+    "fsspec[http]>=2021",
+    "h5netcdf",
+    "pyyaml",
+    "xlrd",
+    "openpyxl",
+    "pooch>=1.1.0",
+
+    # Others
+    "attrs>=21.3.0",
+    "click!=8.1.4,!=8.1.5",
+    "tqdm",
+    "typing-extensions>=4.9",
+    "pympler",
+    "pillow",
+    "scikit-image>=0.20.0",
+    "astroquery<0.4.11",
+    "specutils>=1.2",
+    "synphot",
+    "diskcache",
+    "rich",
+]
+dynamic = ["version"]
+
+[project.urls]
+homepage = "https://esa.gitlab.io/pyxel/"
+documentation = "https://esa.gitlab.io/pyxel/doc/"
+repository = "https://gitlab.com/esa/pyxel"
+changelog = "https://gitlab.com/esa/pyxel/-/releases"
+tracker = "https://gitlab.com/esa/pyxel/issues"
+
+[project.optional-dependencies]
+calibration = [ "pygmo>=2.16.1" ]
+model = [
+    "poppy>=1.1.0",
+    "lacosmic",
+    "photutils",
+]
+io = [ "asdf" ]
+all = [
+    "pyxel-sim[calibration]",
+    "pyxel-sim[model]",
+    "pyxel-sim[io]",
+]
+
+[project.scripts]
+pyxel = "pyxel.run:main"
+pyxel-sim = "pyxel.run:main"
+
+# See PEP 735 – Dependency Groups in pyproject.toml
+[dependency-groups]
+dev = [
+    "black>=24.10.0",
+    "isort>=5.13.2",
+    "panel[dev]>=1.7.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.8.2",
+    "tox>=4.23.2",
+    { include-group = "test" },
+    { include-group = "static-analysis" },
+    { include-group = "jupyter" },
+]
+test = [
+    "freezegun>=1.5.1",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-httpserver>=1.1.0",
+    "pytest-mock>=3.14.0",
+    "scikit-image>=0.24.0",
+    "statsmodels>=0.14.4",
+]
+static-analysis = [
+    "mypy[faster-cache]>=1.13.0",
+    "scipy-stubs",
+    "types-pyyaml>=6.0.12.20240917",
+    "types-requests>=2.32.0.20241016",
+]
+jupyter = [
+    "dask-labextension>=7.0.0",
+    "ipympl>=0.9.4",
+    "ipywidgets>=8.1.5",
+    "jupyterlab>=4.3.2",
+    "jupyterlab-code-formatter>=3.0.2",
+]
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "pyxel/_version.py"
+versionfile_build = "pyxel/_version.py"
+tag_prefix = ""
+
+[tool.setuptools]
+include-package-data = true  # true by default
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = [
+    "docs*",
+    "tests*",
+    "continuous_integration*",
+]
+
+[tool.setuptools.package-data]
+pyxel_sim = ["py.typed"]
+
+[tool.black]
+extend-exclude = """
+(
+  models/phasing/mkid_models
+)
+"""
+
+[tool.isort]
+profile = "black"
+# add_imports = "from __future__ import annotations"
+skip = ["__init__.py", "versioneer.py", ".ipynb_checkpoints",
+    "src", ".tox", ".eggs", ".venv", "build", "dist",
+    "pyxel/models/phasing/mkid_models",
+]
+
+[tool.mypy]
+disallow_untyped_calls = false
+disallow_untyped_defs = false
+# disallow_incomplete_defs = true
+# disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+# warn_return_any = true
+# check_untyped_defs = true
+check_untyped_defs = true
+# no_implicit_reexport = true
+strict_equality = true
+
+enable_error_code = [ "exhaustive-match" ]
+
+
+[[tool.mypy.overrides]]
+module = [
+    "pyxel._version",
+    "apischema.json_schema.*",
+    "arcticpy.*",
+    "asdf.*",
+    "astropy.*",
+    "cloudpickle.*",
+    "colorcet.*",
+    "dask.*",
+    "distributed.*",
+    "diskcache.*",
+    "fsspec.*",
+    "jsonschema.*",
+    "h5py.*",
+    "hvplot.*",
+    "lacosmic.*",
+    "matplotlib.*",
+    "mpl_toolkits.*",
+    "numba.*",
+    "numpy.*",
+    "pandas.*",
+    "param.*",
+    "photutils.*",
+    "pooch.*",
+    "poppy",
+    "pygmo",
+    "pympler.*",
+    "PIL",
+    "IPython.*",
+    "scopesim.*",
+    "toolz.*",
+    "tqdm.*",
+    "xarray.*",
+    "skimage.*",
+    "holoviews.*",
+    "bokeh.*",
+    "jinja2.*",
+    "click.*",
+    "astroquery.gaia.*",
+    "astroquery.vizier.*",
+    "specutils.*",
+    "synphot.*",
+    "pyxel.models.phasing.mkid_models.*"
+]
+ignore_errors = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--showlocals",
+    "--capture=no",
+    "--log-cli-level=ERROR",
+    "-vv",
+    "--ignore=old_code",
+    "-m not functional_test",
+]
+markers = [
+    "deprecated: marks tests as deprecated (deselect with '-m \"not deprecated\"')",
+    "fix_this: fix (deselect with '-m \"not fix_this\"')",
+    "functional_test: for functional testing (select with '-m functional_test')",
+]
+[tool.pydocstyle]
+convention = "numpy"
+match = "(?!_version).*.py"
+match_dir = "/[^pyxel\\/models\\/phasing\\/mkid\\_models].*"
+add_ignore = "D202,D105,D102,D103"
+
+[tool.doc8]
+ignore = ["D001", "D002", "D004", "D005"]
+
+[tool.bandit]
+exclude_dirs = ["pyxel/_version.py"]
+
+[tool.codespell]
+ignore-words-list = "acn,sade,te,Tennant"
+skip = "pyxel/_version.py,*.fits,pyxel/models/phasing/mkid_models/*"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "debug",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "if not hv.Store.renderers",
+    "@deprecated",
+]
+
+[tool.coverage.run]
+omit = [
+    "pyxel/models/phasing/mkid_models/*",
+    "pyxel/models/charge_measurement/nghxrg/nghxrg_beta.py",
+    "pyxel/models/charge_generation/tars/plotting.py",
+    "pyxel/_version.py",
+    "tests/*",
+]
+
+[tool.ruff.lint]
+select = [
+    "A",        # flake8-builtins
+    "B",        # flake8-bugbear
+    "E",        # pycodestyle
+    "F",        # pyflakes
+    "D",        # pydocstyle
+    "G",        # flake8-logging-format
+    "UP",       # pyupgrade
+    "SIM",      # flake8-simplify
+    "W",        # pycodestyle
+#     "PD",       # pandas-vet
+#     "S",        # bandit
+    "PTH",      # Flake8 use Pathlib
+    "PT",       # Flake8-pytest-style
+    "RUF",      # Ruff-specific rules
+    "TCH",      # Flake8 Type Checking
+    "TRY",      # Tryceratops
+    "C90",      # McCabe
+    "N",        # pep8-naming
+    "NPY201",   # Numpy2-deprecation
+    "PERF",     # Perlint
+    "FURB",     # Refurb
+    "PLE",      # Pylint Error
+]
+ignore = [
+    "A005",     # Module ... shadows a Python standard-library module
+    "E501",     # Omit 'Line too long'
+    "B023",     # Function definition does not bind loop variable
+    "D102",     # Missing docstring in public method
+    "D103",     # Missing docstring in public function
+    "D105",     # Missing docstring in magic method
+    "D202",     # No blank lines
+    "RUF002",   # Docstring contains ambiguous unicode character
+    "RUF003",   # ambiguous unicode character
+    "TC003",   # Move standard library import in a type-checking block
+    "TRY003",   # Avoid specifying long messages outside the exception class
+    "TRY301",   # Abstract `raise` to an inner function
+    "PTH207",   # Replace 'glob' with 'Path.glob' or 'Path.rglob'
+    "SIM108",   # Use ternary operator
+    "SIM114",   # Combine 'if' branches using logical 'or' operator
+    "SIM117",   # Use a single 'with' statement with multiple contexts
+    "SIM300",   # Yoda conditions are discouraged
+    "PERF203",  # try-except within a loop incurs performance overhead
+    "UP037",    # Remove quotes from type annotation
+]
+
+exclude = [
+    "_TEMPLATE.py",
+    "_version.py",
+    "continuous_integration/scripts/auto_generated.py",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "D101",     # Missing docstring in public class
+    "D100",     # Missing docstring in public module
+    "D104",     # Missing docstring in public package
+    "E721",     # Use 'is' and 'is not' for type comparisons
+    "FURB152",  # Replace '3.14' with 'math.pi'
+    "FURB157",  # Verbose expression in 'Decimal' constructor
+    "N803",     # Argument name should be lowercase
+    "PT006",    # Wrong name(s) type in '@pytest.mark.parametrize'
+    "SIM",      # flake8-simplify
+]
+"pyxel/models/phasing/mkid_models/*" = [
+    "F",        # pyflakes
+    "B",        # flake8-bugbear
+    "E",        # pycodestyle
+    "D",        # pydocstyle
+    "N",        # pep8-naming
+    "W",        # pycodestyle
+    "PTH",      # Flake8 use Pathlib
+    "UP",       # pyupgrade
+]
+"pyxel/models/charge_measurement/nghxrg/*.ipynb" = [
+    "E266",     # Too many leading '#'
+    "W391",     # Extra newline at end of file
+]
+"continuous_integration/scripts/create_json_schema.py" = [
+    "RUF001",   # String contains ambigyous `'`
+]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 14
+
+[tool.ruff.format]
+exclude = ["pyxel/models/phasing/mkid_models/*"]

@@ -1,0 +1,33 @@
+# $schema: ../metadata.schema.json
+group:
+  name: scene_generation
+  description: >
+    Scene generation models are used to add a scene to the :py:class:`~pyxel.data_structure.Scene` data structure
+    inside the :py:class:`~pyxel.detectors.Detector` object. The values in the :py:class:`~pyxel.data_structure.Scene` array
+    represent flux per wavelength and area, i.e. number of photons per nanometer per area per second.
+
+    .. note::
+        If you use a model in Scene generation, the :py:class:`~pyxel.data_structure.Scene` data bucket is initialized and
+        you can use function :py:func:`~pyxel.display_scene`.
+models:
+  - name: load_star_map
+    full_name: Load star map
+    detector: all
+    status: null
+    description: >
+      Generate scene loading stars from the selected catalog.
+
+      This model populates `detector.scene` with sources retrieved from one of the supported
+      astronomical catalogs: `Gaia`, `Hipparcos` or `Tycho-2` based on a given sky position and
+      field-of-view radius.
+    config: >
+      - name: load_star_map
+        func: pyxel.models.scene_generation.load_star_map
+        enabled: true
+        arguments:
+          right_ascension: 56.75 # deg
+          declination: 24.1167 # deg
+          fov_radius: 0.5 # deg
+          catalog: gaia  # Valid catalogs: 'gaia', 'hipparcos', 'tycho'
+    notebooks:
+      - examples/models/scene_generation/tutorial_example_scene_generation
