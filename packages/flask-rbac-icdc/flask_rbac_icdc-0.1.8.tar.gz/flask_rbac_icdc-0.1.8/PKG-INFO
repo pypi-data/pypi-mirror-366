@@ -1,0 +1,136 @@
+Metadata-Version: 2.4
+Name: flask-rbac-icdc
+Version: 0.1.8
+Summary: Flask RBAC library using YAML config file
+Author-email: ICDC <support@icdc.io>, Vitali Starastsenka <vstarastsenka@ibagroup.eu>
+License: MIT License
+        
+        Copyright (c) 2025 ICDC Platform
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/icdc-io/flask-rbac
+Project-URL: Repository, https://github.com/icdc-io/flask-rbac.git
+Project-URL: Documentation, https://icdc-io.github.io/flask-rbac-docs
+Keywords: flask,rbac,yaml,icdc
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Framework :: Flask
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Flask
+Requires-Dist: PyYAML
+Requires-Dist: jsonschema
+Dynamic: license-file
+
+# RBAC library for Flask
+
+## Overview
+
+This library provides role-based access control (RBAC) for Flask applications using a YAML configuration file.
+
+## Installation
+
+```sh
+pip install flask-rbac-icdc
+```
+
+## Usage
+### Configuration
+Create a YAML configuration file for RBAC rules. For example, `rbac_config.yaml`:
+```yaml
+roles:
+  admin:
+    products:
+      permissions:
+        - list
+        - create
+        - update
+        - delete
+      filters: {}
+    accounts:
+      permissions:
+        - list
+        - get
+      filters:
+        id: account_id
+  member:
+    products:
+      permissions:
+        - list
+      filters:
+        account_id: account_id
+        owner: owner
+```
+### Define Account Class
+Implement the `RbacAccount` abstract class:
+```py
+from flask_sqlalchemy import SQLAlchemy
+from flask_rbac_icdc import RbacAccount
+
+db = SQLAlchemy()
+
+class Account(db.Model, RbacAccount):
+    __tablename__ = "accounts"
+    object_name = "accounts"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(64), unique=True, nullable=False)
+    # ...Other account properties here
+
+    @classmethod
+    def get_by_name(cls, account_name: str) -> Optional["Account"]:
+        return cls.query.filter_by(name=account_name).first()
+
+    def get_role(self, requested_role: str) -> str:
+        operator = is_operator(self.name, requested_role)
+        if requested_role == "operator" and not operator:
+            raise PermissionException("You are not operator")
+        if operator:
+            return "operator"
+        return requested_role
+```
+
+### Initialize RBAC
+Initialize the RBAC instance in your Flask application:
+```py
+from flask_rbac_icdc import RBAC
+from app.models.accounts import Account
+
+rbac = RBAC(config_path='rbac_config.yaml', Accounts)
+```
+
+### Protect Endpoints
+Use the `allow` decorator to protect your endpoints:
+```py
+@app.route('/create', methods=['POST'])
+@rbac.allow('products.create')
+def create_product(subject):
+    # Your logic to create a product
+    return 'Product created', 201
+
+@app.route('/read', methods=['GET'])
+@rbac.allow('products.list')
+def list_products(subject):
+    # Your logic to list products
+    return 'Products data', 200
+```
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/icdc-io/flask-rbac/blob/main/LICENSE) file for details.
