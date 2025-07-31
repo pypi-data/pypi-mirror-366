@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: test_generated_repo_20250731
+Version: 0.0.0
+Summary: My package description
+Author-email: Your Name <your.email@example.com>
+License: MIT
+Keywords: one,two
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: importlib-metadata; python_version < "3.12"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Provides-Extra: release
+Requires-Dist: build; extra == "release"
+Requires-Dist: twine; extra == "release"
+Provides-Extra: static-code-qa
+Requires-Dist: pre-commit; extra == "static-code-qa"
+Provides-Extra: dev
+Requires-Dist: test_generated_repo_20250731[release,static-code-qa,test]; extra == "dev"
+
+# test_generated_repo_20250731
+
+## Install as package
+
+```bash
+pip install test_generated_repo_20250731
+```
+
+```python
+from test_generated_repo_20250731 import ...
+```
+
+## Contributing
+
+```bash
+# clone the repo
+git clone https://github.com/momomozhang/test_generated_repo_20250731.git
+
+# install the dev dependencies
+make install
+
+# run the tests
+make test
+```
