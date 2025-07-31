@@ -1,0 +1,46 @@
+import typing, enum, vspyx
+
+@enum.unique
+class Nrc(enum.IntEnum):
+	PR = 0
+	GR = 16
+	SNS = 17
+	SFNS = 18
+	IMLOIF = 19
+	RTL = 20
+	BRR = 33
+	CNC = 34
+	RSE = 36
+	NRFSC = 37
+	FPEORA = 38
+	ROOR = 49
+	SAD = 51
+	IK = 53
+	ENOA = 54
+	RTDNE = 55
+	UDNA = 112
+	TDS = 113
+	GPF = 114
+	WBSC = 115
+	RCRRP = 120
+	SFNSIAS = 126
+	SNSIAS = 127
+	RPMTH = 129
+	RPMTL = 130
+	EIR = 131
+	EINR = 132
+	ERTTL = 133
+	TEMPTH = 134
+	TEMPTL = 135
+	VSTH = 136
+	VSTL = 137
+	TPTH = 138
+	TPTL = 139
+	TRNIN = 140
+	TRNIG = 141
+	BSNC = 143
+	SLNIP = 144
+	TCCL = 145
+	VTH = 146
+	VTL = 147
+
