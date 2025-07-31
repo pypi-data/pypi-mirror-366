@@ -1,0 +1,60 @@
+Metadata-Version: 2.1
+Name: vastgenserver_dev
+Version: 0.5.1
+Summary: VastGenServer is a distributed server for models or others, designed to handle high concurrency and provide efficient model serving capabilities.+d3f3e3d.d20250731
+Home-page: https://www.vastaitech.com/
+Author: AIS
+Author-email: AIS@vastaitech.com
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7.0
+Description-Content-Type: text/markdown
+Requires-Dist: ray[serve]
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: pydantic
+Requires-Dist: pyyaml
+Requires-Dist: python-multipart
+Provides-Extra: embedding
+Requires-Dist: transforms; extra == "embedding"
+Requires-Dist: numpy; extra == "embedding"
+Provides-Extra: reranker
+Requires-Dist: transforms; extra == "reranker"
+Requires-Dist: numpy; extra == "reranker"
+
+
+# VastGenServer
+
+
+## Installation
+
+1. download vastgenserver*.whl package from minio
+2. pip install vastgenserver*.whl
+
+## Usage
+
+1. vastgenserver list
+2. vastgenserver service --gen-config your_config.yaml --service-list embedding
+3. modify your_config.yaml, such as: host, port, model_path, etc.
+4. vastgenserver service --run-config your_config.yaml
+
+> Note: different service depend on different python packages, please install them before running.
+## Deploy
+
+## Embedding or Reranker
+
+If you want to deploy embedding or reranker service,you need to install the following requirements manually.
+
+```txt
+vaststreamx
+transformers
+numpy
+```
