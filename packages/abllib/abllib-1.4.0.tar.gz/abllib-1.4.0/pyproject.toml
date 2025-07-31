@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abllib"
+version = "1.4.0"
+authors = [
+  { name="Ableytner", email="ableytner@gmx.at" },
+]
+description = "Ableytners' general-purpose python library, usable across various projects."
+readme = "README.md"
+license = "GPL-3.0"
+license-files = [
+  "LICENSE",
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+  "dill",
+  "numpy"
+]
+
+[project.optional-dependencies]
+all = [
+  "pykakasi"
+]
+dev = [
+  "pylint",
+  "pytest",
+]
+
+[project.urls]
+Repository = "https://github.com/Ableytner/abllib"
+Issues = "https://github.com/Ableytner/abllib/issues"
