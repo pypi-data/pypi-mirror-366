@@ -1,0 +1,1 @@
+# A parity tensor package. [![ci](https://github.com/hzhangxyz/parity_tensor/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/hzhangxyz/parity_tensor/actions/workflows/pre-commit.yml) [![codecov](https://codecov.io/gh/hzhangxyz/parity_tensor/graph/badge.svg?token=YPXIRQTOY8)](https://codecov.io/gh/hzhangxyz/parity_tensor)
