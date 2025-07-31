@@ -1,0 +1,57 @@
+Metadata-Version: 2.3
+Name: joythief
+Version: 0.5.0
+Summary: Comparison is the thief of joy
+License: ISC
+Author: Jonathan Sharpe
+Author-email: mail@jonrshar.pe
+Requires-Python: >=3.9
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Other Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: ISC License (ISCL)
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Project-URL: Coverage, https://coveralls.io/github/textbook/joythief
+Project-URL: Documentation, https://joythief.readthedocs.io/
+Project-URL: Issues, https://github.com/textbook/joythief/issues
+Project-URL: Repository, https://github.com/textbook/joythief
+Project-URL: Sponsor, https://ko-fi.com/textbook
+Description-Content-Type: text/markdown
+
+# JoyThief
+
+[![CI](https://github.com/textbook/joythief/actions/workflows/push.yml/badge.svg)](https://github.com/textbook/joythief/actions/workflows/push.yml)
+[![Docs](https://app.readthedocs.org/projects/joythief/badge/?version=latest)](https://joythief.readthedocs.io/en/latest/)
+[![Coverage Status](https://coveralls.io/repos/github/textbook/joythief/badge.svg?branch=main)](https://coveralls.io/github/textbook/joythief?branch=main)
+
+Comparison is the thief of joy.
+
+## Installation
+
+JoyThief can be installed from [PyPI] with e.g.:
+
+```shell
+pip install joythief
+```
+
+## Usage
+
+JoyThief provides a collection of matchers which can be used for testing.
+These are split across various submodules according to what kinds of things they match.
+For example:
+
+```python
+from joythief.numbers import NaN
+
+
+def test_my_func_with_no_arguments_returns_nan():
+    assert my_func() == NaN()
+```
+
+[pypi]: https://pypi.org/
+
