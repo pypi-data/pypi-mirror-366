@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load icons %}
+
+{% block title%}demo{% endblock %}
+
+{% block content %}
+
+    <style>
+        .md-inherit {
+            font-size: inherit;
+        }
+    </style>
+
+    <p>
+        {% icon 'fas fa-user' %}
+        The `user` icon from FontAwesome 6, using the default IconRenderer.
+    </p>
+
+    <p>
+        {% icon 'delete' size='lg' %}
+        The `trash` icon from FontAwesome 4 in a larger size with Fontawesome4Renderer set and connected to the `delete` name in `settings.py`.
+    </p>
+
+    <p>
+        {% icon 'star' renderer='Bootstrap3Renderer' %}
+        The `star` icon from Bootstrap 3, with the Bootstrap3Renderer explicitly set.
+    </p>
+
+    <p>
+        {% icon 'face' 'md-inherit' renderer='MaterialRenderer' %}
+        The `face` icon from Material, with the MaterialRenderer explicitly set and an extra class to set the size.
+    </p>
+
+    <p>
+        {% icon 'wikimedia-download' renderer='ImageRenderer' %}
+        The <a href="https://commons.wikimedia.org/wiki/File:Download-Icon.png" target="_blank">WikiMedia Download Icon</a>,
+        with the ImageRenderer explicitly set.
+    </p>
+
+    <p>
+        {% icon 'paperplane' %}
+        A `paperplane` icon that is included in the source as SVG, using presets from `settings.py`.
+    </p>
+
+    <p>
+        {% icon 'feather' 'svg-icon-o' %}
+        A `feather` icon that is included in the source as SVG, using presets from `settings.py`, with an extra class to render the outline.
+    </p>
+
+    <p>
+        {% icon 'no-pictures-please' %}
+        A "no pictures please" stacked icon using the name and presets from `settings.py`.
+    </p>
+
+{% endblock %}
