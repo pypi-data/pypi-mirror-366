@@ -1,0 +1,97 @@
+Metadata-Version: 2.4
+Name: bashimu
+Version: 1.2.0
+Summary: A command-line tool to interact with LLMs for bash and Linux questions
+Home-page: https://github.com/wiktorjl/bashimu
+Author: Wiktor Lukasik
+License: MIT
+Project-URL: Homepage, https://github.com/wiktorjl/bashimu
+Project-URL: Bug Tracker, https://github.com/wiktorjl/bashimu/issues
+Project-URL: Source Code, https://github.com/wiktorjl/bashimu
+Keywords: bash,linux,cli,chatgpt,openai,llm,terminal
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: prompt_toolkit
+Requires-Dist: openai
+Requires-Dist: requests
+Requires-Dist: rich
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+<img src="img/bashimu.jpeg" alt="drawing" width="200"/>
+
+### About
+BASHIMU is a simple bash script to interact with OpenAI's ChatGPT models.
+It allows you to ask a question in the command line and get a one-liner response as a result.
+
+
+### Installation
+
+#### Method 1: Using pip (Recommended)
+```bash
+pip install bashimu
+```
+
+Or install from source:
+```bash
+git clone https://github.com/wiktorjl/bashimu.git
+cd bashimu
+pip install .
+```
+
+#### Method 2: Using the deployment script
+```bash
+curl -s https://raw.githubusercontent.com/wiktorjl/bashimu/refs/heads/main/deploy.sh | sh
+```
+
+#### Method 3: Manual setup
+Clone this repository and run ```bashimu_setup.sh``` script. It will set up the following variables:
+
+```
+$OPENAI_API_KEY - your private key
+$OPENAI_MODEL_NAME - the default OpenAI model to be used
+```
+
+It will also ask you where to deploy the script, adjust the PATH accordingly, and set up ```?``` as an alias for ```bashimu.sh```.
+Please view the script's source code before you run it so you know what it is doing.
+
+### Usage
+
+#### Bash Script
+Executing a query: ```? get current time```
+
+Executing the last suggested command: ```? !```
+
+#### Python TUI (Terminal User Interface)
+
+Interactive mode:
+```bash
+bashimu-tui
+```
+
+Non-interactive mode (new):
+```bash
+bashimu-tui "what is the current directory command"
+bashimu-tui --provider openai "how to find files by name"
+bashimu-tui --persona coding_mentor "explain git rebase"
+```
+
+
+### Demo:
+<img src="img/bashimu_demo_2x.gif" width="800"/>

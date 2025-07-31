@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bashimu"
+version = "1.2.0"
+description = "A command-line tool to interact with LLMs for bash and Linux questions"
+readme = "README.md"
+authors = [
+    {name = "Wiktor Lukasik"},
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+keywords = ["bash", "linux", "cli", "chatgpt", "openai", "llm", "terminal"]
+requires-python = ">=3.7"
+dependencies = [
+    "prompt_toolkit",
+    "openai",
+    "requests",
+    "rich",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/wiktorjl/bashimu"
+"Bug Tracker" = "https://github.com/wiktorjl/bashimu/issues"
+"Source Code" = "https://github.com/wiktorjl/bashimu"
+
+[project.scripts]
+bashimu-tui = "tui.tui:main"
+
+[tool.setuptools]
+packages = ["tui"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = ["*.sh", "*.md", "*.txt"]
