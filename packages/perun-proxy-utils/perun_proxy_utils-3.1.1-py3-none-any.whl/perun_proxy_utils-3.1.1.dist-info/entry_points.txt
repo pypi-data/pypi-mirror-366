@@ -1,0 +1,24 @@
+[console_scripts]
+check_custom_command = perun.proxy.utils.nagios.check_custom_command:main
+check_dockers = perun.proxy.utils.nagios.check_dockers:main
+check_exabgp_propagation = perun.proxy.utils.nagios.check_exabgp_propagation:main
+check_ldap = perun.proxy.utils.nagios.check_ldap:main
+check_ldap_syncrepl = check_syncrepl_extended.check_syncrepl_extended:main
+check_mongodb = perun.proxy.utils.nagios.check_mongodb:main
+check_nginx = check_nginx_status.check_nginx_status:main
+check_oidc_login = perun.proxy.utils.nagios.check_oidc_login:main
+check_pgsql = perun.proxy.utils.nagios.check_pgsql:main
+check_php_syntax = perun.proxy.utils.nagios.check_php_syntax:main
+check_privacyidea = perun.proxy.utils.nagios.check_privacyidea:main
+check_rpc_status = perun.proxy.utils.nagios.check_rpc_status:main
+check_saml = perun.proxy.utils.nagios.check_saml:main
+check_user_logins = perun.proxy.utils.nagios.check_user_logins:main
+check_webserver_availability = perun.proxy.utils.nagios.webserver_availability:main
+metadata_expiration = perun.proxy.utils.metadata_expiration:main
+oracle2postgresql = perun.proxy.utils.oracle2postgresql:main
+print_docker_versions = perun.proxy.utils.print_docker_versions:main
+run_probes = perun.proxy.utils.run_probes:main
+run_version_script = perun.proxy.utils.run_version_script:main
+separate_oidc_logs = perun.proxy.utils.separate_oidc_logs:main
+separate_ssp_logs = perun.proxy.utils.separate_ssp_logs:main
+sync_usable_token_types = perun.proxy.utils.sync_usable_token_types:main
