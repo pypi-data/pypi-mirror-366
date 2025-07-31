@@ -1,0 +1,97 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch]
+root = "src"
+
+[tool.hatch.version]
+path = "src/pytest_conductor/__init__.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "pytest-conductor"
+description = "Pytest plugin for coordinating the order in which marked tests run."
+authors = [
+    {name = "Samuel Chai", email = "samuel.chai.development@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dynamic = ["version"]
+
+dependencies = [
+    "pytest<8.4; python_version == '3.8'",
+    "pytest<9.0; python_version > '3.8'",
+]
+
+[project.entry-points."pytest11"]
+conductor = "pytest_conductor.core"
+
+[tool.hatch.envs.default]
+dev-mode = true
+python = "3.13"
+
+[tool.hatch.envs.default.env-vars]
+PYTHONPATH = "src"
+
+[tool.hatch.envs.default.scripts]
+unit-tests = "pytest src/unit_tests"
+integration-tests = "pytest src/integration_tests"
+demo = "python -m src.integration_tests.demo"
+
+[tool.hatch.envs.test]
+# No need to declare pytest again; inherited from project.dependencies
+dependencies = []
+
+[[tool.hatch.envs.test.matrix]]
+python = ["38", "39", "310", "311", "312", "313"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pytest_conductor"]
+
+[tool.hatch.envs.hatch-static-analysis]
+config-path = "none"
+
+[tool.ruff]
+line-length = 90
+target-version = "py312"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 90
+
+[tool.pytest.ini_options]
+markers = [
+    "fast: marks tests as fast",
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.ruff.lint]
+select = [
+    "F", "E", "W", "N", "I", "S", "BLE", "DTZ", "C4", "EM", "EXE",
+    "ISC", "ICN", "G", "PT", "Q", "RSE", "RET", "SLOT", "SIM", "TID", "ARG", "TCH", "PTH",
+    "ERA", "PD", "C", "R", "TRY", "NPY", "RUF"
+]
+ignore = [
+    "ISC001",
+    "S607",
+    "S603",
+    "TRY003",
+    "EM102",
+    "W293",
+    "RUF005",
+    "G004",
+    "EM101",
+    "PT017"
+]
+
+flake8-quotes = {inline-quotes = "double", multiline-quotes = "double"}
+mccabe = { max-complexity = 20 }
+
+[tool.ruff.lint.per-file-ignores]
+"**/*_tests/**" = ["S101"]
+"**/tests/**" = ["S101"]
