@@ -1,0 +1,97 @@
+[project]
+name = "rovr"
+version = "0.0.1"
+description = "A post-modern terminal file explorer"
+readme = "README.md"
+requires-python = ">= 3.13"
+authors = [
+    { name = "NSPC911" }
+]
+license = { text = "MIT" }
+keywords = ["python", "textual", "tui", "filemanager", "fs"]
+dependencies = [
+    "humanize>=4.12.3",
+    "lzstring>=1.0.4",
+    "pillow>=11.2.1",
+    "platformdirs>=4.3.8",
+    "poethepoet>=0.36.0",
+    "psutil>=7.0.0",
+    "send2trash>=1.8.3",
+    "textual-autocomplete>=4.0.4",
+    "textual-image[textual]>=0.8.2",
+    "textual[syntax]>=3.3.0,<=4.0.0",
+    "thefuzz>=0.22.1",
+    "tree-sitter<=0.24.0",
+    "toml>=0.10.2",
+    "ujson>=5.10.0",
+    "watchdog>=6.0.0",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+    # "Framework :: Textual", # I highly believe textual deserves its own category
+    "Topic :: Desktop Environment :: File Managers"
+]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.8.3",
+    "ruff>=0.11.12",
+    "textual-dev>=1.7.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+rovr = "rovr.__main__:main"
+
+[project.urls]
+Source = "https://github.com/NSPC911/rovr"
+Issues = "https://github.com/NSPC911/rovr/issues"
+
+# [tool.hatch.build.targets.wheel]
+# # This wouldn't be something you see in every UV based
+# # project. I need two packages, the first for hatch,
+# # and the second for uv. I'm not entirely sure why this
+# # happens, but if it ain't broke, dont fix it :shrug:
+# packages = [
+#   "rovr",
+#   "src/rovr"
+# ]
+
+# [tool.hatch.build.targets.sdist]
+# packages = ["src/rovr"]
+
+[tool.ruff.lint]
+select = [
+  "ASYNC251",
+  "COM819",
+  "E4", "E7", "E9",
+  "F",
+  "I",
+  "Q",
+  "SIM201", "SIM202",
+  "W191", "W291", "W293", "W391", "W605",
+]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "uv"
+update_changelog_on_bump = true
+major_version_zero = false
+
+[tool.poe.tasks]
+dev = "textual run --dev rovr.app:Application"
+run = "rovr.__main__:main"
