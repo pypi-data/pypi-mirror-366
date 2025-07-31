@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-gitbook
+Version: 0.4.0
+Summary: llama-index readers gitbook integration
+Author-email: "thomas.kang" <mc.kang08@gmail.com>
+Maintainer: mckang
+License-Expression: MIT
+License-File: LICENSE
+Keywords: gitbook
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: pymongo<5,>=4.6.1
+Description-Content-Type: text/markdown
+
+# LlamaIndex Readers Integration: Gitbook
+
+## Overview
+
+Simple Gitbook Reader allows loading data from a gitbook space. It collects & converts contents from gitbook space into documents used by LlamaIndex.
+
+### Installation
+
+You can install Gitbook Reader via pip:
+
+```bash
+pip install llama-index-readers-gitbook
+```
+
+### Usage
+
+```python
+from llama_index.readers.gitbook import SimpleGitbookReader
+
+# Initialize SimpleGitbookReader
+reader = SimpleGitbookReader(
+    api_token="<Gitbook API Token>",  # Gitbook API Token
+)
+
+# load data from Gitbook
+documents = reader.load_data(
+    space_id="<Gitbook Space Id>",  # Id of the gitbook space
+    metadata_names=None,  # Names of the fields to add to metadata attribute (available: 'path', 'title', 'description', 'parent')
+)
+```
