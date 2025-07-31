@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "PyVMCON"
+version = "2.3.1"
+description = "Python implementation of the VMCON non-linear constrained optimiser."
+keywords = ["vmcon", "optimisation", "non-linear constrained optimisation"]
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Timothy Nunn", email = "timothy.nunn@ukaea.uk" }]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "cvxpy>=1.5.2"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Documentation = "https://ukaea.github.io/PyVMCON/"
+Source = "https://github.com/ukaea/PyVMCON"
+
+[project.optional-dependencies]
+docs = [
+    "Sphinx>=6.1",
+    "sphinxcontrib-mermaid>=0.9",
+    "nbsphinx>=0.9",
+    "ipython",
+    "ipykernel",
+    "nbformat>=4.2",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+extend-exclude = ["docs/"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203",
+    "D213",
+    "D401",
+    "COM812",
+    "PLR",
+    "N818",
+    "N803",
+    "N806",
+    "N802",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["T201", "S311", "ANN", "D103"]
+"tests/*" = ["INP001", "ANN", "D103", "S101", "SLF001", "PLR0915", "PLR2004"]
