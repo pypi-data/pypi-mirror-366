@@ -1,0 +1,34 @@
+[project]
+name = "yta-positioning"
+version = "0.0.4"
+description = "Youtube Autonomous Positioning Module"
+authors = [
+    {name = "danialcala94",email = "danielalcalavalera@gmail.com"}
+]
+readme = "README.md"
+requires-python = "==3.9"
+dependencies = [
+    "yta_validation (>=0.0.1,<1.0.0)",
+    "yta_random (>=0.0.1,<1.0.0)",
+    "yta_general_utils (>=0.0.1,<1.0.0)",
+    "yta_constants (>=0.0.1,<1.0.0)",
+    "yta_programming (>=0.0.1,<1.0.0)",
+]
+
+[tool.poetry]
+packages = [{include = "yta_positioning", from = "src"}]
+
+# Optional dependencies below
+[tool.poetry.group.optional]
+optional = true
+
+[tool.poetry.group.optional.dependencies]
+matplotlib = ">=3.8.4,<4.0.0"
+# Optional dependencies above
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
