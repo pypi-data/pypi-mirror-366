@@ -1,0 +1,1 @@
+from max_min_by_sg.solving_maxima_minima_for_2_variables import main as run_solver
