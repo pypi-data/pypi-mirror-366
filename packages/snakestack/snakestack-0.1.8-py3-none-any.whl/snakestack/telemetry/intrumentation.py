@@ -1,0 +1,58 @@
+import logging
+import socket
+
+try:
+    from opentelemetry import trace
+    from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+    from opentelemetry.instrumentation.grpc import GrpcInstrumentorClient
+    from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
+    from opentelemetry.instrumentation.logging import LoggingInstrumentor
+    from opentelemetry.sdk.resources import SERVICE_NAME, Resource
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import (
+        BatchSpanProcessor,
+        ConsoleSpanExporter,
+        SimpleSpanProcessor,
+    )
+except ImportError:
+    raise RuntimeError("Telemetry extra is not installed. Run `pip install snakestack[telemetry]`.")
+
+from snakestack.config import settings
+
+logger = logging.getLogger(__name__)
+
+
+def instrument_app(
+    service_name: str,
+    test_mode: bool = False,
+    enable_httpx: bool = False,
+    enable_grpc: bool = False,
+    logging_level: int = logging.INFO,
+) -> None:
+    """Instrumenta o app com OpenTelemetry padrão."""
+    if settings.otel_sdk_disabled:
+        logger.info("OpenTelemetry is disabled via OTEL_SDK_DISABLED.")
+        return
+
+    if settings.snakestack_otel_disabled:
+        logger.info("OpenTelemetry is disabled via SNAKESTACK_OTEL_DISABLED.")
+        return
+
+    resource = Resource.create().merge(Resource(attributes={
+        SERVICE_NAME: service_name,
+        "service.instance.id": socket.gethostname(),
+    }))
+
+    provider = TracerProvider(resource=resource)
+    exporter = ConsoleSpanExporter() if test_mode else OTLPSpanExporter(insecure=True)
+    processor = SimpleSpanProcessor(exporter) if test_mode else BatchSpanProcessor(exporter)
+    provider.add_span_processor(processor)
+    trace.set_tracer_provider(provider)
+
+    LoggingInstrumentor().instrument(set_logging_format=True, log_level=logging_level)
+
+    if enable_httpx:
+        HTTPXClientInstrumentor().instrument()
+
+    if enable_grpc:
+        GrpcInstrumentorClient().instrument()
