@@ -1,0 +1,6 @@
+[console_scripts]
+yxmb-compatlib = yxmb_compatlib:main
+
+[pyinstaller40]
+hook-dirs = yxmb_compatlib._pyinstaller:get_hook_dirs
+
