@@ -1,0 +1,21 @@
+[project]
+name = "lentezinha"
+version = "0.1.0"
+description = "Tiny Lens (AKA 'lentezinha' in pt-BR) for nested dicts in Python"
+authors = [{ name = "Ivan Ramos Pagnossin", email = "ivan.pagnossin@gmail.com" }]
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+urls = { "Homepage" = "https://github.com/irpagnossin/lentezinha" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.11.7",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
