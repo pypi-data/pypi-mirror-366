@@ -1,0 +1,1 @@
+Use the utility `utils/reaclib/format.py` to generate reacitons.bin
