@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+
+recursive-include pysisense *.py
+
+# Exclude dev folders
+prune examples
+prune docs
+
+# Exclude build/cache artifacts
+global-exclude __pycache__/*
+global-exclude *.py[cod]
+global-exclude *.pyo
