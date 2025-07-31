@@ -1,0 +1,43 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "setuptools-scm>=8",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pysips"
+keywords = ["symbolic regression"]
+description = "A python package for symbolic inference via posterior sampling."
+authors = [
+    {name = "Geoffrey Bomarito", email = "geoffrey.f.bomarito@nasa.gov" },
+    {name = "Patrick Leser", email = "patrick.e.leser@nasa.gov" },
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = "NASA-1.3"
+dynamic = ["version"]
+dependencies = [
+    "numpy",
+    "bingo-nasa",
+    "smcpy>=0.1.6",
+    "scikit-learn"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Documentation = "https://nasa.github.io/pysips/"
+Repository = "https://github.com/nasa/pysips"
+
+[tool.cibuildwheel]
+skip = "pp*"
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
+
+[tool.setuptools.packages.find]
+    exclude = ['demos']
