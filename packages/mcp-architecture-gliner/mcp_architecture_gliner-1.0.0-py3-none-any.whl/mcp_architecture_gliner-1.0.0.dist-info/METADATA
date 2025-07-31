@@ -1,0 +1,485 @@
+Metadata-Version: 2.4
+Name: mcp-architecture-gliner
+Version: 1.0.0
+Summary: MCP server for architecture-specific entity extraction using GLiNER with TOGAF ADM phase awareness
+Project-URL: Homepage, https://github.com/yourusername/mcp-architecture-gliner
+Project-URL: Repository, https://github.com/yourusername/mcp-architecture-gliner
+Project-URL: Documentation, https://github.com/yourusername/mcp-architecture-gliner#readme
+Project-URL: Issues, https://github.com/yourusername/mcp-architecture-gliner/issues
+Project-URL: Changelog, https://github.com/yourusername/mcp-architecture-gliner/blob/main/CHANGELOG.md
+Author-email: Architecture Team <architecture@example.com>
+Maintainer-email: Architecture Team <architecture@example.com>
+License: MIT
+License-File: LICENSE
+Keywords: architecture,entity-extraction,fastmcp,gliner,mcp,model-context-protocol,named-entity-recognition,togaf
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Distributed Computing
+Requires-Python: >=3.9
+Requires-Dist: fastmcp>=2.10.0
+Requires-Dist: gliner>=0.0.18
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0.0
+Requires-Dist: torch>=2.0.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: build>=1.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.0.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Requires-Dist: twine>=4.0.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# 🏗️ Architecture-Focused MCP GLiNER Server
+
+> **Enhanced GLiNER-based entity extraction for software architecture documents with TOGAF ADM phase awareness and role-based contextual processing, implemented as an MCP (Model Context Protocol) server.**
+
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![FastMCP](https://img.shields.io/badge/FastMCP-2.10+-green.svg)](https://github.com/jlowin/fastmcp)
+[![GLiNER](https://img.shields.io/badge/GLiNER-0.0.18+-orange.svg)](https://github.com/urchade/GLiNER)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-blue.svg)](https://github.com/modelcontextprotocol)
+
+## 🎯 Overview
+
+This project transforms the basic GLiNER NER model into a specialized **MCP (Model Context Protocol) server** for software architecture document analysis. It provides intelligent entity extraction that understands TOGAF ADM phases, architecture roles, and contextual relationships to help architects make better decisions and retrieve relevant guidelines.
+
+The server implements the MCP protocol, making it compatible with Claude Desktop, Cody, and other MCP-enabled clients.
+
+### Key Differentiators
+
+- **Architecture-Specific Intelligence**: Pre-configured with 200+ architecture-specific entity labels
+- **TOGAF ADM Integration**: Phase-aware processing for all 10 TOGAF ADM phases
+- **Role-Based Filtering**: Customized extraction for different architect roles
+- **Contextual Scoring**: Relevance-weighted entity scoring based on project context
+- **Document Classification**: Automatic analysis of document type and complexity
+
+## 🚀 Quick Start
+
+### 🎯 Easiest Way (Using uvx)
+
+```bash
+# Install uvx if you don't have it
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Run the MCP server directly (no installation needed!)
+uvx mcp-architecture-gliner
+```
+
+Then configure your MCP client (like Claude Desktop) to use:
+```json
+{
+  "mcpServers": {
+    "architecture-gliner": {
+      "command": "uvx",
+      "args": ["mcp-architecture-gliner"]
+    }
+  }
+}
+```
+
+### 🔧 Development Setup
+
+### Prerequisites
+
+- Python 3.9+
+- macOS (optimized for Apple Silicon M1/M2/M3)
+- 8GB+ RAM (16GB+ recommended for large models)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd mcp-gliner
+
+# Install uv (if not already installed)
+brew install uv
+
+# Create and activate environment
+uv venv
+source .venv/bin/activate
+
+# Install dependencies
+uv pip install -r requirements.txt
+```
+
+### Start the MCP Server
+
+#### Option 1: Using uvx (Recommended - after publishing)
+```bash
+# Run directly with uvx (no installation needed)
+uvx mcp-architecture-gliner
+
+# The server will run in STDIO mode for MCP communication
+```
+
+#### Option 2: Local Development
+```bash
+# Clone and set up locally
+git clone <repository-url>
+cd mcp-gliner
+
+# Install and run
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
+python mcp_server.py
+```
+
+## 🧪 Usage Examples
+
+### 1. MCP Client Integration
+
+#### Claude Desktop Configuration
+
+**Option 1: Using uvx (Recommended)**
+Add to your Claude Desktop MCP settings:
+```json
+{
+  "mcpServers": {
+    "architecture-gliner": {
+      "command": "uvx",
+      "args": ["mcp-architecture-gliner"]
+    }
+  }
+}
+```
+
+**Option 2: Local Development**
+```json
+{
+  "mcpServers": {
+    "architecture-gliner": {
+      "command": "python",
+      "args": ["/absolute/path/to/mcp-gliner/mcp_server.py"],
+      "env": {
+        "HF_HUB_ENABLE_HF_TRANSFER": "0"
+      }
+    }
+  }
+}
+```
+
+#### Available MCP Tools
+
+The server provides 6 MCP tools:
+
+1. **`extract_architecture_entities`** - Extract entities with phase/role context
+2. **`analyze_architecture_document`** - Analyze document type and complexity  
+3. **`get_architecture_labels`** - Get available labels by category
+4. **`get_phase_specific_labels`** - Get TOGAF phase-specific labels
+5. **`get_role_specific_labels`** - Get role-specific labels
+6. **`get_gliner_model_info`** - Get model capabilities
+
+### 2. Direct Usage (for testing)
+
+```python
+import asyncio
+from tools.architecture_gliner.models import ArchitectureExtractor
+
+async def extract_example():
+    extractor = ArchitectureExtractor(model_size='medium-v2.1')
+    
+    text = """
+    The solution architect designed a microservices architecture 
+    using Docker containers and Kubernetes orchestration to meet 
+    scalability and availability requirements.
+    """
+    
+    entities = extractor.extract_entities(text)
+    
+    for entity in entities:
+        print(f"• {entity['text']} → {entity['label']} (score: {entity['score']:.3f})")
+
+asyncio.run(extract_example())
+```
+
+### 2. Phase-Aware Processing
+
+```python
+# Extract entities relevant to Architecture Vision phase
+entities = extractor.extract_entities(
+    text=architecture_document,
+    phase="architecture_vision",  # TOGAF ADM Phase A
+    include_context=True
+)
+
+# Filter for high-relevance entities
+relevant_entities = [
+    e for e in entities 
+    if e.get('phase_relevant', False) and e.get('contextual_score', 0) > 0.7
+]
+```
+
+### 3. Role-Based Filtering
+
+```python
+# Extract entities from a Solution Architect's perspective
+solution_entities = extractor.extract_entities(
+    text=technical_spec,
+    role="solution_architect",
+    categories=["patterns", "quality_attributes", "technical_context"]
+)
+```
+
+### 4. Document Analysis
+
+```python
+# Automatically analyze document characteristics
+analysis = extractor.analyze_document_type(document_text)
+
+print(f"Document complexity: {analysis['document_complexity']}")
+print(f"Suggested model: {analysis['suggested_model']}")
+print(f"Likely phases: {analysis['likely_phases'][:3]}")
+```
+
+### 5. API Usage
+
+```bash
+# Extract entities via REST API
+curl -X POST "http://localhost:8000/extract-entities" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "The enterprise architect defined microservices patterns for scalability.",
+    "phase": "architecture_vision",
+    "role": "enterprise_architect",
+    "threshold": 0.5
+  }'
+
+# Get phase-specific labels
+curl "http://localhost:8000/labels/phase/business_architecture"
+
+# Analyze document
+curl -X POST "http://localhost:8000/analyze-document" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Technical specification document content...",
+    "threshold": 0.3
+  }'
+```
+
+## 📚 Architecture Categories
+
+The system recognizes entities across multiple architecture domains:
+
+### TOGAF ADM Phases
+- Preliminary Phase
+- Architecture Vision (Phase A)
+- Business Architecture (Phase B)
+- Information Systems Architecture (Phase C)
+- Technology Architecture (Phase D)
+- Opportunities & Solutions (Phase E)
+- Migration Planning (Phase F)
+- Implementation Governance (Phase G)
+- Architecture Change Management (Phase H)
+- Requirements Management
+
+### Architecture Roles
+- Enterprise Architect
+- Solution Architect
+- Business Architect
+- Data Architect
+- Application Architect
+- Technology Architect
+- Security Architect
+- Infrastructure Architect
+
+### Architecture Patterns
+- Layered Architecture
+- Microservices Architecture
+- Service-Oriented Architecture
+- Event-Driven Architecture
+- Serverless Architecture
+- Hexagonal Architecture
+- Clean Architecture
+
+### Quality Attributes
+- Performance
+- Scalability
+- Availability
+- Reliability
+- Security
+- Maintainability
+- Usability
+- Portability
+
+## 🔧 Configuration
+
+### Model Selection
+
+```python
+# Choose model size based on your needs
+extractors = {
+    'base': ArchitectureExtractor(model_size='base'),           # ~100M params, fastest
+    'medium': ArchitectureExtractor(model_size='medium-v2.1'), # ~300M params, balanced
+    'large': ArchitectureExtractor(model_size='large-v2.1'),   # ~1B params, most accurate
+}
+```
+
+### Custom Labels
+
+Edit `tools/architecture_gliner/config/architecture_labels.yaml` to add organization-specific terms:
+
+```yaml
+architecture_labels:
+  custom_patterns:
+    - "my-company-pattern"
+    - "legacy-integration-pattern"
+  
+  custom_technologies:
+    - "proprietary-platform"
+    - "internal-framework"
+```
+
+## 🔍 API Reference
+
+### Core Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/extract-entities` | POST | Extract architecture entities with context |
+| `/analyze-document` | POST | Analyze document type and characteristics |
+| `/labels` | GET | Get available architecture labels |
+| `/labels/phase/{phase}` | GET | Get phase-specific labels |
+| `/labels/role/{role}` | GET | Get role-specific labels |
+| `/model-info` | GET | Get model capabilities and information |
+| `/health` | GET | Health check endpoint |
+
+### Request/Response Models
+
+#### Entity Extraction Request
+```json
+{
+  "text": "string",
+  "labels": ["string"] | null,
+  "phase": "string" | null,
+  "role": "string" | null,
+  "categories": ["string"] | null,
+  "threshold": 0.5,
+  "model_size": "medium-v2.1",
+  "include_context": true
+}
+```
+
+#### Entity Response
+```json
+{
+  "entities": [
+    {
+      "text": "microservices architecture",
+      "label": "microservices architecture",
+      "start": 45,
+      "end": 70,
+      "score": 0.92,
+      "categories": ["patterns"],
+      "phase_relevant": true,
+      "contextual_score": 0.98
+    }
+  ],
+  "total_count": 1,
+  "processing_info": {
+    "model_size": "medium-v2.1",
+    "phase_context": "architecture_vision",
+    "role_context": "solution_architect"
+  }
+}
+```
+
+## 🧪 Examples
+
+Run the comprehensive examples:
+
+```bash
+# Direct Python usage examples
+python examples/architecture_example.py
+
+# API client examples
+python examples/api_client_example.py
+```
+
+## 🏗️ Architecture
+
+```
+mcp-gliner/
+├── tools/architecture_gliner/           # Core implementation
+│   ├── models/                          # GLiNER integration
+│   │   └── architecture_extractor.py    # Main extraction logic
+│   ├── config/                          # Configuration files
+│   │   └── architecture_labels.yaml     # Architecture-specific labels
+│   └── tool.py                          # FastMCP tool integration
+├── examples/                            # Usage examples
+├── server.py                           # FastAPI server
+└── requirements.txt                    # Dependencies
+```
+
+## 🔬 Research Applications
+
+### 1. Contextual Architecture Guidance
+Extract entities to provide relevant architecture guidelines based on:
+- Current project phase (TOGAF ADM)
+- Architect role and responsibilities
+- Document type and complexity
+
+### 2. Architecture Knowledge Graph
+Build relationships between:
+- Architecture patterns and quality attributes
+- Business requirements and technical solutions
+- Stakeholders and architectural decisions
+
+### 3. Document Quality Assurance
+Automatically validate:
+- Completeness of architectural artifacts
+- Compliance with architecture principles
+- Consistency across document sets
+
+### 4. Architecture Decision Support
+Enable intelligent retrieval of:
+- Relevant design patterns
+- Best practices and guidelines
+- Historical decisions and rationale
+
+## 🚧 Future Roadmap
+
+- [ ] **Architecture Guidelines Database**: Integrate comprehensive knowledge base
+- [ ] **Relationship Extraction**: Identify connections between architectural concepts
+- [ ] **Multi-document Analysis**: Cross-reference entities across document sets
+- [ ] **Template Generation**: Create structured outputs for deliverables
+- [ ] **RAG Integration**: Context-aware architecture guidance retrieval
+- [ ] **Compliance Checking**: Automated validation against standards
+- [ ] **Export Capabilities**: Generate reports in multiple formats
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [GLiNER](https://github.com/urchade/GLiNER) - Zero-shot Named Entity Recognition
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern Python web framework
+- [TOGAF](https://www.opengroup.org/togaf) - Enterprise Architecture methodology
+- [FastMCP](https://github.com/jlowin/fastmcp) - MCP server framework
+
+---
+
+**Built for architects, by architects** 🏗️
