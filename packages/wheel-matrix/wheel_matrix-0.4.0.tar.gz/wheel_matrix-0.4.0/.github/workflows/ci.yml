@@ -1,0 +1,25 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tag-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+
+      - name: Install package
+        run: pip install .[dev]
+
+      - name: Run mypy
+        run: mypy
+
+      - name: Run pytest
+        run: pytest
