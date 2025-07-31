@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "guardian-client"
+version = "2.0.1"
+license = "Apache License 2.0"
+description = "Python SDK for Protect AI Guardian"
+authors = ["ProtectAI <community@protectai.com>"]
+readme = "README.md"
+packages = [
+    { include = "guardian_client" },
+]
+exclude = ["bash", "Makefile", ".env", "CLAUDE.md", "tests", ".pre-commit-config.yaml"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+requests = "^2.32.4"
+pyjwt = "^2.8.0"
+click = "^8.1.7"
+setuptools = ">=74.1.2,<81.0.0"
+huggingface-hub = "0.27.1"
+pydantic = "^2.0.0"
+
+[tool.poetry.group.dev]
+optional = true
+[tool.poetry.group.dev.dependencies]
+black = "24.3.0"
+python-dotenv = "^1.0.1"
+types-requests = "*"
+types-setuptools = "^68.2.0"
+pre-commit = "^3.3.0"
+isort = "^5.12.0"
+mypy = "^1.13.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "8.3.2"
+pytest-mock = "^3.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+target-version = ['py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.poetry.scripts]
+guardian-client = "guardian_client:cli"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "guardian_client"]
