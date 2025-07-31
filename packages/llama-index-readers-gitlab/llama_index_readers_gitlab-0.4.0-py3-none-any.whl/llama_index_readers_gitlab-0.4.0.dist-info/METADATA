@@ -1,0 +1,71 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-gitlab
+Version: 0.4.0
+Summary: llama-index readers gitlab integration
+Author-email: Jiacheng Zhang <jiachengzz@outlook.com>
+Maintainer: jiachengzhang1
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: python-gitlab<5,>=4.8.0
+Description-Content-Type: text/markdown
+
+# LlamaIndex Readers Integration: Gitlab
+
+`pip install llama-index-readers-gitlab`
+
+The gitlab readers package leverages [python-gitlab](https://python-gitlab.readthedocs.io/en/stable/index.html) to fetch contents from gitlab projects. It consists of two separate readers:
+
+1. Repository Reader
+2. Issues Reader
+
+Access token or oauth token is required for private groups and projects.
+
+## Repository Reader
+
+This reader will read through files in a repo based on branch or commit.
+
+```python
+import gitlab
+from llama_index.readers.gitlab import GitLabRepositoryReader
+
+gitlab_client = gitlab.Gitlab("https://gitlab.com")
+
+project_repo_reader = GitLabRepositoryReader(
+    gitlab_client=gitlab_client,
+    project_id=project_id,
+    verbose=True,
+)
+
+docs = project_repo_reader.load_data(file_path="README.rst", ref="develop")
+```
+
+## Issues Reader
+
+```python
+import gitlab
+from llama_index.readers.gitlab import GitLabIssuesReader
+
+gitlab_client = gitlab.Gitlab("https://gitlab.com")
+
+# load issues by project id
+project_issues_reader = GitLabIssuesReader(
+    gitlab_client=gitlab_client,
+    project_id=project_id,
+    verbose=True,
+)
+
+docs = project_issues_reader.load_data(
+    state=GitLabIssuesReader.IssueState.OPEN
+)
+
+# load issues by group id
+group_issues_reader = GitLabIssuesReader(
+    gitlab_client=gitlab_client,
+    group_id=group_id,
+    verbose=True,
+)
+
+docs = group_issues_reader.load_data(state=GitLabIssuesReader.IssueState.OPEN)
+```
