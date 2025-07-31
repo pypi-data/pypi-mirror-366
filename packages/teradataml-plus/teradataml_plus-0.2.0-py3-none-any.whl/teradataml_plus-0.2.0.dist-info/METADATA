@@ -1,0 +1,89 @@
+Metadata-Version: 2.1
+Name: teradataml-plus
+Version: 0.2.0
+Summary: Python Package that extends the functionality of the popular teradataml package through monkey-patching.
+Author: Martin Hillebrand
+Author-email: martin.hillebrand@teradata.com
+Keywords: teradataml-plus,teradata,database,teradataml
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Database
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: teradataml >=20.0.00.00
+Requires-Dist: scikit-learn >=1.2.0
+Requires-Dist: numpy >=1.24.2
+Provides-Extra: plot
+Requires-Dist: plotly >=5.0 ; extra == 'plot'
+Requires-Dist: seaborn >=0.11 ; extra == 'plot'
+Requires-Dist: networkx ; extra == 'plot'
+
+![Logo](https://raw.githubusercontent.com/martinhillebrand/tdmlplus/refs/heads/main/media/tdmlplus-logo.png)
+
+# teradataml-plus
+
+Python Package that extends the functionality of the popular [teradataml](https://pypi.org/project/teradataml/) package through [monkey-patching](https://en.wikipedia.org/wiki/Monkey_patch).
+This is to use field-developed assets more naturally with the existing interface.
+
+## Installation
+
+* `pip install teradataml-plus`
+
+## Quickstart
+
+```python
+#always import teradata-plus (tdmlplus) first
+import tdmlplus
+
+#then import teradataml. It will have all the additional functionality
+import teradataml as tdml
+
+# one additional function is for instance to get a correlation matrix straight from the DataFrame, just like in pandas
+
+DF = tdml.DataFrame("some_table")
+DF_corr = DF.corr() # not possible withot tdmlplus
+```
+
+
+
+# History
+
+## v0.1.0 (2025-07-25)
+
+* First release on PyPI.
+* `teradataml.DataFrame.corr()` – correlation matrix like in pandas
+* `teradataml.random` – module for random data generation
+  * `teradataml.random.randn(...)` – random normally distributed variables
+* `teradataml.dba` – module for database utilities
+  * `teradataml.dba.get_amps_count()` – get number of AMPs
+
+## v0.2.0 (2025-07-30)
+
+* `teradataml.DataFrame`
+  * `show_CTE_query()` – generate full lineage SQL with CTEs
+  * `deploy_CTE_view()` – create a view from the full CTE SQL
+  * `easyjoin()` – simplified join using common column names with suffix handling
+
+* `tdml.dataframe.sql._SQLColumnExpression` - aka DataFrameColumn
+  * `trycast()` – apply TRYCAST SQL expression to a column
+  * `hashbin()` – compute hash bin from a column with optional salt
+  * `_power_transform_get_lambda()` – estimate lambda for power transform using sample data
+  * `power_transform()` – apply power transform (Yeo-Johnson or Box-Cox) to column
+  * `power_fit_transform()` – estimate lambda and transform in one step
+
+* `teradataml.random`
+  * `_generate_sql_for_correlated_normals()` – internal SQL generator for correlated normal simulation
+  * `correlated_normals()` – generate synthetic data with correlation structure matching a given DataFrame
+
+* `tdml.widgets`
+  * `tab_dfs()` – display multiple DataFrames/tables in widget tabs
+
+* `teradataml.prettyprint_sql()` – pretty-print SQL with indentation and keyword formatting
