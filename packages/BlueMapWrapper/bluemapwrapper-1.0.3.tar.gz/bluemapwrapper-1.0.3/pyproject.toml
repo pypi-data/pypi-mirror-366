@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "BlueMapWrapper"
+version = "1.0.3"
+authors = [
+  { name="RyanStudio", email="ryanstudiobusiness@gmail.com" },
+]
+description = "A BlueMap Wrapper to get data from a BlueMap Map"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "requests>=2.0.0",
+    "aiohttp>=3.12.15",
+]
+keywords = ["BlueMap", "BlueMapWrapper", "BlueMapWrapper.py"]
+
+[project.urls]
+Homepage = "https://github.com/RyanStudioo/BlueMapMarkersWrapper"
+Issues = "https://github.com/RyanStudioo/BlueMapMarkersWrapper/issues"
