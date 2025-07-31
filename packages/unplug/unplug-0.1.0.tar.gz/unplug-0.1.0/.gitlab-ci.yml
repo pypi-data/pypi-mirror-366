@@ -1,0 +1,68 @@
+.templates_sha: &template_sha c6aeb16f86e32525fa630fb99c66c4f3e62fc3cb
+
+
+include:
+  - project: 'freedesktop/ci-templates'
+    ref: *template_sha
+    file:
+      - '/templates/fedora.yml'
+      - '/templates/ci-fairy.yml'
+
+
+stages:
+  - prep             # prep work like rebuilding the container images if there is a change
+  - build            # for actually building and testing things in a container
+
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+
+variables:
+  FDO_UPSTREAM_REPO: whot/unplug
+
+
+check-commit:
+  extends:
+    - .fdo.ci-fairy
+  stage: prep
+  script:
+    - ci-fairy check-commits
+  except:
+    - main@$FDO_UPSTREAM_REPO
+  variables:
+    GIT_DEPTH: 100
+  artifacts:
+    reports:
+      junit: results.xml
+
+
+# Easiest is to simply run pre-commit
+# which should provide the same bits
+# as any contributor running locally
+pre-commit-checks:
+  extends:
+    - .fdo.ci-fairy
+  stage: prep
+  before_script:
+    - python3 -m venv venv
+    - source venv/bin/activate
+    - pip3 install pre-commit
+  script:
+    - pre-commit run --all-files
+
+
+#  pytest:
+#    extends:
+#      - .fdo.ci-fairy
+#    stage: build
+#    before_script:
+#      - python3 -m venv venv
+#      - source venv/bin/activate
+#      - pip3 install uv
+#    script:
+#      - uv run pytest -v --log-level=DEBUG

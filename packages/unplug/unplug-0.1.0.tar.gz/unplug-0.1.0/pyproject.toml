@@ -1,0 +1,23 @@
+[project]
+name = "unplug"
+version = "0.1.0"
+description = "TUI that allows creating and replaying uinput devices from libinput recordings"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+authors = [
+    { name = "Peter Hutterer", email = "peter.hutterer@who-t.net" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "libevdev>=0.12",
+    "pyyaml>=6.0.2",
+    "rich>=14.1.0",
+    "textual>=5.0.1",
+]
+
+[project.scripts]
+unplug = "unplug.tui:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

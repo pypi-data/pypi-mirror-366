@@ -1,0 +1,511 @@
+# libinput record
+version: 1
+ndevices: 1
+libinput:
+  version: "1.28.901"
+  git: "unknown"
+system:
+  os: "fedora:42"
+  kernel: "6.15.6-200.fc42.x86_64"
+  dmi: "unknown"
+devices:
+- node: /dev/input/event15
+  evdev:
+    # Name: hid-replay Wacom Intuos Pro L Pad
+    # ID: bus 0x0003 (usb) vendor 0x056a product 0x03f9 version 0x0000
+    # Size in mm: unknown, missing resolution
+    # Supported Events:
+    # Event type 0 (EV_SYN)
+    # Event type 1 (EV_KEY)
+    #   Event code 256 (BTN_0)
+    #   Event code 257 (BTN_1)
+    #   Event code 258 (BTN_2)
+    #   Event code 259 (BTN_3)
+    #   Event code 260 (BTN_4)
+    #   Event code 261 (BTN_5)
+    #   Event code 262 (BTN_6)
+    #   Event code 263 (BTN_7)
+    #   Event code 264 (BTN_8)
+    #   Event code 265 (BTN_9)
+    #   Event code 331 (BTN_STYLUS)
+    # Event type 2 (EV_REL)
+    #   Event code 6 (REL_HWHEEL)
+    #   Event code 8 (REL_WHEEL)
+    #   Event code 11 (REL_WHEEL_HI_RES)
+    #   Event code 12 (REL_HWHEEL_HI_RES)
+    # Event type 3 (EV_ABS)
+    #   Event code 0 (ABS_X)
+    #       Value           0
+    #       Min             0
+    #       Max             1
+    #       Fuzz            0
+    #       Flat            0
+    #       Resolution      0
+    #   Event code 1 (ABS_Y)
+    #       Value           0
+    #       Min             0
+    #       Max             1
+    #       Fuzz            0
+    #       Flat            0
+    #       Resolution      0
+    #   Event code 40 (ABS_MISC)
+    #       Value           0
+    #       Min             0
+    #       Max             0
+    #       Fuzz            0
+    #       Flat            0
+    #       Resolution      0
+    # Properties:
+    name: "Wacom Intuos Pro L Pad"
+    id: [3, 1386, 1017, 0]
+    codes:
+      0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] # EV_SYN
+      1: [256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 331] # EV_KEY
+      2: [6, 8, 11, 12] # EV_REL
+      3: [0, 1, 40] # EV_ABS
+    absinfo:
+      0: [0, 1, 0, 0, 0]
+      1: [0, 1, 0, 0, 0]
+      40: [0, 0, 0, 0, 0]
+    properties: []
+  hid: [
+    0x05, 0x01, 0x09, 0x80, 0xa1, 0x01, 0x85, 0xfe, 0xa1, 0x00, 0x09, 0x82, 0x09, 0x83, 0x15, 0x00, 
+    0x25, 0x01, 0x75, 0x01, 0x95, 0x02, 0x81, 0x06, 0x95, 0x06, 0x81, 0x03, 0xc0, 0xc0, 0x05, 0x0d, 
+    0x09, 0x01, 0xa1, 0x01, 0x85, 0x06, 0x09, 0x20, 0x35, 0x00, 0x45, 0x00, 0x15, 0x00, 0x25, 0x01, 
+    0xa1, 0x00, 0x09, 0x54, 0x25, 0x01, 0x75, 0x08, 0x95, 0x01, 0x81, 0x02, 0x09, 0x42, 0x09, 0x44, 
+    0x09, 0x5a, 0x06, 0x0d, 0xff, 0x09, 0x5d, 0x05, 0x0d, 0x09, 0x45, 0x09, 0x3c, 0x09, 0x32, 0x75, 
+    0x01, 0x95, 0x07, 0x81, 0x02, 0x95, 0x01, 0x81, 0x03, 0x05, 0x01, 0x09, 0x30, 0x65, 0x11, 0x55, 
+    0x0d, 0x47, 0x54, 0x88, 0x00, 0x00, 0x27, 0xff, 0x7f, 0x00, 0x00, 0x75, 0x10, 0x95, 0x01, 0x81, 
+    0x02, 0x09, 0x31, 0x47, 0x2c, 0x4c, 0x00, 0x00, 0x27, 0xff, 0x7f, 0x00, 0x00, 0x81, 0x02, 0x05, 
+    0x0d, 0x09, 0x30, 0x65, 0x00, 0x55, 0x00, 0x45, 0x00, 0x26, 0xff, 0x0f, 0x75, 0x10, 0x81, 0x02, 
+    0x09, 0x3d, 0x09, 0x3e, 0x65, 0x14, 0x55, 0x0e, 0x36, 0xd8, 0xdc, 0x46, 0x28, 0x23, 0x16, 0xd8, 
+    0xdc, 0x26, 0x28, 0x23, 0x75, 0x10, 0x95, 0x02, 0x81, 0x02, 0x06, 0x0d, 0xff, 0x65, 0x00, 0x55, 
+    0x00, 0x0a, 0x32, 0x01, 0x35, 0x00, 0x45, 0x00, 0x15, 0x00, 0x26, 0xff, 0x00, 0x75, 0x08, 0x95, 
+    0x01, 0x81, 0x02, 0x05, 0x0d, 0x09, 0x56, 0x15, 0x00, 0x27, 0xff, 0xff, 0x00, 0x00, 0x75, 0x10, 
+    0x95, 0x01, 0x81, 0x0a, 0x06, 0x0d, 0xff, 0x0a, 0x20, 0x02, 0x15, 0x00, 0x27, 0xff, 0xff, 0x00, 
+    0x00, 0x75, 0x10, 0x95, 0x01, 0x81, 0x0a, 0xc0, 0xc0, 0x06, 0x0d, 0xff, 0x09, 0x01, 0xa1, 0x01, 
+    0x85, 0x1e, 0x09, 0x20, 0x35, 0x00, 0x45, 0x00, 0x15, 0x00, 0x25, 0x01, 0xa1, 0x00, 0x09, 0x54, 
+    0x25, 0x01, 0x75, 0x08, 0x95, 0x01, 0x81, 0x02, 0x09, 0x42, 0x09, 0x44, 0x09, 0x5a, 0x09, 0x5d, 
+    0x09, 0x45, 0x09, 0x3c, 0x09, 0x32, 0x09, 0x36, 0x25, 0x01, 0x75, 0x01, 0x95, 0x08, 0x81, 0x02, 
+    0x0a, 0x30, 0x01, 0x65, 0x11, 0x55, 0x0d, 0x47, 0x54, 0x88, 0x00, 0x00, 0x27, 0xa8, 0x10, 0x01, 
+    0x00, 0x75, 0x18, 0x95, 0x01, 0x81, 0x02, 0x0a, 0x31, 0x01, 0x47, 0x2c, 0x4c, 0x00, 0x00, 0x27, 
+    0x58, 0x98, 0x00, 0x00, 0x81, 0x02, 0x09, 0x30, 0x55, 0x00, 0x65, 0x00, 0x45, 0x00, 0x15, 0x00, 
+    0x26, 0xff, 0x1f, 0x75, 0x10, 0x81, 0x02, 0x09, 0x3d, 0x09, 0x3e, 0x65, 0x14, 0x55, 0x00, 0x35, 
+    0xa6, 0x45, 0x5a, 0x15, 0xa6, 0x25, 0x5a, 0x75, 0x10, 0x95, 0x02, 0x81, 0x02, 0x09, 0x41, 0x65, 
+    0x14, 0x55, 0x00, 0x36, 0x4c, 0xff, 0x46, 0xb3, 0x00, 0x16, 0x7c, 0xfc, 0x26, 0x83, 0x03, 0x75, 
+    0x10, 0x95, 0x01, 0x81, 0x0a, 0x0a, 0x03, 0x0d, 0x65, 0x00, 0x55, 0x00, 0x35, 0x00, 0x45, 0x00, 
+    0x15, 0x00, 0x26, 0xff, 0x07, 0x81, 0x02, 0x0a, 0x32, 0x01, 0x35, 0x00, 0x45, 0x00, 0x15, 0x00, 
+    0x26, 0xff, 0x00, 0x75, 0x08, 0x95, 0x01, 0x81, 0x02, 0x09, 0x5b, 0x09, 0x5c, 0x17, 0x00, 0x00, 
+    0x00, 0x80, 0x27, 0xff, 0xff, 0xff, 0x7f, 0x75, 0x20, 0x95, 0x02, 0x81, 0x02, 0x09, 0x77, 0x15, 
+    0x00, 0x26, 0xff, 0x0f, 0x75, 0x10, 0x95, 0x01, 0x81, 0x02, 0x09, 0x56, 0x15, 0x00, 0x27, 0xff, 
+    0xff, 0x00, 0x00, 0x75, 0x10, 0x95, 0x01, 0x81, 0x0a, 0x0a, 0x20, 0x02, 0x15, 0x00, 0x27, 0xff, 
+    0xff, 0x00, 0x00, 0x75, 0x10, 0x95, 0x01, 0x81, 0x0a, 0xc0, 0x85, 0x11, 0x65, 0x00, 0x55, 0x00, 
+    0x35, 0x00, 0x45, 0x00, 0x09, 0x39, 0xa1, 0x00, 0x09, 0x39, 0xa1, 0x00, 0x35, 0x00, 0x45, 0x00, 
+    0x1a, 0x10, 0x09, 0x2a, 0x17, 0x09, 0x15, 0x00, 0x25, 0x01, 0x75, 0x01, 0x95, 0x08, 0x81, 0x02, 
+    0x95, 0x00, 0x81, 0x03, 0xc0, 0x15, 0x00, 0x25, 0x00, 0x75, 0x08, 0x95, 0x01, 0x81, 0x03, 0x09, 
+    0x39, 0xa1, 0x00, 0x35, 0x00, 0x45, 0x00, 0x0a, 0x95, 0x09, 0x15, 0x00, 0x25, 0x01, 0x75, 0x01, 
+    0x95, 0x02, 0x81, 0x02, 0x95, 0x06, 0x81, 0x03, 0xc0, 0x09, 0x39, 0xa1, 0x00, 0x0a, 0x38, 0x01, 
+    0x65, 0x14, 0x55, 0x00, 0x36, 0x4c, 0xff, 0x46, 0xb4, 0x00, 0x15, 0xf4, 0x25, 0x0c, 0x75, 0x07, 
+    0x95, 0x01, 0x81, 0x06, 0x75, 0x01, 0x81, 0x03, 0xc0, 0x09, 0x39, 0xa1, 0x00, 0x0a, 0x38, 0x01, 
+    0x65, 0x14, 0x55, 0x00, 0x36, 0x4c, 0xff, 0x46, 0xb4, 0x00, 0x15, 0xf4, 0x25, 0x0c, 0x75, 0x07, 
+    0x95, 0x01, 0x81, 0x06, 0x75, 0x01, 0x81, 0x03, 0xc0, 0x15, 0x00, 0x25, 0x00, 0x75, 0x08, 0x95, 
+    0x03, 0x81, 0x03, 0xc0, 0x85, 0x13, 0x65, 0x00, 0x55, 0x00, 0x35, 0x00, 0x45, 0x00, 0x0a, 0x13, 
+    0x10, 0xa1, 0x00, 0x0a, 0x13, 0x10, 0xa1, 0x00, 0x35, 0x00, 0x45, 0x00, 0x05, 0x0d, 0x09, 0x3b, 
+    0x15, 0x00, 0x25, 0x64, 0x75, 0x07, 0x95, 0x01, 0x81, 0x02, 0x06, 0x0d, 0xff, 0x0a, 0x04, 0x04, 
+    0x25, 0x01, 0x75, 0x01, 0x81, 0x02, 0xc0, 0x0a, 0x13, 0x10, 0xa1, 0x00, 0x35, 0x00, 0x45, 0x00, 
+    0x15, 0x00, 0x09, 0x00, 0x25, 0x00, 0x75, 0x01, 0x95, 0x01, 0x81, 0x03, 0x0a, 0x41, 0x04, 0x25, 
+    0x07, 0x75, 0x03, 0x95, 0x02, 0x81, 0x02, 0x09, 0x00, 0x25, 0x00, 0x75, 0x01, 0x95, 0x01, 0x81, 
+    0x03, 0xc0, 0x15, 0x00, 0x25, 0x00, 0x75, 0x08, 0x95, 0x06, 0x81, 0x03, 0xc0, 0x09, 0x0e, 0xa1, 
+    0x02, 0x85, 0x02, 0x0a, 0x02, 0x10, 0x15, 0x01, 0x25, 0x02, 0x75, 0x08, 0x95, 0x01, 0xb1, 0x02, 
+    0x85, 0x03, 0x0a, 0x03, 0x10, 0x15, 0x00, 0x26, 0xff, 0x00, 0x95, 0x01, 0xb1, 0x02, 0x85, 0x04, 
+    0x0a, 0x04, 0x10, 0x15, 0x00, 0x25, 0x01, 0x95, 0x01, 0xb1, 0x02, 0x85, 0x07, 0x0a, 0x09, 0x10, 
+    0x15, 0x00, 0x26, 0xff, 0x00, 0x95, 0x01, 0xb1, 0x02, 0xb1, 0x03, 0x0a, 0x07, 0x10, 0x09, 0x00, 
+    0x0a, 0x08, 0x10, 0x09, 0x00, 0x09, 0x00, 0x09, 0x00, 0x27, 0xff, 0xff, 0x00, 0x00, 0x75, 0x10, 
+    0x95, 0x06, 0xb1, 0x02, 0x09, 0x00, 0x25, 0x00, 0x75, 0x08, 0x95, 0x01, 0xb1, 0x03, 0x85, 0x0c, 
+    0x0a, 0x30, 0x0d, 0x0a, 0x31, 0x0d, 0x0a, 0x32, 0x0d, 0x0a, 0x33, 0x0d, 0x65, 0x11, 0x55, 0x0d, 
+    0x35, 0x00, 0x46, 0xc8, 0x00, 0x15, 0x00, 0x26, 0x90, 0x01, 0x75, 0x10, 0x95, 0x04, 0xb1, 0x02, 
+    0x85, 0x0d, 0x0a, 0x0d, 0x10, 0x65, 0x00, 0x55, 0x00, 0x45, 0x00, 0x25, 0x01, 0x75, 0x08, 0x95, 
+    0x01, 0xb1, 0x02, 0x85, 0x14, 0x0a, 0x14, 0x10, 0x26, 0xff, 0x00, 0x95, 0x0d, 0xb1, 0x02, 0x85, 
+    0x1c, 0x0a, 0x15, 0x10, 0x26, 0xff, 0x00, 0x95, 0x1a, 0xb1, 0x02, 0x85, 0xcc, 0x0a, 0xcc, 0x10, 
+    0x95, 0x02, 0xb1, 0x02, 0xc0, 0x09, 0x0e, 0xa1, 0x02, 0x85, 0x16, 0x09, 0x00, 0x95, 0x0e, 0xb1, 
+    0x02, 0x85, 0x35, 0x09, 0x00, 0x95, 0x0a, 0xb1, 0x02, 0x85, 0x31, 0x0a, 0x31, 0x10, 0x25, 0x64, 
+    0x95, 0x03, 0xb1, 0x02, 0x95, 0x02, 0xb1, 0x03, 0x85, 0x37, 0x09, 0x00, 0x26, 0xff, 0x00, 0x75, 
+    0x08, 0x95, 0x09, 0xb1, 0x02, 0x85, 0x38, 0x09, 0x00, 0x26, 0xff, 0x00, 0x75, 0x08, 0x95, 0x06, 
+    0xb1, 0x02, 0x85, 0x39, 0x09, 0x00, 0x26, 0xff, 0x00, 0x75, 0x08, 0x95, 0x05, 0xb1, 0x02, 0xc0, 
+    0x0a, 0xac, 0x10, 0xa1, 0x02, 0x15, 0x00, 0x26, 0xff, 0x00, 0x75, 0x08, 0x85, 0xac, 0x09, 0x00, 
+    0x96, 0xbf, 0x00, 0x81, 0x02, 0x85, 0x15, 0x09, 0x00, 0x95, 0x0e, 0xb1, 0x02, 0x85, 0x33, 0x09, 
+    0x00, 0x95, 0x12, 0xb1, 0x02, 0x85, 0x44, 0x09, 0x00, 0x95, 0x04, 0xb1, 0x02, 0x85, 0x45, 0x09, 
+    0x00, 0x95, 0x20, 0xb1, 0x02, 0x85, 0x60, 0x09, 0x00, 0x95, 0x3f, 0xb1, 0x02, 0x85, 0x61, 0x09, 
+    0x00, 0x95, 0x3e, 0xb1, 0x02, 0x85, 0x62, 0x09, 0x00, 0x95, 0x3e, 0xb1, 0x02, 0x85, 0x65, 0x09, 
+    0x00, 0x95, 0x04, 0xb1, 0x02, 0x85, 0x66, 0x09, 0x00, 0x95, 0x04, 0xb1, 0x02, 0x85, 0x67, 0x09, 
+    0x00, 0x95, 0x04, 0xb1, 0x02, 0x85, 0x68, 0x09, 0x00, 0x95, 0x11, 0xb1, 0x02, 0x85, 0x6f, 0x09, 
+    0x00, 0x95, 0x3e, 0xb1, 0x02, 0x85, 0xcd, 0x09, 0x00, 0x95, 0x02, 0xb1, 0x02, 0xc0, 0x85, 0xd1, 
+    0x09, 0x01, 0x96, 0x04, 0x01, 0xb1, 0x02, 0x85, 0xd2, 0x09, 0x01, 0x96, 0x04, 0x01, 0xb1, 0x02, 
+    0x85, 0xd3, 0x09, 0x01, 0x96, 0x04, 0x00, 0xb1, 0x02, 0x85, 0xd4, 0x09, 0x01, 0x96, 0x04, 0x00, 
+    0xb1, 0x02, 0x85, 0xd5, 0x09, 0x01, 0x96, 0x04, 0x00, 0xb1, 0x02, 0x85, 0xd6, 0x09, 0x01, 0x96, 
+    0x04, 0x00, 0xb1, 0x02, 0x85, 0xd7, 0x09, 0x01, 0x96, 0x14, 0x00, 0xb1, 0x02, 0x85, 0xd8, 0x09, 
+    0x01, 0x96, 0x0c, 0x00, 0xb1, 0x02, 0x85, 0xd9, 0x09, 0x01, 0x96, 0x00, 0x05, 0xb1, 0x02, 0x85, 
+    0xda, 0x09, 0x01, 0x96, 0x04, 0x02, 0xb1, 0x02, 0x85, 0xdb, 0x09, 0x01, 0x96, 0x06, 0x00, 0xb1, 
+    0x02, 0x85, 0xdc, 0x09, 0x01, 0x96, 0x02, 0x00, 0xb1, 0x02, 0x85, 0xdd, 0x09, 0x01, 0x96, 0x04, 
+    0x00, 0xb1, 0x02, 0x85, 0xde, 0x09, 0x01, 0x96, 0x04, 0x00, 0xb1, 0x02, 0x85, 0xdf, 0x09, 0x01, 
+    0x96, 0x22, 0x00, 0xb1, 0x02, 0x85, 0xe0, 0x09, 0x01, 0x96, 0x01, 0x00, 0xb1, 0x02, 0x85, 0xe1, 
+    0x09, 0x01, 0x96, 0x02, 0x00, 0xb1, 0x02, 0x85, 0xe2, 0x09, 0x01, 0x96, 0x02, 0x00, 0xb1, 0x02, 
+    0x85, 0xe3, 0x09, 0x01, 0x96, 0x02, 0x00, 0xb1, 0x02, 0x85, 0xe4, 0x09, 0x01, 0x96, 0xff, 0x01, 
+    0xb1, 0x02, 0x85, 0xcb, 0x09, 0x01, 0x96, 0x1f, 0x00, 0xb1, 0x02, 0xc0
+  ]
+  udev:
+    properties:
+    - ID_INPUT=1
+    - ID_INPUT_TABLET=1
+    - ID_INPUT_TABLET_PAD=1
+    - DRIVER=wacom
+    virtual: false
+  quirks:
+  events:
+  # Current time is 14:20:39
+  # Current time is 14:20:40
+  - evdev:
+    - [  0,      0,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0,      0,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0,      0,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +0ms
+  - evdev:
+    - [  0,  23990,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0,  23990,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0,  23990,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +23ms
+  - evdev:
+    - [  0,  56868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0,  56868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0,  56868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +33ms
+  - evdev:
+    - [  0,  87869,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0,  87869,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0,  87869,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +31ms
+  - evdev:
+    - [  0, 119868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 119868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 119868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +32ms
+  - evdev:
+    - [  0, 151869,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 151869,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 151869,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +32ms
+  - evdev:
+    - [  0, 184922,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 184922,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 184922,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +33ms
+  - evdev:
+    - [  0, 463749,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 463749,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 463749,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +279ms
+  - evdev:
+    - [  0, 471727,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 471727,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 471727,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  0, 487766,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 487766,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 487766,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  0, 504813,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 504813,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 504813,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  0, 512862,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 512862,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 512862,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  0, 527864,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 527864,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 527864,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +15ms
+  - evdev:
+    - [  0, 544876,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 544876,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 544876,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  0, 575927,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 575927,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 575927,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +31ms
+  - evdev:
+    - [  0, 801010,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 801010,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 801010,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +226ms
+  - evdev:
+    - [  0, 816757,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 816757,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 816757,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +15ms
+  - evdev:
+    - [  0, 824869,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 824869,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 824869,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  0, 840912,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 840912,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 840912,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  0, 848783,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 848783,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 848783,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  0, 856787,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 856787,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 856787,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  0, 872869,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 872869,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 872869,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  0, 887737,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  0, 887737,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  0, 887737,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +15ms
+  - evdev:
+    - [  1, 127779,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 127779,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 127779,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +240ms
+  - evdev:
+    - [  1, 144887,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 144887,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 144887,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  1, 152923,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 152923,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 152923,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 160879,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 160879,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 160879,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 176764,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 176764,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 176764,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  1, 185012,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 185012,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 185012,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +9ms
+  - evdev:
+    - [  1, 199759,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 199759,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 199759,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +14ms
+  - evdev:
+    - [  1, 232761,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 232761,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 232761,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +33ms
+  - evdev:
+    - [  1, 447867,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 447867,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 447867,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +215ms
+  - evdev:
+    - [  1, 463977,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 463977,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 463977,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  1, 471784,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 471784,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 471784,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 493772,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 493772,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 493772,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +22ms
+  - evdev:
+    - [  1, 501750,   2,   8,      -2] # EV_REL / REL_WHEEL                -2
+    - [  1, 501750,   2,  11,    -240] # EV_REL / REL_WHEEL_HI_RES       -240
+    - [  1, 501750,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 517924,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 517924,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 517924,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  1, 541759,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 541759,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 541759,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +24ms
+  - evdev:
+    - [  1, 757758,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 757758,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 757758,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +216ms
+  - evdev:
+    - [  1, 774759,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 774759,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 774759,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  1, 782868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 782868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 782868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 790999,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 790999,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 790999,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 798787,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 798787,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 798787,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  1, 813802,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 813802,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 813802,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +15ms
+  - evdev:
+    - [  1, 829824,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 829824,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 829824,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  1, 854907,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  1, 854907,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  1, 854907,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +25ms
+  - evdev:
+    - [  2,  69787,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2,  69787,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2,  69787,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +215ms
+  - evdev:
+    - [  2,  79771,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2,  79771,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2,  79771,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +10ms
+  - evdev:
+    - [  2,  87974,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2,  87974,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2,  87974,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2,  95741,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2,  95741,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2,  95741,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 103793,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 103793,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 103793,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 111962,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 111962,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 111962,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 127000,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 127000,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 127000,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  2, 153926,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 153926,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 153926,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +26ms
+  - evdev:
+    - [  2, 378009,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 378009,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 378009,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +225ms
+  - evdev:
+    - [  2, 385734,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 385734,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 385734,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +7ms
+  - evdev:
+    - [  2, 393764,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 393764,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 393764,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 409935,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 409935,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 409935,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  2, 417949,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 417949,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 417949,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 425994,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 425994,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 425994,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 442759,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 442759,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 442759,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  2, 465868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 465868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 465868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +23ms
+  - evdev:
+    - [  2, 690870,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 690870,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 690870,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +225ms
+  - evdev:
+    - [  2, 698801,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 698801,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 698801,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 713868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 713868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 713868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +15ms
+  - evdev:
+    - [  2, 721868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 721868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 721868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 729998,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 729998,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 729998,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 737732,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 737732,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 737732,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  2, 753872,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 753872,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 753872,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +16ms
+  - evdev:
+    - [  2, 770793,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 770793,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 770793,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  2, 993786,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  2, 993786,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  2, 993786,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +223ms
+  - evdev:
+    - [  3,  10870,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  10870,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  10870,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +17ms
+  - evdev:
+    - [  3,  18929,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  18929,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  18929,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  3,  27001,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  27001,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  27001,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +9ms
+  - evdev:
+    - [  3,  34755,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  34755,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  34755,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +7ms
+  - evdev:
+    - [  3,  49868,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  49868,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  49868,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +15ms
+  - evdev:
+    - [  3,  57924,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  57924,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  57924,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  3,  82989,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3,  82989,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3,  82989,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +25ms
+  - evdev:
+    - [  3, 274866,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 274866,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 274866,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +192ms
+  - evdev:
+    - [  3, 282872,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 282872,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 282872,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  3, 290759,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 290759,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 290759,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  3, 298869,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 298869,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 298869,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  3, 306925,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 306925,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 306925,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +8ms
+  - evdev:
+    - [  3, 331829,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 331829,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 331829,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +25ms
+  - evdev:
+    - [  3, 351770,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 351770,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 351770,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +20ms
+  - evdev:
+    - [  3, 360016,   2,   0,      -1] # EV_REL / REL_X                    -1
+    - [  3, 360016,   2,   8,      -1] # EV_REL / REL_WHEEL                -1
+    - [  3, 360016,   2,  11,    -120] # EV_REL / REL_WHEEL_HI_RES       -120
+    - [  3, 360016,   0,   0,       0] # ------------ SYN_REPORT (0) ---------- +9ms
