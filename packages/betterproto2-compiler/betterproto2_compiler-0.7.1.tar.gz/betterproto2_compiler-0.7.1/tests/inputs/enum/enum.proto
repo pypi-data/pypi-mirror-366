@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package enum;
+
+// Tests that enums are correctly serialized and that it correctly handles skipped and out-of-order enum values
+message Test {
+    Choice choice = 1;
+    repeated Choice choices = 2;
+}
+
+enum Choice {
+    ZERO = 0;
+    ONE = 1;
+    // TWO = 2;
+    FOUR = 4;
+    THREE = 3;
+}
+
+// A "C" like enum with the enum name prefixed onto members, these should be stripped
+enum ArithmeticOperator {
+    ARITHMETIC_OPERATOR_NONE = 0;
+    ARITHMETIC_OPERATOR_PLUS = 1;
+    ARITHMETIC_OPERATOR_MINUS = 2;
+    ARITHMETIC_OPERATOR_0_PREFIXED = 3;
+}
+
+// If not all the fields are prefixed, the prefix should not be stripped at all
+enum NoStriping {
+    NO_STRIPING_NONE = 0;
+    NO_STRIPING_A = 1;
+    B = 2;
+}
+
+// Make sure that the prefix are removed even if it's difficult to infer the position
+// of underscores.
+enum HTTPCode {
+    HTTP_CODE_UNSPECIFIED = 0;
+    HTTP_CODE_OK = 200;
+    HTTP_CODE_NOT_FOUND = 404;
+}
+
+message EnumMessage {
+    ArithmeticOperator arithmetic_operator = 1;
+    NoStriping no_striping = 2;
+}
