@@ -1,0 +1,85 @@
+[tool.poetry]
+name = "nonebot-adapter-afdian"
+version = "0.1.3"
+description = "爱发电适配器"
+authors = ["17TheWord <17theword@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "nonebot" }]
+
+[tool.nonebot]
+adapters = [{ name = "Afdian", module_name = "nonebot.adapters.afdian" }]
+plugins = []
+plugin_dirs = []
+builtin_plugins = []
+
+[tool.poetry.dependencies]
+python = "^3.10"
+nonebot2 = "^2.2.0"
+pydantic = ">=1.10.0,<3.0.0,!=2.5.0,!=2.5.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.0"
+pre-commit = "^4.0.0"
+nonebug = "^0.3.5"
+pytest-cov = "^4.0.0"
+pytest-asyncio = "^0.23.0"
+pydantic = "^2.7.4"
+nonebot2 = { version = "^2.2.0", extras = ["fastapi", "httpx"] }
+
+[tool.pytest.ini_options]
+addopts = "--cov=nonebot/adapters/afdian --cov-report term-missing"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "F",     # Pyflakes
+    "W",     # pycodestyle warnings
+    "E",     # pycodestyle errors
+    "I",     # isort
+    "UP",    # pyupgrade
+    "ASYNC", # flake8-async
+    "C4",    # flake8-comprehensions
+    "T10",   # flake8-debugger
+    "T20",   # flake8-print
+    "PYI",   # flake8-pyi
+    "PT",    # flake8-pytest-style
+    "Q",     # flake8-quotes
+    "RUF",   # Ruff-specific rules
+]
+ignore = [
+    "E402",
+    "E501",   # module-import-not-at-top-of-file
+    "UP037",  # quoted-annotation
+    "RUF001", # ambiguous-unicode-character-string
+    "RUF002", # ambiguous-unicode-character-docstring
+    "RUF003", # ambiguous-unicode-character-comment
+    "RUF006", # ambiguous-unicode-character-assignment
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+extra-standard-library = ["typing_extensions"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.data.packages]
+my_package = { path = "nonebot/adapters/afdian" }
