@@ -1,0 +1,99 @@
+Metadata-Version: 2.4
+Name: robo_orchard_lab
+Version: 0.2.0
+Summary: Deep Learning Algorithms for RoboOrchard
+Author: The RoboOrchard Team
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/HorizonRobotics/robo_orchard_lab
+Project-URL: Repository, https://github.com/HorizonRobotics/robo_orchard_lab
+Project-URL: Source, https://github.com/HorizonRobotics/robo_orchard_lab
+Project-URL: Issues, https://github.com/HorizonRobotics/robo_orchard_lab/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE
+Requires-Dist: pydantic
+Requires-Dist: torch>=2.4.0
+Requires-Dist: torchvision>=0.19.0
+Requires-Dist: numpy<2
+Requires-Dist: accelerate
+Requires-Dist: tqdm
+Requires-Dist: deprecated
+Requires-Dist: timeout-decorator
+Requires-Dist: requests
+Requires-Dist: huggingface_hub
+Requires-Dist: torchmetrics>=1.6
+Requires-Dist: datasets>=4.0.0
+Requires-Dist: sqlalchemy
+Requires-Dist: duckdb-engine
+Requires-Dist: fsspec
+Requires-Dist: sortedcontainers
+Requires-Dist: robo_orchard_core==0.2.0
+Provides-Extra: bip3d
+Requires-Dist: transformers<=4.49.0; extra == "bip3d"
+Requires-Dist: terminaltables; extra == "bip3d"
+Requires-Dist: pytorch3d; extra == "bip3d"
+Requires-Dist: ninja; extra == "bip3d"
+Provides-Extra: sem
+Requires-Dist: robo_orchard_lab[bip3d]; extra == "sem"
+Requires-Dist: diffusers; extra == "sem"
+Requires-Dist: lmdb; extra == "sem"
+Requires-Dist: pytorch-kinematics; extra == "sem"
+Requires-Dist: h5py; extra == "sem"
+Provides-Extra: mcap-datasets
+Requires-Dist: mcap-protobuf-support>=0.5.3; extra == "mcap-datasets"
+Requires-Dist: mcap-ros2-support; extra == "mcap-datasets"
+Requires-Dist: mcap>=1.2.2; extra == "mcap-datasets"
+Requires-Dist: foxglove-schemas-protobuf>=0.3.0; extra == "mcap-datasets"
+Requires-Dist: opencv-python; extra == "mcap-datasets"
+Requires-Dist: robo_orchard_schemas==0.1.1; extra == "mcap-datasets"
+Provides-Extra: aux-think
+Requires-Dist: transformers<=4.37.2; extra == "aux-think"
+Requires-Dist: tokenizers; extra == "aux-think"
+Requires-Dist: peft<=0.15.2; extra == "aux-think"
+Requires-Dist: markdown2[all]; extra == "aux-think"
+Requires-Dist: scikit-learn>=1.2.2; extra == "aux-think"
+Requires-Dist: opencv-python; extra == "aux-think"
+Requires-Dist: uvicorn; extra == "aux-think"
+Requires-Dist: fastapi; extra == "aux-think"
+Requires-Dist: timm; extra == "aux-think"
+Requires-Dist: ninja; extra == "aux-think"
+Requires-Dist: tyro; extra == "aux-think"
+Requires-Dist: loguru; extra == "aux-think"
+Requires-Dist: hydra-core; extra == "aux-think"
+Requires-Dist: deepspeed; extra == "aux-think"
+Provides-Extra: finegrasp
+Requires-Dist: scipy; extra == "finegrasp"
+Requires-Dist: einops; extra == "finegrasp"
+Requires-Dist: torch-geometric; extra == "finegrasp"
+Requires-Dist: open3d; extra == "finegrasp"
+Provides-Extra: all
+Requires-Dist: robo_orchard_lab[aux_think,bip3d,finegrasp,mcap_datasets,sem]; extra == "all"
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+
+# RoboOrchard Lab
+
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
+[![Linux platform](https://img.shields.io/badge/platform-linux--64-green.svg)](https://releases.ubuntu.com/22.04/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/HorizonRobotics/robo_orchard_lab/blob/master/LICENSE)
+[![Documentation](https://img.shields.io/website/http/huggingface.co/docs/transformers/index.svg?down_color=red&down_message=offline&up_message=online)](https://horizonrobotics.github.io/robot_lab/robo_orchard/lab/index.html)
+
+**RoboOrchardLab** is a python package that provides a modular and extensible framework for training and evaluating embodied AI algorithms.
+It is part of the **RoboOrchard** project, which aims to support the full lifecycle of robotics research and development.
+
+The goal of **RoboOrchardLab** is to create a unified and flexible architecture that allows researchers and developers to easily compose and customize their training pipelines, while also providing model components, datasets, and evaluation metrics that are specifically designed for embodied AI tasks and research.
+
+## Core Features
+
+- **Modular Training Framework**: We provide a highly modular training framework that allows you to easily compose and customize your training pipelines. For example, you can easily add or change the implementation of model updates, training monitors or other components to suit your specific research needs without changing the overall training pipeline.
+- **Efficient Distributed Training**: This project is designed to work seamlessly with the Hugging Face ecosystem (Accelerate, Datasets, etc), enabling efficient distributed training across multiple GPUs and nodes. This allows you to scale your experiments and leverage the power of modern hardware.
+- **SOTA Embodied AI Algorithms**: Access an expanding suite of state-of-the-art (SOTA) algorithms. Initial support focuses on advanced perception, with intelligent grasping policies and end-to-end Vision-Language Action (VLA) models being actively developed and planned for near-future releases. Longer-term, we aim to integrate broader manipulation and whole-body control capabilities.
+- **Open Community**. **RoboOrchardLab** is an open-source project, and we warmly welcome developers and researchers from academia and industry to join us. Contribute code, share models, improve documentation, and let's advance embodied intelligence technology together.
+
+## License
+
+**RoboOrchardLab** is open-source and licensed under the [Apache License 2.0](https://github.com/HorizonRobotics/robo_orchard_lab/blob/master/LICENSE). If you are interested in contributing, please reach out to us.
