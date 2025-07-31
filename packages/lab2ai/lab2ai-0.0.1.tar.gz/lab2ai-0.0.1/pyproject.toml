@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "lab2ai"
+version = "0.0.1"
+description = "Auxiliary tools for Rankadmet"
+authors = ["Julio Cesar Xavier <jcaxavier2@gmail.com>", "Prof. Dr. Edson Luiz Folador <elf@cbiotec.ufpb.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+openbabel-wheel = "=3.1.1.22"
+XlsxWriter = "^3.2.0"
+rich = "^13.9.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+lab2ai = "lab2ai.app:main"
+
