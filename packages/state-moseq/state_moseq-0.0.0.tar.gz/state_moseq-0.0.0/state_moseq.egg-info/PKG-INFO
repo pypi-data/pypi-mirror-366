@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: state-moseq
+Version: 0.0.0
+Home-page: https://github.com/dattalab/state-moseq
+Author: Caleb Weinreb
+Author-email: calebsw@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+License-File: LICENSE.md
+Requires-Dist: numba
+Requires-Dist: dynamax>=0.1.4
+Requires-Dist: chex
+Requires-Dist: jaxtyping
+Requires-Dist: tensorflow_probability
+Requires-Dist: tqdm
+Requires-Dist: pandas
+Requires-Dist: ipykernel
+Requires-Dist: jupyter
+Requires-Dist: h5py
+Requires-Dist: matplotlib
+Requires-Dist: vidio
+Requires-Dist: imageio[ffmpeg]
+Requires-Dist: scikit-learn
+Requires-Dist: plotly
+Provides-Extra: dev
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx-rtd-theme; extra == "dev"
+Requires-Dist: autodocsumm; extra == "dev"
+Requires-Dist: myst-nb; extra == "dev"
+Provides-Extra: cuda
+Requires-Dist: jax[cuda12]; extra == "cuda"
+Dynamic: license-file
