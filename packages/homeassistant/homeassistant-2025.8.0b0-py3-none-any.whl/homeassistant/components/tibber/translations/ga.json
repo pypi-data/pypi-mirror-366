@@ -1,0 +1,26 @@
+{
+    "exceptions": {
+        "invalid_date": {
+            "message": "D\u00e1ta-am neamhbhail\u00ed curtha ar f\u00e1il {date}"
+        },
+        "send_message_timeout": {
+            "message": "Teorainn ama ag seoladh teachtaireachta le Tibber"
+        }
+    },
+    "services": {
+        "get_prices": {
+            "description": "Faigheann s\u00e9 praghsanna fuinnimh in aghaidh na huaire, lena n-\u00e1ir\u00edtear leibh\u00e9al na bpraghsanna.",
+            "fields": {
+                "end": {
+                    "description": "Sonra\u00edonn s\u00e9 seo an d\u00e1ta agus an t-am go dt\u00ed a n-aisghabhfar praghsanna. \u00das\u00e1idtear an uair dheireanach den l\u00e1 inniu mar r\u00e9amhshocr\u00fa mura bhf\u00e1gtar ar l\u00e1r \u00e9.",
+                    "name": "Deireadh"
+                },
+                "start": {
+                    "description": "Sonra\u00edonn s\u00e9 seo an d\u00e1ta agus an t-am \u00f3na n-aisghabhfar praghsanna. Is \u00e9 an l\u00e1 inniu an r\u00e9amhshocr\u00fa mura bhf\u00e1gtar ar l\u00e1r \u00e9.",
+                    "name": "Tosaigh"
+                }
+            },
+            "name": "Faigh praghsanna fuinnimh"
+        }
+    }
+}

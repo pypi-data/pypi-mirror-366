@@ -1,0 +1,69 @@
+{
+    "config": {
+        "step": {
+            "auth": {
+                "data": {
+                    "country": "T\u00edr"
+                }
+            }
+        }
+    },
+    "entity": {
+        "button": {
+            "reset_lifespan_base_station_filter": {
+                "name": "Athshocraigh saolr\u00e9 scagaire an st\u00e1isi\u00fain"
+            },
+            "reset_lifespan_round_mop": {
+                "name": "Athshocraigh saolr\u00e9 mopa babhta"
+            },
+            "reset_lifespan_unit_care": {
+                "name": "Athshocraigh saolr\u00e9 c\u00faraim an aonaid"
+            },
+            "station_action_empty_dustbin": {
+                "name": "Bosca bruscair folamh"
+            }
+        },
+        "number": {
+            "cut_direction": {
+                "name": "Treo gearrtha"
+            }
+        },
+        "select": {
+            "water_amount": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            }
+        },
+        "sensor": {
+            "lifespan_base_station_filter": {
+                "name": "Saolr\u00e9 scagaire st\u00e1isi\u00fain"
+            },
+            "lifespan_round_mop": {
+                "name": "Saolr\u00e9 mopa babhta"
+            },
+            "lifespan_unit_care": {
+                "name": "Saolr\u00e9 c\u00faraim aonaid"
+            },
+            "station_state": {
+                "name": "St\u00e1t an st\u00e1isi\u00fain",
+                "state": {
+                    "emptying_dustbin": "Bosca bruscair a fholmh\u00fa"
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "vacuum_raw_get_positions_not_supported": {
+            "message": "N\u00ed thaca\u00edtear le su\u00edomhanna na luchtair\u00ed agus an fheiste f\u00e9in a aisghabh\u00e1il"
+        }
+    },
+    "services": {
+        "raw_get_positions": {
+            "description": "Aisghabhann s\u00e9 freagra amh ina bhfuil su\u00edomhanna na luchtair\u00ed agus an fheiste f\u00e9in.",
+            "name": "Faigh su\u00edomhanna amha"
+        }
+    }
+}

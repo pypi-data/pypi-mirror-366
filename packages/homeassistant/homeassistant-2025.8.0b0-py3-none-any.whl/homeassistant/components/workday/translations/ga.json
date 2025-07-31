@@ -1,0 +1,60 @@
+{
+    "config": {
+        "step": {
+            "options": {
+                "data": {
+                    "category": "Catag\u00f3ir bhreise mar laethanta saoire"
+                },
+                "data_description": {
+                    "category": "Roghnaigh catag\u00f3ir\u00ed breise le cur san \u00e1ireamh mar laethanta saoire"
+                }
+            }
+        }
+    },
+    "issues": {
+        "bad_country": {
+            "fix_flow": {
+                "step": {
+                    "country": {
+                        "data": {
+                            "country": "T\u00edr"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "category": "Catag\u00f3ir bhreise mar laethanta saoire"
+                },
+                "data_description": {
+                    "category": "Roghnaigh catag\u00f3ir\u00ed breise le cur san \u00e1ireamh mar laethanta saoire"
+                }
+            }
+        }
+    },
+    "selector": {
+        "category": {
+            "options": {
+                "armed_forces": "F\u00f3rsa\u00ed armtha",
+                "bank": "Banc",
+                "catholic": "Caitliceach",
+                "chinese": "S\u00ednis",
+                "christian": "Cr\u00edosta\u00ed",
+                "government": "Rialtas",
+                "half_day": "Leath l\u00e1",
+                "hebrew": "Eabhrais",
+                "hindu": "Hiond\u00fach",
+                "islamic": "Ioslamach",
+                "optional": "Roghnach",
+                "public": "Poibl\u00ed",
+                "school": "Scoil",
+                "unofficial": "Neamhoifigi\u00fail",
+                "workday": "L\u00e1 Oibre"
+            }
+        }
+    }
+}

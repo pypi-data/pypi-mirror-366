@@ -1,0 +1,33 @@
+{
+    "config": {
+        "step": {
+            "reauth_confirm": {
+                "data_description": {
+                    "password": "An focal faire a \u00fas\u00e1ideadh chun an gl\u00e9as a chosaint."
+                }
+            },
+            "user": {
+                "data_description": {
+                    "password": "An focal faire a \u00fas\u00e1ideadh chun an gl\u00e9as a chosaint."
+                }
+            },
+            "zeroconf_confirm": {
+                "data_description": {
+                    "password": "An focal faire a \u00fas\u00e1ideadh chun an gl\u00e9as a chosaint."
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "last_restart": {
+                "name": "Atos\u00fa deireanach an fheiste"
+            }
+        }
+    },
+    "exceptions": {
+        "update_failed": {
+            "message": "Earr\u00e1id agus na sonra\u00ed \u00e1 nuashonr\u00fa: {error}"
+        }
+    }
+}

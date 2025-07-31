@@ -1,0 +1,308 @@
+{
+    "common": {
+        "advanced_options": "Roghanna ardleibh\u00e9il",
+        "availability": "Teimpl\u00e9ad infhaighteachta",
+        "code_format": "Form\u00e1id an ch\u00f3id",
+        "device_class": "Aicme gl\u00e9as",
+        "device_id_description": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo.",
+        "state": "St\u00e1t",
+        "turn_off": "Gn\u00edomhartha ar mh\u00fachadh",
+        "turn_on": "Gn\u00edomhartha ar chasadh air",
+        "unit_of_measurement": "Aonad tomhais"
+    },
+    "config": {
+        "step": {
+            "alarm_control_panel": {
+                "data": {
+                    "code_arm_required": "C\u00f3d-arm\u00e1il ag teast\u00e1il"
+                },
+                "title": "Pain\u00e9al rialaithe al\u00e1raim teimpl\u00e9id"
+            },
+            "button": {
+                "data": {
+                    "press": "Gn\u00edomhartha ar an bpreas"
+                },
+                "title": "Cnaipe teimpl\u00e9id"
+            },
+            "fan": {
+                "data": {
+                    "state": "St\u00e1t",
+                    "turn_off": "Gn\u00edomhartha ar mh\u00fachadh",
+                    "turn_on": "Gn\u00edomhartha ar chasadh air"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo.",
+                    "percentage": "Sainmh\u00edn\u00edonn s\u00e9 teimpl\u00e9ad chun c\u00e9atad\u00e1n luais an fean a fh\u00e1il.",
+                    "set_percentage": "Sainmh\u00edn\u00edonn s\u00e9 gn\u00edomhartha le rith nuair a thugtar ord\u00fa c\u00e9atad\u00e1in luais don fean.",
+                    "speed_count": "L\u00edon na luasanna a dtaca\u00edonn an fean leo. \u00das\u00e1idtear \u00e9 chun an c\u00e9atad\u00e1n c\u00e9ime a r\u00edomh do na gn\u00edomhartha `fan.increase_speed` agus `fan.decrease_speed`.",
+                    "state": "Sainmh\u00edn\u00edonn s\u00e9 teimpl\u00e9ad chun staid an fean a fh\u00e1il. Luachanna bail\u00ed: `ar si\u00fal`, `as`.",
+                    "turn_off": "Sainmh\u00edn\u00edonn s\u00e9 gn\u00edomhartha le rith nuair a bh\u00edonn an fean m\u00fachta.",
+                    "turn_on": "Sainmh\u00edn\u00edonn s\u00e9 gn\u00edomhartha le rith nuair a bh\u00edonn an fean casta air."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                },
+                "title": "Teimpl\u00e9ad fean"
+            },
+            "image": {
+                "title": "\u00cdomh\u00e1 teimpl\u00e9id"
+            },
+            "light": {
+                "data": {
+                    "hs": "Dath HS",
+                    "level": "Leibh\u00e9al gile",
+                    "set_hs": "Gn\u00edomhartha ar dhath HS socraithe",
+                    "set_level": "Gn\u00edomhartha ar an leibh\u00e9al socraithe",
+                    "set_temperature": "Gn\u00edomhartha ar theocht datha socraithe",
+                    "state": "St\u00e1t",
+                    "temperature": "Teocht datha",
+                    "turn_off": "Gn\u00edomhartha ar mh\u00fachadh",
+                    "turn_on": "Gn\u00edomhartha ar chasadh air"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                },
+                "title": "Solas teimpl\u00e9id"
+            },
+            "lock": {
+                "data": {
+                    "code_format": "Form\u00e1id an ch\u00f3id",
+                    "state": "St\u00e1t"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                }
+            },
+            "number": {
+                "data": {
+                    "max": "Uasluach",
+                    "min": "\u00cdosluach",
+                    "set_value": "Gn\u00edomhartha ar luach socraithe",
+                    "step": "Luach c\u00e9ime"
+                },
+                "title": "Uimhir an teimpl\u00e9id"
+            },
+            "select": {
+                "data": {
+                    "options": "Roghanna at\u00e1 ar f\u00e1il",
+                    "select_option": "Gn\u00edomhartha ar rogha"
+                },
+                "title": "Roghnaigh teimpl\u00e9ad"
+            },
+            "switch": {
+                "data_description": {
+                    "value_template": "Sainmh\u00edn\u00edonn s\u00e9 teimpl\u00e9ad chun staid an lasc a shocr\u00fa. Mura bhfuil s\u00e9 sainmh\u00ednithe, glacfaidh an lasc leis go d\u00f3chasach go bhfuil na horduithe go l\u00e9ir rath\u00fail."
+                },
+                "title": "Lasc teimpl\u00e9id"
+            },
+            "user": {
+                "menu_options": {
+                    "alarm_control_panel": "Teimpl\u00e9ad pain\u00e9al rialaithe al\u00e1raim",
+                    "button": "Teimpl\u00e9ad cnaipe",
+                    "fan": "Teimpl\u00e9ad fean",
+                    "image": "Teimpl\u00e9ad \u00edomh\u00e1",
+                    "light": "Teimpl\u00e9ad solais",
+                    "number": "Teimpl\u00e9ad uimhir",
+                    "select": "Teimpl\u00e9ad roghnaithe",
+                    "switch": "Teimpl\u00e9ad lasc"
+                }
+            },
+            "vacuum": {
+                "data": {
+                    "state": "St\u00e1t"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "code_format_template_error": {
+            "message": "Earr\u00e1id ag meast\u00f3ireacht teimpl\u00e9id fhorm\u00e1id ch\u00f3id \"{code_format_template}\" do {entity_id}: {cause}"
+        }
+    },
+    "options": {
+        "step": {
+            "alarm_control_panel": {
+                "data": {
+                    "arm_away": "Gn\u00edomh armtha ar shi\u00fal",
+                    "arm_custom_bypass": "Gn\u00edomh seachbh\u00f3thair saincheaptha armtha",
+                    "arm_home": "Gn\u00edomh baile l\u00e1imhe",
+                    "arm_night": "Gn\u00edomh o\u00edche l\u00e1imhe",
+                    "arm_vacation": "Gn\u00edomh saoire l\u00e1imhe",
+                    "code_arm_required": "C\u00f3d-arm\u00e1il ag teast\u00e1il",
+                    "disarm": "Gn\u00edomh d\u00ed-arm\u00e1la",
+                    "trigger": "Gn\u00edomh spreagtha"
+                },
+                "title": "Pain\u00e9al rialaithe al\u00e1raim teimpl\u00e9id"
+            },
+            "button": {
+                "data": {
+                    "press": "Gn\u00edomhartha ar an bpreas"
+                },
+                "title": "Cnaipe teimpl\u00e9id"
+            },
+            "fan": {
+                "data": {
+                    "state": "St\u00e1t",
+                    "turn_off": "Gn\u00edomhartha ar mh\u00fachadh",
+                    "turn_on": "Gn\u00edomhartha ar chasadh air"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo.",
+                    "percentage": "Sainmh\u00edn\u00edonn s\u00e9 teimpl\u00e9ad chun c\u00e9atad\u00e1n luais an fean a fh\u00e1il.",
+                    "set_percentage": "Sainmh\u00edn\u00edonn s\u00e9 gn\u00edomhartha le rith nuair a thugtar ord\u00fa c\u00e9atad\u00e1in luais don fean.",
+                    "speed_count": "L\u00edon na luasanna a dtaca\u00edonn an fean leo. \u00das\u00e1idtear \u00e9 chun an c\u00e9atad\u00e1n c\u00e9ime a r\u00edomh do na gn\u00edomhartha `fan.increase_speed` agus `fan.decrease_speed`.",
+                    "state": "Sainmh\u00edn\u00edonn s\u00e9 teimpl\u00e9ad chun staid an fean a fh\u00e1il. Luachanna bail\u00ed: `ar si\u00fal`, `as`.",
+                    "turn_off": "Sainmh\u00edn\u00edonn s\u00e9 gn\u00edomhartha le rith nuair a bh\u00edonn an fean m\u00fachta.",
+                    "turn_on": "Sainmh\u00edn\u00edonn s\u00e9 gn\u00edomhartha le rith nuair a bh\u00edonn an fean casta air."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                },
+                "title": "Teimpl\u00e9ad fean"
+            },
+            "image": {
+                "title": "\u00cdomh\u00e1 teimpl\u00e9id"
+            },
+            "light": {
+                "data": {
+                    "hs": "Dath HS",
+                    "level": "Leibh\u00e9al gile",
+                    "set_hs": "Gn\u00edomhartha ar dhath HS socraithe",
+                    "set_level": "Gn\u00edomhartha ar an leibh\u00e9al socraithe",
+                    "set_temperature": "Gn\u00edomhartha ar theocht datha socraithe",
+                    "state": "St\u00e1t",
+                    "temperature": "Teocht datha",
+                    "turn_off": "Gn\u00edomhartha ar mh\u00fachadh",
+                    "turn_on": "Gn\u00edomhartha ar chasadh air"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                },
+                "title": "Solas teimpl\u00e9id"
+            },
+            "lock": {
+                "data": {
+                    "state": "St\u00e1t"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                }
+            },
+            "number": {
+                "data": {
+                    "max": "Uasluach",
+                    "min": "\u00cdosluach",
+                    "set_value": "Gn\u00edomhartha ar luach socraithe",
+                    "step": "Luach c\u00e9ime"
+                },
+                "title": "Uimhir an teimpl\u00e9id"
+            },
+            "select": {
+                "data": {
+                    "options": "Roghanna at\u00e1 ar f\u00e1il",
+                    "select_option": "Gn\u00edomhartha ar rogha"
+                },
+                "title": "Roghnaigh teimpl\u00e9ad"
+            },
+            "switch": {
+                "data_description": {
+                    "value_template": "Sainmh\u00edn\u00edonn s\u00e9 teimpl\u00e9ad chun staid an lasc a shocr\u00fa. Mura bhfuil s\u00e9 sainmh\u00ednithe, glacfaidh an lasc leis go d\u00f3chasach go bhfuil na horduithe go l\u00e9ir rath\u00fail."
+                },
+                "title": "Lasc teimpl\u00e9id"
+            },
+            "vacuum": {
+                "data": {
+                    "state": "St\u00e1t"
+                },
+                "data_description": {
+                    "device_id": "Roghnaigh gl\u00e9as le nascadh leis an eintiteas seo."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Teimpl\u00e9ad infhaighteachta"
+                        },
+                        "name": "Roghanna ardleibh\u00e9il"
+                    }
+                }
+            }
+        }
+    },
+    "selector": {
+        "alarm_control_panel_code_format": {
+            "options": {
+                "no_code": "Gan aon fhorm\u00e1id ch\u00f3d",
+                "number": "Uimhir",
+                "text": "T\u00e9acs"
+            }
+        },
+        "sensor_device_class": {
+            "options": {
+                "area": "Limist\u00e9ar",
+                "blood_glucose_concentration": "Ti\u00fachan gl\u00fac\u00f3is fola",
+                "conductivity": "Seoltacht",
+                "energy_distance": "Fuinneamh in aghaidh an achair",
+                "reactive_energy": "Fuinneamh imoibr\u00edoch",
+                "wind_direction": "Treo na gaoithe"
+            }
+        },
+        "sensor_state_class": {
+            "options": {
+                "measurement_angle": "Uillinn tomhais"
+            }
+        }
+    }
+}

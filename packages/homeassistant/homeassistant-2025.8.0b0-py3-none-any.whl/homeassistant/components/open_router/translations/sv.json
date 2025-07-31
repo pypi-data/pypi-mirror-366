@@ -1,0 +1,37 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Tj\u00e4nsten \u00e4r redan konfigurerad"
+        },
+        "error": {
+            "cannot_connect": "Det gick inte att ansluta",
+            "unknown": "Ov\u00e4ntat fel"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "API-nyckel"
+                },
+                "data_description": {
+                    "api_key": "En OpenRouter API-nyckel"
+                }
+            }
+        }
+    },
+    "config_subentries": {
+        "conversation": {
+            "entry_type": "Samtalsagent",
+            "initiate_flow": {
+                "user": "L\u00e4gg till samtalsagent"
+            },
+            "step": {
+                "user": {
+                    "data": {
+                        "model": "Modell"
+                    },
+                    "description": "Konfigurera den nya samtalsagenten"
+                }
+            }
+        }
+    }
+}

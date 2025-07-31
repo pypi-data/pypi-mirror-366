@@ -1,0 +1,233 @@
+{
+    "config": {
+        "abort": {
+            "addon_required": "\u00c9il\u00edonn sreabhadh imirce Z-Wave go nd\u00e9antar an comhth\u00e1th\u00fa a chumr\u00fa ag baint \u00fas\u00e1ide as breise\u00e1n Maoirseoir Z-Wave. Is f\u00e9idir leat na cnaip\u00ed C\u00faltaca agus Athch\u00f3irigh a \u00fas\u00e1id f\u00f3s chun do l\u00edonra a aistri\u00fa de l\u00e1imh.",
+            "addon_stop_failed": "Theip ar an mbreise\u00e1n Z-Wave a stopadh.",
+            "config_entry_not_loaded": "N\u00edl an iontr\u00e1il chumra\u00edochta Z-Wave l\u00f3d\u00e1ilte. D\u00e9an iarracht ar\u00eds nuair a bheidh an iontr\u00e1il chumra\u00edochta l\u00f3d\u00e1ilte.",
+            "different_device": "N\u00ed hionann an gl\u00e9as USB ceangailte agus an ceann a cumra\u00edodh roimhe seo don iontr\u00e1il chumra\u00edochta seo. Cruthaigh iontr\u00e1il chumra\u00edochta nua don ghl\u00e9as nua ina ionad sin.",
+            "migration_successful": "Imirce rath\u00fail.",
+            "usb_ports_failed": "Theip ar ghl\u00e9asanna USB a fh\u00e1il."
+        },
+        "step": {
+            "choose_serial_port": {
+                "title": "Roghnaigh do ghl\u00e9as Z-Wave"
+            },
+            "configure_addon_user": {
+                "title": "Cuir isteach cumra\u00edocht bhreise\u00e1in Z-Wave"
+            },
+            "configure_security_keys": {
+                "data": {
+                    "lr_s2_access_control_key": "Eochair Rialaithe Rochtana Fad-Raoin S2",
+                    "lr_s2_authenticated_key": "Eochair Fh\u00edordheimhnithe Fad-Raoin S2",
+                    "s0_legacy_key": "Eochair S0 (Oidhreacht)",
+                    "s2_access_control_key": "Eochair Rialaithe Rochtana S2",
+                    "s2_authenticated_key": "Eochair F\u00edordheimhnithe S2",
+                    "s2_unauthenticated_key": "Eochair Neamhfh\u00edordheimhnithe S2"
+                },
+                "description": "Cuir isteach na heochracha sl\u00e1nd\u00e1la do do l\u00edonra Z-Wave at\u00e1 ann cheana f\u00e9in",
+                "title": "Eochracha sl\u00e1nd\u00e1la"
+            },
+            "confirm_usb_migration": {
+                "description": "T\u00e1 t\u00fa ar t\u00ed do l\u00edonra Z-Wave a aistri\u00fa \u00f3n sean-oiri\u00fant\u00f3ir go dt\u00ed an t-oiri\u00fant\u00f3ir nua {usb_title}. Glacfaidh s\u00e9 seo c\u00faltaca den l\u00edonra \u00f3n sean-oiri\u00fant\u00f3ir agus athbhun\u00f3idh s\u00e9 an l\u00edonra chuig an oiri\u00fant\u00f3ir nua.\n\nBr\u00faigh Cuir Isteach chun lean\u00faint leis an aistri\u00fa.",
+                "title": "Imirce chuig oiri\u00fant\u00f3ir nua"
+            },
+            "hassio_confirm": {
+                "description": "Ar mhaith leat an comhth\u00e1th\u00fa Z-Wave a shocr\u00fa leis an mbreise\u00e1n Z-Wave?"
+            },
+            "installation_type": {
+                "menu_options": {
+                    "intent_custom": "Suite\u00e1il saincheaptha",
+                    "intent_recommended": "Suite\u00e1il molta"
+                },
+                "title": "Socraigh Z-Wave"
+            },
+            "network_type": {
+                "data": {
+                    "network_type": "An bhfuil do l\u00edonra nua n\u00f3 an bhfuil s\u00e9 ann cheana f\u00e9in?"
+                },
+                "title": "L\u00edonra Z-Wave"
+            },
+            "reconfigure": {
+                "title": "Imirce n\u00f3 athchumraigh"
+            },
+            "restore_failed": {
+                "submit": "D\u00e9an iarracht ar\u00eds",
+                "title": "N\u00edor \u00e9irigh leis an athch\u00f3iri\u00fa"
+            }
+        }
+    },
+    "device_automation": {
+        "extra_fields": {
+            "code_slot": "Sliot\u00e1n c\u00f3id",
+            "command_class": "Rang ceannais",
+            "data_type": "Cine\u00e1l sonra\u00ed",
+            "endpoint": "Cr\u00edochphointe",
+            "event": "Imeacht",
+            "event_label": "Lip\u00e9ad imeachta",
+            "event_type": "Cine\u00e1l imeachta",
+            "for": "Fad",
+            "from": "\u00d3",
+            "label": "Lip\u00e9ad",
+            "property": "Maoin",
+            "property_key": "Eochair maoine",
+            "refresh_all_values": "Athnuaigh na luachanna uile",
+            "status": "St\u00e1das",
+            "to": "Chuig",
+            "type.": "Cine\u00e1l",
+            "usercode": "C\u00f3d \u00das\u00e1ideora",
+            "value": "Luach",
+            "wait_for_result": "Fan le haghaidh an toraidh"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "avg_signal_noise": {
+                "name": "Me\u00e1ntorann comhartha (cain\u00e9al {channel})"
+            },
+            "signal_noise": {
+                "name": "Torann comhartha (cain\u00e9al {channel})"
+            },
+            "signal_strength": {
+                "name": "Neart comhartha"
+            }
+        }
+    },
+    "selector": {
+        "network_type": {
+            "options": {
+                "existing": "T\u00e1 s\u00e9 ann cheana f\u00e9in",
+                "new": "Is nua \u00e9"
+            }
+        }
+    },
+    "services": {
+        "bulk_set_partial_config_parameters": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        },
+        "invoke_cc_api": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheantas(anna) an aon\u00e1in le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(anna) Eintitis"
+                }
+            }
+        },
+        "multicast_set_value": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        },
+        "ping": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        },
+        "refresh_notifications": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        },
+        "reset_meter": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        },
+        "set_config_parameter": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        },
+        "set_value": {
+            "fields": {
+                "area_id": {
+                    "description": "An limist\u00e9ar/na limist\u00e9ir le d\u00edri\u00fa orthu don ghn\u00edomh seo. M\u00e1 shonra\u00edtear limist\u00e9ar, d\u00edreofar ar gach gl\u00e9as agus eintiteas Z-Wave sa limist\u00e9ar sin don ghn\u00edomh seo.",
+                    "name": "Aitheantais Ceantair"
+                },
+                "device_id": {
+                    "description": "An gl\u00e9as/na gl\u00e9asanna le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantais(\u00ed) Gl\u00e9as(anna)"
+                },
+                "entity_id": {
+                    "description": "Aitheant\u00f3ir(\u00ed) an eintitis le d\u00edri\u00fa orthu don ghn\u00edomh seo.",
+                    "name": "Aitheantas(\u00ed) Eintitis"
+                }
+            }
+        }
+    }
+}

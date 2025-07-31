@@ -1,0 +1,806 @@
+{
+    "common": {
+        "advanced_options": "Advanced options",
+        "availability": "Availability template",
+        "code_format": "Code format",
+        "device_class": "Device class",
+        "device_id_description": "Select a device to link to this entity.",
+        "state": "State",
+        "turn_off": "Actions on turn off",
+        "turn_on": "Actions on turn on",
+        "unit_of_measurement": "Unit of measurement"
+    },
+    "config": {
+        "step": {
+            "alarm_control_panel": {
+                "data": {
+                    "arm_away": "Actions on arm away",
+                    "arm_custom_bypass": "Actions on arm custom bypass",
+                    "arm_home": "Actions on arm home",
+                    "arm_night": "Actions on arm night",
+                    "arm_vacation": "Actions on arm vacation",
+                    "code_arm_required": "Code arm required",
+                    "code_format": "Code format",
+                    "device_id": "Device",
+                    "disarm": "Actions on disarm",
+                    "name": "Name",
+                    "trigger": "Actions on trigger",
+                    "value_template": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template alarm control panel"
+            },
+            "binary_sensor": {
+                "data": {
+                    "device_class": "Device class",
+                    "device_id": "Device",
+                    "name": "Name",
+                    "state": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template binary sensor"
+            },
+            "button": {
+                "data": {
+                    "device_class": "Device class",
+                    "device_id": "Device",
+                    "name": "Name",
+                    "press": "Actions on press"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template button"
+            },
+            "cover": {
+                "data": {
+                    "close_cover": "Actions on close",
+                    "device_class": "Device class",
+                    "device_id": "Device",
+                    "name": "Name",
+                    "open_cover": "Actions on open",
+                    "position": "Position",
+                    "set_cover_position": "Actions on set position",
+                    "state": "State",
+                    "stop_cover": "Actions on stop"
+                },
+                "data_description": {
+                    "close_cover": "Defines actions to run when the cover is closed.",
+                    "device_id": "Select a device to link to this entity.",
+                    "open_cover": "Defines actions to run when the cover is opened.",
+                    "position": "Defines a template to get the position of the cover. Value values are numbers between `0` (`closed`) and `100` (`open`).",
+                    "set_cover_position": "Defines actions to run when the cover is given a `set_cover_position` command.",
+                    "state": "Defines a template to get the state of the cover. Valid output values from the template are `open`, `opening`, `closing` and `closed` which are directly mapped to the corresponding states.  If both a state and a position are specified, only `opening` and `closing` are set from the state template.",
+                    "stop_cover": "Defines actions to run when the cover is stopped."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template cover"
+            },
+            "fan": {
+                "data": {
+                    "device_id": "Device",
+                    "name": "Name",
+                    "percentage": "Percentage",
+                    "set_percentage": "Actions on set percentage",
+                    "speed_count": "Speed count",
+                    "state": "State",
+                    "turn_off": "Actions on turn off",
+                    "turn_on": "Actions on turn on"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity.",
+                    "percentage": "Defines a template to get the speed percentage of the fan.",
+                    "set_percentage": "Defines actions to run when the fan is given a speed percentage command.",
+                    "speed_count": "The number of speeds the fan supports. Used to calculate the percentage step for the `fan.increase_speed` and `fan.decrease_speed` actions.",
+                    "state": "Defines a template to get the state of the fan. Valid values: `on`, `off`.",
+                    "turn_off": "Defines actions to run when the fan is turned off.",
+                    "turn_on": "Defines actions to run when the fan is turned on."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template fan"
+            },
+            "image": {
+                "data": {
+                    "device_id": "Device",
+                    "name": "Name",
+                    "url": "URL",
+                    "verify_ssl": "Verify SSL certificate"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template image"
+            },
+            "light": {
+                "data": {
+                    "device_id": "Device",
+                    "hs": "HS color",
+                    "level": "Brightness level",
+                    "name": "Name",
+                    "set_hs": "Actions on set HS color",
+                    "set_level": "Actions on set level",
+                    "set_temperature": "Actions on set color temperature",
+                    "state": "State",
+                    "temperature": "Color temperature",
+                    "turn_off": "Actions on turn off",
+                    "turn_on": "Actions on turn on"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template light"
+            },
+            "lock": {
+                "data": {
+                    "code_format": "Code format",
+                    "device_id": "Device",
+                    "lock": "Actions on lock",
+                    "name": "Name",
+                    "open": "Actions on open",
+                    "state": "State",
+                    "unlock": "Actions on unlock"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template lock"
+            },
+            "number": {
+                "data": {
+                    "device_id": "Device",
+                    "max": "Maximum value",
+                    "min": "Minimum value",
+                    "name": "Name",
+                    "set_value": "Actions on set value",
+                    "state": "State",
+                    "step": "Step value",
+                    "unit_of_measurement": "Unit of measurement"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template number"
+            },
+            "select": {
+                "data": {
+                    "device_id": "Device",
+                    "name": "Name",
+                    "options": "Available options",
+                    "select_option": "Actions on select",
+                    "state": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template select"
+            },
+            "sensor": {
+                "data": {
+                    "device_class": "Device class",
+                    "device_id": "Device",
+                    "name": "Name",
+                    "state": "State",
+                    "state_class": "State class",
+                    "unit_of_measurement": "Unit of measurement"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template sensor"
+            },
+            "switch": {
+                "data": {
+                    "device_id": "Device",
+                    "name": "Name",
+                    "turn_off": "Actions on turn off",
+                    "turn_on": "Actions on turn on",
+                    "value_template": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity.",
+                    "value_template": "Defines a template to set the state of the switch. If not defined, the switch will optimistically assume all commands are successful."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template switch"
+            },
+            "user": {
+                "description": "This helper allows you to create helper entities that define their state using a template.",
+                "menu_options": {
+                    "alarm_control_panel": "Template an alarm control panel",
+                    "binary_sensor": "Template a binary sensor",
+                    "button": "Template a button",
+                    "cover": "Template a cover",
+                    "fan": "Template a fan",
+                    "image": "Template an image",
+                    "light": "Template a light",
+                    "lock": "Template a lock",
+                    "number": "Template a number",
+                    "select": "Template a select",
+                    "sensor": "Template a sensor",
+                    "switch": "Template a switch",
+                    "vacuum": "Template a vacuum"
+                },
+                "title": "Template helper"
+            },
+            "vacuum": {
+                "data": {
+                    "clean_spot": "Actions on clean spot",
+                    "device_id": "Device",
+                    "fan_speed": "Fan speed",
+                    "fan_speeds": "Fan speeds",
+                    "locate": "Actions on locate",
+                    "name": "Name",
+                    "pause": "Actions on pause",
+                    "return_to_base": "Actions on return to base",
+                    "set_fan_speed": "Actions on set fan speed",
+                    "start": "Actions on turn off",
+                    "state": "State",
+                    "stop": "Actions on stop"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template vacuum"
+            }
+        }
+    },
+    "exceptions": {
+        "code_format_template_error": {
+            "message": "Error evaluating code format template \"{code_format_template}\" for {entity_id}: {cause}"
+        }
+    },
+    "options": {
+        "step": {
+            "alarm_control_panel": {
+                "data": {
+                    "arm_away": "Actions on arm away",
+                    "arm_custom_bypass": "Actions on arm custom bypass",
+                    "arm_home": "Actions on arm home",
+                    "arm_night": "Actions on arm night",
+                    "arm_vacation": "Actions on arm vacation",
+                    "code_arm_required": "Code arm required",
+                    "code_format": "Code format",
+                    "device_id": "Device",
+                    "disarm": "Actions on disarm",
+                    "trigger": "Actions on trigger",
+                    "value_template": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template alarm control panel"
+            },
+            "binary_sensor": {
+                "data": {
+                    "device_id": "Device",
+                    "state": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template binary sensor"
+            },
+            "button": {
+                "data": {
+                    "device_id": "Device",
+                    "press": "Actions on press"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template button"
+            },
+            "cover": {
+                "data": {
+                    "close_cover": "Actions on close",
+                    "device_id": "Device",
+                    "open_cover": "Actions on open",
+                    "position": "Position",
+                    "set_cover_position": "Actions on set position",
+                    "state": "State",
+                    "stop_cover": "Actions on stop"
+                },
+                "data_description": {
+                    "close_cover": "Defines actions to run when the cover is closed.",
+                    "device_id": "Select a device to link to this entity.",
+                    "open_cover": "Defines actions to run when the cover is opened.",
+                    "position": "Defines a template to get the position of the cover. Value values are numbers between `0` (`closed`) and `100` (`open`).",
+                    "set_cover_position": "Defines actions to run when the cover is given a `set_cover_position` command.",
+                    "state": "Defines a template to get the state of the cover. Valid output values from the template are `open`, `opening`, `closing` and `closed` which are directly mapped to the corresponding states.  If both a state and a position are specified, only `opening` and `closing` are set from the state template.",
+                    "stop_cover": "Defines actions to run when the cover is stopped."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template cover"
+            },
+            "fan": {
+                "data": {
+                    "device_id": "Device",
+                    "percentage": "Percentage",
+                    "set_percentage": "Actions on set percentage",
+                    "speed_count": "Speed count",
+                    "state": "State",
+                    "turn_off": "Actions on turn off",
+                    "turn_on": "Actions on turn on"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity.",
+                    "percentage": "Defines a template to get the speed percentage of the fan.",
+                    "set_percentage": "Defines actions to run when the fan is given a speed percentage command.",
+                    "speed_count": "The number of speeds the fan supports. Used to calculate the percentage step for the `fan.increase_speed` and `fan.decrease_speed` actions.",
+                    "state": "Defines a template to get the state of the fan. Valid values: `on`, `off`.",
+                    "turn_off": "Defines actions to run when the fan is turned off.",
+                    "turn_on": "Defines actions to run when the fan is turned on."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template fan"
+            },
+            "image": {
+                "data": {
+                    "device_id": "Device",
+                    "url": "URL",
+                    "verify_ssl": "Verify SSL certificate"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template image"
+            },
+            "light": {
+                "data": {
+                    "device_id": "Device",
+                    "hs": "HS color",
+                    "level": "Brightness level",
+                    "name": "Name",
+                    "set_hs": "Actions on set HS color",
+                    "set_level": "Actions on set level",
+                    "set_temperature": "Actions on set color temperature",
+                    "state": "State",
+                    "temperature": "Color temperature",
+                    "turn_off": "Actions on turn off",
+                    "turn_on": "Actions on turn on"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template light"
+            },
+            "lock": {
+                "data": {
+                    "code_format": "Code format",
+                    "device_id": "Device",
+                    "lock": "Actions on lock",
+                    "open": "Actions on open",
+                    "state": "State",
+                    "unlock": "Actions on unlock"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template lock"
+            },
+            "number": {
+                "data": {
+                    "device_id": "Device",
+                    "max": "Maximum value",
+                    "min": "Minimum value",
+                    "name": "Name",
+                    "set_value": "Actions on set value",
+                    "state": "State",
+                    "step": "Step value"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template number"
+            },
+            "select": {
+                "data": {
+                    "device_id": "Device",
+                    "name": "Name",
+                    "options": "Available options",
+                    "select_option": "Actions on select",
+                    "state": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template select"
+            },
+            "sensor": {
+                "data": {
+                    "device_class": "Device class",
+                    "device_id": "Device",
+                    "state": "State",
+                    "state_class": "State class",
+                    "unit_of_measurement": "Unit of measurement"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template sensor"
+            },
+            "switch": {
+                "data": {
+                    "device_id": "Device",
+                    "name": "Name",
+                    "turn_off": "Actions on turn off",
+                    "turn_on": "Actions on turn on",
+                    "value_template": "State"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity.",
+                    "value_template": "Defines a template to set the state of the switch. If not defined, the switch will optimistically assume all commands are successful."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template switch"
+            },
+            "vacuum": {
+                "data": {
+                    "clean_spot": "Actions on clean spot",
+                    "device_id": "Device",
+                    "fan_speed": "Fan speed",
+                    "fan_speeds": "Fan speeds",
+                    "locate": "Actions on locate",
+                    "name": "Name",
+                    "pause": "Actions on pause",
+                    "return_to_base": "Actions on return to base",
+                    "set_fan_speed": "Actions on set fan speed",
+                    "start": "Actions on turn off",
+                    "state": "State",
+                    "stop": "Actions on stop"
+                },
+                "data_description": {
+                    "device_id": "Select a device to link to this entity."
+                },
+                "sections": {
+                    "advanced_options": {
+                        "data": {
+                            "availability": "Availability template"
+                        },
+                        "name": "Advanced options"
+                    }
+                },
+                "title": "Template vacuum"
+            }
+        }
+    },
+    "selector": {
+        "alarm_control_panel_code_format": {
+            "options": {
+                "no_code": "No code format",
+                "number": "Number",
+                "text": "Text"
+            }
+        },
+        "binary_sensor_device_class": {
+            "options": {
+                "battery": "Battery",
+                "battery_charging": "Charging",
+                "carbon_monoxide": "Carbon monoxide",
+                "cold": "Cold",
+                "connectivity": "Connectivity",
+                "door": "Door",
+                "garage_door": "Garage door",
+                "gas": "Gas",
+                "heat": "Heat",
+                "light": "Light",
+                "lock": "Lock",
+                "moisture": "Moisture",
+                "motion": "Motion",
+                "moving": "Moving",
+                "occupancy": "Occupancy",
+                "opening": "Opening",
+                "plug": "Plug",
+                "power": "Power",
+                "presence": "Presence",
+                "problem": "Problem",
+                "running": "Running",
+                "safety": "Safety",
+                "smoke": "Smoke",
+                "sound": "Sound",
+                "tamper": "Tamper",
+                "update": "Update",
+                "vibration": "Vibration",
+                "window": "Window"
+            }
+        },
+        "button_device_class": {
+            "options": {
+                "identify": "Identify",
+                "restart": "Restart",
+                "update": "Update"
+            }
+        },
+        "cover_device_class": {
+            "options": {
+                "awning": "Awning",
+                "blind": "Blind",
+                "curtain": "Curtain",
+                "damper": "Damper",
+                "door": "Door",
+                "garage": "Garage",
+                "gate": "Gate",
+                "shade": "Shade",
+                "shutter": "Shutter",
+                "window": "Window"
+            }
+        },
+        "sensor_device_class": {
+            "options": {
+                "apparent_power": "Apparent power",
+                "aqi": "Air quality index",
+                "area": "Area",
+                "atmospheric_pressure": "Atmospheric pressure",
+                "battery": "Battery",
+                "blood_glucose_concentration": "Blood glucose concentration",
+                "carbon_dioxide": "Carbon dioxide",
+                "carbon_monoxide": "Carbon monoxide",
+                "conductivity": "Conductivity",
+                "current": "Current",
+                "data_rate": "Data rate",
+                "data_size": "Data size",
+                "date": "Date",
+                "distance": "Distance",
+                "duration": "Duration",
+                "energy": "Energy",
+                "energy_distance": "Energy per distance",
+                "energy_storage": "Stored energy",
+                "frequency": "Frequency",
+                "gas": "Gas",
+                "humidity": "Humidity",
+                "illuminance": "Illuminance",
+                "irradiance": "Irradiance",
+                "moisture": "Moisture",
+                "monetary": "Balance",
+                "nitrogen_dioxide": "Nitrogen dioxide",
+                "nitrogen_monoxide": "Nitrogen monoxide",
+                "nitrous_oxide": "Nitrous oxide",
+                "ozone": "Ozone",
+                "ph": "pH",
+                "pm1": "PM1",
+                "pm10": "PM10",
+                "pm25": "PM2.5",
+                "power": "Power",
+                "power_factor": "Power factor",
+                "precipitation": "Precipitation",
+                "precipitation_intensity": "Precipitation intensity",
+                "pressure": "Pressure",
+                "reactive_energy": "Reactive energy",
+                "reactive_power": "Reactive power",
+                "signal_strength": "Signal strength",
+                "sound_pressure": "Sound pressure",
+                "speed": "Speed",
+                "sulphur_dioxide": "Sulphur dioxide",
+                "temperature": "Temperature",
+                "timestamp": "Timestamp",
+                "volatile_organic_compounds": "Volatile organic compounds",
+                "volatile_organic_compounds_parts": "Volatile organic compounds",
+                "voltage": "Voltage",
+                "volume": "Volume",
+                "volume_flow_rate": "Volume flow rate",
+                "volume_storage": "Stored volume",
+                "water": "Water",
+                "weight": "Weight",
+                "wind_direction": "Wind direction",
+                "wind_speed": "Wind speed"
+            }
+        },
+        "sensor_state_class": {
+            "options": {
+                "measurement": "Measurement",
+                "measurement_angle": "Measurement angle",
+                "total": "Total",
+                "total_increasing": "Total increasing"
+            }
+        },
+        "sensor_unit_of_measurement": {
+            "options": {
+                "none": "No unit of measurement"
+            }
+        }
+    },
+    "services": {
+        "reload": {
+            "description": "Reloads template entities from the YAML-configuration.",
+            "name": "Reload"
+        }
+    }
+}

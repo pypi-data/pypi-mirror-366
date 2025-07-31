@@ -1,0 +1,46 @@
+{
+    "config": {
+        "abort": {
+            "oauth_timeout": "Time-out bij het verkrijgen OAuth token.",
+            "oauth_unauthorized": "OAuth autorisatiefout tijdens het verkrijgen van een toegangstoken.",
+            "reauth_successful": "Herauthenticatie geslaagd",
+            "reconfigure_successful": "Herconfiguratie was succesvol",
+            "user_rejected_authorize": "Accountkoppeling geweigerd: {error}"
+        },
+        "create_entry": {
+            "default": "Authenticatie geslaagd"
+        },
+        "step": {
+            "api_key": {
+                "data": {
+                    "api_key": "API-sleutel"
+                }
+            },
+            "pick_implementation": {
+                "title": "Kies een authenticatiemethode"
+            },
+            "reauth_confirm": {
+                "title": "Authenticatie is verlopen voor {name}"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "charger_connection_status": {
+                "state": {
+                    "connected": "Verbonden",
+                    "disconnected": "Verbroken",
+                    "fault": "Fout"
+                }
+            },
+            "charging_status": {
+                "state": {
+                    "charging": "Opladen",
+                    "discharging": "Ontladen",
+                    "error": "Fout",
+                    "idle": "Inactief"
+                }
+            }
+        }
+    }
+}
