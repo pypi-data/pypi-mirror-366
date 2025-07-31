@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+exclude = ["templates"]
+
+[tool.setuptools.package-data]
+tilemaker = ["server/static/*", "server/static/assets/*"]
+
+[project]
+name = "tilemaker"
+version = "0.2.1"
+requires-python = ">=3.11"
+dependencies = [
+    "pixell",
+    "sqlmodel",
+    "pydantic-settings",
+    "numpy",
+    "pydantic_numpy",
+    "fastapi",
+    "uvicorn",
+    "matplotlib",
+    "astropy",
+    "fastapi-cache2",
+    "typer",
+    "soauth",
+    "cachetools",
+    "pymemcache",
+    "structlog"
+]
+
+[project.scripts]
+tilemaker = "tilemaker.client.cli:main"
+
+[tool.ruff.lint]
+extend-select = ["I"]
