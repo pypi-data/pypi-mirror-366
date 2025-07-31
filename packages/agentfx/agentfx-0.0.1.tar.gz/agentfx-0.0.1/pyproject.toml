@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "agentfx"
+version = "0.0.1"
+description = "Agentfx is a code ecosystem for developing production grade agentic applications."
+authors = ["Michelangelo Team <michelangelo-oss-group@uber.com>"]
+readme = "README.md"
+exclude = []    # TODO: temporary exclude all codes in package building
+packages = [
+    { include = "src" },
+]
+
+
