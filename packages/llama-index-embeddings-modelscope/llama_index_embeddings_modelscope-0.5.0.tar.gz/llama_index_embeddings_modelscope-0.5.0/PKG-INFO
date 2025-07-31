@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: llama-index-embeddings-modelscope
+Version: 0.5.0
+Summary: llama-index embeddings modelscope integration
+Author-email: ModelScope <modelscope@list.alibaba-inc.com>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <3.12,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: modelscope[framework]>=1.12.0
+Requires-Dist: ms-swift
+Requires-Dist: sentencepiece
+Requires-Dist: torch<3,>=2.1.2
+Requires-Dist: transformers[torch]<5,>=4.37.0
+Description-Content-Type: text/markdown
+
+# LlamaIndex Embedding Integration: ModelScope
+
+## Installation
+
+To install the required package, run:
+
+```bash
+!pip install llama-index-embeddings-modelscope
+```
+
+## Basic Usage
+
+### Initialize the ModelScopeLLM
+
+To use the ModelScopeEmbedding model, create an instance by specifying the model name and revision:
+
+```python
+from llama_index.embeddings.modelscope.base import ModelScopeEmbedding
+
+model = ModelScopeEmbedding(
+    model_name="iic/nlp_gte_sentence-embedding_chinese-base",
+    model_revision="master",
+)
+```
+
+### Generate Embedding
+
+To generate a text embedding for a query, use the `get_query_embedding` method or `get_text_embedding` method:
+
+```python
+rsp = model.get_query_embedding("Hello, who are you?")
+print(rsp)
+
+rsp = model.get_text_embedding("Hello, who are you?")
+print(rsp)
+```
+
+### Generate Batch Embedding
+
+To generate a text embedding for a batch of text, use the `get_text_embedding_batch` method:
+
+```python
+rsp = model.get_text_embedding_batch(
+    ["Hello, who are you?", "I am a student."]
+)
+print(rsp)
+```
