@@ -1,0 +1,15 @@
+---
+driver=<class 'tests.utilities.test_app.DriverTest'>
+log_verbosity=2
+loop=<_UnixSelectorEventLoop running=True closed=False debug=False>
+features=frozenset()
+Mount() >>> MyTestApp(title='Textual') method=<App.on_mount>
+Mount() >>> Screen(id='_default') method=<Widget.on_mount>
+Mount() >>> BorderTarget() method=<Widget.on_mount>
+Resize(size=Size(width=100, height=8), virtual_size=Size(width=100, height=8)) >>> MyTestApp(title='MyTestApp') method=<App.on_resize>
+Resize(size=Size(width=100, height=8), virtual_size=Size(width=100, height=8)) >>> Screen(id='_default') method=<Screen.on_resize>
+Mount() >>> ScrollBar(name='horizontal', window_virtual_size=100, window_size=0, position=0) method=<Widget.on_mount>
+Mount() >>> ScrollBar(name='vertical', window_virtual_size=100, window_size=0, position=0) method=<Widget.on_mount>
+CLOSED MyTestApp(title='MyTestApp')
+CLOSED BorderTarget()
+CLOSED Screen(id='_default')

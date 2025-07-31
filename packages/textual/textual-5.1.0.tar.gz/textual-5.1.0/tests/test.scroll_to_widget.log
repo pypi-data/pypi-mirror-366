@@ -1,0 +1,61 @@
+---
+driver=<class 'tests.utilities.test_app.DriverTest'>
+loop=<uvloop.Loop running=True closed=False debug=False>
+features=frozenset()
+Mount() >>> MyTestApp(title='Textual') method=<App.on_mount>
+Mount() >>> Screen() method=<Widget.on_mount>
+Mount() >>> ScrollBar(name='horizontal', window_virtual_size=100, window_size=0, position=0) method=<Widget.on_mount>
+Mount() >>> ScrollBar(name='vertical', window_virtual_size=100, window_size=0, position=0) method=<Widget.on_mount>
+Mount() >>> VerticalContainer(id='root') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_0', name='Placeholder #0') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_1', name='Placeholder #1') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_2', name='Placeholder #2') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_3', name='Placeholder #3') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_4', name='Placeholder #4') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_5', name='Placeholder #5') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_6', name='Placeholder #6') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_7', name='Placeholder #7') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_8', name='Placeholder #8') method=<Widget.on_mount>
+Mount() >>> Placeholder(id='placeholder_9', name='Placeholder #9') method=<Widget.on_mount>
+Mount() >>> ScrollBar(name='horizontal', window_virtual_size=100, window_size=0, position=0) method=<Widget.on_mount>
+Mount() >>> ScrollBar(name='vertical', window_virtual_size=100, window_size=0, position=0) method=<Widget.on_mount>
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+LAYOUT
+Resize(size=Size(width=100, height=30), virtual_size=Size(width=100, height=30)) >>> MyTestApp(title='Textual Application') method=<App.on_resize>
+REFLOW
+Resize(size=Size(width=100, height=30), virtual_size=Size(width=100, height=30)) >>> Screen() method=<Screen.on_resize>
+Resize(size=Size(width=100, height=30), virtual_size=Size(width=100, height=30)) >>> Screen() method=<Screen.on_resize>
+REFLOW
+LAYOUT
+REFLOW
+LAYOUT
+REFLOW
+REFLOW
+LAYOUT
+REFLOW
+REFLOW
+LAYOUT
+REFLOW
+REFLOW
+LAYOUT
+REFLOW
+REFLOW
+LAYOUT
+REFLOW
+REFLOW
+LAYOUT
+REFLOW
+REFLOW
+REFLOW
+{0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: False, 7: False, 8: False, 9: False}
+CLOSED MyTestApp(title='Textual Application')
