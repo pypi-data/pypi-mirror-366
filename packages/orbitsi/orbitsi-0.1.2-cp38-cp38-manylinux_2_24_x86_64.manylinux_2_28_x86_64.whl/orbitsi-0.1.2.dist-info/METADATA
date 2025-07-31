@@ -1,0 +1,191 @@
+Metadata-Version: 2.1
+Name: orbitsi
+Version: 0.1.2
+Summary: OrbitSI: An Orbit-based Algorithm for the Subgraph Isomorphism Search Problem
+Author-email: Syed Ibtisam Tauhidi <stauhidi01@qub.ac.uk>
+License: Apache-2.0
+Project-URL: Homepage, https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx
+Project-URL: Documentation, https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx/-/wikis/home
+Project-URL: Source, https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx
+Keywords: graphlets,orbits,subgraph isomorphism,EVOKE,ORCA
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: networkx
+Requires-Dist: numpy
+Requires-Dist: pybind11
+
+# OrbitSI using NetworkX for Python
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.1109/ICKG63256.2024.00052.svg)](https://doi.org/10.1109/ICKG63256.2024.00052)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+[![C++](https://img.shields.io/badge/C%2B%2B-17%2B-brightgreen.svg)](https://en.cppreference.com/w/cpp/compiler_support)
+[![PyPI version](https://img.shields.io/pypi/v/orbitsi.svg)](https://pypi.org/project/orbitsi/)
+
+**OrbitSI** is a NetworkX-based Python package that efficiently solves the **subgraph isomorphism enumeration problem**, i.e., finding all subgraphs in a large data graph <em>G</em><sub>d</sub> that are isomorphic to a pattern/query graph <em>G</em><sub>p</sub>. It also supports fast vertex orbit counting, which summarises the local structural roles of vertices within a network.
+
+OrbitSI combines orbit-based filtering and ordering to prune and order candidate node mappings, significantly reducing the search space during subgraph matching. It integrates two state-of-the-art orbit counting engines — **EVOKE** and **ORCA** — via optimised C++ bindings using `pybind11`, and builds the search pipeline using `networkx`.
+
+The package includes a command-line interface (CLI), usable library, and testing utilities. It is installable via `pip`, tested on synthetic and real-world benchmark datasets, and fully open source under the Apache 2.0 license.
+
+---
+
+## Wiki
+
+- [Introduction](https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx/-/wikis/home)
+- [Subgraph Isomorphism](https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx/-/wikis/Subgraph-Isomorphism-Search)
+- [Orbit Counting](https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx/-/wikis/Orbit-Counting)
+
+---
+
+## Installation
+
+### Install from PyPi:
+
+```bash
+pip install orbitsi
+```
+
+### Install from source
+
+1. Clone the repository:
+
+```bash
+git clone https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx.git
+cd orbitsi-nx
+```
+
+2. Build and install:
+
+```bash
+pip install .
+```
+
+> Requires Python 3.8+, NumPy, NetworkX, and a C++17 compiler (e.g., g++ or clang++).
+
+---
+
+## Command-Line Interface (CLI) Usage
+
+Once installed, the `orbitsi` CLI tool allows you to perform:
+
+1. **Subgraph Isomorphism Search**
+2. **Node Orbit Counting**
+
+To confirm installation:
+
+```bash
+orbitsi --help
+```
+
+---
+
+### Subgraph Isomorphism Search
+
+Find all subgraphs in a large graph <em>G</em><sub>d</sub> that are isomorphic to a smaller query/pattern graph <em>G</em><sub>p</sub>.
+
+###### **Command:**
+
+```bash
+orbitsi search --data <path_to_data_graph> --pattern <path_to_pattern_graph> [--orbit-counter evoke|orca] [--graphlet-size 4|5]
+```
+
+###### **Arguments:**
+
+* `--data`: Path to the data graph file (required)
+* `--pattern`: Path to the pattern/query graph file (required)
+* `--orbit-counter`: Orbit counting backend, either `evoke` (default) or `orca`
+* `--graphlet-size`: Graphlet size to use for orbit counting (`4` or `5`, default: `4`)
+
+###### **Example:**
+
+```bash
+orbitsi search --data datasets/data_graph/HPRD.graph --pattern datasets/query_graph/query1.graph --orbit-counter evoke --graphlet-size 4
+```
+
+### Orbit Counting for a Graph
+
+Compute node orbit vectors for a given graph using either the EVOKE or ORCA backend.
+
+###### **Command:**
+
+```bash
+orbitsi count-orbits --graph <path_to_graph> [--orbit-counter evoke|orca] [--graphlet-size 4|5] [--induced]
+```
+
+###### **Arguments:**
+
+* `--graph`: Path to the graph file (required)
+* `--orbit-counter`: Orbit counting backend, either `evoke` (default) or `orca`
+* `--graphlet-size`: Size of graphlets to consider (`4` or `5`)
+* `--induced`: Flag to compute **induced** orbit counts (optional; default is non-induced)
+
+###### **Example:**
+
+```bash
+orbitsi count-orbits --graph datasets/data_graph/HPRD.graph --orbit-counter orca --graphlet-size 5 --induced
+```
+
+---
+
+### Graph File Format
+
+All graphs should be in `.graph` format:
+
+```
+t N M
+v 0 1 2
+v 1 2 1
+...
+e 0 1
+e 1 2
+...
+```
+
+* `t N M`: number of nodes `N` and edges `M`
+* `v ID Label Degree`: vertex ID, label (label is required), degree (optional)
+* `e u v`: edge between vertex `u` and `v`
+---
+
+## Testing
+
+A complete suite of unit and integration tests is provided in the [`tests/`](tests/) directory. This includes:
+
+* Benchmark-based validation for subgraph isomorphism
+* Cross-validation of orbit counting with external tools
+
+To get started, see [`tests/README.md`](https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx/-/blob/main/tests/README.md) for detailed setup and usage instructions.
+
+---
+
+## Citation
+
+If you use **OrbitSI** for **subgraph isomorphism search**, please cite:
+
+> Tauhidi, Syed Ibtisam, Arindam Karmakar, Thai Son Mai, and Hans Vandierendonck. "OrbitSI: An Orbit-based Algorithm for the Subgraph Isomorphism Search Problem." In *2024 IEEE International Conference on Knowledge Graph (ICKG)*, pp. 360-369. IEEE, 2024. [https://doi.org/10.1109/ICKG63256.2024.00052](https://doi.org/10.1109/ICKG63256.2024.00052)
+
+If you only use the orbit counting modules (`ORCAOrbitCounter`, `EVOKEOrbitCounter`), cite:
+
+- **`EVOKE`**: Noujan Pashanasangi and C. Seshadhri. "Efficiently counting vertex orbits of all 5-vertex subgraphs, by EVOKE.", *WSDM 2020: Proceedings of the 13th International Conference on Web Search and Data Mining*, pp. 447–455. [https://doi.org/10.1145/3336191.3371773](https://doi.org/10.1145/3336191.3371773)
+
+- **`ORCA`**: Tomaž Hočevar and Janez Demšar. "A combinatorial approach to graphlet counting." *Bioinformatics*, 30(4): 559–565, 2014. [https://doi.org/10.1093/bioinformatics/btt717](https://doi.org/10.1093/bioinformatics/btt717)
+
+---
+
+# Acknowledgement
+
+This work was supported by:
+
+- [Kelvin Living Lab](https://blogs.qub.ac.uk/dipsa/the-kelvin-living-lab/) \[grant number EP/Z531054/1\]
+- Ministry of Education, Government of India through the collaboration between [Queen's University Belfast](https://www.qub.ac.uk/) and [Tezpur University](https://www.tezu.ernet.in/).
+
+---
+## License
+
+This project is licensed under the Apache License 2.0.
+
+See the [LICENSE](https://hpdc-gitlab.eeecs.qub.ac.uk/sitauhidi/orbitsi-nx/-/blob/main/LICENSE) file for details.
