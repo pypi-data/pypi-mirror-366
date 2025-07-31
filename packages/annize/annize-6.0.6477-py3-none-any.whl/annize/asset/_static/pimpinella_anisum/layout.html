@@ -1,0 +1,47 @@
+{#
+ SPDX-FileCopyrightText: © 2020 Josef Hahn
+ SPDX-License-Identifier: AGPL-3.0-only
+#}
+{%- extends "basic/layout.html" %}
+
+{% block relbar1 %}
+<div id="backgroundpanel"></div>
+<div class="relbar_logo"></div>
+<div class="related" role="navigation" aria-label="related navigation">
+    <a href="{% if theme_masterlink %}{{ theme_masterlink|e }}{% else %}{{ pathto(master_doc)|e }}{% endif %}">
+        {{ shorttitle|e }}
+    </a>
+</div>
+<div class="relbar_shortdesc">{{ theme_shortdesc }}</div>
+<div id="menuclosepad"></div>
+{% endblock %}
+
+{% block relbar2 %}
+{% endblock %}
+
+{% block htmltitle %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+{% if theme_shorthtmltitle|tobool %}
+<title>{{ docstitle|e }}</title>
+{% else %}
+{{ super() }}
+{% endif %}
+{% endblock %}
+
+{%- block scripts %}
+    {{ super() }}
+    <script src="{{ pathto('_static/pimpinella_anisum_carousel.js', 1) }}"></script>
+    <script src="{{ pathto('_static/pimpinella_anisum_mainmenu.js', 1) }}"></script>
+    <script src="{{ pathto('_static/pimpinella_anisum.js', 1) }}"></script>
+{%- endblock %}
+
+{%- block sidebarlogo %}
+{%- endblock %}
+
+{%- block sidebar2 %}
+    <div id="menupanel">
+        <div id="menubutton">&#9776;</div>
+        <div id="menuclosepadindicator">&#8663;</div>
+        {{ super() }}
+    </div>
+{%- endblock %}

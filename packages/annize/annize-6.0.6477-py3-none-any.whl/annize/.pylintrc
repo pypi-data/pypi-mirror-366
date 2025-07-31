@@ -1,0 +1,38 @@
+[MASTER]
+ignore=TODO.py,
+       foo.py
+
+[MESSAGES CONTROL]
+enable=all
+disable=fixme,
+        locally-disabled,
+        suppressed-message,
+        too-few-public-methods,
+        missing-module-docstring,
+        missing-class-docstring,
+        missing-function-docstring,
+        too-many-locals,
+        too-many-nested-blocks,
+        too-many-arguments,
+        too-many-public-methods,
+        no-self-use,
+        unused-argument,
+        no-member,
+        protected-access,
+        import-outside-toplevel,
+        too-many-branches,
+        broad-except,
+
+# TODO remove "missing-*-docstring" and following from "disable=..." above
+
+[STRING]
+check-quote-consistency=yes
+
+[FORMAT]
+expected-line-ending-format=LF
+indent-after-paren=4
+indent-string='    '
+max-line-length=120
+
+[BASIC]
+good-names=f, i, j, k, ex, _, do

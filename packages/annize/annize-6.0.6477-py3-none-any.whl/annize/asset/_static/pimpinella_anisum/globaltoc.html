@@ -1,0 +1,14 @@
+{#
+ SPDX-FileCopyrightText: © 2020 Josef Hahn
+ SPDX-License-Identifier: AGPL-3.0-only
+#}
+{% set toctr = toctree(includehidden=theme_globaltoc_includehidden, collapse=theme_globaltoc_collapse) %}
+{% if toctr %}
+<div class="globaltoc maintoc">
+{{ toctr }}
+ </div>
+{% else %}
+<div class="localtoc maintoc">
+{{ toc }}
+ </div>
+{% endif %}
