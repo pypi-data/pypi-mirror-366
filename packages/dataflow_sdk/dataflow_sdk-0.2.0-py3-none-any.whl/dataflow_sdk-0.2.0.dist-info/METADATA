@@ -1,0 +1,47 @@
+Metadata-Version: 2.3
+Name: dataflow_sdk
+Version: 0.2.0
+Summary: 
+Author: fovegage
+Author-email: fovegage@gmail.com
+Requires-Python: >=3.10,<3.18
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: grpcio (>=1.73.1,<2.0.0)
+Requires-Dist: loguru (>=0.7.3,<0.8.0)
+Requires-Dist: orjson (>=3.11.0,<4.0.0)
+Requires-Dist: protobuf (>=6.31.1,<7.0.0)
+Requires-Dist: pydantic (>=2.11.7,<3.0.0)
+Description-Content-Type: text/markdown
+
+# dataflow-sdk
+
+## Example
+
+```python
+from datetime import datetime
+
+from dataflow_sdk import save_items, Record
+from dataflow_sdk.entity.model import SinkType
+
+result = {
+    'name': 'xiaoming',
+    "age": 25,
+    "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    "hello": "world",
+    "world": 1121211
+}
+
+records = [Record(
+    parent_url="https://www.json.cn",
+    sink_type=SinkType.ITEM,
+    store_key=f"https://www.json.cn{x}/",
+    data=result,
+    metadata={"name": "gage"},
+) for x in range(10)]
+
+save_items('77963b7a931377ad4ab5ad6a9cd718aa', records)
+```
