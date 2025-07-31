@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: tcai-churn-x
+Version: 0.1.1
+Summary: A Flask-based web app for predicting customer churn using a trained ML model.
+Author: The Celeritas AI
+Author-email: business@theceleritasai.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Framework :: Flask
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: Flask==3.1.1
+Requires-Dist: pandas==2.3.0
+Requires-Dist: numpy==2.3.0
+Requires-Dist: scikit-learn==1.6.1
+Requires-Dist: joblib==1.5.1
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: Werkzeug==3.1.3
+Requires-Dist: Jinja2==3.1.6
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# TCAI Churn X
+
+**TCAI Churn X** is a Python package that serves a Flask web interface to predict customer churn using a trained machine learning model. This app allows businesses to analyze customer data and determine the likelihood of churn in an interactive, user-friendly format.
+
+---
+
+## 🚀 Features
+
+- Upload CSV files to perform churn predictions
+- Interactive web UI powered by Flask and HTML templates
+- Uses Scikit-learn models for prediction
+- Clean, lightweight architecture
+- Installable via `pip`
+- Easy to deploy and extend
+
+---
+
+## 📦 Installation
+
+Make sure you have Python 3.8+ and `pip` installed.
