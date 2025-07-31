@@ -1,0 +1,27 @@
+numpy
+pandas
+matplotlib
+scipy
+openpyxl
+
+[:python_version < "3.12"]
+importlib-metadata
+
+[dev]
+pygradations[interactive,release,static-code-qa,test]
+
+[interactive]
+jupyterlab
+ipykernel
+ipywidgets
+
+[release]
+build
+twine
+
+[static-code-qa]
+pre-commit
+
+[test]
+pytest
+pytest-cov
