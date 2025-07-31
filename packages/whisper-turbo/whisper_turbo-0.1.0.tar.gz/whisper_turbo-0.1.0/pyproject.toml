@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whisper-turbo"
+version = "0.1.0"
+description = "High-performance Whisper transcription with Turbo v3 for Apple Silicon"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Nathan Metzger", email = "nathan.metzger@voxtria.com"},
+]
+maintainers = [
+    {name = "Nathan Metzger", email = "nathan.metzger@voxtria.com"},
+]
+keywords = [
+    "whisper",
+    "turbo",
+    "whisper-turbo",
+    "transcription", 
+    "speech-to-text",
+    "mlx",
+    "apple-silicon",
+    "metal",
+    "audio",
+    "turbo-v3",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: MacOS :: MacOS X",
+]
+dependencies = [
+    "mlx-whisper>=0.1.0",
+    "requests>=2.31.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/xbattlax/whisper-turbo"
+Documentation = "https://github.com/xbattlax/whisper-turbo#readme"
+Repository = "https://github.com/xbattlax/whisper-turbo.git"
+"Bug Tracker" = "https://github.com/xbattlax/whisper-turbo/issues"
+
+[project.scripts]
+whisper-turbo = "whisper_turbo.cli:main"
+
+[tool.setuptools]
+packages = ["whisper_turbo"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E203", "W503"]

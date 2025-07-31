@@ -1,0 +1,17 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+
+# Include the package data
+recursive-include whisper_turbo *.py
+
+# Exclude unnecessary files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude .git*
+global-exclude *.aac
+global-exclude *.mp3
+global-exclude *.mp4
+global-exclude *.wav
