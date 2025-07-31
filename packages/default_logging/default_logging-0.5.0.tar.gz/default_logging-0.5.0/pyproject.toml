@@ -1,0 +1,94 @@
+[project]
+name = "default_logging"
+version = "0.5.0"
+description = "A Python package that provides ready-to-use logging configuration with enhanced formatters, and automatic directory creation. Simplifies logging setup with sensible defaults while supporting custom configurations."
+authors = [
+    {name = "kimberly", email = "45748394+kquiet@users.noreply.github.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml (>=6.0.2,<7.0.0)"
+]
+
+[project.urls]
+repository = "https://github.com/kquiet/python_default_logging"
+
+[tool.poetry]
+packages = [
+    { include = "default_logging" },
+]
+include = [
+    "default_logging/logging_config.yaml",
+    "tests/**"
+]
+requires-poetry = ">=2.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "~=8.0"
+pytest-cov = "~=6.2"
+opentelemetry-api = "~=1.35"
+opentelemetry-sdk = "~=1.35"
+opentelemetry-instrumentation = ">=0.56b0"
+opentelemetry-instrumentation-logging = ">=0.56b0"
+
+[tool.poetry.requires-plugins]
+poethepoet = { version = "~=0.35", extras = ["poetry_plugin"]}
+
+[tool.poe.tasks.test-otel]
+interpreter = ["bash", "powershell"]
+shell = """
+opentelemetry-instrument python app.py
+"""
+
+[tool.poe.tasks.test]
+interpreter = ["bash", "powershell"]
+shell = """
+pytest
+"""
+[tool.poe.tasks.test-coverage]
+interpreter = ["bash", "powershell"]
+shell = """
+pytest --cov=. --cov-report=term-missing --cov-fail-under=70 --cov-report html
+"""
+
+[tool.poe.tasks.publish]
+control.script = "sys:stdout.write(sys.platform)"
+
+    [[tool.poe.tasks.publish.switch]]
+    case = "linux"
+    interpreter = "bash"
+    shell = """
+    . ./.env
+    rm -rf ./dist
+    poetry publish --build --no-interaction
+    """
+
+    [[tool.poe.tasks.publish.switch]]
+    case = "win32"
+    interpreter = "powershell"
+    shell = """
+    . .\\.env.ps1
+    Remove-Item -Recurse -Force .\\dist
+    poetry publish --build --no-interaction
+    """
+
+[tool.pytest.ini_options]
+addopts = "-rA"
+testpaths = [
+    "tests"
+]
+python_files = [
+    "test_*.py"
+]
+python_classes = [
+    "Test*"
+]
+python_functions = [
+    "test_*"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
