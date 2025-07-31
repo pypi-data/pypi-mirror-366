@@ -1,0 +1,17 @@
+[project]
+name = "dbdth25-pip_install_or_pypi"
+version = "0.1.1"
+authors = [
+    { name = "AnirudhG07"}
+]
+# hidden_description = "Your answer for pip_install_or_pypi: dbdth{looking_at_the_source_code}"
+description = "Databased Hack&Seek 2025 problem: pip_install_or_pypi"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[project.scripts]
+dbdth25-pip_install_or_pypi = "main:main"
+
+[tool.setuptools]
+py-modules = ["main", "flag_gen"]
