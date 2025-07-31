@@ -1,0 +1,105 @@
+[build-system]
+# Specify the required build system.
+requires = ["setuptools >= 61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bork"
+dynamic = ["version"]
+authors = [
+    {name = "Ellen Marie Dash", email = "me@duckie.co"},
+]
+description = "A program to help build, maintain, and release PEP 517-compliant projects."
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "build ~= 1.2",
+    "coloredlogs ~= 15.0",
+    "homf ~= 1.1", # `bork download` stubs out to it
+    "packaging ~= 23.2", # The packaging library is used by bork.github_api.
+    "pip", # used by bork.builder._prepare_zipapp
+    "pydantic ~= 2.8",  # model & validate the configuration
+    "urllib3 ~= 2.2",
+
+    # Compatibility shims for older Python versions
+    "toml ~= 0.10.2; python_version < '3.11'",
+]
+
+requires-python = ">= 3.10"
+
+[project.urls]
+repository = "https://github.com/duckinator/bork"
+documentation = "https://bork.readthedocs.io/en/latest/"
+
+[project.optional-dependencies]
+lint = [
+    "ruff",
+    "mypy == 1.11.1",
+]
+
+test = [
+    "pytest == 8.3.2",
+
+    # build-system.requires for packages built during tests, including bork itself
+    "setuptools >= 61", "wheel",
+]
+
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinx-argparse",
+]
+
+[project.scripts]
+bork = "bork.cli:main"
+
+[tool.setuptools]
+packages = ["bork"]
+
+[tool.setuptools.dynamic]
+version = {attr = "bork.__version__"}
+
+[tool.bork.release]
+pypi = true
+github = true
+github_repository = "duckinator/bork"
+
+[tool.bork.aliases]
+lint = [
+    "ruff check",
+    "mypy bork",
+]
+# Runs all tests.
+test = "pytest --junitxml=bork-junit.xml --verbose"
+# Runs fast tests.
+test-fast = "pytest --verbose -m 'not slow'"
+# Runs slow tests.
+test-slow = "pytest --verbose -m slow"
+# Build docs locally.
+#docs = "sphinx-build -M dirhtml docs/source docs/build dirhtml"
+docs = "sphinx-build -b html -d build/doctrees docs/source/ docs/build/"
+docs-clean = "rm -rf docs/build/"
+#sphinx-apidoc = "sphinx-apidoc -o ./docs/source ./bork"
+
+[tool.mypy]
+plugins = [
+    "pydantic.mypy"
+]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+
+[tool.ruff.lint]
+ignore = [
+    "E401",  # multiple imports per line
+]
