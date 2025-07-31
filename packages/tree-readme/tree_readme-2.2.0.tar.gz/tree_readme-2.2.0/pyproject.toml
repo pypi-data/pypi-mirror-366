@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=65.5.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["readme_generator"]
+
+[project]
+name = "tree-readme"
+version = "2.2.0"
+description = "A simple README generator for Python projects."
+readme = "README.md"
+authors = [
+    { name = "Jakub Kościan", email = "kuba.koscian001@gmail.com" },
+]
+maintainers = [
+    { name = "Jakub Kościan", email = "kuba.koscian001@gmail.com" },
+]
+keywords = ["readme", "generator", "python", "project"]
+dynamic = ["dependencies"]
+requires-python = ">=3.10"
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+repository = "https://github.com/kvbiii/tree-readme"
