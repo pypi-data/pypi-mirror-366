@@ -1,0 +1,99 @@
+Metadata-Version: 2.4
+Name: pyfastspm
+Version: 1.0.6
+Summary: A python package for loading, processing and exporting scanning probe microscopy movies acquired with the FAST unit.
+Author-email: Carlo Dri <carlo.dri@gmail.com>
+License: MIT
+Project-URL: Homepage, https://gitlab.com/fastspm/pyfastspm
+Project-URL: Issues, https://gitlab.com/fastspm/pyfastspm/-/issues
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Requires-Python: >=3.6
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+License-File: AUTHORS.rst
+Requires-Dist: h5py
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: packaging
+Requires-Dist: pillow
+Requires-Dist: scikit-image
+Requires-Dist: scipy
+Requires-Dist: setuptools-scm
+Requires-Dist: tqdm
+Provides-Extra: mkl-fft
+Requires-Dist: mkl_fft; extra == "mkl-fft"
+Dynamic: license-file
+
+<h2 align="center">FAST movie processor</h2>
+
+<p align="center">
+<a href="https://gitlab.com/fastspm/pyfastspm/-/commits/release"><img alt="pipeline status" src="https://gitlab.com/fastspm/pyfastspm/badges/release/pipeline.svg" /></a>
+<a href="https://pypi.org/project/pyfastspm/"><img alt="PyPI" src="https://img.shields.io/pypi/v/pyfastspm"></a>
+<a href="https://anaconda.org/conda-forge/pyfastspm"><img alt="Conda (channel only)" src="https://img.shields.io/conda/vn/conda-forge/pyfastspm"></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+<a href="https://github.com/fastspm/pyfastspm/blob/release/LICENSE"><img alt="Conda - License" src="https://img.shields.io/conda/l/conda-forge/pyfastspm?color=orange"></a>
+<a href="https://doi.org/10.5281/zenodo.6824215"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6824215.svg" alt="DOI"></a>
+</p>
+
+_A python package for loading, processing and exporting scanning tunneling microscopy movies acquired with the FAST module._
+
+The package documentation can be found at [this link](http://fastspm.gitlab.io/pyfastspm/).
+
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [1.0.5] - 2024-11-13
+
+### Fixed
+* outdated dependency in docker image build (#6)
+* numpy explicit casting and deprecations (#7)
+
+## [1.0.4] - 2023-07-18
+
+### Fixed
+* Replace deprecated pillow font.getsize() method (#5)
+
+## [1.0.3] - 2023-06-20
+### Fixed
+* Compatibility with file format version 2.6 (#4)
+* several typos in CHANGELOG
+
+### Changed
+* Removed any data inversion on loading.
+
+## [1.0.2] - 2023-03-16
+### Fixed
+* `numpy` deprecation of `np.float` (#2)
+
+### Changed
+* Creep correction: Both the `sin` and `root` creep corrections were re-derived with more strict constraints to prevent un-physical/nonsensical creep behavior.
+* Added function constraints to documentation. The derivation of the creep functions is not part of this repo as of now.
+
+### Added
+* Functions `sin_limit_function` and `root_limit_function` to automatically adapt the bounds for the optimizer when approximating the creep behavior in `sin` or `root` mode. This prevents `pyfastspm` from crashing / skipping the creep correction if bounds are defined too loosely.
+
+## [1.0.1] - 2022-07-20
+###  Changed
+* citation file: DOI, license ids, and bump version info
+* use concept DOI in README badge
+
+## [1.0.0] - 2022-07-12
+### Added
+- first public release
