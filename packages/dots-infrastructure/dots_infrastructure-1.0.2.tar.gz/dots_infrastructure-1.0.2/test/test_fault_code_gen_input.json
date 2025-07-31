@@ -1,0 +1,43 @@
+{
+    "name": "test",
+    "esdl_type" : "PVInstallation",
+    "description" : "this is a test description",
+    "relevant_links" : [
+        {
+            "name" : "test link",
+            "url" : "https://example.com/test",
+            "description" : "this is a test link"
+        }
+    ],
+    "calculations" : [
+        {
+            "name": "test calculation",
+            "description" : "test",
+            "time_period_in_seconds" : 900,
+            "offset_in_seconds" : 0,
+            "inputs" : [
+                {
+                    "name" : "input1",
+                    "esdl_type" : "Weather",
+                    "data_type" : "trala",
+                    "description" : "input 1 description",
+                    "unit" : "K"
+                }
+            ],
+            "outputs" : [
+                {
+                    "name" : "output1",
+                    "data_type" : "trala",
+                    "description" : "output 1 description",
+                    "unit" : "W"
+                },
+                {
+                    "name" : "output2",
+                    "data_type" : "DOUBLE",
+                    "description" : "output 2 description",
+                    "unit" : "W"
+                }
+            ]
+        }
+    ]
+}

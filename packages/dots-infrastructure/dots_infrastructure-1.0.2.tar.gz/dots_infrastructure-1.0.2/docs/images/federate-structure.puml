@@ -1,0 +1,8 @@
+@startuml
+class HelicsSimulationExecutor
+class SimulationExecutor
+class HelicsFederateExecutor
+
+HelicsSimulationExecutor <|-d- SimulationExecutor
+HelicsSimulationExecutor "1" *-r- "*" HelicsFederateExecutor
+@enduml

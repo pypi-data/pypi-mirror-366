@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dots_infrastructure"
+version = "1.0.2"
+authors = [
+  { name="Leo van Schooten", email="l.g.t.v.schooten@tue.nl" },
+]
+dependencies = [
+    'helics==3.6.1',
+    'matplotlib==3.8.2',
+    'numpy==1.26.4',
+    'pyesdl==22.11.2',
+    'influxdb~=5.3.1',
+    'Jinja2==3.1.6',
+    'dataclasses-json==0.6.7'
+]
+description = "A python package containing infrastructure to develop a dots calculation service"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/dots-energy/dots-infrastructure"
+Issues = "https://github.com/dots-energy/dots-infrastructure/issues"
