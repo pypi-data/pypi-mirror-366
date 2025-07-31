@@ -1,0 +1,130 @@
+Metadata-Version: 2.4
+Name: Gfruit
+Version: 0.1.1
+Summary: A package for browser automation and database management
+Author-email: Your Name <your.email@example.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yourusername/Gfruit
+Project-URL: Bug Tracker, https://github.com/yourusername/Gfruit/issues
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: keyboard~=0.13.5
+Requires-Dist: requests~=2.32.4
+Requires-Dist: psutil~=7.0.0
+Requires-Dist: selenium~=4.34.2
+Requires-Dist: loguru~=0.7.3
+Requires-Dist: web3~=7.12.1
+Requires-Dist: webdriver-manager~=4.0.2
+Requires-Dist: PyMySQL~=1.1.1
+Dynamic: license-file
+
+# Gfruit
+
+一个用于浏览器自动化和数据库管理的Python包。
+
+## 简介
+
+Gfruit是一个功能强大的Python库，提供了两个主要模块：
+
+1. `browser_use` - 基于Selenium的浏览器自动化工具
+2. `db_manager` - 数据库管理工具
+
+## 安装
+
+### 从PyPI安装（推荐）
+
+```bash
+pip install Gfruit
+```
+
+### 从源码安装
+
+```bash
+git clone https://github.com/yourusername/Gfruit.git
+cd Gfruit
+pip install .
+```
+
+### 从构建的包安装
+
+```bash
+pip install dist/gfruit-0.1.0-py3-none-any.whl
+```
+
+## 使用方法
+
+### 导入模块
+
+```python
+from Gfruit.browser_use import SeleniumBase
+from Gfruit.db_manager import DatabaseManager
+```
+
+### SeleniumBase 使用示例
+
+```python
+# 初始化SeleniumBase
+browser = SeleniumBase(ads_id="your_ads_id")
+
+# 初始化WebDriver
+driver = browser.init_driver()
+
+# 使用各种浏览器操作方法
+browser.button_click("//button[@id='submit']", "点击提交按钮")
+```
+
+### DatabaseManager 使用示例
+
+```python
+# 初始化DatabaseManager
+db = DatabaseManager(host="localhost", user="root", password="password", database="test")
+
+# 使用上下文管理器自动处理连接
+with db:
+    result = db.fetch_all("SELECT * FROM users")
+    print(result)
+```
+
+## 开发
+
+### 构建包
+
+```bash
+# 安装构建工具
+pip install build
+
+# 清理旧的构建文件
+rm -rf dist/ build/ *.egg-info src/*.egg-info
+
+# 构建新包
+python -m build
+```
+
+### 发布新版本
+
+详细说明请参阅 [RELEASE.md](RELEASE.md) 文件。
+
+## 依赖
+
+- keyboard
+- requests
+- psutil
+- selenium
+- loguru
+- web3
+- webdriver-manager
+- PyMySQL
+
+## 许可证
+
+MIT
