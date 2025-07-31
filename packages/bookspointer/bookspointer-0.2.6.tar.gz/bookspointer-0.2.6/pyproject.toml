@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bookspointer"
+version = "0.2.6"
+description = "A package for scraping and serving book data in to bookspointer."
+authors = [
+    { name = "Samir Das", email = "samircd4@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests",
+    "selectolax",
+    "rich",
+    "python-dotenv",
+    "gspread",
+    "google-auth",
+    "google-auth-oauthlib",
+    "pandas"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/samircd4"
+"Repository" = "https://github.com/samircd4/bookspointer" 
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+bookspointer = ["categories.json", "Credentials.json"] 
