@@ -1,0 +1,72 @@
+Metadata-Version: 2.4
+Name: testing.mysql
+Version: 0.3.0.1
+Summary: MySQL testing framework
+Author-email: Joshua Haase <hahj87@gmail.com>
+License-Expression: MIT
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: docker
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+
+<!--img src="logo.png" height="64px"/-->
+
+![Build Status](https://gitlab.com/xihh87/testing.mysql/badges/main/pipeline.svg)
+
+`testing.mysql` is a framework to test queries in an ephemeral database.
+
+To test in local environment:
+
+```
+$ mk start
+$ mk test
+```
+
+To install from pypi:
+
+```bash
+python -m pip install testing.mysql
+```
+
+This is how you use the module:
+
+```
+@pytest.fixture(scope="session", autouse=True)
+def mysql(request):
+    container = testing.mysql.DockerMySQL(
+        {
+            "username": "user",
+            "password": "password",
+            "port": "9998",
+            "dbname": "fastfarm",
+        }
+    )
+    container.wait_until_ready()
+    container.load_schema("tests/data/schema.sql")
+    container.load_schema("migrations/code_to_apply_migrations.sql")
+    container.load_data_on_table("tests/data/dataset.tsv", "table")
+    container.load_data_on_table("tests/data/repeat_as_needed.tsv", "another_table")
+
+    def stop_container():
+        container.stop()
+
+    request.addfinalizer(stop_container)
+    return container
+
+
+@pytest.fixture(scope="function")
+def conn(mysql, request):
+    c = mysql.connect()
+
+    def close_connection():
+        c.close()
+
+    request.addfinalizer(close_connection)
+    return c
+
+
+def test_latest_images(conn):
+    # write your test
+    pass
+```
