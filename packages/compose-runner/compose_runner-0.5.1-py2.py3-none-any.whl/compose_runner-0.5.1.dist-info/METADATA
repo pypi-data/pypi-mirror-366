@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: compose-runner
+Version: 0.5.1
+Summary: A package for running neurosynth-compose analyses
+Project-URL: Repository, https://github.com/neurostuff/compose-runner
+Author-email: James Kent <jamesdkent21@gmail.com>
+License: BSD 3-Clause License
+License-File: LICENSE
+Keywords: meta-analysis,neuroimaging,neurosynth,neurosynth-compose
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Requires-Dist: click
+Requires-Dist: nilearn
+Requires-Dist: nimare
+Requires-Dist: sentry-sdk
+Provides-Extra: tests
+Requires-Dist: pytest; extra == 'tests'
+Requires-Dist: pytest-recording; extra == 'tests'
+Requires-Dist: vcrpy; extra == 'tests'
+Description-Content-Type: text/markdown
+
+# compose-runner
+
+Python package to execute meta-analyses created using neurosynth compose and NiMARE
+as the meta-analysis execution engine.
