@@ -1,0 +1,232 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bssagent"
+version = "0.1.0"
+description = "BSS Agent – A simple AI agent framework based on LangChain"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "BSS Agent Team"}
+]
+maintainers = [
+    {name = "BSS Agent Team"}
+]
+keywords = ["ai", "agent", "langchain", "langgraph", "business", "automation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.8"
+dependencies = [
+    # Core LangChain dependencies
+    "langchain>=0.3.26",
+    "langgraph>=0.5.3",
+    "langchain-community>=0.0.20",
+    "langchain-openai>=0.3.0",
+    "langchain-google-genai>=2.1.6",
+    "langchain-anthropic>=0.3.17",
+    "langchain-deepseek>=0.1.0",
+    "langchain-ollama>=0.3.0",
+    
+    # LangGraph checkpoints
+    "langgraph-checkpoint-postgres>=2.0.21",
+    "langgraph-checkpoint-mongodb>=0.1.4",
+    "langgraph-checkpoint-mysql>=2.0.15",
+    "langgraph-checkpoint-redis>=0.0.8",
+    "langgraph-checkpoint-sqlite>=2.0.10",
+    
+    # Core dependencies
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "requests>=2.31.0",
+    "aiohttp>=3.8.0",
+    "websockets>=11.0.0",
+    "beautifulsoup4>=4.11.0",
+    "urllib3>=1.26.0",
+    
+    # Web scraping and text extraction
+    "trafilatura>=1.5.0",
+    
+    # Document processing
+    "PyPDF2>=3.0.0",
+    "python-docx>=0.8.11",
+    "pandas>=1.5.0",
+    "openpyxl>=3.0.0",
+    
+    # Additional document formats
+    "docx2txt>=0.9",
+    "xlrd>=2.0.0",
+    "python-pptx>=0.6.0",
+    "rtfparse>=0.9.5",
+    
+    # Data processing
+    "pyarrow>=10.0.0",
+    "fastavro>=1.7.0",
+    
+    # Web scraping enhancements
+    "lxml>=4.9.0",
+    "html5lib>=1.1",
+    
+    # Text processing
+    "nltk>=3.8",
+    "textstat>=0.7.0",
+    
+    # Vector stores and embeddings
+    "weaviate-client>=4.16.3",
+    "langchain-chroma>=0.2.5",
+    
+    # Database and infrastructure
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.11.0",
+    "psycopg2-binary>=2.9.0",
+    "redis>=4.5.0",
+    "PyMySQL>=1.1.0",
+    "celery>=5.3.0",
+    
+    # Cloud providers
+    "boto3>=1.26.0",
+    "azure-mgmt-compute>=30.0.0",
+    "google-cloud-compute>=1.10.0",
+    
+    # Security
+    "cryptography>=41.0.0",
+    "jwt>=1.3.1",
+    "bcrypt>=4.0.0",
+    
+    # Web framework
+    "fastapi>=0.100.0",
+    "slowapi>=0.1.9",
+    "uvicorn>=0.20.0",
+    
+    # Containerization
+    "docker>=6.1.0",
+    "kubernetes>=26.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+    "tox>=4.6.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "myst-parser>=2.0.0",
+]
+deploy = [
+    "docker>=6.1.0",
+    "kubernetes>=26.1.0",
+    "helm>=0.1.0",
+    "terraform>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/bssagent/bssagent"
+Documentation = "https://bssagent.readthedocs.io"
+Repository = "https://github.com/bssagent/bssagent.git"
+"Bug Tracker" = "https://github.com/bssagent/bssagent/issues"
+"Changelog" = "https://github.com/bssagent/bssagent/blob/main/CHANGELOG.md"
+
+[project.scripts]
+bssagent = "bssagent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.yaml", "*.yml", "*.toml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["bssagent"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src/bssagent"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/migrations/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+] 
