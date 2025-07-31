@@ -1,0 +1,277 @@
+rqdatac>=3.1.2
+pandas>=1.3.1
+click>=7.0
+pyjwt==1.7.1
+rqdatac_fund==1.0.*,>=1.0.18
+requests
+wcwidth
+statsmodels>=0.12.1
+patsy>=0.5.1
+
+[:platform_system == "Linux" and python_version >= "3.12"]
+pandas>=2.2.0
+
+[:python_version <= "3.6"]
+cryptography==2.9.2
+numpy>=1.19.5
+tabulate<=0.8.10
+python-rapidjson<=1.5
+
+[:python_version <= "3.7"]
+scipy<=1.7.3
+
+[:python_version == "3.7"]
+numpy>=1.20.0
+
+[:python_version > "3.7"]
+pyopenssl>22.0.0
+
+[:python_version >= "3.12"]
+scipy>=1.11.2
+
+[:python_version >= "3.7"]
+tabulate>=0.9.0
+
+[:python_version >= "3.8"]
+numpy>=1.23.0
+
+[:python_version >= "3.8" and python_version <= "3.11"]
+scipy<=1.10.1,>=1.8.0
+
+[rqalpha_plus]
+rqalpha-mod-ams==1.3.*,>=1.3.3
+rqdatac>=3.1.2
+rqfactor==1.3.*,>=1.3.1
+ta-lib>=0.4.20
+rqalpha-plus==4.3.*,>=4.3.1
+rqalpha-mod-rqfactor==1.0.*,>=1.0.11
+pyjwt==1.7.1
+rqalpha-mod-spot==1.0.*,>=1.0.11
+rqdatac_fund==1.0.*,>=1.0.18
+rqalpha-mod-option==1.2.*,>=1.2.3
+requests
+wcwidth
+h5py>=3.0.0
+rqalpha-mod-convertible==1.2.*,>=1.2.19
+rqalpha-mod-fund==0.0.*,>=0.0.16
+patsy>=0.5.1
+hdf5plugin
+pandas>=1.3.1
+click>=7.0
+rqrisk==1.0.*,>=1.0.9
+statsmodels>=0.12.1
+rqalpha-mod-optimizer2==1.0.*,>=1.0.9
+matplotlib>=3.1.0
+rqalpha-mod-incremental==0.0.*,>=0.0.9
+rqalpha-mod-ricequant-data==2.4.*,>=2.4.11
+rqalpha==5.5.*,>=5.5.4
+
+[rqalpha_plus:platform_system == "Linux" and python_version >= "3.12"]
+pandas>=2.2.0
+
+[rqalpha_plus:python_version <= "3.6"]
+cryptography==2.9.2
+tabulate<=0.8.10
+python-rapidjson<=1.5
+numpy>=1.19.5
+
+[rqalpha_plus:python_version <= "3.7"]
+scipy<=1.7.3
+
+[rqalpha_plus:python_version == "3.7"]
+numpy>=1.20.0
+
+[rqalpha_plus:python_version > "3.7"]
+pyopenssl>22.0.0
+
+[rqalpha_plus:python_version >= "3.12"]
+scipy>=1.11.2
+
+[rqalpha_plus:python_version >= "3.7"]
+tabulate>=0.9.0
+
+[rqalpha_plus:python_version >= "3.8"]
+numpy>=1.23.0
+
+[rqalpha_plus:python_version >= "3.8" and python_version <= "3.11"]
+scipy<=1.10.1,>=1.8.0
+
+[rqdatac]
+rqdatac>=3.1.2
+pandas>=1.3.1
+click>=7.0
+pyjwt==1.7.1
+rqdatac_fund==1.0.*,>=1.0.18
+requests
+wcwidth
+statsmodels>=0.12.1
+patsy>=0.5.1
+
+[rqdatac:platform_system == "Linux" and python_version >= "3.12"]
+pandas>=2.2.0
+
+[rqdatac:python_version <= "3.6"]
+cryptography==2.9.2
+numpy>=1.19.5
+tabulate<=0.8.10
+python-rapidjson<=1.5
+
+[rqdatac:python_version <= "3.7"]
+scipy<=1.7.3
+
+[rqdatac:python_version == "3.7"]
+numpy>=1.20.0
+
+[rqdatac:python_version > "3.7"]
+pyopenssl>22.0.0
+
+[rqdatac:python_version >= "3.12"]
+scipy>=1.11.2
+
+[rqdatac:python_version >= "3.7"]
+tabulate>=0.9.0
+
+[rqdatac:python_version >= "3.8"]
+numpy>=1.23.0
+
+[rqdatac:python_version >= "3.8" and python_version <= "3.11"]
+scipy<=1.10.1,>=1.8.0
+
+[rqfactor]
+rqdatac>=3.1.2
+pandas>=1.3.1
+rqfactor==1.3.*,>=1.3.1
+ta-lib>=0.4.20
+click>=7.0
+pyjwt==1.7.1
+rqdatac_fund==1.0.*,>=1.0.18
+requests
+wcwidth
+statsmodels>=0.12.1
+patsy>=0.5.1
+
+[rqfactor:platform_system == "Linux" and python_version >= "3.12"]
+pandas>=2.2.0
+
+[rqfactor:python_version <= "3.6"]
+cryptography==2.9.2
+numpy>=1.19.5
+tabulate<=0.8.10
+python-rapidjson<=1.5
+
+[rqfactor:python_version <= "3.7"]
+scipy<=1.7.3
+
+[rqfactor:python_version == "3.7"]
+numpy>=1.20.0
+
+[rqfactor:python_version > "3.7"]
+pyopenssl>22.0.0
+
+[rqfactor:python_version >= "3.12"]
+scipy>=1.11.2
+
+[rqfactor:python_version >= "3.7"]
+tabulate>=0.9.0
+
+[rqfactor:python_version >= "3.8"]
+numpy>=1.23.0
+
+[rqfactor:python_version >= "3.8" and python_version <= "3.11"]
+scipy<=1.10.1,>=1.8.0
+
+[rqoptimizer]
+rqdatac>=3.1.2
+pandas>=1.3.1
+ecos==2.0.10
+click>=7.0
+pyjwt==1.7.1
+rqdatac_fund==1.0.*,>=1.0.18
+scs==2.1.4
+requests
+wcwidth
+statsmodels>=0.12.1
+rqoptimizer>=1.2.17
+patsy>=0.5.1
+
+[rqoptimizer:platform_system == "Linux" and python_version >= "3.12"]
+pandas>=2.2.0
+
+[rqoptimizer:python_version <= "3.10"]
+osqp==0.6.2.post5
+
+[rqoptimizer:python_version <= "3.6"]
+cryptography==2.9.2
+numpy>=1.19.5
+tabulate<=0.8.10
+python-rapidjson<=1.5
+
+[rqoptimizer:python_version <= "3.7"]
+scipy<=1.7.3
+
+[rqoptimizer:python_version == "3.11"]
+osqp==0.6.2.post8
+
+[rqoptimizer:python_version == "3.6"]
+cvxpy==1.1.18
+
+[rqoptimizer:python_version == "3.7"]
+numpy>=1.20.0
+
+[rqoptimizer:python_version > "3.7"]
+pyopenssl>22.0.0
+
+[rqoptimizer:python_version >= "3.12"]
+scipy>=1.11.2
+
+[rqoptimizer:python_version >= "3.7"]
+tabulate>=0.9.0
+cvxpy==1.2.0
+
+[rqoptimizer:python_version >= "3.8"]
+numpy>=1.23.0
+
+[rqoptimizer:python_version >= "3.8" and python_version <= "3.11"]
+scipy<=1.10.1,>=1.8.0
+
+[rqpattr]
+rqdatac>=3.1.2
+pandas>=1.3.1
+click>=7.0
+pyjwt==1.7.1
+rqpattr>=0.0.2
+rqdatac_fund==1.0.*,>=1.0.18
+requests
+wcwidth
+statsmodels>=0.12.1
+patsy>=0.5.1
+
+[rqpattr:platform_system == "Linux" and python_version >= "3.12"]
+pandas>=2.2.0
+
+[rqpattr:python_version <= "3.6"]
+cryptography==2.9.2
+numpy>=1.19.5
+tabulate<=0.8.10
+python-rapidjson<=1.5
+
+[rqpattr:python_version <= "3.7"]
+scipy<=1.7.3
+
+[rqpattr:python_version == "3.7"]
+numpy>=1.20.0
+
+[rqpattr:python_version > "3.7"]
+pyopenssl>22.0.0
+
+[rqpattr:python_version >= "3.12"]
+scipy>=1.11.2
+
+[rqpattr:python_version >= "3.7"]
+tabulate>=0.9.0
+
+[rqpattr:python_version >= "3.8"]
+numpy>=1.23.0
+
+[rqpattr:python_version >= "3.8" and python_version <= "3.11"]
+scipy<=1.10.1,>=1.8.0
