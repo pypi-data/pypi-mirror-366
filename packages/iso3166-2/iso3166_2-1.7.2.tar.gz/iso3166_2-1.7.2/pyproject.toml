@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "iso3166-2"
+version = "1.7.2"
+description = "A lightweight Python package, and accompanying RESTful API, used to access all of the world's most up-to-date and accurate ISO 3166-2 subdivision data, including: name, local/other name, code, parent code, type, latitude/longitude, flag and history."
+authors = ["AJ McKenna <amckenna41@qub.ac.uk>"]
+maintainers = ["AJ McKenna <amckenna41@qub.ac.uk>"]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Information Technology",
+        "License :: OSI Approved :: MIT License",
+        "License :: Free For Educational Use",
+        "Natural Language :: English",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",	
+        "Programming Language :: Python :: 3.12",	
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Programming Language :: Python :: 3 :: Only",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Scientific/Engineering :: Information Analysis",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development :: Libraries :: Python Modules"
+]
+keywords = ["iso", "iso3166", "beautifulsoup", "python", "pypi", "countries", "country codes", "iso3166-2", "iso3166-1", "alpha-2", "iso3166-updates", "iso3166-flag-icons", "subdivisions", "regions", "dataset"]
+packages = [{include = "iso3166_2"}]
+homepage = "https://iso3166-2-api.vercel.app/api"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+iso3166 = "^2.1.1"
+natsort = "^8.4.0"
+thefuzz = "^0.22.1"
+Unidecode = "^1.3.8"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.2"
+
+[tool.poetry.urls]
+homepage = "https://github.com/amckenna41/iso3166-2"
+repository = "https://github.com/amckenna41/iso3166-2"
+documentation = "https://iso3166-2.readthedocs.io/en/latest/"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
