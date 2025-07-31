@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: robo_orchard_schemas
+Version: 0.1.1
+Summary: Schemas for the RoboOrchard project.
+Author: The RoboOrchard Team
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/HorizonRobotics/robo_orchard_schemas
+Project-URL: Repository, https://github.com/HorizonRobotics/robo_orchard_schemas
+Project-URL: Source, https://github.com/HorizonRobotics/robo_orchard_schemas
+Project-URL: Issues, https://github.com/HorizonRobotics/robo_orchard_schemas/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: foxglove_schemas_protobuf
+Requires-Dist: protobuf<6.0dev,>=5.26.1
+Dynamic: license-file
+
+# RoboOrchard Schemas
+
+Schemas for the RoboOrchard project.
+
+## Getting started
+
+### Requirements
+
+* Python 3.10
+
+### Installation
+
+#### From pip
+
+```bash
+pip install robo_orchard_schemas
+```
+
+#### From source
+
+```bash
+make install
+```
