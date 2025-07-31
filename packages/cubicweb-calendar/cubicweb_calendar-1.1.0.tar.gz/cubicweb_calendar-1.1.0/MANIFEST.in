@@ -1,0 +1,15 @@
+include README.rst
+include *.py
+include */*.py
+recursive-include cubicweb_calendar *.py
+recursive-include cubicweb_calendar/data *.gif *.png *.ico *.css *.js
+recursive-include cubicweb_calendar/i18n *.po
+recursive-include cubicweb_calendar/migration *.py
+recursive-include test/data bootstrap_cubes *.py
+include *.ini *.txt
+recursive-include debian changelog compat control copyright rules
+
+exclude .gitlab-ci.yml
+exclude .yamllint
+exclude .gitlab-ci-extended.yml
+exclude CHANGELOG.md

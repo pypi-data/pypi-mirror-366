@@ -1,0 +1,28 @@
+Source: cubicweb-calendar
+Section: web
+Priority: optional
+Maintainer: Logilab Packaging Team <contact@logilab.fr>
+Uploaders: Nicolas Chauvat <nicolas.chauvat@logilab.fr>
+Build-Depends:
+  debhelper (>= 9),
+  python (>=2.7),
+  dh-python,
+  python-setuptools
+Standards-Version: 3.9.8
+Homepage: http://www.cubicweb.org/project/cubicweb-calendar
+XS-Python-Version: >= 2.7
+
+Package: cubicweb-calendar
+Architecture: all
+Depends:
+ python-cubicweb (>= 3.24.0),
+ python-six (>= 1.4),
+ python-yams,
+ ${python:Depends},
+ ${misc:Depends},
+Description: calendar component for the CubicWeb framework
+ This CubicWeb component models calendars with different types of days
+ (working, non-working, vacation, sick, etc) and time periods (from simple
+ "Aug 31st 2009 to Sep 4th 2009" to repetitive ones like "July 14th").
+ .
+ CubicWeb is a semantic web application framework, see http://www.cubicweb.org
