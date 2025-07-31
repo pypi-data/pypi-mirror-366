@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "setuptools_scm[toml]>=7"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deltatwin-cli"
+description = "DeltaTwin command line for managing Delta project"
+readme = "README.md"
+classifiers = ["License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"]
+dynamic = ["version", "dependencies"]
+requires-python = "~=3.11"
+
+[project.scripts]
+deltatwin = "delta.cli:delta_cli"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools_scm]
+write_to = "delta/cli/_version.py"

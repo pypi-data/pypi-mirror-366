@@ -1,0 +1,48 @@
+[
+  {
+    "type": "cron",
+    "schedule": "35 13 * * *",
+    "schedule_name": "c3",
+    "deltatwin_name": "image-rotation",
+    "owner": "deltateam",
+    "deltatwin_version": "1.0.0",
+    "inputs": {
+      "angle": {
+        "type": "integer",
+        "value": "45"
+      },
+      "image": {
+        "type": "Data",
+        "url": "https://vision.odata.gael.fr/odata/v1/Products(7ed5790f-cf65-4f43-8973-3869a007cc76)/AttachedFiles('quick-look.jpg')/$value",
+        "auth": {
+                  "type": "No auth"
+                }
+              }
+            },
+    "next_schedule": "None",
+    "schedule_id": "image-rotation_c3"
+  },
+  {
+    "type": "cron",
+    "schedule": "35 13 * * *",
+    "schedule_name": "c3",
+    "deltatwin_name": "image-rotation",
+    "owner": "deltateam",
+    "deltatwin_version": "1.0.0",
+    "inputs": {
+        "angle": {
+        "type": "integer",
+        "value": "45"
+      },
+      "image": {
+        "type": "Data",
+        "url": "https://vision.odata.gael.fr/odata/v1/Products(7ed5790f-cf65-4f43-8973-3869a007cc76)/AttachedFiles('quick-look.jpg')/$value",
+        "auth": {
+                  "type": "No auth"
+                }
+              }
+            },
+    "next_schedule": "None",
+    "schedule_id": "image-rotation_c3"
+  }
+]
