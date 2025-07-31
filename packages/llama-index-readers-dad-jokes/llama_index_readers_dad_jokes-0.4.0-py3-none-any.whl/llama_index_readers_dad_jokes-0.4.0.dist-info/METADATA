@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-dad-jokes
+Version: 0.4.0
+Summary: llama-index readers dad_jokes integration
+Author-email: Your Name <you@example.com>
+Maintainer: sidu
+License-Expression: MIT
+License-File: LICENSE
+Keywords: dad jokes,jokes
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Description-Content-Type: text/markdown
+
+# DadJoke Loader
+
+```bash
+pip install llama-index-readers-dad-jokes
+```
+
+This loader fetches a joke from icanhazdadjoke.
+
+## Usage
+
+To use this loader, load it.
+
+```python
+from llama_index.readers.dad_jokes import DadJokesReader
+
+loader = DadJokesReader()
+documents = loader.load_data()
+```
+
+This loader is designed to be used as a way to load data into [LlamaIndex](https://github.com/run-llama/llama_index/).
