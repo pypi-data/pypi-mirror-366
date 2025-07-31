@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=80.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytest-mirror"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["pluggy>=1.6.0"]
+
+[dependency-groups]
+dev = ["pytest", "pytest-cov", "pytest-mock", "ruff"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["pytest_mirror*"]
+
+[tool.setuptools.package-data]
+"pytest_mirror" = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = """
+--cov
+"""
+
+[tool.coverage.run]
+branch = true
+source = ["src/pytest_mirror"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+extend-select = [
+    "UP",  # pyupgrade
+    "I",   # isort
+    "B",   # bugbear
+    "C4",  # comprehensions
+    "TID", # tidy imports
+    "G",   # lazy logging
+    "D",   # docstring style
+    "PTH", # path-like
+]
+ignore = []
+unfixable = [
+    "F401", # unused imports
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pytest_mirror"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[project.entry-points."pytest11"]
+mirror = "pytest_mirror.plugin"
+
+[project.scripts]
+pytest-mirror = "pytest_mirror.cli:main"
