@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: umapper
+Version: 0.1.5
+Summary: Data mapping facilities
+Author-email: Gustavo Venturini <gustavo.c.venturini@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/vottini/umapper
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyhumps==3.8.0
+Dynamic: license-file
+
+
+# umapper
+
+[![Documentation Status](https://readthedocs.org/projects/umapper/badge/?version=stable)](http://umapper.readthedocs.io/?badge=latest)
+[![codecov](https://codecov.io/github/vottini/umapper/graph/badge.svg?token=N2H2WJ0SC5)](https://codecov.io/github/vottini/umapper)
+
+**umapper** contains auxiliary methods to allow some kinds of mappings.
+Specificaly, it has methods to translate the case style (snake, camel, pascal) of
+dictionaries to and from each other. It also includes facilities to turn multiple-layered
+dictionaries into objects, and last but not least, to combine dictionaries recursively.
+
