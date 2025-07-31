@@ -1,0 +1,5 @@
+[console_scripts]
+hatch-pip-compile = hatch_pip_compile.cli:cli
+
+[hatch]
+hatch-pip-compile = hatch_pip_compile.hooks
