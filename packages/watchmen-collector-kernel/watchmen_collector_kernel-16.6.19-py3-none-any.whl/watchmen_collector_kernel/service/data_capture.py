@@ -1,0 +1,76 @@
+from logging import getLogger
+from typing import Optional, Dict, Any, Tuple
+
+from watchmen_auth import PrincipalService
+from watchmen_collector_kernel.model import CollectorTableConfig
+from .table_config_service import get_table_config_service
+from .extract_source import ask_source_extractor
+from watchmen_collector_kernel.storage import get_collector_table_config_service
+from watchmen_storage import TransactionalStorageSPI, SnowflakeGenerator
+from watchmen_utilities import ArrayHelper
+from .extract_utils import build_criteria_by_join_key
+
+logger = getLogger(__name__)
+
+
+class DataCaptureService:
+
+	def __init__(self, storage: TransactionalStorageSPI,
+	             snowflake_generator: SnowflakeGenerator,
+	             principal_service: PrincipalService):
+		self.meta_storage = storage
+		self.snowflake_generator = snowflake_generator
+		self.principal_service = principal_service
+		self.collector_table_config_service = get_collector_table_config_service(self.meta_storage,
+		                                                                         self.snowflake_generator,
+		                                                                         self.principal_service)
+		self.table_config_service = get_table_config_service(self.principal_service)
+
+	# noinspection PyMethodMayBeStatic
+	def find_data_by_data_id(self, config: CollectorTableConfig, data_id: Dict) -> Optional[Dict[str, Any]]:
+		return ask_source_extractor(config).find_one_by_primary_keys(data_id)
+
+	def find_parent_node(self, config: CollectorTableConfig,
+	                     data_: Dict) -> Tuple[CollectorTableConfig, Optional[Dict[str, Any]]]:
+		if config.parentName:
+			parent_config = self.table_config_service.find_by_name(config.parentName, config.tenantId)
+			parent_data = ask_source_extractor(parent_config).find_records_by_criteria(
+				ArrayHelper(config.joinKeys).map(lambda join_key: build_criteria_by_join_key(join_key.parentKey, data_)).to_list()
+			)
+			if len(parent_data) != 1:
+				raise RuntimeError(f'The data : {data_}, config_name: {config.name}, '
+				                   f'parent_config_name: {parent_config.name}, size: {len(parent_data)}')
+			return self.find_parent_node(parent_config, parent_data[0])
+		else:
+			return config, data_
+
+	def build_json(self,
+	               config: CollectorTableConfig,
+	               data: Dict):
+		child_configs = self.table_config_service.find_by_parent_name(config.name, config.tenantId)
+		if child_configs:
+			ArrayHelper(child_configs).map(lambda child_config: self.get_child_data(child_config, data))
+
+	def get_child_data(self, child_config: CollectorTableConfig, data_: Dict):
+		child_data = ask_source_extractor(child_config).find_records_by_criteria(
+			ArrayHelper(child_config.joinKeys).map(lambda join_key: build_criteria_by_join_key(join_key.childKey, data_)).to_list()
+		)
+		if child_data:
+			if child_config.isList:
+				data_[child_config.label] = child_data
+			else:
+				data_[child_config.label] = child_data[0]
+			ArrayHelper(child_data).each(lambda child: self.build_json(child_config, child))
+
+	def build_json_template(self, config: CollectorTableConfig, data_: Dict = None) -> Dict:
+		record = ask_source_extractor(config).find_one_record_of_table()
+		if data_:
+			if config.isList:
+				data_[config.label] = record
+			else:
+				data_[config.label] = record[0]
+		else:
+			data_ = record[0]
+		child_configs = self.table_config_service.find_by_parent_name(config.name, config.tenantId)
+		ArrayHelper(child_configs).map(lambda child_config: self.build_json_template(child_config, record[0]))
+		return data_
