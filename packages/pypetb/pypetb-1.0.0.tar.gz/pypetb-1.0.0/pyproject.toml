@@ -1,0 +1,95 @@
+[tool.poetry]
+name = "pypetb"
+version = "1.0.0"
+description = "A Set of process engineering tools. Gage RnR, Automated Gage repeatability and Capability analysis are currently available"
+license = "MIT"
+authors = ["Jose Garcia <jgherruzo@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pypetb", from = "src"}]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Framework :: Flake8",
+    "Framework :: Matplotlib",
+    "Framework :: Pytest",
+    "Framework :: Sphinx",
+    "Intended Audience :: Manufacturing",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+repository  = "https://github.com/jgherruzo/pyPETB"
+documentation = "https://pypetb.readthedocs.io/en/latest/"
+keywords = ["engineering", "chemical engineering","six sigma","process improvement"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Pillow = ">=10.3.0"
+Tornado = "^6.5.0"
+urllib3 = "^2.5.0"
+requests = "^2.32.4"
+Jinja2 = "^3.1.6"
+pandas = [
+    {version = "^2.1.4", python = "~3.11"},
+]
+numpy = [
+    {version = "^1.26.2", python = "~3.11"},
+]
+seaborn = [
+    {version = "^0.13.0", python = "~3.11"},
+]
+matplotlib = [
+    {version = "^3.8.2", python = "~3.11"},
+]
+scipy = [
+    {version = "^1.11.4", python = "~3.11"},
+]
+
+[tool.isort]
+profile = "black"
+known_third_party = ["matplotlib", "numpy", "pandas", "pylab", "pypetb", "scipy"]
+
+[tool.black]
+line-length = 79
+exclude = '''
+/(
+\.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build
+| dist
+| docs
+)/
+'''
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+isort = "^5.13.2"
+pre-commit = "^3.6.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.3"
+hypothesis = "^6.92.1"
+flake8 = "^6.1.0"
+pydocstringformatter = "^0.7.3"
+
+
+[tool.poetry.group.doc.dependencies]
+sphinx = "^7.2.6"
+sphinx-autobuild = "^2021.3.14"
+myst-parser = "^2.0.0"
+nbsphinx = "^0.9.3"
+sphinx-autoapi = "^3.0.0"
+sphinx-rtd-theme = "^2.0.0"
+pandoc = "^2.3"
+ipykernel = "^6.27.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
