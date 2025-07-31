@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-quip
+Version: 0.3.0
+Summary: llama-index readers quip integration
+Author-email: Chirag Agrawal <you@example.com>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Description-Content-Type: text/markdown
+
+# LlamaIndex Readers Integration: Quip
+
+## Overview
+
+The Quip Reader enables loading data from Quip documents. It constructs queries to retrieve thread content based on thread IDs.
+
+### Installation
+
+You can install the Quip Reader via pip:
+
+```bash
+pip install llama-index-readers-quip
+```
+
+### Usage
+
+```python
+from llama_index.readers.quip import QuipReader
+
+# Initialize QuipReader
+reader = QuipReader(access_token="<Access Token>")
+
+# Load data from Quip
+documents = reader.load_data(thread_ids=["<Thread ID 1>", "<Thread ID 2>"])
+```
+
+This loader is designed to be used as a way to load data into
+[LlamaIndex](https://github.com/run-llama/llama_index/tree/main/llama_index) and/or subsequently
+used as a Tool in a [LangChain](https://github.com/hwchase17/langchain) Agent.
