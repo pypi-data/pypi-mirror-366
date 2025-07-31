@@ -1,0 +1,55 @@
+Metadata-Version: 2.4
+Name: guardrails-detectors-common
+Version: 0.1.1
+Summary: Common utilities and base classes for guardrails detectors
+Project-URL: Homepage, https://github.com/trustyai-explainability/guardrails-detectors
+Project-URL: Repository, https://github.com/trustyai-explainability/guardrails-detectors.git
+Project-URL: Issues, https://github.com/trustyai-explainability/guardrails-detectors/issues
+Author: TrustyAI team
+Author-email: Mac Misiura <mmisiura@redhat.com>, Rob Geada <rgeada@redhat.com>, Rui Vieira <rcardoso@redhat.com>, Sai Chandra <spandraj@redhat.com>
+License: Apache-2.0
+License-File: LICENSE
+Keywords: AI,Detectors,Guardrails,LLM,Responsible AI,TrustyAI
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Requires-Dist: fastapi>=0.112.0
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: prometheus-client>=0.18.0
+Requires-Dist: prometheus-fastapi-instrumentator>=7.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0.2
+Requires-Dist: uvicorn>=0.30.5
+Provides-Extra: dev
+Requires-Dist: build; extra == 'dev'
+Requires-Dist: pre-commit>=3.8.0; extra == 'dev'
+Requires-Dist: pytest>=8.3.2; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Guardrails Detectors Common
+
+Common utilities and base classes for guardrails detector packages.
+
+## Overview
+
+This package provides components used by all guardrails detector packages:
+
+- **FastAPI Base Classes**: `DetectorBaseAPI` for creating detector web services
+- **Logging**: Configured logger instance for consistent logging across detectors
+- **Data Models**: Shared Pydantic models for request/response schemas
+
+## Installation
+
+```bash
+pip install guardrails-detectors-common
+```
+
+## License
+
+Apache-2.0 
