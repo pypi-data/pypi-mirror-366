@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "scale_sensor_fusion_io"
+version = "0.5.4"
+description = "Library for working with timestamp-based sensor fusion scenes"
+license = "Apache-2.0"
+authors = [
+    "Michael Choi <michael.choi@scale.com>",
+    "Rodrigo Belfiore <rodrigo.belfiore@scale.com>",
+    "Marco Santarcangelo Zazzetta <marco.santarcangelo@scale.com>"
+]
+readme = ["docs/README.md"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+numpy = "^2.2.3"
+ujson = "^5.7.0"
+pandas = "^2.2.3"
+scipy = "^1.10.1"
+dacite2 = "^2.0.0"
+scale-json-binary = "^0.0.7"
+typing-extensions = "^4.5.0"
+opencv-python = "^4.7.0.72"
+sk-video = "^1.1.10"
+ffmpeg-python = "^0.2.0"
+tqdm = "^4.65.0"
+pyturbojpeg = "^1.7.1"
+
+
+[[tool.poetry.source]]
+name = "scale-pypi"
+url = "https://scale-307185671274.d.codeartifact.us-west-2.amazonaws.com/pypi/scale-pypi/simple/"
+priority = "explicit"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+types-tqdm = "^4.65.0.1"
+mypy = "^0.991"
+types-ujson = "^5.7.0"
+pytest = "^7.2.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.lint]
+select = ["NPY201"]
