@@ -1,0 +1,100 @@
+[project]
+name = "ebilab"
+description = "Python package for my research"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [
+    { name = "Yusuke Ebihara", email = "yusuke@ebihara.me" }
+]
+requires-python = ">=3.8"
+dependencies = [
+    "tqdm",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "watchdog",
+    "click",
+    "pyvisa",
+    "GitPython",
+    "chardet",
+    "pyyaml",
+    "pywin32; os_name=='nt'",
+    "tomli; python_version<'3.11'",
+    "pydantic>=2.10.6",
+]
+dynamic = ["version"]
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://ebilab.readthedocs.io/"
+"GitHub repository" = "https://github.com/ebiyuu1121/ebilab"
+
+[project.scripts]
+ebilab = "ebilab._cli:cli"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.0+UNKNOWN"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/ebilab",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["ebilab"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+    "ruff>=0.12.5",
+]
+
+[tool.ruff]
+target-version = "py38"
+exclude = [
+    "sample",
+    "docs",
+    "setup.py",
+]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "FA"]
+# TODO: B, SIM, D
+
+[tool.ebilab.data]
+csv_base_dir = "data"
+filename_format = "{name}-{timestamp}"
+timestamp_format = "%Y%m%d-%H%M%S"
+use_date_subfolder = true
+date_folder_format = "%y%m%d"
+
+[tool.mypy]
+exclude = [
+    "^sample",
+    "^docs",
+]
+disable_error_code = ["import-untyped", "unused-ignore"]
+warn_redundant_casts = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_reexport = true
+strict_equality = true
+extra_checks = true

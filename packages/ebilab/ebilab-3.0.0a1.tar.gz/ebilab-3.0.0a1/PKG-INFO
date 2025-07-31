@@ -1,0 +1,78 @@
+Metadata-Version: 2.4
+Name: ebilab
+Version: 3.0.0a1
+Summary: Python package for my research
+Project-URL: Homepage, https://ebilab.readthedocs.io/
+Project-URL: GitHub repository, https://github.com/ebiyuu1121/ebilab
+Author-email: Yusuke Ebihara <yusuke@ebihara.me>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.8
+Requires-Dist: chardet
+Requires-Dist: click
+Requires-Dist: gitpython
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: pydantic>=2.10.6
+Requires-Dist: pyvisa
+Requires-Dist: pywin32; os_name == 'nt'
+Requires-Dist: pyyaml
+Requires-Dist: tomli; python_version < '3.11'
+Requires-Dist: tqdm
+Requires-Dist: watchdog
+Description-Content-Type: text/markdown
+
+# ebilab
+
+Utility python library for lab experiment (for me)
+
+- `ebilab.experiment` : utility to control Experimental instruments
+- `ebilab.analysis` : utility for analyzing data
+
+## Installation
+
+### Normal install (Recommended)
+
+Please execute the command below in this directory.
+
+```
+pip install ebilab
+```
+
+### Development install
+
+clone this repository and run 
+
+```
+pip install -e .
+```
+
+## (For experiment) Driver setup
+
+This repository requires VISA driver.
+Please install Keysight-VISA or NI-VISA.
+
+
+## Development
+
+```
+uv sync --all-extras --dev
+```
+
+# translation
+
+Translation is conducted under transifex: https://www.transifex.com/ebilab/ebilab/
+
+
+(To maintainer)
+
+```bash
+cd doc
+make tx-push
+# translate
+make tx-pull
+```
+
