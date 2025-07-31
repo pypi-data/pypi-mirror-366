@@ -1,0 +1,77 @@
+_BASE_URL: "N/A"
+_INFO_URL: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels
+
+_SOURCE_XLIMS: [-180, 360]
+_SOURCE_YLIMS: [-90, 90]
+_SOURCE_TIMELIMS: ["1940-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+
+# Default variables to extract if no `variables` arg is provided.
+_VARIABLES:
+  [
+    "10m_u_component_of_wind",
+    "10m_v_component_of_wind",
+    "mean_sea_level_pressure",
+    "mean_surface_downward_long_wave_radiation_flux",
+    "mean_surface_downward_short_wave_radiation_flux",
+    "2m_temperature",
+    "mean_total_precipitation_rate",
+    "2m_dewpoint_temperature",
+  ]
+
+# ERA5 only has the single single-levels dataset.
+_DATASETS: { 1940-01-01: { reanalysis-era5-single-levels: default } }
+
+# KEY: The standard NC Variable for merged data (and per _standard_attrs.py)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+u10:
+  source_var: "u10"
+  tfv_var: "W10_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+v10:
+  source_var: "v10"
+  tfv_var: "W10_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+mslp:
+  source_var: "msl"
+  tfv_var: "MSLP_GRID"
+  bc_scale: 0.01
+  bc_offset: 0
+
+dlwrf:
+  source_var: "msdwlwrf"
+  tfv_var: LW_RAD_GRID
+  bc_scale: 1
+  bc_offset: 0
+
+dswrf:
+  source_var: "msdwswrf"
+  tfv_var: SW_RAD_GRID
+  bc_scale: 1
+  bc_offset: 0
+
+t2m:
+  source_var: "t2m"
+  tfv_var: AIR_TEMP_GRID
+  bc_scale: 1
+  bc_offset: 0
+
+prate:
+  source_var: "mtpr"
+  tfv_var: PRECIP_GRID
+  bc_scale: 86.4 # Convert from kg/m2/s to mm/day
+  bc_offset: 0
+
+relhum:
+  source_var: d2m
+  tfv_var: "relative_humidity"
+  bc_scale: 1
+  bc_offset: 0
+  pre_process: dewpt_to_relhum(d2m, t2m)

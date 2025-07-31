@@ -1,0 +1,39 @@
+_BASE_URL: "https://data-cbr.csiro.au/thredds/dodsC/catch_all/CMAR_CAWCR-Wave_archive/CAWCR_Wave_Hindcast_aggregate/gridded"
+_INFO_URL: https://data.csiro.au/collection/csiro:39819
+
+_SOURCE_XLIMS: [100., 175.]
+_SOURCE_YLIMS: [-50., 3.]
+_SOURCE_TIMELIMS: ["1979-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+_VARIABLES: ["hs", "fp", "dir", "t02", "spr"]
+_DATASETS: { 1979-01-01: { ww3.aus_4m.%y%m: default } }
+
+# KEY: The standard NC Variable for merged data (and per `_standard_attrs.py`)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+hs:
+  source_var: "hs"
+  tfv_var: "WVHT"
+  bc_scale: 1
+  bc_offset: 0
+
+tp:
+  source_var: "fp"
+  tfv_var: "WVPER"
+  bc_scale: 1
+  bc_offset: 0
+  pre_process: freq_to_period(fp)
+
+tm02:
+  source_var: "t02"
+  tfv_var: "WVPER"
+  bc_scale: 1
+  bc_offset: 0
+
+mwd:
+  source_var: "dir"
+  tfv_var: "WVDIR"
+  bc_scale: 1
+  bc_offset: 0

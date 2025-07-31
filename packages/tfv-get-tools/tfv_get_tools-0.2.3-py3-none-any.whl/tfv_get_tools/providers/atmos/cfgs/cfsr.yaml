@@ -1,0 +1,68 @@
+_BASE_URL: "https://thredds.rda.ucar.edu/thredds/dodsC/files/g"
+_INFO_URL: https://climatedataguide.ucar.edu/climate-data/climate-forecast-system-reanalysis-cfsr
+
+_SOURCE_XLIMS: [-180.0, 359.5]
+_SOURCE_YLIMS: [-90.0, 90.0]
+_SOURCE_TIMELIMS: ["1979-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+
+# Default variables to extract if no `variables` arg is provided.
+_VARIABLES: ["wnd10m", "prmsl", "dlwsfc", "dswsfc", "tmp2m", "rh2m", "prate"]
+
+# This CFSR dataset mapping links the dataset id and system name to the valid date.
+# The full opendap url takes the form <base_url>/<dset_id>/<var>.<sys>.<datestr>.grb2
+_DATASETS: {
+    1979-01-01: { d093001-gdas: default },
+    2011-01-01: { d094001-gdas: default },
+    2011-04-01: { d094001-cdas1: default },
+  } # CFSR Selected Hourly # CFSv2 Selected Hourly on GDAS # CFSv2 Selected Hourly on CDAS1
+
+# For CFSR, the merged grid will be based on the u10 variable
+u10:
+  source_var: "u-component_of_wind_height_above_ground"
+  tfv_var: "W10_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+v10:
+  source_var: "v-component_of_wind_height_above_ground"
+  tfv_var: "W10_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+mslp:
+  source_var: "Pressure_reduced_to_MSL_msl"
+  tfv_var: "MSLP_GRID"
+  bc_scale: 0.01
+  bc_offset: 0
+
+dlwrf:
+  source_var: "Downward_Long-Wave_Radp_Flux_surface_Mixed_intervals_Average"
+  tfv_var: "LW_RAD_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+dswrf:
+  source_var: "Downward_Short-Wave_Radiation_Flux_surface_Mixed_intervals_Average"
+  tfv_var: "SW_RAD_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+t2m:
+  source_var: "Temperature_height_above_ground"
+  tfv_var: "AIR_TEMP_GRID"
+  bc_scale: 1
+  bc_offset: -273.15
+
+relhum:
+  source_var: "Relative_humidity_height_above_ground"
+  tfv_var: "REL_HUM_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+prate:
+  source_var: "Precipitation_rate_surface_Mixed_intervals_Average"
+  tfv_var: PRECIP_GRID
+  bc_scale: 86.4 # Convert from kg/m2/s to mm/day
+  bc_offset: 0
