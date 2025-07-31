@@ -1,0 +1,72 @@
+[project]
+name = "openbim"
+version = "0.0.8"
+license = {file = "LICENSE.txt"}
+authors = [
+  {name="Issac Pang", email="101420268+issacpang@users.noreply.github.com"},
+  {name="Claudio M. Perez", email="50180406+claudioperez@users.noreply.github.com"}
+]
+
+description="Structure information modeling."
+readme = "README.md"
+
+keywords = [
+  "dynamics",
+  "finite-element-analysis",
+  "structural-analysis",
+  "seismic",
+  "earthquake-engineering",
+] 
+
+dependencies = [
+  "xara",
+  "veux",
+  "meshio",
+  "numpy",
+  "genson"
+]
+
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: BSD License',
+    'Programming Language :: C',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: Implementation :: CPython',
+    'Topic :: Software Development',
+    'Topic :: Scientific/Engineering',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+]
+
+[project.urls]
+Repository = "https://github.com/STAIRLab/openbim"
+Home = "https://gallery.stairlab.io"
+
+[project.scripts]
+openbim = "openbim.__main__:main"
+
+[build-system]
+requires = [
+  "setuptools >= 52.0.2",
+]
+
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
