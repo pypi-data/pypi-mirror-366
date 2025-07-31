@@ -1,0 +1,41 @@
+[project]
+name = "bennie"
+version = "0.1.0"
+authors = [
+  { name="Will Willis", email="will.willis@gmail.com" },
+]
+description = "A Python module for detecting dangling prepositions and other grammatical constructs."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["grammar", "nlp", "english", "preposition", "linter"]
+dependencies = [
+    "en-core-web-sm",
+    "spacy>=3.8.7",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"] # Or your preferred build backend
+build-backend = "setuptools.build_meta"
+
+[tool.uv.sources]
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/willwillis/bennie"
+"Bug Tracker" = "https://github.com/willwillis/bennie/issues"
