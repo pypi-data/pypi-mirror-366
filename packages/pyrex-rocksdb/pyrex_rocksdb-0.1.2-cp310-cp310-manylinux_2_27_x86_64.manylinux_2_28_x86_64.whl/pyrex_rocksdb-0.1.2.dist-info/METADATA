@@ -1,0 +1,105 @@
+Metadata-Version: 2.4
+Name: pyrex-rocksdb
+Version: 0.1.2
+Summary: A fast RocksDB wrapper for Python using pybind11.
+Author-email: Charilaos Mylonas <mylonas.charilaos@gmail.com>
+Project-URL: Homepage, https://github.com/mylonasc/pyrex
+Project-URL: Repository, https://github.com/mylonasc/pyrex
+Keywords: rocksdb,database,key-value,pybind11
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Database
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx-rtd-theme; extra == "dev"
+Requires-Dist: cibuildwheel; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
+
+[![PyPI version](https://img.shields.io/pypi/v/pyrex-rocksdb.svg)](https://pypi.org/project/pyrex-rocksdb/)
+[![Python versions](https://img.shields.io/pypi/pyversions/pyrex-rocksdb.svg)](https://img.shields.io/pypi/pyversions/pyrex-rocksdb/)
+
+# pyrex-rocksdb
+A python wrapper, for the C++ version of RocksDB.
+
+## Motivation
+rocksdb python wrappers are broken. This is yet another attempt to create a working python wrapper for rocksdb.
+
+## Example usage:
+Check the `test.py` file.
+
+## Installation
+
+
+<details>
+  <summary>Note on CICD</summary>
+The wheels provided are not completely platform-independent at the moment. 
+I heavily rely on github actions to develop since I don't own mac or windows machines.
+The CICD workflow for package builds is under development A windows/macos/linux build was successful, but further development is needed.
+</details>
+
+### Linux/WSL
+
+The library comes with `RocksDB 9` pre-packaged and statically linked. 
+
+Install simply with 
+```
+pip install pyrex-rocksdb
+```
+
+A version that dynamically links Ubuntu's rocksdb was also tried, but presented runtime errors in Ubuntu 24 default rocksdb (v9).
+
+### MacOS/Windows
+There is an early version of the library in pypi for windows and MacOS.
+
+
+Build and Use the Wrapper:
+After saving the files, follow these steps to build and use your Python wrapper:
+
+### Prerequisites:
+
+* RocksDB C++ Library Installed (headers and libraries accessible). (in Ubuntu `sudo apt-get install librocksdb` may suffice)
+* C++11 compatible compiler (e.g., g++ or clang++).
+* Python 3.7+ and its development headers.    
+
+* Python pybind11 package: `pip install pybind11`
+
+Python setuptools package: `pip install --upgrade setuptools`
+
+### Adjust setup.py (if needed):
+
+Open setup.py and verify that `include_dirs` and `library_dirs` correctly point to your RocksDB installation paths. 
+If RocksDB is not in `/usr/local/include` or `/usr/local/lib`, update these paths.
+
+If RocksDB was built with specific compression libraries (like Snappy, Zlib, LZ4, Zstandard), add their corresponding names (e.g., 'snappy', 'z') to the libraries list.
+
+Compile the Wrapper:
+Navigate to the directory containing rocksdb_wrapper.cpp and setup.py in your terminal, and run:
+
+```Bash
+# build with pyproject.toml (uses setup.py for some programmatic parts)
+pip install build
+python -m build
+```
+
+## For PyPi compatible build
+Either rely on the CICD/Actions to work, or use a local `.toml`:
+
+```
+cibuildwheel --platform linux --config-file pyproject_localbuild.toml 
+```
