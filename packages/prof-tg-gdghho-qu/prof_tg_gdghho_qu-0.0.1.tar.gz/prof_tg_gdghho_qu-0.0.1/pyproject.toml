@@ -1,0 +1,29 @@
+[project]
+name = "prof-tg-gdghho-qu"
+version = "0.0.1"
+description = "prof tool"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+dependencies = [
+    "telethon",
+    "httpx",
+    "websocket-client",
+    "pyfiglet",
+    "rich",
+    "beautifulsoup4",
+    "pysocks"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+prof = "prof.start:main"
+
+[tool.setuptools.package-data]
+prof = ["main.pyd"]
