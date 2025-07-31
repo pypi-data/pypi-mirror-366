@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: llama-index-retrievers-mongodb-atlas-bm25-retriever
+Version: 0.4.0
+Summary: llama-index retrievers mongodb-atlas-bm25-retriever integration
+Author-email: Your Name <you@example.com>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: pymongo<5,>=4.6.1
+Description-Content-Type: text/markdown
+
+# LlamaIndex Retrievers Integration: MongoDBAtlasBM25Retriever
+
+## What is this?
+
+This is a BM25 Retriever for MongoDB Atlas that can be used with LlamaIndex.
+
+## How to use
+
+This was created with reference to [MongoDBAtlasVectorSearch](https://docs.llamaindex.ai/en/stable/examples/vector_stores/MongoDBAtlasVectorSearch.html), so it's mostly the same.
+
+Please refer to that.
+
+However, while `MongoDBAtlasVectorSearch` is an VectorStore, `MongoDBAtlasBM25Retriever` is a Retriever.
+
+MongoDBAtlasBM25Retriever Example:
+
+```python
+mongodb_client = pymongo.MongoClient(mongo_uri)
+
+retriever = MongoDBAtlasBM25Retriever(
+    mongodb_client=mongodb_client,
+    db_name="vectorstore",
+    collection_name="vector_collection",
+    index_name="index_vector_collection",
+)
+nodes = retriever.retrieve("retrieve_query")
+```
