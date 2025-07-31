@@ -1,0 +1,12 @@
+PyKCS11>=1.5.14
+cryptography>=44.0.0
+asn1crypto>=1.5.1
+
+[mypy]
+PKCS11-cryptography-keys
+types-PyYAML
+
+[testing]
+PKCS11-cryptography-keys
+pytest>=6.1.1
+pytest-cov<6.3,>=4.0
