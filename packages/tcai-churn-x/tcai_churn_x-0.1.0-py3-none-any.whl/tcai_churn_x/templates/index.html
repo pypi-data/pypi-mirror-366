@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--secondary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .prediction-result {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .prediction-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .churn {
+            color: var(--accent-color);
+        }
+        
+        .no-churn {
+            color: #27ae60;
+        }
+        
+        .probability-meter {
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .probability-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">
+            <i class="fas fa-chart-line me-2"></i>Customer Churn Prediction
+        </h1>
+        <form method="POST" class="mt-4">
+            <div class="row">
+                <!-- First Column -->
+                <div class="col-md-4">
+                    <div class="section-title">
+                        <i class="fas fa-user me-2"></i>Customer Details
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select id="gender" name="gender" class="form-select">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="SeniorCitizen" class="form-label">Senior Citizen</label>
+                        <select id="SeniorCitizen" name="SeniorCitizen" class="form-select">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Partner" class="form-label">Partner</label>
+                        <select id="Partner" name="Partner" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Dependents" class="form-label">Dependents</label>
+                        <select id="Dependents" name="Dependents" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tenure" class="form-label">Tenure (months)</label>
+                        <input type="number" id="tenure" name="tenure" class="form-control" required min="0">
+                    </div>
+                </div>
+
+                <!-- Second Column -->
+                <div class="col-md-4">
+                    <div class="section-title">
+                        <i class="fas fa-phone-alt me-2"></i>Services
+                    </div>
+                    <div class="mb-3">
+                        <label for="PhoneService" class="form-label">Phone Service</label>
+                        <select id="PhoneService" name="PhoneService" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="MultipleLines" class="form-label">Multiple Lines</label>
+                        <select id="MultipleLines" name="MultipleLines" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No phone service">No phone service</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="InternetService" class="form-label">Internet Service</label>
+                        <select id="InternetService" name="InternetService" class="form-select">
+                            <option value="DSL">DSL</option>
+                            <option value="Fiber optic">Fiber optic</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="OnlineSecurity" class="form-label">Online Security</label>
+                        <select id="OnlineSecurity" name="OnlineSecurity" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="OnlineBackup" class="form-label">Online Backup</label>
+                        <select id="OnlineBackup" name="OnlineBackup" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Third Column -->
+                <div class="col-md-4">
+                    <div class="section-title">
+                        <i class="fas fa-cogs me-2"></i>Additional Features
+                    </div>
+                    <div class="mb-3">
+                        <label for="DeviceProtection" class="form-label">Device Protection</label>
+                        <select id="DeviceProtection" name="DeviceProtection" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="TechSupport" class="form-label">Tech Support</label>
+                        <select id="TechSupport" name="TechSupport" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="StreamingTV" class="form-label">Streaming TV</label>
+                        <select id="StreamingTV" name="StreamingTV" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="StreamingMovies" class="form-label">Streaming Movies</label>
+                        <select id="StreamingMovies" name="StreamingMovies" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="No internet service">No internet service</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Contract" class="form-label">Contract</label>
+                        <select id="Contract" name="Contract" class="form-select">
+                            <option value="Month-to-month">Month-to-month</option>
+                            <option value="One year">One year</option>
+                            <option value="Two year">Two year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="section-title">
+                        <i class="fas fa-file-invoice-dollar me-2"></i>Billing Information
+                    </div>
+                    <div class="mb-3">
+                        <label for="PaperlessBilling" class="form-label">Paperless Billing</label>
+                        <select id="PaperlessBilling" name="PaperlessBilling" class="form-select">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="PaymentMethod" class="form-label">Payment Method</label>
+                        <select id="PaymentMethod" name="PaymentMethod" class="form-select">
+                            <option value="Electronic check">Electronic check</option>
+                            <option value="Mailed check">Mailed check</option>
+                            <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                            <option value="Credit card (automatic)">Credit card (automatic)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="section-title">
+                        <i class="fas fa-money-bill-wave me-2"></i>Charges
+                    </div>
+                    <div class="mb-3">
+                        <label for="MonthlyCharges" class="form-label">Monthly Charges</label>
+                        <input type="number" step="0.01" id="MonthlyCharges" name="MonthlyCharges" class="form-control" required min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="TotalCharges" class="form-label">Total Charges</label>
+                        <input type="number" step="0.01" id="TotalCharges" name="TotalCharges" class="form-control" required min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-rocket me-2"></i>Predict Churn Probability
+            </button>
+        </form>
+
+        {% if prediction %}
+        <div class="prediction-result mt-4">
+            <div class="text-center">
+                <h3 class="prediction-text {% if prediction == 'Churn' %}churn{% else %}no-churn{% endif %}">
+                    {% if prediction == 'Churn' %}
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                    {% else %}
+                        <i class="fas fa-check-circle me-2"></i>
+                    {% endif %}
+                    Prediction: {{ prediction }}
+                </h3>
+                <p class="mb-2">Probability: {{ (probability * 100) | round(2) }}%</p>
+                <div class="probability-meter">
+                    <div class="probability-fill" style="width: {{ (probability * 100) | round(2) }}%; 
+                        {% if prediction == 'Churn' %}
+                            background: linear-gradient(90deg, var(--accent-color), #c0392b);
+                        {% else %}
+                            background: linear-gradient(90deg, #27ae60, #2ecc71);
+                        {% endif %}">
+                    </div>
+                </div>
+                <p class="mt-2 text-muted">
+                    {% if prediction == 'Churn' %}
+                        High risk of customer churn - consider retention strategies
+                    {% else %}
+                        Low risk of customer churn
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
