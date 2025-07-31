@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "watchmen-lineage"
+version = "16.6.19"
+description = ""
+authors = ["luke0623 <luke0623@outlook.com>"]
+readme = "README.md"
+packages = [
+    { include = "watchmen_lineage", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+watchmen-data-surface = "16.6.19"
+watchmen-pipeline-surface = "16.6.19"
+watchmen-inquiry-surface = "16.6.19"
+watchmen-inquiry-trino = { version = "16.6.19", optional = true }
+watchmen-indicator-surface = "16.6.19"
+watchmen-storage-mysql = { version = "16.6.19", optional = true }
+networkx = "^2.8.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
