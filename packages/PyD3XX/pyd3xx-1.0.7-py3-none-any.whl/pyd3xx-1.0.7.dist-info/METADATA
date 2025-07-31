@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: PyD3XX
+Version: 1.0.7
+Summary: A Python wrapper for the FTDI D3XX library.
+Keywords: FTDI,ftdichip,PyD3XX,D3XX,FTD3XX,FT600,FT601
+Author-Email: Hector Soto <hector.soto@ftdichip.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Project-URL: GitHub_Repo, https://github.com/S-Hector/PyD3XX
+Project-URL: FTDI_Homepage, https://ftdichip.com/
+Project-URL: FTDI_D3XX_Drivers, https://ftdichip.com/drivers/d3xx-drivers/
+Project-URL: D3XX_Programming_Guide, https://ftdichip.com/wp-content/uploads/2020/08/AN_379-D3xx-Programmers-Guide-1.pdf
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# PyD3XX
+A Python wrapper for the FTDI D3XX library.  
+PyD3XX supports Windows, Linux, and MacOS.  
+All D3XX dynamic library variants are included in this package, so you don't need to include them directly in your project!  
+\^You don't need and should not have any D3XX .dll, .dylib, or .so file in your script's directory.  
+This was designed so the user needs zero ctypes knowledge and not need to import anything besides PyD3XX to interact with D3XX (FT600 & FT601) devices. The user should never have to interact with a ctypes object or method.  
+
+## Documentation
+The PyD3XX Programmer's Guide is available on the GitHub repo.
+Please give the guide a read as it documents all of PyD3XX.
+GitHub Repo: https://github.com/S-Hector/PyD3XX
