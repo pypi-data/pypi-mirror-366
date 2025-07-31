@@ -1,0 +1,5 @@
+[console_scripts]
+cortex-memory = cortex_memory.cli:main
+
+[cortex_memory.plugins]
+default = cortex_memory.core:DefaultPlugin
