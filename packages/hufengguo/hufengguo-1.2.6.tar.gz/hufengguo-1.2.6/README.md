@@ -1,0 +1,55 @@
+# 扩展库介绍
+
+这是中国传媒大学胡凤国老师上课分享的自定义函数库，其中包含几个常用的文本处理函数。发布本扩展库主要是方便上课学生练习Python程序，顺便分享给其他需要的Pythoner。
+
+刚学会发布扩展库，PyPI很多东西还不熟，如有问题，请多提宝贵意见。
+
+
+# 安装说明
+
+pip install hufengguo
+
+
+# 用法说明
+
+具体用法见胡凤国老师的上课教材：《Python程序设计（基于计算思维和新文科建设）》，ISBN：9787121435577，胡凤国，电子工业出版社，2022年6月。
+
+这里举一些简单的例子。
+
+
+## 产生1到100之内的素数
+
+```
+from hufengguo import isprime
+x = [i for i in range(101) if isprime(i)]
+print(x)
+```
+
+## 去掉多行文本中的空白行和每行首尾空白符
+
+```
+from hufengguo import remove_white_from_text
+s = " 12345\t\n  上山打老虎\n \n\n"
+t = remove_white_from_text(s)
+print("字符串s：", "-"*20, s, "-"*20, "\n字符串t：", "-"*20, t, "-"*20, sep="\n")
+```
+
+## 调用jieba扩展库对一个文本文件进行分词和词性标注
+
+```
+from hufengguo import segtag_by_jieba
+segtag_by_jieba(r"in.txt", r"out.txt")
+```
+本函数会自动判断文本文件的编码并进行读取，生成文件的默认编码是utf-8-sig。
+
+
+## 调用jieba扩展库对一个目录下的文本文件进行分词和词性标注
+
+```
+from hufengguo import my_path2path, segtag_by_jieba
+my_path2path(r"in", [".txt"], r"out", segtag_by_jieba)
+```
+本函数会自动搜索目录及子目录下的所有文本文件，进行分词和词性标注操作之后保存到目标目录，目标目录会保持跟源目录相同的目录结构。
+
+本库提供的函数my_path2path()功能很强，它把目录对目录的多文件操作转化为单文件对单文件的操作。第二个参数可以换成其它的扩展名，第四个参数是一个函数名，我们可以换成其它的自定义函数来完成其它文本处理任务（要求自定义函数具有两个参数，第1个参数是源文件名，第2个参数是目标文件名，自定义函数的功能是对源文件进行自定义操作，操作结果写入目标文件）。
+
