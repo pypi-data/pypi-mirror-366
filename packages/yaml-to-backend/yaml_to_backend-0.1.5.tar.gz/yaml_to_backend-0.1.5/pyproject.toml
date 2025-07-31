@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yaml-to-backend"
+version = "0.1.5"
+description = "Generador de Backends a partir de YAML"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "IPAS Team", email = "info@ipas.com"}
+]
+maintainers = [
+    {name = "IPAS Team", email = "info@ipas.com"}
+]
+keywords = ["yaml", "backend", "generator", "fastapi", "sqlalchemy", "crud"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Database",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "sqlalchemy>=2.0.0",
+    "sqlmodel>=0.0.8",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "bcrypt>=4.0.0",
+    "python-jose[cryptography]>=3.3.0",
+    "python-multipart>=0.0.6",
+    "asyncmy>=0.2.8",
+    "python-dotenv>=1.0.0",
+    "inflection>=0.5.0",
+    "passlib[bcrypt]>=1.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.24.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
+
+[project.scripts]
+yaml-to-backend = "yaml_to_backend.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/cxmjg/yaml-to-backend"
+Documentation = "https://github.com/cxmjg/yaml-to-backend#readme"
+Repository = "https://github.com/cxmjg/yaml-to-backend"
+"Bug Tracker" = "https://github.com/cxmjg/yaml-to-backend/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yaml_to_backend*"]
+
+[tool.setuptools.package-data]
+yaml_to_backend = ["*.yaml", "*.yml"]
+
+# Trusted Publishers configuration
+[tool.pypi-publisher]
+repository = "https://pypi.org/legacy/" 
