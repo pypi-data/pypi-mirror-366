@@ -1,0 +1,98 @@
+Metadata-Version: 2.4
+Name: orthax
+Version: 0.2.5
+Summary: Orthogonal polynomials with JAX
+Home-page: https://github.com/f0uriest/orthax
+Author: Rory Conlin
+Author-email: wconlin@princeton.edu
+License: MIT
+Project-URL: Issues Tracker, https://github.com/f0uriest/orthax/issues
+Project-URL: Contributing, https://github.com/f0uriest/orthax/blob/master/CONTRIBUTING.rst
+Project-URL: Source Code, https://github.com/f0uriest/orthax/
+Project-URL: Documentation, https://orthax.readthedocs.io/
+Keywords: polynomial orthogonal hermite laguerre legendre chebyshev
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: equinox<0.14,>=0.11.0
+Requires-Dist: jax<0.8,>=0.4.36
+Requires-Dist: numpy<2.4,>=1.20.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+########
+orthax
+########
+|License| |DOI| |Issues| |Pypi|
+
+|Docs| |UnitTests| |Codecov|
+
+``orthax`` is a Python package for working with orthogonal (and other) polynomials in JAX.
+It largely seeks to replicate the functionality of the ``numpy.polynomial`` package,
+through there are some API differences due to limitations of JAX, primarily that
+trailing zeros are not automatically trimmed from series, so you should do that
+manually if it becomes a concern.
+
+For full details of various options see the `Documentation <https://orthax.readthedocs.io/en/latest/>`__
+
+Installation
+============
+
+orthax is installable with ``pip``:
+
+.. code-block:: console
+
+    pip install orthax
+
+
+
+.. |License| image:: https://img.shields.io/github/license/f0uriest/orthax?color=blue&logo=open-source-initiative&logoColor=white
+    :target: https://github.com/f0uriest/orthax/blob/master/LICENSE
+    :alt: License
+
+.. |DOI| image:: https://zenodo.org/badge/763821973.svg
+    :target: https://zenodo.org/doi/10.5281/zenodo.10774399
+    :alt: DOI
+
+.. |Docs| image:: https://img.shields.io/readthedocs/orthax?logo=Read-the-Docs
+    :target: https://orthax.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation
+
+.. |UnitTests| image:: https://github.com/f0uriest/orthax/actions/workflows/unittest.yml/badge.svg
+    :target: https://github.com/f0uriest/orthax/actions/workflows/unittest.yml
+    :alt: UnitTests
+
+.. |Codecov| image:: https://codecov.io/github/f0uriest/orthax/graph/badge.svg?token=MB11I7WE3I
+    :target: https://codecov.io/github/f0uriest/orthax
+    :alt: Coverage
+
+.. |Issues| image:: https://img.shields.io/github/issues/f0uriest/orthax
+    :target: https://github.com/f0uriest/orthax/issues
+    :alt: GitHub issues
+
+.. |Pypi| image:: https://img.shields.io/pypi/v/orthax
+    :target: https://pypi.org/project/orthax/
+    :alt: Pypi
