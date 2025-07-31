@@ -1,0 +1,1 @@
+A collection of Python utilities for catalysis and reaction engineering.
