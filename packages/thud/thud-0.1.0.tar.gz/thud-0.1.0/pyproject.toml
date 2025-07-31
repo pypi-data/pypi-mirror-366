@@ -1,0 +1,15 @@
+[project]
+name = "thud"
+version = "0.1.0"
+description = "Reactively change volume based on typing speed"
+license = { text = "MIT" }
+authors = [{ name = "Paul Bokelman", email = "paulbokelman.dev@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "osascript>=2020.12.3",
+    "pynput>=1.8.1",
+]
+
+[project.scripts]
+thud = "thud.cli:main"
