@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "synapse-token-authenticator"
+description = 'Synapse authentication module which allows for authenticating and registering using JWTs'
+readme = "README.md"
+requires-python = ">=3.11"
+license = "AGPL-3.0-only"
+keywords = []
+authors = [
+  { name = "Sorunome", email = "mail@sorunome.de" },
+  { name = "Amanda Graven", email = "amanda@graven.dev" },
+  { name = "Jan Christian Grünhage", email = "jan.christian@gruenhage.xyz" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "jwcrypto",
+  "twisted",
+  # We need to pin this because of https://github.com/element-hq/synapse/issues/17882
+  # TODO: Remove this dependency when we can
+  "Twisted==24.7.0",
+]
+version = "0.12.0"
+
+[project.urls]
+Documentation = "https://github.com/famedly/synapse-token-authenticator"
+Issues = "https://github.com/famedly/synapse-token-authenticator/issues"
+Source = "https://github.com/famedly/synapse-token-authenticator"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "black",
+  "pytest",
+  "pytest-cov",
+  "mock",
+  "matrix-synapse",
+  "ruff",
+]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=synapse_token_authenticator --cov=tests {args}"
+format = "black ."
+lint = "ruff check ."
+
+[tool.hatch.envs.ci.scripts]
+cov = "pytest --cov-report=lcov:lcov.info --cov-config=pyproject.toml --cov=synapse_token_authenticator --cov=tests"
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = []
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
