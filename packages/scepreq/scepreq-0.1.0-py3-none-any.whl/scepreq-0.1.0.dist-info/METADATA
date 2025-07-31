@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: scepreq
+Version: 0.1.0
+Summary: AD CS SCEP request tool
+Author-email: Dirk-jan Mollema <dirkjan@dirkjanm.io>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/dirkjanm/scepreq/
+Requires-Python: >=3.6
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: cryptography
+Requires-Dist: oscrypto
+Requires-Dist: asn1crypto
+Requires-Dist: certbuilder
+Requires-Dist: csrbuilder
+Dynamic: license-file
