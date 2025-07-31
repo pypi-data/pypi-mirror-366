@@ -1,0 +1,51 @@
+_BASE_URL: "N/A"
+
+_SOURCE_XLIMS: [-16.0, 13.0]
+_SOURCE_YLIMS: [46.0, 62.74]
+_SOURCE_ZLIMS: [null, null]
+_SOURCE_TIMELIMS: ["1980-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+
+# Default variables to extract if no `variables` arg is provided.
+_VARIABLES: ["VHM0", "VTPK", "VMDR", "VTM02"]
+
+# This is the map of datasets and what variables to snatch from each.
+# default == take the _VARIABLES above.
+_DATASETS:
+  {
+    1993-01-01: { MetO-NWS-WAV-RAN: ["VHM0", "VTPK", "VMDR", "VTM02"] },
+    forecast:
+      {
+        cmems_mod_nws_wav_anfc_0.05deg_PT1H-i:
+          ["VHM0", "VTPK", "VMDR", "VTM02"],
+      },
+  }
+
+# KEY: The standard NC Variable for merged data (and per `_standard_attrs.py`)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+hs:
+  source_var: "VHM0"
+  tfv_var: "WVHT"
+  bc_scale: 1
+  bc_offset: 0
+
+tp:
+  source_var: "VTPK"
+  tfv_var: "WVPER"
+  bc_scale: 1
+  bc_offset: 0
+
+tm02:
+  source_var: "VTM02"
+  tfv_var: "WVPER"
+  bc_scale: 1
+  bc_offset: 0
+
+mwd:
+  source_var: "VMDR"
+  tfv_var: "WVDIR"
+  bc_scale: 1
+  bc_offset: 0
