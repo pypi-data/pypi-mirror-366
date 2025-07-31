@@ -1,0 +1,26 @@
+permissions:
+  users: ['get', 'update', 'create', 'delete']
+  roles: ['get', 'update', 'create', 'delete']
+  permissions: ['get', 'update', 'create', 'delete']
+
+roles:
+  admin:
+    users: [ 'delete' ]
+    roles: [ 'delete' ]
+    permissions: [ 'delete' ]
+  manager:
+    users: [  'create' ]
+    roles: [  'create' ]
+    permissions: [ 'create' ]
+  customer:
+    users: [ 'get' ]
+    roles: [ 'get' ]
+    permissions: [ 'get' ]
+
+users:
+  - email: admin@mail.com
+    roles: ['admin', 'manager']
+  - email: manager@mail.com
+    roles: [ 'manager' ]
+  - email: customer@mail.com
+    roles: ['customer']
