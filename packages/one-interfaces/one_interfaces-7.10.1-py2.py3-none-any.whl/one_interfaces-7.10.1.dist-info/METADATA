@@ -1,0 +1,48 @@
+Metadata-Version: 2.2
+Name: one_interfaces
+Version: 7.10.1
+Summary: Python bindings for ONE.
+Home-page: https://github.com/aquaticinformatics/one_interfaces
+Author: Aquatic Informatics
+Author-email: info@aquaticinformatics.com
+Maintainer: Aquatic Informatics
+License: BSD
+Keywords: ONE interfaces python
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*
+License-File: LICENSE.txt
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: maintainer
+Dynamic: requires-python
+Dynamic: summary
+
+One_Interfaces
+==============
+Python bindings for One protobuf packages.
+
+Supported File Formats
+======================
+Universal wheel file and source tar ball
+
+Requirements
+============
+protobuf runtime
+
+Usage
+=====
+pip install one_interfaces-<version>-py2.py3-none-any.whl
+or once package has been published to pypi
+pip install one_interfaces==<version>
+Testing
+=======
+
