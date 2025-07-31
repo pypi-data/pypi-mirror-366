@@ -1,0 +1,94 @@
+Metadata-Version: 2.4
+Name: libica
+Version: 3.1
+Summary: Python SDK for Illumina Connected Analytics
+Home-page: https://github.com/umccr/libica
+Author: UMCCR and Contributors
+Author-email: services@umccr.org
+License: MIT
+Project-URL: Bug Tracker, https://github.com/umccr/libica/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-dateutil
+Requires-Dist: urllib3
+Requires-Dist: pydantic
+Requires-Dist: typing-extensions
+Provides-Extra: dev
+Requires-Dist: pipdeptree; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Requires-Dist: setuptools; extra == "dev"
+Requires-Dist: wheel; extra == "dev"
+Requires-Dist: build; extra == "dev"
+Requires-Dist: pdoc3; extra == "dev"
+Requires-Dist: mkdocs; extra == "dev"
+Requires-Dist: mkdocs-material; extra == "dev"
+Requires-Dist: openapi-spec-validator; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: detect-secrets; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ggshield; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: flake8; extra == "test"
+Requires-Dist: mockito; extra == "test"
+Requires-Dist: tox; extra == "test"
+Requires-Dist: nose2; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# libica
+
+[![Pull Request Build Status](https://github.com/umccr/libica/workflows/Pull%20Request%20Build/badge.svg)](https://github.com/umccr/libica/actions) 
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/libica?style=flat)](https://pypistats.org/packages/libica) 
+[![PyPI](https://img.shields.io/pypi/v/libica?style=flat)](https://pypi.org/project/libica) 
+[![PyPI - License](https://img.shields.io/pypi/l/libica?style=flat)](https://opensource.org/licenses/MIT)
+
+Python SDK to programmatically call Illumina Connected Analytics (ICA) Genomic (multi-omics) data platform and BioInformatics web services.
+
+- ICA API: https://help.ica.illumina.com/reference/r-api
+- Install through ``pip`` like so:
+```commandline
+pip install libica
+```
+
+## Overview
+
+- Tested for Python 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+- SDK Guide: [PyDoc](https://umccr.github.io/libica/libica/)
+- User Guide: https://umccr.github.io/libica/
+
+## Roadmap
+
+- See [changelog](https://github.com/umccr/libica/blob/main/CHANGELOG.md) and [closed milestones](https://github.com/umccr/libica/milestones?state=closed)
+- See opening [milestones](https://github.com/umccr/libica/milestones) for current planning and next SDK release
+
+## Release
+
+There are two SDK Python packages, namely `v2` and `v3`. If you are a new starter, please use `v3` SDK package. If you are an existing user, please upgrade to `v3` when you can. Most of the time, this should be straight forward with minor tuning to application code. Since `v3` release, the SDK `v2` package now enter into maintenance mode and deprecate by 2026 Oct.
+
+## Example
+
+- See [examples](https://github.com/umccr/libica/tree/main/examples) directory for some example scripts
+- See [wrapica](https://github.com/umccr/wrapica) and [icav2-cli-plugins](https://github.com/umccr/icav2-cli-plugins) for client application that build on top of SDK
+
+## Notice
+
+- MIT License and DISCLAIMER
+- [The Advanced Genomics Collaboration (TAGC)](https://www.tagcaustralia.com)
