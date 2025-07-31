@@ -1,0 +1,153 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thoth-vdbmanager"
+version = "0.2.22"
+authors = [
+    {name = "Marco Pancotti", email = "mp@tylconsulting.it"},
+]
+description = "A vector database management module for ThothAI Project"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["vector-database", "ai", "machine-learning", "embeddings", "similarity-search"]
+dependencies = [
+    # Core dependencies
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0",
+
+    # Haystack framework
+    "haystack-ai>=2.12.0",
+    "sentence-transformers>=2.2.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mptyl/thoth_vdb2"
+"Bug Tracker" = "https://github.com/mptyl/thoth_vdb2/issues"
+"Documentation" = "https://github.com/mptyl/thoth_vdb2#readme"
+"Source Code" = "https://github.com/mptyl/thoth_vdb2"
+
+[project.optional-dependencies]
+# Test dependencies
+test = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "docker>=7.0.0",
+    "PyYAML>=6.0.0",
+]
+
+# Vector database backends - Core (no grpcio conflicts)
+qdrant = [
+    "qdrant-haystack>=9.1.1,<9.2.0",
+    "qdrant-client>=1.15.0,<1.16.0",
+]
+chroma = [
+    "chroma-haystack>=3.0.0",
+    "chromadb>=1.0.0",
+]
+pgvector = [
+    "pgvector-haystack>=5.0.0",
+    "pgvector>=0.4.0",
+    "psycopg>=3.0.0",
+]
+pinecone = [
+    "pinecone-haystack>=5.0.0",
+    "pinecone>=7.0.0",
+]
+
+# Vector database backends - Conflicting grpcio versions (mutually exclusive)
+# WARNING: weaviate and milvus cannot be installed together due to grpcio version conflicts
+# Choose ONE of the following groups:
+
+# Option 1: Weaviate support (requires grpcio>=1.74.0)
+weaviate = [
+    "weaviate-haystack>=6.0.0",
+    "weaviate-client>=4.0.0",
+    # Note: This will install grpcio>=1.74.0 and protobuf>=6.31.1
+]
+
+# Option 2: Milvus support (requires grpcio<=1.67.1) - PREFERRED when both requested
+milvus = [
+    "milvus-haystack>=0.0.16",
+    "pymilvus>=2.5.0",
+    "grpcio>=1.49.1,<=1.67.1",  # Explicit constraint to prevent conflicts
+    "protobuf>=5.26.1,<6.0.0",  # Compatible with grpcio<=1.67.1
+]
+
+# Convenience groups
+# NOTE: 'all' excludes weaviate due to grpcio conflicts with milvus
+# Use 'all-safe' for non-conflicting backends or 'all-with-weaviate' for weaviate instead of milvus
+all = [
+    # Core backends (no conflicts)
+    "qdrant-haystack>=9.1.1,<9.2.0",
+    "qdrant-client>=1.15.0,<1.16.0",
+    "chroma-haystack>=3.0.0",
+    "chromadb>=1.0.0",
+    "pgvector-haystack>=5.0.0",
+    "pgvector>=0.4.0",
+    "psycopg>=3.0.0",
+    "pinecone-haystack>=5.0.0",
+    "pinecone>=7.0.0",
+    # Milvus (preferred over weaviate when both requested)
+    "milvus-haystack>=0.0.16",
+    "pymilvus>=2.5.0",
+    "grpcio>=1.49.1,<=1.67.1",
+    "protobuf>=5.26.1,<6.0.0",
+]
+
+# Alternative: All backends with Weaviate instead of Milvus
+all-with-weaviate = [
+    # Core backends (no conflicts)
+    "qdrant-haystack>=9.1.1,<9.2.0",
+    "qdrant-client>=1.15.0,<1.16.0",
+    "chroma-haystack>=3.0.0",
+    "chromadb>=1.0.0",
+    "pgvector-haystack>=5.0.0",
+    "pgvector>=0.4.0",
+    "psycopg>=3.0.0",
+    "pinecone-haystack>=5.0.0",
+    "pinecone>=7.0.0",
+    # Weaviate (instead of milvus)
+    "weaviate-haystack>=6.0.0",
+    "weaviate-client>=4.0.0",
+]
+
+# Safe backends only (no grpcio conflicts)
+all-safe = [
+    "qdrant-haystack>=9.1.1,<9.2.0",
+    "qdrant-client>=1.15.0,<1.16.0",
+    "chroma-haystack>=3.0.0",
+    "chromadb>=1.0.0",
+    "pgvector-haystack>=5.0.0",
+    "pgvector>=0.4.0",
+    "psycopg>=3.0.0",
+    "pinecone-haystack>=5.0.0",
+    "pinecone>=7.0.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "docker>=7.0.0",
+    "PyYAML>=6.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["thoth_vdb*"]
+exclude = ["tests*", "test_*"]
+
+[tool.setuptools.package-data]
+"thoth_vdbmanager.vdbmanager" = ["py.typed"]
