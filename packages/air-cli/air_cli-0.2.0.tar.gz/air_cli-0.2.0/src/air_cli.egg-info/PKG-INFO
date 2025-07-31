@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: air-cli
+Version: 0.2.0
+Summary: Run and manage Air apps from the CLI.
+Author-email: "Audrey M. Roy Greenfeld" <audrey@feldroy.com>, Daniel Roy Greenfeld <daniel@feldroy.com>
+Maintainer-email: "Audrey M. Roy Greenfeld" <audrey@feldroy.com>, Daniel Roy Greenfeld <daniel@feldroy.com>
+License: MIT
+Project-URL: bugs, https://github.com/audreyfeldroy/air_cli/issues
+Project-URL: changelog, https://github.com/audreyfeldroy/air_cli/blob/master/changelog.md
+Project-URL: homepage, https://github.com/audreyfeldroy/air_cli
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development
+Classifier: Typing :: Typed
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Framework :: FastAPI
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jinja2>=3.1.6
+Requires-Dist: markdown>=3.8
+Requires-Dist: typer
+Provides-Extra: test
+Requires-Dist: coverage; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: ruff; extra == "test"
+Requires-Dist: ty; extra == "test"
+Requires-Dist: rust-just; extra == "test"
+Dynamic: license-file
+
+# air-cli
+
+![PyPI version](https://img.shields.io/pypi/v/air_cli.svg)
+[![Documentation Status](https://readthedocs.org/projects/air-cli/badge/?version=latest)](https://air-cli.readthedocs.io/en/latest/?version=latest)
+
+Run and manage Air apps from the CLI.
+
+* Free software: MIT License
+* Documentation: https://air-cli.readthedocs.io.
+
+## Features
+
+* TODO
+
+## Credits
+
+This package was created with [Cookiecutter](https://github.com/audreyfeldroy/cookiecutter) and the [audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) project template.

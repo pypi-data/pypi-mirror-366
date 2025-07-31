@@ -1,0 +1,75 @@
+[project]
+name = "air-cli"
+version = "0.2.0"
+description = "Run and manage Air apps from the CLI."
+readme = "README.md"
+authors = [
+  {name = "Audrey M. Roy Greenfeld", email = "audrey@feldroy.com"},
+  {name = "Daniel Roy Greenfeld", email = "daniel@feldroy.com"}
+]
+maintainers = [
+  {name = "Audrey M. Roy Greenfeld", email = "audrey@feldroy.com"},
+  {name = "Daniel Roy Greenfeld", email = "daniel@feldroy.com"}
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+license = {text = "MIT"}
+dependencies = [
+  "jinja2>=3.1.6",
+  "markdown>=3.8",
+  "typer",
+]
+requires-python = ">= 3.10"
+
+[project.optional-dependencies]
+test = [
+    "coverage",  # testing
+    "pytest",  # testing
+    "ruff",  # linting
+    "ty", # checking types
+    "rust-just", # CLI commands
+]
+
+[project.urls]
+
+bugs = "https://github.com/audreyfeldroy/air_cli/issues"
+changelog = "https://github.com/audreyfeldroy/air_cli/blob/master/changelog.md"
+homepage = "https://github.com/audreyfeldroy/air_cli"
+
+[project.scripts]
+air = "air_cli.cli:app"
+
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+
+[tool.uv]
+package = true
