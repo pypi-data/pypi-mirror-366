@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ASHC_v3"
+version = "8.2025.0"
+license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+dependencies = [
+  "polars==1.28.1",
+  "xlwings==0.33.15",
+  "PySide6==6.9.1",
+]
+requires-python = ">=3.10"
+authors = [
+  {name = "Tanmoy Sarkar", email = "tanmoy.apparel@gmail.com"},
+]
+maintainers = [
+  {name = "Tanmoy Sarkar", email = "tanmoy.apparel@gmail.com"}
+]
+description = "Some common functions to make work faster"
+readme = "README.rst"
+keywords = ["ashc", "ASHC"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/sarkar-tanmoy/"
+Repository = "https://github.com/sarkar-tanmoy/"
