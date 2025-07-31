@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rallies"
+version = "0.1.0"
+description = "Stock Analysis Agent"
+authors = [{name = "Rallies Team"}]
+license = {text = "GPL-3.0"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "rich",
+    "inquirer", 
+    "tiktoken",
+    "requests",
+    "openai",
+    "numpy"
+]
+
+[project.scripts]
+rallies = "rallies.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
