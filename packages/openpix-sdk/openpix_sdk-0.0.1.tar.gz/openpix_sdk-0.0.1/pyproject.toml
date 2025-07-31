@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling >= 1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openpix-sdk"
+version = "0.0.1"
+authors = [
+    {name = "Fabio Antonio Astore", email = "astore.a.fabio@gmail.com"}
+]
+description = "Openpix SDK usign async http client with httpx"
+readme = "README.md"
+requires-python = ">=3.13.5"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+keywords = [
+    "Openpix",
+    "SDK"
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/fabioantonioastore/async-openpix-sdk"
+Issues = "https://github.com/fabioantonioastore/async-openpix-sdk/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["openpix"]
