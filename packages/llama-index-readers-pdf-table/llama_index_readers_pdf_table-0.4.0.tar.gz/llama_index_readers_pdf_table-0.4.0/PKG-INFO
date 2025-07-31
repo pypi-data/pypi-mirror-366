@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-pdf-table
+Version: 0.4.0
+Summary: llama-index readers pdf_table integration
+Author-email: Your Name <you@example.com>
+Maintainer: yy0867
+License-Expression: GPL-3.0-or-later
+License-File: LICENSE
+Keywords: pdf,pdf table,table
+Requires-Python: <4.0,>=3.9
+Requires-Dist: camelot-py<0.12,>=0.11.0
+Requires-Dist: ghostscript<0.8,>=0.7
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: opencv-python<5,>=4.9.0.80
+Requires-Dist: pandas
+Description-Content-Type: text/markdown
+
+# PDF Table Loader
+
+```bash
+pip install llama-index-readers-pdf-table
+```
+
+This loader reads the tables included in the PDF.
+
+Users can input the PDF `file` and the `pages` from which they want to extract tables, and they can read the tables included on those pages.
+
+## Usage
+
+Here's an example usage of the PDFTableReader.
+`pages` parameter is the same as camelot's `pages`. Therefore, you can use patterns such as `all`, `1,2,3`, `10-20`, and so on.
+
+```python
+from llama_index.readers.pdf_table import PDFTableReader
+from pathlib import Path
+
+reader = PDFTableReader()
+pdf_path = Path("/path/to/pdf")
+documents = reader.load_data(file=pdf_path, pages="80-90")
+```
+
+## Example
+
+This loader is designed to be used as a way to load data into [LlamaIndex](https://github.com/run-llama/llama_index/).
