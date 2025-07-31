@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game.name }} - Record Chart | Satta King UK Bazar{% endblock %}
+{% block description %}View detailed record chart for {{ game.name }} with historical results and timing information at {{ game.time }}.{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('index') }}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ game.name }}</li>
+            </ol>
+        </nav>
+
+        <!-- Game Header -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="h3 mb-0">
+                            <i class="fas fa-chart-line"></i>
+                            {{ game.name }} - Record Chart
+                        </h1>
+                        <small class="text-light">
+                            <i class="fas fa-clock"></i> Game Time: {{ game.time }}
+                        </small>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        {% if game.status == 'live' %}
+                            <span class="badge bg-danger fs-6">
+                                <i class="fas fa-dot-circle blink"></i> LIVE
+                            </span>
+                        {% elif game.status == 'next' %}
+                            <span class="badge bg-warning text-dark fs-6">
+                                <i class="fas fa-clock"></i> UPCOMING
+                            </span>
+                        {% elif game.status == 'completed' %}
+                            <span class="badge bg-success fs-6">
+                                <i class="fas fa-check-circle"></i> COMPLETED
+                            </span>
+                        {% else %}
+                            <span class="badge bg-secondary fs-6">
+                                <i class="fas fa-pause-circle"></i> REST
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <h5 class="text-muted">Yesterday's Result</h5>
+                        <div class="display-4 text-primary">{{ game.yesterday_result }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-muted">Today's Result</h5>
+                        <div class="display-4 {% if game.today_result == 'XX' or game.today_result == '--' %}text-muted{% else %}text-success{% endif %}">
+                            {{ game.today_result }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Chart Placeholder -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h3 class="h5 mb-0">
+                    <i class="fas fa-history"></i>
+                    Historical Record Chart
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info border-0" role="alert">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Chart Information:</strong> Historical data and detailed charts for {{ game.name }} 
+                    will be displayed here. This includes past results, trends, and statistical analysis.
+                </div>
+                
+                <!-- Sample Chart Table -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col" class="text-center">Result</th>
+                                <th scope="col" class="text-center">Time</th>
+                                <th scope="col" class="text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>July 31, 2025</td>
+                                <td class="text-center">
+                                    <span class="badge bg-primary">{{ game.today_result }}</span>
+                                </td>
+                                <td class="text-center">{{ game.time }}</td>
+                                <td class="text-center">
+                                    {% if game.status == 'live' %}
+                                        <span class="badge bg-danger">Live</span>
+                                    {% elif game.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>July 30, 2025</td>
+                                <td class="text-center">
+                                    <span class="badge bg-secondary">{{ game.yesterday_result }}</span>
+                                </td>
+                                <td class="text-center">{{ game.time }}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-success">Completed</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Statistics -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="h6 mb-0">
+                            <i class="fas fa-chart-pie"></i>
+                            Game Statistics
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h5 class="text-muted mb-1">Total Games</h5>
+                                    <div class="h4 text-primary">31</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="text-muted mb-1">This Month</h5>
+                                <div class="h4 text-success">31</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="h6 mb-0">
+                            <i class="fas fa-clock"></i>
+                            Timing Information
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">
+                            <strong>Game Time:</strong> {{ game.time }}
+                        </p>
+                        <p class="mb-2">
+                            <strong>Status:</strong> 
+                            {% if game.status == 'live' %}
+                                <span class="text-danger">Currently Live</span>
+                            {% elif game.status == 'next' %}
+                                <span class="text-warning">Next in Queue</span>
+                            {% elif game.status == 'completed' %}
+                                <span class="text-success">Completed for Today</span>
+                            {% else %}
+                                <span class="text-secondary">Rest Period</span>
+                            {% endif %}
+                        </p>
+                        <p class="mb-0">
+                            <strong>Last Updated:</strong> 
+                            <span class="text-muted">{{ current_date }} IST</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-arrow-left"></i> Back to All Results
+            </a>
+            <a href="{{ url_for('monthly_chart') }}" class="btn btn-outline-success btn-lg ms-2">
+                <i class="fas fa-calendar-alt"></i> Monthly Chart
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Structured Data for Game -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ game.name }} Record Chart",
+    "description": "Record chart and historical data for {{ game.name }}",
+    "mainEntity": {
+        "@type": "Thing",
+        "name": "{{ game.name }}",
+        "description": "Gaming record chart for {{ game.name }} at {{ game.time }}",
+        "additionalProperty": [
+            {
+                "@type": "PropertyValue",
+                "name": "Game Time",
+                "value": "{{ game.time }}"
+            },
+            {
+                "@type": "PropertyValue", 
+                "name": "Yesterday Result",
+                "value": "{{ game.yesterday_result }}"
+            },
+            {
+                "@type": "PropertyValue",
+                "name": "Today Result", 
+                "value": "{{ game.today_result }}"
+            }
+        ]
+    }
+}
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Auto-refresh for live games
+{% if game.status == 'live' %}
+setTimeout(function() {
+    window.location.reload();
+}, 60000); // Refresh every minute for live games
+{% endif %}
+</script>
+{% endblock %}
