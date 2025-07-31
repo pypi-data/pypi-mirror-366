@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gitredate"
+description = "Rewrite date of Git commits"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "bokeh>=3.7.3",
+    "businesstimedelta>=1.0.1",
+    "dateparser>=1.2.2",
+    "gitpython>=3.1.45",
+    "python-dateutil>=2.9.0.post0",
+    "pytz>=2025.2",
+    "typer>=0.16.0",
+    "tzlocal>=5.3.1",
+]
+dynamic = ["version"]
+
+[dependency-groups]
+dev = ["bokeh>=3.7.3", "pre-commit>=4.2.0", "pytest>=8.4.1"]
+
+[project.scripts]
+gitredate = "gitredate:__main__"
+gitredate-rebase-sequence-editor = "gitredate.utils:rebase_sequence_editor"
+
+[tool.setuptools]
+packages = ["gitredate"]
+
+[tool.setuptools_scm]
+
+[tool.uv]
+package = true
+
+[tool.ruff]
+line-length = 88
+extend-select = ["I", "F401"] # I: isort, F401: unused imports
+
+[tool.ruff.isort]
+combine-as-imports = true
+known-first-party = ["your_package"] # optional, adjust if needed
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    'ignore: Parsing dates involving a day of month without a year specified is ambiguious:DeprecationWarning',
+]
