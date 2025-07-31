@@ -1,0 +1,32 @@
+[project]
+name = "maktab-dl"
+version = "0.7.0"
+authors = [
+  { name="Mohammadreza Shaghouzi", email="sh.mohammad66@yahoo.com" }
+]
+description = "A simple downloader videos from maktabkhooneh"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.10.5",
+    "lxml>=5.3.0",
+    "tqdm>=4.67.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/softrebel/maktab-dl"
+BugTracker = "https://github.com/softrebel/maktab-dl/issues"
+Repository = "https://github.com/softrebel/maktab-dl"
+
+[project.scripts]
+maktab-dl = "maktab_dl.cli:main"
+
+[tool.uv]
+dev-dependencies = [
+    "black>=24.10.0",
+    "ipykernel>=6.29.5",
+    "pytest>=8.3.4",
+    "ruff>=0.9.2",
+]
+
