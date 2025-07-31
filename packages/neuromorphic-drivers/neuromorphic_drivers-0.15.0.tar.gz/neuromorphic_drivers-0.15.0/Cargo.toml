@@ -1,0 +1,7 @@
+[workspace]
+members = ["python", "reflect"]
+resolver = "2"
+
+[profile.release]
+codegen-units = 1
+lto = "fat"

@@ -1,0 +1,40 @@
+[project]
+name = "neuromorphic_drivers"
+description = "Neuromorphic devices drivers"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "International Centre for Neuromorphic Systems"},
+    {name = "Alexandre Marcireau"},
+]
+version = "0.15.0"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.26"]
+
+[project.urls]
+homepage = "https://github.com/neuromorphicsystems/neuromorphic-rs/"
+repository = "https://github.com/neuromorphicsystems/neuromorphic-rs/"
+documentation = "https://github.com/neuromorphicsystems/neuromorphic-rs/"
+
+[build-system]
+requires = ["maturin==1.9.1", "numpy>=1.26"]
+build-backend = "maturin"
+
+[tool.maturin]
+python-source = "python"
+manifest-path = "python/Cargo.toml"
+
+[tool.black]
+extend-exclude = "python/neuromorphic_drivers/generated"
+
+[tool.pyright]
+typeCheckingMode = "basic"
+executionEnvironments = [{root = ".", venv = ".venv"}]
+
+[tool.isort]
+profile = "black"
+extend_skip = "python/neuromorphic_drivers/generated"
+
+[project.scripts]
+neuromorphic-drivers-install-udev-rules = "neuromorphic_drivers:install_udev_rules_program"
+ndls = "neuromorphic_drivers:print_device_list"
