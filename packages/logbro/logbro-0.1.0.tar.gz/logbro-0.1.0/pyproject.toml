@@ -1,0 +1,26 @@
+[project]
+name = "logbro"
+version = "0.1.0"
+description = "Collaborative, beautiful logging system for distributed developers"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+authors = [
+    { name="Mugabo Gusenga", email="mugabo@bufferpunk.com" }
+]
+keywords = ["logging", "devtools", "collaborative", "open source", "cli", "json", "ansi"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/Scion-Kin/logbro"
+Documentation = "https://github.com/Scion-Kin/logbro#readme"
+Source = "https://github.com/Scion-Kin/logbro"
+Tracker = "https://github.com/Scion-Kin/logbro/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
