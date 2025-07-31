@@ -1,0 +1,117 @@
+name: Build wheels
+
+# Only build on tagged releases
+on:
+  release:
+    types: [published]
+  # Also allow running this action on PRs if requested by applying the
+  # "Run cibuildwheel" label.
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+
+jobs:
+  build_wheels:
+    if: |
+      github.event_name == 'release' ||
+      (github.event_name == 'pull_request' && (
+        (
+          github.event.action == 'labeled' &&
+          github.event.label.name == 'CI: build wheels'
+        ) ||
+        contains(github.event.pull_request.labels.*.name,
+                'CI: build wheels')
+      )
+      )
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-13, macos-14, ubuntu-24.04-arm]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download source files
+        run: |
+          python .github/workflows/download_mirror.py
+
+      # sets up the compiler paths automatically for us
+      - uses: fortran-lang/setup-fortran@v1
+        id: setup-fortran
+        with:
+          compiler: gcc
+          version: 13
+
+      - name: Compiler versions
+        run: |
+          which gcc
+          gcc --version
+          which gfortran
+          gfortran --version
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.0.0
+        env:
+          # The brew built gfortran linked libraries have minimum macOS versions
+          # of the macOS version they were built on. We would need to compile
+          # from source rather than use setup-fortran if we want to support
+          # lower macOS versions.
+          MACOSX_DEPLOYMENT_TARGET: "${{ matrix.os == 'macos-13' && '13.0' || '14.0' }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        name: Install Python
+        with:
+          python-version: '3.13'
+
+      - name: Download source files
+        run: |
+          python .github/workflows/download_mirror.py
+      - name: Build sdist
+        run: |
+          python -m pip install meson-python meson ninja build
+          python -m build --sdist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-sdist
+          path: dist/*.tar.gz
+
+  upload_pypi:
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/pymsis
+    permissions:
+      id-token: write
+    # alternatively, to publish when a GitHub Release is created, use the following rule:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - name: Download sdist and wheels
+        uses: actions/download-artifact@v4
+        with:
+          # unpacks all CIBW artifacts into dist/
+          pattern: 'cibw-*'
+          path: dist
+          merge-multiple: true
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
