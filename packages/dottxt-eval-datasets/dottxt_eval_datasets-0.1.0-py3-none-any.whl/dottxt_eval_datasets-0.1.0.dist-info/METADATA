@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: dottxt-eval-datasets
+Version: 0.1.0
+Summary: Standard datasets for doteval LLM evaluations
+Author: .txt
+Project-URL: repository, https://github.com/dottxt-ai/doteval-datasets
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: dottxt-eval
+Requires-Dist: datasets
+Requires-Dist: Pillow
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-asyncio; extra == "test"
+
+# doteval-datasets
+
+Standard datasets for [doteval](https://github.com/dottxt-ai/doteval) LLM evaluations.
+
+## Installation
+
+```bash
+pip install doteval-datasets
+```
+
+## Usage
+
+Once installed, the datasets are automatically available in doteval:
+
+```python
+from doteval import foreach
+
+@foreach.bfcl("simple")
+def eval_bfcl(question: str, schema: list, answer: list):
+    # Your evaluation logic here
+    pass
+
+@foreach.gsm8k("test")
+def eval_gsm8k(question: str, reasoning: str, answer: str):
+    # Your evaluation logic here
+    pass
+
+@foreach.sroie("test") 
+def eval_sroie(image: Image, entities: dict):
+    # Your evaluation logic here
+    pass
+```
+
+## Available Datasets
+
+- **BFCL** (Berkeley Function Calling Leaderboard): Tests function calling capabilities
+  - Variants: `simple`, `multiple`, `parallel`
+  - Columns: `question`, `schema`, `answer`
+
+- **GSM8K**: Grade school math word problems
+  - Splits: `train`, `test`
+  - Columns: `question`, `reasoning`, `answer`
+
+- **SROIE**: Scanned receipts OCR and information extraction
+  - Splits: `train`, `test`
+  - Columns: `image`, `entities`
