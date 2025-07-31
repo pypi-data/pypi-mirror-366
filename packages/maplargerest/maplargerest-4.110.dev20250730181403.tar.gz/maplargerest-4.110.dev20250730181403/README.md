@@ -1,0 +1,130 @@
+﻿# MapLarge REST API Python Client
+
+MapLarge is a platform for analysing and visualizing geospatial data.
+The maplargerest Python library enables Python applications to communicate with MapLarge servers via their Rest API.
+
+## Supported Python Versions
+
+The MapLarge REST API Python Client is supported on the latest patch version of Python 3.9 through 3.13, the versions officially supported by the Python Software Foundation. See <https://devguide.python.org/versions/> for more information.
+
+## Usage Example
+
+```python
+from maplargerest.endpoints import RestClient, items
+
+client = RestClient(
+	url="https://my.maplarge.com",
+	username="user@example.com",
+	password="password")
+
+tables = items(client.tables.list(account="test"))
+```
+
+## Development Environment Creation
+
+To test changes to the maplargerest Python library itself, follow the steps below to set up your development environment.
+
+### 1. Create Virtual Environment
+
+Create a Python environment for building and testing this project.
+
+#### Windows PowerShell
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate.ps1
+```
+
+#### Windows Command Line
+
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+#### Linux or Mac
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. Install Dependencies
+
+Install the python packages needed for the subsequent steps.
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Lint
+
+Check the Python code for errors.
+
+```bash
+mypy maplargerest test
+pylint maplargerest test
+```
+
+### 4. Test
+
+Set up configuration by creating a test settings file with the MapLarge login information
+Navigate to \generated\python\test
+Copy and paste testconfig.example.json and rename it to testconfig.json.
+Edit the URL, username, and password located in the testconfig.json file.
+Launch the server
+
+Execute the Python code against a running MapLarge server to verify its behavior.
+
+```bash
+python -m unittest
+```
+
+HINT: (if you run into certificate errors consider using http).
+The servers port is located in MapLarge.Server.NetCore > Properties > launchsettigns.json
+
+### 5. Generate Documentation
+
+```bash
+pushd docs
+make html
+popd
+```
+
+The resulting documentation will be in `docs/_build/html/`.
+
+### 6. Generate Install Package
+
+```bash
+python -m build
+```
+
+The resulting binary distribution (.whl) and source distribution (.tar.gz) files will be in the `dist/` folder.
+
+## Refresh `requirements.txt`
+
+Periodically it may be beneficial to completely refresh the requirements.txt file with the latest version of
+dependencies and remove sub-dependencies that are no longer referenced by those new versions.
+
+* Create and activate a brand new venv (see above) for the desired Python version.
+* Execute:
+  ```bash
+  pip install mypy pylint python-dateutil sphinx pillow types-python-dateutil build
+  pip freeze > requirements.txt
+  ```
+
+Do this once for each supported version of Python - with a different output filename each time.
+Compare these requirements.txt files, and combine them into a single requirements.txt file using
+[environment markers](https://peps.python.org/pep-0508/#environment-markers) to indicate which dependencies should be
+installed for which versions of Python.
+
+## Common Errors
+
+```
+PS C:\code\maplarge-api-server-git\MapLarge.Build.RestApi\generated\python> python -m pylint maplargerest test
+************* Module maplargerest.endpoints
+maplargerest\endpoints.py:21:0: E0401: Unable to import 'dateutil.parser' (import-error)
+```
+
+This error could be the result of not enabling your virtual environment (see step 1 "Create Virtual Environment") or
+from not installing dependencies (see step 2 "Install Dependencies"). Revisit these steps and try again.
