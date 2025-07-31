@@ -1,0 +1,175 @@
+Metadata-Version: 2.4
+Name: cortex-memory-sdk
+Version: 2.0.2
+Summary: 🧠 The Smart Context Layer for Prompt Chains in LLMs - Enterprise-grade context-aware AI system with semantic understanding and self-evolving memory. Built by Vaishakh Vipin (https://github.com/VaishakhVipin) - Advanced context management for LLMs with Redis-backed semantic search, self-evolving patterns, and multi-provider support (Gemini, Claude, OpenAI).
+Author-email: Cortex Team <obeliskacquisitions@gmail.com>
+Maintainer-email: Cortex Team <vaishakh.obelisk@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/VaishakhVipin/cortex-memory
+Project-URL: Documentation, https://github.com/VaishakhVipin/cortex-memory/tree/main/backend/docs/README.md
+Project-URL: Repository, https://github.com/VaishakhVipin/cortex-memory
+Project-URL: Bug Tracker, https://github.com/VaishakhVipin/cortex-memory/issues
+Project-URL: Source Code, https://github.com/VaishakhVipin/cortex-memory
+Project-URL: Download, https://pypi.org/project/cortex-memory/#files
+Project-URL: Changelog, https://github.com/VaishakhVipin/cortex-memory/commits/main/
+Keywords: ai,memory,context,semantic,embeddings,llm,prompt-chains,machine-learning,nlp,artificial-intelligence,context-aware
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: redis>=4.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: fastapi>=0.68.0
+Requires-Dist: uvicorn[standard]>=0.15.0
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: sentence-transformers>=2.2.0
+Requires-Dist: urllib3>=1.26.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.18.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.12.0; extra == "dev"
+Requires-Dist: black>=21.0.0; extra == "dev"
+Requires-Dist: isort>=5.9.0; extra == "dev"
+Requires-Dist: flake8>=3.9.0; extra == "dev"
+Requires-Dist: mypy>=0.910; extra == "dev"
+Requires-Dist: pre-commit>=2.15.0; extra == "dev"
+Provides-Extra: api
+Requires-Dist: fastapi>=0.68.0; extra == "api"
+Requires-Dist: uvicorn[standard]>=0.15.0; extra == "api"
+Requires-Dist: python-multipart>=0.0.5; extra == "api"
+Requires-Dist: python-jose[cryptography]>=3.3.0; extra == "api"
+Requires-Dist: passlib[bcrypt]>=1.7.4; extra == "api"
+Requires-Dist: sqlalchemy>=1.4.0; extra == "api"
+Requires-Dist: alembic>=1.7.0; extra == "api"
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "api"
+Provides-Extra: monitoring
+Requires-Dist: prometheus-client>=0.12.0; extra == "monitoring"
+Requires-Dist: structlog>=21.1.0; extra == "monitoring"
+Requires-Dist: sentry-sdk[fastapi]>=1.5.0; extra == "monitoring"
+
+# 🧠 Cortex Memory SDK
+
+**The Smart Context Layer for Prompt Chains in LLMs**
+
+Built by [Vaishakh Vipin](https://github.com/VaishakhVipin)
+
+## Overview
+
+Cortex Memory SDK is an enterprise-grade context-aware AI system that provides intelligent memory management for Large Language Models (LLMs). It combines semantic understanding with self-evolving patterns to deliver the most relevant context for your AI applications.
+
+## 🚀 Key Features
+
+- **Semantic Context Matching**: Redis-backed semantic search using sentence transformers
+- **Self-Evolving Patterns**: Advanced statistical pattern recognition for context relevance
+- **Multi-LLM Support**: Seamless integration with Gemini, Claude, and OpenAI
+- **Hybrid Context Mode**: Combines semantic and self-evolving context for optimal results
+- **Adaptive Context Selection**: Automatically chooses the best context method
+- **Auto-Pruning System**: Intelligently manages memory storage and cleanup
+- **Semantic Drift Detection**: Monitors and adapts to changing conversation patterns
+
+## 🛠️ Installation
+
+```bash
+pip install cortex-memory-sdk
+```
+
+## 📖 Quick Start
+
+```python
+from cortex_memory import CortexClient
+
+# Initialize the client
+client = CortexClient(api_key="your_api_key")
+
+# Generate context-aware responses
+response = client.generate_with_context(
+    user_id="user123",
+    prompt="What did we discuss about AI yesterday?",
+    provider="gemini"  # or "claude", "openai", "auto"
+)
+
+print(response)
+```
+
+## 🔧 Advanced Usage
+
+### Hybrid Context Mode
+```python
+from cortex_memory.context_manager import generate_with_hybrid_context
+
+response = generate_with_hybrid_context(
+    user_id="user123",
+    prompt="Explain the latest developments in AI",
+    provider="claude"
+)
+```
+
+### Adaptive Context Selection
+```python
+from cortex_memory.context_manager import generate_with_adaptive_context
+
+response = generate_with_adaptive_context(
+    user_id="user123",
+    prompt="What are the key points from our previous meetings?",
+    provider="auto"  # Automatically selects best provider
+)
+```
+
+## 🏗️ Architecture
+
+- **Redis**: High-performance memory storage with semantic embeddings
+- **Sentence Transformers**: Dense vector embeddings for semantic similarity
+- **Statistical Pattern Recognition**: Robust algorithms for context scoring
+- **Multi-Provider LLM Integration**: Unified interface for all major LLM providers
+
+## 📊 Performance
+
+- **Fast Retrieval**: Redis-pipelined operations for sub-second context retrieval
+- **Efficient Storage**: Optimized embedding storage and compression
+- **Scalable**: Designed for enterprise-scale deployments
+- **Cost-Effective**: Intelligent context selection reduces token usage
+
+## 🔒 Security
+
+- API key authentication
+- Rate limiting and usage tracking
+- Secure Redis connections
+- Privacy-focused design
+
+## 📚 Documentation
+
+For detailed documentation, visit: [GitHub Repository](https://github.com/VaishakhVipin/cortex-memory)
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](https://github.com/VaishakhVipin/cortex-memory/blob/main/CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/VaishakhVipin/cortex-memory/blob/main/LICENSE) file for details.
+
+## 🆘 Support
+
+- **Issues**: [GitHub Issues](https://github.com/VaishakhVipin/cortex-memory/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/VaishakhVipin/cortex-memory/discussions)
+- **Email**: vaishakh.vipin@gmail.com
+
+---
+
+**Built with ❤️ by [Vaishakh Vipin](https://github.com/VaishakhVipin)**
+
+Transform your LLM applications with intelligent context management. 🧠✨ 
