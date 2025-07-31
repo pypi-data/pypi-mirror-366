@@ -1,0 +1,202 @@
+# https://peps.python.org/pep-0517/
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+# https://hatch.pypa.io/latest/config/metadata/
+[tool.hatch.version]
+source = "vcs"
+
+# https://hatch.pypa.io/latest/config/build/#file-selection
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests"]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]
+
+# https://peps.python.org/pep-0621/
+[project]
+name = "pymmcore-widgets"
+description = "A set of Qt-based widgets onto the pymmcore-plus model"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "BSD 3-Clause License" }
+authors = [
+    { email = "federico.gasparoli@gmail.com", name = "Federico Gasparoli" },
+    { email = "talley.lambert@gmail.com", name = "Talley Lambert" },
+    { email = "ianhuntisaak@gmail.com", name = "Ian Hunt-Isaak" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Widget Sets",
+    "Topic :: System :: Hardware :: Hardware Drivers",
+    "Topic :: System :: Hardware",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dynamic = ["version"]
+dependencies = [
+    'pymmcore-plus[cli] >=0.14.0',
+    'qtpy >=2.0',
+    'superqt[quantity,cmap,iconify] >=0.7.1',
+    'useq-schema >=0.7.3',
+    'vispy >=0.15.0',
+    "pyopengl >=3.1.9; platform_system == 'Darwin'",
+    "shapely>=2.0.7",
+]
+
+[project.optional-dependencies]
+PySide2 = ["PySide2 >=5.15.2.1", "numpy<2; python_version < '3.13'", "numpy"]
+PySide6 = ["PySide6 >=6.9.0"]
+PyQt5 = ["PyQt5 >=5.15.11"]
+PyQt6 = ["PyQt6 >=6.4.2"]
+
+[project.urls]
+Homepage = "https://github.com/pymmcore-plus/pymmcore-widgets"
+"Source Code" = "https://github.com/pymmcore-plus/pymmcore-widgets"
+Documentation = "https://pymmcore-plus.github.io/pymmcore-widgets"
+
+[dependency-groups]
+test = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-qt==4.4.0",
+    "pyyaml>=6.0.2",
+    "zarr >=2.15,<3",
+    "numcodecs >0.14.0,<0.16; python_version >= '3.13'",
+    "numcodecs >0.12.0,<0.16",
+]
+dev = [
+    { include-group = "docs" },
+    { include-group = "test" },
+    "ipython>=8.18.1",
+    "mypy>=1.15.0",
+    "pdbpp>=0.11.6 ; sys_platform != 'win32'",
+    "pre-commit-uv >=4.1.0",
+    "pyqt6>=6.9.0",
+    "rich>=14.0.0",
+    "ruff>=0.11.8",
+    "types-shapely>=2.1.0.20250512",
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.2",
+    "mkdocs-material>=9.6.12",
+    "mkdocs-section-index>=0.3.10",
+    "mkdocs-video>=1.5.0",
+    "mkdocstrings-python>=1.16.10",
+]
+
+[tool.uv.sources]
+pymmcore-widgets = { workspace = true }
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+src = ["src", "tests"]
+fix = true
+unsafe-fixes = true
+
+[tool.ruff.lint]
+pydocstyle = { convention = "numpy" }
+select = [
+    "E",    # style errors
+    "F",    # flakes
+    "W",    # warnings
+    "D",    # pydocstyle
+    "D417", # Missing argument descriptions in Docstrings
+    "I",    # isort
+    "UP",   # pyupgrade
+    "C4",   # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "A001", # flake8-builtins
+    "RUF",  # ruff-specific rules
+    "TID",  # tidy
+    "TC",   # typecheck
+]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D401", # First line should be in imperative mood
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["D", "SLF"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+# https://docs.pytest.org/en/6.2.x/customize.html
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+filterwarnings = [
+    "error",
+    "ignore:distutils Version classes are deprecated",
+    "ignore:Failed to disconnect:RuntimeWarning:",
+    "ignore:'count' is passed as positional argument::vispy",
+]
+
+# https://mypy.readthedocs.io/en/stable/config_file.html
+[tool.mypy]
+files = "src/**/"
+strict = true
+disallow_any_generics = false
+disallow_subclassing_any = false
+show_error_codes = true
+pretty = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["vispy.*"]
+ignore_missing_imports = true
+
+# https://coverage.readthedocs.io/en/6.4/config.html
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "@overload",
+    "except ImportError",
+    "raise AssertionError",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+show_missing = true
+
+[tool.coverage.paths]
+source = ["src/", "*/pymmcore-widgets/pymmcore-widgets/src", "*/site-packages/"]
+
+[tool.coverage.run]
+source = ['pymmcore_widgets']
+
+# https://github.com/mgedmin/check-manifest#configuration
+[tool.check-manifest]
+ignore = [
+    ".github_changelog_generator",
+    ".pre-commit-config.yaml",
+    "tests/**/*",
+    "docs/**/*",
+    "mkdocs.yml",
+    "examples/**/*",
+    "CHANGELOG.md",
+    "uv.lock",
+]
+
+[tool.typos.default]
+extend-ignore-identifiers-re = ["(?i)nd2?.*", "(?i)ome", "FO(Vs?)?"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
