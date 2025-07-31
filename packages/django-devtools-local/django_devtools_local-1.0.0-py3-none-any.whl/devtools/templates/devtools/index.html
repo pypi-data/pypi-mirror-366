@@ -1,0 +1,193 @@
+{% extends 'devtools/base.html' %}
+
+{% block title %}Home - DevTools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-tools"></i> Django DevTools</h1>
+            <div class="text-muted">
+                <i class="bi bi-info-circle"></i> Active development mode
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- General statistics -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ total_apps }}</h4>
+                        <small>Applications</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-app fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ total_models }}</h4>
+                        <small>Models</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-diagram-3 fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4><i class="bi bi-shield-check"></i></h4>
+                        <small>Secure</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-lock fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>DEBUG</h4>
+                        <small>Current mode</small>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-bug fs-3"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h3>Quick actions</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-terminal fs-1 text-primary"></i>
+                        <h5 class="card-title mt-3">Console Python/SQL</h5>
+                        <p class="card-text">Execute Python code or SQL queries in real-time</p>
+                        <a href="{% url 'devtools:query' %}" class="btn btn-primary">
+                            <i class="bi bi-play"></i> Open the console
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-table fs-1 text-success"></i>
+                        <h5 class="card-title mt-3">Explore data</h5>
+                        <p class="card-text">Browse the content of your database tables</p>
+                        <a href="{% url 'devtools:tables' %}" class="btn btn-success">
+                            <i class="bi bi-search"></i> Explore
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-diagram-3 fs-1 text-warning"></i>
+                        <h5 class="card-title mt-3">Database schema</h5>
+                        <p class="card-text">Visualize the structure of your database</p>
+                        <a href="{% url 'devtools:schema' %}" class="btn btn-warning">
+                            <i class="bi bi-eye"></i> View schema
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Overview of models -->
+<div class="row">
+    <div class="col-12">
+        <h3>Django models available</h3>
+        {% if models_data %}
+            <div class="accordion" id="modelsAccordion">
+                {% for app in models_data %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false">
+                            <i class="bi bi-app me-2"></i>
+                            <strong>{{ app.app_verbose_name }}</strong>
+                            <span class="badge bg-secondary ms-2">{{ app.models|length }} model{{ app.models|length|pluralize }}</span>
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" 
+                         data-bs-parent="#modelsAccordion">
+                        <div class="accordion-body">
+                            <div class="row">
+                                {% for model in app.models %}
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="bi bi-table"></i> {{ model.verbose_name }}
+                                            </h6>
+                                            <p class="card-text small text-muted">
+                                                Table: <code>{{ model.table_name }}</code><br>
+                                                Records: <span class="badge bg-info">{{ model.count }}</span><br>
+                                                Fields: <span class="badge bg-secondary">{{ model.fields|length }}</span>
+                                            </p>
+                                            <a href="{% url 'devtools:tables' %}?app={{ model.app_label }}&model={{ model.name }}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i> View data
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No Django model found.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Security information -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="alert alert-warning">
+            <h5><i class="bi bi-exclamation-triangle"></i> Security warning</h5>
+            <p class="mb-0">
+                These development tools are only available in <strong>DEBUG</strong> mode 
+                and require <strong>superuser</strong> privileges. 
+                They should never be enabled in production.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %} 

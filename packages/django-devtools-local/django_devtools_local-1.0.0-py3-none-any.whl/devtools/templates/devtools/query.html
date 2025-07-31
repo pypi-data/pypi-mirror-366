@@ -1,0 +1,333 @@
+{% extends 'devtools/base.html' %}
+
+{% block title %}Console - DevTools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-terminal"></i> Development console</h1>
+            <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="queryType" id="pythonType" value="python" checked>
+                <label class="btn btn-outline-primary" for="pythonType">
+                    <i class="bi bi-file-code"></i> Python
+                </label>
+                
+                <input type="radio" class="btn-check" name="queryType" id="sqlType" value="sql">
+                <label class="btn btn-outline-primary" for="sqlType">
+                    <i class="bi bi-database"></i> SQL
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Input zone -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <span id="editorTitle">Python editor</span>
+                </h5>
+                <div>
+                    <button type="button" class="btn btn-success btn-sm" id="executeBtn">
+                        <i class="bi bi-play-fill"></i> Execute
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="clearBtn">
+                        <i class="bi bi-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <textarea id="codeEditor" class="form-control border-0" rows="10" placeholder="Type your code here..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results zone -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-terminal"></i> Results
+                    <span id="executionTime" class="badge bg-secondary ms-2" style="display: none;"></span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div id="resultContainer">
+                    <div class="text-muted text-center py-4">
+                        <i class="bi bi-arrow-up-circle display-4"></i>
+                        <p class="mt-2">Execute code to see results here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Examples -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Quick examples</h5>
+            </div>
+            <div class="card-body">
+                <div id="pythonExamples">
+                    <h6>Python - ORM Django</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="# List all models&#10;for app in apps.get_app_configs():&#10;    print(f'App: {app.name}')&#10;    for model in app.get_models():&#10;        print(f'  - {model.__name__}: {model.objects.count()} objets')">
+                                📋 List all models
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="# Informations sur la base de données&#10;print(f'Moteur: {connection.vendor}')&#10;print(f'Base: {connection.settings_dict.get(&quot;NAME&quot;, &quot;N/A&quot;)}')&#10;print(f'Host: {connection.settings_dict.get(&quot;HOST&quot;, &quot;localhost&quot;)}')">
+                                🔍 Database info
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="# Django configuration&#10;print('Settings DEBUG:', settings.DEBUG)&#10;print('Timezone:', settings.TIME_ZONE)&#10;print('Language:', settings.LANGUAGE_CODE)&#10;print('Apps installed:', len(settings.INSTALLED_APPS))">
+                                ⚙️ Django configuration
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="# Test de performance simple&#10;import time&#10;start = time.time()&#10;# Votre code ici&#10;result = 2 + 2&#10;end = time.time()&#10;print(f'Résultat: {result}')&#10;print(f'Temps: {(end-start)*1000:.2f}ms')">
+                                ⏱️ Performance test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sqlExamples" style="display: none;">
+                    <h6>SQL - Requêtes directes</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="SHOW TABLES;">
+                                📋 List tables
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="SELECT table_name, table_rows 
+FROM information_schema.tables 
+WHERE table_schema = DATABASE()
+ORDER BY table_rows DESC;">
+                                📊 Tables with nb lines
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="SELECT VERSION() as version, 
+       DATABASE() as database_name,
+       USER() as current_user;">
+                                🔍 Server info
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info btn-sm mb-2 example-btn" 
+                                    data-code="SHOW PROCESSLIST;">
+                                ⚡ Active processes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentQueryType = 'python';
+
+// Handle query types
+document.querySelectorAll('input[name="queryType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        currentQueryType = this.value;
+        updateInterface();
+    });
+});
+
+function updateInterface() {
+    const editorTitle = document.getElementById('editorTitle');
+    const pythonExamples = document.getElementById('pythonExamples');
+    const sqlExamples = document.getElementById('sqlExamples');
+    const codeEditor = document.getElementById('codeEditor');
+    
+    if (currentQueryType === 'python') {
+        editorTitle.textContent = 'Python editor';
+        codeEditor.placeholder = 'Type your Python code here...\n\n# Available examples :\n# - apps : Access to Django applications\n# - connection : Database connection\n# - settings : Django configuration\n# - All models are imported automatically';
+        pythonExamples.style.display = 'block';
+        sqlExamples.style.display = 'none';
+    } else {
+        editorTitle.textContent = 'SQL editor';
+        codeEditor.placeholder = 'Type your SQL query here...\n\n-- Examples :\n-- SELECT * FROM your_table LIMIT 10;\n-- SHOW TABLES;\n-- DESCRIBE your_table;';
+        pythonExamples.style.display = 'none';
+        sqlExamples.style.display = 'block';
+    }
+}
+
+// Code execution
+document.getElementById('executeBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeEditor').value.trim();
+    
+    if (!code) {
+        alert('Please enter the code to execute');
+        return;
+    }
+    
+    const startTime = Date.now();
+    this.disabled = true;
+    this.innerHTML = '<i class="bi bi-hourglass-split"></i> Execution...';
+    
+    fetch('{% url "devtools:query" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            type: currentQueryType,
+            code: code
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const executionTime = Date.now() - startTime;
+        displayResult(data, executionTime);
+    })
+    .catch(error => {
+        displayResult({
+            success: false,
+            error: 'Connection error: ' + error.message
+        }, Date.now() - startTime);
+    })
+    .finally(() => {
+        this.disabled = false;
+        this.innerHTML = '<i class="bi bi-play-fill"></i> Execute';
+    });
+});
+
+// Display results
+function displayResult(result, executionTime) {
+    const container = document.getElementById('resultContainer');
+    const timeSpan = document.getElementById('executionTime');
+    
+    timeSpan.textContent = `${executionTime}ms`;
+    timeSpan.style.display = 'inline';
+    
+    if (result.success) {
+        if (currentQueryType === 'python') {
+            // Python result
+            container.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i> Execution successful
+                </div>
+                ${result.output ? `
+                    <h6>Output:</h6>
+                    <pre class="bg-light p-3 border rounded"><code>${escapeHtml(result.output)}</code></pre>
+                ` : '<p class="text-muted">No output generated</p>'}
+            `;
+        } else {
+            // SQL result
+            if (result.data && result.data.length > 0) {
+                let tableHtml = `
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle"></i> Query executed successfully
+                        <span class="badge bg-primary ms-2">${result.row_count} line(s)</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead class="table-dark">
+                                <tr>
+                `;
+                
+                result.columns.forEach(col => {
+                    tableHtml += `<th>${escapeHtml(col)}</th>`;
+                });
+                
+                tableHtml += '</tr></thead><tbody>';
+                
+                result.data.forEach(row => {
+                    tableHtml += '<tr>';
+                    row.forEach(cell => {
+                        tableHtml += `<td>${cell === null ? '<span class="text-muted">NULL</span>' : escapeHtml(String(cell))}</td>`;
+                    });
+                    tableHtml += '</tr>';
+                });
+                
+                tableHtml += '</tbody></table></div>';
+                container.innerHTML = tableHtml;
+            } else {
+                container.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle"></i> Query executed successfully
+                        <span class="badge bg-primary ms-2">${result.row_count} line(s) affected</span>
+                    </div>
+                `;
+            }
+        }
+    } else {
+        container.innerHTML = `
+            <div class="alert alert-danger">
+                <h6><i class="bi bi-exclamation-triangle"></i> Execution error</h6>
+                <pre class="mt-2 mb-0"><code>${escapeHtml(result.error)}</code></pre>
+            </div>
+        `;
+    }
+}
+
+// Clear button
+document.getElementById('clearBtn').addEventListener('click', function() {
+    document.getElementById('codeEditor').value = '';
+    document.getElementById('resultContainer').innerHTML = `
+        <div class="text-muted text-center py-4">
+            <i class="bi bi-arrow-up-circle display-4"></i>
+            <p class="mt-2">Execute code to see results here</p>
+        </div>
+    `;
+    document.getElementById('executionTime').style.display = 'none';
+});
+
+// Examples
+document.querySelectorAll('.example-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const code = this.getAttribute('data-code').replace(/&#10;/g, '\n').replace(/&quot;/g, '"');
+        document.getElementById('codeEditor').value = code;
+    });
+});
+
+// Utility function
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// Keyboard shortcut Ctrl+Enter to execute
+document.getElementById('codeEditor').addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('executeBtn').click();
+    }
+});
+
+// Initialisation
+updateInterface();
+</script>
+{% endblock %} 

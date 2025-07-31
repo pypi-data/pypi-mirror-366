@@ -1,0 +1,306 @@
+{% extends 'devtools/base.html' %}
+{% load devtools_extras %}
+
+{% block title %}Schema - DevTools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-diagram-3"></i> Database schema</h1>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary" id="expandAll">
+                    <i class="bi bi-arrows-expand"></i> Expand all
+                </button>
+                <button type="button" class="btn btn-outline-secondary" id="collapseAll">
+                    <i class="bi bi-arrows-collapse"></i> Collapse all
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="bi bi-database fs-1 text-primary"></i>
+                            <h5 class="mt-2">{{ tables|length }}</h5>
+                            <small class="text-muted">Table{{ tables|length|pluralize }}</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="bi bi-list-columns fs-1 text-success"></i>
+                            <h5 class="mt-2">
+                                {% for table in tables %}{{ table.columns|length }}{% if not forloop.last %} + {% endif %}{% endfor %}
+                            </h5>
+                            <small class="text-muted">Total columns</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="bi bi-key fs-1 text-warning"></i>
+                            <h5 class="mt-2">Auto</h5>
+                            <small class="text-muted">Automatic analysis</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="bi bi-shield-check fs-1 text-info"></i>
+                            <h5 class="mt-2">Live</h5>
+                            <small class="text-muted">Live data</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if tables %}
+    <div class="row">
+        <div class="col-12">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" id="searchTables" placeholder="Search a table...">
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="tablesAccordion">
+        {% for table in tables %}
+        <div class="accordion-item table-item" data-table-name="{{ table.name|lower }}">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false">
+                    <div class="d-flex w-100 justify-content-between align-items-center me-3">
+                        <div>
+                            <i class="bi bi-table me-2"></i>
+                            <strong>{{ table.name }}</strong>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary me-2">{{ table.columns|length }} colonne{{ table.columns|length|pluralize }}</span>
+                            {% if 'auth_' in table.name %}
+                                <span class="badge bg-warning">Django Auth</span>
+                            {% elif 'django_' in table.name %}
+                                <span class="badge bg-info">Django System</span>
+                            {% else %}
+                                <span class="badge bg-success">Application</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </button>
+            </h2>
+            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" 
+                 data-bs-parent="#tablesAccordion">
+                <div class="accordion-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <h6><i class="bi bi-info-circle"></i> Table structure</h6>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="btn btn-outline-primary btn-sm" 
+                                    onclick="generateSQL('{{ table.name }}')">
+                                <i class="bi bi-code"></i> Generate SELECT
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="25%">Nom</th>
+                                    <th width="20%">Type</th>
+                                    <th width="15%">Null</th>
+                                    <th width="20%">Default</th>
+                                    <th width="20%">Extra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for column in table.columns %}
+                                <tr>
+                                    <td>
+                                        <code>{{ column.name }}</code>
+                                        {% if 'id' in column.name or 'pk' in column.name %}
+                                            <i class="bi bi-key text-warning ms-1" title="Potential primary key"></i>
+                                        {% endif %}
+                                        {% if '_id' in column.name %}
+                                            <i class="bi bi-arrow-right text-info ms-1" title="Potential foreign key"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ column.type }}</span>
+                                    </td>
+                                    <td>
+                                        {% if column.nullable %}
+                                            <span class="badge bg-success">YES</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">NO</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if column.default %}
+                                            <code>{{ column.default }}</code>
+                                        {% else %}
+                                            <span class="text-muted">NULL</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if column.extra %}
+                                            <span class="badge bg-info">{{ column.extra }}</span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{% url 'devtools:query' %}?sql=SELECT * FROM {{ table.name }} LIMIT 10;" 
+                                   class="btn btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Data preview
+                                </a>
+                                <button type="button" class="btn btn-outline-secondary" 
+                                        onclick="copyToClipboard('{{ table.name }}')">
+                                    <i class="bi bi-clipboard"></i> Copy name
+                                </button>
+                                <button type="button" class="btn btn-outline-info" 
+                                        onclick="showTableStats('{{ table.name }}')">
+                                    <i class="bi bi-graph-up"></i> Statistics
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> No table found in the database.
+    </div>
+{% endif %}
+
+<!-- Modal for statistics -->
+<div class="modal fade" id="statsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Table statistics</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="statsContent">
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Search tables
+document.getElementById('searchTables').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const tableItems = document.querySelectorAll('.table-item');
+    
+    tableItems.forEach(item => {
+        const tableName = item.getAttribute('data-table-name');
+        if (tableName.includes(searchTerm)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+
+// Expand/Collapse all
+document.getElementById('expandAll').addEventListener('click', function() {
+    document.querySelectorAll('.accordion-collapse').forEach(collapse => {
+        collapse.classList.add('show');
+    });
+    document.querySelectorAll('.accordion-button').forEach(button => {
+        button.classList.remove('collapsed');
+        button.setAttribute('aria-expanded', 'true');
+    });
+});
+
+document.getElementById('collapseAll').addEventListener('click', function() {
+    document.querySelectorAll('.accordion-collapse').forEach(collapse => {
+        collapse.classList.remove('show');
+    });
+    document.querySelectorAll('.accordion-button').forEach(button => {
+        button.classList.add('collapsed');
+        button.setAttribute('aria-expanded', 'false');
+    });
+});
+
+// Generate SQL
+function generateSQL(tableName) {
+    const sql = `SELECT * FROM ${tableName} LIMIT 10;`;
+    DevTools.Utils.copyToClipboard(sql);
+    DevTools.Utils.showToast('SQL copied to clipboard', 'success');
+}
+
+// Copy to clipboard
+function copyToClipboard(text) {
+    DevTools.Utils.copyToClipboard(text);
+}
+
+// Table statistics
+function showTableStats(tableName) {
+    const modal = new bootstrap.Modal(document.getElementById('statsModal'));
+    const content = document.getElementById('statsContent');
+    
+    modal.show();
+    
+    // Simulation of statistics (to improve with a real API)
+    setTimeout(() => {
+        content.innerHTML = `
+            <h6><i class="bi bi-table"></i> ${tableName}</h6>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <h5>Calculated</h5>
+                            <small>Number of lines</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <h5>Analyzed</h5>
+                            <small>Estimated size</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <p class="text-muted">
+                    <i class="bi bi-info-circle"></i> 
+                    Use the SQL console for detailed statistics: 
+                    <code>SELECT COUNT(*) FROM ${tableName};</code>
+                </p>
+            </div>
+        `;
+    }, 1000);
+}
+</script>
+{% endblock %} 
