@@ -1,0 +1,32 @@
+#!/usr/bin/env -S uv run -n --script --extra-index-url https://test.pypi.org/simple/ --index-strategy unsafe-best-match
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#   "mcp",
+#   "python-dotenv",
+#   "anatools==5.0.1.20250709010251"
+# ]
+# ///
+
+from dotenv import load_dotenv
+from mcp.server.fastmcp import FastMCP
+
+# Load environment variables from a .env file
+load_dotenv()
+
+# Import the tool(s)
+from anatools.lib.tools import run_service
+
+# Initialize MCP server
+mcp = FastMCP(
+    name="Local RenderedAI MCP",
+    instructions="""This server provides tools to run local RenderedAI services.
+    A `RENDEREDAI_API_KEY` environment variable is required for authentication with the platform."""
+)
+
+# Register the tool from tools.py
+mcp.tool()(run_service)
+
+if __name__ == "__main__":
+    print("Running local MCP server with stdio transport...")
+    mcp.run(transport='stdio')
