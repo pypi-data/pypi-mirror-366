@@ -1,0 +1,35 @@
+[project]
+name = "dming"
+version = "0.1.0"
+description = "DMing is a CLI (command-line interface) collection useful when running a TTRPG (tabletop role-playing games)."
+authors = [
+    {name = "Saúl Piña",email = "sauljabin@gmail.com"}
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3.13",
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "click (>=8.2.1,<9.0.0)",
+    "rich (>=14.1.0,<15.0.0)"
+]
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+
+[project.scripts]
+roll = "dming.cli:_roll"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+faker = "*"
