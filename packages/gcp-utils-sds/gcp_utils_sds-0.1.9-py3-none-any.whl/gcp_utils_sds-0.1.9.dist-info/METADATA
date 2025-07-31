@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: gcp_utils_sds
+Version: 0.1.9
+Summary: Utilities functions for interacting with GCP tools
+Home-page: 
+Author: Sam Taylor
+Author-email: 2015samtaylor@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: google-cloud-storage
+Requires-Dist: google-cloud-secret-manager
+Requires-Dist: google-auth
+Requires-Dist: google-auth-oauthlib
+Requires-Dist: pandas
+Requires-Dist: google-cloud-bigquery
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# gcp_utils
+
+Utilities for working with Google Cloud Platform (GCP).
+Written in an effort to keep re-useable functions to a singular package. 
+
+## Installation
+
+```bash
+pip install gcp_utils
+```
+
+## Features
+- Upload and read CSVs from Google Cloud Storage
+- Access secrets from Google Secret Manager
+- Combine current and previous year GCS data
+
+## Example Usage
+
+```python
+from gcp_utils import send_to_gcs, read_gcs_csv_to_df, access_secret_version, load_and_append_previous_year
+
+# Upload a DataFrame to GCS
+send_to_gcs('my-bucket', 'data/', my_dataframe, 'file.csv')
+
+# Read a CSV from GCS
+df = read_gcs_csv_to_df('gs://my-bucket/data/file.csv')
+
+# Access a secret
+creds = access_secret_version('my-project', 'my-secret')
+
+# Combine current and previous year data
+df = load_and_append_previous_year('my-bucket', 'etl/incoming/2024_file.csv')
+```
+
+## License
+MIT
