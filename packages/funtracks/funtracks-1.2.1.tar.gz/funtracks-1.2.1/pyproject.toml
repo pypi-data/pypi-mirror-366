@@ -1,0 +1,118 @@
+[build-system]
+requires = ["setuptools>=70", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "funtracks"
+dynamic = ["version"]
+description = "Cell tracking data model"
+readme = "README.md"
+license = { text = "BSD 3-Clause License" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Caroline Malin-Mayor", email = "malinmayorc@janelia.hhmi.org" },
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+
+dependencies =[
+    "numpy",
+    "pydantic",
+    "networkx",
+    "psygnal",
+    "scikit-image",
+    "geff",
+    "dask",
+]
+[project.optional-dependencies]
+testing =["pytest", "pytest-cov"]
+docs = ["mkdocs-material", "mike", "mkdocstrings[python]", "mkdocs-api-autonav"]
+dev = ["ruff", "pre-commit", "mypy"]
+all = ["funtracks[testing,docs,dev]"]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/funkelab/funtracks/issues"
+"Documentation" ="https://funkelab.github.io/funtracks/"
+
+[tool.setuptools_scm]
+
+[tool.ruff]
+line-length = 90
+target-version = "py310"
+fix = true
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W", #flake8
+    "UP", # pyupgrade
+    "I", # isort
+    "BLE", # flake8-blind-exception
+    "B", # flake8-bugbear
+    "A", # flake8-builtins
+    "C4", # flake8-comprehensions
+    "ISC", # flake8-implicit-str-concat
+    "G", # flake8-logging-format
+    "PIE", # flake8-pie
+    "SIM", # flake8-simplify
+    "T20", # flake-print
+    "D102", # undocumented public method
+    "D103", # undocumented public function
+    "D300", # enforces triple double quotes on docstrings
+    "D414", # empty/missing docstring section
+    "D417", # undocumented parameter
+]
+
+unfixable = [
+  "B905", # currently adds strict=False to zips. Should add strict=True (manually)
+]
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]  # no docstrings in tests
+"src/funtracks/data_model/tracks.py" = ["D"]  # Remove this when refactoring tracks
+"src/funtracks/data_model/solution_tracks.py" = ["D"]  # Remove this when refactoring tracks
+"__init__.py" = ["F401"]  # unused imports allowed in __init__.py
+
+# https://docs.astral.sh/ruff/formatter/
+[tool.ruff.format]
+
+[tool.mypy]
+ignore_missing_imports = true
+python_version = "3.10"
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+]
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+funtracks = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+dev = { features = ["dev", "testing"], solve-group = "default" }
+docs = { features = ["docs"], solve-group = "default" }
+
+[tool.pixi.tasks]
+
+[tool.pixi.feature.dev.tasks]
+ruff-check = "ruff check --fix ."
+ruff-format = "ruff format ."
+test = "pytest --cov=funtracks tests/"
+mypy = "mypy src/"
+
+[tool.pixi.feature.docs.tasks]
+docs = "mkdocs serve"
