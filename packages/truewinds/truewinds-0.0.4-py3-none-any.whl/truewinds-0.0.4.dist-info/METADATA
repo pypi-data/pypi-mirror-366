@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: truewinds
+Version: 0.0.4
+Summary: A Python package for estimating true wind speed and direction from anemometers on marine vessels.
+Author-email: Ian Black <iantimothyblack@gmail.com>
+License-Expression: MIT
+Project-URL: Repository, https://github.com/IanTBlack/truewinds
+Project-URL: Issues, https://github.com/IanTBlack/truewinds/issues
+Project-URL: Discussions, https://github.com/IanTBlack/truewinds/discussions
+Project-URL: Additional Information, https://github.com/IanTBlack/truewinds/tree/main/info
+Project-URL: Documentation, https://iantblack.github.io/truewinds/
+Keywords: wind,anemometer,marine,vessel
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pygeomag
+Provides-Extra: dev-tools
+Requires-Dist: jupyter; extra == "dev-tools"
+Requires-Dist: matplotlib; extra == "dev-tools"
+Requires-Dist: pygeomag; extra == "dev-tools"
+Requires-Dist: uv; extra == "dev-tools"
+Requires-Dist: xarray; extra == "dev-tools"
+Requires-Dist: pytest; extra == "dev-tools"
+Requires-Dist: sphinx; extra == "dev-tools"
+Requires-Dist: sphinx_rtd_theme; extra == "dev-tools"
+Requires-Dist: m2r2; extra == "dev-tools"
+Requires-Dist: myst-nb; extra == "dev-tools"
+Dynamic: license-file
+
+# truewinds
+
+True winds is still in beta and requires updated documentation, examples, and tests. Function output may change in future releases.
+
+True winds provides vectorized versions of the true winds code provided by [SAMOS](https://samos.coaps.fsu.edu/html/tools_truewinds.php). 
+It is important to note that there may be some floating point differences between this numpy-based code and the orignal legacy functions.
+These differences occur at digits that are considered insignificant for wind speed and direction (< 1e-10). 
+
+## Installation
+
+`pip install truewinds`
+
+
+## Documentation
+
+Code documentation for truewinds is available here: https://iantblack.github.io/truewinds/
+
+The code truewinds is based on can be found here: [SAMOS True Winds Tools](https://samos.coaps.fsu.edu/html/tools_truewinds.php)
+
+The original manuscript for true winds computation can be found here: [True Winds Manuscript](`https://doi.org/10.1175/1520-0426(1999)016<0939:EMTITW>2.0.CO;2`)
