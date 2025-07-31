@@ -1,0 +1,97 @@
+[build-system]
+requires = ["flit_core >=3.4.0,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "hydromt_sfincs"
+authors = [
+    {name = "Roel de Goede", email = "roel.degoede@deltares.nl"},
+    {name = "Maarten van Ormondt", email = "Maarten.vanOrmondt@deltares-usa.us"},
+    {name = "Dirk Eilander", email = "dirk.eilander@deltares.nl"},
+    {name = "Tim Leijnse", email = "tim.leijnse@deltares.nl"},
+]
+dependencies = [
+    "affine",
+    "geopandas>1.0",
+    "hydromt>=0.10.1,<1.0",
+    "numba",
+    "numpy",
+    "pandas",
+    "pillow",
+    "pyflwdir>=0.5.10",
+    "pyproj",
+    "rasterio",
+    "scipy",
+    "shapely",
+    "xarray",
+    "xugrid>=0.14, <1.0",
+]
+requires-python = ">=3.9" # fix tests to support older versions
+readme = "README.rst"
+classifiers = [
+    # https://pypi.python.org/pypi?%3Aaction=list_classifiers
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+]
+dynamic = ['version', 'description']
+
+[project.optional-dependencies]
+test = [
+	"black[jupyter]",
+	"pytest>=2.7.3",
+	"pytest-cov",
+    "pre-commit",
+]
+doc = [
+    "nbsphinx",
+	"pydata-sphinx-theme",
+	"sphinx",
+    "sphinx_design",
+]
+examples = [
+    "cartopy",
+    "descartes",
+    "ffmpeg",
+    "jupyterlab",
+    "matplotlib",
+    "pillow",
+]
+quadtree = [
+    "datashader",
+    "mapbox_earcut"
+]
+
+full = ["hydromt_sfincs[test, doc, examples]"]
+
+[project.urls]
+Documentation = "https://deltares.github.io/hydromt_sfincs/"
+Source = "https://github.com/Deltares/hydromt_sfincs"
+
+[project.entry-points."hydromt.models"]
+sfincs = "hydromt_sfincs.sfincs:SfincsModel"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.flit.sdist]
+include = ["hydromt_sfincs"]
+exclude = ["docs", "examples", "envs", "tests", "binder", ".github", "sandbox"]
+
+[tool.make_env]
+channels = ["conda-forge"]
+deps_not_in_conda = [
+  "sphinx_design",
+  "black[jupyter]",
+  "hydromt",  # temporary until hydromt v0.10.1 is released
+  "pyflwdir", # temporary until pyflwdir v0.5.10 is released on conda-forge
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:distutils Version classes are deprecated:DeprecationWarning",
+]
