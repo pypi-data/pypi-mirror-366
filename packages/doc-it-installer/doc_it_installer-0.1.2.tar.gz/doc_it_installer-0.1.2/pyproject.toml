@@ -1,0 +1,37 @@
+# pyproject.toml
+
+# Defines the build system for the package.
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# Main project metadata.
+[project]
+name = "doc-it-installer"
+version = "0.1.2"
+authors = [
+  { name="Kartik Sharma, Harshvardhan Singh", email="kartiksh1610@gmail.com" }, 
+]
+description = "A modular CLI tool to automatically generate documentation for code changes using a local Ollama LLM."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Documentation",
+]
+
+# Project dependencies. pip will install these.
+dependencies = [
+    "typer[all]",
+    "rich",
+    "requests",
+    "python-docx", # NEW: For creating .docx files
+    "PyLaTeX",     # NEW: For creating .tex files
+]
+
+# This creates the 'doc-it' command and points it to the 'app' object
+# in the 'doc_it.main' file.
+[project.scripts]
+"doc-it" = "doc_it.main:app"
