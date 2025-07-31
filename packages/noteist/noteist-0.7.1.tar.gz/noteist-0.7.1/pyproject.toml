@@ -1,0 +1,57 @@
+[project]
+name = "noteist"
+version = "0.7.1"
+description = "Output a Markdown formatted report of completed tasks in Todoist."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "dateparser>=1.2.2",
+    "requests>=2.32.4",
+    "toml>=0.10.2",
+    "typer>=0.16.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Utilities",
+    "Development Status :: 3 - Alpha"
+]
+[project.urls]
+Source = "https://github.com/epicserve/noteist"
+Documentation = "https://github.com/epicserve/noteist"
+
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9"]
+build-backend = "uv_build"
+
+[project.scripts]
+noteist = "noteist.cli:cli"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle
+    "F",  # Pyflakes
+    "UP",  # pyupgrade
+    "B",  # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",  # isort
+    "D",  # pydocstyle
+    "S",  # bandit
+]
+ignore = ["D100", "D101", "D102", "D103", "D104", "D106", "D203", "D212"]
+
+[tool.ruff.lint.isort]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder", ]
+
+[tool.ruff.lint.per-file-ignores]
+"**/{tests}/*" = ["S101"]
