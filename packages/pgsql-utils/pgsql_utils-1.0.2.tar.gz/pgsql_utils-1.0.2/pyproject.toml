@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pgsql-utils"
+version = "1.0.2"
+authors = [
+    { name = "苏寅", email = "suyin_long@163.com" },
+]
+description = "一个用于简化PostgreSQL数据库操作的Python工具包"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "psycopg2>=2.9.10",
+    "colorPrintConsole>=1.0.7",
+]
+
+[project.urls]
+"Homepage" = "https://gitee.com/suyin-long/pgsql-utils"
+"Bug Reports" = "https://gitee.com/suyin-long/pgsql-utils/issues"
+"Source" = "https://gitee.com/suyin-long/pgsql-utils"
+
+[project.optional-dependencies]
+dev = ["pytest>=6.0", "black", "flake8"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pgsql_utils*"]
