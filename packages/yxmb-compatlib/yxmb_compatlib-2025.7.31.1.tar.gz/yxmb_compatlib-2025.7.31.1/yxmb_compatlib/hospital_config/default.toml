@@ -1,0 +1,61 @@
+pinyin = ""
+
+# 通用设置
+[settings]
+  default_timeout = 30
+  login_retries = 4 # 登录失败时的重试次数
+  expiration_date = "2099-02-22" # 软件过期日期
+
+# 用户凭据（通常由 admin.txt 提供）
+[credentials]
+  url = ""
+  username = ""
+  password = ""
+  department_name = ""
+
+# 登录页面
+[login]
+  # 场景一：常见登录页
+  username = ["id", "j_username"]
+  password = ["id", "j_password"]
+  login_button = ["class_name", "submit-btn"]
+
+  # 验证码相关（如果存在）
+  captcha_enabled = true # 通过此开关控制是否处理验证码，医院配置可覆盖为 false
+  captcha_image = ["id", "img"]
+  captcha_input = ["xpath", "//*[@id='verifyCode']"]
+
+  # 登录后选择科室（动态XPath，使用 .format(科室名) 填充）
+  department_button = ["xpath", "//div[contains(text(), '{name}')]"]
+
+  # 登录后执行的操作序列
+  # type 可为: "switch_window", "maximize_window", "click", "handle_alert"
+  post_login_actions = [
+    { type = "switch_window" },
+    { type = "maximize_window" },
+    { type = "handle_alert" },
+    { type = "click", locator = ["xpath", "//*[@id='dd65-ddheader']"], description = "点击主菜单/导航头" },
+    { type = "handle_alert" },
+    { type = "click", locator = ["xpath", "//span[text()='健康档案']"], description = "点击健康档案菜单" },
+    { type = "handle_alert" },
+    { type = "click", locator = ["xpath", "//*[@id='button-1005-btnIconEl']"], description = "关闭可能出现的弹窗", optional = true }
+  ]
+
+# 引入用药
+[medicine]
+  name_similarity_threshold = 0.8 # 药品名称相似度阈值
+
+# 数据验证配置
+[validation]
+  # 定义用于查找日期的列名，按优先级顺序排列
+  date_columns = ["随访日期", "成功", "日期"]
+
+  # 是否启用身份证严格校验
+  strict_id_check = true
+
+# 菜单配置
+[menus]
+  # 定义菜单ID映射
+  "体检服务" = "menu_5_1"
+  "慢病随访" = "menu_3_3"
+  "普通随访" = "menu_3_1"
