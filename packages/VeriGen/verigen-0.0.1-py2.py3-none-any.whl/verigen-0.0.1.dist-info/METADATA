@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: VeriGen
+Version: 0.0.1
+Summary: A Python library for generating synthesizable Verilog or SystemVerilog code using the Jinja2 template engine
+Author-email: GNPower <powerg@mcmaster.ca>
+License: MIT License
+Project-URL: Homepage, https://github.com/GNPower/VeriGen
+Keywords: VeriGen,Verilog,SystemVerilog
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyyaml
+Requires-Dist: jinja2
+Provides-Extra: all
+Requires-Dist: VeriGen[extra]; extra == "all"
+Dynamic: license-file
+
+# VeriGen
+Generates Verilog and SystemVerilog files from templates using Jinja2
