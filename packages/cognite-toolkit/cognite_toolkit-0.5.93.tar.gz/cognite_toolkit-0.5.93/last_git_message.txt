@@ -1,0 +1,31 @@
+[CDF-25247] 🦋 Refactor interactive selection asset centric (#1745)
+
+# Description
+
+Stacked on #1744 
+
+Extend the `AssetCentricInteractiveSelect` with methods for selecting
+one or multiple data sets/root assets. These will be used with the
+profiling commands to select root assets.
+
+Note the `AssetCentricInteractiveSelect` is used for interactively
+selecting root assets and data sets to do some operation. Today, it is
+only used in the dump method, but will soon also be used in the
+profiling.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Improved
+
+- In `cdf dump timeseries/assets` the interactive selection has been
+simplified for an easier flow.
+
+## templates
+
+No changes.
