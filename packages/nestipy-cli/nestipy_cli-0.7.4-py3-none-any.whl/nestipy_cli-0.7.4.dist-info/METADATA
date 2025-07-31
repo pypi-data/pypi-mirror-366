@@ -1,0 +1,80 @@
+Metadata-Version: 2.4
+Name: nestipy-cli
+Version: 0.7.4
+Summary: Nestipy is a Python framework built on top of FastAPI that follows the modular architecture of NestJS
+Author-email: tsiresymila <tsiresymila@gmail.com>
+Requires-Python: >=3.11
+Requires-Dist: aiofile<4,>=3.9.0
+Requires-Dist: autoflake<3,>=2.3.1
+Requires-Dist: autopep8<3,>=2.1.0
+Requires-Dist: click-aliases<2,>=1.0.4
+Requires-Dist: click<9,>=8.1.7
+Requires-Dist: hachiko<0.5,>=0.4.0
+Requires-Dist: isort<6,>=5.13.2
+Requires-Dist: minijinja<3,>=2.2.0
+Requires-Dist: nestipy>=0.7.5
+Requires-Dist: questionary<3,>=2.0.1
+Requires-Dist: rich-click<2,>=1.8.3
+Requires-Dist: uvicorn[standard]<0.36.0,>=0.35.0
+Requires-Dist: watchdog<5,>=4.0.1
+Requires-Dist: yaspin<4,>=3.1.0
+Description-Content-Type: text/markdown
+
+<p align="center">
+  <a target="_blank"><img src="https://raw.githubusercontent.com/nestipy/nestipy/release-v1/nestipy.png" width="200" alt="Nestipy Logo" /></a></p>
+<p align="center">
+    <a href="https://pypi.org/project/nestipy">
+        <img src="https://img.shields.io/pypi/v/nestipy?color=%2334D058&label=pypi%20package" alt="Version">
+    </a>
+    <a href="https://pypi.org/project/nestipy">
+        <img src="https://img.shields.io/pypi/pyversions/nestipy.svg?color=%2334D058" alt="Python">
+    </a>
+    <a href="https://github.com/tsiresymila1/nestipy/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/tsiresymila1/nestipy" alt="License">
+    </a>
+</p>
+
+## Description
+
+<p>Nestipy is a Python framework built on top of FastAPI that follows the modular architecture of NestJS</p>
+<p>Under the hood, Nestipy makes use of <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>, but also provides compatibility with a wide range of other libraries, like <a href="https://fastapi.tiangolo.com/" target="_blank">Blacksheep</a>, allowing for easy use of the myriad of third-party plugins which are available.</p>
+
+## Getting started
+
+```cmd
+    pip install nestipy-cli
+    nestipy new my_app
+    cd my_app
+    nestipy start --dev
+```
+
+```
+    ├── src
+    │    ├── __init__.py
+    ├── app_module.py
+    ├── app_controller.py
+    ├── app_service.py
+    ├── main.py
+    ├── pyproject.toml
+    ├── uv.lock
+    ├── README.md
+    
+       
+```
+
+## Documentation
+
+View full documentation from [here](https://nestipy.vercel.app).
+
+## Support
+
+Nestipy is an MIT-licensed open source project. It can grow thanks to the sponsors and support from the amazing backers.
+If you'd like to join them, please [read more here].
+
+## Stay in touch
+
+- Author - [Tsiresy Mila](https://tsiresymila.vercel.app)
+
+## License
+
+Nestipy is [MIT licensed](LICENSE).
