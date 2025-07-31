@@ -1,0 +1,56 @@
+[project]
+name = "truewinds"
+version = "0.0.4"
+description = "A Python package for estimating true wind speed and direction from anemometers on marine vessels."
+authors = [
+    {name = "Ian Black", email = "iantimothyblack@gmail.com"},
+]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ['wind', 'anemometer', 'marine','vessel']
+readme = "README.md"
+dependencies = [
+    "numpy",
+    "pygeomag"
+]
+
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+
+
+[project.optional-dependencies]
+dev_tools = [
+    "jupyter",
+    "matplotlib",
+    "pygeomag",
+    "uv",
+    "xarray",
+    "pytest",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "m2r2",
+    "myst-nb"]
+
+
+[project.urls]
+Repository = 'https://github.com/IanTBlack/truewinds'
+Issues = 'https://github.com/IanTBlack/truewinds/issues'
+Discussions = 'https://github.com/IanTBlack/truewinds/discussions'
+"Additional Information" = 'https://github.com/IanTBlack/truewinds/tree/main/info'
+"Documentation" = 'https://iantblack.github.io/truewinds/'
+
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+
+[tool.setuptools.packages.find]
+exclude = ["dev*","examples*",".github", "_sphinx",]
