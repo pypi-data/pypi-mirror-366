@@ -1,0 +1,12 @@
+six
+thrift==0.16.0
+thrift_sasl==0.4.3
+
+[:python_version < "3"]
+bitarray<3
+
+[:python_version >= "3"]
+bitarray
+
+[kerberos]
+kerberos>=1.3.0
