@@ -1,0 +1,141 @@
+# Recallio Python Client
+
+Recallio – AI-Powered Contextual Memory & Knowledge-Graph API
+
+Store, index, and retrieve application “memories” with built-in fact extraction, dynamic summaries, reranked recall, and a full knowledge-graph layer.
+
+🔧 Core Capabilities
+
+* Embeddings-backed Storage: Fast semantic write & recall.
+
+* LLM-Driven Insights: Fact extraction, reranking, summarization.
+
+* Full Lifecycle Management: Write, recall, delete, export.
+
+* Knowledge Graph: Entities, relationships, and powerful graph queries.
+
+* OpenAPI-First: Auto-generated Swagger docs and client libs.
+
+Lightweight Python wrapper for the [Recallio](https://app.recallio.ai) API.
+
+## Installation
+
+```bash
+pip install recallio
+```
+
+## Quick start
+
+```python
+from recallio import RecallioClient
+
+client = RecallioClient(api_key="YOUR_RECALLIO_API_KEY")
+```
+
+---
+
+## Memory API
+
+### Write memory
+
+```python
+from recallio import MemoryWriteRequest
+
+req = MemoryWriteRequest(
+    userId="user_123",
+    projectId="project_abc",
+    content="The user prefers dark mode and wants notifications disabled on weekends",
+    consentFlag=True,
+)
+client.write_memory(req)
+```
+
+### Recall memories
+
+```python
+from recallio import MemoryRecallRequest
+
+recall_req = MemoryRecallRequest(
+    projectId="project_abc",
+    userId="user_123",
+    query="dark mode",
+    scope="user",
+    reRank=True,
+)
+results = client.recall_memory(recall_req)
+for m in results:
+    print(m.content, m.similarityScore)
+```
+
+### Recall summary
+
+```python
+from recallio import RecallSummaryRequest
+
+summary_req = RecallSummaryRequest(
+    projectId="project_abc",
+    userId="user_123",
+    scope="user",
+)
+summary = client.recall_summary(summary_req)
+print(summary.content)
+```
+
+### Delete memories
+
+```python
+from recallio import MemoryDeleteRequest
+
+delete_req = MemoryDeleteRequest(scope="user", userId="user_123")
+client.delete_memory(delete_req)
+```
+
+### Export memories
+
+```python
+from recallio import MemoryExportRequest
+
+export_req = MemoryExportRequest(type="fact", format="json", userId="user_123")
+json_data = client.export_memory(export_req)
+```
+
+---
+
+## Graph Memory API
+
+### Add data to the graph
+
+```python
+from recallio import GraphAddRequest
+
+graph_req = GraphAddRequest(
+    data="John works at OpenAI in San Francisco",
+    user_id="user_123",
+    project_id="project_abc",
+)
+response = client.add_graph_memory(graph_req)
+print(response.added_entities)
+```
+
+### Search the graph
+
+```python
+from recallio import GraphSearchRequest
+
+search_req = GraphSearchRequest(query="Where does John work?", user_id="user_123")
+graph_results = client.search_graph_memory(search_req)
+for r in graph_results:
+    print(r.source, r.relationship, r.destination)
+```
+
+### Get all relationships
+
+```python
+relationships = client.get_graph_relationships(user_id="user_123")
+```
+
+### Delete all graph data
+
+```python
+client.delete_all_graph_memory(user_id="user_123")
+```
