@@ -1,0 +1,289 @@
+# pyp2spec
+
+This project is a thought descendant of [specfile_generator](https://github.com/frenzymadness/specfile_generator).
+
+It generates working Fedora RPM spec file for Python projects.
+The produced spec files must be compliant with the current [Python Packaging Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/Python/) (in effect since 2021).
+It utilizes the benefits of [pyproject-rpm-macros](https://src.fedoraproject.org/rpms/pyproject-rpm-macros).
+
+This project's maturity state is alpha.
+Its API may be a subject of change.
+
+## What it does
+
+`pyp2spec` gathers all the necessary information from PyPI or a local Python
+distribution to produce a valid Fedora spec file and stores it in the current
+directory alongside with the config file used to produce the spec file.
+
+Inside, there are two main parts:
+- *pyp2conf*: gathers of all the necessary information to produce a spec file and stores it in a configuration file
+- *conf2spec*: produces working spec file using all the information from configuration file
+
+### Standard mode
+
+pyp2spec attempts to detect all unambiguous information from the package
+metadata, but avoids applying complicated heuristics to provide *at least
+somewhat accurate* results.
+In the standard mode it generates files with all the detected information which
+may not be enough to generate a valid RPM immediately. There are placeholders
+in the fields that couldn't be determined automatically which are left for
+the packager to fill in.
+The generated spec contains comments helping to locate the missing pieces.
+This is the default mode of pyp2spec.
+
+#### Data source: PyPI
+
+The default source for getting data from is PyPI.
+When invoked via `pyp2spec <pkgname>`, all of the data
+to generate a spec file will be obtained from PyPI APIs.
+
+#### Data source: Locally built distribution
+
+When invoked with `pyp2spec <pkgname> --path dist/`, with `--path` option set
+to a directory with built Python artifacts, all of the data to generate a spec file
+will be obtained from the wheel and sdist.
+pyp2spec requires at least a built **wheel** (`.whl` file) to read the metadata from.
+**sdist** is only used as a reference to a source file, but it's not mandatory.
+
+### Automode
+
+Automode, invoked with `--automode` or `-a` command-line options,
+is the preferred way of generating spec files in the automated environments.
+It sets the convenient defaults that increase the chance of creating a buildable package.
+The defaults:
+- import check attempts to import the the top-level modules only
+  (since importing all of the detected modules can fail on e.g. OS-related dependencies)
+- all the found license names are validated as existing SPDX identifiers and
+  checked for compliance with Fedora Legal data - the script warns about
+  the incorrectness but creates a spec file anyways
+- the license string, if not a valid SPDX expression already, is a combination
+  of all detected identifiers joined with the "AND" operator
+
+The generated spec files don't fulfill all the necessities of the official
+Fedora packages and hence cannot be submitted for review.
+
+### pyproject declarative buildsystem (experimental)
+
+pyp2spec can create spec files with a new feature of rpm >= 4.20 and pyproject
+RPM macros, called declarative buildsystem.
+Invoke it with the `--declarative-buildsystem` command-line option.
+It is inactive by default. It doesn't work combined with automode.
+
+For details, see [rpm documentation](https://rpm-software-management.github.io/rpm/manual/buildsystem.html)
+and [pyproject-rpm-macros documentation](https://src.fedoraproject.org/rpms/pyproject-rpm-macros)
+- look for the section 'Provisional: Declarative Buildsystem (RPM 4.20+)').
+
+
+## How to run
+
+To run whatever this project offers at this point,
+install package `pyp2spec` from PyPI with the command:
+```
+pip install pyp2spec
+```
+Then you can run:
+```
+pyp2spec <package_name>  # from PyPI package
+# or
+pyp2spec <package_name> --path /tmp/dist  # from locally built Python artifacts
+```
+or those two commands which will together produce the same result as `pyp2spec`:
+```
+pyp2conf <package_name>
+conf2spec <config_file>
+```
+
+pyp2spec is available in Fedora, install it with:
+```
+dnf install pyp2spec
+```
+
+To see all available command-line options, run `--help` with the respective commands.
+
+## Development
+
+Alternatively, you can clone the project from GitHub and install
+the dependencies to you virtual environment:
+```
+python -m pip install -r requirements.txt
+```
+
+To run the script and generate both the config and spec file, type:
+```
+python -m pyp2spec.pyp2spec <package_name>
+```
+
+You can run either of the tools separately to generate partial results:
+```
+python -m pyp2spec.pyp2conf <package_name>
+python -m pyp2spec.conf2spec <config_file>
+```
+
+### Tests
+
+To run the tests, run [tox](https://tox.wiki/en/stable/index.html):
+
+```
+tox
+```
+
+You can install `tox` from your OS repository or PyPI.
+Test dependencies are defined in the project's `[test]` extra.
+
+
+## Configuration file specification
+
+Configuration data is stored in a TOML file.
+
+### Fields generated by pyp2conf
+
+
+| Field  | Description | Type |
+| -------- | -------- | -------- |
+| name | package canonical name  | string   |
+| python_name | pypi_name prepended with `python-` and alternative Python version, if `python_alt_version` is defined| string |
+| version | package version string | string
+| summary | short package summary | string |
+| license | license name | string |
+| url | project URL | string |
+| source | source of the sdist tarball, currently only "PyPI" supported | string |
+| extras | extra subpackages names | list of strings |
+| archful | package contains compiled extensions, implies not using `BuildArch: noarch` and adding `BuildRequires: gcc` | bool |
+| python_alt_version | specific Python version to create the spec file for, e.g. 3.9, 3.10, 3.12 | string |
+| automode | create buildable spec files that don't have to fully comply with Fedora Guidelines; useful for automatic build environments | bool |
+| license_files_present | `License-File` field was detected in the package metadata | bool |
+| archive_name | filename of the sdist | string |
+| compat | package compatible with the given version line | string |
+
+
+
+### Example config file generated by pyp2spec
+
+```
+license = "MIT"
+archful = false
+summary = "A simple Python 3 library for Notion Home Monitoring"
+version = "2024.3.1"
+name = "aionotion"
+python_name = "python-aionotion"
+url = "https://github.com/bachya/aionotion"
+source = "PyPI"
+extras = []
+license_files_present = true
+archive_name = "aionotion-2.0.3.tar.gz"
+```
+
+### Spec file generated using the example config
+
+```
+Name:           python-aionotion
+Version:        2024.3.1
+Release:        %autorelease
+# Fill in the actual package summary to submit package to Fedora
+Summary:        A simple Python 3 library for Notion Home Monitoring
+
+# Check if the automatically generated License and its spelling is correct for Fedora
+# https://docs.fedoraproject.org/en-US/packaging-guidelines/LicensingGuidelines/
+License:        MIT
+URL:            https://github.com/bachya/aionotion
+Source:         %{pypi_source aionotion}
+
+BuildArch:      noarch
+BuildRequires:  python3-devel
+
+
+# Fill in the actual package description to submit package to Fedora
+%global _description %{expand:
+This is package 'aionotion' generated automatically by pyp2spec.}
+
+%description %_description
+
+%package -n     python3-aionotion
+Summary:        %{summary}
+
+%description -n python3-aionotion %_description
+
+
+%prep
+%autosetup -p1 -n aionotion-%{version}
+
+
+%generate_buildrequires
+%pyproject_buildrequires
+
+
+%build
+%pyproject_wheel
+
+
+%install
+%pyproject_install
+# Add top-level Python module names here as arguments, you can use globs
+%pyproject_save_files -l ...
+
+
+%check
+%pyproject_check_import
+
+
+%files -n python3-aionotion -f %{pyproject_files}
+
+
+%changelog
+%autochangelog
+```
+
+### Declarative buildsystem spec file (experimental)
+
+```
+Name:           python-aionotion
+Version:        2024.3.1
+Release:        %autorelease
+# Fill in the actual package summary to submit package to Fedora
+Summary:        A simple Python 3 library for Notion Home Monitoring
+
+# Check if the automatically generated License and its spelling is correct for Fedora
+# https://docs.fedoraproject.org/en-US/packaging-guidelines/LicensingGuidelines/
+License:        MIT
+URL:            ...
+Source:         %{pypi_source aionotion}
+
+BuildSystem:    pyproject
+# Replace ... with top-level Python module names as arguments, you can use globs
+BuildOption(install):  ...
+# Keep only those extras which you actually want to package or use during tests
+# If you don't want to package any of them, erase the whole line
+BuildOption(generate_buildrequires): -x build,lint,test
+
+BuildArch:      noarch
+BuildRequires:  python3-devel
+
+
+# Fill in the actual package description to submit package to Fedora
+%global _description %{expand:
+This is package 'aionotion' generated automatically by pyp2spec.}
+
+%description %_description
+
+%package -n     python3-aionotion
+Summary:        %{summary}
+
+%description -n python3-aionotion %_description
+
+# For official Fedora packages, review which extras should be actually packaged
+# See: https://docs.fedoraproject.org/en-US/packaging-guidelines/Python/#Extras
+%pyproject_extras_subpkg -n python3-aionotion build,lint,test
+
+
+%files -n python3-aionotion -f %{pyproject_files}
+
+
+%changelog
+%autochangelog
+```
+
+## License
+
+The code is licensed under **MIT**.
+
+The spec file template - `template.spec` and the files generated by the tool are licensed under **MIT-0 (No Attribution)**.

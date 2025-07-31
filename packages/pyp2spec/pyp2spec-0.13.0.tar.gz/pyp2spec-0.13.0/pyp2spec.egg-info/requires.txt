@@ -1,0 +1,14 @@
+click
+jinja2
+license-expression
+packaging>=24.2
+requests
+tomli-w
+
+[:python_version < "3.11"]
+tomli
+
+[test]
+pytest
+pytest-regressions
+betamax
