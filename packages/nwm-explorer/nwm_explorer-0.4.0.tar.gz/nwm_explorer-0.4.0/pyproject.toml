@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nwm_explorer"
+authors = [
+    { name = "Jason A. Regina", email = "jregina@duck.com" },
+]
+description = "A web-based application used to explore National Water Model output and evaluation metrics."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "click",
+    "pandas",
+    "polars",
+    "xarray",
+    "aiohttp",
+    "aiofiles",
+    "numba",
+    "pyarrow",
+    "netcdf4",
+    "dask",
+    "panel",
+    "geopandas",
+    "plotly",
+    "colorcet",
+    "arch",
+    "us",
+    "hydrotools.nwis_client"
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = { attr = "nwm_explorer._version.__version__" }
+
+[project.optional-dependencies]
+develop = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/jarq6c/nwm-explorer"
+Documentation = "https://jarq6c.github.io/nwm-explorer"
+Repository = "https://github.com/jarq6c/nwm-explorer"
+"Bug Tracker" = "https://github.com/jarq6c/nwm-explorer/issues"
+
+[project.scripts]
+nwm-explorer = "nwm_explorer.interfaces.cli:cli"
