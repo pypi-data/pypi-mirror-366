@@ -1,0 +1,17 @@
+
+[dev]
+pytest~=7.0
+pytest-cov~=4.0
+pylint~=3.0.3
+sphinx~=5.3.0
+sphinx-rtd-theme~=1.2.0
+
+[dev:python_version < "3.11"]
+tomli
+
+[dev:python_version > "3.12"]
+standard-imghdr
+
+[publish]
+build~=0.8
+twine~=4.0
