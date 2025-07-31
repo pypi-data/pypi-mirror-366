@@ -1,0 +1,33 @@
+name: Test FFI
+
+on:
+  push:
+    branches: [main, chore-workflows]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - testname: "tests/ffi"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build image
+        run: |
+          docker build -t halmos-image . --file packages/halmos/Dockerfile
+
+      - name: Print halmos version
+        run: docker run halmos-image halmos --version
+
+      - name: Run pytest
+        run: docker run -v .:/workspace halmos-image pytest -v tests/test_halmos.py -k ${{ matrix.testname }} --halmos-options="--ffi -v -st"

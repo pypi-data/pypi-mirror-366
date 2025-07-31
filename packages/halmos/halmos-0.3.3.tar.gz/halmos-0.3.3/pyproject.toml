@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[project]
+name = "halmos"
+description = "A symbolic testing tool for EVM smart contracts"
+readme = "README.md"
+authors = [
+    { name="a16z crypto" },
+]
+maintainers = [
+    { name="Daejun Park" },
+    { name="karmacoma <karma@coma.lol>" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "sortedcontainers>=2.4.0",
+    "toml>=0.10.2",
+    "z3-solver==4.12.6.0",
+    "eth_hash[pysha3]>=0.7.0",
+    "rich>=14.0.0,<14.1.0",
+    "xxhash>=3.5.0",
+    "psutil>=6.1.0",
+    "requests>=2.32.3",
+    "yices-solver>=2.6.4,<2.6.5",
+    "python-dotenv>=1.1.0",
+]
+dynamic = ["version"]
+
+[project.scripts]
+halmos = "halmos.__main__:main"
+
+[project.urls]
+"Homepage" = "https://github.com/a16z/halmos"
+
+# development dependencies, can be installed with
+#   uv sync --extra dev
+# or
+#   pip install -e ".[dev]"
+# (see CONTRIBUTING.md for more details)
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "ruff>=0.8.1",
+]
+
+[tool.pytest.ini_options]
+# TODO: re-add test_traces.py when we have a better way to support it in CI
+addopts = "--ignore=tests/lib --ignore=tests/test_traces.py"
+# addopts = "--ignore=tests/lib"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "UP", # pyupgrade
+    "B",  # flake8-bugbear
+    "SIM",# flake8-simplify
+    "I",  # isort
+]
+ignore = [
+    "E501",  # line too long
+]
+exclude = [
+    "tests/lib/**"
+]

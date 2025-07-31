@@ -1,0 +1,73 @@
+name: Test
+
+on:
+  push:
+    branches: [main, chore-workflows]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      halmos-options:
+        description: "additional halmos options"
+        required: false
+        type: string
+        default: ""
+      pytest-options:
+        description: "additional pytest options"
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    env:
+      HALMOS_ALLOW_DOWNLOAD: 1
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["macos-latest", "ubuntu-latest", "windows-latest"]
+        python-version: ["3.11", "3.12", "3.13"]
+        storage-layout: ["solidity", "generic"]
+        cache-solver: ["", "--cache-solver"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # note: it is faster to let foundry do a sparse checkout of the missing libraries rather than having the action do a git checkout of the submodules
+          submodules: false
+
+      - name: Install foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Print foundry version
+        run: forge --version
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          # Install a specific version of uv.
+          version: "0.5.21"
+
+      - name: Set up python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install halmos and its dependencies
+        run: |
+          uv sync --extra dev
+
+      - name: Write halmos.toml
+        shell: bash
+        run: |
+          uv run python -m halmos.config \
+            --storage-layout ${{ matrix.storage-layout }} \
+            ${{ matrix.cache-solver }} \
+            | tee tests/regression/halmos.toml
+
+      - name: Run pytest
+        shell: bash
+        run: |
+          uv run pytest -v -k "not long and not ffi" --ignore=tests/lib \
+            --halmos-options="-st --disable-gc --solver-threads 1 ${{ inputs.halmos-options }}" ${{ inputs.pytest-options }}

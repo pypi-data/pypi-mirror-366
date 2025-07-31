@@ -1,0 +1,44 @@
+name: Test long
+
+on:
+  push:
+    branches: [main, chore-workflows]
+  workflow_dispatch:
+    inputs:
+      halmos-options:
+        description: "additional halmos options"
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        cache-solver: ["", "--cache-solver"]
+        testname:
+          - "tests/solver"
+          - "examples/simple"
+          - "examples/invariants"
+          - "examples/tokens/ERC20"
+          - "examples/tokens/ERC721"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build image
+        run: |
+          docker build -t halmos-image . --file packages/halmos/Dockerfile
+
+      - name: Print halmos version
+        run: docker run halmos-image halmos --version
+
+      - name: Run pytest
+        run: |
+          docker run -v .:/workspace halmos-image pytest -x -v tests/test_halmos.py -k ${{ matrix.testname }} --halmos-options='-st --solver-threads 3 ${{ matrix.cache-solver }} ${{ inputs.halmos-options }}' -s --log-cli-level=
