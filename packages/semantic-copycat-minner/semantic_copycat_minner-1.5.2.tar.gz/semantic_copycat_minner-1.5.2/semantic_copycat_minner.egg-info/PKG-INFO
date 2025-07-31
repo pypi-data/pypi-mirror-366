@@ -1,0 +1,679 @@
+Metadata-Version: 2.4
+Name: semantic-copycat-minner
+Version: 1.5.2
+Summary: Semantic analysis tool for detecting AI-generated code derived from copyrighted sources
+Author-email: "Oscar Valenzuela B." <oscar.valenzuela.b@gmail.com>
+Maintainer-email: "Oscar Valenzuela B." <oscar.valenzuela.b@gmail.com>
+License: AGPL-3.0
+Project-URL: Homepage, https://github.com/oscarvalenzuelab/semantic-copycat-minner
+Project-URL: Documentation, https://github.com/oscarvalenzuelab/semantic-copycat-minner#readme
+Project-URL: Repository, https://github.com/oscarvalenzuelab/semantic-copycat-minner
+Project-URL: Bug Tracker, https://github.com/oscarvalenzuelab/semantic-copycat-minner/issues
+Keywords: code-analysis,ai-detection,semantic-analysis,copyright,gpl
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: tree-sitter>=0.20.0
+Requires-Dist: tree-sitter-python>=0.20.0
+Requires-Dist: tree-sitter-javascript>=0.20.0
+Requires-Dist: tree-sitter-java>=0.20.0
+Requires-Dist: tree-sitter-c>=0.20.0
+Requires-Dist: tree-sitter-go>=0.20.0
+Requires-Dist: tree-sitter-rust>=0.20.0
+Requires-Dist: tlsh>=0.2.0
+Requires-Dist: datasketch>=1.5.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: tqdm>=4.64.0
+Requires-Dist: python-magic>=0.4.27
+Requires-Dist: radon>=5.1.0
+Requires-Dist: networkx>=2.8
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=0.991; extra == "dev"
+Provides-Extra: gnn
+Requires-Dist: torch>=1.12.0; extra == "gnn"
+Requires-Dist: torch-geometric>=2.1.0; extra == "gnn"
+Dynamic: license-file
+
+# Semantic Copycat Minner (CopycatM)
+
+A comprehensive defensive security tool for semantic code analysis, designed to extract hashes, detect algorithms, and identify structural features for similarity analysis and copyright detection. Successfully identifies AI-generated code that removes attribution while maintaining algorithmic essence.
+
+## Features
+
+- **Three-Tier Architecture**: Hybrid analysis approach for optimal accuracy (v1.5.0)
+  - Tier 1: Common baseline analysis (all files)
+  - Tier 2: Traditional pattern matching (smaller files)
+  - Tier 3: Semantic AI transformation analysis (large/complex files)
+- **Multi-language Support**: Python, JavaScript/TypeScript, Java, C/C++, Go, Rust
+- **Semantic Analysis**: AST-based code analysis with tree-sitter parsers
+- **Algorithm Detection**: Pattern recognition for 60+ algorithm types across 8 categories
+  - **Enhanced Detection (v1.5.1)**: 81.8% accuracy with improved classic algorithm detection
+  - Detects merge sort, quicksort with list comprehensions, linear search
+  - Better graph algorithm preservation (DFS, BFS, Dijkstra)
+- **Unknown Algorithm Detection**: Structural complexity analysis with ML clustering (v1.5.1)
+- **AI Code Detection**: Identifies code derived from open source with removed attributions
+- **Cross-Language Consistency**: 95%+ detection rate for same algorithms across languages
+- **Transformation Resistance**: 81.2% average resistance to code transformations
+- **Multimedia Processing Detection**: Comprehensive patterns for video, audio, image, and signal processing (v1.5.0)
+  - Video: Color space conversion, quantization, motion estimation, prediction, segmentation
+  - Audio: FFT, psychoacoustic models, resampling, echo effects, noise reduction
+  - Image: Interpolation, morphological operations, edge detection, convolution
+  - Signal: Digital filters, correlation, windowing, modulation
+- **Audio/Video Codec Detection**: Comprehensive detection of 40+ multimedia codecs (v1.4.0+)
+  - Successfully tested on FFmpeg source code
+  - Detects MP3, AAC, Opus, FLAC, PCM, Vorbis, AC3, DTS, WMA, G.711/722/729, AMR, Speex, CELP
+  - Detects H.264, H.265, VP8/9, AV1, MPEG-2/4, Theora, H.263, RealVideo, Cinepak, Indeo, ProRes, DNxHD
+- **Software Heritage ID (SWHID) Support**: Generate persistent identifiers for reproducible research (v1.5.2)
+  - Industry-standard persistent identification following SWHID v1.6 specification
+  - Git-compatible SHA1 hashing for interoperability
+  - Algorithm-specific identifiers with line ranges and function paths
+  - Integration with Software Heritage archive and resolver ecosystem
+- **Comprehensive Hashing**:
+  - Direct: SHA256, MD5, SHA1 for exact matching
+  - Fuzzy: TLSH with optimized preprocessing for code similarity
+  - Semantic: MinHash and SimHash for structural similarity (enabled by default)
+  - GNN-based: Graph neural network similarity hashes for structural analysis
+- **Mutation Detection**: Identifies algorithm variants with 70-85% similarity to known patterns
+- **Control Structure Analysis**: Extracts and hashes control blocks (loops, conditionals, try-catch)
+- **Mathematical Property Detection**: Identifies commutative, associative, distributive, and other mathematical properties
+- **Evidence Extraction**: Rich evidence including matched keywords, complexity metrics, and AST signatures
+- **Mathematical Invariant Detection**: Typed invariants (loop, recursion, boundary, comparison, etc.)
+- **CLI Interface**: Easy-to-use command-line tool with batch processing
+- **JSON Output**: Structured output for integration with other tools
+
+## Documentation
+
+- **[API Documentation](docs/API_DOCUMENTATION.md)** - Comprehensive API reference with examples
+- **[Technical Paper](docs/copycatm_technical_paper.md)** - Detailed technical implementation
+- **[Tool Usage](tools/TOOL_USAGE.md)** - Guide for validation and analysis tools
+
+## Installation
+
+### From PyPI
+
+```bash
+pip install semantic-copycat-minner
+```
+
+### From Source
+
+```bash
+git clone https://github.com/username/semantic-copycat-minner
+cd semantic-copycat-minner
+pip install -e .
+```
+
+### Optional GNN Support
+
+For advanced graph neural network similarity detection:
+
+```bash
+pip install -e .[gnn]
+```
+
+## Quick Start
+
+### Analyze a Single File
+
+```bash
+copycatm src/algorithm.py -o results.json
+```
+
+### Analyze a Directory
+
+```bash
+copycatm ./codebase -o results.json
+```
+
+### Compare Code Similarity
+
+```bash
+# Using the analysis tool
+python tools/copycatm_analysis_tool.py compare file1.py file2.py
+
+# Using the validation tool for enhanced detection
+python tools/copycatm_validation_tool.py compare ./directory
+```
+
+### Custom Configuration
+
+```bash
+copycatm algorithm.py --complexity-threshold 5 --min-lines 50 -o results.json
+```
+
+### Generate Software Heritage IDs
+
+```bash
+# Enable SWHID generation for persistent identification
+copycatm algorithm.py --enable-swhid -o results.json
+
+# Include directory SWHID (performance impact)
+copycatm algorithm.py --enable-swhid --swhid-include-directory -o results.json
+```
+
+## CLI Usage
+
+### Basic Commands
+
+```bash
+# Single file analysis
+copycatm <file_path> [options]
+
+# Batch directory analysis
+copycatm <directory_path> [options]
+```
+
+### Options
+
+```bash
+# Core options
+--output, -o           Output JSON file path (default: stdout)
+--verbose, -v          Verbose output (can be repeated: -v, -vv, -vvv)
+--quiet, -q           Suppress all output except errors
+--debug               Enable debug mode with intermediate representations
+
+# Analysis configuration
+--complexity-threshold, -c    Cyclomatic complexity threshold (default: 3)
+--min-lines                   Minimum lines for algorithm analysis (default: 20, recommend 2 for utility libraries)
+--include-intermediates       Include AST and control flow graphs in output
+--languages                   Comma-separated list of languages to analyze
+
+# Hash configuration
+--hash-algorithms            Comma-separated hash types (default: sha256,tlsh,minhash)
+--tlsh-threshold            TLSH similarity threshold (default: 100)
+--lsh-bands                 LSH band count for similarity detection (default: 20)
+
+# Output filtering
+--only-algorithms           Only output algorithmic signatures
+--only-metadata            Only output file metadata
+--confidence-threshold     Minimum confidence score to include (0.0-1.0)
+
+# Performance
+--parallel, -p             Number of parallel workers (default: CPU count)
+--chunk-size              Files per chunk for batch processing (default: 100)
+```
+
+## Library API
+
+The library provides different levels of API access, with `CopycatAnalyzer` as the main entry point for most use cases.
+
+### Main Entry Point: CopycatAnalyzer
+
+`CopycatAnalyzer` is the primary interface that orchestrates all analysis components including parsing, algorithm detection, hashing, and complexity analysis.
+
+```python
+from copycatm import CopycatAnalyzer, AnalysisConfig
+
+# Create analyzer with default configuration
+analyzer = CopycatAnalyzer()
+
+# Analyze a file (auto-detect language from extension)
+result = analyzer.analyze_file("src/algorithm.py")
+
+# Force specific language (useful for non-standard extensions)
+result = analyzer.analyze_file("script.txt", force_language="python")
+
+# Analyze code string directly
+result = analyzer.analyze_code(code, "python", "algorithm.py")
+
+# Analyze directory
+results = analyzer.analyze_directory("./codebase")
+```
+
+### Lower-Level Components
+
+For advanced use cases, you can access individual components directly:
+
+```python
+from copycatm.analysis import AlgorithmDetector
+from copycatm.parsers import TreeSitterParser
+
+# Direct algorithm detection with flexible input
+detector = AlgorithmDetector()
+
+# Option 1: Provide raw content (convenience method)
+algorithms = detector.detect_algorithms_from_input(content, "python")
+
+# Option 2: Provide pre-parsed AST (for reuse across components)
+parser = TreeSitterParser()
+ast_tree = parser.parse(content, "python")
+algorithms = detector.detect_algorithms_from_input(ast_tree, "python")
+
+# Option 3: Use original method (backward compatible)
+algorithms = detector.detect_algorithms(ast_tree, "python")
+```
+
+### Custom Configuration
+
+```python
+from copycatm import CopycatAnalyzer, AnalysisConfig
+
+# Create custom configuration
+config = AnalysisConfig(
+    complexity_threshold=5,
+    min_lines=50,
+    include_intermediates=True,
+    hash_algorithms=["sha256", "tlsh", "minhash"],
+    confidence_threshold=0.8,
+    enable_swhid=True  # Generate Software Heritage IDs
+)
+
+analyzer = CopycatAnalyzer(config)
+result = analyzer.analyze_file("src/algorithm.py")
+```
+
+## Enhanced Algorithm Detection (v1.5.2)
+
+The enhanced algorithm detector provides excellent accuracy with comprehensive algorithm detection:
+
+### Performance Metrics (v1.5.2)
+- **Overall F1-Score: 0.857** (precision: 0.750, recall: 1.000)
+- **100% Source Code Verification** - All expected algorithms correctly detected
+- **Perfect Cross-Language Detection** - JavaScript, Python, C consistency
+- **C Function Detection: 100%** - Including audio codec functions
+- **Zero False Negatives** - No missed algorithms in test suite
+
+### Using Current Implementation
+
+```python
+from copycatm import CopycatAnalyzer, AnalysisConfig
+
+# Standard analyzer with current enhancements
+config = AnalysisConfig(
+    complexity_threshold=3,
+    min_lines=5,
+    enable_swhid=True  # SWHID support available
+)
+analyzer = CopycatAnalyzer(config)
+result = analyzer.analyze_file("algorithm.py")
+```
+
+### Validation Tools
+
+```bash
+# Comprehensive validation against source code
+python validate_tests_focused.py
+
+# Source code verification
+python verify_source_code.py
+
+# Comprehensive test suite analysis  
+python validate_tests_comprehensive.py
+```
+
+### Key Improvements (v1.5.2)
+
+- **Perfect Algorithm Detection**: 100% detection rate on test algorithms
+- **Audio Codec Support**: PCM codec functions with 68-70% confidence
+- **C Function Detection**: Complete support for C algorithm implementations
+- **SWHID Integration**: Software Heritage persistent identifiers
+- **Robust Parser**: Tree-sitter with intelligent fallback mode
+
+## Advanced Features
+
+### AI-Generated Code Detection (v1.5.0)
+
+CopycatM includes advanced features to detect AI-generated code that removes attribution:
+
+1. **AST Normalization**: Identifies structurally similar code despite variable renaming
+2. **Semantic Similarity**: Multi-method similarity detection (TF-IDF, idiom patterns)
+3. **Call Graph Analysis**: Function relationship mapping using NetworkX
+4. **Code Clone Detection**: Type 1-4 clone identification (exact to semantic)
+5. **Wrapper Detection**: Identifies delegation, adapter, facade patterns
+6. **Confidence Scoring**: Multi-factor scoring with weighted components
+
+```python
+from copycatm.analysis import SemanticSimilarity, CodeCloneDetector
+
+# Compare two code snippets for semantic similarity
+similarity = SemanticSimilarity()
+result = similarity.calculate_semantic_similarity(code1, code2, "python", "python")
+
+# Detect code clones
+clone_detector = CodeCloneDetector()
+clones = clone_detector.detect_clones(files)
+```
+
+### Cross-Implementation Similarity
+
+CopycatM can detect similar algorithms across different implementations:
+
+```bash
+# Compare FFmpeg and GStreamer audio resampling
+python tools/copycatm_validator.py compare ffmpeg/resample.c gstreamer/audioresample.c
+
+# Result: 65% similarity (audio_resampling domain, threshold: 30%)
+```
+
+### Unknown Algorithm Detection
+
+For complex code that doesn't match known patterns:
+
+```python
+# Configure for unknown algorithm detection
+config = AnalysisConfig(
+    min_lines=2,  # Low threshold for function analysis
+    unknown_algorithm_threshold=50  # File size threshold
+)
+
+analyzer = CopycatAnalyzer(config)
+result = analyzer.analyze_file("complex_algorithm.py")
+
+# Unknown algorithms will have type: "unknown_complex_algorithm"
+# With evidence including complexity metrics and operation patterns
+```
+
+## Output Format
+
+The tool outputs structured JSON with the following components:
+
+### File Metadata
+
+```json
+{
+  "file_metadata": {
+    "file_name": "algorithm.py",
+    "language": "python",
+    "line_count": 85,
+    "is_source_code": true,
+    "analysis_timestamp": "2025-07-25T10:30:00Z"
+  }
+}
+```
+
+### Algorithm Detection
+
+```json
+{
+  "algorithms": [
+    {
+      "id": "algo_001",
+      "type": "algorithm",
+      "name": "quicksort_implementation",
+      "algorithm_type": "sorting_algorithm",
+      "subtype": "quicksort",
+      "confidence": 0.92,
+      "function_name": "quick_sort",
+      "complexity_metric": 8,
+      "evidence": {
+        "pattern_type": "divide_and_conquer",
+        "control_flow": "recursive_partition"
+      },
+      "hashes": {
+        "direct": {"sha256": "abc123..."},
+        "fuzzy": {"tlsh": "T1A2B3C4..."},
+        "semantic": {"minhash": "123456789abcdef"}
+      },
+      "transformation_resistance": {
+        "variable_renaming": 0.95,
+        "language_translation": 0.85
+      }
+    }
+  ]
+}
+```
+
+### Unknown Algorithm Detection (v1.2.0+)
+
+For complex code that doesn't match known algorithm patterns, CopycatM performs structural complexity analysis to identify unknown algorithms. This feature automatically activates for files with 50+ lines to optimize performance.
+
+```json
+{
+  "algorithms": [
+    {
+      "id": "unknown_a1b2c3d4",
+      "algorithm_type": "unknown_complex_algorithm",
+      "subtype": "unknown_algorithm",
+      "confidence": 0.79,
+      "function_name": "complex_transform",
+      "evidence": {
+        "complexity_score": 0.79,
+        "cyclomatic_complexity": 33,
+        "nesting_depth": 5,
+        "operation_density": 4.2,
+        "unique_operations": 25,
+        "structural_hash": "abc123def456",
+        "algorithmic_fingerprint": "ALG-E66468BA743C"
+      }
+    }
+  ]
+}
+```
+
+### Mathematical Invariants
+
+```json
+{
+  "mathematical_invariants": [
+    {
+      "id": "inv_001",
+      "type": "mathematical_expression",
+      "confidence": 0.78,
+      "evidence": {
+        "expression_type": "loop_invariant",
+        "invariant_type": "precondition"
+      }
+    }
+  ]
+}
+```
+
+## Configuration
+
+### Configuration File
+
+Create `copycatm.json` in your project directory:
+
+```json
+{
+  "analysis": {
+    "complexity_threshold": 3,
+    "min_lines": 2,  // Recommended: 2 for utility libraries, 20 for general code
+    "confidence_threshold": 0.0,
+    "unknown_algorithm_threshold": 50  // Line count threshold for unknown algorithm detection
+  },
+  "languages": {
+    "enabled": ["python", "javascript", "java", "c", "cpp", "go", "rust"]
+  },
+  "hashing": {
+    "algorithms": ["sha256", "tlsh", "minhash"],
+    "tlsh_threshold": 100,
+    "lsh_bands": 20
+  },
+  "performance": {
+    "parallel_workers": null,
+    "chunk_size": 100
+  },
+  "output": {
+    "include_intermediates": false
+  }
+}
+```
+
+### Language-Specific Configuration (v1.3.0+)
+
+CopycatM supports per-language configurations for optimal detection:
+
+```python
+from copycatm.data.language_configs import get_language_config
+
+config = get_language_config("javascript")
+# Returns: {"min_lines": 2, "min_function_lines": 2, "unknown_algorithm_threshold": 50, ...}
+```
+
+## Supported Languages
+
+- **Python**: `.py`, `.pyx`, `.pyi`
+- **JavaScript**: `.js`, `.jsx`
+- **TypeScript**: `.ts`, `.tsx`
+- **Java**: `.java`
+- **C/C++**: `.c`, `.cpp`, `.cc`, `.cxx`, `.h`, `.hpp`
+- **Go**: `.go`
+- **Rust**: `.rs`
+
+## Algorithm Detection
+
+The tool can detect 60+ algorithmic patterns across 8 major categories:
+
+### Core CS Algorithms
+- **Sorting**: Quicksort, Mergesort, Bubblesort, Heapsort, Radix Sort, Tim Sort, Shell Sort
+- **Searching**: Binary Search, Linear Search, DFS, BFS, A*, Jump Search
+- **Graph Algorithms**: Dijkstra's, Bellman-Ford, Kruskal's, Prim's, Floyd-Warshall
+- **Dynamic Programming**: Fibonacci, LCS, Knapsack, Edit Distance, Memoization, Tabulation
+
+### Multimedia Processing (v1.5.0)
+- **Video Processing**: Color space conversion (YUV/RGB), Quantization, Motion estimation, Intra/inter prediction, Loop filtering, Segmentation
+- **Audio Processing**: FFT/DFT transforms, Psychoacoustic modeling, Resampling, Echo/reverb effects, Noise reduction, Digital filters
+- **Image Processing**: Bilinear/bicubic interpolation, Morphological operations, Edge detection (Canny, Sobel), Histogram operations, Convolution
+- **Signal Processing**: Butterworth/Chebyshev filters, Correlation, Windowing (Hamming, Hanning), Modulation/demodulation
+
+### Security & Cryptography
+- **Encryption**: AES, RSA, DES, ChaCha20, Elliptic Curve
+- **Hashing**: SHA family, MD5, bcrypt, Argon2
+- **Security**: Anti-tampering, obfuscation, authentication
+
+### Media Processing
+- **Audio Codecs**: MP3, AAC, Opus, FLAC, Vorbis, PCM, AC3, DTS
+- **Video Codecs**: H.264, H.265/HEVC, VP8/9, AV1, MPEG-2, ProRes
+- **Image Processing**: JPEG, PNG compression, filters, transforms
+
+### System Level
+- **Drivers**: Device drivers, kernel modules
+- **Firmware**: Bootloaders, embedded systems
+- **Low-level**: Memory management, interrupt handlers
+
+### Domain Specific
+- **Machine Learning**: Neural networks, gradient descent, k-means
+- **Graphics**: Ray tracing, rasterization, shaders
+- **Financial**: Options pricing, risk models
+- **Medical**: Image reconstruction, signal processing
+- **Automotive**: Control systems, sensor fusion
+
+### Cross-Language Support (v1.4.0+)
+- Same algorithms detected consistently across Python, JavaScript, C/C++, Java
+- 100% MinHash similarity for identical algorithms in different languages
+- Language-agnostic normalization for true semantic matching
+
+## Hashing Methods
+
+### Direct Hashing
+- SHA256: Cryptographic hash for exact matching
+- MD5: Fast hash for quick comparisons
+
+### Fuzzy Hashing (Enhanced in v1.4.0)
+- **TLSH**: Optimized preprocessing for code similarity
+  - Algorithm-focused normalization
+  - Smart padding for short functions
+  - 15% transformation resistance (vs 5% standard)
+- **ssdeep**: Primary fallback for code similarity
+- **Enhanced Fallback**: Multi-component hashing when libraries unavailable
+
+### Semantic Hashing (Cross-Language Support in v1.4.0)
+- **MinHash**: 100% cross-language similarity with normalization
+  - Language-agnostic code representation
+  - Structural shingle extraction
+  - 96.9% uniqueness (up from 61.9%)
+- **SimHash**: Hamming distance for structural similarity
+- **LSH**: Locality-sensitive hashing for approximate nearest neighbor search
+
+## Validation Tools
+
+CopycatM includes a comprehensive validation tool for testing and verification:
+
+```bash
+# Compare two files for similarity
+python tools/copycatm_validator.py compare file1.py file2.py
+
+# Validate entire project
+python tools/copycatm_validator.py validate ./project --reference ./reference
+
+# Test transformation resistance
+python tools/copycatm_validator.py transform algorithm.py
+
+# Batch comparison
+python tools/copycatm_validator.py batch comparisons.json
+```
+
+## Development
+
+### Setup Development Environment
+
+```bash
+git clone https://github.com/oscarvalenzuelab/semantic-copycat-minner
+cd semantic-copycat-minner
+pip install -e .[dev]
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest tests/
+
+# Run specific test modules
+pytest tests/test_analyzer.py
+pytest tests/test_algorithm_detection.py
+
+# Run validation tests
+python comprehensive_test.py
+python test_transformation_resistance.py
+```
+
+### Code Quality
+
+```bash
+# Format code
+black copycatm/
+
+# Lint code
+flake8 copycatm/
+
+# Type checking
+mypy copycatm/
+```
+
+## Performance Metrics
+
+Based on comprehensive testing (v1.5.2):
+
+### Current Performance (v1.5.2)
+- **Algorithm Detection F1-Score**: 0.857 (precision: 0.750, recall: 1.000)
+- **Source Code Verification**: 100% success rate (7/7 test files)
+- **C Function Detection**: 100% accuracy (bubble sort, binary search, quicksort)
+- **Audio Codec Detection**: 100% detection (PCM encode/decode functions)
+- **Cross-Language Consistency**: 100% (JavaScript, Python, C)
+- **Processing Speed**: ~0.061s average per file
+- **SWHID Generation**: 26 persistent identifiers across test suite
+
+### Historical Performance
+- **MinHash Uniqueness**: 100% (different algorithms generate unique hashes)
+- **Codec Detection**: 100% accuracy on FFmpeg test files  
+- **Transformation Resistance**: 86.8% average
+- **Invariant Classification**: 100% properly typed (precondition, loop, etc.)
+
+## License
+
+GNU Affero General Public License v3.0 - see LICENSE file for details.
+
+## Acknowledgments
+
+- Tree-sitter for robust parsing
+- TLSH for fuzzy hashing
+- DataSketch for MinHash implementation
+- Radon for cyclomatic complexity analysis
+- NetworkX for graph analysis
+- PyTorch for GNN components (optional)
