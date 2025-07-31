@@ -1,0 +1,237 @@
+Metadata-Version: 2.1
+Name: FoxitPDFSDKPython3
+Version: 11.0.0
+Summary: Foxit PDF SDK For Python3
+Home-page: https://developers.foxit.com
+Author: Foxit Software Inc.
+Author-email: support@foxitsoftware.com
+License: Other/Proprietary License (Commercial)
+Keywords: PDF SDK,PDF Library,PDF render,PDF view,PDF print,PDF Edit,PDF convert
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Software Development
+Requires-Python: >=3.6, <4
+Description-Content-Type: text/plain
+License-File: legal.txt
+
+Foxit PDF SDK v11.0   Release Date: 31 July 2025  
+==================================================================
+---
+
+## 📦 Platform and Ecosystem
+
+### 💻 Programming Languages and Platforms
+- **Go Language Support**: Added Go language support for Linux x32/x64 and macOS x64 platforms  
+  *⚠️ Note: OCR and Compliance features are not supported in the current Go library.*
+- **Python Enhancements**:  
+  - *Expanded Platform Support*: Python library now supports Linux ARM architecture  
+  - *Improved Version Compatibility*: Built with ABI3 interface to ensure compatibility with Python 3.11 and future micro versions
+
+### 🧩.NET Ecosystem
+- **Foxit.SDK.Dotnet NuGet Package**: Added macOS Arm64 architecture support
+- **.NET Core**: Now supports Linux ARM architecture
+- **Strong Name Support**: Applied to PDF Print Manager for both .NET Framework and .NET Core
+
+---
+
+## 🧠 Logging and Debugging
+
+### Enhanced Logging
+- **Stream-based Logging**: New `SetLogFile()` method now supports stream callbacks
+- **Log Flushing**: New `FlushLog()` method for immediate log write-out
+
+---
+
+## 🔐 Security and Compliance Enhancements
+
+- **Enhanced Thread Safety**:  
+  - Document-level thread safety improvements  
+  - `Library::Initialize()` adds optional parameter `bool enable_js_xfa_threadsafety = false` for JavaScript and XFA thread safety
+
+- **New `Sanitize()` Method**: Automatically detects and removes hidden or sensitive info
+- **`RemoveHiddenInfo()` Method**: Allows selective cleanup of metadata, scripts, etc.
+- **`EnableHandleTransparency()` Method**: Removes transparency during PDF/A conversion for compliance
+
+---
+
+## 🎨 Graphics and Rendering Enhancements
+
+### 🧩 Graphics Objects
+- **New Object Types**:
+  - `e_TypeInlines`: Correct rendering of small inline images (e.g., stamps/logos)
+  - `e_TypeEmptyMarkedContent`: Preserves tag structure of empty content
+
+### 🖥️ Rendering Control
+- `SetScreenDPIScale()` for high-DPI scaling of notes  
+- `SetRenderLayer()` to control which layers are rendered  
+- `ClearClips()` to reset clipping regions  
+- Transparency support in `StartRenderBitmap()`  
+- New `ContentFlag` enum values for highlight-only rendering
+
+### 🎨 Color and Display
+- `SetForegroundColor()` and `SetForegroundColorMode()` for text/path color control  
+- Support for WebP image format (`ImageType.e_WEBP`)  
+- `ConvertToMono()` supports conversion to 1-bit monochrome
+
+---
+
+## 📄 PDF Object Management
+
+- `CreateFromName()` and `CreateFromNameW()` for named object creation  
+- `PDFArray::AddReference()` to insert reference entries  
+- `CreateFromString()` enhanced to accept length parameter
+
+---
+
+## 📄 Page and Content Management
+
+### 📑 Page Operations
+- `PageBasicInfoArray`: Represents lightweight info for all pages  
+- `GetAllPageBasicInfo()`: Bulk retrieval of page basics
+
+### 📥 Extraction and Insertion
+- New enums:  
+  - `e_ExtractPagesOptionBookmark` for `StartExtractPages()`  
+  - `e_InsertDocOptionBookmark` for `InsertDocument()`  
+- `InsertDocument()` now supports optional `bookmark_title` parameter
+
+---
+
+## 🔤 Font and Text Management
+
+- Directional font sizing via `TextState::font_vertical_size` and `font_horizontal_size`  
+- `Font(StreamCallback* stream)` constructor now supports font stream input  
+- `SplitTextsInRectangle()` allows character-level separation of text in specified areas
+
+---
+
+## ✍️ Signature Management
+
+- `UnregisterSignatureCallback()` to restore default SDK signature handler  
+- `AddPagingSealSignature()` now includes `to_check_permission` flag for permission validation
+
+---
+
+## 🧱 Layer Management
+
+- `LayerNode::GetAnnots()` retrieves annotations per layer  
+- `LayerTree::GetOCGsByPageIndex()` supports page-based OCG access  
+- `SetOCGStateAction` class added for batch visibility control
+
+---
+
+## 📝 Forms and XFA
+
+### 🧠 Form Recognition
+- `StartRecognizeForm()` overload allows control over tooltip generation
+
+### XML/XFA Enhancements
+- `GetXMLContent()` provides access to internal XFA XML  
+- `ExportData()` supports stream-based output  
+- `DocProviderCallback::SetFocus()` adds `re-layout` parameter for layout change notification
+
+---
+
+## 🧠 OCR and Conversion
+
+### 🔡 OCR Enhancements
+- `OCRConvertTo()` supports direct conversion to formats (DOCX, RTF, etc.)  
+- `OCRCallback` class and `SetOCRCallback()` method to monitor and terminate OCR jobs  
+- `is_sequentially_process` parameter added to switch between sequential/parallel modes
+
+### 🌐 HTML to PDF
+- `to_hide_header` and `to_hide_footer` control header/footer visibility  
+- `to_deny_local_file_access` enhances security during HTML conversion
+
+---
+
+## 🖼️ Image and Document Optimizer
+
+### 🖼️ Image Optimizer
+- JPEG 2000:  
+  - `SetTileSize()` for tile control  
+  - New `e_ImageCompressQualityLossless` option  
+- ZIP compression via `e_ImageCompressZip`  
+- More options for monochrome compression via `MonoImageSettings`
+
+### 📉 Document Optimizer
+- `OptimizeScannedPDF()` for scan-heavy file compression  
+- `ComputeAuditSpace()` calculates optimization potential  
+- Enhanced cleanup via new enums  
+- `SetSubsetAllEmFonts()` for unembedded font subsetting
+
+---
+
+## 📊 Table Generator
+
+- `GetNewPageBasicInfo()` callback added to retrieve rendered table height on new pages
+
+---
+
+## Bug Fixes
+
+### 📄 PDF Rendering
+- Fixed PDF/A1-b conversion verification failure caused by transparencies
+- Fixed issue where flattening specific files causes blank pages
+- Fixed issue where progressive rendering with step size 5000 causes missing content
+- Fixed issue where certain files cannot be rendered
+- Fixed issue where prepress preview shows incomplete text for specific documents
+
+### 🧠 OCR and Conversion
+- Fixed issue where PDF OCR conversion takes too long without output
+- Fixed issue where OCR results show ghosting effect
+- Fixed issue where OCR with auxiliary effect interface produces poor results and Word conversion fails
+- Fixed issue where OCR requires Chinese character set on Linux even when OCR language doesn't include Chinese
+- Fixed issue where images are missing in HTML to PDF output file
+- Fixed issue where `getGraphicsObjectPosition` returns 0 and transparency setting fails
+- Fixed issue where specific HTML content cannot be converted to PDF
+- Fixed issue where HTML2PDF output is incorrect when source HTML has fixed header and footer
+
+### 🧩 Forms and Annotations
+- Fixed crash issue on `foxit::pdf::interform::Field::SetValue` after processing 30 pages
+- Fixed issue where created note location and displayed location are inconsistent for certain documents
+- Fixed issue where generated typewriter annotations show red border after editing in editor
+- Fixed issue where screen annotations show black border when `BorderInfo` is not set
+
+### 🧷 Structure / Bookmark / Object Issues
+- Fixed issue where value and unit of measure markups are not displayed after importing from XFDF created by Web SDK demo or Foxit PDF Editor
+- Fixed issue where `AddText` with Arabic text doesn't match expected rendering effect
+- Fixed issue where Type3 text object converted to image object shows blank content
+- Fixed crash issue when filling special position forms in iOS
+- Fixed issue where scanned documents with minimal path elements are incorrectly identified as non-scanned
+- Fixed issue where `PDFPage` parsing returns empty for certain documents that work in WPS and Adobe
+
+### 🗂️ Optimization
+- Improved `TextPage` constructor performance to match version 9.0 speed
+- Fixed issue where optimizer image compression progress rate only shows 0 or 100 percent
+
+### 🔐 Security and Compliance
+- Fixed issue where Chinese characters in certificate subject information appear garbled
+- Fixed PDF/A1-b conversion verification failure caused by transparencies
+
+### ⚙️ API and Integration
+- Fixed issue where `UpdateHeaderFooter` API only updates one header/footer and removes others
+- Fixed syntax errors in TypeScript declaration file of `@foxitsoftware/foxit-pdf-sdk-node` package
+- Fixed issue where text search and replace reports `"any unknown error occurs"`
+- Updated developer guide to include Conversion SDK version dependency for PDF to Office in GSDK 10.0 and 10.1
+- Fixed issue where C# `bookMark.Title` ends with extra null character
+- Fixed issue where concurrent calls to C++ `pdfprint` show parameter error
+
+### 🌐 Cross-Platform Support
+- Fixed crash issue when filling special position forms in iOS
+- Fixed issue where `StartImportPages` imports blank pages
+- Fixed issue where `StartImportPages` never finishes for certain documents
