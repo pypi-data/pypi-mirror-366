@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: wt-authlib
+Version: 0.1.0
+Summary: Librairie d'authentification pour les apis WT
+Author: David Libert
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: pyjwt[crypto]>=2.10.1
+Requires-Dist: redis>=6.2.0
+Requires-Dist: aiohttp>=3.12.13
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: wheel>=0.45.1
+Requires-Dist: setuptools>=80.9.0
+Dynamic: requires-python
+
+# README.md
+# wt-authlib
+
+Librairie d'authentification pour l'api wt_user. 
+Cette librairie permet de sécuriser un projet FastAPI en quelques lignes. une fois l'API sécurisée, seules les personnes aillant un compte WT pourront utiliser l'API protégée.
+
+## Fonctionnalités
+- Permet de s'identifier à WT et récupérer un Bearer
+- Récupération automatique des clés AWS depuis la base de données (renseignées par `wt_user`)
+- Décodage et validation des tokens Bearer pour les endpoints ou routers protégés
+- Intégration facile avec FastAPI via `Depends`
+
+## Installation
+```bash
+uv pip install wt_authlib
+```
+
+## Initialisation
+
+Une fois installé, il est essentiel d'initialiser UserApi dans un lifespan FastAPI
+
+```python
+from contextlib import asynccontextmanager
+from wt_authlib import user_api
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+	user_api.init(
+		user_api_url="https://url_api_user.com",
+		host="host user db",
+		port="port user db",
+		username="username user db",
+		password="password user db",
+	)
+	yield
+
+app = FastAPI(lifespan=lifespan)
+
+```
+
+## Sécurisation
+il faut ajouter la méthode validate_user comme dépendance (Depends) aux endpoints ou routeur
+
+### exemple ajout router
+
+```python
+
+from wt_authlib import validate_user
+
+routeur = APIRouter()
+routeur.include_router(
+    document.router,
+	dependencies=[Depends(validate_user)]
+)
+```
+
+### exemple ajout endpoint
+```python
+
+from wt_authlib import validate_user
+
+app = FastAPI()
+
+@app.get("/private", dependencies=[Depends(validate_user)])
+async def private_route():
+    return {"message": "Bienvenue, utilisateur authentifié"}
+```
+
+
