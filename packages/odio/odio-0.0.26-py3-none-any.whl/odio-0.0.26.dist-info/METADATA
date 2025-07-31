@@ -1,0 +1,298 @@
+Metadata-Version: 2.4
+Name: odio
+Version: 0.0.26
+Summary: A library for the import / export of ODF documents.
+Project-URL: Homepage, https://codeberg.org/tlocke/odio
+License: MIT No Attribution
+License-File: LICENSE
+Keywords: odf,ods,odt
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT No Attribution License (MIT-0)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+# Odio
+
+A pure-Python library for the import / export of
+[ODF](http://en.wikipedia.org/wiki/OpenDocument) (`.ods` and `.odt`) documents. Licensed
+under the [MIT No Attribution Licence](https://choosealicense.com/licenses/mit-0/). Odio
+supports ODF 1.1, 1.2 and 1.3.
+
+
+## Installation
+
+- Set up a virtual environment: `python3 -m venv venv`
+- Activate the virtual environment: `source venv/bin/activate`
+- Install Odio with pip: `pip install odio`
+
+
+## Examples
+
+### Create And Save A Spreadsheet
+
+```python
+>>> from odio.v1_3 import create_spreadsheet, Cell, Formula, Table
+>>> import datetime
+>>> 
+>>>
+>>> # Create the spreadsheet.
+>>> sheet = create_spreadsheet()
+>>>
+>>>	# Append a table (tab) to the spreadsheet
+>>> table = sheet.append_table('Plan', [
+...         [
+...             "veni, vidi, vici", 0.3, 5, Formula('=B1 + C1'),
+...             datetime.datetime(2015, 6, 30, 16, 38),
+...         ],
+...     ]
+... )
+>>>
+>>> with open('test.ods', 'wb') as f:
+...     sheet.save(f)
+
+```
+
+
+### Parse a spreadsheet
+
+```python
+>>> from odio import parse_document
+>>>
+>>>
+>>> # Parse the document we just created.
+>>> with open('test.ods', 'rb') as f:
+...     sheet = parse_document(f)
+>>>
+>>> table = sheet.tables[0]
+>>> print(table.name)
+Plan
+>>> for row in table.rows:
+...     for cell in row.cells:
+...         print(cell.value)
+veni, vidi, vici
+0.3
+5.0
+=B1 + C1
+2015-06-30 16:38:00
+
+```
+
+
+### Create And Save A Text Document
+
+```python
+>>> from odio.v1_3 import create_text, P, H, Span
+>>> 
+>>>
+>>> txt = create_text()
+>>>	
+>>> txt.children.append(H("The Meditations"))
+>>> txt.children.append(H("Book One"))
+>>> txt.children.append(
+...     P(
+...         "From my grandfather Verus: the lessons of noble character ",
+...         "and even temper."
+...     )
+... )
+>>> txt.children.append(
+...     P(
+...         "From my father's reputation and my memory of "
+...         "him: modesty and manliness."
+...     )
+... )
+>>>
+>>> with open('test.odt', 'wb') as f:
+...     txt.save(f)
+
+```
+
+### Parse a text document
+
+```python
+>>> from odio import parse_document
+>>>
+>>>
+>>> # Parse the text document we just created.
+>>> with open('test.odt', "rb") as f:
+...     txt = parse_document(f)
+>>> 
+>>> # Find a child
+>>> child = txt.children[2] 
+>>> print(child.tag_name)
+text:p
+>>>
+>>> print(child)
+<text:p>From my grandfather Verus: the lessons of noble character and even temper.</text:p>
+
+```
+
+### Hyperlinks
+
+In a text document:
+
+```python
+>>> from odio.v1_3 import A, P, create_text
+>>>
+>>> txt = create_text()
+>>> p = P(
+...     "The 12 books of ",
+...     A("The Meditations", href="https://en.wikipedia.org/wiki/Meditations"),
+...     " is written in Greek"
+... )
+>>> txt.children.append(p)
+>>>
+>>> print(txt.children[0].children[1].href)
+https://en.wikipedia.org/wiki/Meditations
+
+```
+
+and within a cell of a spreadsheet:
+
+```python
+>>> sheet = create_spreadsheet()
+>>> table = sheet.append_table('Book IX')
+>>> row = [
+...     Cell(
+...         P(
+...             "The 12 books of ",
+...             A("The Meditations", href="https://en.wikipedia.org/wiki/Meditations"),
+...             " is written in Greek"
+...         )
+...     ),
+... ]
+>>> table.append_row(row)
+>>>
+>>> cell = table.rows[0].children[0]
+>>> print(cell)
+<table:table-cell><text:p>The 12 books of <text:a xlink:href="https://en.wikipedia.org/wiki/Meditations" xlink:type="simple">The Meditations</text:a> is written in Greek</text:p></table:table-cell>
+>>> print(cell.children[0].children[1].href)
+https://en.wikipedia.org/wiki/Meditations
+
+```
+
+### Style
+
+```python
+>>> from odio.v1_3 import create_text, P, H1, H2, Span
+>>> 
+>>>
+>>> txt = create_text()
+>>>	
+>>> txt.children.append(H1("The Meditations", style_name='Title'))
+>>> txt.children.append(H2("Book One", style_name='Heading 1'))
+>>> txt.children.append(
+...     P(
+...         "From my grandfather ",
+...         Span("Verus", style_name='Strong Emphasis'),
+...         " I learned good morals and the government of my temper."
+...     )
+... )
+>>> txt.children.append(
+...     P(
+...         "From the reputation and remembrance of my father, "
+...         "modesty and a ", Span("manly", style_name='Emphasis'),
+...         " character."
+...     )
+... )
+>>>
+>>> with open('test.odt', 'wb') as f:
+...     txt.save(f)
+
+```
+
+### References
+
+- [ODF 1.1](http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1-html/OpenDocument-v1.1.html)
+- [ODF 1.2](https://docs.oasis-open.org/office/v1.2/OpenDocument-v1.2.html)
+- [ODF 1.3](https://docs.oasis-open.org/office/OpenDocument/v1.3/cs01/part1-introduction/OpenDocument-v1.3-cs01-part1-introduction.html)
+
+
+### Validator
+
+https://odfvalidator.org/
+
+
+## Regression Tests
+
+- Install `tox`: `pip install tox`
+- Run `tox`: `tox`
+
+
+## Doing A Release Of Odio
+
+Run `tox` make sure all tests pass, then update the release notes and then do:
+
+- `git tag -a x.y.z -m "version x.y.z"`
+- `rm -r dist`
+- `python -m build`
+- `twine upload dist/*`
+
+
+## Release Notes
+
+### Version 0.0.26, 2025-07-31
+
+- Update README with Codeberg homepage.
+- Tidy up top-level `__init__`.
+
+
+### Version 0.0.25, 2025-07-28 18:18
+
+- Modify `sheet.append_table` to accept rows.
+
+
+### Version 0.0.24, 2025-07-28 18:00
+
+- Add support for ODF 1.3
+- Handle table cell dates that don't have a time.
+
+
+### Version 0.0.23, 2024-05-22
+
+- When writing out to a spreadsheet, interpret a `decimal.Decimal` as a number.
+
+
+### Version 0.0.22, 2021-02-08
+
+- Substitute `<text:line-break/>` for line breaks.
+
+
+### Version 0.0.21, 2021-02-05
+
+- Finding text should never result in a `None`.
+
+
+### Version 0.0.20, 2021-02-04
+
+- Text should appear in the content of a `<text:p>` element within a cell.
+
+
+### Version 0.0.19, 2021-02-04
+
+- Where line breaks appear in a text element's content, they are now replaced by a
+  `<text:line-break/>` element. This means that line breaks appear in the
+  spreadsheet, whereas before they didn't.
+
+
+### Version 0.0.18, 2019-11-29
+
+- Performance improvement: rather than use the `xml.sax.saxutils` versions of
+  `escape` and `quoteattr` I've copied them into the source of Odio, but removing
+  the code for entities that aren't needed.
+
+
+### Version 0.0.17, 2018-08-19
+
+- When parsing a spreadsheet cell of text type, if the value isn't contained in the
+  attribute, recursively use the next nodes in the element contents.
