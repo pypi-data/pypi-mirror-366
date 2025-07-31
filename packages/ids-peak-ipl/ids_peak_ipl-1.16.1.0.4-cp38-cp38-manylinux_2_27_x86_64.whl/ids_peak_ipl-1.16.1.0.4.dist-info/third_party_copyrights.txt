@@ -1,0 +1,412 @@
+--------------------------------------------------------------------------------
+                 TIFF Software Distribution (libtiff)  -  4.6.0
+--------------------------------------------------------------------------------
+Copyright (c) 1988-1997 Sam Leffler
+Copyright (c) 1991-1997 Silicon Graphics, Inc.
+
+
+--------------------------------------------------------------------------------
+                                 boost  -  1.86
+--------------------------------------------------------------------------------
+Copyright Beman Dawes, David Abrahams, 1998-2005.
+Copyright Rene Rivera 2004-2007.
+Copyright Vladimir Prus 2002-2004
+Copyright Ruslan Arutyunyan, 2019-2021.
+Copyright Antony Polukhin, 2021-2022.
+
+
+--------------------------------------------------------------------------------
+                         doxygen-awesome-css  -  v2.3.4
+--------------------------------------------------------------------------------
+Copyright (c) 2021 - 2023 jothepro
+
+
+--------------------------------------------------------------------------------
+                                 glibc  -  2.27
+--------------------------------------------------------------------------------
+Copyright (C) 1996-2018 Free Software Foundation, Inc.
+
+
+--------------------------------------------------------------------------------
+                          gulrak_filesystem  -  1.3.8
+--------------------------------------------------------------------------------
+Copyright (c) 2018, Steffen Schümann <s.schuemann@pobox.com>
+
+
+--------------------------------------------------------------------------------
+                               libc++  -  19.1.7
+--------------------------------------------------------------------------------
+This file is a partial list of people who have contributed to the LLVM/libc++
+project.  If you have contributed a patch or made some other contribution to
+LLVM/libc++, please submit a patch to this file to add yourself, and it will be
+done!
+
+The list is sorted by surname and formatted to allow easy grepping and
+beautification by scripts.  The fields are: name (N), email (E), web-address
+(W), PGP key ID and fingerprint (P), description (D), and snail-mail address
+(S).
+
+N: Saleem Abdulrasool
+E: compnerd@compnerd.org
+D: Minor patches and Linux fixes.
+
+N: Ulf Adams
+D: Invented the Ryu and Ryu Printf algorithms used in floating-point to_chars, and wrote the initial code.
+
+N: Muiez Ahmed
+E: muiez@ibm.com
+D: z/OS port.
+
+N: Dan Albert
+E: danalbert@google.com
+D: Android support and test runner improvements.
+
+N: Dimitry Andric
+E: dimitry@andric.com
+D: Visibility fixes, minor FreeBSD portability patches.
+
+N: Holger Arnold
+E: holgerar@gmail.com
+D: Minor fix.
+
+N: Jorg Brown
+D: Ported floating-point to_chars from MSVC to libc++.
+
+N: David Chisnall
+E: theraven at theravensnest dot org
+D: FreeBSD and Solaris ports, libcxxrt support, some atomics work.
+
+N: Marshall Clow
+E: mclow.lists@gmail.com
+E: marshall@idio.com
+D: C++14 support, patches and bug fixes.
+
+N: Jonathan B Coe
+E: jbcoe@me.com
+D: Implementation of propagate_const.
+
+N: Matthew Dempsky
+E: matthew@dempsky.org
+D: Minor patches and bug fixes.
+
+N: Christopher Di Bella
+E: cjdb@google.com
+E: cjdb.ns@gmail.com
+D: Library concepts.
+
+N: Glen Joseph Fernandes
+E: glenjofe@gmail.com
+D: Implementation of to_address.
+
+N: Eric Fiselier
+E: eric@efcs.ca
+D: LFTS support, patches and bug fixes.
+
+N: Bill Fisher
+E: william.w.fisher@gmail.com
+D: Regex bug fixes.
+
+N: Google Inc.
+D: Copyright owner and contributor of the CityHash algorithm
+
+N: Howard Hinnant
+E: hhinnant@apple.com
+D: Architect and primary author of libc++
+
+N: Sergej Jaskiewicz
+E: jaskiewiczs@icloud.com
+D: Minor improvements in the testing infrastructure
+
+N: Hyeon-bin Jeong
+E: tuhertz@gmail.com
+D: Minor patches and bug fixes.
+
+N: Argyrios Kyrtzidis
+E: kyrtzidis@apple.com
+D: Bug fixes.
+
+N: Stephan T. Lavavej
+E: stl@microsoft.com
+E: stl@nuwen.net
+D: Implemented floating-point to_chars.
+
+N: Damien Lebrun-Grandie
+E: dalg24@gmail.com
+E: lebrungrandt@ornl.gov
+D: Implementation of mdspan.
+
+N: Microsoft Corporation
+D: Contributed floating-point to_chars.
+
+N: Bruce Mitchener, Jr.
+E: bruce.mitchener@gmail.com
+D: Emscripten-related changes.
+
+N: Michel Morin
+E: mimomorin@gmail.com
+D: Minor patches to is_convertible.
+
+N: Andrew Morrow
+E: andrew.c.morrow@gmail.com
+D: Minor patches and Linux fixes.
+
+N: Michael Park
+E: mcypark@gmail.com
+D: Implementation of <variant>.
+
+N: Arvid Picciani
+E: aep at exys dot org
+D: Minor patches and musl port.
+
+N: Bjorn Reese
+E: breese@users.sourceforge.net
+D: Initial regex prototype
+
+N: Nico Rieck
+E: nico.rieck@gmail.com
+D: Windows fixes
+
+N: Jon Roelofs
+E: jroelofS@jroelofs.com
+D: Remote testing, Newlib port, baremetal/single-threaded support.
+
+N: Kent Ross
+E: k@mad.cash
+D: Patches for operator<=> support
+
+N: Jonathan Sauer
+D: Minor patches, mostly related to constexpr
+
+N: Craig Silverstein
+E: csilvers@google.com
+D: Implemented Cityhash as the string hash function on 64-bit machines
+
+N: Richard Smith
+D: Minor patches.
+
+N: Joerg Sonnenberger
+E: joerg@NetBSD.org
+D: NetBSD port.
+
+N: Stephan Tolksdorf
+E: st@quanttec.com
+D: Minor <atomic> fix
+
+N: Christian Trott
+E: crtrott@sandia.gov
+D: Implementation of mdspan.
+
+N: Ruben Van Boxem
+E: vanboxem dot ruben at gmail dot com
+D: Initial Windows patches.
+
+N: Michael van der Westhuizen
+E: r1mikey at gmail dot com
+
+N: Larisse Voufo
+D: Minor patches.
+
+N: Klaas de Vries
+E: klaas at klaasgaaf dot nl
+D: Minor bug fix.
+
+N: Mark de Wever
+E: koraq at xs4all dot nl
+D: Format library support.
+D: Finalized the porting of MSVC's to_chars to libc++.
+
+N: Zhang Xiongpang
+E: zhangxiongpang@gmail.com
+D: Minor patches and bug fixes.
+
+N: Xing Xue
+E: xingxue@ca.ibm.com
+D: AIX port
+
+N: Jeffrey Yasskin
+E: jyasskin@gmail.com
+E: jyasskin@google.com
+D: Linux fixes.
+
+N: Zhihao Yuan
+E: lichray@gmail.com
+D: Standard compatibility fixes.
+
+
+
+--------------------------------------------------------------------------------
+                              libc++abi  -  19.1.7
+--------------------------------------------------------------------------------
+This file is a partial list of people who have contributed to the LLVM/libc++abi
+project.  If you have contributed a patch or made some other contribution to
+LLVM/libc++abi, please submit a patch to this file to add yourself, and it will be
+done!
+
+The list is sorted by surname and formatted to allow easy grepping and
+beautification by scripts.  The fields are: name (N), email (E), web-address
+(W), PGP key ID and fingerprint (P), description (D), and snail-mail address
+(S).
+
+N: Aaron Ballman
+E: aaron@aaronballman.com
+D: Minor patches
+
+N: Logan Chien
+E: logan.chien@mediatek.com
+D: ARM EHABI Unwind & Exception Handling
+
+N: Marshall Clow
+E: mclow.lists@gmail.com
+E: marshall@idio.com
+D: Architect and primary coauthor of libc++abi
+
+N: Matthew Dempsky
+E: matthew@dempsky.org
+D: Minor patches and bug fixes.
+
+N: Nowar Gu
+E: wenhan.gu@gmail.com
+D: Minor patches and fixes
+
+N: Howard Hinnant
+E: hhinnant@apple.com
+D: Architect and primary coauthor of libc++abi
+
+N: Dana Jansens
+E: danakj@chromium.org
+D: ARM EHABI Unwind & Exception Handling
+
+N: Nick Kledzik
+E: kledzik@apple.com
+
+N: Antoine Labour
+E: piman@chromium.org
+D: ARM EHABI Unwind & Exception Handling
+
+N: Bruce Mitchener, Jr.
+E: bruce.mitchener@gmail.com
+D: Minor typo fixes
+
+N: Andrew Morrow
+E: andrew.c.morrow@gmail.com
+D: Minor patches and fixes
+
+N: Erik Olofsson
+E: erik.olofsson@hansoft.se
+E: erik@olofsson.info
+D: Minor patches and fixes
+
+N: Jon Roelofs
+E: jroelofs@jroelofs.com
+D: ARM EHABI Unwind & Exception Handling, Bare-metal
+
+N: Nico Weber
+E: thakis@chromium.org
+D: ARM EHABI Unwind & Exception Handling
+
+N: Albert J. Wong
+E: ajwong@google.com
+D: ARM EHABI Unwind & Exception Handling
+
+
+
+--------------------------------------------------------------------------------
+                            libjpeg-turbo  -  2.1.3
+--------------------------------------------------------------------------------
+Copyright (C) 2009-2022 D. R. Commander
+Copyright (C) 2015, 2020 Google, Inc.
+Copyright (C) 2019-2020 Arm Limited
+Copyright (C) 2015-2016, 2018 Matthieu Darbois
+Copyright (C) 2011-2016 Siarhei Siamashka
+Copyright (C) 2015 Intel Corporation
+Copyright (C) 2013-2014 Linaro Limited
+Copyright (C) 2013-2014 MIPS Technologies, Inc.
+Copyright (C) 2009, 2012 Pierre Ossman for Cendio AB
+Copyright (C) 2009-2011 Nokia Corporation and/or its subsidiary(-ies)
+Copyright (C) 1999-2006 MIYASAKA Masaru
+Copyright (C) 1991-2020 Thomas G. Lane, Guido Vollbeding
+
+
+--------------------------------------------------------------------------------
+                               libpng  -  1.6.38
+--------------------------------------------------------------------------------
+Copyright (c) 1995-2022 The PNG Reference Library Authors.
+Copyright (c) 2018-2022 Cosmin Truta.
+Copyright (c) 2000-2002, 2004, 2006-2018 Glenn Randers-Pehrson.
+Copyright (c) 1996-1997 Andreas Dilger.
+Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.
+
+
+--------------------------------------------------------------------------------
+                               oneTBB  -  v2021.7
+--------------------------------------------------------------------------------
+Copyright (c) 2020-2022 Intel Corporation
+Copyright (c) 2020-2021 Intel Corporation
+Copyright (c) 2022 Intel Corporation
+Copyright (c) 2005-2022 Intel Corporation
+Copyright (c) 2005-2021 Intel Corporation
+Copyright (C) 1996-2010 Julian Seward <jseward@bzip.org>
+copyright (C) 1996-2010 Julian R Seward.  All rights reserved.
+Copyright (c) 1994-2008 John E. Stone
+Copyright (c) 2019-2021 Intel Corporation
+Copyright (c) 2017-2021 Intel Corporation
+Copyright (c) 2021 Intel Corporation
+Copyright (c) 2019-2022 Intel Corporation
+Copyright (c) 2017-2022 Intel Corporation
+Copyright (c) 2018-2022 Intel Corporation
+Copyright (c) 2011, Google Inc.
+Copyright (c) 2016-2021 Viktor Kirilov
+Copyright (c) 2021-2022 Intel Corporation
+Copyright (c) 2018-2021 Intel Corporation
+
+
+--------------------------------------------------------------------------------
+                                openCV  -  4.6.0
+--------------------------------------------------------------------------------
+Copyright (C) 2000-2022, Intel Corporation, all rights reserved.
+Copyright (C) 2009-2011, Willow Garage Inc., all rights reserved.
+Copyright (C) 2009-2016, NVIDIA Corporation, all rights reserved.
+Copyright (C) 2010-2013, Advanced Micro Devices, Inc., all rights reserved.
+Copyright (C) 2015-2022, OpenCV Foundation, all rights reserved.
+Copyright (C) 2008-2016, Itseez Inc., all rights reserved.
+Copyright (C) 2019-2022, Xperience AI, all rights reserved.
+Copyright (C) 2019-2022, Shenzhen Institute of Artificial Intelligence and
+Robotics for Society, all rights reserved.
+
+Third party copyrights are property of their respective owners.
+
+
+--------------------------------------------------------------------------------
+                               zlib  -  1.2.11.1
+--------------------------------------------------------------------------------
+Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
+
+
+--------------------------------------------------------------------------------
+                          ITTAPI (oneTBB)  -  v2021.7
+--------------------------------------------------------------------------------
+Copyright (c) 2022 Intel Corporation. All rights reserved.
+
+
+--------------------------------------------------------------------------------
+                                ade  -  v0.1.1f
+--------------------------------------------------------------------------------
+Copyright (C) 2000-2022, Intel Corporation, all rights reserved.
+Copyright (C) 2009-2011, Willow Garage Inc., all rights reserved.
+Copyright (C) 2009-2016, NVIDIA Corporation, all rights reserved.
+Copyright (C) 2010-2013, Advanced Micro Devices, Inc., all rights reserved.
+Copyright (C) 2015-2022, OpenCV Foundation, all rights reserved.
+Copyright (C) 2008-2016, Itseez Inc., all rights reserved.
+Copyright (C) 2019-2022, Xperience AI, all rights reserved.
+Copyright (C) 2019-2022, Shenzhen Institute of Artificial Intelligence and
+                         Robotics for Society, all rights reserved.
+
+Third party copyrights are property of their respective owners.
+
+
+--------------------------------------------------------------------------------
+                                zlib  -  1.2.12
+--------------------------------------------------------------------------------
+Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
+
+
