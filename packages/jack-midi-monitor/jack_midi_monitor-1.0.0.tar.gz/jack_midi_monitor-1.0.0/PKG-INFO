@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: jack_midi_monitor
+Version: 1.0.0
+Summary: Provides a means to monitor midi events from a Jack client.
+Author-email: Leon Dionne <ldionne@dridesign.sh.cn>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Multimedia :: Sound/Audio :: MIDI
+Classifier: Topic :: Utilities
+Requires-Dist: JACK-Client
+Requires-Dist: midi_notes
+Requires-Dist: soso_qt_extras
+Requires-Dist: PyQt5
+Project-URL: Home, https://github.com/Zen-Master-SoSo/jack_midi_monitor
+
+# jack_midi_monitor
+
+Provides a means to monitor midi events from a Jack client.
+Includes both a console and a Qt GUI version.
+
+## Command line:
+
+	$ python -m jack_midi_monitor
+
+## Gui:
+
+	$ python -m jack_midi_monitor.gui
+
