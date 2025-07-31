@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vietnam-qr-pay"
+version = "1.0.0"
+description = "Python library for encoding/decoding Vietnamese bank QR codes (VietQR, VNPayQR)"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+keywords = ["vietqr", "vnpay", "qr", "vietnam", "payment", "banking"]
+authors = [
+    {name = "Vietnam QR Pay Contributors", email = "me@bangprovn.com"}
+]
+license = "MIT"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/bangprovn/vietnam-qr-pay-python"
+"Repository" = "https://github.com/bangprovn/vietnam-qr-pay-python"
+"Bug Tracker" = "https://github.com/bangprovn/vietnam-qr-pay-python/issues"
+
+[project.optional-dependencies]
+examples = [
+    "qrcode[pil]>=7.4.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
