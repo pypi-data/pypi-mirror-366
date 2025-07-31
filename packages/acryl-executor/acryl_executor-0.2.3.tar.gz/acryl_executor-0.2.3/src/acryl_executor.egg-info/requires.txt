@@ -1,0 +1,33 @@
+acryl-datahub[datahub-rest]>=0.15.0
+botocore!=1.23.0
+pydantic>=1.5.1
+mypy_extensions>=0.4.3
+sqlalchemy-stubs>=0.4
+boto3
+
+[:python_version < "3.11"]
+typing_extensions>=3.7.4
+
+[dev]
+mypy>=1.16.0
+pytest-cov
+pytest-asyncio
+pytest>=6.2.2
+boto3
+types-requests
+types-toml
+botocore!=1.23.0
+pydantic>=1.5.1
+mypy_extensions>=0.4.3
+sqlalchemy-stubs>=0.4
+ruff>=0.8.0
+freezegun
+types-python-dateutil
+types-freezegun
+requests-mock
+types-PyYAML
+acryl-datahub[datahub-rest]>=0.15.0
+types-dataclasses
+
+[dev:python_version < "3.11"]
+typing_extensions>=3.7.4
