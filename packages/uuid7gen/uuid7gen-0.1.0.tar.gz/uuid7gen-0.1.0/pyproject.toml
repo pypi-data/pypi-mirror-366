@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uuid7gen"
+version = "0.1.0"
+description = "UUIDv7 generation for Python <3.11"
+authors = [
+  { name="Conor Howlett", email="howlettconor@gmail.com" },
+  { name="Adam Lashley", email="lashleyaq@gmail.com" },
+  { name="Tyler Blume", email="t-blume@hotmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+keywords = ["uuid", "uuid7", "identifiers", "time-based", "python"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Chowlett2/uuid7gen"
+"Source" = "https://github.com/Chowlett2/uuid7gen"
+"Bug Tracker" = "https://github.com/Chowlett2/uuid7gen/issues"
