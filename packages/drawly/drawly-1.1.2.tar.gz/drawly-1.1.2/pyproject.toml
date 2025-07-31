@@ -1,0 +1,26 @@
+[project]
+name = "drawly"
+version = "1.1.2"
+authors = [
+  { name="Erik Falor", email="erik.falor@usu.edu" },
+  { name="Chad Mano", email="chad.mano@usu.edu" },
+]
+description = "A small package to get started drawing pictures in CS1400"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pygame>=2.5",
+]
+
+[project.urls]
+"Homepage" = "https://engineering.usu.edu/cs/"
+
+
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
