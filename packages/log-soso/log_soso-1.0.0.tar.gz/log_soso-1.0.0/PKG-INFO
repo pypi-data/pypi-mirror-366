@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: log_soso
+Version: 1.0.0
+Summary: Some logging enhancements, such as log error with traceback, redirect STDOUT,
+Author-email: Leon Dionne <ldionne@dridesign.sh.cn>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Project-URL: Home, https://github.com/Zen-Master-SoSo/log_soso
+
+# log_soso
+
+Some logging enhancements, such as log error with traceback, redirect STDOUT, STDERR to log, and more.
+
+## Functions
+
+### log_error
+
+Log an error with traceback:
+
+### log_stdout
+
+Redirect STDOUT to log
+
+### log_stderr
+
+Redirect STDOUT to log
+
+## Classes
+
+### StreamToLogger
+
+File-like stream object that redirects writes to a logger instance.
+Use like:
+
+	with StreamToLogger(logging.getLogger(), logging.DEBUG) as sob:
+		pprint(object, stream=sob)
+
+### PrintPassthru
+
+A context manager which temporarily directs loggin output to real stdout.
+
+
