@@ -1,0 +1,158 @@
+
+# maktab-dl
+![maktabkhooneh downloader](https://raw.githubusercontent.com/softrebel/maktab-dl/refs/heads/main/assets/logo_designed_by_DALL%C2%B7E.webp)
+A command-line tool to download videos from Maktabkhooneh courses.
+
+## Installation
+
+
+1. **Install using pip**
+
+   ```bash
+   pip install maktab-dl
+   ```
+
+1. **Clone the Repository (Optional):**
+
+   If you have access to the repository, you can clone it:
+
+   ```bash
+   > git clone https://github.com/softrebel/maktab-dl.git
+   > cd maktab-dl
+   > pip install .
+   ```
+
+## Usage
+
+The `maktab-dl` tool provides two subcommands: `login` and `download`.
+
+```bash
+maktab-dl [command] [options]
+```
+
+### Commands
+
+- `login`: This subcommand is used to login to Maktabkhooneh and save cookies for future use.
+- `download`: This subcommand is used to download course videos.
+
+### Options
+
+#### Login Command Options
+
+The `login` subcommand accepts the following options:
+
+- `-c`, `--cookies` (Optional): The path to the cookies file. Defaults to a `cookies.json` file in a suitable user data directory as specified by `appdirs` package.
+- `-o`, `--output` (Optional): The path to the output directory. Defaults to the current directory the script is called from.
+
+#### Download Command Options
+
+The `download` subcommand accepts the following options:
+
+- `-u`, `--url` (Required): The URL of the Maktabkhooneh course page.
+- `-c`, `--cookies` (Optional): The path to the cookies file. Defaults to a `cookies.json` file in a suitable user data directory as specified by `appdirs` package.
+- `-o`, `--output` (Optional): The path to the output directory where videos will be saved. Defaults to the current directory the script is called from.
+
+## Examples
+
+Here are some examples of how to use `maktab-dl`:
+
+1.  **Login to Maktabkhooneh:**
+
+    Login to Maktabkhooneh and save cookies for future use:
+
+    ```bash
+    maktab-dl login
+    ```
+
+    Or with custom cookies path:
+
+    ```bash
+    maktab-dl login -c /path/to/my/cookies.json
+    ```
+
+2.  **Basic Download with Default Options:**
+
+    If you have saved cookies, it will automatically use it to download the course video. This will save the course in the current directory
+
+    ```bash
+    maktab-dl download -u <your_course_url>
+    ```
+    for example:
+    ```bash
+    maktab-dl download -u https://maktabkhooneh.org/course/آموزش-سی-شارپ-c-mk9558/
+    ```
+
+
+3.  **Download with custom cookies and output directories:**
+
+    ```bash
+    maktab-dl download -u <your_course_url> -c /path/to/my/cookies.json -o /path/to/my/output
+    ```
+
+4.  **First time login and save cookies:**
+
+    If you run this command and cookies file does not exist in the defined path, it will ask username, password, and confirmation to save cookies.
+
+    ```bash
+    maktab-dl download -u <your_course_url> -c /path/to/my/cookies.json
+    ```
+
+5.  **When cookies is not valid:**
+
+    If you run the script with invalid cookie file, it will ask you to login again
+
+    ```bash
+    maktab-dl download -u <your_course_url> -c /path/to/my/invalid_cookie.json
+    ```
+
+6.  **Using relative path for cookies**
+
+    ```bash
+    maktab-dl download -u <your_course_url> -c ./my_cookies.json -o ./videos
+    ```
+    This command will save the cookies in current directory and video in the videos subdirectory.
+
+7.  **Help Message:**
+
+    To see the available options and usage information, run:
+
+    ```bash
+    maktab-dl download --help
+    ```
+    or
+    ```bash
+     maktab-dl --help
+    ```
+
+## Explanation
+
+### First time Login
+
+-   If you run the script with a cookies file path that does not exist, it will prompt you for your Maktabkhooneh username and password.
+-   After logging in successfully, it will ask you if you would like to save the cookies to the specified path.
+-   Subsequent executions can reuse the saved cookie to make the script work seamlessly.
+- If cookies are present but not valid it will ask you to relogin.
+
+### Default Paths
+
+-   **Cookies File:** If you don't provide the path to the cookies file, it will save `cookies.json` to suitable user data directory. The exact location will depend on your operating system (Linux, macOS, or Windows). The location is handled by `appdirs` package.
+-   **Output Directory:** If you don't specify the output directory, it will save the video in the current directory the command was run from.
+
+## Error Handling
+
+-   The script includes basic error handling to catch exceptions that might happen during the downloading process. The error is printed to console with descriptive message.
+-   You will be informed if cookies file can not be found or invalid.
+-   If the course does not have any video, it will log the message into console.
+
+## Dependencies
+
+-   `httpx`: Used for making HTTP requests.
+-   `pydantic`: Used for validating response params.
+-   `tqdm`: Used for display download progress bar in output.
+-   `lxml`: Used for parsing HTML content.
+
+
+## Important Notes
+
+-   This script requires a Maktabkhooneh account and access to specific course to download it.
+-   The script will create output directory automatically when you are saving videos there.
