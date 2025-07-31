@@ -1,0 +1,75 @@
+# Multi-stage build for minimal production image
+FROM python:{{ python_version }}-slim as builder
+
+# Suppress apt warnings and set environment
+ENV DEBIAN_FRONTEND=noninteractive \
+    APT_LISTCHANGES_FRONTEND=none \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install build dependencies
+# RUN apt-get update -qq && \
+#     apt-get install -y -qq --no-install-recommends build-essential && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir --no-warn-script-location --compile -r requirements.txt && \
+    find /root/.local -name '*.pyc' -delete && \
+    find /root/.local -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true
+
+# Production stage
+FROM python:{{ python_version }}-slim
+
+# Set production environment
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH=/home/appuser/.local/bin:$PATH \
+    DEBIAN_FRONTEND=noninteractive \
+    APT_LISTCHANGES_FRONTEND=none
+
+# Install runtime dependencies
+{% if system_packages %}
+RUN apt-get update -qq && \
+    apt-get install -y -qq --no-install-recommends{% for package in system_packages %} {{ package }}{% endfor %} && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+{% endif %}
+
+# Create non-root user with home directory
+RUN groupadd -r appuser && useradd -r -g appuser -m appuser
+
+# Copy installed packages from builder
+COPY --from=builder /root/.local /home/appuser/.local
+
+# Set working directory and copy app
+WORKDIR /app
+COPY --chown=appuser:appuser . .
+
+# Create directories that might need write access and set permissions
+# Also clean up any temporary files to reduce image size
+RUN mkdir -p /app/data /app/logs /app/tmp /app/cache /app/output && \
+    chown -R appuser:appuser /app /home/appuser && \
+    chmod -R 755 /app && \
+    chmod -R 755 /home/appuser && \
+    find /home/appuser/.local -name '*.pyc' -delete && \
+    find /home/appuser/.local -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true
+
+# Switch to non-root user
+USER appuser
+
+# Set environment variables
+{% for env_var in environment_variables %}
+ENV {{ env_var.split('=')[0] }}={{env_var.split('=')[1]}}
+{% endfor %}
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)" || exit 1
+
+# Run the agent server
+CMD ["python", "-m", "definable.server.main"]

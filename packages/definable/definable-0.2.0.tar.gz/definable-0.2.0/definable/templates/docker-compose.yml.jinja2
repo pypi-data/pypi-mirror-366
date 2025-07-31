@@ -1,0 +1,50 @@
+services:
+  {{ platform_name }}:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: {{ image_tag }}
+    container_name: {{ platform_name }}-container
+    
+    # Environment variables from agent configuration
+    environment:
+{% for env_var in environment_variables %}
+      - {{ env_var }}
+{% endfor %}
+    
+    # Port mapping
+    ports:
+      - "8000:8000"
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 5s
+      retries: 3
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Resource limits (optional)
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    
+    # Volumes for development (optional)
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./output:/app/output
+    
+    # Network
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge
