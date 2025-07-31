@@ -1,0 +1,106 @@
+Metadata-Version: 2.4
+Name: pytemplify
+Version: 0.1.6
+Summary: A generic generator framework using Jinja2 and user-defined parsers.
+Author-email: robinbreast <kihoa.nam@gmail.com>
+License: MIT
+Requires-Python: >=3.8.1
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jinja2>=3.1.2
+Requires-Dist: dataclasses-jsonschema>=2.16.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.5; extra == "dev"
+Requires-Dist: pytest-snapshot>=0.9.0; extra == "dev"
+Requires-Dist: black>=23.3.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: nox>=2025.2.9; extra == "dev"
+Dynamic: license-file
+
+# pytemplify
+Text file generator framework using parsed dictionary data and Jinja2 templates.
+
+## How to create your generator using `pytemplify`
+Install uv:
+```shell
+curl -Ls https://astral.sh/uv/install.sh | sh
+```
+Install `pytemplify`:
+```shell
+pip install pytemplify
+```
+Generate the first skeleton of your generator using `mygen-init`:
+```shell
+cd <your-repo-path>
+mygen-init
+```
+Complete the `TODO`s in modules; main implementation module is `parser_<your-generator-name>.py`.
+
+Try to run:
+```shell
+uv pip install -r requirements.txt
+uv venv
+source .venv/bin/activate
+<your-generator-name>
+```
+```shell
+uv pip install nox
+nox
+```
+
+## Running Tests and Linters with nox
+
+To run all sessions (formatting, linting, and tests):
+
+```shell
+nox
+```
+
+To run only tests:
+
+```shell
+nox -s tests
+```
+
+To run only linting:
+
+```shell
+nox -s lint
+```
+
+To run only code formatting:
+
+```shell
+nox -s format_code
+```
+
+## Publishing to PyPI with uv
+
+1. Build the package:
+
+```shell
+uv build
+```
+
+2. Publish to PyPI:
+
+```shell
+uv publish
+```
+
+For test PyPI, use:
+
+```shell
+uv publish --repository testpypi
+```
+
+## TIPs
+Activate uv virtual environment:
+```shell
+source .venv/bin/activate
+```
+Deactivate uv virtual environment:
+```shell
+deactivate
+```
