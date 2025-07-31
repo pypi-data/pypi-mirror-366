@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dlm397_package"
+version = "1.0.0"
+authors = [
+  { name="dlm397", email="dlm397@drexel.edu" },
+]
+description = "A package I use for processing data."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/dlm397/Plasma_lib"
+Issues = "https://github.com/dlm397/Plasma_lib"
