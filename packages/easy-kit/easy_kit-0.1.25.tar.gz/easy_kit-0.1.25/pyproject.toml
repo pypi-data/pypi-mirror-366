@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "easy-kit"
+version = "0.1.25"
+description = "Python toolkit"
+authors = ["flegac <florent.legac@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+repository = "https://github.com/flegac/easy-kit"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.extras]
+logger = ["loguru"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
