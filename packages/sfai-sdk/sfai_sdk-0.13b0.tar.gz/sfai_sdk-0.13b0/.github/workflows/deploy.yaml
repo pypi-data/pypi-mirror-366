@@ -1,0 +1,42 @@
+name: Deploy package to PyPI
+
+on:
+  release:
+    types: [published]
+    tags:
+      - 'v*.*.*'
+      - 'v*.*.*-*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    if: github.event.release.target_commitish == 'main'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install --upgrade build setuptools wheel setuptools_scm twine
+
+    - name: Clean build artifacts
+      run: rm -rf dist/ build/ *.egg-info
+
+    - name: Build package
+      run: python -m build
+
+    - name: Check package
+      run: twine check dist/*
+
+    - name: Upload to PyPI
+      run: twine upload dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
