@@ -1,0 +1,26 @@
+2025-07-30 14:35:41,894 - __main__ - INFO - DRIVE version: 3.0.1
+2025-07-30 14:35:41,896 - __main__ - INFO - command passed to DRIVE: drive dendrogram -i ./tests/test_inputs/integration_dendrogram_test_results_no_pheno.drive_networks.txt -f hapibd -t 20:4666882-4682236 -o ./tests/test_output/ -n 0 -m 3 --ibd ./tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz --log-file integration_dendrogram_test_results.log
+2025-07-30 14:35:41,896 - __main__ - INFO - verbose: 0
+2025-07-30 14:35:41,896 - __main__ - INFO - log_to_console: False
+2025-07-30 14:35:41,896 - __main__ - INFO - log_filename: integration_dendrogram_test_results.log
+2025-07-30 14:35:41,897 - __main__ - INFO - input: tests/test_inputs/integration_dendrogram_test_results_no_pheno.drive_networks.txt
+2025-07-30 14:35:41,897 - __main__ - INFO - ibd: tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz
+2025-07-30 14:35:41,897 - __main__ - INFO - output: tests/test_output
+2025-07-30 14:35:41,897 - __main__ - INFO - keep_temp: False
+2025-07-30 14:35:41,897 - __main__ - INFO - format: hapibd
+2025-07-30 14:35:41,897 - __main__ - INFO - target: 20:4666882-4682236
+2025-07-30 14:35:41,897 - __main__ - INFO - segment_overlap: contains
+2025-07-30 14:35:41,897 - __main__ - INFO - min_cm: 3
+2025-07-30 14:35:41,897 - __main__ - INFO - network_id: 0
+2025-07-30 14:35:41,897 - __main__ - INFO - generate_all: False
+2025-07-30 14:35:41,897 - __main__ - INFO - max_network_size: 30
+2025-07-30 14:35:41,897 - __main__ - INFO - min_network_size: 3
+2025-07-30 14:35:41,898 - __main__ - INFO - font_size: 15
+2025-07-30 14:35:41,898 - __main__ - INFO - title: test dendrogram
+2025-07-30 14:35:41,898 - __main__ - INFO - func: <function generate_dendrograms at 0x739bd97a3d80>
+2025-07-30 14:35:41,898 - __main__ - INFO - Analysis start time: 2025-07-30 14:35:41.871927
+2025-07-30 14:35:41,945 - __main__.drive.dendrogram.dendrogram_subcommand - INFO - generating dendrogram for network 0
+2025-07-30 14:35:41,957 - __main__.drive.network.filters.filter - INFO - Identifying IBD segments that contain the target region
+2025-07-30 14:35:42,033 - __main__.drive.network.filters.filter - INFO - 4 out of the 4 ids provided were found within the IBD data file after filtering
+2025-07-30 14:35:42,858 - __main__.drive.dendrogram.dendrogram_subcommand - INFO - writing the output dendrogram to tests/test_output/network_0_dendrogram.png
+2025-07-30 14:35:44,277 - __main__ - INFO - Analysis finished at 2025-07-30 14:35:44.277872. Total runtime: 0:00:02.405945

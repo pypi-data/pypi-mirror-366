@@ -1,0 +1,61 @@
+2025-07-30 14:35:41,590 - __main__ - INFO - DRIVE version: 3.0.1
+2025-07-30 14:35:41,594 - __main__ - INFO - command passed to DRIVE: drive cluster -i ./tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz -f hapibd -t 20:4666882-4682236 -o ./tests/test_output/integration_test_results_with_pheno -m 3 -c ./tests/test_inputs/test_phenotype_file_withNAs.txt --recluster --log-file integration_test_results_with_pheno.log
+2025-07-30 14:35:41,594 - __main__ - INFO - verbose: 0
+2025-07-30 14:35:41,595 - __main__ - INFO - log_to_console: False
+2025-07-30 14:35:41,595 - __main__ - INFO - log_filename: integration_test_results_with_pheno.log
+2025-07-30 14:35:41,595 - __main__ - INFO - input: tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz
+2025-07-30 14:35:41,595 - __main__ - INFO - format: hapibd
+2025-07-30 14:35:41,595 - __main__ - INFO - target: 20:4666882-4682236
+2025-07-30 14:35:41,595 - __main__ - INFO - output: tests/test_output/integration_test_results_with_pheno
+2025-07-30 14:35:41,596 - __main__ - INFO - min_cm: 3
+2025-07-30 14:35:41,596 - __main__ - INFO - step: 3
+2025-07-30 14:35:41,596 - __main__ - INFO - max_recheck: 5
+2025-07-30 14:35:41,596 - __main__ - INFO - cases: tests/test_inputs/test_phenotype_file_withNAs.txt
+2025-07-30 14:35:41,596 - __main__ - INFO - segment_overlap: contains
+2025-07-30 14:35:41,596 - __main__ - INFO - descriptions: None
+2025-07-30 14:35:41,596 - __main__ - INFO - max_network_size: 30
+2025-07-30 14:35:41,597 - __main__ - INFO - min_connected_threshold: 0.5
+2025-07-30 14:35:41,597 - __main__ - INFO - min_network_size: 3
+2025-07-30 14:35:41,597 - __main__ - INFO - segment_distribution_threshold: 0.2
+2025-07-30 14:35:41,597 - __main__ - INFO - phenotype_name: None
+2025-07-30 14:35:41,597 - __main__ - INFO - hub_threshold: 0.01
+2025-07-30 14:35:41,597 - __main__ - INFO - json_config: None
+2025-07-30 14:35:41,597 - __main__ - INFO - recluster: True
+2025-07-30 14:35:41,597 - __main__ - INFO - chunksize: 100000
+2025-07-30 14:35:41,598 - __main__ - INFO - func: <function run_network_identification at 0x739bd9c74180>
+2025-07-30 14:35:41,598 - __main__ - INFO - Analysis start time: 2025-07-30 14:35:41.411987
+2025-07-30 14:35:41,648 - __main__.drive.utilities.parser.case_file_parser - INFO - For PheCode, phenoA, identified 10 cases, 980 controls, and 10 exclusions
+2025-07-30 14:35:41,652 - __main__.drive.utilities.parser.case_file_parser - INFO - For PheCode, phenoB, identified 100 cases, 890 controls, and 10 exclusions
+2025-07-30 14:35:41,656 - __main__.drive.utilities.parser.case_file_parser - INFO - For PheCode, phenoC, identified 5 cases, 985 controls, and 10 exclusions
+2025-07-30 14:35:41,656 - __main__.drive.network.network_algorithm - INFO - identified 3 phenotypes within the file tests/test_inputs/test_phenotype_file_withNAs.txt
+2025-07-30 14:35:41,676 - __main__.drive.network.filters.filter - INFO - Identifying IBD segments that contain the target region
+2025-07-30 14:35:41,756 - __main__.drive.network.filters.filter - INFO - 824 out of the 1000 ids provided were found within the IBD data file after filtering
+2025-07-30 14:35:41,794 - __main__.drive.network.cluster.cluster - INFO - Identified 1072 IBD segments from 1144 haplotypes
+2025-07-30 14:35:41,794 - __main__.drive.network.cluster.cluster - INFO - Identified 165 IBD clusters
+2025-07-30 14:35:41,849 - __main__ - INFO - Analysis finished at 2025-07-30 14:35:41.849090. Total runtime: 0:00:00.437103
+2025-07-30 14:35:41,894 - __main__ - INFO - DRIVE version: 3.0.1
+2025-07-30 14:35:41,896 - __main__ - INFO - command passed to DRIVE: drive dendrogram -i ./tests/test_inputs/integration_dendrogram_test_results_no_pheno.drive_networks.txt -f hapibd -t 20:4666882-4682236 -o ./tests/test_output/ -n 0 -m 3 --ibd ./tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz --log-file integration_dendrogram_test_results.log
+2025-07-30 14:35:41,896 - __main__ - INFO - verbose: 0
+2025-07-30 14:35:41,896 - __main__ - INFO - log_to_console: False
+2025-07-30 14:35:41,896 - __main__ - INFO - log_filename: integration_dendrogram_test_results.log
+2025-07-30 14:35:41,897 - __main__ - INFO - input: tests/test_inputs/integration_dendrogram_test_results_no_pheno.drive_networks.txt
+2025-07-30 14:35:41,897 - __main__ - INFO - ibd: tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz
+2025-07-30 14:35:41,897 - __main__ - INFO - output: tests/test_output
+2025-07-30 14:35:41,897 - __main__ - INFO - keep_temp: False
+2025-07-30 14:35:41,897 - __main__ - INFO - format: hapibd
+2025-07-30 14:35:41,897 - __main__ - INFO - target: 20:4666882-4682236
+2025-07-30 14:35:41,897 - __main__ - INFO - segment_overlap: contains
+2025-07-30 14:35:41,897 - __main__ - INFO - min_cm: 3
+2025-07-30 14:35:41,897 - __main__ - INFO - network_id: 0
+2025-07-30 14:35:41,897 - __main__ - INFO - generate_all: False
+2025-07-30 14:35:41,897 - __main__ - INFO - max_network_size: 30
+2025-07-30 14:35:41,897 - __main__ - INFO - min_network_size: 3
+2025-07-30 14:35:41,898 - __main__ - INFO - font_size: 15
+2025-07-30 14:35:41,898 - __main__ - INFO - title: test dendrogram
+2025-07-30 14:35:41,898 - __main__ - INFO - func: <function generate_dendrograms at 0x739bd97a3d80>
+2025-07-30 14:35:41,898 - __main__ - INFO - Analysis start time: 2025-07-30 14:35:41.871927
+2025-07-30 14:35:41,945 - __main__.drive.dendrogram.dendrogram_subcommand - INFO - generating dendrogram for network 0
+2025-07-30 14:35:41,957 - __main__.drive.network.filters.filter - INFO - Identifying IBD segments that contain the target region
+2025-07-30 14:35:42,033 - __main__.drive.network.filters.filter - INFO - 4 out of the 4 ids provided were found within the IBD data file after filtering
+2025-07-30 14:35:42,858 - __main__.drive.dendrogram.dendrogram_subcommand - INFO - writing the output dendrogram to tests/test_output/network_0_dendrogram.png
+2025-07-30 14:35:44,277 - __main__ - INFO - Analysis finished at 2025-07-30 14:35:44.277872. Total runtime: 0:00:02.405945

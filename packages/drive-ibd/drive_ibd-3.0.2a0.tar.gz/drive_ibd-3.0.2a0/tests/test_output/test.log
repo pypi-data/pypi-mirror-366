@@ -1,0 +1,31 @@
+2025-06-02 20:45:01,476 - __main__ - INFO - DRIVE version: 2.7.15
+2025-06-02 20:45:01,480 - __main__ - INFO - verbose: 0
+2025-06-02 20:45:01,480 - __main__ - INFO - log_to_console: True
+2025-06-02 20:45:01,480 - __main__ - INFO - log_filename: test.log
+2025-06-02 20:45:01,480 - __main__ - INFO - input: tests/test_inputs/simulated_ibd_test_data_v2_chr20.ibd.gz
+2025-06-02 20:45:01,480 - __main__ - INFO - format: hapibd
+2025-06-02 20:45:01,480 - __main__ - INFO - target: 20:4666882-4682236
+2025-06-02 20:45:01,480 - __main__ - INFO - output: tests/test_output/integration_test_results_with_pheno
+2025-06-02 20:45:01,480 - __main__ - INFO - min_cm: 3
+2025-06-02 20:45:01,480 - __main__ - INFO - step: 3
+2025-06-02 20:45:01,480 - __main__ - INFO - max_recheck: 5
+2025-06-02 20:45:01,480 - __main__ - INFO - cases: tests/test_inputs/test_phenotype_file_withNAs.txt
+2025-06-02 20:45:01,480 - __main__ - INFO - segment_overlap: contains
+2025-06-02 20:45:01,480 - __main__ - INFO - descriptions: None
+2025-06-02 20:45:01,480 - __main__ - INFO - max_network_size: 30
+2025-06-02 20:45:01,481 - __main__ - INFO - min_connected_threshold: 0.5
+2025-06-02 20:45:01,481 - __main__ - INFO - min_network_size: 3
+2025-06-02 20:45:01,481 - __main__ - INFO - segment_distribution_threshold: 0.2
+2025-06-02 20:45:01,481 - __main__ - INFO - phenotype_name: None
+2025-06-02 20:45:01,481 - __main__ - INFO - hub_threshold: 0.01
+2025-06-02 20:45:01,481 - __main__ - INFO - json_config: None
+2025-06-02 20:45:01,481 - __main__ - INFO - recluster: True
+2025-06-02 20:45:01,481 - __main__ - INFO - func: <function run_network_identification at 0x7423c55885e0>
+2025-06-02 20:45:01,481 - __main__ - INFO - Analysis start time: 2025-06-02 20:45:01.470242
+2025-06-02 20:45:01,493 - __main__.drive.utilities.parser.case_file_parser - INFO - For PheCode, phenoC, identified 5 cases, 985 controls, and 10 exclusions
+2025-06-02 20:45:01,493 - __main__.drive.network.network_algorithm - INFO - identified 3 phenotypes within the file tests/test_inputs/test_phenotype_file_withNAs.txt
+2025-06-02 20:45:01,499 - __main__.drive.network.filters.filter - INFO - Identifying IBD segments that contain the target region
+2025-06-02 20:45:01,553 - __main__.drive.network.filters.filter - INFO - 824 out of the 1000 ids provided were found within the IBD data file after filtering
+2025-06-02 20:45:01,597 - __main__.drive.network.cluster.cluster - INFO - Identified 1072 IBD segments from 1144 haplotypes
+2025-06-02 20:45:01,597 - __main__.drive.network.cluster.cluster - INFO - Identified 165 IBD clusters
+2025-06-02 20:45:11,773 - __main__ - INFO - Analysis finished at 2025-06-02 20:45:11.773691. Total runtime: 0:00:10.303449
