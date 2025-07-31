@@ -1,0 +1,93 @@
+image: python:3.9
+
+stages:
+    - test
+    - build
+    - publish
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - .venv/
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y python3-dev python3-pip
+  - python --version
+  - python3 -m venv .venv --clear
+  - source .venv/bin/activate
+  - python3 -m pip install --upgrade pip
+
+build_wheels:
+  image: python:$PYVERSION
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
+  script:
+    - export LANG=C
+    - apt-get install -y patchelf
+    - python3 -m pip install --upgrade pip setuptools
+    - python3 -m pip install build twine auditwheel
+    - python3 -m build --wheel
+    - auditwheel repair --plat manylinux2014_x86_64 -w wheelhouse dist/*.whl
+  parallel:
+    matrix:
+      - PYVERSION: ['3.9', '3.10', '3.11', '3.12']
+  artifacts:
+    paths:
+      - wheelhouse/
+
+build_sdist:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
+  script:
+    - export LANG=C
+    - python3 -m pip install --upgrade pip setuptools
+    - python3 -m pip install build
+    - python3 -m build --sdist --outdir wheelhouse
+  artifacts:
+    paths:
+      - wheelhouse/
+
+pytest:
+  image: python:$PYVERSION
+  stage: test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_TAG
+  script:
+    - export LANG=C  # Hopefully detect anything relying on locale
+    - python3 -m pip install --upgrade pip setuptools
+    - python3 -m pip install -e ".[test]"
+    - python3 -m pytest --color yes --verbose --junitxml=junit.py.xml --cov=extra_redu --cov-report term --cov-report xml:coverage.xml
+  coverage: '/TOTAL.+?([\d\.]+\%)/'
+  artifacts:
+    when: always
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+      junit:
+        - junit.*.xml
+    paths:
+      - junit.*.xml
+  parallel:
+    matrix:
+      - PYVERSION: ['3.9', '3.10', '3.11', '3.12']
+
+pypi:
+  stage: publish
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
+  variables:
+    TWINE_USERNAME: $PYPI_USERNAME
+    TWINE_PASSWORD: $PYPI_PASSWORD
+  script:
+    - export LANG=C  # Hopefully detect anything relying on locale
+    - python3 -m pip install --upgrade pip setuptools
+    - python3 -m pip install twine
+    - python3 -m twine upload --disable-progress-bar --skip-existing --non-interactive wheelhouse/*

@@ -1,0 +1,69 @@
+[build-system]
+requires = [
+    "setuptools", "setuptools-scm[toml]", "wheel", "Cython>=0.29.21",
+    "numpy==2.0.0; python_version>='3.9'"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+root = "."
+write_to = "src/extra_redu/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.coverage.run]
+omit = ["*/tests/*"]
+
+[project]
+dynamic = ["version"]
+name="EXtra-redu"
+authors = [
+    {name = "Egor Sobolev"}
+]
+maintainers = [
+  {name = "Egor Sobolev", email = "da-support@xfel.eu"}
+]
+description = "Tools for XFEL data quality estimation and data reduction"
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+requires-python = ">= 3.9"
+dependencies = [
+    "h5py",
+    "numpy",
+    "matplotlib",
+    "euxfel-bunch-pattern>=0.6",
+    "extra-data>=1.9.1",
+    "psutil",
+    "sharedmem",
+]
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "mock",
+]
+
+[project.urls]
+Homepage = "https://git.xfel.eu/dataAnalysis/data-reduction"
+
+[project.scripts]
+extra-redu-litfrm-report = "extra_redu.litfrm.litfrm_report:main"
+extra-redu-spi-hitfinding = "extra_redu.spi.hitfinding:main"
+
+[project.entry-points."exdf.data_reduction.method"]
+LitFrames = "extra_redu.litfrm.exdf_reduce:LitFrames"
