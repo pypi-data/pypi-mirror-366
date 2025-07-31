@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "speech-tension-detector"
+version = "1.0.0"
+description = "音声ファイルから話者の緊張度・テンションを検出するPythonモジュール"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "hiroshi-tamura"}
+]
+keywords = ["speech", "audio", "tension", "detection", "machine-learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "librosa>=0.10.0",
+    "soundfile>=0.12.1",
+    "numpy>=1.20.0",
+    "scipy>=1.8.0",
+    "scikit-learn>=1.0.0",
+    "tqdm>=4.60.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "parselmouth>=0.4.3",
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.7.0",
+]
+
+gpu = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "accelerate>=0.21.0",
+]
+
+advanced = [
+    "opensmile>=2.5.0",
+    "tensorflow>=2.13.0",
+    "datasets>=2.14.0",
+]
+
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+speech-tension-detect = "speech_tension_detector.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["speech_tension_detector*"]
+
+[tool.setuptools.package-data]
+speech_tension_detector = ["data/*.wav", "data/*.json"]
