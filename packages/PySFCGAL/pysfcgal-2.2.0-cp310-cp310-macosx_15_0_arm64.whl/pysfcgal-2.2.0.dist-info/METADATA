@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: PySFCGAL
+Version: 2.2.0
+Summary: Python binding of SFCGAL.
+Home-page: https://gitlab.com/SFCGAL/pysfcgal
+Author: Joshua Arnott (initial work) and Loïc Bartoletti (Oslandia)
+Author-email: infos@sfcgal.org
+License: GPL-3.0-or-later
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Description-Content-Type: text/plain
+License-File: LICENSE.md
+Requires-Dist: cffi>=1.0.0
+Provides-Extra: contract
+Requires-Dist: icontract>=2.6.0; extra == "contract"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: summary
+
+Python binding of SFCGAL. SFCGAL is a C++ wrapper
+    library around CGAL with the aim of supporting ISO 191007:2013 and OGC
+    Simple Features for 3D operations.
