@@ -1,0 +1,457 @@
+Metadata-Version: 2.4
+Name: veris-ai
+Version: 1.2.0
+Summary: A Python package for Veris AI tools
+Project-URL: Homepage, https://github.com/veris-ai/veris-python-sdk
+Project-URL: Bug Tracker, https://github.com/veris-ai/veris-python-sdk/issues
+Author-email: Mehdi Jamei <mehdi@veris.ai>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: >=3.11
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: requests>=2.31.0
+Provides-Extra: dev
+Requires-Dist: black>=23.7.0; extra == 'dev'
+Requires-Dist: mypy>=1.5.1; extra == 'dev'
+Requires-Dist: openai-agents>=0.0.1; extra == 'dev'
+Requires-Dist: pre-commit>=3.3.3; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.1; extra == 'dev'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'dev'
+Requires-Dist: pytest>=7.4.0; extra == 'dev'
+Requires-Dist: ruff>=0.11.4; extra == 'dev'
+Provides-Extra: fastapi
+Requires-Dist: fastapi; extra == 'fastapi'
+Requires-Dist: fastapi-mcp; extra == 'fastapi'
+Provides-Extra: instrument
+Requires-Dist: braintrust; extra == 'instrument'
+Requires-Dist: opentelemetry-api; extra == 'instrument'
+Requires-Dist: opentelemetry-exporter-otlp; extra == 'instrument'
+Requires-Dist: opentelemetry-exporter-otlp-proto-common; extra == 'instrument'
+Requires-Dist: opentelemetry-exporter-otlp-proto-grpc; extra == 'instrument'
+Requires-Dist: opentelemetry-exporter-otlp-proto-http; extra == 'instrument'
+Requires-Dist: opentelemetry-sdk; extra == 'instrument'
+Requires-Dist: wrapt; extra == 'instrument'
+Description-Content-Type: text/markdown
+
+# Veris AI Python SDK
+
+A Python package for Veris AI tools with simulation capabilities and FastAPI MCP (Model Context Protocol) integration.
+
+## Installation
+
+You can install the package using `uv`:
+
+```bash
+# Install the package
+uv add veris-ai
+
+# Install with development dependencies
+uv add "veris-ai[dev]"
+
+# Install with FastAPI MCP integration
+uv add "veris-ai[fastapi]"
+
+# Install with tracing/instrumentation support
+uv add "veris-ai[instrument]"
+```
+
+## Import Options
+
+The SDK supports flexible import patterns to minimize dependencies:
+
+### Default Imports (Base Dependencies Only)
+
+```python
+# These imports only require base dependencies (httpx, pydantic, requests)
+from veris_ai import veris, JaegerClient
+```
+
+### Optional Imports (Require Extra Dependencies)
+
+```python
+# The instrument function requires the 'instrument' extra
+# Install with: pip install veris-ai[instrument] or uv add "veris-ai[instrument]"
+from veris_ai import instrument  # Lazy-loaded, will error if deps missing
+```
+
+### Direct Submodule Imports
+
+For maximum control over dependencies, you can import directly from submodules:
+
+```python
+# Import only what you need
+from veris_ai.tool_mock import veris
+from veris_ai.jaeger_interface import JaegerClient
+from veris_ai.braintrust_tracing import instrument  # Requires [instrument] extra
+```
+
+## Environment Setup
+
+The package requires the following environment variables:
+
+```bash
+# Required: URL for the mock endpoint
+VERIS_MOCK_ENDPOINT_URL=http://your-mock-endpoint.com
+
+# Optional: Timeout in seconds (default: 30.0)
+VERIS_MOCK_TIMEOUT=30.0
+
+# Optional: Set to "simulation" to enable mock mode
+ENV=simulation
+```
+
+## Tracing Integration
+
+The SDK provides seamless integration with Braintrust and Jaeger/OpenTelemetry for distributed tracing.
+
+### Setting up Tracing
+
+```python
+from veris_ai import instrument
+
+# Initialize tracing instrumentation
+instrument(
+    service_name="my-service",  # or via VERIS_SERVICE_NAME env var
+    otlp_endpoint="http://localhost:4317"  # or via VERIS_OTLP_ENDPOINT env var
+)
+```
+
+### Session ID Tracking
+
+When using the SDK with FastAPI MCP integration, session IDs are automatically embedded in all traces:
+
+1. **Automatic Session Extraction**: When a request includes an Authorization header with a bearer token, the token is automatically used as the session ID.
+
+2. **Trace Attribution**: All spans created during a request will include the `veris.session_id` attribute, allowing you to:
+   - Filter traces by session in Jaeger
+   - Correlate all operations within a single user session
+   - Debug issues specific to a particular session
+
+3. **Example**:
+   ```python
+   # FastAPI app with MCP integration
+   from fastapi import FastAPI
+   from veris_ai import veris, instrument
+   
+   app = FastAPI()
+   
+   # Set up tracing
+   instrument()
+   
+   # Set up FastAPI MCP with session handling
+   veris.set_fastapi_mcp(
+       fastapi=app,
+       name="My API Server"
+   )
+   
+   # Now all traces will automatically include session IDs from bearer tokens
+   ```
+
+4. **Manual Session Management**: You can also manually set session IDs:
+   ```python
+   veris.set_session_id("custom-session-123")
+   # All subsequent operations will be tagged with this session ID
+   veris.clear_session_id()  # Clear when done
+   ```
+
+The session ID tracking works seamlessly with both the mock decorators and the tracing system, providing end-to-end visibility of user sessions across your application.
+
+## Python Version
+
+This project requires Python 3.11 or higher. We use [pyenv](https://github.com/pyenv/pyenv) for Python version management.
+
+To set up the correct Python version:
+
+```bash
+# Install Python 3.11.0 using pyenv
+pyenv install 3.11.0
+
+# Set the local Python version for this project
+pyenv local 3.11.0
+```
+
+## Usage
+
+```python
+from veris_ai import veris
+
+@veris.mock()
+async def your_function(param1: str, param2: int) -> dict:
+    """
+    Your function documentation here.
+    
+    Args:
+        param1: Description of param1
+        param2: Description of param2
+        
+    Returns:
+        A dictionary containing the results
+    """
+    # Your implementation here
+    return {"result": "actual implementation"}
+```
+
+When `ENV=simulation` is set, the decorator will:
+1. Capture the function signature, type hints, and docstring
+2. Send this information to the mock endpoint
+3. Convert the mock response to the expected return type
+4. Return the mock result
+
+When not in simulation mode, the original function will be executed normally.
+
+### Stub Decorator
+
+For simple test scenarios where you want to return a fixed value in simulation mode, use the `@veris.stub()` decorator:
+
+```python
+from veris_ai import veris
+
+@veris.stub(return_value={"status": "success", "data": [1, 2, 3]})
+async def get_data() -> dict:
+    """Get some data from external service."""
+    # This implementation is only called in production mode
+    return await fetch_from_api()
+
+# In simulation mode: always returns {"status": "success", "data": [1, 2, 3]}
+# In production mode: calls fetch_from_api()
+```
+
+The stub decorator is useful for:
+- Quick prototyping with fixed responses
+- Testing with predictable data
+- Bypassing external dependencies in development
+
+## FastAPI MCP Integration
+
+The SDK provides integration with FastAPI applications through the Model Context Protocol (MCP). This allows your FastAPI endpoints to be exposed as MCP tools that can be used by AI agents.
+
+```python
+from fastapi import FastAPI
+from veris_ai import veris
+
+app = FastAPI()
+
+# Set up FastAPI MCP with automatic session handling
+veris.set_fastapi_mcp(
+    fastapi=app,
+    name="My API Server",
+    description="My FastAPI application exposed as MCP tools",
+    describe_all_responses=True,
+    include_operations=["get_users", "create_user"],
+    exclude_tags=["internal"]
+)
+
+# The MCP server is now available at veris.fastapi_mcp
+mcp_server = veris.fastapi_mcp
+```
+
+### Configuration Options
+
+The `set_fastapi_mcp()` method accepts the following parameters:
+
+- **fastapi** (required): Your FastAPI application instance
+- **name**: Custom name for the MCP server (defaults to app.title)
+- **description**: Custom description (defaults to app.description)
+- **describe_all_responses**: Whether to include all response schemas in tool descriptions
+- **describe_full_response_schema**: Whether to include full JSON schema for responses
+- **http_client**: Optional custom httpx.AsyncClient instance
+- **include_operations**: List of operation IDs to include as MCP tools
+- **exclude_operations**: List of operation IDs to exclude (can't use with include_operations)
+- **include_tags**: List of tags to include as MCP tools
+- **exclude_tags**: List of tags to exclude (can't use with include_tags)
+- **auth_config**: Optional FastAPI MCP AuthConfig for custom authentication
+
+### Session Management
+
+The SDK automatically handles session management through OAuth2 authentication:
+- Session IDs are extracted from bearer tokens
+- Context is maintained across API calls
+- Sessions can be managed programmatically:
+
+```python
+# Get current session ID
+session_id = veris.session_id
+
+# Set a new session ID
+veris.set_session_id("new-session-123")
+
+# Clear the session
+veris.clear_session_id()
+```
+
+## Braintrust & Jaeger Tracing
+
+The SDK includes a non-invasive instrumentation helper for sending traces to both Braintrust and a Jaeger-compatible OpenTelemetry (OTEL) collector simultaneously. This allows you to leverage Braintrust's powerful monitoring and evaluation tools while also storing and visualizing traces in your own Jaeger instance.
+
+### Usage
+
+To enable parallel tracing, simply import the `braintrust_tracing` module and call the `instrument()` function at the beginning of your application's lifecycle.
+
+```python
+from veris_ai import braintrust_tracing
+
+# Enable Braintrust and Jaeger tracing
+braintrust_tracing.instrument()
+```
+
+### Configuration
+
+The `instrument()` function is configured through environment variables:
+
+-   **`VERIS_SERVICE_NAME`** (required): The name of your service as it will appear in Jaeger.
+-   **`VERIS_OTLP_ENDPOINT`** (required): The gRPC endpoint of your Jaeger OTLP collector (e.g., `http://host.docker.internal:4317`).
+
+When initialized, the SDK automatically patches the `agents` library to send traces to both systems without any further code changes required.
+
+## Utility Functions
+
+### extract_json_schema
+
+The SDK provides a utility function to extract JSON schemas from Python types and Pydantic models:
+
+```python
+from veris_ai.utils import extract_json_schema
+from pydantic import BaseModel
+from typing import List, Optional
+
+# Extract schema from built-in types
+int_schema = extract_json_schema(int)
+# {"type": "integer"}
+
+list_schema = extract_json_schema(List[str])
+# {"type": "array", "items": {"type": "string"}}
+
+# Extract schema from Pydantic models
+class User(BaseModel):
+    name: str
+    age: int
+    email: Optional[str] = None
+
+user_schema = extract_json_schema(User)
+# Returns full JSON schema with properties, required fields, etc.
+
+# Extract schema from TypedDict
+from typing import TypedDict
+
+class Config(TypedDict):
+    host: str
+    port: int
+    debug: bool
+
+config_schema = extract_json_schema(Config)
+# {"type": "object", "properties": {...}, "required": ["host", "port", "debug"]}
+```
+
+This function supports:
+- Built-in types (str, int, float, bool, None)
+- Generic types (List, Dict, Union, Optional, Literal)
+- Pydantic models
+- TypedDict classes
+- Forward references and complex nested types
+
+## Project Structure
+
+```
+src/veris_ai/
+├── __init__.py        # Main entry point, exports the veris instance
+├── tool_mock.py       # VerisSDK class with @veris.mock() decorator
+└── utils.py           # Type conversion and JSON schema utilities
+
+tests/
+├── conftest.py        # Pytest fixtures
+├── test_tool_mock.py  # Tests for VerisSDK functionality
+└── test_utils.py      # Tests for type conversion and schema extraction
+```
+
+## Development
+
+This project uses `pyproject.toml` for dependency management and `uv` for package installation.
+
+### Development Dependencies
+
+To install the package with development dependencies:
+
+```bash
+uv add "veris-ai[dev]"
+```
+
+This will install the following development tools:
+- **Ruff**: Fast Python linter
+- **pytest**: Testing framework
+- **pytest-asyncio**: Async support for pytest
+- **pytest-cov**: Coverage reporting for pytest
+- **black**: Code formatter
+- **mypy**: Static type checker
+- **pre-commit**: Git hooks for code quality
+
+### Code Quality
+
+This project uses [Ruff](https://github.com/charliermarsh/ruff) for linting and code quality checks. Ruff is a fast Python linter written in Rust.
+
+To run Ruff:
+
+```bash
+# Lint code
+ruff check .
+
+# Auto-fix linting issues
+ruff check --fix .
+
+# Format code
+ruff format .
+
+# Check formatting only
+ruff format --check .
+```
+
+The Ruff configuration is defined in `pyproject.toml` under the `[tool.ruff]` section.
+
+### Running Tests
+
+```bash
+# Run all tests with coverage
+pytest tests/ --cov=veris_ai --cov-report=xml --cov-report=term-missing
+
+# Run specific test file
+pytest tests/test_tool_mock.py
+
+# Run tests with verbose output
+pytest -v tests/
+```
+
+### Type Checking
+
+```bash
+# Run static type checking
+mypy src/veris_ai tests
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 
+
+## Jaeger Trace Interface
+
+A lightweight, fully-typed wrapper around the Jaeger **Query Service** HTTP API lives under `veris_ai.jaeger_interface`.
+It allows you to **search and retrieve traces** from both Jaeger's default storage back-ends as well as **OpenSearch**, with additional **client-side span filtering** capabilities.
+
+```python
+from veris_ai.jaeger_interface import JaegerClient
+
+client = JaegerClient("http://localhost:16686")
+
+# Search with trace-level filters (server-side)
+traces = client.search(service="veris-agent", limit=2, tags={"error": "true"})
+
+# Search with span-level filters (client-side, OR logic)
+filtered = client.search(
+    service="veris-agent", 
+    limit=10,
+    span_tags={"http.status_code": 500, "db.error": "timeout"}
+)
+
+first_trace = client.get_trace(traces.data[0].traceID)
+```
+
+See `src/veris_ai/jaeger_interface/README.md` for a complete walkthrough and API reference. 
