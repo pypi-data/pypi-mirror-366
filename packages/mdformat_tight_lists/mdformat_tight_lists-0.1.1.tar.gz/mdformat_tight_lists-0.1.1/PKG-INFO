@@ -1,0 +1,131 @@
+Metadata-Version: 2.4
+Name: mdformat_tight_lists
+Version: 0.1.1
+Summary: An mdformat plugin for creating tight lists (no empty lines between list items).
+Keywords: mdformat,markdown,markdown-it,formatter,lists
+Author-email: Joseph Monaco <joe@selfmotion.net>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup :: Markdown
+License-File: LICENSE
+Requires-Dist: mdformat>=0.7.0
+Requires-Dist: mdformat-frontmatter>=2.0.0
+Requires-Dist: pytest>=7.0 ; extra == "test"
+Requires-Dist: pytest-cov>=4.0 ; extra == "test"
+Project-URL: Homepage, https://github.com/jdmonaco/mdformat-tight-lists
+Provides-Extra: test
+
+# mdformat-tight-lists
+
+[![Build Status][ci-badge]][ci-link]
+[![PyPI version][pypi-badge]][pypi-link]
+
+An [mdformat](https://github.com/executablebooks/mdformat) plugin that formats Markdown lists to be tight (no empty lines between list items) following mdformat-style rules.
+
+## Installation
+
+```bash
+pip install mdformat-tight-lists
+```
+
+Or with [pipx](https://pipx.pypa.io/) for command-line usage:
+
+```bash
+pipx install mdformat
+pipx inject mdformat mdformat-tight-lists
+```
+
+## Usage
+
+After installation, mdformat will automatically use this plugin when formatting Markdown files:
+
+```bash
+mdformat your-file.md
+```
+
+### Features
+
+- **Smart List Formatting**: Automatically creates tight lists by removing unnecessary empty lines
+- **List Type Detection**: Different top-level markers (`-`, `*`, `+`) are treated as separate lists
+- **Nested List Handling**: Properly handles transitions between ordered and unordered lists
+- **Multi-Paragraph Support**: Preserves loose formatting when list items contain multiple paragraphs
+
+### Examples
+
+**Input:**
+```markdown
+- Item 1
+
+- Item 2
+
+- Item 3
+```
+
+**Output:**
+```markdown
+- Item 1
+- Item 2
+- Item 3
+```
+
+**Multi-paragraph items (loose list preserved):**
+```markdown
+- First item with multiple paragraphs
+
+  Second paragraph of first item
+
+- Second item
+```
+
+## Development
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/jdmonaco/mdformat-tight-lists.git
+cd mdformat-tight-lists
+
+# Install development environment with uv
+uv sync
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with coverage
+uv run pytest --cov=mdformat_tight_lists
+
+# Run tests verbosely
+uv run pytest -v
+```
+
+### Adding Tests
+
+To add new test cases, edit `tests/fixtures.md` following the existing format:
+- Test title
+- Input markdown (between dots)
+- Expected output (between dots)
+
+## License
+
+MIT - see LICENSE file for details.
+
+[ci-badge]: https://github.com/jdmonaco/mdformat-tight-lists/workflows/CI/badge.svg
+[ci-link]: https://github.com/jdmonaco/mdformat-tight-lists/actions?query=workflow%3ACI+branch%3Amain+event%3Apush
+[pypi-badge]: https://img.shields.io/pypi/v/mdformat-tight-lists.svg
+[pypi-link]: https://pypi.org/project/mdformat-tight-lists
+
+
