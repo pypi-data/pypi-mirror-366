@@ -1,0 +1,79 @@
+Metadata-Version: 2.4
+Name: PyVMCON
+Version: 2.3.1
+Summary: Python implementation of the VMCON non-linear constrained optimiser.
+Author-email: Timothy Nunn <timothy.nunn@ukaea.uk>
+License: MIT License
+        
+        Copyright (c) 2023-2025 UK Atomic Energy Authority
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Documentation, https://ukaea.github.io/PyVMCON/
+Project-URL: Source, https://github.com/ukaea/PyVMCON
+Keywords: vmcon,optimisation,non-linear constrained optimisation
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Scientific/Engineering
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.24
+Requires-Dist: cvxpy>=1.5.2
+Provides-Extra: docs
+Requires-Dist: Sphinx>=6.1; extra == "docs"
+Requires-Dist: sphinxcontrib-mermaid>=0.9; extra == "docs"
+Requires-Dist: nbsphinx>=0.9; extra == "docs"
+Requires-Dist: ipython; extra == "docs"
+Requires-Dist: ipykernel; extra == "docs"
+Requires-Dist: nbformat>=4.2; extra == "docs"
+Dynamic: license-file
+
+# PyVMCON
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Testing Workflow](https://github.com/ukaea/PyVMCON/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/ukaea/PyVMCON/actions/workflows/tests.yml)
+
+A Python implementation of the VMCON nonlinear constrained optimiser.
+
+## Installation
+PyVMCON can be installed from PyPI via:
+
+```
+pip install PyVMCON
+```
+
+Or installed from source:
+
+```
+git clone https://github.com/ukaea/PyVMCON.git
+cd PyVMCON
+pip install .
+```
+
+## Testing
+Tests can be run using `pytest tests/`. The tests check the paper examples are replicated. In some cases (I believe due to the way the quadratic programming implementation differs) the values achieved are different to the paper, but still correct; such cases have been noted in the test file.
+
+## Documentation
+Documentation for the VMCON algorithm and PyVMCON API/use can be found on our [**GitHub pages**](https://ukaea.github.io/PyVMCON/). The documentation includes references to the VMCON paper and other helpful resources.
+
+## License
+PyVMCON is provided under the MIT license, please see the LICENSE file for full details.
+
+Copyright (c) 2023-2025 UK Atomic Energy Authority
