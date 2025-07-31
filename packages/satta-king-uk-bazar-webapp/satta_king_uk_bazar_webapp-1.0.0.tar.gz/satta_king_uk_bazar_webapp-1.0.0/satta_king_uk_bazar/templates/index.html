@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block title %}Satta King UK Bazar - Live Results {{ current_date }}{% endblock %}
+{% block description %}Live Satta King UK Bazar results for {{ current_date }}. Get real-time updates, record charts and historical data for all gaming markets.{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h2 class="h4 mb-0">
+                    <i class="fas fa-trophy"></i>
+                    Satta King UK Bazar Results - {{ current_date }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info border-0" role="alert">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Daily Updates:</strong> Get the most accurate and timely gaming results. 
+                    All results are updated as per official schedules.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Live Games Section -->
+{% if games_data.live_games %}
+<section class="mb-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="h5 mb-0">
+                <i class="fas fa-dot-circle blink"></i>
+                LIVE GAMES
+            </h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Games List</th>
+                            <th scope="col" class="text-center">Yesterday</th>
+                            <th scope="col" class="text-center">Today</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games_data.live_games %}
+                        <tr class="live-game">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-danger me-2">LIVE</span>
+                                    <div>
+                                        <strong>{{ game.name }}</strong><br>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock"></i> {{ game.time }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-secondary">{{ game.yesterday_result }}</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-warning text-dark">{{ game.today_result }}</span>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('game_chart', game_id=game.id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-chart-line"></i> Chart
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Next Games Section -->
+{% if games_data.next_games %}
+<section class="mb-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-warning text-dark">
+            <h3 class="h5 mb-0">
+                <i class="fas fa-clock"></i>
+                NEXT GAMES
+            </h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Games List</th>
+                            <th scope="col" class="text-center">Yesterday</th>
+                            <th scope="col" class="text-center">Today</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games_data.next_games %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-warning text-dark me-2">NEXT</span>
+                                    <div>
+                                        <strong>{{ game.name }}</strong><br>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock"></i> {{ game.time }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-secondary">{{ game.yesterday_result }}</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-light text-dark">{{ game.today_result }}</span>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('game_chart', game_id=game.id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-chart-line"></i> Chart
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Rest Games Section -->
+{% if games_data.rest_games %}
+<section class="mb-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h3 class="h5 mb-0">
+                <i class="fas fa-pause-circle"></i>
+                REST GAMES
+            </h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Games List</th>
+                            <th scope="col" class="text-center">Yesterday</th>
+                            <th scope="col" class="text-center">Today</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games_data.rest_games %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    {% if game.status == 'completed' %}
+                                        <span class="badge bg-success me-2">DONE</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary me-2">REST</span>
+                                    {% endif %}
+                                    <div>
+                                        <strong>{{ game.name }}</strong><br>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock"></i> {{ game.time }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-secondary">{{ game.yesterday_result }}</span>
+                            </td>
+                            <td class="text-center">
+                                {% if game.today_result != 'XX' %}
+                                    <span class="badge bg-success">{{ game.today_result }}</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark">{{ game.today_result }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('game_chart', game_id=game.id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-chart-line"></i> Chart
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Monthly Chart Link -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm bg-light">
+            <div class="card-body text-center">
+                <h4 class="card-title">
+                    <i class="fas fa-calendar-alt text-primary"></i>
+                    Monthly Result Charts
+                </h4>
+                <p class="card-text text-muted">
+                    View detailed monthly charts for all major gaming markets including 
+                    Gali, Desawar, Ghaziabad, and Faridabad.
+                </p>
+                <a href="{{ url_for('monthly_chart') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-chart-bar"></i> View Monthly Charts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Structured Data for Games -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Satta King UK Bazar Results",
+    "description": "Live gaming results for {{ current_date }}",
+    "datePublished": "{{ current_date }}",
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {% for game in games_data.live_games + games_data.next_games + games_data.rest_games %}
+            {
+                "@type": "ListItem",
+                "position": {{ loop.index }},
+                "item": {
+                    "@type": "Thing",
+                    "name": "{{ game.name }}",
+                    "description": "Gaming result for {{ game.name }} at {{ game.time }}"
+                }
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
+}
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Auto-refresh page every 5 minutes for live updates
+setTimeout(function() {
+    window.location.reload();
+}, 300000);
+
+// Add visual indicators for status
+document.addEventListener('DOMContentLoaded', function() {
+    // Add pulsing effect to live games
+    const liveGames = document.querySelectorAll('.live-game');
+    liveGames.forEach(function(game) {
+        game.style.animation = 'pulse 2s infinite';
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include satta_king_uk_bazar/data *.json
+recursive-include satta_king_uk_bazar/templates *.html
+recursive-include satta_king_uk_bazar/static *.css *.js *.txt
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store

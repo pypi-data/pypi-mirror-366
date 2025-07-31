@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "satta-king-uk-bazar-webapp"
+version = "1.0.0"
+description = "A Flask-based gaming results website with live updates and SEO optimization"
+authors = [
+    {name = "Developer", email = "developer@example.com"},
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Flask",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["flask", "web", "gaming", "results", "seo", "responsive"]
+dependencies = [
+    "flask>=2.0.0",
+    "gunicorn>=20.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-flask>=1.0",
+    "black>=22.0",
+    "flake8>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/username/satta-king-uk-bazar"
+Repository = "https://github.com/username/satta-king-uk-bazar.git"
+Documentation = "https://github.com/username/satta-king-uk-bazar#readme"
+"Bug Tracker" = "https://github.com/username/satta-king-uk-bazar/issues"
+
+[project.scripts]
+satta-king-uk-bazar = "satta_king_uk_bazar.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["satta_king_uk_bazar*"]
+
+[tool.setuptools.package-data]
+satta_king_uk_bazar = [
+    "data/*.json",
+    "templates/*.html",
+    "static/css/*.css",
+    "static/js/*.js",
+    "static/*.txt",
+]

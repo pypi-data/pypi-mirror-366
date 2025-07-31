@@ -1,0 +1,95 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: /sitemap.xml
+
+# Crawl delays (optional)
+Crawl-delay: 1
+
+# Disallow admin or private areas (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Allow specific paths for SEO
+Allow: /game/
+Allow: /monthly-chart
+
+# Cache directives
+# Allow caching of static assets
+Allow: /static/
+
+# Block access to sensitive files
+Disallow: /*.json$
+Disallow: /data/
+Disallow: /.env
+Disallow: /config/
+
+# SEO-friendly directives
+# Encourage indexing of main content
+Allow: /$
+Allow: /game/*
+Allow: /monthly-chart
+
+# Block access to development/test files
+Disallow: /test/
+Disallow: /dev/
+Disallow: /*.log$
+
+# Social media bots
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Search engine specific rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Block unwanted bots
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+# Archive.org bot (allow for historical preservation)
+User-agent: ia_archiver
+Allow: /
+
+# Rate limiting for aggressive crawlers
+User-agent: *
+Crawl-delay: 5
+Request-rate: 1/10s
+
+# Additional SEO directives
+# Host directive (optional - specify preferred domain)
+# Host: https://www.sattakingukbazar.com
+
+# Comments for SEO optimization
+# This robots.txt file is optimized for:
+# 1. Search engine indexing of main content
+# 2. Protection of sensitive data and APIs
+# 3. Proper crawl rate management
+# 4. Social media bot access
+# 5. Blocking of AI training bots
