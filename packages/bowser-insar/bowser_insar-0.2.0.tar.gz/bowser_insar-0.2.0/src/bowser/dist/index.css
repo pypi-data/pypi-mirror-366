@@ -1,0 +1,133 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --color-dark: rgb(0, 0, 8);
+  --background-light: #e0dbdb;
+  --border-dark: #2e1111;
+  --border-mid: #464141;
+  --link-color: #646cff;
+  --link-hover-color: #53f2ed;
+
+  color: var(--color-dark);
+  background-color: var(--background-light);
+}
+
+a {
+  font-weight: 500;
+  color: var(--link-color);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+h1 {
+  font-size: 2.2em;
+  line-height: 1.1;
+}
+
+body {
+  margin: 0;
+  place-items: center;
+  min-width: 320px;
+  padding: 1rem;
+  text-align: center;
+  display: grid;
+  grid-template-areas:
+    "menu map";
+  grid-template-columns: 20em auto;
+  height: 95vh;
+}
+
+
+#menu {
+  grid-area: menu;
+  border: 1px solid var(--border-dark);
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+}
+
+
+.menu-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+#menu-content .menu-group>div,
+#menu-content .select-container {
+  /* This ensures that the divs inside the menu group take full width */
+  width: 100%;
+  /* Space out between menu items a little */
+  margin-bottom: 1em;
+}
+
+#menu-content select,
+#menu-content input[type="range"],
+#menu-content input[type="text"] {
+  width: 100%;
+  /* This makes sure that all form elements take up the full width available */
+  box-sizing: border-box;
+  /* This ensures padding and borders are included in the width */
+  text-align: center;
+}
+
+#layer-slider-value {
+  /* Allow text to wrap */
+  /* Break long words if necessary */
+  word-break: break-all;
+  background: rgb(250, 250, 250);
+}
+
+/* ********** */
+/* Map styles */
+#map-container {
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* https://stackoverflow.com/questions/23567203/leaflet-changing-marker-color */
+img.huechange {
+  filter: hue-rotate(120deg);
+}
+
+/* chart styles */
+#chart-container {
+  width: 30vw;
+  height: auto;
+  /* Make the chart fixed to the bottom right corner of the screen */
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  /* But also give it some padding */
+  padding: 1rem;
+  margin: 4rem;
+  /* Make the chart have a white background */
+  background-color: white;
+  /* Have it on top of the leaflet map */
+  /*leaflet seems to have a big z-index*/
+  z-index: 3000;
+}
+
+.leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}

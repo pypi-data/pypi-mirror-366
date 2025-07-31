@@ -1,0 +1,43 @@
+name: CI
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  # https://github.com/pytest-dev/pytest/issues/2042#issuecomment-429289164
+  PY_IGNORE_IMPORTMISMATCH: 1
+
+jobs:
+  pytest:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+      fail-fast: false
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yml
+          environment-name: bowser-env
+          generate-run-shell: false
+          condarc: |
+            channels:
+              - conda-forge
+      - name: Install
+        run: |
+          pip install .[test,remote,geopandas]
+          pip install xarray dask
+      - name: Test
+        run: |
+          pytest -vv
