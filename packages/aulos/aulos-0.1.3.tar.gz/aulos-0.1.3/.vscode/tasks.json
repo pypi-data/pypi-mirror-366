@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "uv run pytest",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "test with coverage",
+      "type": "shell",
+      "command": "uv run pytest --cov=./src/aulos --cov-report=html:./documents/coverage/html",
+      "group": {
+        "kind": "test"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "format",
+      "type": "shell",
+      "command": "uv run ruff format ./src/aulos; uv run ruff check ./src/aulos --select I --fix-only --exit-zero",
+      "problemMatcher": []
+    },
+    {
+      "label": "lint",
+      "type": "shell",
+      "command": "uv run ruff check ./src/aulos",
+      "problemMatcher": []
+    },
+    {
+      "label": "type-check",
+      "type": "shell",
+      "command": "uv run mypy ./src/aulos",
+      "problemMatcher": []
+    }
+  ]
+}
