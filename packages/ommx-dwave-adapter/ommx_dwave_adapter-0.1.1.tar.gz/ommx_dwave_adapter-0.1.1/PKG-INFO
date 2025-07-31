@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: ommx_dwave_adapter
+Version: 0.1.1
+Summary: An adapter between OMMX and DWave
+Author-email: "Jij Inc." <info@j-ij.com>
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: Apache Software License
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ommx<3.0.0,>=2.0.3
+Requires-Dist: dwave-system>=1.29.1
+Provides-Extra: dev
+Requires-Dist: pyright; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx-autoapi; extra == "dev"
+Requires-Dist: sphinx_fontawesome; extra == "dev"
+Requires-Dist: sphinx_rtd_theme; extra == "dev"
+Dynamic: license-file
+
+# ommx-dwave-adapter
+
+Provides an adapter to translate between [OMMX](https://github.com/Jij-Inc/ommx) and [D-Wave](https://docs.ocean.dwavesys.com/en/stable/index.html) samplers.
+
+Currently only implements an adapter to LeapHybridCQMSampler.
+
+# Usage
+
+`ommx-dwave-adapter` can be installed from PyPI as follows:
+
+```bash
+pip install ommx-dwave-adapter
+```
+
+An example usage of the LeapHybridCQMSampler through this adapter:
+
+```python 
+from ommx_dwave_adapter import OMMXLeapHybridCQMAdapter
+from ommx.v1 import Instance, DecisionVariable
+
+x1 = DecisionVariable.integer(1, lower=0, upper=5)
+ommx_instance = Instance.from_components(
+    decision_variables=[x1],
+    objective=x1,
+    constraints=[],
+    sense=Instance.MINIMIZE,
+)
+
+# Create `ommx.v1.SampleSet` through `diwave.system.LeapHybridCQMSampler`
+# Your Leap token can be set through configuration file, environment variable,
+# or passed with a `token` parameter.
+ommx_sampleset = OMMLeapHybridCQMAdapter.sample(ommx_instance)
+
+print(ommx_sampleset)
+```
