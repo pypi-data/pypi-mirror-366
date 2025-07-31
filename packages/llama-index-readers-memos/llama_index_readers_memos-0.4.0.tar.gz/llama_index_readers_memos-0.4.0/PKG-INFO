@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-memos
+Version: 0.4.0
+Summary: llama-index readers memos integration
+Author-email: Your Name <you@example.com>
+Maintainer: bubu
+License-Expression: MIT
+License-File: LICENSE
+Keywords: memos,note
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Description-Content-Type: text/markdown
+
+# Memos Loader
+
+```bash
+pip install llama-index-readers-memos
+```
+
+This loader fetches text from self-hosted [memos](https://github.com/usememos/memos).
+
+## Usage
+
+To use this loader, you need to specify the host where memos is deployed. If you need to filter, pass the [corresponding parameter](https://github.com/usememos/memos/blob/4fe8476169ecd2fc4b164a25611aae6861e36812/api/memo.go#L76) in `load_data`.
+
+```python
+from llama_index.readers.memos import MemosReader
+
+loader = MemosReader("https://demo.usememos.com/")
+documents = loader.load_data({"creatorId": 101})
+```
+
+This loader is designed to be used as a way to load data into [LlamaIndex](https://github.com/run-llama/llama_index/).
