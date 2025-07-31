@@ -1,0 +1,59 @@
+[project]
+name = "sn2md"
+
+[tool.basedpyright]
+extraPaths = ["summarizer"]
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportUnknownParameterType = false
+reportUnknownMemberType = false
+reportMissingParameterType = false
+reportAny = false
+reportMissingTypeArgument = false
+
+[tool.poetry]
+name = "sn2md"
+version = "2.4.0"
+description = "Convert Supernote .note, .spd, PDF, or image files to text/images"
+authors = ["Dane Summers <dsummersl@yahoo.com>"]
+readme = "README.md"
+
+[project.urls]
+homepage = "https://github.com/dsummersl/sn2md"
+issues = "https://github.com/dsummersl/sn2md/issues"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click = "^8.1.7"
+supernotelib = "^0.6.2"
+pyyaml = "^6.0.1"
+platformdirs = "^4.2.2"
+jinja2 = "^3.1.4"
+llm = "^0.26"
+pymupdf = "^1.25.2"
+tqdm = "^4.67.1"
+pydantic = "^2.10.6"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
+pytest = "^8.2.0"
+pytest-cov = "^6.2.1"
+autoimport = "^1.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+python_files = [
+    "sn2md/*.py"
+]
+addopts = "--cov=sn2md --cov-report=term-missing --cov-fail-under=85"
+
+[tool.poetry.scripts]
+sn2md = "sn2md.cli:cli"
+
