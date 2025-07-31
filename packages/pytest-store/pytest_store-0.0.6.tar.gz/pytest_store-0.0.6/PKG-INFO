@@ -1,0 +1,123 @@
+Metadata-Version: 2.3
+Name: pytest-store
+Version: 0.0.6
+Summary: Pytest plugin to store values from test runs
+License: MIT
+Author: tb
+Author-email: tb@wodore.com
+Requires-Python: >=3.10,<3.14
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Provides-Extra: all
+Provides-Extra: database
+Provides-Extra: excel
+Provides-Extra: pandas
+Provides-Extra: parquet
+Provides-Extra: polars
+Requires-Dist: fastparquet (>=2024.11,<2025.0) ; extra == "all" or extra == "parquet"
+Requires-Dist: msgspec (>=0.19,<0.20)
+Requires-Dist: openpyxl (>=3.1,<4.0) ; extra == "all" or extra == "excel"
+Requires-Dist: pandas (>=2.3,<3.0) ; extra == "all" or extra == "pandas"
+Requires-Dist: polars (>=1.31,<2.0) ; extra == "all" or extra == "polars"
+Requires-Dist: pyarrow (>=21.0,<22.0) ; extra == "all" or extra == "parquet"
+Requires-Dist: pytest (>=7.0.0)
+Requires-Dist: pyyaml (>=6.0,<7.0)
+Requires-Dist: sqlalchemy (>=2.0,<3.0) ; extra == "all" or extra == "database"
+Requires-Dist: tabulate (>=0.9.0,<0.10.0)
+Requires-Dist: xlsx2csv (>=0.8,<0.9) ; extra == "all" or extra == "excel"
+Requires-Dist: xlsxwriter (>=3.2,<4.0) ; extra == "all" or extra == "excel"
+Project-URL: Changelog, https://github.com/TBxy/pytest-store/blob/main/CHANGELOG.md
+Project-URL: Issues, https://github.com/TBxy/pytest-store/issues
+Project-URL: Repository, https://github.com/TBxy/pytest-store
+Description-Content-Type: text/markdown
+
+# pytest-store
+Rerun whole testsuites for a certain time or amount
+
+_Still under development._
+
+## Arguments
+
+**`--store-type <pl|pd|list-dict|none>`**  
+Set store type (default: installed extra)
+
+**`--store-save <path>`**  
+Save file to path, format depends on the ending unless specified.
+
+**`--store-save-format <format>`**  
+Save format, depends on store type.
+
+**`--store-save-force`**  
+Overwrite existing file
+
+> **NOTE:** All arguments can also be set as environment variables, e.g. `RERUN_TIME="1 hour"`, or _ini_ option, e.g. `rerun_time="10 min"`.
+
+## Examples
+
+```shell
+# save results as polars and export to excel
+pytest --store-type pl --store-save results.xls examples  
+```
+
+## Installation
+
+You can install `pytest-store` via [pip] from [PyPI] or this [repo]:
+
+```shell
+pip install pytest-store[<extra>] # extras = "all", "pandas", "polars", "database", "excel", "parquet"
+pip install pytest-store[polars,excel,database]
+pip install git+git@github.com:TBxy/pytest-store.git@main # latest version
+pip install pytest-store --all-extras # development
+```
+
+## Todos
+
+* SQL backend, which saves as stream
+* Write tests
+* Github Actions
+
+## Contributing
+
+Contributions are very welcome. 
+Tests are not ready at the moment, use the example scripts.
+<!-- Tests can be run with [tox], please ensure
+the coverage at least stays the same before you submit a pull request. -->
+
+## License
+
+Distributed under the terms of the [MIT] license, `pytest-store` is free and open source software
+
+
+## Issues
+
+If you encounter any problems, please [file an issue] along with a detailed description.
+
+[repo]: https://github.com/TBxy/pytest-store
+[Cookiecutter]: https://github.com/audreyr/cookiecutter
+[@hackebrot]: https://github.com/hackebrot
+[MIT]: http://opensource.org/licenses/MIT
+[cookiecutter-pytest-plugin]: https://github.com/pytest-dev/cookiecutter-pytest-plugin
+[file an issue]: https://github.com/TBxy/pytest-store/issues
+[pytest]: https://github.com/pytest-dev/pytest
+[tox]: https://tox.readthedocs.io/en/latest/
+[pip]: https://pypi.org/project/pip/
+[PyPI]: https://pypi.org/project/pytest-store
+
+----
+
+This [pytest] plugin was generated with [Cookiecutter] along with [@hackebrot]'s [cookiecutter-pytest-plugin] template.
+
+
+
