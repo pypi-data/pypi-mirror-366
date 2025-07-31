@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visualizerlib"
+version = "0.2.3"
+description = "A simple visualization and EDA helper package. Includes: Agent execution for plot insights, ML helper classes and functions, Preprocessor, imputer, column transformer, and chaining pipeline"
+authors = [{ name = "Vishnu", email = "vishnurrajeev@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "seaborn",
+    "groq",
+    "langchain",
+    "pydantic",
+    "langchain-core",
+    "ipython",
+    "scikit-learn",
+    "tqdm"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
