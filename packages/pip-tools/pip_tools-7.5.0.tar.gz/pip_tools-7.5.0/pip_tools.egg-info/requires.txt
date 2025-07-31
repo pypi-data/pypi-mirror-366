@@ -1,0 +1,21 @@
+build>=1.0.0
+click>=8
+pip>=22.2
+pyproject_hooks
+setuptools
+wheel
+
+[:python_version < "3.11"]
+tomli
+
+[coverage]
+covdefaults
+pytest-cov
+
+[testing]
+pytest>=7.2.0
+pytest-rerunfailures
+pytest-xdist
+tomli-w
+flit_core<4,>=2
+poetry_core>=1.0.0
