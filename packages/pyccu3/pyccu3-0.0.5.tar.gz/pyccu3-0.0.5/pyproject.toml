@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "pyccu3"
+version = "0.0.5"
+description = ""
+authors = ["Cellebyte <marcel.fest@live.de>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+dacite = "^1.8.1"
+json-fix = "^0.5.2"
+requests = "^2.31.0"
+xmltodict = "^0.13.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+mypy = "^1.7.1"
+types-requests = "^2.31.0.10"
+types-xmltodict = "^0.13.0.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
