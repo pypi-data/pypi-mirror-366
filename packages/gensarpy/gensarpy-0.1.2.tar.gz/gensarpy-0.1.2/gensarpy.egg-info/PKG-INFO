@@ -1,0 +1,37 @@
+Metadata-Version: 2.1
+Name: gensarpy
+Version: 0.1.2
+Summary: A Python library for testing the convergence of mathematical series.
+Home-page: https://github.com/your_username/gensarpy
+Author: Gencer
+Author-email: gencersarpmert3@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# gensarpy
+
+A Python library for testing the convergence of mathematical series.
+
+## Installation
+
+```bash
+pip install gensarpy
+```
+
+## Usage
+
+```python
+from gensarpy.convergence_tests import check_convergence
+
+# Test a convergent series
+result = check_convergence('1/n**2')
+print(result)  # Output: Convergent by the P-Series Test
+
+# Test a divergent series
+result = check_convergence('1/n')
+print(result)  # Output: Divergent by the P-Series Test
+```
