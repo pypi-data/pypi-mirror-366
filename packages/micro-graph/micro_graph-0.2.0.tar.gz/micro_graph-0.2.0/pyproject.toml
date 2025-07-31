@@ -1,0 +1,31 @@
+[project]
+name = "micro-graph"
+version = "0.2.0"
+license = "MIT"
+readme = "README.md"
+description = "A simple library to build compute graphs for logical flows like agents."
+keywords = ["ai", "graph", "low-code"]
+authors = [{ name = "Michael Fuerst" }]
+maintainers = [
+    { name = "Michael Fuerst" },
+]
+requires-python = ">=3.10"
+dependencies = []
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "ruff>=0.12.7",
+]
+ai = [
+    "fastmcp>=2.10.6",
+    "openai>=1.98.0",
+    "requests>=2.32.4",
+    "fastapi>=0.116.1",
+    "uvicorn>=0.34.0",
+    "dotenv>=0.9.9",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
