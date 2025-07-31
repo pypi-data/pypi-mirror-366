@@ -1,0 +1,131 @@
+[project]
+name = "gbp-ps"
+dynamic = []
+description = "Store and report GBP build status"
+authors = [
+    { name = "Albert Hopkins", email = "marduk@letterboxes.org" },
+]
+dependencies = [
+    "gbpcli>=2.4.0",
+    "rich>=13.6.0",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+classifiers = [
+    "Environment :: Console",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: System :: Software Distribution",
+    "Programming Language :: Python :: 3",
+]
+version = "1.7.0"
+
+[project.license]
+text = "GPL3+"
+
+[project.urls]
+homepage = "https://github.com/enku/gbp-ps"
+repository = "https://github.com/enku/gbp-ps"
+
+[project.entry-points."gentoo_build_publisher.plugins"]
+gbp_ps = "gbp_ps:plugin"
+
+[project.entry-points."gbpcli.subcommands"]
+add-process = "gbp_ps.cli.add_process"
+ps = "gbp_ps.cli.ps"
+ps-dump-bashrc = "gbp_ps.cli.dump_bashrc"
+
+[project.entry-points."gbp_ps.repos"]
+django = "gbp_ps.repository.django:DjangoRepository"
+redis = "gbp_ps.repository.redis:RedisRepository"
+sqlite = "gbp_ps.repository.sqlite:SqliteRepository"
+
+[project.optional-dependencies]
+server = [
+    "ariadne>=0.21",
+    "gentoo-build-publisher>=2.4.0rc1",
+]
+redis = [
+    "gbp-ps[server]",
+    "redis[hiredis]>=5.0.1",
+    "ormsgpack>=1.9.0",
+]
+all = [
+    "gbp-ps[server,redis]",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.mypy]
+plugins = [
+    "mypy_django_plugin.main",
+]
+exclude = [
+    "/migrations/",
+]
+files = [
+    "src/gbp_ps",
+]
+mypy_path = [
+    "tests",
+]
+strict = true
+
+[tool.pylint.master]
+load-plugins = "pylint_django,pylint.extensions.bad_builtin"
+django-settings-module = "gbp_testkit.settings"
+init-hook = "import sys; sys.path.insert(0, 'tests')"
+bad-functions = "print"
+ignore = [
+    "/migrations/",
+]
+
+[tool.pylint.variables]
+init-import = "yes"
+
+[tool.django-stubs]
+django_settings_module = "gbp_testkit.settings"
+
+[tool.coverage.run]
+source = [
+    "gbp_ps",
+    "tests",
+]
+omit = [
+    "src/gbp_ps/migrations/*",
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.black]
+skip_magic_trailing_comma = true
+
+[dependency-groups]
+dev = [
+    "mypy>=1.7.0",
+    "black>=23.11.0",
+    "isort>=5.12.0",
+    "pylint>=3.0.2",
+    "coverage[toml]>=7.3.2",
+    "django-stubs>=4.2.7",
+    "pylint-django>=2.5.5",
+    "requests>=2.31.0",
+    "types-requests>=2.31.0.10",
+    "rich>=13.6.0",
+    "types-redis>=4.6.0.10",
+    "fakeredis>=2.20.0",
+    "gentoo-build-publisher @ git+https://github.com/enku/gentoo-build-publisher",
+    "typos>=1.24.5",
+    "unittest-fixtures @ git+https://github.com/enku/unittest-fixtures.git",
+    "factory-boy>=3.3.1",
+    "gbp-testkit @ git+https://github.com/enku/gbp-testkit.git@master",
+]
