@@ -1,0 +1,48 @@
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    env:
+      UV_PYTHON_VERSION: ${{ matrix.python-version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the latest version of uv and set the python version
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Test with python ${{ matrix.python-version }}
+        run: uv run --frozen pytest --cov=. --cov-branch --cov-report=xml --no-cov-on-fail
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          env_vars: UV_PYTHON_VERSION
+          files: ./coverage.xml
+
+      - name: Validate sdbtool command with python ${{ matrix.python-version }}
+        run: uv run --frozen sdbtool --help
+
+      - name: Validate sdb2xml command with python ${{ matrix.python-version }}
+        run: uv run --frozen sdb2xml --help
+
+      - name: Validate sdbinfo command with python ${{ matrix.python-version }}
+        run: uv run --frozen sdbinfo --help
+
+      - name: Validate sdbgui command with python ${{ matrix.python-version }}
+        run: uv run --frozen sdbgui --help
