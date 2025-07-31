@@ -1,0 +1,15 @@
+    [build-system]
+    requires = ["setuptools>=61.0"]
+    build-backend = "setuptools.build_meta"
+
+    [project]
+    name = "dlnr_lite"
+    version = "0.1.0"
+    description = "Lightweight fork of DLNR with minimal dependencies for inference only"
+    authors = [{name = "Francis Williams", email = "francis@fwilliams.info"}]
+    readme = "README.md"
+    requires-python = ">=3.9"
+    dependencies = [
+        "pytorch>=2.4.1",
+        "einops>=0.8.1"
+    ]
