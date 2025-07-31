@@ -1,0 +1,135 @@
+Metadata-Version: 2.4
+Name: mcp-stock-analysis
+Version: 0.1.0
+Summary: MCP server for stock portfolio analysis and reporting
+Requires-Python: >=3.11
+Requires-Dist: beautifulsoup4>=4.12.3
+Requires-Dist: fastmcp>=2.10.6
+Requires-Dist: mcp[cli]>=1.12.2
+Requires-Dist: numpy>=2.3.2
+Requires-Dist: pandas>=2.3.1
+Requires-Dist: requests>=2.31.0
+Requires-Dist: yfinance>=0.2.65
+Description-Content-Type: text/markdown
+
+# 📊 Stock Analysis MCP Server
+
+This is a modular, async-capable **Multi-Component Protocol (MCP)** server for comprehensive stock portfolio analysis using `yfinance`, `pandas`, `numpy`, and `BeautifulSoup`. It exposes a set of tools for use by LLM agents or other MCP clients via the `uvx` ecosystem.
+
+---
+
+## 🚀 Features
+
+* Fetch historical market data and fundamentals
+* Analyze volatility, RSI, moving averages, drawdowns, P\&L
+* Sentiment scraping via Yahoo Finance
+* Portfolio aggregation (returns, weight concentration, volatility)
+* Async parallel processing for multiple tickers
+* Generates markdown-based report summaries with insights
+
+---
+
+## 🧠 UVX Integration Config
+
+Include this block in your UVX configuration:
+
+```json
+{
+  "name": "mcp_stock_analysis",
+  "command": "uvx",
+  "args": [
+    "mcp_stock_analysis@latest"
+  ]
+}
+```
+
+This MCP module will then be discoverable and callable by your agents or chains.
+
+---
+
+## 🧰 Tools Overview
+
+### `fetch_market_data(symbol)`
+
+Fetches OHLCV history, company info, dividends, splits, analyst recommendations, and insider transactions for a stock.
+
+### `fetch_market_data_multiple_tickers_parallel(symbols)`
+
+Parallel async variant of above for multiple stocks.
+
+### `analyze_stock(data, qty, avg_cost)`
+
+Computes:
+
+* Invested amount, current value, P\&L
+* Volatility (annualized), drawdown
+* RSI, MA50, MA200
+
+### `analyze_multiple_stocks_parallel(stock_inputs)`
+
+Parallelized multi-stock analyzer. Accepts a list of dictionaries with each stock’s market data, quantity, and average cost.
+
+### `summarize_sentiment(symbol)`
+
+Scrapes Yahoo Finance news headlines for the stock. Returns recent 5 with title + timestamp.
+
+### `aggregate_portfolio(analyses)`
+
+Computes overall portfolio metrics:
+
+* Total invested, current value, return %
+* Concentration risks (stocks >10%)
+* Weighted volatility
+
+### `generate_recommendations(summary, analyses)`
+
+Alerts for:
+
+* Overweight positions (>20%)
+* High RSI (>70)
+* Concentration risks
+
+### `render_report(analyses, summary, recommendations)`
+
+Outputs full Markdown report with tables, highlights, and headlines.
+
+---
+
+## 🧪 Example Workflow (in code)
+
+```python
+symbols = ["AAPL", "TSLA", "INFY.NS"]
+data_list = await fetch_market_data_multiple_tickers_parallel(symbols)
+
+# Example: user holds shares of each
+inputs = [
+    {"data": data_list[0], "qty": 10, "avg_cost": 120},
+    {"data": data_list[1], "qty": 5, "avg_cost": 700},
+    {"data": data_list[2], "qty": 15, "avg_cost": 1500}
+]
+
+analyses = await analyze_multiple_stocks_parallel(inputs)
+summary = await aggregate_portfolio(analyses)
+recommendations = await generate_recommendations(summary, analyses)
+report = await render_report(analyses, summary, recommendations)
+```
+
+---
+
+## 📎 Notes
+
+* Designed to be called as an MCP server over stdio using `uvx run`
+* Ensure Python packages `yfinance`, `pandas`, `beautifulsoup4`, `requests`, `numpy` are installed in the environment
+* MCP tools are fully async and support concurrent processing for scalability
+
+---
+
+## 📤 Author / Contact
+
+This module was built as part of an intelligent portfolio assistant. For integration help or feedback, reach out via the associated MCP registry or support forums.
+
+---
+
+## 📌 License
+
+MIT License (or customize as needed)
