@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="purchase_module_category" model="ir.module.category">
+    <field name="name">Purchase</field>
+</record>
+
+<record id="purchase_workflow_module_category" model="ir.module.category">
+    <field name="name">Purchase - Workflow</field>
+    <field name="parent_id" ref="purchase_module_category" />
+</record>
+
+<record id="purchase_data_ownership_module_category" model="ir.module.category">
+    <field name="name">Purchase - Data Ownership</field>
+    <field name="parent_id" ref="purchase_module_category" />
+</record>
+
+
+<record id="purchase_configurator_module_category" model="ir.module.category">
+    <field name="name">Purchase - Configurator</field>
+    <field name="parent_id" ref="purchase_module_category" />
+</record>
+
+<record id="purchase_wizard_module_category" model="ir.module.category">
+    <field name="name">Purchase - Wizard</field>
+    <field name="parent_id" ref="purchase_module_category" />
+</record>
+
+<record id="purchase_report_module_category" model="ir.module.category">
+    <field name="name">Purchase - Report</field>
+    <field name="parent_id" ref="purchase_module_category" />
+</record>
+
+<!-- Purchase Order-->
+<record id="purchase_order_module_category" model="ir.module.category">
+    <field name="name">Purchase Order</field>
+    <field name="parent_id" ref="purchase_workflow_module_category" />
+</record>
+
+<record id="purchase_order_data_ownership_module_category" model="ir.module.category">
+    <field name="name">Purchase Order</field>
+    <field name="parent_id" ref="purchase_data_ownership_module_category" />
+</record>
+</odoo>
