@@ -1,0 +1,115 @@
+[tool.poetry]
+name = "opensoundscape"
+version = "0.12.1"
+description = "Open source, scalable acoustic data analysis for ecology and conservation"
+authors = [
+  "Sam Lapp <sammlapp@gmail.com>",
+  "Tessa Rhinehart <tessa.rhinehart@gmail.com>",
+  "Louis Freeland-Haynes <>",
+  "Jatin Khilnani <>",
+  "Sasha Syunkova <>",
+  "Leonardo Viotti <>",
+  "Santiago Ruiz-Guzman <>", 
+  "Justin Kitzes <justin.kitzes@pitt.edu>",
+]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/jkitzes/opensoundscape"
+packages = [{include = "opensoundscape"}]
+include = ["opensoundscape/**/*.py"]
+
+[tool.poetry.dependencies]
+python = ">=3.10, !=3.11.0, <3.14"
+numpy = ">2.0"
+docopt = ">=0.6.2"
+librosa = ">=0.11.0"
+torch = ">=2.5.1"
+torchvision = ">=0.15.1"
+ipykernel = ">=5.2.0"
+pandas = ">=1.3"
+matplotlib = ">=3.9.4"
+matplotlib-inline = ">=0.1.7"
+schema = ">=0.7.2"
+jupyterlab = ">=2.1.4"
+scikit-image = ">=0.17.2"
+numba = ">=0.57.0"
+scikit-learn = ">=0.24.2"
+ipython = ">=7.34.0"
+pywavelets = ">=1.2.0"
+Deprecated = "^1.2.13"
+soundfile = ">=0.13.1"
+wandb = ">=0.17.0"
+pillow = ">=9.4.0"
+jupyter-server = ">=2.11.2"
+joblib = ">=1.2.0"
+grad-cam = ">=1.5.0"
+aru-metadata-parser = ">=0.1.0"
+tqdm = ">=4.66.1"
+ipywidgets = ">=8.1.0"
+gitpython = ">=3.1.41"
+werkzeug=">=3.0.1"
+noisereduce=">=3.0.2"
+lightning=">=2.2.5"
+scipy=">=1.15"
+llvmlite=">=0.44.0"
+
+# security alert updates
+aiohttp=">=3.12.14"
+tornado=">=6.5.1"
+setuptools=">=78.1.1"
+urllib3=">=2.5.0"
+protobuf = ">=5.29.5"
+certifi = ">=2024.7.4"
+requests=">=2.32.4"
+h11=">=0.16.0"
+Jinja2 = ">=3.1.6"
+sentry-sdk = ">=2.8.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "~24.3"
+pre-commit = ">=1.18"
+sphinx = ">=7.2.6"
+pytest = ">=5.1"
+sphinx-rtd-theme = ">=1.3.0"
+nbsphinx = ">=0.7.1"
+m2r = ">=0.2"
+docutils = ">=0.20"
+sphinx-copybutton = ">=0.5.2"
+crowsetta = ">=5.0.2"
+
+
+# optional dependencies
+# install like `poetry install --with tensorflow`
+# apparently pip doesn't support installing optional depenedency groups as of July 2024
+
+[tool.poetry.group.tensorflow]
+optional = true
+
+[tool.poetry.group.tensorflow.dependencies]
+
+tensorflow =">=2.13.0"
+tensorflow-hub = ">=0.14.0"
+
+[tool.poetry.extras]
+# to include these when using pip: `pip install opensoundscape[tensorflow]`
+tensorflow = ["tensorflow", "tensorflow-hub"]
+
+[tool.black]
+line-length = 88
+target_version = ['py37', 'py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | dist
+)/
+'''
+
+[tool.poetry.scripts]
+opensoundscape = "opensoundscape.console:entrypoint"
+build_docs = "opensoundscape.console:build_docs"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
