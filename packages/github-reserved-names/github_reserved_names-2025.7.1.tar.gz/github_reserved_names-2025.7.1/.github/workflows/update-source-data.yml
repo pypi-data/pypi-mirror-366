@@ -1,0 +1,21 @@
+name: Keep the upstream data sync'ed
+
+on:
+  schedule:
+    - cron: "33 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Check for differences
+        run: bin/check_for_differences
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

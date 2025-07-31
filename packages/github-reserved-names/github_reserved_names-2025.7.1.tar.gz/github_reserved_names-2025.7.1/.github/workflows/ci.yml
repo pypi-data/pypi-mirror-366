@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - "wip*"
+    tags:
+      - "v*"
+  pull_request:
+  schedule:
+    # Daily at 6:02
+    - cron: "02 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    outputs:
+      noxenvs: ${{ steps.noxenvs-matrix.outputs.noxenvs }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up nox
+        uses: wntrblm/nox@2025.05.01
+      - id: noxenvs-matrix
+        run: |
+          echo >>$GITHUB_OUTPUT noxenvs=$(
+            nox --list-sessions --json | jq '[.[].session]'
+          )
+
+  ci:
+    needs: list
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        noxenv: ${{ fromJson(needs.list.outputs.noxenvs) }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libenchant-2-dev
+        if: runner.os == 'Linux' && startsWith(matrix.noxenv, 'docs')
+      - name: Install dependencies
+        run: brew install enchant
+        if: runner.os == 'macOS' && startsWith(matrix.noxenv, 'docs')
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: |
+            3.9
+            3.10
+            3.11
+            3.12
+            3.13
+            pypy3.10
+          allow-prereleases: true
+
+      - name: Set up uv
+        uses: hynek/setup-cached-uv@v2
+      - name: Set up nox
+        uses: wntrblm/nox@2025.05.01
+
+      - name: Run nox
+        run: nox -s "${{ matrix.noxenv }}"
+
+  packaging:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment:
+      name: PyPI
+      url: https://pypi.org/p/github-reserved-names
+
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Set up uv
+        uses: hynek/setup-cached-uv@v2
+      - name: Install dependencies
+        run: uv pip install --system build
+
+      - name: Create packages
+        run: python -m build .
+
+      - name: Publish to PyPI
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Create a Release
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*
+          generate_release_notes: true
