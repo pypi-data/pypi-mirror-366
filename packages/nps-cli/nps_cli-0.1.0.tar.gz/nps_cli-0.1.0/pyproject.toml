@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nps-cli"
+version = "0.1.0"
+description = "A simple CLI for sampling point clouds from large volumetric datasets"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Jakob Troidl" }]
+dependencies = [
+    "click",
+    "volara",
+    "pocaduck",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "build",
+    "twine",
+    "ruff"
+]
+
+[project.entry-points."volara.blockwise_tasks"]
+sample-points = "nps.blockwise:SamplePoints"
+
+[project.scripts]
+nps = "nps.main:main"
+
+[tool.setuptools.packages.find]
+include = ["nps"]
+
+[tool.ruff]
+exclude = ["dist", "build", "nps.egg-info", "volara_logs", "nps_output"]
+line-length = 88
+target-version = "py311"
