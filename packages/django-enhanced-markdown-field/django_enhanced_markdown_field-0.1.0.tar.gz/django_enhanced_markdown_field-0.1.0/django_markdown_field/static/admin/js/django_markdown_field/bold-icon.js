@@ -1,0 +1,1 @@
+import{B as o,d as p}from"./p-C3qQIfzp.js";const s=o,r=p;export{s as BoldIcon,r as defineCustomElement}
