@@ -1,0 +1,249 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pirrtools"
+version = "0.2.20"  # Update this version number before you upload a new version to PyPI
+description = "Collection of tools I use in my projects"
+readme = "README.md"
+license = "MIT"
+authors = [
+  { name = "Sean Smith", email = "pirsquared.pirr@gmail.com" }
+]
+requires-python = ">=3.9"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "pandas",
+  "numpy",
+  "feather-format",
+  "ipython",
+  "Pygments",
+  "rich",
+  "jinja2",
+  "matplotlib",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pirsquared/pirrtools"
+
+[project.scripts]
+pirrtools-tutorial = "pirrtools.cli:main"
+
+[project.optional-dependencies]
+dev = [
+  # Testing
+  "pytest>=8.0.0",
+  "pytest-cov>=5.0.0",
+  "pytest-xdist>=3.6.0",  # Parallel test execution
+  "pytest-mock>=3.14.0",  # Mocking utilities
+  "pytest-benchmark>=4.0.0",  # Performance testing
+
+  # Code Quality & Formatting
+  "black>=24.0.0",
+  "isort>=5.13.0",
+  "ruff>=0.6.0",  # Fast Python linter (replaces flake8, pylint)
+  "mypy>=1.11.0",
+  "pre-commit>=4.0.0",
+  "bandit>=1.7.0",  # Security linting
+
+  # Type checking helpers
+  "types-requests",
+  "types-setuptools",
+  "pandas-stubs>=2.0.0",  # Better pandas type support
+
+  # Building and Publishing
+  "build>=1.2.0",
+  "twine>=5.1.0",
+  "wheel>=0.44.0",
+  "hatch>=1.12.0",  # Modern Python project manager
+
+  # Development utilities
+  "tox>=4.21.0",  # Testing across environments
+  "coverage[toml]>=7.6.0",  # Coverage with TOML config
+  "nox>=2024.4.15",  # Alternative to tox with Python-based config
+  "rich-cli>=1.8.0",  # Rich CLI tools for better terminal output
+  "ipykernel>=6.29.0",  # Jupyter kernel for development
+  "notebook>=7.2.0",  # Jupyter notebook for interactive development
+]
+
+docs = [
+  # Documentation (requires Python >=3.10 for Sphinx 8.0+)
+  "sphinx>=8.0.0",
+  "sphinx-book-theme>=1.0.0",  # Modern book-style theme
+  "sphinx-autodoc-typehints>=2.0.0",
+  "sphinx-copybutton>=0.5.2",  # Copy buttons for code blocks
+  "myst-parser>=3.0.0",  # Markdown support for Sphinx
+  "sphinx-design>=0.6.0",  # Modern design components
+  "nbsphinx>=0.9.0",  # Jupyter notebook support for Sphinx
+  # Note: pandoc system package required for nbsphinx (install via apt-get install pandoc)
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.nox
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+  | __pycache__
+  | old
+  | static
+  | unmanaged
+  | pirrtools-test
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["pirrtools"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+namespace_packages = true
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["pirrtools"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "pirrtools-test/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+exclude = [
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".nox", 
+    ".tox",
+    ".venv",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "migrations",
+    "__pycache__",
+    "old",
+    "static",
+    "unmanaged",
+    "pirrtools-test",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+    "RUF", # Ruff-specific rules
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG", "S101"]  # Allow unused args and asserts in tests
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py39,py310,py311,py312,lint,mypy,security
+isolated_build = True
+
+[testenv]
+deps =
+    pytest>=8.0.0
+    pytest-cov>=5.0.0
+    pytest-xdist>=3.6.0
+commands = pytest {posargs} --cov=pirrtools --cov-report=xml --cov-report=term-missing
+
+[testenv:lint]
+deps =
+    black>=24.0.0
+    isort>=5.13.0
+    ruff>=0.6.0
+commands =
+    black --check pirrtools tests
+    isort --check-only pirrtools tests
+    ruff check pirrtools tests
+
+[testenv:format]
+deps =
+    black>=24.0.0
+    isort>=5.13.0
+    ruff>=0.6.0
+commands =
+    black pirrtools tests
+    isort pirrtools tests
+    ruff format pirrtools tests
+
+[testenv:mypy]
+deps =
+    mypy>=1.11.0
+    types-requests
+    types-setuptools
+    pandas-stubs>=2.0.0
+commands = mypy pirrtools --ignore-missing-imports
+
+[testenv:security]
+deps = bandit>=1.7.0
+commands = bandit -r pirrtools -f json -o bandit-report.json
+
+[testenv:docs]
+deps = 
+    -e.[docs]
+changedir = docs
+commands = sphinx-build -b html . _build/html
+"""
