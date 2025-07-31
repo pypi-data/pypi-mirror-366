@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login Page</title>
+</head>
+<body>
+    <script>
+        // Simulate import statement for createEventDispatcher in vanilla JavaScript
+        function createEventDispatcher() {
+            return function(eventType) {
+                const event = new Event(eventType);
+                window.dispatchEvent(event);
+            };
+        }
+        function dispatchMagicLinkLogin() {
+            const newTab = window.open(window.location.origin, '_self');
+
+            // Poll until the new tab is ready
+            const interval = setInterval(() => {
+                if (newTab.document.readyState === 'complete') {
+                    clearInterval(interval);
+
+                    // Dispatch 'loggedin' event in the new tab
+                    const dispatch = createEventDispatcher().bind(newTab);
+                    dispatch('loggedin');
+                }
+            }, 100);
+        }
+
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        if (window.opener) {
+            window.opener.postMessage(Object.fromEntries(hashParams.entries()), window.opener.location.origin);
+        } else {
+            dispatchMagicLinkLogin();
+        }
+    </script>
+    <span>
+        You have successfully logged in.
+        If you were redirected here, feel free to close this tab and refresh the page to continue.
+    </span>
+</body>
+</html>
