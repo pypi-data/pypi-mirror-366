@@ -1,0 +1,20 @@
+[project]
+name = "vulnscan"  # Must be unique on PyPI
+version = "0.1.0"
+description = "A powerful CLI tool for vulnerability scanning"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+  { name = "Gokul Kannan", email = "gokulkannan.dev@gmail.com" }
+]
+
+[project.urls]
+Homepage = "https://github.com/iamgokulkannan/vulnscan"
+
+[project.scripts]
+vulnscan = "vulnscan.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
