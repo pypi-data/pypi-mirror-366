@@ -1,0 +1,58 @@
+name: Build and check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Check Code
+    permissions: 'write-all'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Install Hatch
+        run: pip install hatch
+
+      - name: Check version
+        run: |
+          set -e
+          
+          current_version=$(hatch version | sed 's/^v//')
+          latest_tag=$(git tag --sort=-v:refname | head -n1 | sed 's/^v//')
+          
+          echo "Current version from hatch: $current_version"
+          echo "Latest tag in Git: $latest_tag"
+          
+          # Compare strictly: current_version must be greater than latest_tag
+          if [ "$current_version" = "$latest_tag" ] || \
+             [ "$(printf '%s\n' "$current_version" "$latest_tag" | sort -V | tail -n1)" != "$current_version" ]; then
+            echo "❌ Error: hatch version ($current_version) is not greater than the latest tag ($latest_tag)"
+            exit 1
+          fi
+          
+          echo "✅ hatch version ($current_version) is strictly greater than latest tag ($latest_tag)"
+
+      - name: Check formatting
+        run: hatch fmt --check
+
+      - name: Run unit tests
+        run: hatch run unit-tests
+
+      - name: Build package for publish
+        run: hatch build
+
+      - name: Run integration tests
+        run: hatch run integration-tests
+

@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "calculator-example"
+version = "0.1.0"
+description = "Example project demonstrating pytest-conductor usage"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Example Author", email = "author@example.com"},
+]
+keywords = ["pytest", "testing", "example"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pytest>=7.0.0",
+
+]
+
+[tool.hatch.envs.default]
+pre-install-commands = [
+    "pip install -e ../"
+]
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/calculator"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = [
+    "src/tests",
+]
+markers = [
+    "fast: marks tests as fast",
+    "slow: marks tests as slow",
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+]
+
+# Example configurations for pytest-conductor
+# Uncomment and modify these to test different ordering scenarios
+
+# [tool.pytest.ini_options.addopts]
+# # Run fast tests first, then slow tests
+# addopts = "-ra -q --tag-order fast slow"
+# 
+# # Run unit tests first, then integration tests
+# addopts = "-ra -q --tag-order unit integration"
+# 
+# # Run tests with basic_calculator first, then advanced_calculator
+# addopts = "-ra -q --fixture-order basic_calculator advanced_calculator --ordering-mode fixture"
+# 
+# # Run unmatched tests last
+# addopts = "-ra -q --tag-order fast slow --unmatched-order last" 

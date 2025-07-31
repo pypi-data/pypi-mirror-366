@@ -1,0 +1,31 @@
+name: Deploy to Prod via Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Publish the package
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code at release tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install Hatch
+        run: pip install hatch
+
+      - name: Build package
+        run: hatch build
+
+      - name: Publish release distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.12.4
