@@ -1,0 +1,38 @@
+# =======================================================
+# ================ ⚕ Ophiuchus Config ⚕ =================
+# =======================================================
+seed: 42
+# single_datum: True
+# single_batch: True
+# backbone_only: True
+train_only: true
+
+# - Env
+preallocate: true
+device: 3
+debug_nans: false
+disable_jit: false
+
+# - Data
+data_path: /mas/projects/molecularmachines/db/
+batch_size: 4
+num_workers: 0
+sequence_length: 61
+backbone_only: false
+num_chains: 1
+frac: 1.0
+single_datum: false
+single_batch: false
+
+# - Architecture
+layers: [1, 1]
+irreps: 8x0e + 8x1e
+rescale: 1.4
+stride: 2
+kernel_size: 5
+
+# - Training
+learning_rate: 1e-2
+num_epochs: 200
+save_every: 1000
+evaluate_every: 10
