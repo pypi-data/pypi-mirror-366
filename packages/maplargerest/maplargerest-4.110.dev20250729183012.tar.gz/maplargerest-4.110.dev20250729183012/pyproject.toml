@@ -1,0 +1,32 @@
+
+[project]
+name = "maplargerest"
+version = "4.110.dev20250729183012"
+authors = [
+  { name="DevOps", email="helpdesk@maplarge.com" }
+]
+description="MapLarge REST API Python Client"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Typing :: Typed"
+]
+dynamic = [
+	"dependencies"
+]
+license = { text = "MIT" }
+
+[project.urls]
+Homepage = "https://maplarge.com"
+Issues = "https://maplarge.com"
