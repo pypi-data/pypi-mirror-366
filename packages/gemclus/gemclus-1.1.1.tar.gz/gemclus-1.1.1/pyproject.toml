@@ -1,0 +1,70 @@
+[project]
+name = "gemclus"
+version = "1.1.1"
+authors = [
+    {name = "Louis Ohl", email = "louis.ohl@liu.se"},
+]
+maintainers = [
+    {name = "Louis Ohl", email = "louis.ohl@liu.se"},
+]
+description = "A package for performing discriminative clustering with gemini-trained models"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Programming Language :: Python",
+    "Topic :: Utilities",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+dependencies = [
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "pot>=0.8.1"
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+    "pytest-cov"
+]
+docs = [
+    "sphinx",
+    "sphinx-gallery",
+    "sphinx_rtd_theme",
+    "numpydoc",
+    "matplotlib"
+]
+
+[project.urls]
+Homepage = "https://gemini-clustering.github.io/"
+Documentation = "https://gemini-clustering.github.io/"
+Repository = "https://github.com/gemini-clustering/GemClus"
+Changelog = "https://gemini-clustering.github.io/history.html"
+
+
+
+[build-system]
+requires = [
+    "setuptools>=43.0.0",
+    "wheel",
+    "cython>=0.23",
+    "oldest-supported-numpy; python_version < '3.9'",
+    "numpy>=2.0.0; python_version >='3.9'"
+]
+build-backend = "setuptools.build_meta"
