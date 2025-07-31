@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: yaapp
+Version: 0.0.8
+Summary: Yet Another Python Package - A library bridging FastAPI and CLI interfaces
+Author: yaapp Team
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yaapp-team/yaapp
+Project-URL: Documentation, https://yaapp.readthedocs.io
+Project-URL: Repository, https://github.com/yaapp-team/yaapp
+Project-URL: Issues, https://github.com/yaapp-team/yaapp/issues
+Project-URL: Changelog, https://github.com/yaapp-team/yaapp/blob/main/CHANGELOG.md
+Keywords: cli,web,fastapi,click,bridge
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.100.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: uvicorn[standard]>=0.23.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: requests>=2.32.4
+Requires-Dist: httpx>=0.28.1
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Provides-Extra: tui
+Requires-Dist: prompt-toolkit>=3.0.0; extra == "tui"
+Requires-Dist: typer>=0.9.0; extra == "tui"
+Requires-Dist: rich>=13.0.0; extra == "tui"
