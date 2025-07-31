@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: easy-kit
+Version: 0.1.25
+Summary: Python toolkit
+Home-page: https://github.com/flegac/easy-kit
+License: MIT
+Author: flegac
+Author-email: florent.legac@gmail.com
+Requires-Python: >=3.8,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: logger
+Project-URL: Repository, https://github.com/flegac/easy-kit
+Description-Content-Type: text/markdown
+
+# easy-kit
+
+Collection of tools with no external dependencies.
+
+- Benchmark (cpu time usage)
+- Basic Event queue (observe, connect)
+
+Optional dependency:
+
+- MyModel: a custom version of BaseModel from pydantic
+
+## Requirements
+
+- python 3.x
+
+- [optional] pydantic needed only for (MyModel)
+
+Cf. [pyproject.toml](./pyproject.toml)
+
+## Usage
+
+Cf. [tests](./tests) directory
+
