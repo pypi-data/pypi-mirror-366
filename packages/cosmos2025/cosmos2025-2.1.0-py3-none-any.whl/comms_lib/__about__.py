@@ -1,0 +1,5 @@
+__version__ = "2.1.0"
+__title__ = "comms_lib"
+__description__ = "Communications library for COSMOS 2025"
+__author__ = "Samuel Li"
+__email__ = "samuel.li@ucla.edu"
