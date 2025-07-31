@@ -1,0 +1,24 @@
+# Core audio dependencies
+# pyaudio>=0.2.11  # For audio recording/playback
+# sounddevice>=0.4.6  # Alternative audio library
+# numpy>=1.24.0  # For audio processing
+
+# Speech-to-Text providers
+# openai>=1.0.0  # For Whisper API
+# google-cloud-speech>=2.21.0  # For Google STT
+# azure-cognitiveservices-speech>=1.31.0  # For Azure STT
+# whisper>=1.0  # For local Whisper model
+
+# Text-to-Speech providers
+# elevenlabs>=0.2.0  # For ElevenLabs TTS
+# google-cloud-texttospeech>=2.14.0  # For Google TTS
+# azure-cognitiveservices-speech>=1.31.0  # For Azure TTS
+# pyttsx3>=2.90  # For local TTS
+
+# Voice Activity Detection
+# webrtcvad>=2.0.10  # For VAD
+# speechrecognition>=3.10.0  # For speech recognition utilities
+
+# Audio utilities
+# pydub>=0.25.1  # For audio format conversion
+# librosa>=0.10.0  # For audio analysis

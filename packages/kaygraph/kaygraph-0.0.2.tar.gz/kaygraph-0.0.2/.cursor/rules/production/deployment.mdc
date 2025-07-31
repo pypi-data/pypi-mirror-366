@@ -1,0 +1,802 @@
+---
+description: Guidelines for using KayGraph, Production, Deployment
+globs: **/*.py
+alwaysApply: true
+priority: high
+---
+# Production Deployment Guide
+
+This guide covers best practices for deploying KayGraph applications in production environments, including containerization, scaling, security, and operational considerations.
+
+## Production Architecture Patterns
+
+### 1. Microservice Architecture
+
+Deploy individual graphs as microservices for better scalability and isolation:
+
+```python
+# service_a.py - User Processing Service
+from kaygraph import Graph, ValidatedNode, MetricsNode
+from fastapi import FastAPI
+import uvicorn
+
+class UserValidationNode(ValidatedNode):
+    def validate_input(self, prep_res):
+        required_fields = ["user_id", "email", "action"]
+        for field in required_fields:
+            if field not in prep_res:
+                raise ValueError(f"Missing {field}")
+        return prep_res
+    
+    def exec(self, validated_data):
+        # User validation logic
+        return {"status": "validated", "user_id": validated_data["user_id"]}
+
+def create_user_service_graph():
+    validation_node = UserValidationNode(node_id="user_validator")
+    return Graph(start=validation_node)
+
+# FastAPI integration
+app = FastAPI(title="User Processing Service")
+user_graph = create_user_service_graph()
+
+@app.post("/process_user")
+async def process_user(user_data: dict):
+    shared = user_data
+    
+    with user_graph:
+        result = user_graph.run(shared)
+    
+    return shared
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8001)
+```
+
+### 2. Event-Driven Architecture
+
+Use message queues for asynchronous processing:
+
+```python
+# worker.py - Background Processing Worker
+import asyncio
+from kaygraph import AsyncGraph, AsyncNode
+import aio_pika
+import json
+
+class MessageProcessorNode(AsyncNode):
+    async def prep_async(self, shared):
+        return shared.get("message_data", {})
+    
+    async def exec_async(self, message_data):
+        # Process message asynchronously
+        await asyncio.sleep(1)  # Simulate processing
+        return {"processed": True, "data": message_data}
+    
+    async def post_async(self, shared, prep_res, exec_res):
+        shared["result"] = exec_res
+
+async def create_async_worker():
+    """Create async message processing worker"""
+    processor = MessageProcessorNode(node_id="message_processor")
+    return AsyncGraph(start=processor)
+
+async def message_worker():
+    """RabbitMQ message worker"""
+    connection = await aio_pika.connect_robust("amqp://localhost/")
+    channel = await connection.channel()
+    queue = await channel.declare_queue("kaygraph_tasks")
+    
+    async_graph = await create_async_worker()
+    
+    async def process_message(message):
+        async with message.process():
+            data = json.loads(message.body.decode())
+            shared = {"message_data": data}
+            
+            with async_graph:
+                await async_graph._run_async(shared)
+            
+            print(f"Processed: {shared['result']}")
+    
+    await queue.consume(process_message)
+    print("Worker started. Waiting for messages...")
+    await asyncio.Future()  # Run forever
+
+if __name__ == "__main__":
+    asyncio.run(message_worker())
+```
+
+## Containerization
+
+### Docker Configuration
+
+```dockerfile
+# Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Create non-root user
+RUN useradd -m -u 1000 kaygraph
+RUN chown -R kaygraph:kaygraph /app
+USER kaygraph
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "from health_check import check_health; check_health()" || exit 1
+
+# Environment configuration
+ENV PYTHONPATH=/app
+ENV KAYGRAPH_ENV=production
+ENV KAYGRAPH_LOG_LEVEL=INFO
+
+# Default command
+CMD ["python", "main.py"]
+```
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  kaygraph-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - KAYGRAPH_ENV=production
+      - DATABASE_URL=postgresql://user:pass@db:5432/kaygraph
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    
+  kaygraph-worker:
+    build: .
+    command: python worker.py
+    environment:
+      - KAYGRAPH_ENV=production
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    scale: 3  # Run 3 worker instances
+    
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: kaygraph
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+  redis:
+    image: redis:7-alpine
+    
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: pass
+
+volumes:
+  postgres_data:
+```
+
+## Environment Configuration
+
+### Configuration Management
+
+```python
+# config.py
+import os
+from dataclasses import dataclass
+from typing import Optional
+
+@dataclass
+class KayGraphConfig:
+    """Centralized configuration management"""
+    
+    # Environment
+    environment: str = os.getenv("KAYGRAPH_ENV", "development")
+    debug: bool = os.getenv("KAYGRAPH_DEBUG", "false").lower() == "true"
+    
+    # Logging
+    log_level: str = os.getenv("KAYGRAPH_LOG_LEVEL", "INFO")
+    log_file: Optional[str] = os.getenv("KAYGRAPH_LOG_FILE")
+    
+    # Database
+    database_url: str = os.getenv("DATABASE_URL", "sqlite:///kaygraph.db")
+    
+    # Redis
+    redis_url: str = os.getenv("REDIS_URL", "redis://localhost:6379")
+    
+    # API Configuration
+    api_host: str = os.getenv("API_HOST", "0.0.0.0")
+    api_port: int = int(os.getenv("API_PORT", "8000"))
+    
+    # Performance
+    max_retries: int = int(os.getenv("KAYGRAPH_MAX_RETRIES", "3"))
+    default_timeout: int = int(os.getenv("KAYGRAPH_TIMEOUT", "300"))
+    
+    # Security
+    secret_key: str = os.getenv("SECRET_KEY", "dev-secret-key")
+    allowed_hosts: list = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+    
+    # Monitoring
+    enable_metrics: bool = os.getenv("ENABLE_METRICS", "true").lower() == "true"
+    metrics_endpoint: Optional[str] = os.getenv("METRICS_ENDPOINT")
+    
+    @property
+    def is_production(self) -> bool:
+        return self.environment == "production"
+    
+    @property
+    def is_development(self) -> bool:
+        return self.environment == "development"
+
+# Global config instance
+config = KayGraphConfig()
+
+def setup_environment():
+    """Set up environment-specific configuration"""
+    if config.is_production:
+        # Production-specific setup
+        import logging
+        logging.getLogger().setLevel(getattr(logging, config.log_level))
+        
+        # Disable debug logs in production
+        logging.getLogger("urllib3").setLevel(logging.WARNING)
+        logging.getLogger("requests").setLevel(logging.WARNING)
+    
+    if config.log_file:
+        import logging
+        file_handler = logging.FileHandler(config.log_file)
+        logging.getLogger().addHandler(file_handler)
+```
+
+### Production Settings
+
+```python
+# production_settings.py
+from config import config
+from kaygraph import Node, Graph
+
+class ProductionNode(Node):
+    """Base node class with production settings"""
+    
+    def __init__(self, *args, **kwargs):
+        # Apply production defaults
+        kwargs.setdefault('max_retries', config.max_retries)
+        kwargs.setdefault('wait', 2)  # 2-second retry delay
+        super().__init__(*args, **kwargs)
+    
+    def setup_resources(self):
+        """Production resource setup"""
+        super().setup_resources()
+        
+        # Set timeouts
+        if hasattr(self, 'api_client'):
+            self.api_client.timeout = config.default_timeout
+    
+    def on_error(self, shared, error):
+        """Production error handling"""
+        # Log error with context
+        self.logger.error(
+            f"Production error in {self.node_id}",
+            extra={
+                "error_type": type(error).__name__,
+                "error_message": str(error),
+                "node_id": self.node_id,
+                "environment": config.environment
+            }
+        )
+        
+        # Don't retry validation errors
+        if isinstance(error, ValueError):
+            return True
+        
+        return False
+
+class ProductionGraph(Graph):
+    """Graph class with production features"""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._setup_monitoring()
+    
+    def _setup_monitoring(self):
+        """Set up production monitoring"""
+        if config.enable_metrics:
+            self.metrics_enabled = True
+        
+        # Set up health checking
+        self.last_health_check = time.time()
+        self.health_check_interval = 60  # 1 minute
+    
+    def run(self, shared):
+        """Production run with health checks"""
+        # Perform health check if needed
+        current_time = time.time()
+        if current_time - self.last_health_check > self.health_check_interval:
+            self._health_check()
+            self.last_health_check = current_time
+        
+        # Run with monitoring
+        start_time = time.time()
+        try:
+            result = super().run(shared)
+            self._record_success(time.time() - start_time)
+            return result
+        except Exception as e:
+            self._record_failure(e, time.time() - start_time)
+            raise
+    
+    def _health_check(self):
+        """Perform health check"""
+        # Check database connectivity, external services, etc.
+        pass
+    
+    def _record_success(self, duration):
+        """Record successful execution"""
+        if config.enable_metrics:
+            # Send metrics to monitoring system
+            pass
+    
+    def _record_failure(self, error, duration):
+        """Record failed execution"""
+        if config.enable_metrics:
+            # Send failure metrics
+            pass
+```
+
+## Scaling Strategies
+
+### Horizontal Scaling
+
+```python
+# load_balancer.py
+import asyncio
+import aiohttp
+from typing import List
+import random
+
+class KayGraphLoadBalancer:
+    """Simple load balancer for KayGraph services"""
+    
+    def __init__(self, service_urls: List[str]):
+        self.service_urls = service_urls
+        self.healthy_services = list(service_urls)
+        self.health_check_interval = 30
+    
+    async def start_health_checks(self):
+        """Start periodic health checks"""
+        while True:
+            await self._check_service_health()
+            await asyncio.sleep(self.health_check_interval)
+    
+    async def _check_service_health(self):
+        """Check health of all services"""
+        healthy = []
+        
+        for url in self.service_urls:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(f"{url}/health", timeout=5) as response:
+                        if response.status == 200:
+                            healthy.append(url)
+            except Exception as e:
+                print(f"Health check failed for {url}: {e}")
+        
+        self.healthy_services = healthy
+        print(f"Healthy services: {len(healthy)}/{len(self.service_urls)}")
+    
+    async def route_request(self, data: dict):
+        """Route request to healthy service"""
+        if not self.healthy_services:
+            raise Exception("No healthy services available")
+        
+        # Simple round-robin (could implement weighted, least-connections, etc.)
+        service_url = random.choice(self.healthy_services)
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"{service_url}/process", json=data) as response:
+                return await response.json()
+
+# Usage
+load_balancer = KayGraphLoadBalancer([
+    "http://kaygraph-1:8000",
+    "http://kaygraph-2:8000",
+    "http://kaygraph-3:8000"
+])
+
+# Start health checks in background
+asyncio.create_task(load_balancer.start_health_checks())
+```
+
+### Auto-scaling Configuration
+
+```yaml
+# kubernetes.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaygraph-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kaygraph-api
+  template:
+    metadata:
+      labels:
+        app: kaygraph-api
+    spec:
+      containers:
+      - name: kaygraph-api
+        image: kaygraph:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: KAYGRAPH_ENV
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kaygraph-secrets
+              key: database-url
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kaygraph-api-service
+spec:
+  selector:
+    app: kaygraph-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kaygraph-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kaygraph-api
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+## Security Considerations
+
+### Authentication and Authorization
+
+```python
+# security.py
+import jwt
+from datetime import datetime, timedelta
+from functools import wraps
+from kaygraph import Node
+
+class SecureNode(Node):
+    """Node with built-in security features"""
+    
+    def __init__(self, required_permissions=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.required_permissions = required_permissions or []
+    
+    def _run(self, shared):
+        """Secure execution with authentication check"""
+        # Verify authentication
+        if not self._verify_auth(shared):
+            raise PermissionError("Authentication required")
+        
+        # Check permissions
+        if not self._check_permissions(shared):
+            raise PermissionError("Insufficient permissions")
+        
+        # Audit log
+        self._audit_log(shared, "execution_start")
+        
+        try:
+            result = super()._run(shared)
+            self._audit_log(shared, "execution_success")
+            return result
+        except Exception as e:
+            self._audit_log(shared, "execution_failure", error=str(e))
+            raise
+    
+    def _verify_auth(self, shared):
+        """Verify JWT token"""
+        token = shared.get("auth_token")
+        if not token:
+            return False
+        
+        try:
+            payload = jwt.decode(token, config.secret_key, algorithms=["HS256"])
+            shared["user_id"] = payload.get("user_id")
+            shared["permissions"] = payload.get("permissions", [])
+            return True
+        except jwt.InvalidTokenError:
+            return False
+    
+    def _check_permissions(self, shared):
+        """Check user permissions"""
+        if not self.required_permissions:
+            return True
+        
+        user_permissions = shared.get("permissions", [])
+        return all(perm in user_permissions for perm in self.required_permissions)
+    
+    def _audit_log(self, shared, action, **kwargs):
+        """Security audit logging"""
+        audit_data = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "node_id": self.node_id,
+            "user_id": shared.get("user_id"),
+            "action": action,
+            "ip_address": shared.get("client_ip"),
+            **kwargs
+        }
+        
+        # Log to security audit system
+        self.logger.info("SECURITY_AUDIT", extra=audit_data)
+
+# Usage
+class PaymentProcessorNode(SecureNode):
+    def __init__(self):
+        super().__init__(
+            required_permissions=["payment:process"],
+            node_id="payment_processor"
+        )
+    
+    def exec(self, payment_data):
+        # Process payment securely
+        return {"status": "processed", "transaction_id": "tx_123"}
+```
+
+### Input Sanitization
+
+```python
+# sanitization.py
+import re
+import html
+from kaygraph import ValidatedNode
+
+class SanitizedNode(ValidatedNode):
+    """Node with automatic input sanitization"""
+    
+    def validate_input(self, prep_res):
+        """Sanitize and validate input"""
+        if isinstance(prep_res, dict):
+            return self._sanitize_dict(prep_res)
+        elif isinstance(prep_res, str):
+            return self._sanitize_string(prep_res)
+        else:
+            return prep_res
+    
+    def _sanitize_dict(self, data):
+        """Recursively sanitize dictionary values"""
+        sanitized = {}
+        for key, value in data.items():
+            # Sanitize key
+            clean_key = self._sanitize_string(str(key))
+            
+            # Sanitize value
+            if isinstance(value, str):
+                sanitized[clean_key] = self._sanitize_string(value)
+            elif isinstance(value, dict):
+                sanitized[clean_key] = self._sanitize_dict(value)
+            elif isinstance(value, list):
+                sanitized[clean_key] = [self._sanitize_string(str(item)) if isinstance(item, str) else item for item in value]
+            else:
+                sanitized[clean_key] = value
+        
+        return sanitized
+    
+    def _sanitize_string(self, text):
+        """Sanitize string input"""
+        if not isinstance(text, str):
+            return text
+        
+        # HTML escape
+        text = html.escape(text)
+        
+        # Remove potential SQL injection patterns
+        sql_patterns = [
+            r"(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER)\b)",
+            r"(--|#|/\*|\*/)",
+            r"(\b(UNION|OR|AND)\b.*\b(SELECT|FROM)\b)"
+        ]
+        
+        for pattern in sql_patterns:
+            text = re.sub(pattern, "", text, flags=re.IGNORECASE)
+        
+        # Remove script tags and javascript
+        text = re.sub(r".*?", "", text, flags=re.IGNORECASE | re.DOTALL)
+        text = re.sub(r"javascript:", "", text, flags=re.IGNORECASE)
+        
+        # Limit length
+        if len(text) > 10000:
+            text = text[:10000]
+        
+        return text.strip()
+```
+
+## Production Checklist
+
+### Pre-deployment Checklist
+
+- [ ] **Configuration Management**
+  - [ ] All secrets stored in environment variables or secret management system
+  - [ ] Database connection strings configured
+  - [ ] Logging configuration set for production
+  - [ ] Error alerting configured
+
+- [ ] **Security**
+  - [ ] Authentication and authorization implemented
+  - [ ] Input validation and sanitization enabled
+  - [ ] HTTPS/TLS configured
+  - [ ] Security headers configured
+  - [ ] Rate limiting implemented
+
+- [ ] **Monitoring**
+  - [ ] Health check endpoints implemented
+  - [ ] Metrics collection enabled
+  - [ ] Performance monitoring configured
+  - [ ] Error tracking set up
+  - [ ] Log aggregation configured
+
+- [ ] **Performance**
+  - [ ] Load testing completed
+  - [ ] Resource limits configured
+  - [ ] Caching strategy implemented
+  - [ ] Database optimization completed
+
+- [ ] **Reliability**
+  - [ ] Backup and recovery procedures tested
+  - [ ] Failover mechanisms configured
+  - [ ] Circuit breakers implemented
+  - [ ] Retry strategies configured
+
+- [ ] **Documentation**
+  - [ ] Deployment procedures documented
+  - [ ] Runbook created for common issues
+  - [ ] API documentation updated
+  - [ ] Monitoring dashboards configured
+
+### Post-deployment Monitoring
+
+```python
+# health_check.py
+from kaygraph import Node, Graph
+import requests
+import psutil
+import time
+
+class SystemHealthNode(Node):
+    def exec(self, _):
+        """Comprehensive system health check"""
+        health_data = {
+            "timestamp": time.time(),
+            "status": "healthy",
+            "checks": {}
+        }
+        
+        # Database connectivity
+        try:
+            # Test database connection
+            health_data["checks"]["database"] = "healthy"
+        except Exception as e:
+            health_data["checks"]["database"] = f"unhealthy: {e}"
+            health_data["status"] = "unhealthy"
+        
+        # Memory usage
+        memory = psutil.virtual_memory()
+        if memory.percent > 90:
+            health_data["checks"]["memory"] = f"warning: {memory.percent}%"
+            health_data["status"] = "warning"
+        else:
+            health_data["checks"]["memory"] = f"healthy: {memory.percent}%"
+        
+        # CPU usage
+        cpu_percent = psutil.cpu_percent(interval=1)
+        if cpu_percent > 90:
+            health_data["checks"]["cpu"] = f"warning: {cpu_percent}%"
+            health_data["status"] = "warning"
+        else:
+            health_data["checks"]["cpu"] = f"healthy: {cpu_percent}%"
+        
+        return health_data
+    
+    def post(self, shared, prep_res, exec_res):
+        shared["health"] = exec_res
+
+def create_health_check_graph():
+    health_node = SystemHealthNode(node_id="system_health")
+    return Graph(start=health_node)
+
+# Health check endpoint
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+health_graph = create_health_check_graph()
+
+@app.get("/health")
+async def health_check():
+    shared = {}
+    health_graph.run(shared)
+    
+    health_data = shared["health"]
+    
+    if health_data["status"] == "unhealthy":
+        raise HTTPException(status_code=503, detail=health_data)
+    
+    return health_data
+
+@app.get("/ready")
+async def readiness_check():
+    """Kubernetes readiness probe"""
+    # Quick check for service readiness
+    return {"status": "ready"}
+```
+
+This comprehensive deployment guide ensures your KayGraph applications are production-ready with proper security, monitoring, and scaling capabilities.

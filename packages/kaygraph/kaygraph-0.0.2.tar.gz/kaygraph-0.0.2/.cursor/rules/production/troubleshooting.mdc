@@ -1,0 +1,682 @@
+---
+description: Guidelines for using KayGraph, Production, Troubleshooting
+globs: **/*.py
+alwaysApply: true
+priority: high
+---
+# Troubleshooting Guide
+
+This guide covers common issues, debugging techniques, and solutions for KayGraph applications in production environments.
+
+## Common Issues and Solutions
+
+### 1. Node Execution Failures
+
+#### Issue: Node fails with unclear error messages
+
+**Symptoms:**
+- Generic error messages without context
+- Intermittent failures
+- Silent failures without logs
+
+**Solution:**
+```python
+from kaygraph import Node
+import logging
+import traceback
+
+class DiagnosticNode(Node):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Enable detailed logging
+        self.logger.setLevel(logging.DEBUG)
+    
+    def _run(self, shared):
+        """Enhanced run method with detailed error reporting"""
+        self.logger.info(f"Node {self.node_id} starting with shared keys: {list(shared.keys())}")
+        self.logger.debug(f"Node {self.node_id} params: {self.params}")
+        
+        try:
+            return super()._run(shared)
+        except Exception as e:
+            # Detailed error logging
+            self.logger.error(f"Node {self.node_id} failed:")
+            self.logger.error(f"Error type: {type(e).__name__}")
+            self.logger.error(f"Error message: {str(e)}")
+            self.logger.error(f"Stack trace: {traceback.format_exc()}")
+            self.logger.error(f"Shared state at failure: {shared}")
+            self.logger.error(f"Node params: {self.params}")
+            
+            # Add context to error
+            enhanced_error = Exception(
+                f"Node {self.node_id} failed: {str(e)} "
+                f"(shared keys: {list(shared.keys())}, params: {self.params})"
+            )
+            enhanced_error.__cause__ = e
+            raise enhanced_error
+
+# Enable debug logging globally
+def enable_debug_logging():
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s',
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler('debug.log')
+        ]
+    )
+
+enable_debug_logging()
+```
+
+#### Issue: Node gets stuck or hangs
+
+**Symptoms:**
+- Node never completes execution
+- No error messages
+- Process appears frozen
+
+**Solution:**
+```python
+import signal
+import time
+from kaygraph import Node
+
+class TimeoutNode(Node):
+    def __init__(self, timeout=300, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.timeout = timeout
+    
+    def _run(self, shared):
+        """Run with timeout protection"""
+        def timeout_handler(signum, frame):
+            raise TimeoutError(f"Node {self.node_id} timed out after {self.timeout} seconds")
+        
+        # Set timeout
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(self.timeout)
+        
+        try:
+            result = super()._run(shared)
+            signal.alarm(0)  # Cancel timeout
+            return result
+        except TimeoutError:
+            signal.alarm(0)
+            self.logger.error(f"Node {self.node_id} timed out")
+            self.logger.error(f"Shared state: {shared}")
+            raise
+        except Exception as e:
+            signal.alarm(0)
+            raise
+
+# Alternative: Using threading for timeout
+import threading
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
+
+class ThreadTimeoutNode(Node):
+    def __init__(self, timeout=300, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.timeout = timeout
+    
+    def _run(self, shared):
+        """Run with thread-based timeout"""
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(super()._run, shared)
+            try:
+                return future.result(timeout=self.timeout)
+            except FutureTimeoutError:
+                self.logger.error(f"Node {self.node_id} timed out after {self.timeout}s")
+                raise TimeoutError(f"Node {self.node_id} execution timeout")
+```
+
+### 2. Memory Issues
+
+#### Issue: Memory usage keeps growing (memory leak)
+
+**Symptoms:**
+- Gradually increasing memory usage
+- Out of memory errors
+- Performance degradation over time
+
+**Solution:**
+```python
+import gc
+import psutil
+import os
+from kaygraph import Node, MetricsNode
+
+class MemoryMonitoringNode(MetricsNode):
+    def __init__(self, memory_threshold_mb=1024, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.memory_threshold_mb = memory_threshold_mb
+        self.initial_memory = self._get_memory_usage()
+    
+    def _get_memory_usage(self):
+        """Get current memory usage in MB"""
+        process = psutil.Process(os.getpid())
+        return process.memory_info().rss / 1024 / 1024
+    
+    def before_prep(self, shared):
+        """Monitor memory before execution"""
+        current_memory = self._get_memory_usage()
+        self.set_context("memory_start", current_memory)
+        
+        if current_memory > self.memory_threshold_mb:
+            self.logger.warning(f"High memory usage: {current_memory:.1f}MB")
+            
+            # Force garbage collection
+            gc.collect()
+            
+            # Check again after GC
+            after_gc = self._get_memory_usage()
+            self.logger.info(f"Memory after GC: {after_gc:.1f}MB (freed {current_memory - after_gc:.1f}MB)")
+    
+    def after_exec(self, shared, prep_res, exec_res):
+        """Monitor memory after execution"""
+        memory_end = self._get_memory_usage()
+        memory_start = self.get_context("memory_start", 0)
+        memory_diff = memory_end - memory_start
+        
+        self.logger.debug(f"Memory usage delta: {memory_diff:+.1f}MB")
+        
+        if memory_diff > 100:  # More than 100MB increase
+            self.logger.warning(f"Large memory increase: {memory_diff:.1f}MB")
+            
+            # Clean up large objects if possible
+            self._cleanup_large_objects(shared, prep_res, exec_res)
+    
+    def _cleanup_large_objects(self, shared, prep_res, exec_res):
+        """Clean up large objects from memory"""
+        # Remove large temporary data from shared state
+        for key, value in list(shared.items()):
+            if hasattr(value, '__len__') and len(str(value)) > 10000:
+                self.logger.debug(f"Removing large object from shared: {key}")
+                del shared[key]
+        
+        # Force garbage collection
+        gc.collect()
+
+# Memory profiling decorator
+def memory_profile(func):
+    """Decorator to profile memory usage of functions"""
+    import functools
+    
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        process = psutil.Process(os.getpid())
+        mem_before = process.memory_info().rss / 1024 / 1024
+        
+        result = func(*args, **kwargs)
+        
+        mem_after = process.memory_info().rss / 1024 / 1024
+        print(f"{func.__name__} memory usage: {mem_after - mem_before:+.1f}MB")
+        
+        return result
+    return wrapper
+
+# Usage
+class OptimizedNode(MemoryMonitoringNode):
+    @memory_profile
+    def exec(self, data):
+        # Your processing logic
+        return process_data(data)
+```
+
+### 3. Performance Issues
+
+#### Issue: Slow execution times
+
+**Symptoms:**
+- Longer than expected processing times
+- Timeout errors
+- Poor throughput
+
+**Diagnostic Tools:**
+```python
+import time
+import cProfile
+import pstats
+from kaygraph import Node
+
+class PerformanceProfilingNode(Node):
+    def __init__(self, enable_profiling=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.enable_profiling = enable_profiling
+        self.performance_data = []
+    
+    def _run(self, shared):
+        """Run with performance profiling"""
+        if self.enable_profiling:
+            return self._run_with_profiling(shared)
+        else:
+            return self._run_with_timing(shared)
+    
+    def _run_with_timing(self, shared):
+        """Basic timing measurement"""
+        timings = {}
+        
+        # Time each phase
+        start_time = time.time()
+        
+        self.before_prep(shared)
+        prep_start = time.time()
+        prep_res = self.prep(shared)
+        prep_time = time.time() - prep_start
+        
+        exec_start = time.time()
+        exec_res = self._exec(prep_res)
+        exec_time = time.time() - exec_start
+        
+        self.after_exec(shared, prep_res, exec_res)
+        post_start = time.time()
+        action = self.post(shared, prep_res, exec_res)
+        post_time = time.time() - post_start
+        
+        total_time = time.time() - start_time
+        
+        timings = {
+            "prep_time": prep_time,
+            "exec_time": exec_time,
+            "post_time": post_time,
+            "total_time": total_time
+        }
+        
+        self.performance_data.append(timings)
+        
+        # Log performance metrics
+        self.logger.info(f"Performance - {self.node_id}: "
+                        f"prep={prep_time:.3f}s, exec={exec_time:.3f}s, "
+                        f"post={post_time:.3f}s, total={total_time:.3f}s")
+        
+        # Warn about slow operations
+        if exec_time > 5.0:  # More than 5 seconds
+            self.logger.warning(f"Slow execution detected: {exec_time:.3f}s")
+        
+        return action
+    
+    def _run_with_profiling(self, shared):
+        """Detailed profiling with cProfile"""
+        profiler = cProfile.Profile()
+        profiler.enable()
+        
+        try:
+            result = super()._run(shared)
+        finally:
+            profiler.disable()
+            
+            # Save profile data
+            profile_filename = f"profile_{self.node_id}_{int(time.time())}.prof"
+            profiler.dump_stats(profile_filename)
+            
+            # Log top functions
+            stats = pstats.Stats(profiler)
+            stats.sort_stats('cumulative')
+            
+            self.logger.info(f"Performance profile saved: {profile_filename}")
+            
+            # Log top 10 time-consuming functions
+            import io
+            s = io.StringIO()
+            stats.print_stats(10)
+            profile_output = s.getvalue()
+            self.logger.debug(f"Top functions:\n{profile_output}")
+        
+        return result
+    
+    def get_performance_summary(self):
+        """Get performance statistics"""
+        if not self.performance_data:
+            return {"status": "no_data"}
+        
+        exec_times = [d["exec_time"] for d in self.performance_data]
+        total_times = [d["total_time"] for d in self.performance_data]
+        
+        return {
+            "executions": len(self.performance_data),
+            "avg_exec_time": sum(exec_times) / len(exec_times),
+            "max_exec_time": max(exec_times),
+            "min_exec_time": min(exec_times),
+            "avg_total_time": sum(total_times) / len(total_times),
+            "slowest_execution": max(self.performance_data, key=lambda x: x["total_time"])
+        }
+
+# Performance optimization techniques
+class OptimizedDataProcessor(Node):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._cache = {}  # Simple caching
+        self._last_cleanup = time.time()
+    
+    def prep(self, shared):
+        """Optimized prep with caching"""
+        # Create cache key
+        cache_key = self._create_cache_key(shared)
+        
+        # Check cache
+        if cache_key in self._cache:
+            self.logger.debug("Cache hit for prep data")
+            return self._cache[cache_key]
+        
+        # Process data
+        result = self._expensive_prep_operation(shared)
+        
+        # Cache result (with size limit)
+        if len(self._cache) < 1000:
+            self._cache[cache_key] = result
+        
+        # Periodic cache cleanup
+        if time.time() - self._last_cleanup > 300:  # 5 minutes
+            self._cleanup_cache()
+        
+        return result
+    
+    def _create_cache_key(self, shared):
+        """Create cache key from shared data"""
+        # Use relevant data for cache key
+        relevant_data = {k: v for k, v in shared.items() 
+                        if k in ["user_id", "data_type", "version"]}
+        return hash(str(sorted(relevant_data.items())))
+    
+    def _cleanup_cache(self):
+        """Clean up old cache entries"""
+        if len(self._cache) > 500:
+            # Keep only most recent 500 entries
+            # In practice, implement LRU or TTL-based cleanup
+            self._cache.clear()
+        self._last_cleanup = time.time()
+```
+
+### 4. Debugging Techniques
+
+#### Debugging Graph Execution Graph
+
+```python
+from kaygraph import Graph, Node
+
+class DebuggingGraph(Graph):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.execution_trace = []
+        self.debug_enabled = True
+    
+    def _orch(self, shared, params=None):
+        """Override orchestration with debugging"""
+        if self.debug_enabled:
+            self.logger.info("Starting graph execution trace")
+            self.execution_trace.clear()
+        
+        current_node = copy.copy(self.start_node)
+        node_params = params or {**self.params}
+        last_action = None
+        step = 0
+        
+        while current_node:
+            step += 1
+            node_name = current_node.node_id or current_node.__class__.__name__
+            
+            if self.debug_enabled:
+                # Log detailed state
+                self.logger.debug(f"Step {step}: Executing {node_name}")
+                self.logger.debug(f"Shared keys: {list(shared.keys())}")
+                self.logger.debug(f"Node params: {node_params}")
+                
+                # Save trace
+                trace_entry = {
+                    "step": step,
+                    "node_name": node_name,
+                    "node_class": current_node.__class__.__name__,
+                    "shared_keys": list(shared.keys()),
+                    "params": dict(node_params),
+                    "timestamp": time.time()
+                }
+                self.execution_trace.append(trace_entry)
+            
+            current_node.set_params(node_params)
+            
+            try:
+                last_action = current_node._run(shared)
+                
+                if self.debug_enabled:
+                    self.execution_trace[-1]["action"] = last_action
+                    self.execution_trace[-1]["status"] = "success"
+                    self.logger.debug(f"Step {step}: {node_name} returned action '{last_action}'")
+                
+            except Exception as e:
+                if self.debug_enabled:
+                    self.execution_trace[-1]["error"] = str(e)
+                    self.execution_trace[-1]["status"] = "error"
+                    self.logger.error(f"Step {step}: {node_name} failed with {e}")
+                raise
+            
+            current_node = copy.copy(self.get_next_node(current_node, last_action))
+        
+        if self.debug_enabled:
+            self.logger.info(f"Graph execution completed in {step} steps")
+            self._save_execution_trace()
+        
+        return last_action
+    
+    def _save_execution_trace(self):
+        """Save execution trace for analysis"""
+        import json
+        trace_file = f"execution_trace_{int(time.time())}.json"
+        
+        with open(trace_file, 'w') as f:
+            json.dump(self.execution_trace, f, indent=2)
+        
+        self.logger.info(f"Execution trace saved: {trace_file}")
+    
+    def analyze_trace(self):
+        """Analyze execution trace for insights"""
+        if not self.execution_trace:
+            return {"status": "no_trace_data"}
+        
+        analysis = {
+            "total_steps": len(self.execution_trace),
+            "successful_steps": len([t for t in self.execution_trace if t.get("status") == "success"]),
+            "failed_steps": len([t for t in self.execution_trace if t.get("status") == "error"]),
+            "nodes_executed": list(set(t["node_name"] for t in self.execution_trace)),
+            "actions_taken": [t.get("action") for t in self.execution_trace if t.get("action")],
+            "execution_path": [f"{t['node_name']}->{t.get('action', 'error')}" for t in self.execution_trace]
+        }
+        
+        return analysis
+
+# Interactive debugging
+class InteractiveDebuggingNode(Node):
+    def __init__(self, breakpoint_enabled=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.breakpoint_enabled = breakpoint_enabled
+    
+    def _run(self, shared):
+        """Run with optional interactive debugging"""
+        if self.breakpoint_enabled:
+            self._debug_breakpoint(shared)
+        
+        return super()._run(shared)
+    
+    def _debug_breakpoint(self, shared):
+        """Interactive debugging breakpoint"""
+        print(f"\n=== DEBUG BREAKPOINT: {self.node_id} ===")
+        print(f"Shared keys: {list(shared.keys())}")
+        print(f"Node params: {self.params}")
+        print("Commands:")
+        print("  'c' - continue")
+        print("  's' - show shared data")
+        print("  'p' - show params")
+        print("  'h' - help")
+        
+        while True:
+            cmd = input("debug> ").strip().lower()
+            
+            if cmd == 'c':
+                break
+            elif cmd == 's':
+                import pprint
+                pprint.pprint(shared)
+            elif cmd == 'p':
+                import pprint
+                pprint.pprint(self.params)
+            elif cmd == 'h':
+                print("Available commands: c, s, p, h")
+            else:
+                print("Unknown command. Type 'h' for help.")
+
+# Enable debugging
+def enable_debugging():
+    """Enable comprehensive debugging"""
+    import logging
+    
+    # Set debug level
+    logging.getLogger().setLevel(logging.DEBUG)
+    
+    # Add debug handler
+    debug_handler = logging.FileHandler('debug_detailed.log')
+    debug_handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
+    )
+    debug_handler.setFormatter(formatter)
+    logging.getLogger().addHandler(debug_handler)
+    
+    print("Debugging enabled - check debug_detailed.log for detailed logs")
+```
+
+## Monitoring and Alerting
+
+### Health Check Implementation
+
+```python
+from kaygraph import Node, Graph
+import json
+import time
+
+class SystemHealthNode(Node):
+    def exec(self, _):
+        """Comprehensive system health check"""
+        health_status = {
+            "timestamp": time.time(),
+            "status": "healthy",
+            "version": "1.0.0",
+            "checks": {}
+        }
+        
+        # Check database connectivity
+        try:
+            # Your database check here
+            health_status["checks"]["database"] = {"status": "healthy", "response_time": 0.05}
+        except Exception as e:
+            health_status["checks"]["database"] = {"status": "unhealthy", "error": str(e)}
+            health_status["status"] = "unhealthy"
+        
+        # Check external APIs
+        try:
+            # Your API checks here
+            health_status["checks"]["external_api"] = {"status": "healthy", "response_time": 0.12}
+        except Exception as e:
+            health_status["checks"]["external_api"] = {"status": "degraded", "error": str(e)}
+            if health_status["status"] == "healthy":
+                health_status["status"] = "degraded"
+        
+        # Resource checks
+        import psutil
+        cpu_percent = psutil.cpu_percent(interval=1)
+        memory = psutil.virtual_memory()
+        
+        health_status["checks"]["resources"] = {
+            "cpu_percent": cpu_percent,
+            "memory_percent": memory.percent,
+            "status": "healthy" if cpu_percent < 80 and memory.percent < 80 else "warning"
+        }
+        
+        return health_status
+    
+    def post(self, shared, prep_res, exec_res):
+        shared["health"] = exec_res
+
+def create_health_check_graph():
+    health_node = SystemHealthNode(node_id="system_health")
+    return Graph(start=health_node)
+
+# Usage with web framework
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+health_graph = create_health_check_graph()
+
+@app.get("/health")
+async def health_check():
+    shared = {}
+    try:
+        health_graph.run(shared)
+        return shared["health"]
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Health check failed: {e}")
+
+@app.get("/metrics")
+async def metrics():
+    """Prometheus-style metrics endpoint"""
+    # Collect metrics from all nodes
+    metrics = []
+    # Implementation depends on your metrics collection strategy
+    return "\n".join(metrics)
+```
+
+## Quick Reference
+
+### Common Error Patterns and Solutions
+
+| Error Pattern | Likely Cause | Solution |
+|---------------|--------------|----------|
+| `KeyError` in prep/post | Missing data in shared | Add validation, use `.get()` with defaults |
+| `TimeoutError` | Long-running operations | Add timeout handling, optimize processing |
+| `MemoryError` | Large data processing | Implement streaming, add memory monitoring |
+| `ConnectionError` | External service issues | Add retry logic, circuit breakers |
+| Silent failures | Missing error handling | Add comprehensive logging, error hooks |
+
+### Debugging Commands
+
+```bash
+# Enable detailed logging
+export KAYGRAPH_LOG_LEVEL=DEBUG
+
+# Profile memory usage
+python -m memory_profiler your_script.py
+
+# Profile performance
+python -m cProfile -o profile.prof your_script.py
+
+# View profile results
+python -c "import pstats; pstats.Stats('profile.prof').sort_stats('cumulative').print_stats(20)"
+
+# Monitor system resources
+top -p $(pgrep -f python)
+```
+
+### Emergency Procedures
+
+1. **High Memory Usage**
+   - Check for memory leaks in logs
+   - Restart affected services
+   - Implement memory limits
+   - Add memory monitoring
+
+2. **High Error Rate**
+   - Check error logs for patterns
+   - Verify external service status
+   - Implement circuit breakers
+   - Scale up resources if needed
+
+3. **Performance Degradation**
+   - Check CPU and memory usage
+   - Review recent deployments
+   - Analyze slow query logs
+   - Check network latency
+
+4. **Service Unavailable**
+   - Check health endpoints
+   - Verify load balancer status
+   - Check container/pod status
+   - Review recent configuration changes
+
+By following this troubleshooting guide, you can quickly identify and resolve common issues in your KayGraph applications, maintaining reliable production operations.

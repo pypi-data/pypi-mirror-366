@@ -1,0 +1,324 @@
+---
+layout: default
+title: "Validation"
+parent: "Production"
+nav_order: 1
+---
+
+# Data Validation in Production
+
+KayGraph provides robust data validation capabilities through the `ValidatedNode` class, ensuring data integrity and early error detection in production systems.
+
+## ValidatedNode Overview
+
+`ValidatedNode` extends the standard `Node` class with input and output validation hooks, allowing you to implement comprehensive data validation without cluttering your core business logic.
+
+### Key Features
+
+- **Input Validation**: Validate data before processing in `exec()`
+- **Output Validation**: Ensure results meet quality standards before returning
+- **Fail Fast**: Validation errors are caught early, preventing downstream issues
+- **Clear Error Messages**: Detailed validation failure information
+- **Separation of Concerns**: Validation logic is separate from business logic
+
+## Basic Usage
+
+```python
+from kaygraph import ValidatedNode
+
+class DataProcessor(ValidatedNode):
+    def validate_input(self, prep_res):
+        """Validate input before exec()"""
+        if not isinstance(prep_res, dict):
+            raise ValueError("Input must be a dictionary")
+        
+        required_fields = ["user_id", "data", "timestamp"]
+        for field in required_fields:
+            if field not in prep_res:
+                raise ValueError(f"Missing required field: {field}")
+        
+        return prep_res
+    
+    def validate_output(self, exec_res):
+        """Validate output after exec()"""
+        if not exec_res or len(exec_res) < 10:
+            raise ValueError("Output too short or empty")
+        
+        return exec_res
+    
+    def prep(self, shared):
+        return {
+            "user_id": shared.get("user_id"),
+            "data": shared.get("raw_data"),
+            "timestamp": shared.get("timestamp")
+        }
+    
+    def exec(self, validated_input):
+        # Input is guaranteed to be valid
+        processed_data = process_data(validated_input["data"])
+        return f"Processed data for user {validated_input['user_id']}: {processed_data}"
+    
+    def post(self, shared, prep_res, exec_res):
+        # Output is guaranteed to be valid
+        shared["processed_result"] = exec_res
+```
+
+## Advanced Validation Patterns
+
+### Type Validation with Pydantic
+
+```python
+from pydantic import BaseModel, ValidationError
+from kaygraph import ValidatedNode
+
+class UserRequest(BaseModel):
+    user_id: str
+    email: str
+    age: int
+    preferences: dict
+
+class PydanticValidatedNode(ValidatedNode):
+    def validate_input(self, prep_res):
+        """Use Pydantic for comprehensive type validation"""
+        try:
+            # Pydantic will validate types and constraints
+            validated_data = UserRequest(**prep_res)
+            return validated_data.dict()
+        except ValidationError as e:
+            raise ValueError(f"Input validation failed: {e}")
+    
+    def validate_output(self, exec_res):
+        """Ensure output has required structure"""
+        if not isinstance(exec_res, dict):
+            raise ValueError("Output must be a dictionary")
+        
+        required_keys = ["status", "data", "metadata"]
+        for key in required_keys:
+            if key not in exec_res:
+                raise ValueError(f"Missing required output key: {key}")
+        
+        return exec_res
+```
+
+### Business Logic Validation
+
+```python
+class BusinessValidatedNode(ValidatedNode):
+    def validate_input(self, prep_res):
+        """Business logic validation"""
+        # Age validation
+        if prep_res.get("age", 0) < 18:
+            raise ValueError("User must be 18 or older")
+        
+        # Email format validation
+        email = prep_res.get("email", "")
+        if "@" not in email or "." not in email:
+            raise ValueError("Invalid email format")
+        
+        # Budget validation
+        budget = prep_res.get("budget", 0)
+        if budget < 0:
+            raise ValueError("Budget cannot be negative")
+        
+        if budget > 10000:
+            raise ValueError("Budget exceeds maximum allowed limit")
+        
+        return prep_res
+    
+    def validate_output(self, exec_res):
+        """Validate business logic in output"""
+        # Ensure calculated discount is reasonable
+        discount = exec_res.get("discount", 0)
+        if discount < 0 or discount > 0.5:  # Max 50% discount
+            raise ValueError(f"Invalid discount: {discount}")
+        
+        # Ensure required approval for high-value transactions
+        total = exec_res.get("total", 0)
+        if total > 5000 and not exec_res.get("requires_approval", False):
+            raise ValueError("High-value transactions require approval flag")
+        
+        return exec_res
+```
+
+## Error Handling and Monitoring
+
+### Validation with Metrics
+
+```python
+from kaygraph import ValidatedNode, MetricsNode
+
+class MonitoredValidatedNode(ValidatedNode, MetricsNode):
+    def __init__(self):
+        ValidatedNode.__init__(self, max_retries=3, wait=1, node_id="validated_processor")
+        MetricsNode.__init__(self, collect_metrics=True)
+        self.validation_errors = []
+    
+    def validate_input(self, prep_res):
+        """Track validation errors for analysis"""
+        try:
+            # Your validation logic here
+            if not isinstance(prep_res, dict):
+                raise ValueError("Input must be dictionary")
+            
+            return prep_res
+        except ValueError as e:
+            # Log validation error for analysis
+            self.validation_errors.append({
+                "error": str(e),
+                "input": prep_res,
+                "timestamp": time.time()
+            })
+            raise
+    
+    def get_validation_stats(self):
+        """Get validation error statistics"""
+        if not self.validation_errors:
+            return {"validation_errors": 0}
+        
+        return {
+            "validation_errors": len(self.validation_errors),
+            "recent_errors": self.validation_errors[-5:],  # Last 5 errors
+            "common_errors": self._get_common_errors()
+        }
+    
+    def _get_common_errors(self):
+        """Analyze common validation error patterns"""
+        error_counts = {}
+        for error_info in self.validation_errors:
+            error_type = error_info["error"]
+            error_counts[error_type] = error_counts.get(error_type, 0) + 1
+        
+        return sorted(error_counts.items(), key=lambda x: x[1], reverse=True)
+```
+
+## Production Best Practices
+
+### 1. Comprehensive Input Validation
+
+```python
+class ProductionAPINode(ValidatedNode):
+    def validate_input(self, prep_res):
+        """Comprehensive production validation"""
+        # Type validation
+        if not isinstance(prep_res, dict):
+            raise ValueError("Input must be a dictionary")
+        
+        # Required fields
+        required_fields = ["user_id", "request_type", "data", "timestamp"]
+        for field in required_fields:
+            if field not in prep_res:
+                raise ValueError(f"Missing required field: {field}")
+        
+        # Format validation
+        user_id = prep_res["user_id"]
+        if not user_id.startswith("user_") or len(user_id) < 10:
+            raise ValueError("Invalid user_id format")
+        
+        # Timestamp validation (not too old, not in future)
+        timestamp = prep_res["timestamp"]
+        current_time = time.time()
+        if timestamp < current_time - 3600:  # 1 hour old
+            raise ValueError("Request timestamp too old")
+        if timestamp > current_time + 60:  # 1 minute in future
+            raise ValueError("Request timestamp in future")
+        
+        # Data size limits
+        data_size = len(str(prep_res["data"]))
+        if data_size > 100000:  # 100KB limit
+            raise ValueError(f"Data too large: {data_size} bytes")
+        
+        return prep_res
+```
+
+### 2. Graceful Error Handling
+
+```python
+class RobustValidatedNode(ValidatedNode):
+    def on_error(self, shared, error):
+        """Handle validation errors gracefully"""
+        if isinstance(error, ValueError):
+            # Log validation error but don't retry
+            self.logger.warning(f"Validation error: {error}")
+            
+            # Store error info for client
+            shared["validation_error"] = {
+                "error": str(error),
+                "error_type": "validation",
+                "node_id": self.node_id
+            }
+            
+            return True  # Suppress error, don't retry validation failures
+        
+        return False  # Let other errors bubble up
+```
+
+### 3. Performance Optimization
+
+```python
+class OptimizedValidatedNode(ValidatedNode):
+    def __init__(self):
+        super().__init__(node_id="optimized_validator")
+        self._validation_cache = {}
+    
+    def validate_input(self, prep_res):
+        """Cache validation results for repeated patterns"""
+        # Create cache key from input structure
+        cache_key = self._create_cache_key(prep_res)
+        
+        if cache_key in self._validation_cache:
+            # Reuse previous validation result
+            return prep_res
+        
+        # Perform validation
+        validated_data = self._perform_validation(prep_res)
+        
+        # Cache successful validation
+        if len(self._validation_cache) < 1000:  # Limit cache size
+            self._validation_cache[cache_key] = True
+        
+        return validated_data
+    
+    def _create_cache_key(self, data):
+        """Create cache key from data structure"""
+        return hash(str(sorted(data.keys())))
+```
+
+## Testing Validation Logic
+
+```python
+import pytest
+from kaygraph import ValidatedNode
+
+class TestValidatedNode(ValidatedNode):
+    def validate_input(self, prep_res):
+        if not isinstance(prep_res, dict):
+            raise ValueError("Must be dict")
+        if "required_field" not in prep_res:
+            raise ValueError("Missing required_field")
+        return prep_res
+
+def test_valid_input():
+    """Test valid input passes validation"""
+    node = TestValidatedNode()
+    valid_data = {"required_field": "value"}
+    
+    # Should not raise exception
+    result = node.validate_input(valid_data)
+    assert result == valid_data
+
+def test_invalid_input_type():
+    """Test invalid input type raises error"""
+    node = TestValidatedNode()
+    
+    with pytest.raises(ValueError, match="Must be dict"):
+        node.validate_input("not a dict")
+
+def test_missing_required_field():
+    """Test missing required field raises error"""
+    node = TestValidatedNode()
+    
+    with pytest.raises(ValueError, match="Missing required_field"):
+        node.validate_input({"other_field": "value"})
+```
+
+By implementing comprehensive validation with `ValidatedNode`, you can build robust, production-ready KayGraph applications that fail fast, provide clear error messages, and maintain data integrity throughout your processing pipelines.

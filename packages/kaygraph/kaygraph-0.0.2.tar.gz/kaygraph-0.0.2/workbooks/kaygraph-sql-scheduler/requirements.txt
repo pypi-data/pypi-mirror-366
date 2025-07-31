@@ -1,0 +1,13 @@
+# Database drivers (choose based on your database)
+psycopg2-binary>=2.9.0  # PostgreSQL
+# mysql-connector-python>=8.0.0  # MySQL
+# cx-Oracle>=8.0.0  # Oracle
+# pyodbc>=4.0.0  # SQL Server
+
+# Optional monitoring integrations
+# prometheus-client>=0.15.0  # For Prometheus metrics
+# datadog>=0.44.0  # For Datadog integration
+
+# Optional for production features
+# redis>=4.0.0  # For distributed locking
+# requests>=2.28.0  # For webhook alerts

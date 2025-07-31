@@ -1,0 +1,279 @@
+---
+description: Guidelines for using KayGraph, The KayGraph Handbook: A Guide to Building Modern AI Systems
+globs: 
+alwaysApply: false
+priority: medium
+---
+# The KayGraph Handbook: A Guide to Building Modern AI Systems
+
+Welcome to The KayGraph Handbook.
+
+KayGraph is an opinionated Python framework for building context-aware AI systems. Designed with production-ready patterns in mind, KayGraph provides powerful abstractions for orchestrating complex workflows that seamlessly integrate operations, LLM calls, and state management—from multi-agent systems to sophisticated RAG pipelines.
+
+This framework is designed for a new paradigm of software development: **Agentic Coding**. It's a collaboration where humans provide high-level design and architectural guidance, and AI agents, using frameworks like KayGraph, handle the implementation details.
+
+Whether you're a seasoned AI engineer or just starting, this handbook will guide you through the core principles, design patterns, and best practices for building reliable, scalable, and maintainable AI applications with KayGraph.
+
+---
+
+# Part 1: The Core Philosophy - Graph & Shared Store
+
+At the heart of KayGraph is a simple yet powerful idea: any complex task can be modeled as a **Graph** of interconnected steps that communicate through a **Shared Store**.
+
+-   **Node**: A single, atomic step in your graph.
+-   **Graph**: A director that orchestrates how data moves between Nodes.
+-   **Shared Store**: A central memory pool accessible by all Nodes.
+
+This elegant abstraction is all you need to build sophisticated AI systems.
+
+## The Node: An Atomic Unit of Work
+
+A **Node** is the most fundamental unit in KayGraph. It represents a single, focused task. Each Node follows a three-step lifecycle: `prep -> exec -> post`.
+
+1.  **`prep(shared)`**: **Prepare Data**. Reads data from the `shared` store. This could involve fetching a user record from a database, reading a file, or preparing a string for an LLM. This step should be read-only.
+2.  **`exec(prep_res)`**: **Execute Logic**. Performs the core computation. This is typically where you would call an LLM, run a calculation, or interact with an external API. To ensure purity, this step **cannot** access the `shared` store directly.
+3.  **`post(shared, prep_res, exec_res)`**: **Commit Results**. Writes the output of the `exec` step back to the `shared` store and returns an **action string** to guide the Graph to the next step.
+
+This three-step process enforces a clean separation of concerns between data I/O and business logic, making your system easier to debug and maintain.
+
+### Example: Sentiment Analysis Node
+
+```python
+class AnalyzeSentimentNode(Node):
+    def prep(self, shared):
+        # 1. Read the customer feedback from the shared store
+        return shared.get("customer_feedback", "")
+
+    def exec(self, feedback_text):
+        # 2. Execute the core logic: call an LLM for sentiment analysis
+        if not feedback_text:
+            return "neutral"
+        prompt = f"Analyze the sentiment of this feedback: '{feedback_text}'. Respond with 'positive', 'negative', or 'neutral'."
+        sentiment = call_llm(prompt)
+        return sentiment
+
+    def post(self, shared, prep_res, exec_res):
+        # 3. Write the result back to the shared store
+        shared["sentiment_result"] = exec_res
+        print(f"Sentiment: {exec_res}")
+        # Return an action to guide the graph
+        if exec_res == "negative":
+            return "escalate"
+        return "default"
+
+# You can run a node standalone for testing
+sentiment_node = AnalyzeSentimentNode()
+shared_data = {"customer_feedback": "The new interface is slow and confusing."}
+action = sentiment_node.run(shared_data) # This would return "escalate"
+```
+
+### Fault Tolerance: Retries and Fallbacks
+
+Network requests and LLM calls can fail. KayGraph provides built-in fault tolerance.
+
+-   `max_retries`: The number of times `exec()` will be re-attempted upon failure.
+-   `wait`: The delay in seconds between retries.
+-   `exec_fallback(prep_res, exc)`: A method you can override to handle the case where all retries fail, allowing for graceful error handling instead of a crash.
+
+---
+
+## The Graph: Orchestrating Nodes
+
+A **Graph** is a container that connects Nodes into a coherent graph. It directs the execution path based on the **action strings** returned by each Node's `post()` method.
+
+### Action-Based Routing
+
+You define transitions between nodes using simple operators:
+
+-   **Default Transition (`>>`)**: `node_a >> node_b` means "if `node_a` returns the 'default' action, proceed to `node_b`."
+-   **Conditional Transition (`-`)**: `node_a - "action_name" >> node_b` means "if `node_a` returns 'action_name', proceed to `node_b`."
+
+This allows for branching, looping, and creating complex, stateful graphs.
+
+### Example: User Registration Graph
+
+```mermaid
+graph TD
+    A[Start] --> B(ValidateInputNode);
+    B -- "valid" --> C(CreateUserNode);
+    B -- "invalid" --> D(ErrorHandlerNode);
+    C --> E(SendWelcomeEmailNode);
+    D --> F[End];
+    E --> F[End];
+```
+
+```python
+# Node definitions (simplified for brevity)
+class ValidateInputNode(Node):
+    def post(self, shared, _, __): return "valid" if shared.get("is_valid") else "invalid"
+
+class CreateUserNode(Node): pass
+class SendWelcomeEmailNode(Node): pass
+class ErrorHandlerNode(Node): pass
+
+# Create node instances
+validate_input = ValidateInputNode()
+create_user = CreateUserNode()
+send_email = SendWelcomeEmailNode()
+handle_error = ErrorHandlerNode()
+
+# Define the graph logic
+validate_input - "valid" >> create_user
+validate_input - "invalid" >> handle_error
+create_user >> send_email
+
+# Create the graph, specifying the start node
+registration_graph = Graph(start=validate_input)
+
+# Run the graph with some shared data
+shared_data = {"is_valid": True}
+registration_graph.run(shared_data)
+```
+
+### Nested Graphs
+
+A Graph is also a Node. This powerful feature lets you compose complex graphs by nesting smaller, reusable graphs within larger ones.
+
+---
+
+## Communication: The Shared Store and Params
+
+Nodes and Graphs communicate in two ways, best understood with a classic programming analogy:
+
+1.  **Shared Store (The "Heap")**: A global, dictionary-like object (`shared`) passed through the entire graph. All nodes can read from and write to it. It's the primary mechanism for passing data, results, and state between nodes.
+2.  **Params (The "Stack")**: A local, immutable dictionary (`self.params`) passed from a parent Graph to its children. It's primarily used in batch processing to give each parallel run a unique identifier (e.g., a filename or a user ID) without cluttering the shared store.
+
+> **Best Practice**: Use the `Shared Store` for all state and data. Reserve `Params` for identifiers in batch graphs to maintain a clean separation between data (shared store) and control graph identifiers (params).
+
+---
+
+## Batch Processing: Handling Bulk Data
+
+KayGraph provides `BatchNode` and `BatchGraph` to simplify processing large datasets.
+
+### `BatchNode`
+
+Use `BatchNode` when you have a single task to run on many pieces of data.
+
+-   `prep()` returns an **iterable** (e.g., a list of sentences).
+-   `exec(item)` is called **once for each item** in the iterable.
+-   `post()` receives a **list of all results** from `exec()`.
+
+### `BatchGraph`
+
+Use `BatchGraph` to run an entire **sub-graph** multiple times, once for each parameter set.
+
+-   `prep()` returns a list of **parameter dictionaries**.
+-   The sub-graph is executed once for each dictionary.
+-   Inside the sub-graph, nodes access the parameters for that specific run via `self.params`.
+
+---
+
+## Asynchronous Operations & Parallel Execution
+
+KayGraph fully supports `asyncio` for non-blocking I/O operations, which is essential for building high-performance applications that interact with APIs or databases.
+
+-   **`AsyncNode`**: An async version of `Node` with `prep_async`, `exec_async`, and `post_async` methods.
+-   **`AsyncGraph`**: An async version of `Graph` that can orchestrate both `AsyncNode` and regular `Node` instances.
+-   **`AsyncParallelBatchNode`**: Runs `exec_async` for all items in a batch concurrently.
+-   **`AsyncParallelBatchGraph`**: Runs an entire sub-graph for all parameter sets concurrently.
+
+These tools are critical for I/O-bound tasks like making simultaneous LLM API calls, maximizing throughput.
+
+---
+
+# Part 2: Architectural Blueprints - Common Design Patterns
+
+The core abstractions of KayGraph serve as building blocks for implementing any established LLM design pattern.
+
+## The Agent Pattern: Autonomous Decision-Making
+
+An **Agent** is a system that can autonomously decide which action to take based on a given context. In KayGraph, an agent is simply a `Graph` with a decision-making `Node` that routes execution to different tool-using `Node`s.
+
+```mermaid
+graph TD
+    A[Start] --> B{DecisionNode};
+    B -- "action: search" --> C[SearchToolNode];
+    B -- "action: calculate" --> D[CalculatorToolNode];
+    B -- "action: answer" --> E[AnswerNode];
+    C --> B;
+    D --> B;
+    E --> F[End];
+```
+
+The key to a successful agent is a well-designed `DecisionNode` that prompts an LLM to choose the next action from a clearly defined set of tools, and a `Graph` that correctly routes to the chosen tool.
+
+## The Workgraph Pattern: Decomposing Complex Tasks
+
+A **Workgraph** is the simplest pattern: a sequence of `Node`s chained together to perform a multi-step task. This is ideal for processes that are too complex for a single LLM call but follow a predictable path.
+
+**Example**: A graph for writing an article might be: `GenerateOutlineNode >> WriteDraftNode >> EditAndRefineNode`.
+
+## The RAG Pattern: Retrieval-Augmented Generation
+
+**RAG** is a two-stage pattern that grounds LLM generation in external knowledge.
+
+1.  **Offline Stage (Indexing)**: A `Graph` reads documents, chunks them into pieces (`BatchNode`), generates embeddings for each chunk (`ParallelBatchNode`), and stores them in a vector database (`Node`).
+2.  **Online Stage (Retrieval & Generation)**: When a user asks a question, a `Graph` embeds the query, retrieves the most relevant chunks from the vector database, and then feeds the question and the retrieved context into an LLM to generate a grounded answer.
+
+## The MapReduce Pattern: Divide and Conquer
+
+This pattern is for processing large amounts of data that can be broken down into independent parts.
+
+-   **Map Phase**: A `BatchNode` or `ParallelBatchNode` processes each part of the data independently (e.g., summarizing individual documents).
+-   **Reduce Phase**: A subsequent `Node` aggregates the results from the map phase into a final output (e.g., creating a single summary from all the individual summaries).
+
+## The Structured Output Pattern: Enforcing Schemas
+
+To get reliable, machine-readable output from an LLM (like JSON or YAML), you can use a `Node` that includes schema validation in its `exec` step. If the LLM's output doesn't match the desired schema, the `Node` can raise an exception, triggering a retry. This forces the LLM to correct its own output.
+
+---
+
+# Part 3: Integrating with the World - Utility Functions
+
+KayGraph intentionally does not include built-in wrappers for external APIs (like OpenAI or Google). This is a core design principle to avoid vendor lock-in and give you maximum flexibility.
+
+Instead, you should write your own simple utility functions. A best practice is to create a `utils/` directory and place each integration in its own file (e.g., `utils/call_llm.py`, `utils/vector_db.py`).
+
+### Example: A Simple LLM Wrapper
+
+```python
+# utils/call_llm.py
+from openai import OpenAI
+import os
+
+# Best practice: Load API key from environment variables
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+def call_llm(prompt: str) -> str:
+    """A simple wrapper for the OpenAI Chat Completions API."""
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return "Error: Could not get a response from the LLM."
+```
+
+---
+
+# Part 4: A Vision for Production-Grade LLMOps
+
+KayGraph's integrated logging is the cornerstone of a robust LLMOps platform. By treating the logs as a structured event stream, you can build powerful systems for monitoring, evaluation, and even long-term memory.
+
+### The Log Database: Your System's Memory
+
+Instead of logging to the console, you can implement a custom `logging.Handler` to stream logs directly into a database (e.g., SQLite, PostgreSQL). This transforms your application's history into a queryable dataset.
+
+### Use Cases for a Log Database:
+
+1.  **Performance and Cost Analysis**:
+    -   Calculate average node latency: `SELECT node_name, AVG(execution_time) FROM logs GROUP BY node_name;`
+    -   Track token usage and cost if you log that information.
+2.  **Long-Term Memory for Agents**: An agent can query the log database in its `prep` step to retrieve historical context about a user or task before acting.
+3.  **Data-Driven Evaluation (Evals)**: Create a `human_feedback` table in your database. When a human reviews a graph's output, they can store a rating or correction. You can then run queries to find which prompts, models, or graphs perform best, enabling a powerful, data-driven approach to improving your AI system.
+
+By leveraging these patterns, KayGraph provides a clear path from a simple script to a production-ready, continuously improving AI application.

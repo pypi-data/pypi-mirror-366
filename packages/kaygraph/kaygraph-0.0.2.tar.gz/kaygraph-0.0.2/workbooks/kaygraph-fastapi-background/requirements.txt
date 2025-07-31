@@ -1,0 +1,11 @@
+# FastAPI and dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+httpx==0.25.2  # For testing
+sse-starlette==1.8.2  # For Server-Sent Events
+
+# Optional: For production deployment
+gunicorn==21.2.0
+redis==5.0.1  # If using Redis for task storage
+celery==5.3.4  # Alternative task queue option
