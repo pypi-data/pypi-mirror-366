@@ -1,0 +1,60 @@
+Metadata-Version: 2.1
+Name: gem-llm
+Version: 0.0.1
+Summary: A Gym for Generalist LLMs.
+Home-page: https://github.com/axon-rl/gem
+Author: Zichen Liu, Anya Sims, Keyu Duan, Changyu Chen
+Author-email: Zichen Liu <lkevinzc@gmail.com>, Anya Sims <anya.sims@stats.ox.ac.uk>, Keyu Duan <k.duan@u.nus.edu>, Changyu Chen <abelco.cy@gmail.com>
+License: Apache-2.0
+Project-URL: Documentation, https://axon-rl.github.io/gem/
+Project-URL: Issues, https://github.com/axon-rl/gem/issues
+Project-URL: Source, https://github.com/axon-rl/gem
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8, <3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: nltk==3.9.1
+Requires-Dist: math-verify[antlr4_13_2]
+Provides-Extra: search
+Requires-Dist: msgspec; extra == "search"
+Requires-Dist: mosec; extra == "search"
+Requires-Dist: aiohttp; extra == "search"
+Requires-Dist: bs4; extra == "search"
+Requires-Dist: chardet; extra == "search"
+Requires-Dist: google-api-python-client; extra == "search"
+Requires-Dist: torch; extra == "search"
+Requires-Dist: torchvision; extra == "search"
+Requires-Dist: torchaudio; extra == "search"
+Requires-Dist: transformers; extra == "search"
+Requires-Dist: datasets; extra == "search"
+Requires-Dist: pyserini; extra == "search"
+
+<div align="center">
+
+# Gem: Gym for Generalist LLM Agent
+
+</div>
+
+## Installation
+
+```console
+# reasoning gym
+pip install git+https://github.com/open-thought/reasoning-gym@1c98584
+
+# sandbox
+conda install bubblewrap
+
+pip install -e .
+
+# search
+pip install -e .[search]
+conda install -c pytorch -c nvidia faiss-gpu=1.8.0
+```
