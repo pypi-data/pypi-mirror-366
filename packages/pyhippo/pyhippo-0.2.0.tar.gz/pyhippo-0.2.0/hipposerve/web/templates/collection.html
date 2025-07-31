@@ -1,0 +1,118 @@
+{% extends "core.html" %}
+{% block content %}
+<div class="container-fluid fs-base">
+    <h2>{{ collection.name }}</h2>
+    <div class="d-flex align-items-center gap-1">
+        <div class="rounded-circle"
+            style="height: 12px; width: 12px; background-color: {{cmap.get(collection.id|string)}};"></div>
+        <span class="badge text-bg-secondary mb-1 p-2">ID: {{ collection.id }}</span>
+        <span class="badge text-bg-danger mb-1 p-2">Owner: {{ collection.owner }}</span>
+        {% for reader in collection.readers %}
+        <span class="badge text-bg-success mb-1 p-2">Reader: {{ reader }}</span>
+        {% endfor %}
+        {% for writer in collection.writers %}
+        <span class="badge text-bg-warning mb-1 p-2">Writer: {{ writer }}</span>
+        {% endfor %}
+    </div>
+    {% markdown %}{{ collection.description }}{% endmarkdown %}
+    {% if request.user.groups.intersection(collection.writers) %}
+    <a href="./{{collection.id}}/edit">Edit</a>
+    {% endif %}
+    <div>
+        <h3>Products</h3>
+        <table class="table table-sm border border-secondary-subtle shadow-sm" style="max-width: 800px;">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Product</th>
+                    <th>Uploaded</th>
+                    <th>Version</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if collection.products | length > 0 %}
+                {% for product in collection.products %}
+                <tr class="small">
+                    <td><a href='{{ web_root }}/products/{{ product.id | e}}'>{{ product.name }}</a></td>
+                    <td>{{ product.uploaded.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ product.version }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr class="small">
+                    <td class="fst-italic">No products</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% if collection.parent_collections | length > 0 or collection.child_collections | length > 0 %}
+    <div class="row">
+        <h3>Collections</h3>
+        {% set parents = collection.parent_collections %}
+        {% set children = collection.child_collections %}
+        {% set current_item_name = collection.name %}
+        {% set current_item_id = collection.id %}
+        {% set relationship_type = "collection" %}
+        {% include "parent_child_diagram.html" %}
+    </div>
+
+    {% if collection.child_collections | length > 0 %}
+    <table class="table table-sm border border-secondary-subtle shadow-sm" style="max-width: 800px;">
+        <thead class="table-secondary">
+            <tr>
+                <th>Child Collection</th>
+                <th>Number of Products</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for child in collection.child_collections %}
+            <tr class="small">
+                <td><a href="{{ web_root }}/collections/{{ child.id | e }}">{{ child.name }}</a></td>
+                <td class="small">{{ child.products | length }}</td>
+                <td class="small">{{ child.owner }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if collection.parent_collections | length > 0 %}
+    <table class="table table-sm border border-secondary-subtle shadow-sm" style="max-width: 800px;">
+        <thead class="table-secondary">
+            <tr>
+                <th>Parent Collection</th>
+                <th>Number of Products</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for parent in collection.parent_collections %}
+            <tr class="small">
+                <td><a href="{{ web_root }}/collections/{{ parent.id | e }}">{{ parent.name }}</a></td>
+                <td class="small">{{ parent.products | length }}</td>
+                <td class="small">{{ parent.owner }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    })
+</script>
+{% endblock %}
