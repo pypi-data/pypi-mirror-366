@@ -1,0 +1,139 @@
+Metadata-Version: 2.4
+Name: iam-sarif-report
+Version: 2.3.4
+Author-email: George Alton <georgealton@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2021 George Alton
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: homepage, https://github.com/georgealton/iam-sarif-report
+Project-URL: repository, https://github.com/georgealton/iam-sarif-report
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: attrs==25.3.0
+Requires-Dist: click==8.1.8
+Requires-Dist: punq==0.7.0
+Requires-Dist: boto3==1.39.14
+Requires-Dist: sarif_om==1.0.4
+Requires-Dist: jschema_to_python==1.2.3
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: nox; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: iam-sarif-report[docs,test,types]; extra == "dev"
+Provides-Extra: types
+Requires-Dist: mypy_boto3_accessanalyzer; extra == "types"
+Requires-Dist: types-setuptools; extra == "types"
+Provides-Extra: docs
+Requires-Dist: mkdocs; extra == "docs"
+Requires-Dist: mkdocs-material; extra == "docs"
+Requires-Dist: mkdocstrings; extra == "docs"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-sugar; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pytest-datadir; extra == "test"
+Requires-Dist: jsonschema; extra == "test"
+Provides-Extra: scraper
+Requires-Dist: beautifulsoup4; extra == "scraper"
+Requires-Dist: requests; extra == "scraper"
+Requires-Dist: html2text; extra == "scraper"
+Dynamic: license-file
+
+# IAM SARIF Report
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+Validate your IAM Policies and SCPs with AWS Policy Validator, and convert those results into SARIF documents for reporting.
+
+## Use Me
+
+To generate findings, iam-sarif-report makes AWS API requests. The AWS Principal you use must be allowed to use the `access-analyzer:ValidatePolicy` command.
+
+```json
+{
+  "Effect": "Allow",
+  "Action": "access-analyzer:ValidatePolicy",
+  "Resource": "*"
+}
+```
+
+### GitHub Action
+
+See the [action.yaml](action.yaml) for detailed usage information.
+
+```yaml
+on: [push]
+jobs:
+  example:
+    permissions:
+      id-token: write
+      security-events: write # When using GitHub Advanced Security
+      actions: read
+      contents: read
+      checks: write # When using SARIF annotator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # setup aws access
+      - uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::111111111111:role/my-github-actions-role-test
+          aws-region: eu-west-1
+
+      # validate some policies and write a SARIF result file
+      - uses: georgealton/iam-sarif-report@v2
+        with:
+          policies: policies/
+          result: results/iam.sarif
+
+      # Public repositories and Organizations with GitHub Advanced Security
+      # can upload sarif files using CodeQL
+      - uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results
+
+      # Without GitHub Advanced Security use sarif-annotator
+      - uses: SirYwell/sarif-annotator@v0.2.1
+        with:
+          report-path: results/iam.sarif
+          source: qodana
+```
+
+### Locally
+
+```sh
+pipx run iam-sarif-report tests/data/policy_checks/policies/*
+```
