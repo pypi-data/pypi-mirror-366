@@ -1,0 +1,316 @@
+Metadata-Version: 2.4
+Name: python-doubly-linked-list-lejacpcj
+Version: 0.1.0
+Summary: A comprehensive, efficient, and easy-to-use doubly linked list implementation for Python
+Author-email: Chia-Jung Wang <lejacp@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/lejacpCJ/python-doubly-linked-list
+Project-URL: Documentation, https://github.com/lejacpCJ/python-doubly-linked-list#readme
+Project-URL: Repository, https://github.com/lejacpCJ/python-doubly-linked-list.git
+Project-URL: Bug Tracker, https://github.com/lejacpCJ/python-doubly-linked-list/issues
+Keywords: data-structure,linked-list,doubly-linked-list,python
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=22.0; extra == "dev"
+Requires-Dist: isort>=5.0; extra == "dev"
+Requires-Dist: flake8>=4.0; extra == "dev"
+Requires-Dist: mypy>=0.900; extra == "dev"
+Dynamic: license-file
+
+# Python Doubly Linked List
+
+[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Type Checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](http://mypy-lang.org/)
+
+A comprehensive, efficient, and easy-to-use doubly linked list implementation for Python.
+
+## Table of Contents
+
+- [Features](#-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [API Reference](#-api-reference)
+- [Requirements](#️-requirements)
+- [Testing](#-testing)
+- [Contributing](#-contributing)
+- [Performance](#-performance)
+- [License](#-license)
+
+## Features
+
+- **Full doubly linked list functionality** - Insert, delete, search, and traverse in both directions
+- **Pythonic interface** - Familiar methods and operators (`len()`, `in`, iteration, etc.)
+- **Memory efficient** - Only stores necessary node references
+- **Type hints** - Full type annotation support for better IDE integration
+- **Well tested** - Comprehensive test suite with high coverage
+- **No dependencies** - Pure Python implementation
+
+## Why Use This?
+
+**When to choose DoublyLinkedList over Python's built-in list:**
+- ✅ Frequent insertions/deletions at the beginning (O(1) vs O(n))
+- ✅ Need bidirectional iteration
+- ✅ Working with data that doesn't require random access
+- ✅ Memory-conscious applications (no need to pre-allocate)
+
+**When to stick with Python's list:**
+- ✅ Need random access by index (O(1) vs O(n))
+- ✅ Numeric computations (better cache locality)
+- ✅ Small datasets where performance difference is negligible
+
+## Installation
+
+### From PyPI (recommended)
+```bash
+pip install python-doubly-linked-list
+```
+
+### From source
+```bash
+git clone https://github.com/lejac/python-doubly-linked-list.git
+cd python-doubly-linked-list
+pip install -e .
+```
+
+## Quick Start
+
+```python
+from doubly_linked_list import DoublyLinkedList
+
+# Create a new list
+dll = DoublyLinkedList()
+
+# Add elements
+dll.append(1)
+dll.append(2)
+dll.prepend(0)
+
+# Access elements
+print(dll[0])  # Output: 0
+print(dll[-1])  # Output: 2
+
+# Iterate through the list
+for item in dll:
+    print(item)
+
+# Check if element exists
+if 1 in dll:
+    print("Found 1 in the list")
+
+# Get list length
+print(len(dll))  # Output: 3
+
+# Remove elements
+dll.remove(1)
+del dll[0]
+
+# Reverse iteration
+for item in reversed(dll):
+    print(item)
+```
+
+## API Reference
+
+### DoublyLinkedList Class
+
+#### Methods
+
+- `append(value)` - Add an element to the end of the list
+- `prepend(value)` - Add an element to the beginning of the list
+- `insert(index, value)` - Insert an element at a specific position
+- `remove(value)` - Remove the first occurrence of a value
+- `pop(index=-1)` - Remove and return element at index (last by default)
+- `clear()` - Remove all elements from the list
+- `index(value)` - Return the index of the first occurrence of value
+- `count(value)` - Return the number of occurrences of value
+- `reverse()` - Reverse the list in place
+- `copy()` - Return a shallow copy of the list
+
+#### Properties
+
+- `head` - Reference to the first node
+- `tail` - Reference to the last node
+- `is_empty` - Boolean indicating if the list is empty
+
+#### Magic Methods
+
+- `__len__()` - Returns the length of the list
+- `__getitem__(index)` - Get element by index
+- `__setitem__(index, value)` - Set element by index
+- `__delitem__(index)` - Delete element by index
+- `__contains__(value)` - Check if value exists in list
+- `__iter__()` - Forward iteration
+- `__reversed__()` - Reverse iteration
+- `__str__()` - String representation
+- `__repr__()` - Developer representation
+
+### Node Class
+
+The internal `Node` class represents individual elements:
+
+- `value` - The stored value
+- `next` - Reference to the next node
+- `prev` - Reference to the previous node
+
+## Requirements
+
+### Runtime Requirements
+- Python 3.7+
+- No external dependencies
+
+### Development/Testing Requirements
+- pytest (for running tests)
+- pytest-cov (for coverage reports)
+- Other dev tools: black, isort, flake8, mypy
+
+## Testing
+
+⚠️ **Important**: Testing requires pytest and other dev dependencies. Make sure to set up your development environment first!
+
+### Quick Start
+```bash
+# Using the development utility (recommended)
+python dev.py test              # Run all tests
+python dev.py test-cov          # Run tests with coverage
+python dev.py all               # Full pipeline (format, check, test)
+
+# Manual commands (requires virtual environment with dev dependencies)
+pytest tests/                   # Run all tests  
+pytest tests/ --cov=doubly_linked_list --cov-report=html  # With coverage
+```
+
+### Available Test Suites
+- **Basic functionality tests**: `tests/test_doubly_linked_list.py`
+- **Security & robustness tests**: `tests/test_security.py`
+- **96%+ code coverage** across all modules
+
+### Development Environment Setup
+```bash
+# 1. Create virtual environment (if not exists)
+python -m venv .venv
+
+# 2. Activate virtual environment
+.venv\Scripts\activate          # Windows
+source .venv/bin/activate       # Linux/Mac
+
+# 3. Install in development mode
+pip install -e ".[dev]"
+
+# 4. Run development pipeline
+python dev.py all               # Format, check, and test everything
+```
+
+### Troubleshooting
+
+**"Import 'pytest' could not be resolved" error?**
+- Make sure you've activated your virtual environment: `.venv\Scripts\activate` (Windows)
+- Install dev dependencies: `pip install -e ".[dev]"`
+- If no virtual environment exists, create one first: `python -m venv .venv`
+
+**Tests not found?**
+- Run tests from the project root directory
+- Make sure pytest is installed: `pip list | findstr pytest`
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+1. Fork the repository
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/lejac/python-doubly-linked-list.git
+   ```
+3. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+4. Install development dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
+5. Create a branch for your feature:
+   ```bash
+   git checkout -b feature-name
+   ```
+6. Make your changes and add tests
+7. Run the test suite:
+   ```bash
+   pytest
+   ```
+8. Submit a pull request
+
+### Code Style
+
+This project follows PEP 8 style guidelines. We use:
+- `black` for code formatting
+- `isort` for import sorting
+- `flake8` for linting
+- `mypy` for type checking
+
+Run code quality checks:
+```bash
+black .
+isort .
+flake8
+mypy doubly_linked_list
+```
+
+## Known Issues
+
+None at this time. Please report any issues on the [GitHub Issues page](https://github.com/lejac/python-doubly-linked-list/issues).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+**lejac**
+- GitHub: [@lejacpCJ](https://github.com/lejacpCJ)
+- Email: lejacp@gmail.com
+
+## Acknowledgments
+
+- Inspired by Python's built-in `list` and `collections.deque`
+
+## Performance
+
+| Operation | Time Complexity | Space Complexity |
+|-----------|----------------|------------------|
+| Append    | O(1)           | O(1)             |
+| Prepend   | O(1)           | O(1)             |
+| Insert    | O(n)           | O(1)             |
+| Delete    | O(n)           | O(1)             |
+| Search    | O(n)           | O(1)             |
+| Access    | O(n)           | O(1)             |
+
+## Related Projects
+
+- [Python Collections](https://docs.python.org/3/library/collections.html) - Built-in data structures
+- [more-itertools](https://github.com/erikrose/more-itertools) - Additional iteration utilities
+
+---
+
+⭐ If you find this project useful, please consider giving it a star on GitHub!
