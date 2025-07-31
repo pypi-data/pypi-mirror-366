@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "yaralyzer"
+version = "1.0.6"
+description = "Visualize and force decode YARA and regex matches found in a file or byte stream. With colors. Lots of colors."
+authors = ["Michel de Cryptadamus <michel@cryptadamus.com>"]
+readme = "README.md"
+license = "GPL-3.0-or-later"
+homepage = "https://github.com/michelcrypt4d4mus/yaralyzer"
+repository = "https://github.com/michelcrypt4d4mus/yaralyzer"
+documentation = "https://github.com/michelcrypt4d4mus/yaralyzer"
+
+keywords = [
+    "ascii art",
+    "binary",
+    "character encoding",
+    "color",
+    "cybersecurity",
+    "data visualization",
+    "decode",
+    "DFIR",
+    "encoding",
+    "infosec",
+    "maldoc",
+    "malicious",
+    "malware",
+    "malware analysis",
+    "regex",
+    "regular expressions",
+    "reverse engineering",
+    "reversing",
+    "security",
+    "threat assessment",
+    "threat hunting",
+    "threat intelligence",
+    "threat research",
+    "visualization",
+    "yara",
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python",
+    "Topic :: Artistic Software",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+include = [
+    "CHANGELOG.md",
+    "LICENSE",
+    ".yaralyzer.example"
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+chardet = ">=5.0.0,<6.0.0"
+#plyara = "^2.1.1"
+python-dotenv = "^0.21.0"
+rich = "^14.1.0"
+rich-argparse-plus = "^0.3.1"
+yara-python = "^4.5.4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.1.3"
+
+
+[tool.poetry.scripts]
+yaralyze = 'yaralyzer:yaralyze'
+yaralyzer_show_color_theme = 'yaralyzer.helpers.rich_text_helper:yaralyzer_show_color_theme'
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
