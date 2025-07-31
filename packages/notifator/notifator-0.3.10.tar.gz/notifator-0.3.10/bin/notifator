@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+"""
+ NOTIFATOR contains several USEFUL modules:
+
+ - telegram
+ - dbus
+ - term
+ - RPiHAT
+ - ntfy.sh (with image)
+
+AND some testing ...
+
+ - ...sound, multicast, audio
+ - ... some idea with  myservice2
+#-------------------------------------------------------------
+ telegram :
+   - needs "~/.telegram.token"   with sections like [Backups]
+        and items : token=  and chatid=
+e.g.
+[Notifator]
+token=131234561234567894561234568945641231456894561k
+chatid=987654621
+
+"""
+from fire import Fire
+from notifator import telegram
+from notifator import notify
+from notifator import notihat
+from notifator.version import __version__
+import datetime as dt
+
+
+if __name__=="__main__":
+    print(f"D... notifator script; version: {__version__} ... now= {dt.datetime.now()}" )
+    Fire( {"a": notify.issueall,
+           "t": telegram.bot_send,
+           "b": notify.issue_dbus,
+           "s": notify.issue_sound,
+           "m": notify.issue_multicast,
+           "c": notify.issue_multicast_clock,
+           "w": notify.issue_term,
+           "n": notify.issue_ntfy_sh,
+           "h": notihat.main,
+    } )
