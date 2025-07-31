@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smpldta"
+version = "0.1.0"
+description = "Fetch sample data like images, videos, code, GIFs, text, and JSON files."
+readme = "README.md"
+authors = [
+  { name = "Parteek", email = "prateekahlawat1223@gmail.com" }
+]
+license = {file = "LICENSE"}
+dependencies = [
+  "requests",
+  "reportlab"
+]
+requires-python = ">=3.0"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/parteekahlawat/smpldta"
+
+[project.scripts]
+smpldta = "smpldta.cli:main"
