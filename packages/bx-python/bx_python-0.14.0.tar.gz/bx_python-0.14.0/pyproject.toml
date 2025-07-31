@@ -1,0 +1,142 @@
+[build-system]
+requires = [
+    "cython",
+    "numpy>=1.25.0",
+    "setuptools",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bx-python"
+dynamic = ["version"]
+authors = [
+    { name = "James Taylor", email = "james@jamestaylor.org" },
+    { name = "Bob Harris" },
+    { name = "David King" },
+    { name = "Brent Pedersen" },
+    { name = "Kanwei Li" },
+    { name = "Nicola Soranzo", email = "nicola.soranzo@earlham.ac.uk" },
+]
+description = "Tools for manipulating biological data, particularly multiple sequence alignments"
+readme = "README.md"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pyparsing",
+]
+
+[project.urls]
+Homepage = "https://github.com/bxlab/bx-python"
+"Bug Tracker" = "https://github.com/bxlab/bx-python/issues"
+"Source Code" = "https://github.com/bxlab/bx-python"
+
+[tool.black]
+include = '\.pyi?$'
+line-length = 120
+target-version = ['py39']
+
+[tool.cibuildwheel]
+test-command = """
+python -c 'import bx, bx.align, bx.align.axt, bx.align.core, bx.align.epo, \
+bx.align.lav, bx.align.maf, bx.align.score, bx.align.sitemask, \
+bx.align.sitemask.core, bx.align.sitemask.cpg, bx.align.sitemask.quality, \
+bx.align.tools, bx.align.tools.chop, bx.align.tools.fuse, \
+bx.align.tools.thread, bx.arrays, bx.arrays.array_tree, bx.arrays.bed, \
+bx.arrays.wiggle, bx.bbi, bx.bbi.bbi_file, bx.bbi.bigwig_file, \
+bx.bbi.bpt_file, bx.bbi.cirtree_file, bx.binned_array, bx.bitset, \
+bx.bitset_builders, bx.bitset_utils, bx.cookbook, \
+bx.cookbook.attribute, bx.cookbook.doc_optparse, \
+bx.filter, bx.gene_reader, bx.interval_index_file, bx.intervals, \
+bx.intervals.cluster, bx.intervals.intersection, bx.intervals.io, \
+bx.intervals.operations, bx.intervals.operations.base_coverage, \
+bx.intervals.operations.complement, bx.intervals.operations.concat, \
+bx.intervals.operations.coverage, bx.intervals.operations.find_clusters, \
+bx.intervals.operations.intersect, bx.intervals.operations.join, \
+bx.intervals.operations.merge, bx.intervals.operations.quicksect, \
+bx.intervals.operations.subtract, bx.intervals.random_intervals, \
+bx.intseq, bx.intseq.ngramcount, bx.misc, bx.misc.bgzf, bx.misc.binary_file, \
+bx.misc.cdb, bx.misc.filecache, bx.misc.readlengths, bx.misc.seekbzip2, \
+bx.misc.seeklzop, bx.motif, bx.motif.io, bx.motif.logo, bx.motif.pwm, \
+bx.phylo, bx.phylo.newick, bx.phylo.phast, bx.pwm, \
+bx.pwm.bed_score_aligned_pwm, bx.pwm.bed_score_aligned_string, \
+bx.pwm.maf_select_motifs, bx.pwm.position_weight_matrix, bx.pwm.pwm_score_maf, \
+bx.pwm.pwm_score_motifs, bx.pwm.pwm_score_positions, bx.seq, bx.seq.core, \
+bx.seq.fasta, bx.seq.nib, bx.seq.qdna, bx.seq.seq, bx.seq.twobit, \
+bx.seqmapping, bx.tabular, bx.tabular.io, bx.wiggle, bx_extras, \
+bx_extras.fpconst, bx_extras.lrucache, bx_extras.pstat, bx_extras.stats'
+"""
+
+[tool.cibuildwheel.linux]
+before-all = """
+if command -v yum; then
+    yum -y install zlib-devel
+elif command -v apk; then
+    apk add zlib-dev
+else
+    apt-get -y install libz-dev
+fi
+"""
+
+[tool.cibuildwheel.macos]
+# If there is no wheel for numpy on macOS (e.g. for the oldest supported numpy
+# for PyPy3.7), we need to build it using OpenBLAS (both before building the
+# bx-python wheel and when testing it), see
+# https://github.com/numpy/numpy/issues/15947#issuecomment-683355728
+# The ~/.numpy-site.cfg is supported by numpy <1.26.0 , see
+# https://numpy.org/doc/stable/release/1.26.0-notes.html#numpy-specific-build-customization
+before-all = """
+brew install openblas && cat > ~/.numpy-site.cfg <<EOF
+[openblas]
+libraries = openblas
+library_dirs = $(brew --prefix openblas)/lib
+include_dirs = $(brew --prefix openblas)/include
+runtime_library_dirs = $(brew --prefix openblas)/lib
+EOF
+"""
+
+[tool.darker]
+isort = true
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+# Enable: pycodestyle errors (E), Pyflakes (F), flake8-bugbear (B),
+# flake8-comprehensions (C4), flake8-logging-format (G),
+# flake8-implicit-str-concat (ISC), NumPy-specific rules (NPY)
+# and pyupgrade (UP)
+#select = ["E", "F", "B", "C4", "G", "ISC", "NPY", "UP"]
+select = ["E", "F", "C4", "G", "ISC", "NPY", "UP"]
+# Exceptions:
+# B9 flake8-bugbear opinionated warnings
+# E501 is line length (delegated to black)
+# E741 Ambiguous variable name
+ignore = ["B9", "E501", "E741"]
+
+[tool.setuptools.dynamic]
+version = {attr = "bx.__version__"}
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.c", "*.h", "*.pxd", "*.pyx"]
+
+[tool.setuptools.package-data]
+"*" = ["*.ps"]
+
+[tool.setuptools.packages.find]
+where = ["lib"]
