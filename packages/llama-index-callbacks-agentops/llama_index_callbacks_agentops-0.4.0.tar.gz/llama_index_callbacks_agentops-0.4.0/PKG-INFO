@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: llama-index-callbacks-agentops
+Version: 0.4.0
+Summary: llama-index instrumentation agentops integration
+Author-email: Your Name <you@example.com>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <4.0,>=3.9
+Requires-Dist: agentops<0.3,>=0.2.2
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Description-Content-Type: text/markdown
+
+# LlamaIndex Callback Integration: Agentops
+
+```shell
+pip install llama-index-callbacks-agentops
+```
+
+To integrate AgentOps into your agent workflow,
+simply import and initialize an `AgentOpsHandler`,
+as demonstrated below. Note that all keyword arguments
+anticipated by AgentOps' `AOClient` can be provided
+to this client using the same keyword arguments in
+`init()`.
+
+You can initialize globally using
+
+```python
+from llama_index.core import set_global_handler
+
+set_global_handler("agentops", api_key="...")
+```
+
+or:
+
+```python
+from llama_index.callbacks.agentops import AgentOpsHandler
+
+AgentOpsHandler.init(api_key="...")
+```
