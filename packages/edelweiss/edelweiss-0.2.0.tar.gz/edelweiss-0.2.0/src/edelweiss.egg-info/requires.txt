@@ -1,0 +1,19 @@
+catboost
+cosmic_toolbox>=0.4.2
+esub-epipe>=1.11.1
+h5py
+lightgbm
+matplotlib
+numpy
+pandas
+packaging
+pzflow
+scikit-learn
+trianglechain
+xgboost
+
+[:python_version < "3.12"]
+tensorflow>=2.10.0
+
+[:python_version >= "3.12"]
+tensorflow>=2.15.0
