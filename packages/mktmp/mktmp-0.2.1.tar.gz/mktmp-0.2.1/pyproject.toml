@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mktmp"
+version = "0.2.1"
+description = "command-line tool for creating temporary directories along with symbolic links to them"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+authors = [
+    {name = "Guang Yang", email = "guang.spike.yang@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Filesystems",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "pydantic>=2.11.7",
+    "typer>=0.16.0",
+]
+
+[project.scripts]
+mktmp = "mktmp.cli:main"
+mktmp-config = "mktmp.config_cli:main"
+
+[project.urls]
+Homepage = "https://github.com/y-guang/mktmp"
+Repository = "https://github.com/y-guang/mktmp"
+Issues = "https://github.com/y-guang/mktmp/issues"
+Changelog = "https://github.com/y-guang/mktmp/blob/main/CHANGELOG.md"
