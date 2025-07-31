@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aind-behavior-services"
+description = "A library for defining and maintaining behavior tasks."
+authors = [
+    { name = "Bruno Cruz", email = "bruno.cruz@alleninstitute.org" },
+]
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dynamic = ["version", "readme"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+]
+
+dependencies = [
+    'pydantic',
+    'harp-python',
+    'aind-behavior-curriculum',
+    'gitpython',
+    'scikit-learn',
+    'semver',
+]
+
+[project.urls]
+Documentation = "https://allenneuraldynamics.github.io/Aind.Behavior.Services/"
+Repository = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Services/"
+Issues = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Services/issues"
+Changelog = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Services/releases"
+
+[project.optional-dependencies]
+
+dev = [
+    'ruff',
+    'codespell',
+    'aind-behavior-services[generators]'
+]
+
+generators = [
+    'jinja2',
+    'requests',
+    'pyyaml',
+    ]
+
+docs = [
+    'Sphinx<8.4',
+    'furo',
+    'sphinx-jinja',
+    'autodoc_pydantic[erdantic]',
+    'sphinx-jsonschema',
+    'sphinx-copybutton',
+    "sphinx_mdinclude",
+]
+
+[project.scripts]
+generate = "_generators:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aind_behavior_services = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "aind_behavior_services.__version__"}
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[tool.ruff]
+line-length = 120
+target-version = 'py311'
+
+[tool.ruff.lint]
+extend-select = ['Q', 'RUF100', 'C90', 'I']
+extend-ignore = []
+mccabe = { max-complexity = 14 }
+pydocstyle = { convention = 'google' }
+
+[tool.codespell]
+skip = '.git,*.pdf,*.svg,./bonsai,*.bonsai,./docs/_build,uv.lock'
+ignore-words-list = 'nd, assertIn'
