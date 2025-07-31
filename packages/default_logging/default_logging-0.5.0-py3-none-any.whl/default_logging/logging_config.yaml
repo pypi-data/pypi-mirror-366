@@ -1,0 +1,37 @@
+version: 1
+
+formatters:
+  simple:
+    class: default_logging.millisecond_formatter.UtcTimezoneFormatter
+    format: '%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] - %(message)s'
+    datefmt: '%Y-%m-%dT%H:%M:%S.%f%z'
+
+  simple_with_trace_context:
+    class: default_logging.millisecond_formatter.UtcTimezoneFormatter
+    format: '%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] [trace_id=%(otelTraceID)s span_id=%(otelSpanID)s trace_sampled=%(otelTraceSampled)s] - %(message)s'
+    datefmt: '%Y-%m-%dT%H:%M:%S.%f%z'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: simple
+    stream: ext://sys.stdout
+  rotating_file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: simple
+    filename: logs/app.log
+    maxBytes: 1048576  # 1MB
+    backupCount: 3
+    encoding: utf-8
+
+loggers:
+  uvicorn:
+    level: INFO
+    handlers: [console, rotating_file]
+    propagate: False
+
+root:
+  level: DEBUG
+  handlers:
+  - console
+  - rotating_file
