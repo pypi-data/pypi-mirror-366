@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "saptiva-agents"
+version = "0.1.8"
+description = "Saptiva-Agents es un potente framework para construir aplicaciones de IA multiagente que pueden actuar de forma autónoma o colaborar con humanos."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+
+authors = [
+    {name = "Saptiva AI", email = "tools@saptiva.com"}
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+dependencies = [
+    "autogen-core==0.6.4",
+    "autogen-agentchat==0.6.4",
+    "autogen-ext==0.6.4",
+    "autogen-ext[openai,web-surfer,langchain,mcp,task-centric-memory,file-surfer,video-surfer]",
+    "langchain-community",
+    "python-dotenv"
+]
+
+[tool.setuptools.packages.find]
+include = ["saptiva_agents*"]
