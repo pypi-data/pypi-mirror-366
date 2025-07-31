@@ -1,0 +1,31 @@
+[project]
+name = "python-licverify"
+version = "0.1.0"
+description = "Python client for go-license license verification"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+  {name = "Luthfi Imanal Satrya", email = "luthfi.imanal@gmail.com"},
+]
+keywords = ["license", "verification", "rsa", "go-license"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "cryptography>=45.0.0",
+    "psutil>=5.9.0",
+]
+
+[project.urls]
+"Source" = "https://github.com/luhtfiimanal/python-licverify"
+"Bug Tracker" = "https://github.com/luhtfiimanal/python-licverify/issues"
+
+[project.scripts]
+licverify = "licverify.cli:main"
+
+[tool.setuptools]
+packages = ["licverify"]
