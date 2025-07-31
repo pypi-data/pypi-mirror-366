@@ -1,0 +1,34 @@
+Metadata-Version: 2.3
+Name: baai-datacube
+Version: 0.2.0
+Summary: 
+Author: 史红光
+Author-email: hgshi@baai.ac.cn
+Requires-Python: >=3.12
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: psutil (>=7.0.0,<8.0.0)
+Requires-Dist: pydantic (>=2.11.7,<3.0.0)
+Requires-Dist: pyjwt (>=2.10.1,<3.0.0)
+Requires-Dist: requests (>=2.32.4,<3.0.0)
+Requires-Dist: speedtest (>=0.0.1,<0.0.2)
+Requires-Dist: tqdm (>=4.67.1,<5.0.0)
+Description-Content-Type: text/markdown
+
+    start_time = time.time()
+    with tqdm(desc="处理进度", unit='B', unit_scale=True) as pbar:
+        with open("../../1949989787863748608_meta.bin", "rb") as fr:
+            while True:
+                time.sleep(0.03)
+                line = fr.readline()
+                if not line:
+                    break
+                pbar.total = Progress().download_count
+                pbar.update(1)
+                elapsed = time.time() - start_time
+                pbar.set_postfix({
+                    "已完成": f"{pbar.n}/{pbar.total}",
+                    "耗时": f"{elapsed:.1f}s"
+
+                })
