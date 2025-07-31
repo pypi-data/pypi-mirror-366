@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: multisom
+Version: 0.1.3
+Summary: Multilayer algorithm of Self Organising Maps (also known as Kohonen Networks) implemented in Python for clustering of atomistic samples through unsupervised learning. The program allows the user to select wich per-atom quantities to use for training and application of the network, this quantities must be specified in the LAMMPS input file that is being analysed. 
+Home-page: https://github.com/SIMAF-MDZ/MultiSOM
+Author: E.Bringa-F.Aquistapace-SiMaF
+Author-email: tatoaquista@gmail.com
+License: MIT
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: joblib
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
