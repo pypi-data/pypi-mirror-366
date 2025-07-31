@@ -1,0 +1,142 @@
+Metadata-Version: 2.4
+Name: fmralign
+Version: 0.0.3
+Summary: Functional alignment for fMRI
+Author: Thomas Bazeille, Bertrand Thirion
+Author-email: Elizabeth DuPre <emd222@cornell.edu>
+License: Copyright (c) 2019, fmralign
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        * Redistributions of source code must retain the above copyright notice, this
+          list of conditions and the following disclaimer.
+        
+        * Redistributions in binary form must reproduce the above copyright notice,
+          this list of conditions and the following disclaimer in the documentation
+          and/or other materials provided with the distribution.
+        
+        * Neither the name of fmralign nor the names of its
+          contributors may be used to endorse or promote products derived from
+          this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+License-File: AUTHORS.rst
+License-File: LICENSE
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Requires-Dist: fastsrm
+Requires-Dist: fugw>=0.1.1
+Requires-Dist: joblib
+Requires-Dist: matplotlib
+Requires-Dist: nibabel
+Requires-Dist: nilearn>=0.10.3
+Requires-Dist: numpy<2
+Requires-Dist: pandas
+Requires-Dist: pot
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: torch
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: coverage; extra == 'dev'
+Requires-Dist: flake8; extra == 'dev'
+Requires-Dist: flake8-use-fstring; extra == 'dev'
+Requires-Dist: flynt; extra == 'dev'
+Requires-Dist: furo; extra == 'dev'
+Requires-Dist: isort; extra == 'dev'
+Requires-Dist: jax; extra == 'dev'
+Requires-Dist: myst-parser; extra == 'dev'
+Requires-Dist: numpydoc; extra == 'dev'
+Requires-Dist: ott-jax>0.3.0; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: pytest>=6.0.0; extra == 'dev'
+Requires-Dist: ruamel-yaml; extra == 'dev'
+Requires-Dist: sphinx; extra == 'dev'
+Requires-Dist: sphinx-copybutton; extra == 'dev'
+Requires-Dist: sphinx-design; extra == 'dev'
+Requires-Dist: sphinx-gallery; extra == 'dev'
+Requires-Dist: sphinxcontrib-bibtex; extra == 'dev'
+Requires-Dist: sphinxext-opengraph; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: coverage; extra == 'doc'
+Requires-Dist: furo; extra == 'doc'
+Requires-Dist: myst-parser; extra == 'doc'
+Requires-Dist: numpydoc; extra == 'doc'
+Requires-Dist: ruamel-yaml; extra == 'doc'
+Requires-Dist: sphinx; extra == 'doc'
+Requires-Dist: sphinx-copybutton; extra == 'doc'
+Requires-Dist: sphinx-design; extra == 'doc'
+Requires-Dist: sphinx-gallery; extra == 'doc'
+Requires-Dist: sphinxcontrib-bibtex; extra == 'doc'
+Requires-Dist: sphinxext-opengraph; extra == 'doc'
+Provides-Extra: jax
+Requires-Dist: jax; extra == 'jax'
+Requires-Dist: ott-jax>0.3.0; extra == 'jax'
+Provides-Extra: test
+Requires-Dist: coverage; extra == 'test'
+Requires-Dist: pytest-cov; extra == 'test'
+Requires-Dist: pytest>=6.0.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# fmralign
+
+![build](https://img.shields.io/github/actions/workflow/status/parietal-inria/fmralign/testing.yml?event=push&style=for-the-badge)
+![python version](https://img.shields.io/badge/python-3.9_|_3.10_|_3.11|_3.12-blue?style=for-the-badge)
+![license](https://img.shields.io/github/license/parietal-inria/fmralign?style=for-the-badge)
+
+[Functional alignment for fMRI](https://parietal-inria.github.io/fmralign-docs) (functional Magnetic Resonance Imaging) data.
+
+This light-weight Python library provides access to a range of functional alignment methods, including Procrustes and Optimal Transport.
+It is compatible with and inspired by [Nilearn](http://nilearn.github.io).
+Alternative implementations of these ideas can be found in the [pymvpa](http://www.pymvpa.org) or [brainiak](http://brainiak.org) packages.
+
+## Getting Started
+
+### Installation
+
+You can access the latest stable version of fmralign directly with the PyPi package installer:
+
+```
+pip install fmralign
+```
+
+For development or bleeding-edge features, fmralign can also be installed directly from source:
+
+```
+git clone https://github.com/Parietal-INRIA/fmralign.git
+cd fmralign
+pip install -e .
+```
+
+Note that if you want to use the JAX-accelerated optimal transport methods, you should also run:
+
+```
+pip install fmralign .[jax]
+```
+
+### Documentation
+
+You can found an introduction to functional alignment, a user guide and some examples
+on how to use the package at https://parietal-inria.github.io/fmralign
+
+## License
+
+This project is licensed under the Simplified BSD License.
+
+## Acknowledgments
+
+This project has received funding from the European Union’s Horizon
+2020 Research and Innovation Programme under Grant Agreement No. 785907
+(HBP SGA2).
+This project was supported by [Digiteo](http://www.digiteo.fr).
