@@ -1,0 +1,71 @@
+[project]
+name = "horsebox"
+version = "0.9.0"
+description = "You Know, for local Search."
+readme = "README.md"
+repository = "https://github.com/michelcaradec/horsebox"
+authors = [
+    { name = "Michel Caradec", email = "mcaradec@proton.me" }
+]
+maintainers = [
+  { name = "Michel Caradec", email = "mcaradec@proton.me" }
+]
+license = "MIT"
+keywords = ["Tantivy", "Search", "CLI"]
+# https://pypi.org/classifiers/
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Environment :: Console",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.9,<3.14"
+dependencies = [
+    "click>=8.1.8,<8.2.0",
+    "feedparser>=6.0.11",
+    "ijson>=3.3.0",
+    "pdfminer-six>=20250506",
+    "tantivy>=0.24.0",
+    "trafilatura>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/michelcaradec/horsebox"
+Repository = "https://github.com/michelcaradec/horsebox.git"
+Issues = "https://github.com/michelcaradec/horsebox/issues"
+Changelog = "https://github.com/michelcaradec/horsebox/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+# Run `uv sync --extra dev`
+dev = [
+    "ruff",
+    "tox>=4.27.0",
+    "pytest>=8.4.1",
+    "mypy>=1.16.1",
+    "pre-commit>=4.2.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+# https://hatch.pypa.io/latest/config/build/#patterns
+include = [
+  "src/**/*.py",
+]
+
+[tool.hatch.build.targets.wheel]
+# https://hatch.pypa.io/latest/config/build/#packages
+packages = ["src/horsebox"]
+# https://hatch.pypa.io/latest/config/build/#excluding-files-outside-packages
+only-packages = true
+
+[project.scripts]
+horsebox = "horsebox.main:main"
+hb = "horsebox.main:main"
