@@ -1,0 +1,13 @@
+# Include all HTML templates
+recursive-include tcai_churn_x/templates *.html
+
+# Include static files (CSS, JS, images, etc.)
+recursive-include tcai_churn_x/static *
+
+# Include documentation and config files
+include README.md
+include requirements.txt
+include setup.py
+include LICENSE
+
+recursive-include tcai_churn_x/model *.pkl
