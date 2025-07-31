@@ -1,0 +1,56 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vertagus"
+version = "0.3.1"
+description = "A tool to assist the maintenance of package versioning via manifests and source control."
+readme = "README.md"
+authors = [
+    { name = "John Raines", email = "johndanielraines@gmail.com" },
+]
+dependencies = [
+    "click==8.1.7",
+    "GitPython==3.1.43",
+    "tomli==2.0.2",
+    "tomli-w==1.2.0",
+    "packaging==24.1",
+    "PyYAML>=6",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/jdraines/vertagus"
+Documentation = "https://github.com/jdraines/vertagus/blob/main/docs/index.md"
+Repository = "https://github.com/jdraines/vertagus"
+"Bug Tracker" = "https://github.com/jdraines/vertagus/issues"
+
+[project.license]
+file = "LICENSE"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+qa = [
+    "pytest",
+    "pytest-cov",
+]
+
+[project.scripts]
+vertagus = "vertagus.cli:cli"
