@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: JoyIT_st7920
+Version: 1.0.1
+Summary: Library to use the SBC-LCD128x64 with the Raspberry Pi
+Home-page: https://github.com/joy-it/JoyIT_st7920
+Author: Joy-IT
+Author-email: Joy-IT <service@joy-it.net>
+Project-URL: Homepage, https://github.com/joy-it/JoyIT_st7920
+Project-URL: Issues, https://github.com/joy-it/JoyIT_st7920/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gpiozero
+Requires-Dist: spidev
+Requires-Dist: Pillow
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# JoyIT_st7920
+Library to use the SBC-LCD128x64 with the Raspberry Pi
+
+## Installation
+You can install this library from PyPI.
+To install it for the current user on your Raspberry Pi, use the following command:
+```
+pip install JoyIT_st7920
+```
+
+## Example
+You need to clone this repository on your Raspberry Pi to be able to execute the example code.
+```
+git clone https://github.com/joy-it/JoyIT_st7920
+```
+Afterward, you need to move into the directory and activate the virtual environment with the following commands.
+```
+cd JoyIT_st7920
+python -m venv --system-site-packages env
+source env/bin/activate
+```
+Then you can execute the example with the following command.
+```
+cd examples
+python example.py
+```
