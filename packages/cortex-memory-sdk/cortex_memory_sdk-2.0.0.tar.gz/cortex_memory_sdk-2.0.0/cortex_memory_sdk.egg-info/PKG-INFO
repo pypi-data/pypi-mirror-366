@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: cortex-memory-sdk
+Version: 2.0.0
+Summary: 🧠 The Smart Context Layer for Prompt Chains in LLMs - Enterprise-grade context-aware AI system with semantic understanding and self-evolving memory
+Author-email: Cortex Team <obeliskacquisitions@gmail.com>
+Maintainer-email: Cortex Team <vaishakh.vipin@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/VaishakhVipin/cortex-memory
+Project-URL: Documentation, https://github.com/VaishakhVipin/cortex-memory/tree/main/backend/docs/README.md
+Project-URL: Repository, https://github.com/VaishakhVipin/cortex-memory
+Project-URL: Bug Tracker, https://github.com/VaishakhVipin/cortex-memory/issues
+Project-URL: Source Code, https://github.com/VaishakhVipin/cortex-memory
+Project-URL: Download, https://pypi.org/project/cortex-memory/#files
+Project-URL: Changelog, https://github.com/VaishakhVipin/cortex-memory/commits/main/
+Keywords: ai,memory,context,semantic,embeddings,llm,prompt-chains,machine-learning,nlp,artificial-intelligence,context-aware
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: redis>=4.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: fastapi>=0.68.0
+Requires-Dist: uvicorn[standard]>=0.15.0
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: sentence-transformers>=2.2.0
+Requires-Dist: urllib3>=1.26.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.18.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.12.0; extra == "dev"
+Requires-Dist: black>=21.0.0; extra == "dev"
+Requires-Dist: isort>=5.9.0; extra == "dev"
+Requires-Dist: flake8>=3.9.0; extra == "dev"
+Requires-Dist: mypy>=0.910; extra == "dev"
+Requires-Dist: pre-commit>=2.15.0; extra == "dev"
+Provides-Extra: api
+Requires-Dist: fastapi>=0.68.0; extra == "api"
+Requires-Dist: uvicorn[standard]>=0.15.0; extra == "api"
+Requires-Dist: python-multipart>=0.0.5; extra == "api"
+Requires-Dist: python-jose[cryptography]>=3.3.0; extra == "api"
+Requires-Dist: passlib[bcrypt]>=1.7.4; extra == "api"
+Requires-Dist: sqlalchemy>=1.4.0; extra == "api"
+Requires-Dist: alembic>=1.7.0; extra == "api"
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "api"
+Provides-Extra: monitoring
+Requires-Dist: prometheus-client>=0.12.0; extra == "monitoring"
+Requires-Dist: structlog>=21.1.0; extra == "monitoring"
+Requires-Dist: sentry-sdk[fastapi]>=1.5.0; extra == "monitoring"
