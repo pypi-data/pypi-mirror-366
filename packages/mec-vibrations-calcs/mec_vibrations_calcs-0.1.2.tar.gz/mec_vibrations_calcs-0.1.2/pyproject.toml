@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mec_vibrations_calcs"
+version = "0.1.2"
+description = "Vibration Analysis Tools"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name="Igor Michalawiski Machado", email="immachad752@gmail.com" }
+]
+requires-python = ">=3.8"
+dependencies = [
+  "numpy>=1.20",
+  "matplotlib>=3.5"
+]
+
+[tool.hatch.build]
+exclude = ["LICENSE"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mec_vibrations_calcs"]
+
+[project.urls]
+"Homepage" = "https://github.com/Igor-Portifolio/mec-vibrations-calcs"
+"Repository" = "https://github.com/Igor-Portifolio/mec-vibrations-calcs"
