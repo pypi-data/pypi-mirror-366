@@ -1,0 +1,794 @@
+# coding:utf-8
+"""
+This module defines the Pitch class, the Interval class, the Key class,
+and utility functions for note numbers.
+"""
+# Copyright (C) 2025  Satoshi Nishimura
+
+import re
+import numbers
+import math
+from typing import List, Union
+from pytakt.utils import takt_round
+
+__all__ = ['chroma', 'octave', 'chroma_profile', 'Pitch', 'Interval', 'Key']
+
+
+def chroma(note_number) -> int:
+    """
+    Given a MIDI note number, this function returns the chroma value
+    (aka pitch class), which is an integer between 0 and 11 where C is 0,
+    C# is 1, D is 2, ..., and B is 11.
+
+    Args:
+        note_number(int or float):
+            MIDI note number; if it is a float, it is first rounded to
+            an integer before calculation.
+    """
+    return takt_round(note_number) % 12
+
+
+def octave(note_number) -> int:
+    """
+    Given a MIDI note number, this function returns the octave number
+    (an integer where 4 represents the octave starting from the middle C).
+
+    Args:
+        note_number(int or float):
+            MIDI note number; if it is a float, it is first rounded to
+            an integer before calculation.
+    """
+    return takt_round(note_number) // 12 - 1
+
+
+def chroma_profile(pitches) -> List[int]:
+    """
+    Given a list of MIDI note numbers or a score by `pitches`, it returns
+    a list of 12 integers, with the frequency of occurrence recorded for each
+    chroma value (pitch class).
+
+    Args:
+        pitches(iterable of Pitch or int, or Score):
+            Either an iterable of integers representing MIDI note numbers
+            or a acore object.
+
+    Examples:
+        >>> chroma_profile([C4, Bb5])
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+        >>> chroma_profile(readsmf('menuet.mid'))
+        [20, 5, 33, 0, 14, 0, 19, 48, 0, 30, 0, 35]
+    """
+    from pytakt.score import Score
+    from pytakt.event import NoteEvent, NoteOnEvent
+    from pytakt.effector import Filter
+    if isinstance(pitches, Score):
+        pitches = (ev.n for ev in
+                   pitches.Filter(NoteEvent, NoteOnEvent).stream())
+    result = [0 for _ in range(12)]
+    for p in pitches:
+        result[chroma(p)] += 1
+    return result
+
+
+PITCH_IDS = {'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11}
+_SFTBL = (
+    (-2, -1, -2, -2, -1, -2, -1, -2, -1, -2, -2, -1),  # sf == -2
+    ( 0, -1,  0, -1, -1,  0, -1,  0, -1,  0, -1, -1),  # sf == -1
+    ( 0,  1,  0,  1,  0,  0,  1,  0,  1,  0,  1,  0),  # sf == 0
+    ( 1,  1,  0,  1,  0,  1,  1,  0,  1,  0,  1,  0),  # sf == 1
+    ( 1,  2,  2,  1,  2,  1,  2,  2,  1,  2,  1,  2))  # sf == 2
+_NSTBL_INDEX = (0, None, 1, None, 2, 3, None, 4, None, 5, None, 6)
+
+# 長音階向けのsf値 (黒鍵の非音階音で使用)
+_ENH_HEURISTIC_MAJ = (0, 1, 0, 1, 0, 0, 1, 0, -1, 0, -1, 0)
+# 短音階向けのsf値 (黒鍵の非音階音で使用)
+_ENH_HEURISTIC_MIN = (0, -1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1)
+# 調号がシャープのときのsf値 (白鍵の非音階音で使用)
+#    _ENH_HEURISTIC_S[9], ENH_HEURISTIC_S[11] が 1 なのは、短音階でこれらの
+#    音にナチュラルよりもダブルシャープを使う傾向が強いから。
+_ENH_HEURISTIC_S = (0, -1, 0, -1, -1, 0, -1, 0, -1, 1, -1, 1)
+# 調号がフラットのときのsf値 (白鍵の非音階音で使用)
+_ENH_HEURISTIC_F = (0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1)
+
+
+class Pitch(int):
+    """
+    A class for objects that represent note pitches.
+    It is inherited from the 'int' class, and therefore the objects can
+    behave as integers representing MIDI note numbers, but
+    differ in that they have the 'sf' attribute, which is additional
+    information about enharmonics.
+
+    Attributes:
+        sf (int): Enharmonics information (sharp-flat), indicating the number
+            of sharps/flats, including those due to key signatures in
+            the score. It is one of 2, -1, 0, 1, and 2, where a positive value
+            indicates the number of sharps and a negative value indicates the
+            number of flats. For example, if the object has 61 as an integer
+            value (i.e., the MIDI note number is 61), it represents the C#4
+            note pitch if sf is 1, and represents Db4 if sf is -1.
+
+    Args:
+        value(int, str, or Pitch): Either an integer, a Pitch object, or
+            a string representing the pitch. If it is an integer, its value is
+            the MIDI note number; if it is a Pitch, its integer value is
+            the MIDI note number. The pitch can also be specified by a string
+            consisting of the following characters.
+
+            * 'A' to 'G' for pitch name (lowercase letters are also acceptable;
+              ``B`` represents an 11 semitones higher pitch than ``C``)
+            * '#', 's', or '+' for sharps (two at most, to be placed after the
+              pitch name)
+            * 'b', 'f', or '-' for flats (two at most, after the ptich name)
+            * '%' or 'n' for natural (after the pitch name)
+            * '0' to '9' for octave number (optional, after the note name;
+              '4' for the octave starting from the middle C)
+            * '^' or a single quote for octave up
+            * '_' or ',' for octave down
+
+            The value of the `key` argument is taken into account when
+            converting strings to note numbers.
+        sf(int, optional): The value of the sf attribute. If specified,
+            the value becomes the sf attribute value. If not specified, it is
+            determined by the following rules.
+
+            * If `value` is a Pitch, its sf information is copied.
+            * If `value` is int, it is guessed considering the value of the
+              `key` argument.
+            * If `value` is str, it is determined from the accidental symbols
+              in the string and the value of the `key` argument.
+        key(Key, int, or str, optional): Information about the key referred to
+            when `value` is int or str. It should be a Key object or the first
+            argument of the Key() constructor. Default is C major.
+        octave(int, optional): Octave value when `value` is str and
+            the string does not contain an octave number.
+
+    Examples:
+        >>> Pitch(61)   # MIDI note number 61
+        Cs4             # Equivalent to Pitch(61, 1)
+        >>> Pitch(61, -1)
+        Db4
+        >>> Pitch(61, key='Db major')
+        Db4
+        >>> Pitch(C4, 1)
+        Bs3
+        >>> Pitch('C#4')
+        Cs4
+        >>> Pitch('_C', key='e major')
+        Cs3
+        >>> Pitch('Cn', key=3, octave=5)
+        C5
+        >>> Db4 + 2
+        63
+
+    .. rubric:: Pitch Constants
+
+    Constants with Pitch object values are predefined from 'C0' to 'B9',
+    each optionaly with s (sharp), ss (double sharp), b (flat), and bb (double
+    flat) (e.g., Ds5, Bbb6).
+    These values are equal to those where the constant names are passed as
+    strings to the Pitch() constructor.
+
+    .. rubric:: Arithmetic Rules
+
+    * Comparison between Pitch objects (equality and order comparison) is
+      performed only by the note number. The value of sf has no effect on the
+      result of the comparison. For example, Cs4 == Db4 is true.
+    * The result of (Pitch - Pitch) will be an Interval.
+    * The result of (Pitch + Interval), (Interval + Pitch), or
+      (Pitch - Interval) will be a Pitch, and sf will be calculated
+      correctly as long as it is within the range +-2.
+    * All other operations will be performed as 'int' type.
+    """
+
+    def __new__(cls, value, sf=None, key=0, octave=4):
+        if sf is not None and not -2 <= sf <= 2:
+            raise ValueError('sf must be in [-2,2] range')
+        if isinstance(value, str):
+            return Pitch._new_from_str(value, sf, key, octave)
+        elif isinstance(value, Pitch):
+            obj = int.__new__(cls, value)
+            obj.sf = sf if sf is not None else value.sf
+            return obj
+        elif isinstance(value, numbers.Integral):
+            obj = int.__new__(cls, value)
+            obj.sf = sf
+            if sf is None:
+                obj.sf = obj._fixsf_impl(key)
+            return obj
+        else:
+            raise TypeError('%r is not a valid value for Pitch' % value)
+
+    def _new_from_str(string, osf, key, octave):
+        key = 0 if key is None else key
+        m = re.match(
+            "([',^_]*)([a-gA-G])([0-9]*)([-+sfn#b%',^_]*)([0-9]*)\\s*$",
+            string)
+        if not m:
+            raise ValueError("Invalid note name")
+        has_accidental = False
+        sf = 0
+        for i in (1, 3, 4, 5):
+            if i in (3, 5):
+                octave = int(m.group(i)) if m.group(i) else octave
+            else:
+                for c in m.group(i):
+                    if c in "^'":
+                        octave += 1
+                    elif c in "_,":
+                        octave -= 1
+                    else:
+                        has_accidental = True
+                        sf += 1 if c in 's#+' else -1 if c in 'fb-' else 0
+        p = PITCH_IDS[m.group(2).upper()]
+        if not has_accidental:
+            sf = Key(key).getsf(p)
+#        elif sf == 0:  # `natural' case
+#            sf = -Key(key).getsf(p)
+#            p -= sf
+        return Pitch(p + sf + (octave + 1) * 12,
+                     osf if osf is not None else sf)
+
+    def __repr__(self):
+        return self.tostr(lossless=True)
+
+    def __str__(self):
+        return self.tostr(lossless=True)
+#        return "Pitch(%d, %r)" % (self, self.sf)
+
+    def __add__(self, other):
+        if isinstance(other, Interval):
+            return Interval._add_pitch_interval(self, other)
+#        elif type(other) == int:
+#            return Pitch(int(self) + other, self.sf)
+        else:
+            return int.__add__(self, other)
+    __radd__ = __add__
+
+    def __sub__(self, other):
+        if isinstance(other, Pitch):
+            return Interval._pitch_subtract(self, other)
+        elif isinstance(other, Interval):
+            return Interval._add_pitch_interval(self, -other)
+#        elif type(other) == int:
+#            return Pitch(int(self) - other, self.sf)
+        else:
+            return int.__sub__(self, other)
+
+    def __pos__(self):
+        return Pitch(self)
+
+    def natural(self) -> 'Pitch':
+        """ Returns a Pitch object of the natural note (note where sharps and
+        flats are removed).
+        """
+        return Pitch(self - _SFTBL[self.sf + 2][chroma(self)], 0)
+
+    def tostr(self, *, lossless=False, octave=True,
+              pitch_strings='CDEFGAB', sfn='sbn') -> str:
+        """ Returns a string representing the pitch (‘C4’, ‘Gbb6’, etc.).
+
+        Args:
+            lossless(bool): If False (default), a string created with
+                `pitch_strings` and `sfn` is always returned.
+                When True, it returns a string in the form of a constructor
+                call like 'Pitch(Cs4, 0)' if necessary, so that when the eval
+                function is applied, it reproduces the original Pitch
+                object exactly.
+            octave(bool, optional): If False, returns a string without an
+                octave number. Available only when lossless is False.
+            pitch_strings(sequence of str): A collection of strings indexable
+                from 0 to 6 used for pitch names. pitch_strings[0], ...,
+                pitch_strings[6] correspond to the strings for the C, ..., B,
+                respectively.
+            sfn(sequence of str): A collection of strings indexable from
+                0 to 2 (or 1) that are used for accidentals.
+                sfn[0] is the string for a sharp, sfn[1] is the string for
+                a flat, and sfn[2] is currently unused.
+
+        Returns:
+            Result string
+        """
+        np = self.natural()
+        alter = self - np
+        oc = globals()['octave'](np)
+        string = "%s%s%s" % (
+            pitch_strings[_NSTBL_INDEX[chroma(np)]],
+            sfn[1 if alter < 0 else 0] * abs(alter),
+            str(oc) if octave or lossless else '')
+        if lossless and (oc < 0 or oc >= 10):
+            return "Pitch(%d, %r)" % (self, self.sf)
+        elif lossless and alter != self.sf:
+            return "Pitch(%s, %r)" % (string, self.sf)
+        else:
+            return string
+
+    def fixsf(self, key, set_sf_for_naturals=False,
+              enh='heuristic') -> 'Pitch':
+        """
+        Returns a new Pitch object with the value of the sf attribute modified
+        as appropriate for the key `key`.
+        The original sf value behaves as a hint if it is non-zero.
+
+        Args:
+            key(Key, int, or str): a key (an object of the Key class, or the
+                first argument of the Key() constructor)
+            set_sf_for_naturals(bool): If true, sets sf to 1 or -1 (opposite
+                to signs in the key signature) for cases that need a natural
+                sign when notated (e.g., D for the Db major key).
+            enh(str): undocumented
+
+        Returns:
+            a new Pitch object
+
+        Examples:
+            >>> Dbb4.fixsf('C major')
+            C4
+            >>> Ds4.fixsf('Eb major')
+            Eb4
+            >>> Pitch(Fs4, 0).fixsf('C major')
+            Fs4
+            >>> Pitch(D4, -1).fixsf('Db major')  # -1 is a hint
+            Ebb4
+        """
+        return Pitch(self, self._fixsf_impl(key, set_sf_for_naturals, enh))
+
+    def _fixsf_impl(self, key, set_sf_for_naturals=False, enh='heuristic'):
+        chrm = chroma(self)
+        is_black_key = _NSTBL_INDEX[chrm] is None
+        key = key if isinstance(key, Key) else Key(key)
+        sign = 1 if key.signs >= 0 else -1
+        sf = self.sf
+        if key.is_scale_tone(chrm):
+            # スケールトーンの場合、元のsfは無視して調号に沿ったものにする。
+            return key.getsf(self - sign)
+        else:
+            if is_black_key:
+                # 非スケールトーンで黒鍵の場合、sfを 1 か -1 へ修正。
+                if not sf:
+                    # sf=0の場合は、ヒューリスティックによって決める。
+                    sf = Pitch._fixsf_enh(enh, chrm, key)
+                else:
+                    sf = 1 if sf > 0 else -1
+            else:
+                # 非スケールトーンで白鍵の場合
+                if not sf:
+                    # sf=0の場合、ヒューリスティックによって決める
+                    # (この際なるべく重記号を避けるようにする)。
+                    sf = Pitch._fixsf_enh(enh, chrm, key, True) + sign
+                # cfebはシャープの調でのC,F音、或いはフラットの調でのE,B音で1
+                cfeb = chrm in ((0, 5) if sign == 1 else (4, 11))
+                if sf * sign < 0 and not cfeb:
+                    # 調号と逆の臨時記号の場合 (cfebの場合を除く)
+                    if not set_sf_for_naturals:
+                        sf = 0
+                elif sf * sign > 0:
+                    # 調号と同じ臨時記号の場合。
+                    sf = sign * (2 - cfeb)
+                else:  # sf == 0 or cfeb
+                    sf = -sign * set_sf_for_naturals
+        return sf
+
+    @staticmethod
+    def _fixsf_enh(enh, chrm, key, use_alt_tab=False):
+        if enh == 'heuristic':
+            if use_alt_tab:
+                tab = _ENH_HEURISTIC_S if key.signs >= 0 else _ENH_HEURISTIC_F
+            else:
+                tab = _ENH_HEURISTIC_MIN if key.minor else _ENH_HEURISTIC_MAJ
+            return tab[(chrm - key.gettonic()) % 12]
+        elif enh == 'sharp':
+            return 1
+        elif enh == 'flat':
+            return -1
+        elif enh == 'undecided':
+            return 0
+        else:
+            raise ValueError("Invalid 'enh' value")
+
+    def freq(self, afreq=440.0) -> float:
+        """ Returns the frequency assuming equal temperament.
+
+        Args:
+            self(Pitch, int, or float):
+                A Pitch object or a (fractional) MIDI note number
+            afreq(float, optional):
+                Specifies the frequency (Hz) of the A4 pitch
+        """
+        return afreq * (2 ** ((self - 69) / 12))
+
+    @staticmethod
+    def from_freq(freq, sf=None, key=0,
+                  afreq=440.0, fractional=False) -> Union['Pitch', float]:
+        """ Constructs a Pitch object that is closest to the frequency `freq`
+        assuming equal temperament.
+
+        Args:
+            freq(float): frequency
+            sf(int, optional):
+                Has the same meaning as the sf argument of the Pitch()
+                constructor.
+            key(Key, int, or str, optional):
+                Has the same meaning as the key argument of the Pitch()
+                constructor.
+            afreq(float, optional):
+                Specifies the frequency (Hz) of the A4 pitch
+            fractional(bool, optional):
+                If True, a fractional MIDI note number is returned instead of
+                a Pitch object.
+        """
+        notenum = math.log2(freq / afreq) * 12 + 69
+        if fractional:
+            return notenum
+        else:
+            return Pitch(takt_round(notenum), sf, key)
+
+
+# define pitch names like 'C4', 'Ds5', and 'Bb6' as constants
+for _sf, _d in (("", 0), ("s", 1), ("b", -1), ("ss", 2), ("bb", -2)):
+    for _oct in range(0, 10):
+        for _k in PITCH_IDS:
+            exec("%s%s%d=Pitch(%d, %d)" %
+                 (_k, _sf, _oct,
+                  PITCH_IDS[_k] + _d + (_oct + 1) * 12, _d))
+            __all__.append('%s%s%d' % (_k, _sf, _oct))
+
+
+_MAJOR_TONES = (0, 2, 4, 5, 7, 9, 11)
+_IS_PERFECT = (1, 0, 0, 1, 1, 0, 0)
+_SEMITONES_TO_DS = (0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6)
+
+
+class Interval(int):
+    """
+    A class for objects representing intervals (difference between two
+    pitches). It is inherited from the 'int' class and therefore the objects
+    can behave as integers representing semitones. It is signed, i.e., it also
+    represents negative intervals.
+
+    Attributes:
+        ds(int): Signed distance on the staff.
+            This is one less than the number of degrees, e.g., 2 for
+            third intervals. Negative for negative intervals.
+
+    Args:
+        value(str or int): When it is a string, it specifies the interval like
+            the following:
+
+                * 'P1' -- perfect 1st degree, 'm2' -- minor 2nd degree,
+                  'M2' -- major 2nd degree, 'm3' -- minor 3rd degree,
+                  'M3' -- major 3rd degree, 'P4' -- perfect 4th degree,
+                  'P5' -- perfect 5th degree, ...
+                * 'A1' -- augmented 1st degree, 'A2' -- augmented 2nd degree,
+                  'A3' -- augmented 3rd degree, ...
+                * 'd2' -- diminished 2nd degree,
+                  'd3' -- diminished 3rd degree, ...
+                * 'AA1' -- double-argmented 1st degree, ...
+                * 'dd3' -- double-diminished 3rd degree, ...
+                * 'A' and 'd' can be further increased.
+
+            When it is an integer, it specifies the interval by semitones.
+        ds(int, optional): When `value` is an integer, the value of the ds
+            attribute must be specified by this argument.
+
+    .. rubric:: Arithmetic Rules
+
+    * Comparison between Interval objects (equality and order comparisons) is
+      performed only be semitones. The value of the ds attribute has no effect
+      on the result of the comparison. For example,
+      Interval('A4') == Interval('d5') is true.
+    * Sign inversion of an Interval inverts the signs of both the semitone and
+      ds values.
+    * The result of adding two Interval objects will be an Interval where
+      the two intervals are stacked together (the semitones and ds values are
+      added to each).
+    * The subtraction (x-y) between Interval objects is equivalent to x+(-y).
+    * Multiplication of an Interval and an integer results in an Interval
+      where each of the semitone and ds values is multiplied by the integer.
+    * The result of a remainder operation (x % y) between Interval objects is
+      an Interval, which is equivalent to x - (int(x) // int(y)) * y.
+    * For operations between Interval and Pitch, see the operation rules of
+      the Pitch class.
+    * All other operations will be performed as 'int' type.
+
+    Examples:
+        >>> B4 - F4
+        Interval('A4')
+        >>> C4 + Interval('d5')
+        Gb4
+        >> Interval('A4') + Interval('d5')
+        Interval('P8')
+        >> Interval('P8') - Interval('M3')
+        Interval('m6')
+        >>> G5 - C4
+        Interval('P12')
+        >>> Interval('P12') % Interval('P8')
+        Interval('P5')
+        >>> int(Interval('A4'))
+        6
+        >>> Interval('A4') + 1
+        7
+    """
+    def __new__(cls, value, ds=None):
+        if isinstance(value, numbers.Integral):
+            obj = int.__new__(cls, value)
+            if ds is None:
+                raise Exception("Requires 2nd argument when 'value' is int")
+            obj.ds = ds
+            return obj
+        else:
+            return Interval._parse_str(value)
+
+    def _parse_str(string):
+        m = re.match("([PpMm]|[Aa]+|[Dd]+)([0-9]+)$", string)
+        if not m:
+            raise ValueError("Invalid interval name")
+        quality = m.group(1)
+        ds = int(m.group(2)) - 1
+        (oc, i) = divmod(ds, 7)
+        semi = _MAJOR_TONES[i] + oc * 12
+        perf = _IS_PERFECT[i]
+        if ds < 0 or (perf and (quality in "Mm")) \
+           or not perf and (quality in "Pp"):
+            raise ValueError("Invalid interval name %r" % string)
+        if quality == 'm':
+            semi -= 1
+        elif quality[0] in "Aa":
+            semi += len(quality)
+        elif quality[0] in "Dd":
+            semi -= len(quality) + (1 - perf)
+        return Interval(semi, ds)
+
+    def __repr__(self):
+        if self < 0 or \
+           (self == 0 and self.ds < 0):  # use -'d2' rather than 'A0'
+            return '-' + repr(Interval(-self, -self.ds))
+        (oc, i) = divmod(self.ds, 7)
+        semi = _MAJOR_TONES[i] + oc * 12
+        perf = _IS_PERFECT[i]
+        if self == semi:
+            s = "MP"[perf]
+        elif not perf and self == semi - 1:
+            s = 'm'
+        elif self > semi:
+            s = 'A' * (self - semi)
+        else:
+            s = 'd' * (semi - (1 - perf) - self)
+        return "Interval('%s%d')" % (s, self.ds + 1)
+
+    def __pos__(self):
+        return Interval(int(self), self.ds)
+
+    def __neg__(self):
+        return Interval(-int(self), -self.ds)
+
+    def __add__(self, other):
+        if isinstance(other, Interval):
+            return Interval(int(self) + int(other), self.ds + other.ds)
+        else:
+            # return int.__add__(self, other) だと Interval + Pitch が失敗する
+            return NotImplemented
+
+    def __sub__(self, other):
+        if isinstance(other, Interval):
+            return Interval(int(self) - int(other), self.ds - other.ds)
+        else:
+            return NotImplemented
+
+    def __mul__(self, other):
+        if type(other) is int:
+            return Interval(int(self) * other, self.ds * other)
+        else:
+            # NotImplemented だと Interval * Interval がエラーになる
+            return int.__mul__(self, other)
+    __rmul__ = __mul__
+
+    def __mod__(self, other):
+        if isinstance(other, Interval):
+            return self - (self // other) * other
+        else:
+            return int.__mod__(self, other)
+
+    def __divmod__(self, other):
+        return (self // other, self % other)
+
+    @staticmethod
+    def _add_pitch_interval(pitch, interval):
+        # pitch.natural()に度数の分を上げた(下げた)のが結果のnatural()。
+        # 半音数は単純に足し、結果の半音数と結果のnatural()の差がsf。
+        n = int(pitch.natural())
+        chm = chroma(n)
+        d = _SEMITONES_TO_DS[chm] + interval.ds
+        (oc, i) = divmod(d, 7)
+        n += _MAJOR_TONES[i] - chm + oc * 12
+        semi = int(pitch) + int(interval)
+        sf = semi - n
+        # sf が+-2に収まらない場合は、範囲内に修正
+        sf = 2 if sf > 2 else -2 if sf < -2 else sf
+        return Pitch(semi, sf)
+
+    @staticmethod
+    def _pitch_subtract(p1, p2):
+        (n1, n2) = (int(p1.natural()), int(p2.natural()))
+        (oc, k) = divmod(n1 - n2, 12)
+        d = _SEMITONES_TO_DS[k]
+        if k == 6 and chroma(n2) == 11:
+            d += 1  # augmented 4th => diminished 5th
+        return Interval(int(p1) - int(p2), d + oc * 7)
+
+
+_KEY_TAB = [
+    (0x000000, 0xab5, 'C major', 'A minor'),
+    (0x000400, 0xad5, 'G major', 'E minor'),
+    (0x000401, 0xad6, 'D major', 'B minor'),
+    (0x004401, 0xb56, 'A major', 'F# minor'),
+    (0x004411, 0xb5a, 'E major', 'C# minor'),
+    (0x044411, 0xd5a, 'B major', 'G# minor'),
+    (0x044511, 0xd6a, 'F# major', 'D# minor'),
+    (0x444511, 0x56b, 'C# major', 'A# minor'),
+
+    # following 9 entries (extended keys) are used by Scale module
+    (0x444911, 0x5ab, 'G# major', 'E# minor'),
+    (0x444912, 0x5ad, 'D# major', 'B# minor'),
+    (0x448912, 0x6ad, 'A# major', 'F## minor'),
+    (0x448922, 0x6b5, 'E# major', 'C## minor'),
+    (0, 0, '', ''),
+    (0x884621, 0xad5, 'Abb major', 'Fb minor'),
+    (0x884611, 0xad6, 'Ebb major', 'Cb minor'),
+    (0x844611, 0xb56, 'Bbb major', 'Gb minor'),
+    (0x844511, 0xb5a, 'Fb major', 'Db minor'),
+
+    (0x444511, 0xd5a, 'Cb major', 'Ab minor'),
+    (0x444111, 0xd6a, 'Gb major', 'Eb minor'),
+    (0x444110, 0x56b, 'Db major', 'Bb minor'),
+    (0x440110, 0x5ab, 'Ab major', 'F minor'),
+    (0x440100, 0x5ad, 'Eb major', 'C minor'),
+    (0x400100, 0x6ad, 'Bb major', 'G minor'),
+    (0x400000, 0x6b5, 'F major', 'D minor'),
+]
+_KEYSIG_TAB = (0, -5, 2, -3, 4, -1, 6, 1, -4, 3, -2, 5)
+
+
+class Key(object):
+    """
+    A class for objects that represent keys.
+
+    Attributes:
+        signs(int): Its absolute value represents the number of signs in
+            the key signature (usually 0-7, up to 11 when extended), and
+            it is positive for sharps and negative for flats.
+        minor(int): 0 for major keys, 1 for minor keys
+
+    Args:
+        keydesc(int, str, or Key): If it is an integer, it directly specifies
+            the value of the signs attribute.
+            If it is a string, the key is specified by a string
+            matched by the regular expression below. It is case-insensitive.
+
+            ``[A-G][#bsf]?[- ]*(major|minor)``
+
+            If it is a Key object, the constructor acts as a copy constructor.
+        minor(int, optional):
+            If `keydesc` is an integer, it specifies the value of the 'minor'
+            attribute.
+            Ignored if `keydesc` is any other type.
+        extended(bool, optional):
+            If True, then uncommon keys such as 'G# major' are allowed.
+
+    Examples:
+        ``Key('C major')  Key('Eb-minor')  Key(-3)  Key(3,1)``
+
+    """
+
+    def __init__(self, keydesc, minor=0, extended=False):
+        if isinstance(keydesc, Key):
+            (self.signs, self.minor) = (keydesc.signs, keydesc.minor)
+        else:
+            if isinstance(keydesc, str):
+                m = re.match("\\s*([a-g])([sf#b]?)[-\\s]*(major|minor)\\s*$",
+                             keydesc.lower())
+                if not m:
+                    raise ValueError("Unrecognized key-signature string")
+                p = PITCH_IDS[m.group(1).upper()]
+                sf = sum([(1 if c in "s#" else -1) for c in m.group(2)])
+                minor = 1 if m.group(3) == "minor" else 0
+                k = _KEYSIG_TAB[(p + sf) % 12] - minor * 3
+                k += 12 if sf > 0 and k < 0 else -12 if sf < 0 and k > 0 else 0
+            elif (isinstance(keydesc, numbers.Integral) and
+                  not isinstance(keydesc, Pitch)):
+                k = keydesc
+            else:
+                raise TypeError("invalid 'keydesc' type")
+            lim = 7 if not extended else 11
+            if not -lim <= k <= lim:
+                raise ValueError('more than %d shaprs/flats are not allowed'
+                                 % lim)
+            if minor not in [0, 1]:
+                raise ValueError("'minor' must be 0 (major) or 1 (minor)")
+            (self.signs, self.minor) = (k, minor)
+
+    def __repr__(self):
+        return "Key('%s')" % self.tostr()
+
+#    def __str__(self):
+#        return "Key(%r, %r)" % (self.signs, self.minor)
+
+    def tostr(self) -> str:
+        """ Returns a string representing the key (‘C major’, etc.). """
+        return _KEY_TAB[self.signs % 24][self.minor + 2]
+
+    def __eq__(self, other):
+        if not isinstance(other, Key):
+            return NotImplemented
+        return self.signs == other.signs and self.minor == other.minor
+
+    def getsf(self, note_number) -> int:
+        """
+        Given a note number, returns the number of sharps/flats implied
+        by the key signature.
+
+        Args:
+            note_number(int): MIDI note number
+
+        Returns:
+            An integer that, if it is positive, means the number of sharps, and
+            if it is negative, its absolute value means the number of flats.
+
+        Examples:
+            >>> Key('G-major').getsf(F4)
+            1
+            >>> Key('G-major').getsf(Fs4)
+            0
+        """
+        sf = (_KEY_TAB[self.signs % 24][0] >> (chroma(note_number)*2)) & 0b11
+        if self.signs < 0:
+            sf = -sf
+        return sf
+
+    def is_scale_tone(self, note_number) -> bool:
+        """
+        Given a note number, checks whether the note is on the scale implied
+        by the key (major scale for major keys, natural minor scale for minor
+        keys).
+
+        Args:
+            note_number(int): MIDI note number
+
+        Returns:
+            True if the note is on the scale, or False otherwise.
+        """
+        return ((_KEY_TAB[self.signs % 24][1] >> chroma(note_number)) & 1) == 1
+
+    def gettonic(self, octave=4) -> Pitch:
+        """
+        Returns the tonic (principal pitch) of the key.
+
+        Args:
+            octave(int): Octave number of the tonic to be returned.
+        """
+        return Pitch(_KEY_TAB[self.signs % 24][self.minor + 2][:-6],
+                     octave=octave)
+
+    @staticmethod
+    def from_tonic(tonic, minor=0, extended=False) -> 'Key':
+        """
+        Creates a Key object from the pitch of its tonic.
+
+        Args:
+            tonic(Pitch or int): Pitch of the tonic
+            minor(int, optional): 0 for major, 1 for minor
+            extended(bool, optional):
+                If True, uncommon keys are allowed.
+        """
+        k = _KEYSIG_TAB[chroma(tonic)]
+        if minor:
+            k -= 3
+            if k < -6:
+                k += 12
+        lim = 7 if not extended else 11
+        if isinstance(tonic, Pitch):
+            if tonic.sf > 0 and k < 0 and k + 12 <= lim:
+                k += 12
+            elif tonic.sf < 0 and k > 0 and k - 12 >= -lim:
+                k -= 12
+        return Key(k, minor, extended)
