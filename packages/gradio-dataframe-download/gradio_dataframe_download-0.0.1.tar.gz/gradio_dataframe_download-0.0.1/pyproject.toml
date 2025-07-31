@@ -1,0 +1,57 @@
+[project]
+name = "gradio_dataframe_download"
+version = "0.0.1"
+description = "A `gradio` component for stateless DataFrame download as CSV."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [
+  {name = "Andrew Ridyard", email = "andyrids.uncapped698@passmail.net"}
+]
+maintainers = [
+  {name = "Andrew Ridyard", email = "andyrids.uncapped698@passmail.net"}
+]
+keywords = [
+  "gradio-custom-component", "stateless", "dataframe", "download", "button"
+]
+dependencies = ["gradio", "narwhals>=1.42.1"]
+classifiers = [
+  # 3 - Alpha | 4 - Beta | 5 - Production/Stable
+  'Development Status :: 4 - Beta',
+  'Operating System :: OS Independent',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3 :: Only',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Topic :: Scientific/Engineering',
+  'Topic :: Scientific/Engineering :: Artificial Intelligence',
+  'Topic :: Scientific/Engineering :: Visualization',
+]
+
+[project.optional-dependencies]
+dev = ["build", "twine"]
+
+[project.urls]
+Repository = "https://github.com/andyrids/gradio-dataframe-download"
+Issues = "https://github.com/andyrids/gradio-dataframe-download/-/issues"
+
+[dependency-groups]
+dev = ["pandas>=2.0.3",]
+
+[tool.hatch.build]
+artifacts = ["/backend/gradio_dataframe_download/templates", "*.pyi"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["/backend/gradio_dataframe_download"]
+
+[tool.hatch.metadata]
+allow-direct-reference = true
+
+[build-system]
+requires = [
+  "hatchling",
+  "hatch-requirements-txt",
+  "hatch-fancy-pypi-readme>=22.5.0",
+]
+build-backend = "hatchling.build"

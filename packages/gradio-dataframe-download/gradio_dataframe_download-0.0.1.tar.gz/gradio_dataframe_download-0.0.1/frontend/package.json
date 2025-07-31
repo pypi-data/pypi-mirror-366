@@ -1,0 +1,36 @@
+{
+  "name": "gradio_dataframe_download",
+  "version": "0.0.1",
+  "description": "Gradio UI packages",
+  "type": "module",
+  "author": "Andrew Ridyard",
+  "license": "ISC",
+  "private": false,
+  "main_changeset": true,
+  "exports": {
+    ".": {
+      "gradio": "./Index.svelte",
+      "svelte": "./dist/Index.svelte",
+      "types": "./dist/Index.svelte.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@gradio/atoms": "0.16.3",
+    "@gradio/button": "^0.5.7",
+    "@gradio/client": "^1.15.6",
+    "@gradio/image": "^0.22.13",
+    "@gradio/utils": "0.10.2"
+  },
+  "devDependencies": {
+    "@gradio/preview": "0.14.0"
+  },
+  "peerDependencies": {
+    "svelte": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyrids/gradio-dataframe-download.git",
+    "directory": "frontend"
+  }
+}
