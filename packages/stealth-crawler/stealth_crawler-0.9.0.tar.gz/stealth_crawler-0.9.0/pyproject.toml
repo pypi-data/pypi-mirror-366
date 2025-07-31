@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stealth-crawler"
+dynamic = ["version"]
+description = "A stealth web crawler using headless Chrome"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+authors = [
+    {name = "Kaden Gruizenga", email = "kjgruiz@pm.me"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pydoll-python",
+    "html2text",
+    "rich",
+    "click",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-asyncio",
+  "aiohttp",
+  "black",
+  "ruff",
+  "setuptools_scm[toml]>=6.2",
+  "build",
+  "twine",
+  "wheel",
+]
+
+[project.scripts]
+stealth-crawler = "stealthcrawler.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/kgruiz/stealth-crawler"
+Source = "https://github.com/kgruiz/stealth-crawler"
+Issues = "https://github.com/kgruiz/stealth-crawler/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+write_to = "src/stealthcrawler/_version.py"
