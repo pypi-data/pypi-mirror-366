@@ -1,0 +1,72 @@
+[build-system]
+requires = [
+    "hatchling",
+    "versioningit >= 3.0.0",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "odio"
+dynamic = ["version"]
+description = "A library for the import / export of ODF documents."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+	"Development Status :: 4 - Beta",
+	"Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.8",
+	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: Implementation",
+	"Programming Language :: Python :: Implementation :: CPython",
+	"Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: MIT No Attribution License (MIT-0)",
+    "Operating System :: OS Independent",
+]
+license = {text = "MIT No Attribution"}
+keywords = ["odf", "ods", "odt"]
+
+[project.urls]
+Homepage = "https://codeberg.org/tlocke/odio"
+
+[tool.hatch.version]
+source = "versioningit"
+default-version = "0.0.0"
+
+[tool.flake8]
+application-names = ["odio"]
+ignore = ["E203", "W503"]
+max-line-length = 88
+exclude = [".git", "__pycache__", "build", "dist", "venv", ".tox"]
+application-import-names = ["odio"]
+
+[tool.tox]
+requires = ["tox>=4.19"]
+envlist = ["py"]
+
+[tool.tox.env_run_base]
+description = "Run test under {base_python}"
+allowlist_externals = ["rm"]
+commands = [
+    ["black", "--check", "."],
+    ["flake8", "."],
+    ["validate-pyproject", "pyproject.toml"],
+    ["pytest", "-v", "-x", "-W error", "test"],
+    ["rm", "-rf", "dist"],
+    ["python", "-m", "build"],
+    ["twine", "check", "dist/*"],
+]
+deps = [
+    "pytest",
+    "pytest-mock",
+    "black",
+    "flake8",
+    "flake8-alphabetize",
+    "Flake8-pyproject",
+    "build",
+    "twine",
+    "validate-pyproject",
+]
