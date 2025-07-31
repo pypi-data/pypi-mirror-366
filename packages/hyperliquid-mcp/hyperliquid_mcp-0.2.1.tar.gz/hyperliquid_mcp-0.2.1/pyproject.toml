@@ -1,0 +1,56 @@
+[project]
+name = "hyperliquid-mcp"
+version = "0.2.1"
+description = "A server that exposes a set of tools for interacting with the Hyperliquid decentralized exchange. It simplifies trading operations by providing a high-level API for placing, canceling, and modifying orders, as well as managing account settings and retrieving market data."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Minh DOAN", email = "midogax272@gmail.com"}
+]
+keywords = ["hyperliquid", "trading", "mcp", "crypto", "defi", "exchange"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "asyncio-throttle>=1.0.2",
+    "eth-account>=0.13.7",
+    "fastmcp>=2.10.6",
+    "hyperliquid-python-sdk>=0.16.0",
+    "pydantic>=2.11.7",
+    "python-dotenv>=1.1.1",
+]
+
+[project.scripts]
+hyperliquid-mcp = "hyperliquid_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "mypy>=1.17.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "pytest-mock>=3.14.1",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.12.5",
+    "mcp[cli]>=1.12.2",
+    "python-dotenv>=1.1.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/midodimori/hyperliquid-mcp"
+Repository = "https://github.com/midodimori/hyperliquid-mcp"
+Issues = "https://github.com/midodimori/hyperliquid-mcp/issues"
+Documentation = "https://github.com/midodimori/hyperliquid-mcp#readme"
