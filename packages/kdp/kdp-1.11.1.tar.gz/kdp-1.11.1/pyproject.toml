@@ -1,0 +1,249 @@
+[tool.poetry]
+name = "kdp"
+# This version is managed by semantic-release and will be updated automatically during release
+version = "1.11.1"
+documentation = "http://piotrlaczkowski.github.io/keras-data-processor/"
+repository = "https://github.com/piotrlaczkowski/keras-data-processor"
+description = "Data Preprocessing model based on Keras preprocessing layers"
+authors = ["Piotr Laczkowski <piotr.laczkowski@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+include = ["docs/getting-started/imgs/kdp_logo.png"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+tensorflow = "^2.18.0"
+tf-keras = "^2.18.0"
+numpy = ">=1.22.0"
+pandas = "^2.2.0"
+loguru = "^0.7.2"
+parameterized = "^0.9.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+ipython = "^8.8.0"
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.12.0"
+pytest-xdist = "^3.5.0"
+pytest-benchmark = "^4.0.0"
+pytest-timeout = "^2.2.0"
+pytest-sugar = "^0.9.7"
+pytest-html = "^4.1.1"
+pytest-parallel = "^0.1.1"
+psutil = "^5.9.0"
+ipykernel = "^6.29.3"
+pydot = "^2.0.0"
+scipy = "^1.12.0"
+
+[tool.poetry.group.doc.dependencies]
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.3"
+mkdocs-material-extensions = ">=1.3.1"
+mkdocs-gen-files = "^0.5.0"
+mkdocstrings-python = "^0.9.0"
+mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+mkdocs-redirects = "^1.2.2"
+mike = ">=2.0.0"
+griffe = "^0.25.0"
+
+[tool.pytest.ini_options]
+python_paths = "kdp"
+testpaths = "test"
+# Enable maximum parallel execution for ALL tests with optimizations
+addopts = [
+    "-n", "auto",
+    "--strict-markers",
+    "--strict-config",
+    "--tb=short",
+    "--cov=kdp",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml",
+    "--cov-fail-under=75",
+    "--durations=10",
+    "--timeout=180",
+    "--maxfail=10",
+    "--disable-warnings"
+]
+# Test markers for categorization
+markers = [
+    "unit: Unit tests that run quickly",
+    "integration: Integration tests that may take longer",
+    "slow: Tests that take a long time to run",
+    "fast: Tests that run very quickly",
+    "time_series: Time series specific tests",
+    "layers: Layer-specific tests",
+    "processor: Processor-specific tests",
+    "inference: Inference-related tests",
+    "performance: Performance benchmark tests"
+]
+# Minimum version requirements
+minversion = "6.0"
+# Test discovery patterns
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# Timeout for individual tests (5 minutes)
+timeout = 300
+# Parallel execution settings
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore::UserWarning:tensorflow.*",
+    "ignore::FutureWarning:tensorflow.*"
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+  "*/__init__.py",
+  "*/test_*.py",
+  "*/tests/*.py",
+  "*/conftest.py",
+  "*/venv/*",
+  "*/virtualenv/*",
+  "*/.venv/*",
+  "*/.virtualenv/*",
+  "*/env/*",
+  "*/.env/*",
+  "*/setup.py"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == '__main__':",
+    "logger",
+    "try",
+    "except",
+    "^\\s*self\\.\\w+(:\\s*[^=]+)?\\s*=.*$",
+    "continue",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py311"
+extend-unsafe-fixes = ["D"]
+
+[tool.ruff.lint]
+# List of rules: https://docs.astral.sh/ruff/rules
+select = [
+    # flake8-builtins
+    "A",
+    # flake8-commas
+    "COM812",
+    # flake8-comprehensions
+    "C4",
+    # pydocstyle
+    "D",
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # flake8-implicit-str-concat
+    "ISC",
+    # pep8-naming
+    "N",
+    # flake8-annotations
+    "ANN",
+    # flake8-async
+    "ASYNC",
+    # flake8-bandid selected
+    "S",
+    # flake8-print
+    "T20",
+    # flake8-return
+    "RET",
+    # flake8-simplify
+    "SIM",
+    # flake8-unused-arguments
+    "ARG",
+    # flake8-use-pathlib
+    "PTH",
+    # eradicate
+    "ERA",
+    # pandas-vet
+    "PD",
+]
+ignore = [
+    "D100",
+    "D101",
+    "D104",
+    "D106",
+    # missing-type-self
+    "ANN101",
+    # missing-type-cls
+    "ANN102",
+    # missing-type-kwargs
+    "ANN003",
+    # utf-8 encoding skip
+    "UP009",
+    # First argument of a method should be named `self`
+    "N805",
+    # 1 blank line required between summary line and description
+    "D205",
+    # Missing return type annotation for special method `__init__`
+    "ANN204",
+    # Avoid using the generic variable name `df` for DataFrames
+    "PD901",
+    # Unnecessary assignment to `df` before `return` statement
+    "RET504",
+    # commented code
+    "ERA001",
+    # Star-arg unpacking after a keyword argument is strongly discouraged
+    "B026",
+    # Missing type annotation for function argument `self`
+    "ANN001",
+    # Dynamically typed expressions (typing.Any) are disallowed in `wrapper`
+    "ANN401",
+    # Unnecessary `elif` after `return` statement
+    "RET505",
+    # Within an `except` clause, raise exceptions with `raise
+    "B904",
+    "PD013",
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"**/{test,docs}/*" = ["ALL"]
