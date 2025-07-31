@@ -1,0 +1,27 @@
+[project]
+name = "mcp-stock-analysis"
+version = "0.1.0"
+description = "MCP server for stock portfolio analysis and reporting"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.12.2",
+    "numpy>=2.3.2",
+    "pandas>=2.3.1",
+    "yfinance>=0.2.65",
+    "beautifulsoup4>=4.12.3",
+    "requests>=2.31.0",
+    "fastmcp>=2.10.6",
+]
+
+[project.scripts]
+mcp-stock-analysis = "mcp_stock_analysis:main"
+
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_stock_analysis"]
