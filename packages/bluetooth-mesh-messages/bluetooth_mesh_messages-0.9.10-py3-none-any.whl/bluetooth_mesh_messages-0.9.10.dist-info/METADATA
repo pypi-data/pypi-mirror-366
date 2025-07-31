@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: bluetooth-mesh-messages
+Version: 0.9.10
+Author-email: Michał Lowas-Rzechonek <michal.lowas-rzechonek@silvair.com>, Amadeusz Herzog <amadeusz.hercog@silvair.com>, Jakub Witowski <jakub.witowski@silvair.com>, Kamil Janowski <kamil.janowski@silvair.com>, Przemysław Fierek <przemyslaw.fierek@silvair.com>, Rafał Gajda <rafal.gajda@silvair.com>
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: System :: Networking
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: construct<2.9.46,>=2.9.45
+Provides-Extra: test
+Requires-Dist: black; extra == "test"
+Requires-Dist: isort; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: ruff; extra == "test"
+Provides-Extra: capnp
+Requires-Dist: pycapnp; extra == "capnp"
+Dynamic: license-file
