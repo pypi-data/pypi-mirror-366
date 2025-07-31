@@ -1,0 +1,30 @@
+[project]
+name = "cosmos2025"
+description = "A library for communication with ADI devices for COSMOS 2025"
+readme = "README.md"
+requires-python = ">=3.12"
+dynamic = ["version"]
+
+dependencies = [
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.5",
+    "polars>=1.30.0",
+    "pyadi-iio>=0.0.19",
+    "seaborn>=0.13.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "hatch>=1.14.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/comms_lib/__about__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/comms_lib"]
