@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tracenet"
+version = "0.1.4"
+authors = [
+  { name = "Armaan Sayyad", email = "armaans999@gmail.com" },
+  { name = "Aarav Aggarwal", email = "aarav.a0624@gmail.com" },
+]
+description = "Universal tracing middleware for agent applications with support for multiple tracing backends"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "langfuse==3.2.1",
+    "openinference-instrumentation>=0.1.27",
+    "openinference-instrumentation-openai",
+    "openinference-instrumentation-anthropic",
+    "openinference-instrumentation-langchain",
+    "openinference-instrumentation-llama-index"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/stackgenhq/tracenet"
+"Bug Tracker" = "https://github.com/stackgenhq/tracenet/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tracenet"] 

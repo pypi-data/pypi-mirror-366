@@ -1,0 +1,23 @@
+{
+  "name": "tracenet-observability-typescript-examples",
+  "version": "1.0.0",
+  "description": "TypeScript examples for tracenet Observability with OpenAI Agents",
+  "main": "hello-world.ts",
+  "scripts": {
+    "start": "ts-node hello-world.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@openai/agents": "^0.0.11",
+    "@stackgen-ai/tracenet": "^0.1.1",
+    "dotenv": "^16.0.0",
+    "langfuse": "^2.0.0",
+    "openai": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
