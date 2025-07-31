@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: retrophase
+Version: 0.13
+Summary: Retrophase provides a convenient and interactive way to change the phase of a lock-in amplifier measurement retrospectively.
+Author-email: Luis Bonah <bonah@ph1.uni-koeln.de>
+Keywords: Phase,Spectroscopy,Lock-In
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: PyQt6
+Dynamic: license-file
+
+# Retrophase
+
+This package provides an interactive program to retrospectively change the phase of measurements.
+Its intended usecase are measurements performed with lock-in amplifiers.
+If the X and Y components are recorded, the program allows to change the phase in hindsight.
