@@ -1,0 +1,13 @@
+[build-system]
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "harzcoin"
+readme = "README.md"
+authors = [{name = "hrsiz", email = "harsizstudio@gmail.com"}]
+license = {text = "MIT"}
+dependencies = ["requests"]
+version = "1.0.3"
+description = "Your API wrapper for Harzcoin"
+
