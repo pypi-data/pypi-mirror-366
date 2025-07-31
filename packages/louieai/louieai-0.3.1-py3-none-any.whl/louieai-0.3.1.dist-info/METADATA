@@ -1,0 +1,116 @@
+Metadata-Version: 2.4
+Name: louieai
+Version: 0.3.1
+Summary: Python client for Louie.ai (Graphistry's AI investigation platform)
+Author-email: "Graphistry, Inc." <support@graphistry.com>
+License: Apache-2.0
+Project-URL: Documentation, https://louieai.readthedocs.io
+Project-URL: Repository, https://github.com/<owner>/louieai
+Project-URL: Issue Tracker, https://github.com/<owner>/louieai/issues
+Project-URL: Changelog, https://github.com/<owner>/louieai/blob/main/CHANGELOG.md
+Keywords: Louie.ai,Graphistry,AI,client,investigation
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE
+Requires-Dist: graphistry>=0.41.0
+Requires-Dist: httpx>=0.28.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pyarrow>=14.0.0
+Provides-Extra: dev
+Requires-Dist: ruff>=0.12.0; extra == "dev"
+Requires-Dist: mypy>=1.17.0; extra == "dev"
+Requires-Dist: pytest>=8.4.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: pytest-xdist>=3.6.0; extra == "dev"
+Requires-Dist: pre-commit>=4.2.0; extra == "dev"
+Requires-Dist: mkdocs>=1.6.0; extra == "dev"
+Requires-Dist: mkdocs-material>=9.6.0; extra == "dev"
+Requires-Dist: python-dotenv>=1.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs>=1.6.0; extra == "docs"
+Requires-Dist: mkdocs-material>=9.6.0; extra == "docs"
+Requires-Dist: mkdocstrings[python]>=0.24.0; extra == "docs"
+Dynamic: license-file
+
+# LouieAI Python Client
+
+[![CI](https://github.com/graphistry/louie-py/actions/workflows/ci.yml/badge.svg)](https://github.com/graphistry/louie-py/actions/workflows/ci.yml)
+[![PyPI Version](https://img.shields.io/pypi/v/louieai.svg)](https://pypi.org/project/louieai/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
+**LouieAI** is an AI-driven investigative platform by [Graphistry](https://www.graphistry.com) that brings generative AI into your data analysis workflows. This Python client library enables you to programmatically interact with Louie.ai using natural language queries.
+
+## Features
+
+- **Simple API**: Send natural language queries and receive structured responses
+- **Seamless Authentication**: Integrates with PyGraphistry authentication
+- **Rich Responses**: Get text answers, dataframes, and Graphistry visualizations
+- **Thread-based Conversations**: Maintain context across multiple queries
+- **Type-safe**: Full type hints for better IDE support
+
+*Alpha Release: Core functionality is available with more features coming soon.*
+
+## Installation
+
+Requires Python 3.10+ and an existing Graphistry account.
+
+```bash
+# Using uv (recommended)
+uv pip install louieai
+
+# Using pip
+pip install louieai
+```
+
+## Quick Start
+
+```python
+import graphistry
+import louieai as lui
+
+# Authenticate with your Graphistry account
+graphistry.register(api=3, username="your_user", password="your_pass")
+
+# Create a client and make queries
+client = lui.Client()
+response = client.add_cell("", "Show me patterns in the security logs")
+
+# Access different response types
+for text in response.text_elements:
+    print(text['text'])
+    
+for df in response.dataframe_elements:
+    print(df['table'])  # pandas DataFrame
+```
+
+## Documentation
+
+- [User Guide](https://louie-py.readthedocs.io) - Complete usage examples and tutorials
+- [API Reference](https://louie-py.readthedocs.io/en/latest/api/) - Detailed API documentation
+- [Examples](https://louie-py.readthedocs.io/en/latest/examples/) - Common patterns and use cases
+
+## Links
+
+- [Louie.ai Platform](https://louie.ai) - Learn about LouieAI
+- [PyGraphistry](https://github.com/graphistry/pygraphistry) - Required for authentication
+- [Support](https://github.com/graphistry/louie-py/issues) - Report issues or get help
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**For developers**: Check out [DEVELOP.md](DEVELOP.md) for technical setup and development workflow.
+
+## License
+
+Apache 2.0 - see [LICENSE](LICENSE)
