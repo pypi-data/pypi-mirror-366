@@ -1,0 +1,46 @@
+[project]
+name = "awesome-lists-generator"
+version = "0.2.2"
+description = "Create markdown based Awesome Lists from yaml files."
+readme = "README.md"
+# Repository = "https://github.com/derekvincent/awesome-list-generator"
+requires-python = ">=3.12"
+authors = [
+    { name = "Derek Vincent", email = "derek@kemiakl.io" },
+]
+license = "MIT"
+license-files = ["LICENSE",]
+
+keywords = ["awesome-list", "generator"]
+
+dependencies = [
+    "click >=8.2.0",
+    "pyyaml >=6.0",
+    "beautifulsoup4 >=4.12.2",
+    "requests",
+]
+
+[build-system]
+requires = ["setuptools>=80", "wheel>=0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+awesome-lists-generator = "awesome_list.cli:cli"
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
+
+[tool.uv]
+package = true
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+
+[tool.uv.sources]
+this-package = { path = "src", editable = true }
