@@ -1,0 +1,37 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Paslauga jau sukonfig\u016bruota"
+        },
+        "error": {
+            "cannot_connect": "Nepavyko prisijungti",
+            "unknown": "Netik\u0117ta klaida"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "API raktas"
+                },
+                "data_description": {
+                    "api_key": "OpenRouter API raktas"
+                }
+            }
+        }
+    },
+    "config_subentries": {
+        "conversation": {
+            "entry_type": "Pokalbi\u0173 agentas",
+            "initiate_flow": {
+                "user": "Prid\u0117ti pokalbi\u0173 agent\u0105"
+            },
+            "step": {
+                "user": {
+                    "data": {
+                        "model": "Modelis"
+                    },
+                    "description": "Naujo pokalbi\u0173 agento konfig\u016bravimas"
+                }
+            }
+        }
+    }
+}

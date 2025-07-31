@@ -1,0 +1,163 @@
+{
+    "config": {
+        "abort": {
+            "missing_amc_scope": "N\u00edl an `Authentication API` n\u00e1 an `Automower Connect API` ceangailte le d'fheidhmchl\u00e1r i dTairseach Forbr\u00f3ir\u00ed Husqvarna.",
+            "no_mower_connected": "N\u00edl aon lomaire meais\u00edn ceangailte leis an gcuntas seo."
+        },
+        "step": {
+            "missing_scope": {
+                "description": "Chun an taith\u00ed is fearr a fh\u00e1il leis an gcomhth\u00e1th\u00fa seo, ba ch\u00f3ir an `Authentication API` agus an `Automower Connect API` a bheith ceangailte le ch\u00e9ile. D\u00e9an cinnte go bhfuil an d\u00e1 cheann acu ceangailte le do chuntas i [Husqvarna Developer Portal]({application_url}).",
+                "title": "T\u00e1 roinnt naisc API ar iarraidh i do chuntas"
+            },
+            "pick_implementation": {
+                "data": {
+                    "implementation": "Dinti\u00fair Iarratais"
+                },
+                "data_description": {
+                    "implementation": "Na dinti\u00fair is mian leat a \u00fas\u00e1id chun f\u00edordheimhni\u00fa."
+                }
+            }
+        }
+    },
+    "entity": {
+        "button": {
+            "confirm_error": {
+                "name": "Deimhnigh an earr\u00e1id"
+            },
+            "sync_clock": {
+                "name": "Clog sioncr\u00f3naithe"
+            }
+        },
+        "number": {
+            "my_lawn_cutting_height_work_area": {
+                "name": "Airde mo ghearrtha faiche"
+            },
+            "work_area_cutting_height_work_area": {
+                "name": "airde gearrtha {work_area}"
+            }
+        },
+        "sensor": {
+            "downtime": {
+                "name": "Aga neamhfh\u00f3naimh"
+            },
+            "error": {
+                "state": {
+                    "error": "Earr\u00e1id",
+                    "error_at_power_up": "Earr\u00e1id ag an gcumhacht\u00fa",
+                    "fatal_error": "Earr\u00e1id mharfach",
+                    "stopped": "Stoptha",
+                    "wait_power_up": "Fan cumhacht suas",
+                    "wait_updating": "Fan nuashonr\u00fa"
+                }
+            },
+            "inactive_reason": {
+                "name": "C\u00fais neamhghn\u00edomhach",
+                "state": {
+                    "none": "Gan aon neamhghn\u00edomha\u00edocht",
+                    "planning": "Ag plean\u00e1il",
+                    "searching_for_satellites": "Ag cuardach satail\u00edt\u00ed"
+                }
+            },
+            "my_lawn_last_time_completed": {
+                "name": "Mo fhaiche an uair dheireanach a chr\u00edochnaigh m\u00e9"
+            },
+            "my_lawn_progress": {
+                "name": "Dul chun cinn mo fhaiche"
+            },
+            "restricted_reason": {
+                "state": {
+                    "amazon_alexa": "Amazon Alexa",
+                    "developer_portal": "Tairseach Forbr\u00f3ra",
+                    "gardena_smart_system": "C\u00f3ras Cliste Gardena",
+                    "google_assistant": "C\u00fant\u00f3ir Google",
+                    "home_assistant": "C\u00fant\u00f3ir Baile",
+                    "ifttt": "IFTTT",
+                    "ifttt_applets": "Feidhmchl\u00e1ir\u00edn\u00ed IFTTT",
+                    "ifttt_calendar_connection": "Nasc f\u00e9ilire IFTTT",
+                    "smart_routine": "Gn\u00e1thamh cliste ginear\u00e1lta",
+                    "smart_routine_frost_guard": "Garda sioc",
+                    "smart_routine_rain_guard": "Garda b\u00e1ist\u00ed",
+                    "smart_routine_wildlife_protection": "Cosaint fiadh\u00falra"
+                }
+            },
+            "uptime": {
+                "name": "Aga f\u00f3naimh"
+            },
+            "work_area": {
+                "name": "Limist\u00e9ar oibre",
+                "state": {
+                    "my_lawn": "Mo fhaiche",
+                    "no_work_area_active": "Gan aon limist\u00e9ar oibre gn\u00edomhach"
+                },
+                "state_attributes": {
+                    "work_area_id_assignment": {
+                        "name": "Sannadh aitheantais limist\u00e9ar oibre"
+                    }
+                }
+            },
+            "work_area_last_time_completed": {
+                "name": "an uair dheireanach a cr\u00edochna\u00edodh {work_area}"
+            },
+            "work_area_progress": {
+                "name": "dul chun cinn {work_area}"
+            }
+        },
+        "switch": {
+            "my_lawn_work_area": {
+                "name": "Mo fhaiche"
+            },
+            "stay_out_zones": {
+                "name": "Seachain {stay_out_zone}"
+            }
+        }
+    },
+    "exceptions": {
+        "command_send_failed": {
+            "message": "Theip ar ord\u00fa a sheoladh: {exception}"
+        },
+        "work_area_not_existing": {
+            "message": "N\u00edl an limist\u00e9ar oibre roghnaithe ann."
+        },
+        "work_areas_not_supported": {
+            "message": "N\u00ed thaca\u00edonn an meais\u00edn gearrtha seo le limist\u00e9ir oibre."
+        }
+    },
+    "selector": {
+        "override_modes": {
+            "options": {
+                "mow": "Bain",
+                "park": "P\u00e1irc"
+            }
+        }
+    },
+    "services": {
+        "override_schedule": {
+            "description": "Ligeann s\u00e9 don lomaire f\u00e9ar a ghearradh n\u00f3 p\u00e1irce\u00e1il ar feadh tr\u00e9imhse \u00e1irithe, ag s\u00e1r\u00fa gach sceideal.",
+            "fields": {
+                "duration": {
+                    "description": "\u00cdosmh\u00e9id: 1 n\u00f3im\u00e9ad, uasmh\u00e9id: 42 l\u00e1, d\u00e9anfar neamhaird ar shoicind\u00ed.",
+                    "name": "Fad"
+                },
+                "override_mode": {
+                    "description": "Leis an ngn\u00edomh ba ch\u00f3ir an sceideal a sh\u00e1r\u00fa.",
+                    "name": "M\u00f3d s\u00e1raithe"
+                }
+            },
+            "name": "Sceideal s\u00e1raithe"
+        },
+        "override_schedule_work_area": {
+            "description": "Ligeann s\u00e9 don ghearrth\u00f3ir f\u00e9ir a bhaint ar feadh tr\u00e9imhse \u00e1irithe i limist\u00e9ar oibre sonraithe, ag s\u00e1r\u00fa gach sceideal.",
+            "fields": {
+                "duration": {
+                    "description": "\u00cdosmh\u00e9id: 1 n\u00f3im\u00e9ad, uasmh\u00e9id: 42 l\u00e1, d\u00e9anfar neamhaird ar shoicind\u00ed.",
+                    "name": "Fad"
+                },
+                "work_area_id": {
+                    "description": "In aon limist\u00e9ar oibre ba ch\u00f3ir don ghearrth\u00f3ir f\u00e9ir a ghearradh.",
+                    "name": "Aitheantas limist\u00e9ar oibre"
+                }
+            },
+            "name": "S\u00e1raigh limist\u00e9ar oibre sceidealaithe"
+        }
+    }
+}
