@@ -1,0 +1,46 @@
+{
+  "name": "@your-org/mcp-calculator",
+  "version": "0.1.0",
+  "description": "A Model Context Protocol server providing calculator functionality (Node.js version)",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-calculator-js": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "test": "node dist/cli.js --help"
+  },
+  "keywords": [
+    "mcp",
+    "calculator",
+    "model-context-protocol",
+    "typescript"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/mcp-calculator"
+  },
+  "homepage": "https://github.com/yourusername/mcp-calculator",
+  "bugs": {
+    "url": "https://github.com/yourusername/mcp-calculator/issues"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+} 

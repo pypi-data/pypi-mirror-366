@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "calculator-python-uvx": {
+      "command": "uvx",
+      "args": ["mcp-calculator-demo"],
+      "env": {
+        "DEBUG": "false"
+      }
+    },
+    "calculator-python-local": {
+      "command": "mcp-calculator",
+      "args": ["--transport", "stdio"],
+      "env": {
+        "DEBUG": "true"
+      }
+    },
+    "calculator-typescript-npx": {
+      "command": "npx",
+      "args": ["-y", "@your-org/mcp-calculator"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "calculator-typescript-local": {
+      "command": "mcp-calculator-js",
+      "args": [],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "example-everything": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-everything"],
+      "env": {}
+    }
+  }
+} 
