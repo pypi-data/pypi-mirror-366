@@ -1,0 +1,11 @@
+{% extends "admin/change_form.html" %}
+
+{% load i18n admin_urls %}
+
+{% block submit_buttons_bottom %}
+    <div class="submit-row">
+        <button type="submit" class="default fpe-action fpe-action-revert button">{% translate 'Revert' %}</button>
+        <a href="{% url opts|admin_urlname:'changelist' %}"
+           class="fpe-action fpe-action-cancel button">{% translate 'Cancel' %}</a>
+    </div>
+{% endblock %}
