@@ -1,0 +1,6 @@
+[console_scripts]
+extra-redu-litfrm-report = extra_redu.litfrm.litfrm_report:main
+extra-redu-spi-hitfinding = extra_redu.spi.hitfinding:main
+
+[exdf.data_reduction.method]
+LitFrames = extra_redu.litfrm.exdf_reduce:LitFrames
