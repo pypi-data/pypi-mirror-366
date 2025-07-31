@@ -1,0 +1,25 @@
+[project]
+name = "dataflow_sdk"
+version = "0.2.0"
+description = ""
+authors = [
+    {name = "fovegage",email = "fovegage@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10,<3.18"
+dependencies = [
+    "protobuf (>=6.31.1,<7.0.0)",
+    "grpcio (>=1.73.1,<2.0.0)",
+    "loguru (>=0.7.3,<0.8.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "orjson (>=3.11.0,<4.0.0)"
+]
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
