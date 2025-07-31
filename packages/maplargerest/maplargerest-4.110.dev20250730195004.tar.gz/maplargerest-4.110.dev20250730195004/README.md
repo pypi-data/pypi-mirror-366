@@ -1,0 +1,150 @@
+﻿# MapLarge REST API Python Client
+
+MapLarge is a platform for analysing and visualizing geospatial data.
+The maplargerest Python library enables Python applications to communicate with MapLarge servers via their Rest API.
+
+## Supported Python Versions
+
+The MapLarge REST API Python Client is supported on the latest patch version of Python 3.9 through 3.13, the versions officially supported by the Python Software Foundation. See <https://devguide.python.org/versions/> for more information.
+
+## Development Environment Creation
+
+Developing with the MapLarge Python REST client is as simple as setting up the your development environment, installing the
+client library, and being coding.
+
+### 1. Create Virtual Environment
+
+Create a Python environment for building and testing this project.
+
+#### Windows PowerShell
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate.ps1
+```
+
+#### Windows Command Line
+
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+#### Linux or Mac
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. Install Dependencies
+
+Install REST client, as awll as any python packages needed for subsequent work.
+
+If you add `maplargerest` to your local `requirements.txt`, you can install everything at once with the standard command:
+```bash
+pip install -r requirements.txt
+```
+
+Alternatively, you can install the REST client alone:
+
+```bash
+pip install maplargerest
+```
+
+## Using the MapLarge REST client
+
+The python client is built to work against the standard REST API the are building into a MapLarge.Server deployment.  To 
+view the documentation for these REST endpoints, simply visit the Swagger endpoint at your local installation:
+
+```text
+https://<hostname>/swagger
+```
+## Usage Example
+
+Typical usage of the REST client starts with setting up a REST client with the proper credentials.
+
+```python
+from maplargerest.endpoints import RestClient, items
+
+client = RestClient(
+	url="https://my.maplarge.com",
+	username="user@example.com",
+	password="password")
+
+# Get a list of tables in the 'test' account
+tables = items(client.tables.list(account="test"))
+```
+
+The same pattern is used for importing data, setting up the OGC catalog, or other administrative tasks:
+
+Importing table data from remote sources:
+
+```python
+def clear_progress() -> None:
+    """Erase the previous import progress."""
+    m['prev_message'] = None
+
+
+def print_progress(imp: Import) -> None:
+    """Display the import progress."""
+    if m['prev_message'] != imp.message:
+        print(f'\t\t{imp.message}')
+        m['prev_message'] = imp.message
+
+"""Create required table """
+import_ = client.tables.post(
+    account=acct,
+    name=tblname,
+    body=CreateTableRequest(
+        file_url=tblurl,
+        options=impopts)
+)
+clear_progress()
+print_progress(import_)
+tables = items(client.follow(import_, 
+    "result",
+    result_type=RestList,
+    item_type=TableVersion,
+    status_update=print_progress
+))
+return tables[0]        
+```
+
+
+
+Adding entries to the OGC catalog:
+```python
+try:
+  # create the entry
+  newEntry: CatalogEntry = CatalogEntry()
+  newEntry.group = entry['group']
+  newEntry.name = entry['name']
+  newEntry.active = True
+  newEntry.title = entry['title']
+  newEntry.description = entry['description']
+  newEntry.data_source = entry['dataSource']
+  newEntry.source_type = entry['type']
+  created = self.create_entry(newEntry)
+except Exception as ex:
+  print(ex)
+```
+
+Adding a series of accounts:
+
+```python
+accts = items(client.accounts.list())
+for idx, acct in enumerate(req_accts):
+    if any(a for a in accts if a.code == acct['name']):
+        print("Account exists: ", acct)
+    else:
+        print("Account does not exist: ", acct)
+        name = acct['name']
+        descr = acct['description']
+        client.accounts.post(
+        body=CreateAccountRequest(
+            code=name,
+            name=name,
+            description=descr)
+        )
+```
