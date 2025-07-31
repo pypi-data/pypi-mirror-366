@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: collibra-connector
+Version: 1.0.6
+Summary: A standard Python connector for the Collibra Data Governance Center API.
+Author-email: Raül Dalgamonni <rauldalgamonnialonso@gmail.com>
+Project-URL: Homepage, https://github.com/rauldaal/collibra-python-connector
+Project-URL: Bug Tracker, https://github.com/rauldaal/collibra-python-connector
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Intended Audience :: Developers
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.20.0
+Dynamic: license-file
+
+# Collibra Python Connector
+
+A simple and standard Python connector for interacting with the Collibra Data Governance Center API.
+
+## Installation
+
+```bash
+pip install collibra-connector
+```
