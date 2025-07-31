@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: console_quiet
+Version: 1.0.0
+Summary: Provides a context manager for doing a "deep suppression" of stdout and stderr.
+Author-email: Leon Dionne <ldionne@dridesign.sh.cn>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Terminals
+Classifier: Topic :: Utilities
+Project-URL: Home, https://github.com/Zen-Master-SoSo/console_quiet
+
+# console_quiet
+
+Provides a context manager for doing a "deep suppression" of stdout and stderr.
+
+## Usage
+
+Use thusly:
+
+	from console_quiet import ConsoleQuiet
+	with ConsoleQuiet():
+		... do something noisy ...
+
+That's all folks!
+
