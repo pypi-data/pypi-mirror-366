@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "creo-mcp"
+version = "0.1.5"
+authors = [
+  { name = "yangkunyi", email = "colibri8n24@gmail.com" },
+]
+description = "An MCP server with tools for CAD interaction and knowledge base retrieval."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+keywords = ["mcp", "cad", "creo", "cadquery", "agent"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "cadquery>=2.5.2",
+    "creopyson>=0.7.7",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.11.0",
+    "openai>=1.95.1",
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yangkunyi/creo-mcp"
+Repository = "https://github.com/yangkunyi/creo-mcp"
+
+[project.scripts]
+creo-mcp = "main:main"
+
