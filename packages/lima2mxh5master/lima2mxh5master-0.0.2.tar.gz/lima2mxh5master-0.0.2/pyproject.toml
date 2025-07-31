@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lima2mxh5master"
+version = "0.0.2"
+authors = [{name = "ESRF", email = "dau-pydev@esrf.fr"}]
+description = "Convert lima2 data to mx h5 master file"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "silx",
+    "pydantic",
+    "asteval",
+    "esrf-pathlib",
+    "sb-detectors",
+]
+
+[project.urls]
+Homepage = "https://gitlab.esrf.fr/sb/lima2mxh5master/"
+Documentation = "https://lima2mxh5master.readthedocs.io/"
+Repository = "https://gitlab.esrf.fr/sb/lima2mxh5master/"
+Issues = "https://gitlab.esrf.fr/sb/lima2mxh5master/issues/"
+Changelog = "https://gitlab.esrf.fr/sb/lima2mxh5master/-/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+test = [
+    "pytest >=7",
+    "pytest-cov"
+]
+
+dev = [
+    "pytest >=7",
+    "ruff", 
+    "mypy",
+]
+doc = [
+    "sphinx >=4.5",
+    "sphinx-autodoc-typehints >=1.16",
+    "pydata-sphinx-theme",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"lima2mxh5master.profiles.lima1_to_h5mx" = ["*.json"]
+"lima2mxh5master.profiles.lima2_to_h5mx" = ["*.json"]
+
+[tool.coverage.run]
+omit = ["*/tests/*"]
+
+[tool.ruff]
+
+src = ["."]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.mypy]
+files = "."
+exclude = "build/"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "setuptools.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=lima2mxh5master --cov-report=term"
+
+[[tool.mypy.overrides]]
+module = [
+    "silx.*",
+    "esrf_pathlib.*",
+    "h5py.*",
+    "sb_detectors.*"
+]

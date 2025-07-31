@@ -1,0 +1,313 @@
+{
+  "registry": {
+    "source_dir":[],
+    "classes":{
+      "GenerateDataFieldFromNexusWritter": {
+        "path_bliss_master_h5":"__REQUIRED__",
+        "scan_index":"__REQUIRED__",
+        "h5_group_name":"measurement"
+      }, 
+      "H5MetadataHandler": {
+        "path_bliss_master_h5":"__REQUIRED__",
+        "scan_index":"__REQUIRED__",
+        "h5_group_name":"measurement"
+      }
+    }
+  },
+  "schema":{
+    "entry": {
+      "@NX_class": "NXentry",
+      "@default": "data",
+      "data": {
+        "__class__": "GenerateDataFieldFromNexusWritter",
+        "__method__": "generate_dict_data_links"
+      },
+      "instrument": {
+        "@NX_class": "NXinstrument",
+        "beam": {
+          "@NX_class": "NxBeam",
+          "incident_wavelength":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/beam/incident_wavelength"
+            }
+          },
+          "incident_wavelength@units": "MISSING"
+        },
+        "detector":{
+          "@NX_class": "NXdetector",
+          "beam_center_x":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/acq_params/exp/beam_center_x"
+            }
+          },
+          "beam_center_x@units": "MISSING",
+          "beam_center_y":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/acq_params/exp/beam_center_y"
+            }
+          },
+          "beam_center_y@units": "MISSING",
+          "bit_depth_image": "MISSING",
+          "bith_depth_readout": "MISSING",
+          "count_time":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "scan_parameters/count_time"
+            }
+          },
+          "count_time@units":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_attributes_value",
+            "__kwargs__": {
+              "key_path": "scan_parameters/count_time",
+              "attribute":"units"
+            } 
+          },
+          "description":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/description"
+            } 
+          },
+          "detectorSpecific":{
+            "@NX_class": "Nxcollection",
+            "auto_summation": "MISSING",
+            "compression": "MISSING",
+            "countrate_correction_count_cutoff":"MISSING",
+            "countrate_correction_lookup_table":"MISSING",
+            "countrate_correction_table":"MISSING",
+            "data_collection_date":{
+              "__class__": "H5MetadataHandler",
+              "__method__": "compute_acquisition_time"
+            },
+            "__dynamic_entry__" :{
+              ">=__key_from__": "'pilatus_fw_version' if 'PILATUS' in ${/entry/instrument/detector/description} else 'eiger_fw_version'",
+              "__value_from__": "MISSING"
+            },
+            ">element": "/entry/instrument/detector/sensor_material",
+            "flatfield":"MISSING",
+            "frame_count_time": "MISSING",
+            "frame_count_time@units": "MISSING",
+            ">frame_period": "/entry/instrument/detector/detectorSpecific/frame_count_time",
+            "nimages":{
+              "__class__": "H5MetadataHandler",
+              "__method__": "get_metadata_value",
+              "__kwargs__": {
+                "key_path": "instrument/$DETECTOR$/acq_params/acq/nb_frames"
+              }
+            },
+            "ntrigger": 1,
+            "number_of_excluded_pixels": "MISSING",
+            "photon_energy": {
+              "__class__": "H5MetadataHandler",
+              "__method__": "get_metadata_value",
+              "__kwargs__": {
+                "key_path": "instrument/$DETECTOR$/acq_params/exp/photon_energy"
+              }
+            },
+            "pixel_mask": "MISSING",
+            "roi_mode": {
+              "__class__": "H5MetadataHandler",
+              "__method__": "get_metadata_value",
+              "__kwargs__": {
+                "key_path": "instrument/$DETECTOR$/acq_params/det/roi"
+              }
+            },
+            "software_version": "MISSING",
+            "trigger_mode": {
+              "__class__": "H5MetadataHandler",
+              "__method__": "get_metadata_value",
+              "__kwargs__": {
+                "key_path": "instrument/$DETECTOR$/acq_params/acq/trigger_mode"
+              }
+            },
+            "x_pixels_in_detector":"MISSING",
+            "y_pixels_in_detector":"MISSING"
+          },
+          "detector_distance":  {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/acq_params/exp/detector_distance"
+            }
+          },
+          "detector_distance@units": "MISSING",
+          "detector_number":  "MISSING",
+          "detector_readout_time":"MISSING",
+          "detector_readout_time@units": "MISSING",
+          ">distance": "/entry/instrument/detector/detector_distance",
+          "flatfield_correction_applied": "MISSING",
+          ">=WARNING_frame_time": "${/entry/instrument/detector/count_time}#+${/entry/instrument/detector/detector_readout_time}",
+          ">=WARNING_frame_time@units": "${/entry/instrument/detector/count_time@units}",
+          "geometry": {
+            "@NX_class": "NXgeometry",
+            "orientation": {
+              "@NX_class": "NXorientation",
+              "value": "MISSING"
+            },
+            "translation": {
+              "@NX_class": "NXtranslation",
+              "distances": "MISSING",
+              "distances@units": "MISSING"
+            }
+          },
+          "goniometer": {
+            "@NX_class": "NXtransformations"
+          },
+          "module": {
+            "@NX_class": "NXdetector_module",
+            "data_origin": [0, 0],
+            ">=data_size": "[${/entry/instrument/detector/detectorSpecific/y_pixels_in_detector}, ${/entry/instrument/detector/detectorSpecific/x_pixels_in_detector}]",
+            "fast_pixel_direction": "MISSING",
+            "fast_pixel_direction@depends_on": "MISSING",
+            "fast_pixel_direction@offset": "MISSING",
+            "fast_pixel_direction@transformation_type": "MISSING",
+            "fast_pixel_direction@units": "MISSING",
+            "fast_pixel_direction@vector":"MISSING",
+            "module_index": "MISSING",
+            "module_offset": "MISSING",
+            "module_offset@depends_on": "MISSING",
+            "module_offset@offset": "MISSING",
+            "module_offset@transformation_type":"MISSING",
+            "module_offset@units": "MISSING",
+            "module_offset@vector": "MISSING",
+            "slow_pixel_direction": "MISSING",
+            "slow_pixel_direction@depends_on": "MISSING",
+            "slow_pixel_direction@offset": "MISSING",
+            "slow_pixel_direction@transformation_type": "translation",
+            "slow_pixel_direction@units": "MISSING",
+            "slow_pixel_direction@vector": "MISSING"
+          },
+          "pixel_mask_applied": 1,
+          ">saturation_value": "/entry/instrument/detector/detectorSpecific/countrate_correction_count_cutoff",
+          "sensor_material": "MISSING",
+          "sensor_thickness": "MISSING",
+          "sensor_thickness@units": "MISSING",
+          "threshold_energy":{
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_threshold_energy",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/acq_params/det/thresholds"
+            }
+          },
+          "threshold_energy@units": "MISSING",
+          "transformations": {
+            "@NX_class": "NXtransformations",
+            "translation": "MISSING",
+            "translation@depends_on": ".",
+            "translation@offset": "MISSING",
+            "translation@transformation_type": "MISSING",
+            "translation@units": "MISSING",
+            "translation@vector": "MISSING"
+          },
+          "type": "MISSING",
+          "virtual_pixel_correction_applied": "MISSING",
+          "x_pixel_size": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/x_pixel_size"
+            }
+          },
+          "x_pixel_size@units": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_attributes_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/x_pixel_size",
+              "attribute":"units"
+            } 
+          },
+          "y_pixel_size": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/y_pixel_size"
+            }
+          },
+          "y_pixel_size@units": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_attributes_value",
+            "__kwargs__": {
+              "key_path": "instrument/$DETECTOR$/y_pixel_size",
+              "attribute":"units"
+            } 
+          }
+        },
+        "definition": "NXmx",
+        "definition@version": "1.4"
+      },
+      "sample": {
+        "@NX_class": "NXsample",
+         "beam": {
+          "@NX_class": "NXbeam",
+          ">incident_wavelength": "/entry/instrument/beam/incident_wavelength"
+        },
+        "depends_on": "/entry/sample/transformations/omega",
+        "goniometer": {
+          "@NX_class": "NXtransformations",
+          "omega": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "sample/goniometer/omega"
+            }
+          },
+          "omega@units": "MISSING",
+          "omega_end": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "sample/goniometer/omega_end"
+            }
+          },
+          "omega_end@units": "MISSING",
+          "omega_range_average": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "sample/goniometer/omega_range_average"
+            }
+          },
+          "omega_range_average@units": "MISSING",
+          "omega_range_total": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+              "key_path": "sample/goniometer/omega_range_total"
+            }
+          },
+          "omega_range_total@units": "MISSING"
+        },
+        "transformations":{
+          "@NX_class": "NXtransformations",
+          ">=omega":"${/entry/sample/goniometer/omega}",
+          "omega@depends_on": ".",
+          "omega@offset": "MISSING",
+          "omega@transformation_type": "MISSING",
+          "omega@units": "MISSING",
+          "omega@vector": {
+            "__class__": "H5MetadataHandler",
+            "__method__": "get_attributes_value",
+            "__kwargs__": {
+              "key_path": "sample/transformations/omega",
+              "attribute":"vector"
+            } 
+          },
+          ">omega_end":"/entry/sample/goniometer/omega_end",
+          ">omega_range_average": "/entry/sample/goniometer/omega_range_average",
+          ">omega_range_total": "/entry/sample/goniometer/omega_range_total"
+        }
+      }
+    },
+    "@NX_class": "NXroot",
+    "@default": "entry" 
+  }
+}

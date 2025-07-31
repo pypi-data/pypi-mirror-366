@@ -1,0 +1,37 @@
+Metadata-Version: 2.4
+Name: lima2mxh5master
+Version: 0.0.2
+Summary: Convert lima2 data to mx h5 master file
+Author-email: ESRF <dau-pydev@esrf.fr>
+License-Expression: MIT
+Project-URL: Homepage, https://gitlab.esrf.fr/sb/lima2mxh5master/
+Project-URL: Documentation, https://lima2mxh5master.readthedocs.io/
+Project-URL: Repository, https://gitlab.esrf.fr/sb/lima2mxh5master/
+Project-URL: Issues, https://gitlab.esrf.fr/sb/lima2mxh5master/issues/
+Project-URL: Changelog, https://gitlab.esrf.fr/sb/lima2mxh5master/-/blob/main/CHANGELOG.md
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: silx
+Requires-Dist: pydantic
+Requires-Dist: asteval
+Requires-Dist: esrf-pathlib
+Requires-Dist: sb-detectors
+Provides-Extra: test
+Requires-Dist: pytest>=7; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pytest>=7; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: sphinx>=4.5; extra == "doc"
+Requires-Dist: sphinx-autodoc-typehints>=1.16; extra == "doc"
+Requires-Dist: pydata-sphinx-theme; extra == "doc"
+Dynamic: license-file
+
+## Documentation
+
+https://lima2mxh5master.readthedocs.io/en/latest/

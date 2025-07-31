@@ -1,0 +1,271 @@
+{
+  "registry": {
+    "source_dir":[],
+    "classes":{
+      "MetadataHandler": {"filepath_metadata":"__REQUIRED__"}
+    }
+  },
+  "schema":{
+    "entry": {
+      "@NX_class": "NXentry",
+      "@default": "data",
+      "data": {
+        "__class__": "MetadataHandler",
+        "__method__": "generate_dict_data_links",
+        "__kwargs__": {
+          "nb_frames_per_files": 100,
+          "h5dataset_path":"/entry_0000/measurement/data"
+        }
+      },
+      "instrument": {
+        "@NX_class": "NXinstrument",
+        "beam": {
+          "@NX_class": "NxBeam",
+          "incident_wavelength":{
+            "__class__": "MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+                "key_path": "InstrumentMonochromator_wavelength"
+              }
+          },
+          "incident_wavelength@units": "angstrom"
+        },
+        "detector": {
+          "@NX_class": "NXdetector",
+          "beam_center_x":{
+            "__class__": "MetadataHandler",
+            "__method__": "beam_center",
+            "__kwargs__": {
+                "orientation": "X"
+            }
+          },
+          "beam_center_x@units": "pixel",
+          "beam_center_y": {
+            "__class__": "MetadataHandler",
+            "__method__": "beam_center",
+            "__kwargs__": {
+                "orientation": "Y"
+            }
+          },
+          "beam_center_y@units": "pixel",
+          "bit_depth_image": 32,
+          "bith_depth_readout": 16,
+          "count_time": {
+            "__class__": "MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+                "key_path": "MX_exposureTime"
+              }
+          },
+          "count_time@units": "s",
+          "countrate_correction_applied": 1,
+          "description":  {
+            "__class__": "MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+                "key_path": "InstrumentDetector01_model"
+              }
+          },
+          "detectorSpecific": {
+            "@NX_class": "Nxcollection",
+            "auto_summation": "1",
+            "compression": "bslz4",
+            "countrate_correction_count_cutoff": 72870,
+            "countrate_correction_lookup_table": [[0], [1], [2]],
+            "countrate_correction_table": [
+              [0.0, 0.0],
+              [10000.5966796875, 9994.0849609375],
+              [20001.193359375, 19975.15625]
+            ],
+            "data_collection_date":{ 
+            "__class__": "MetadataHandler",
+            "__method__": "compute_acquisition_time"
+          },
+            "pilatus_fw_version": "release-2022.1.2",
+            ">element": "/entry/instrument/detector/sensor_material",
+            "flatfield": [
+              [0.6617327928543091, 0.7260730266571045, 0.7539911270141602],
+              [0.7192607522010803, 0.8007825016975403, 0.84378981590271],
+              [0.7445983290672302, 0.8344987630844116, 0.8781895637512207]
+            ],
+            "frame_count_time": 36400.0,
+            "frame_count_time@units": "s",
+            "frame_period": 36400.0,
+            "frame_period@units": "s",
+            "nimages": {
+              "__class__": "MetadataHandler",
+              "__method__": "get_metadata_value",
+              "__kwargs__": {
+                  "key_path": "MX_numberOfImages"
+                }
+            },
+            "ntrigger": 1,
+            "number_of_excluded_pixels": 1287750,
+            ">=photon_energy": "12398.419843320026/${/entry/instrument/beam/incident_wavelength}",
+            "photon_energy@units": "eV",
+            "pixel_mask": [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+            "roi_mode": "",
+            "software_version": "1.8.0",
+            "trigger_mode": "exts",
+            "x_pixels_in_detector": {
+              "__class__": "MetadataHandler",
+              "__method__": "get_detector_info",
+              "__kwargs__":{"key":"array_width"}
+            },
+            "y_pixels_in_detector": {
+              "__class__": "MetadataHandler",
+              "__method__": "get_detector_info",
+              "__kwargs__":{"key":"array_height"}
+            }
+          },
+          "detector_distance":  { 
+            "__class__": "MetadataHandler",
+            "__method__": "convert_detector_distance_to_m"
+          },
+          "detector_distance@units": "m",
+          "detector_number": "P-32-0126",
+          "detector_readout_time": 1e-07,
+          "detector_readout_time@units": "s",
+          ">distance": "/entry/instrument/detector/detector_distance",
+          "flatfield_correction_applied": 1,
+          ">=frame_time": "${/entry/instrument/detector/count_time}+${/entry/instrument/detector/detector_readout_time}",
+          "frame_time@units": "s",
+          "geometry": {
+            "@NX_class": "NXgeometry",
+            "orientation": {
+              "@NX_class": "NXorientation",
+              "value": [-1.0, 0.0, 0.0, 0.0, -1.0, 0.0]
+            },
+            "translation": {
+              "@NX_class": "NXtranslation",
+              "distances": [0.1545, 0.1662, -0.1537],
+              "distances@units": "m"
+            }
+          },
+          "goniometer": {
+            "@NX_class": "NXtransformations"
+          },
+          "module": {
+            "@NX_class": "NXdetector_module",
+            "data_origin": [0, 0],
+            ">=data_size": "[${/entry/instrument/detector/detectorSpecific/y_pixels_in_detector}, ${/entry/instrument/detector/detectorSpecific/x_pixels_in_detector}]",
+            ">=fast_pixel_direction": "${/entry/instrument/detector/y_pixel_size}",
+            "fast_pixel_direction@depends_on": "/entry/instrument/detector/transformations/translation",
+            "fast_pixel_direction@offset": [0.0, 0.0, 0.0],
+            "fast_pixel_direction@transformation_type": "translation",
+            "fast_pixel_direction@units": "m",
+            "fast_pixel_direction@vector": [-1.0, 0.0, 0.0],
+            "module_index": 0,
+            "module_offset": [0.0, 0.0, 0.0],
+            "module_offset@depends_on": "/entry/instrument/detector/transformations/translation",
+            "module_offset@offset": [0.0, 0.0, 0.0],
+            "module_offset@transformation_type": "translation",
+            "module_offset@units": "m",
+            "module_offset@vector": [0.0, 0.0, 0.0],
+            ">=slow_pixel_direction": "${/entry/instrument/detector/x_pixel_size}",
+            "slow_pixel_direction@depends_on": "/entry/instrument/detector/transformations/translation",
+            "slow_pixel_direction@offset": [0.0, 0.0, 0.0],
+            "slow_pixel_direction@transformation_type": "translation",
+            "slow_pixel_direction@units": "m",
+            "slow_pixel_direction@vector": [0.0, -1.0, 0.0]
+          },
+          "pixel_mask_applied": 1,
+          ">saturation_value": "/entry/instrument/detector/detectorSpecific/countrate_correction_count_cutoff",
+          "sensor_material": {
+              "__class__": "MetadataHandler",
+              "__method__": "get_detector_info",
+              "__kwargs__":{"key":"sensor_material"}
+            },
+          "sensor_thickness":  {
+              "__class__": "MetadataHandler",
+              "__method__": "get_detector_info",
+              "__kwargs__":{"key":"sensor_thickness"}
+            },
+          "sensor_thickness@units": "m",
+          "detector_radius":{
+              "__class__": "MetadataHandler",
+              "__method__": "get_detector_info",
+              "__kwargs__":{"key":"array_radius"}
+            },
+          "threshold_energy": 6999.984427575363,
+          "threshold_energy@units": "eV",
+          "transformations": {
+            "@NX_class": "NXtransformations",
+            "translation": 0.27406428973783586,
+            "translation@depends_on": ".",
+            "translation@offset": [0.0, 0.0, 0.0],
+            "translation@transformation_type": "translation",
+            "translation@units": "m",
+            "translation@vector": [
+              0.5636164276829353,
+              0.6063132811244893,
+              -0.5609997571995754
+            ]
+          },
+          "type": "HPC",
+          "virtual_pixel_correction_applied": 1,
+          "x_pixel_size": { 
+            "__class__": "MetadataHandler",
+            "__method__": "convert_pixel_size_to_m",
+            "__kwargs__": {
+              "orientation": "X"
+            }
+          },
+          "x_pixel_size@units": "m",
+          "y_pixel_size": { 
+            "__class__": "MetadataHandler",
+            "__method__": "convert_pixel_size_to_m",
+            "__kwargs__": {
+              "orientation": "Y"
+            }
+          },
+          "y_pixel_size@units": "m"
+        },
+        "definition": "NXmx",
+        "definition@version": "1.4"
+      },
+      "sample": {
+        "@NX_class": "NXsample",
+        "beam": {
+          "@NX_class": "NXbeam",
+          ">incident_wavelength": "/entry/instrument/beam/incident_wavelength"
+        },
+        "depends_on": "/entry/sample/transformations/omega",
+        "goniometer": {
+          "@NX_class": "NXtransformations",
+          "omega": { 
+            "__class__": "MetadataHandler",
+            "__method__": "compute_omega_array"
+          },
+          "omega@units": "degree",
+          ">=omega_end": "${/entry/sample/goniometer/omega}+${/entry/sample/goniometer/omega_range_average}",
+          "omega_end@units": "degree",
+          "omega_range_average": {
+            "__class__": "MetadataHandler",
+            "__method__": "get_metadata_value",
+            "__kwargs__": {
+                "key_path": "MX_oscillationRange"
+              }
+          },
+          "omega_range_average@units": "degree",
+          ">=omega_range_total": "float(${/entry/instrument/detector/detectorSpecific/nimages}*${/entry/sample/goniometer/omega_range_average})",
+          "omega_range_total@units": "degree"
+        },
+        "transformations": {
+          "@NX_class": "NXtransformations",
+          ">=omega":"${/entry/sample/goniometer/omega}",
+          "omega@depends_on": ".",
+          "omega@offset": [0.0, 0.0, 0.0],
+          "omega@transformation_type": "rotation",
+          "omega@units": "degree",
+          "omega@vector": [-1.0, 0.0, 0.0],
+          ">omega_end":"/entry/sample/goniometer/omega_end",
+          ">omega_range_average": "/entry/sample/goniometer/omega_range_average",
+          ">omega_range_total": "/entry/sample/goniometer/omega_range_total"
+        }
+      }
+    },
+    "@NX_class": "NXroot",
+    "@default": "entry"
+  }
+}
