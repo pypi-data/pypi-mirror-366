@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "browseruse_web-ui"
+version = "0.1.1"
+description = "Web UI for Browser-Use AI agents"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+  {name = "Suleman", email = "sulemanmuhamad049@gmail.com"},
+]
+# Any classifiers (optional):
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License"
+]
+dependencies = [
+ "browser-use==0.1.48",
+ "pyperclip==1.9.0",
+ "gradio==5.27.0",
+ "json-repair",
+ "langchain-mistralai==0.2.4",
+ "MainContentExtractor==0.0.4",
+ "langchain-ibm==0.3.10",
+ "langchain_mcp_adapters==0.0.9",
+ "mcp==1.6.1",
+ "langgraph==0.3.34",
+ "langchain-community"
+
+]
+[project.scripts]
+webui = "webui:main"
