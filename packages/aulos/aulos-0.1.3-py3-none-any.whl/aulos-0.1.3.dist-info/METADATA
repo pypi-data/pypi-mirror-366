@@ -1,0 +1,158 @@
+Metadata-Version: 2.4
+Name: aulos
+Version: 0.1.3
+Summary: Python library for speech processing and analysis from a music theory perspective.
+Project-URL: Homepage, https://github.com/Oujox/aulos
+Project-URL: Repository, https://github.com/Oujox/aulos
+License: MIT License
+        
+        Copyright (c) 2024 Oujox
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Multimedia :: Sound/Audio :: Analysis
+Classifier: Typing :: Typed
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+
+# aulos
+
+Python library for speech processing and analysis from a music theory perspective.
+
+| | |
+| --- | --- |
+| CI/CD | [![Test](https://github.com/Oujox/aulos/actions/workflows/ci.yml/badge.svg)](https://github.com/Oujox/aulos/actions/workflows/ci.yml) [![Build & Publish](https://github.com/Oujox/aulos/actions/workflows/deploy.yml/badge.svg)](https://github.com/Oujox/aulos/actions/workflows/deploy.yml) |
+| Package | [![pypi - version](https://img.shields.io/pypi/v/aulos.svg?&label=PyPI)](https://pypi.org/project/aulos/) [![pypi - python versions](https://img.shields.io/pypi/pyversions/aulos.svg?&label=Python)](https://pypi.org/project/aulos/) |
+| Meta | [![codecov](https://codecov.io/gh/Oujox/aulos/graph/badge.svg?token=UP6ZQP7HMK)](https://codecov.io/gh/Oujox/aulos) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![mypy](https://img.shields.io/badge/types-mypy-blue.svg)](https://github.com/python/mypy) [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/Oujox/aulos/blob/main/LICENSE)  |
+
+## Features ✨
+
+- Comprehensive tools for audio processing and analysis based on music theory principles.
+- A structured framework for organizing and working with music theory objects.
+- Flexible and extensible design, allowing seamless customization and expansion.
+
+## Installation 🛠️
+
+Install the package using pip:
+```
+pip install aulos
+```
+
+## Usage 📖
+
+```python
+from aulos.TET12 import Note, PitchClass
+
+print(Note("C#4"))
+# stdout:
+# <Note: C#4, scale: None>
+
+print(PitchClass("C#"))
+# stdout:
+# <PitchClass: C#, scale: None>
+```
+
+```python
+from aulos.TET12 import Key
+from aulos.TET12 import Major, Dorian, Pentatonic
+
+print(Major(Key("C")))
+# stdout:
+# <Major: <Key: C>>
+
+print(Dorian(Key("C")).components)
+# stdout:
+# (<PitchClass: C, scale: <Dorian: <Key: C>>>,
+#  <PitchClass: D, scale: <Dorian: <Key: C>>>,
+#  <PitchClass: Eb, scale: <Dorian: <Key: C>>>,
+#  <PitchClass: F, scale: <Dorian: <Key: C>>>,
+#  <PitchClass: G, scale: <Dorian: <Key: C>>>,
+#  <PitchClass: A, scale: <Dorian: <Key: C>>>,
+#  <PitchClass: Bb, scale: <Dorian: <Key: C>>>)
+
+print(Pentatonic(Key("C")).components)
+# stdout:
+# (<PitchClass: C, scale: <Pentatonic: <Key: C>>>,
+#  <PitchClass: D, scale: <Pentatonic: <Key: C>>>,
+#  <PitchClass: E, scale: <Pentatonic: <Key: C>>>,
+#  <PitchClass: G, scale: <Pentatonic: <Key: C>>>,
+#  <PitchClass: A, scale: <Pentatonic: <Key: C>>>)
+```
+
+```python
+from aulos.TET12 import Chord
+from aulos.TET12 import Major
+
+print(Chord("C").components)
+# stdout:
+# (<Note: ['Dbb4', 'C4', 'B#3', 'A###3'], scale: None>,
+#  <Note: ['Gbbb4', 'Fb4', 'E4', 'D##4'], scale: None>,
+#  <Note: ['Abb4', 'G4', 'F##4', 'E###4'], scale: None>)
+
+print(Chord("CM7", scale=Major("C")).components)
+# stdout:
+# (<Note: C4, scale: <Major: <Key: C>>>,
+#  <Note: E4, scale: <Major: <Key: C>>>,
+#  <Note: G4, scale: <Major: <Key: C>>>,
+#  <Note: B4, scale: <Major: <Key: C>>>)
+```
+
+```python
+from aulos.TET12 import Note
+from aulos.TET12 import JustIntonationTuner, Equal12Tuner
+
+print(Note("C4", tuner=Equal12Tuner(440)).hz)
+# stdout:
+# 440.0
+
+print(Note("A4", tuner=JustIntonationTuner(440)).hz)
+# stdout:
+# 733.3333333333333
+```
+
+## Dependencies 🧩
+
+This project uses the following libraries and tools for development and testing.
+
+### Runtime Dependencies 📂
+This project's final product depends only on Python's **standard library**. No third-party libraries are required at runtime.
+
+
+### Development Libraries 🛠️
+
+The following libraries are used during development and testing **but are not included in the final product**
+
+- [**pytest**](https://docs.pytest.org/en/latest/)
+- [**pytest-cov**](https://pytest-cov.readthedocs.io/en/latest/)
+- [**ruff**](https://docs.astral.sh/ruff/)
+- [**mypy**](https://mypy.readthedocs.io/en/stable/index.html)
+
+
+## License 📜
+
+This project is distributed under the MIT License. For more information, refer to the [LICENSE](https://github.com/Oujox/aulos/blob/main/LICENSE) file.
+
+## Contact 📬
+
+- Email: oujoxyz365@gmail.com
