@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: llama-index-readers-nougat-ocr
+Version: 0.4.0
+Summary: llama-index readers nougat_ocr integration
+Author-email: Your Name <you@example.com>
+Maintainer: mdarshad1000
+License-Expression: GPL-2.0-or-later
+License-File: LICENSE
+Keywords: academic papers,ocr,pdf
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: nougat-ocr<0.2,>=0.1.17
+Description-Content-Type: text/markdown
+
+# Nougat OCR loader
+
+```bash
+pip install llama-index-readers-nougat-ocr
+```
+
+This loader reads the equations, symbols, and tables included in the PDF.
+
+Users can input the path of the academic PDF document `file` which they want to parse. This OCR understands LaTeX math and tables.
+
+## Usage
+
+Here's an example usage of the PDFNougatOCR.
+
+```python
+from llama_index.readers.nougat_ocr import PDFNougatOCR
+
+reader = PDFNougatOCR()
+
+pdf_path = Path("/path/to/pdf")
+
+documents = reader.load_data(pdf_path)
+```
+
+## Miscellaneous
+
+An `output` folder will be created with the same name as the pdf and `.mmd` extension.
