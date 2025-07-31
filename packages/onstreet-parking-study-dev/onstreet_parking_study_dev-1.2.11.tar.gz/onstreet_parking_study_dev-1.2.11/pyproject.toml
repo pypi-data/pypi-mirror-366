@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "onstreet-parking-study-dev"
+dependencies = [
+    'adjusttext',
+    'azure-core',
+    'azure-cosmos',
+    'contextily',
+    'deprecated',
+    'folium',
+    'geoalchemy2',
+    'geopandas==0.14.3',
+    'geopy',
+    'importlib_resources',
+    'jellyfish',
+    'mapclassify',
+    'matplotlib',
+    'momepy==0.7',
+    'networkx',
+    'numba',
+    'numpy==1.26.4',
+    'openpyxl',
+    'osmium',
+    'osmnx',
+    'osrm-py',
+    'pandas',
+    'pathvalidate',
+    'psycopg2',
+    'pyodbc',
+    'requests',
+    'scikit-learn',
+    'scipy',
+    'seaborn',
+    'sqlalchemy',
+    'statsmodels',
+    'unidecode',
+    'xlrd'
+]
+requires-python = ">=3.10"
+authors = [
+  {name = "Antoine Laurent", email = "alaurent@agencemobilitedurable.ca"},
+  {name = "Laurent Gauthier", email = "lgauthier@agencemobilitedurable.ca"},
+  {name = "Julien Faucher", email = "jfaucher@agencemobilitedurable.ca"}
+]
+maintainers = [
+  {name = "Julien Faucher", email = "jfaucher@agencemobilitedurable.ca"}
+]
+description = "An LPR data analysis package (dev version)!"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["lapin", "lpr", "alpr", "lapi", "parking", "study", "on-street-parking"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "lapin",
+]
+
+[project.urls]
+Homepage = "https://github.com/Agence-de-mobilite-durable/lapin"
+Repository = "https://github.com/Agence-de-mobilite-durable/lapin.git"
+Issues = "https://github.com/Agence-de-mobilite-durable/lapin/issues"
+Documentation = "https://github.com/Agence-de-mobilite-durable/lapin/blob/app/docs/doc.org"
