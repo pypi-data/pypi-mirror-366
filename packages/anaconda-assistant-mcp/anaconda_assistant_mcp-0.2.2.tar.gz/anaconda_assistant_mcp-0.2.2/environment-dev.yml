@@ -1,0 +1,15 @@
+# Local dev conda dependencies
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - conda
+  - tox=3
+  - tox-conda
+  - pytest-asyncio
+  - cruft
+  - pip
+  - fastmcp==2.8.1
+  - pip:
+      - "-e .[dev]"
