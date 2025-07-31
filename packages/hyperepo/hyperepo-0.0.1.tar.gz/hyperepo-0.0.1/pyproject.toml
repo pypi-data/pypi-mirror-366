@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "hyperepo"
+version = "0.0.1"
+description = "Monorepo pattern with symlinked meta repositories for clean documentation management"
+authors = ["Tyson <tyson@example.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/tysonzero/hyperepo"
+repository = "https://github.com/tysonzero/hyperepo"
+documentation = "https://github.com/tysonzero/hyperepo"
+keywords = ["monorepo", "git", "documentation", "development", "workflow"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Version Control",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+packages = [{include = "hyperepo"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^8.0.0"
+pyyaml = "^6.0"
+
+[tool.poetry.scripts]
+hyperepo = "hyperepo.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
