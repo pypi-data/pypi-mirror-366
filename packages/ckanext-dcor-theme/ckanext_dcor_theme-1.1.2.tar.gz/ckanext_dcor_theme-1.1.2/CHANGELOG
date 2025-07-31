@@ -1,0 +1,94 @@
+1.1.2
+ - enh: also patch resource_item listing for dataset view
+1.1.1
+ - reg: remove some style hints to make line break in resource names work
+1.1.0
+ - feat: improve resource listing to show full resource names
+1.0.0
+ - declare first stable release
+0.12.1
+ - enh: add site_title to welcome page
+ - enh: add about text (#5)
+0.12.0
+ - integration with DCOR version bump for CKAN 2.11.3
+ - fix: i18n branding not working when ckan installed as package
+ - fix: remove zombie cli.py from repository
+ - ref: remove i18n copying of javascript translations (they seem unused)
+0.11.2
+ - ci: fully migrate CI workflow to docker
+0.11.1
+ - fix: properly find main.css location using `pkg_resources`
+ - fix: ignore missing "en_GB.js" file during i18n branding
+ - enh: implement docker based testing
+0.8.2
+ - setup: fix ckanext namespace
+0.8.1
+ - build: fix CI pipeline
+0.8.0
+ - setup: migrate to pyproject.toml
+0.7.8
+ - maintenance release
+0.7.7
+ - maintenance release
+0.7.6
+ - maintenance release
+0.7.5
+ - enh: update color replacement
+0.7.4
+ - maintenance release
+0.7.3
+ - fix: set default html background color
+0.7.2
+ - fix: fix i18n hack for changing collections not working with CKAN 2.10
+0.7.1
+ - fix: snap site footer to bottom of page
+0.7.0
+ - ref: use proper theming in CKAN 2.10
+ - ref: migrate templates to CKAN 2.10
+0.6.1
+ - maintenance release
+0.6.0
+ - enh: instead of relying on old libraries, just cat all css and
+   serve it as main.css (#2)
+ - ref: move condensed download buttons to ckanext-dc-serve
+0.5.0
+ - fix: don't show "Users" page link when user not logged-in (#3)
+0.4.6
+ - maintenance release
+0.4.5
+ - maintenance release
+0.4.4
+ - maintenance release
+0.4.3
+ - enh: add apple-touch-icon images
+ - ci: fix coverage stats
+0.4.2
+ - maintenance release
+0.4.1
+ - fix: update MANIFEST.in (missing trailer image)
+0.4.0
+ - enh: added promoted.html template with DCOR tiles artwork
+ - ref: moved branding to dcor_control
+ - tests: use vagrant for tests
+0.3.9
+ - fix: i18-hack did not work properly
+0.3.8
+ - maintenance release
+0.3.7
+ - ci: migrate to GH Actions
+ - build: use install_requires instead of requirements.txt
+0.3.6
+ - enh: added green DCOR-med icon
+0.3.5
+ - fix: include Lato fonts
+0.3.4
+ - fix: do not use a brand icon for Circles
+ - ref: use solid icons
+0.3.3
+ - fix: manifest did not include artwork
+0.3.2
+ - maintenance release
+0.3.1
+ - maintenance release
+0.3.0
+ - initial open-sourced release
