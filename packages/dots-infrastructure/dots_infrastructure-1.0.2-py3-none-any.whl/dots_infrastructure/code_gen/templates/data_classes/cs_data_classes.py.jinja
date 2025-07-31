@@ -1,0 +1,13 @@
+from dataclasses import dataclass
+from typing import List
+
+{% for calculation in calculations %}
+{% if calculation.outputs is defined and calculation.outputs|length > 0 %}
+@dataclass
+class {{calculation.calculation_output_class_name}}:
+{% for output in calculation.outputs %}
+    {{output.python_name}} : {{output.python_data_type}} | None = None
+{% endfor %}
+{% endif %}
+
+{% endfor %}
