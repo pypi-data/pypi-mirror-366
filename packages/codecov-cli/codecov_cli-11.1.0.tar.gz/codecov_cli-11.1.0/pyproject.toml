@@ -1,0 +1,47 @@
+[project]
+name = "codecov-cli"
+version = "11.1.0"
+description = "Codecov Command Line Interface"
+readme = "README.md"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Tom Hu", email = "thomas.hu@sentry.io"},
+]
+maintainers = [
+    {name = "Codecov Support", email = "support@codecov.io"},
+]
+requires-python = ">= 3.9"
+dependencies = [
+    "click==8.*",
+    "ijson==3.*",
+    "PyYAML==6.*",
+    "responses==0.21.*",
+    "sentry-sdk==2.*",
+    "test-results-parser==0.5.4",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit==3.*",
+    "pyinstaller==6.*",
+    "pytest==7.*",
+    "pytest-asyncio==0.21.1",
+    "pytest-cov==4.*",
+    "pytest-env==1.*",
+    "pytest-mock==3.*",
+]
+
+[project.scripts]
+codecov = "codecov_cli.main:run"
+codecovcli = "codecov_cli.main:run"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["codecov_cli"]
+
+[tool.pytest.ini_options]
+env = ["CODECOV_ENV=test"]
+
