@@ -1,0 +1,20 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Privacy') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Privacy'), 'dcor_theme.privacy' %}</li>
+{% endblock %}
+
+{% block primary %}
+<article class="module">
+<div class="module-content">
+
+No information regarding privacy has been provided. Please create a
+<i>privacy.html</i> CKAN template.
+
+</div>
+</article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}

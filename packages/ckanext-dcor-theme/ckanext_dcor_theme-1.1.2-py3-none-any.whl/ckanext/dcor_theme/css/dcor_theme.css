@@ -1,0 +1,88 @@
+/* Remove marging so that the menu looks aligned on mobile devices */
+.nav-pills > li + li {
+    margin-left: 0px;
+}
+
+/* Make docs menu entry look like rtd */
+a.rtdmenu {
+    background-color:rgba(41, 128, 185, .4)
+}
+
+/* Set global font */
+body {
+    font-family: "Lato";
+}
+
+/* Make register link as large as regular link */
+.account-masthead .account ul li a.sub {
+  font-weight: 700;
+}
+
+.fa.fa-external-link-square {
+	font-size: 7pt;
+	vertical-align: top;
+	margin-left: 1pt;
+}
+
+/* Remove thick border around main content */
+.wrapper {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Remove shadow from tags */
+a.tag, a.tag:hover{
+  box-shadow: inset 0 0px 0 #315484
+}
+
+/* Additional color tweaks overriding things in main.css */
+.masthead .navigation .nav-pills li a:hover,
+.masthead .navigation .nav-pills li a:focus,
+.masthead .navigation .nav-pills li.active a
+{
+  background-color: #194484;
+}
+
+/* Override the default font-awesome icon for dataset
+folder
+*/
+.fa.fa-sitemap:before {
+  content: "\f07b";
+}
+
+/* Override the CUSTOM font-awesome icon for group/collections
+(The default font-awesome icon is "users")
+puzzle-piece
+*/
+.fa.fa-group:before {
+  content: "\f12e";
+}
+
+/* Override the default font-awesome icon for organization/circle
+circle
+*/
+.fa.fa-building-o:before {
+  content: "\f111";
+}
+
+/* Snap footer to bottom of page
+*/
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
+}
+.site-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 100px;
+}
+
+/* Make cells flowing the default background image everywhere */
+html {
+    background: #eee url("../../base/images/bg.png")
+}
