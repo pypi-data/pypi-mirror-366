@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include bashimu.sh
+include bashimu_setup.sh
+include deploy.sh
+include tui/requirements.txt
+recursive-include img *.jpeg *.gif
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

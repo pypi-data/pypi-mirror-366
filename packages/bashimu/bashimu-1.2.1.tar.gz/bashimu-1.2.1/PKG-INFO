@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: bashimu
+Version: 1.2.1
+Summary: A command-line tool to interact with LLMs for bash and Linux questions
+Home-page: https://github.com/wiktorjl/bashimu
+Author: Wiktor Lukasik
+License: MIT
+Project-URL: Homepage, https://github.com/wiktorjl/bashimu
+Project-URL: Bug Tracker, https://github.com/wiktorjl/bashimu/issues
+Project-URL: Source Code, https://github.com/wiktorjl/bashimu
+Keywords: bash,linux,cli,chatgpt,openai,llm,terminal
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: prompt_toolkit
+Requires-Dist: openai
+Requires-Dist: requests
+Requires-Dist: rich
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+<img src="img/bashimu.jpeg" alt="drawing" width="200"/>
+
+### About
+BASHIMU is a Python-based Terminal User Interface (TUI) for interacting with various AI models including OpenAI's ChatGPT, Anthropic's Claude, Google Gemini, and Ollama.
+It provides both interactive chat sessions and quick command-line queries with customizable personas.
+
+
+### Installation
+
+#### Method 1: Using pip (Recommended)
+```bash
+pip install bashimu
+```
+
+Or install from source:
+```bash
+git clone https://github.com/wiktorjl/bashimu.git
+cd bashimu
+pip install .
+```
+
+After installation, configure your API keys by setting the appropriate environment variables:
+```bash
+# For OpenAI
+export OPENAI_API_KEY="your-openai-api-key"
+
+# For Anthropic
+export ANTHROPIC_API_KEY="your-anthropic-api-key"
+
+# For Google Gemini
+export GOOGLE_API_KEY="your-google-api-key"
+```
+
+### Usage
+
+Interactive mode:
+```bash
+bashimu-tui
+```
+
+Non-interactive mode (new):
+```bash
+bashimu-tui "what is the current directory command"
+bashimu-tui --provider openai "how to find files by name"
+bashimu-tui --persona coding_mentor "explain git rebase"
+```
+
+
+### Demo:
+<img src="img/bashimu_demo_2x.gif" width="800"/>
