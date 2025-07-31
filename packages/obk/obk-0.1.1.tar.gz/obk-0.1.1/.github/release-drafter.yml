@@ -1,0 +1,25 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+
+categories:
+  - title: "🚀 Features"
+    label: "feature"
+    pull_request_title:
+      - '^feat(?:\\([^)]*\\))?:'
+  - title: "🐛 Fixes"
+    label: "fix"
+    pull_request_title:
+      - '^fix(?:\\([^)]*\\))?:'
+  - title: "🧹 Chores"
+    label: "chore"
+    pull_request_title:
+      - '^chore(?:\\([^)]*\\))?:'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
+template: |
+  ## What’s Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/bynbb/obk/compare/$PREVIOUS_TAG...$NEXT_TAG
