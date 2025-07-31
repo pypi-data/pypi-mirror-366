@@ -1,0 +1,137 @@
+[project]
+name = "pybooxdrop"
+version = "0.4.0"
+description = "A friendly Python wrapper for the BOOXDrop API — unofficial, but built with care."
+readme = "README.md"
+license = "MIT"
+keywords = [
+  "boox",
+  "booxdrop",
+  "onyx",
+  "ebook-reader",
+  "api-wrapper",
+  "python-wrapper",
+  "file-transfer",
+]
+classifiers = [
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: System :: Networking",
+  "Topic :: Utilities",
+]
+requires-python = ">=3.12"
+dependencies = ["pydantic[email]>=2.11.5"]
+
+[[project.authors]]
+name = "Filip Godlewski"
+email = "54432731+filipgodlewski@users.noreply.github.com"
+
+[project.urls]
+Source = "https://github.com/filipgodlewski/pybooxdrop"
+Issues = "https://github.com/filipgodlewski/pybooxdrop/issues"
+
+[dependency-groups]
+dev = [
+  "basedpyright>=1.29.4",
+  "coverage>=7.9.2",
+  "pytest==8.4.1",
+  "pytest-mock>=3.14.1",
+  "pytest-order>=1.3.0",
+  "ruff>=0.12.0",
+]
+
+# In the future, consider using uv_build backend once it's stable
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/boox"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+unsafe-fixes = true
+fix = true
+
+[tool.ruff.format]
+quote-style = "preserve"
+docstring-code-format = true
+preview = true
+
+[tool.ruff.lint]
+preview = true
+extend-select = [
+  "A",    # flake8-builtins (shadowing Python built-ins)
+  "B",    # flake8-bugbear (likely bugs and code smells)
+  "BLE",  # flake8-blind-except (avoid bare `except:` blocks)
+  "C4",   # flake8-comprehensions (comprehension optimizations)
+  "DOC",  # pydoclint (docstring style and completeness)
+  "DTZ",  # flake8-datetimez (timezone-aware datetime checks)
+  "EM",   # flake8-errmsg (consistent and informative error messages)
+  "ERA",  # eradicate (commented-out code)
+  "FBT",  # flake8-boolean-trap (avoid boolean positional args)
+  "FLY",  # flynt (f-string conversion suggestions)
+  "FURB", # refurb (code simplifications and refactors)
+  "I",    # isort (import sorting)
+  "N",    # pep8-naming (naming conventions, e.g., classes in PascalCase)
+  "PERF", # perflint (performance anti-patterns)
+  "PL",   # pylint rules (stricter code quality checks)
+  "PT",   # flake8-pytest-style (pytest best practices)
+  "PTH",  # pathlib preferred over `os.path`, `open()`, etc.
+  "RUF",  # ruff-specific rules (internal consistency, edge cases)
+  "S",    # flake8-bandit (security issues and audit checks)
+  "SIM",  # flake8-simplify (simplifiable code patterns)
+  "T10",  # flake8-debugger (use of `pdb`, `ipdb`, `breakpoint()`)
+  "TID",  # flake8-tidy-imports (import restrictions and tidiness)
+  "TRY",  # tryceratops (anti-patterns in exception handling)
+  "UP",   # pyupgrade (modern Python syntax)
+]
+ignore = [
+  "TRY003", # Avoid specifying long messages outside the exception class
+  "EM101",  # Exception must not use a string literal, assign to variable first
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+  "S101", # Avoid using assert
+]
+"src/boox/client.py" = [
+  "S310", # Validate unexpected scheme
+]
+
+[tool.pytest.ini_options]
+markers = ["e2e: test requiring external API (connects to a real boox server)"]
+filterwarnings = [
+  "error",
+  'ignore:Boox client was not closed explicitly:ResourceWarning',
+]
+addopts = ["--strict-markers"]
+
+[tool.coverage.run]
+branch = true
+source = ["boox"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+skip_empty = true
+fail_under = 100
+exclude_also = [
+  '^\s*raise AssertionError\b',
+  '^\s*raise NotImplementedError\b',
+  '^\s*return NotImplemented\b',
+  '^\s*raise$',                               # reraising an error
+  '^\s*if (False|(typing\.)?TYPE_CHECKING):',
+  ': \.\.\.(\s*#.*)?$',                       # no implementation (e.g. Protocol)
+  '^ +\.\.\.$',                               # no implementation, but a newline
+  "-> ['\"]?NoReturn['\"]?:",
+]
+
+[tool.basedpyright]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
