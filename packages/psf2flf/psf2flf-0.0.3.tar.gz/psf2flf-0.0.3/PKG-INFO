@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: psf2flf
+Version: 0.0.3
+Summary: convert psf fonts to figlet fonts
+Author-email: Gareth Davidson <gaz@bitplane.net>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: pre-commit ; extra == "dev"
+Requires-Dist: pytest ; extra == "dev"
+Requires-Dist: coverage ; extra == "dev"
+Requires-Dist: pytest-cov ; extra == "dev"
+Requires-Dist: build ; extra == "dev"
+Requires-Dist: twine ; extra == "dev"
+Requires-Dist: ruff ; extra == "dev"
+Requires-Dist: pyfiglet ; extra == "dev"
+Provides-Extra: dev
+
+# ✍️ psf2flf
+
+Converts bitmap fonts to figlet fonts.
+
+## todo
+
+- [x] support different readers and writers
+- [ ] combine fonts by typeface
+- [ ] unicode toilet font writer
+
+
