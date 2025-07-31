@@ -1,0 +1,21 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "Copilot",
+  "description": "Settings for Jupyter Copilot",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "flag": {
+      "type": "boolean",
+      "title": "Enable Copilot",
+      "description": "Enable or Disable Copilot Completions",
+      "default": true
+    },
+    "keybind": {
+      "type": "string",
+      "title": "Accept Completion Keybind",
+      "description": "Keybinding to trigger Copilot Completions",
+      "default": "Ctrl J"
+    }
+  }
+}
