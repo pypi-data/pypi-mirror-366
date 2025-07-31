@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytoolbelt-psenv"
+version = "0.18.0"
+description = "A tool for managing AWS Parameter Store environments"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+	"python-dotenv==1.1.0",
+	"pyyaml==6.0.2",
+	"boto3==1.38.32",
+	"structlog==25.4.0",
+	"pydantic==2.11.5",
+	"boto3-stubs[ssm, sts]==1.38.32"
+]
+
+[project.optional-dependencies]
+dev = [
+	"pytest==8.4.0",
+	"pytest-cov==6.1.1",
+	"ruff==0.11.13",
+	"boto3-stubs[ssm, sts]==1.38.32",
+	"mkdocs==1.6.0",
+	"mkdocs-material==9.5.26"
+]
+
+[tool.setuptools.package-data]
+psenv = ["templates/*.yml", "templates/*.template.yml"]
+
+[project.scripts]
+psenv = "psenv.__main__:main"
+
+[tool.ruff]
+line-length = 140
+fix = true
+
+[tool.ruff.lint]
+select = ["I", "F401"]
