@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: cubicweb-calendar
+Version: 1.1.0
+Summary: calendar component for the CubicWeb framework
+Home-page: http://www.cubicweb.org/project/cubicweb-calendar
+Author: Logilab
+Author-email: contact@logilab.fr
+License: LGPL
+Classifier: Environment :: Web Environment
+Classifier: Framework :: CubicWeb
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: JavaScript
+Requires-Dist: cubicweb<6.0.0,>=4.10.0
+Requires-Dist: cubicweb-web<2.0.0,>=1.6.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+This cube models calendars with different types of days (working, non-working,
+vacation, sick, etc) and time periods (from simple
+"Aug 31st 2009 to Sep 4th 2009" to repetitive ones like "July 14th").
