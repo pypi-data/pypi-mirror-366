@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: UrbanToyGraph
+Version: 1.0.1
+Summary: Generator of stylized street networks.
+Author-email: Clément Sebastiao <clse@itu.dk>
+Maintainer: contributors
+License: MIT License
+Project-URL: Homepage, https://github.com/csebastiao/UrbanToyGraph
+Keywords: street network,toy graph
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: GIS
+Requires-Python: >=3.13
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: geopandas>=1.1
+Requires-Dist: numpy>=2.3
+Requires-Dist: networkx>=3.5
+Requires-Dist: shapely>=2.1
+Requires-Dist: pytest>=8.4
+Requires-Dist: pre-commit>=4.2
+Requires-Dist: scipy>=1.16
+Requires-Dist: matplotlib>=3.10
+Dynamic: license-file
+
+UrbanToyGraph is a generator of stylized street networks.
+The goal is to have quick and easy street networks created.
+It is built on top of `GeoPandas`_ and `networkX`_.
+
+.. _GeoPandas: http://geopandas.org
+.. _networkX : http://networkx.github.io
