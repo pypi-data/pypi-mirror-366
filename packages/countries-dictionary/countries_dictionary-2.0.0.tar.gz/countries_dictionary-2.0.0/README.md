@@ -1,0 +1,45 @@
+Countries Dictionary provides: 
+- A dictionary contains all members and observer states of the United Nations and information about them:
+  - Formal name
+  - Continent(s) of the countries' mainland
+  - Area in square kilometre
+  - Population
+  - Official languages
+  - Nominal GDP in dollar
+  - Human Development Index
+- Another dictionary contains all federal subjects of the Russian Federation (including occupied zones in Ukraine) and information about them:
+  - Federal district
+  - Economic region
+  - Area
+  - Population
+- Another one contains all provinces and municipalities of the Socialist Republic of Vietnam and information about them:
+  - Region
+  - Area
+  - Population
+ - Some variables you might find helpful
+
+After importing them:
+```python
+from countries_dictionary import countries
+from countries_dictionary.russia import russia
+from countries_dictionary.vietnam import vietnam
+import countries_dictionary.quick_variables as qv
+```
+you can do many things with the dictionary, such as calculate GDP per capita of a country:
+```python
+countries["Switzerland"]["nominal GDP"] / countries["Switzerland"]["population"]
+```
+population density:
+```python
+countries["Russia"]["population"] / countries["Russia"]["area"]
+```
+percentage of a Vietnamese province's area compared to Vietnam's total area:
+```python
+vietnam["Ho Chi Minh City"]["area"] / countries["Vietnam"]["area"] * 100
+```
+or just see the dictionary when France is censored (This is only a joke, I don't support hate against France and French)
+```python
+qv.countries_france_censored
+```
+
+I created this module as a source of countries' information that is easy to access and use by coders.
