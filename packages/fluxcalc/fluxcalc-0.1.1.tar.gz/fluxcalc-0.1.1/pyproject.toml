@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fluxcalc"                    
+version = "0.1.1"                    
+description = "Flexible flux and turbulence calculations from NetCDF files."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "Julie Piot", email = "juliepiot37@gmail.com" }]
+dependencies = [
+  "numpy",
+  "pandas",
+  "xarray"
+]
+
+classifiers = [
+  "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Atmospheric Science",
+]
+
+[project.urls]
+Homepage = "https://github.com/jpiot1/flux_calculations"
+Repository   = "https://github.com/jpiot1/flux_calculations"
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "mypy", "build", "twine"]  
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fluxcalc"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "fluxcalc",
+  "README.md",
+  "LICENSE",
+  "pyproject.toml",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
