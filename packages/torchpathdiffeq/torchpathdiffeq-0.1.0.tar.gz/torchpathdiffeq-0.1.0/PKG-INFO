@@ -1,0 +1,45 @@
+Metadata-Version: 2.4
+Name: torchpathdiffeq
+Version: 0.1.0
+Summary: Parallelized path integration numerical method built on pytorch with backprop capabilities.
+Author-email: Kareem Hegazy <khegazy@berkeley.edu>
+License: CC-BY 4.0
+Project-URL: repository, https://github.com/khegazy/torchpathdiffeq
+Project-URL: documentation, https://khegazy.github.io/torchpathdiffeq/
+Project-URL: changelog, https://github.com/khegazy/torchpathdiffeq/blob/main/CHANGELOG.md
+Keywords: path integral,torch
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: numpy
+Requires-Dist: torch
+Requires-Dist: torchdiffeq
+Requires-Dist: einops
+Requires-Dist: psutil
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-cov>=3.10.0; extra == "dev"
+Requires-Dist: ruff>=0.0.285; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs-material>=9.4.0; extra == "docs"
+Requires-Dist: mkdocstrings[python]>=0.22.0; extra == "docs"
+Requires-Dist: mkdocs-gen-files>=0.5.0; extra == "docs"
+Requires-Dist: mkdocs-literate-nav>=0.6.0; extra == "docs"
+Requires-Dist: pillow>=10.0.0; extra == "docs"
+Requires-Dist: cairosvg>=2.7.1; extra == "docs"
+Dynamic: license-file
+
+# torchpathdiffeq
+
+torchpathdiffeq is an adaptive numerical path integrator that parallelizes the numerical integration step evaluations. This repo serves as the path integration backbone for popcornn. torchpathdiffeq is still under construction; those interested in using it can reach out.
