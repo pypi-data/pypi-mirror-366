@@ -1,0 +1,16 @@
+[project]
+name = "backtradingbot"
+version = "0.1.5"
+description = "This is a back trading bot using python"
+authors = [{ name = "Your Name", email = "benbates2025@gmail.com" }]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[project.scripts]
+run-init = "backtradingbot.core:init"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
