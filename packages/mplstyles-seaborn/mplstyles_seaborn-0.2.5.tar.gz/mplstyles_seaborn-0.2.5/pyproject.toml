@@ -1,0 +1,77 @@
+[project]
+name = "mplstyles-seaborn"
+dynamic = ["version"]
+description = "Matplotlib style sheets based on seaborn-v0_8-dark theme with combinable palettes and contexts"
+readme = "README.md"
+authors = [{ name = "Masato Onodera", email = "masato.onodera@gmail.com" }]
+license = { text = "MIT" }
+keywords = ["matplotlib", "seaborn", "plotting", "visualization", "styles"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Typing :: Typed",
+]
+requires-python = ">=3.11"
+dependencies = ["matplotlib>=3.8"]
+
+[project.urls]
+Homepage = "https://github.com/monodera/mplstyles-seaborn"
+Repository = "https://github.com/monodera/mplstyles-seaborn"
+Issues = "https://github.com/monodera/mplstyles-seaborn/issues"
+
+[project.optional-dependencies]
+dev = ["seaborn>=0.11"]
+test = ["pytest>=7.0", "pytest-cov>=4.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mplstyles_seaborn = ["styles/*.mplstyle", "py.typed"]
+
+[build-system]
+requires = ["setuptools>=61", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "setuptools-scm>=8.3.1",
+    "twine>=6.1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "-ra",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+
+[tool.coverage.run]
+source = ["src/mplstyles_seaborn"]
+omit = ["tests/*", "src/mplstyles_seaborn/_version.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
+
+[tool.setuptools_scm]
+write_to = "src/mplstyles_seaborn/_version.py"
+local_scheme = "no-local-version"

@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run:*)",
+      "Bash(uv sync:*)",
+      "Bash(rm:*)",
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(mv:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh pr create:*)",
+      "Bash(git pull:*)",
+      "Bash(mkdir:*)",
+      "Bash(git push:*)",
+      "Bash(git merge:*)",
+      "Bash(find:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh run list:*)"
+    ],
+    "deny": []
+  }
+}
