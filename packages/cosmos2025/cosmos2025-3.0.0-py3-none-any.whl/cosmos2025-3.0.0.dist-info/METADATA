@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: cosmos2025
+Version: 3.0.0
+Summary: A library for communication with ADI devices for COSMOS 2025
+Requires-Python: >=3.12
+Requires-Dist: jupyter>=1.1.1
+Requires-Dist: matplotlib>=3.10.1
+Requires-Dist: numpy>=2.2.5
+Requires-Dist: polars>=1.30.0
+Requires-Dist: pyadi-iio>=0.0.19
+Requires-Dist: scipy>=1.16.1
+Requires-Dist: seaborn>=0.13.2
+Provides-Extra: dev
+Requires-Dist: hatch>=1.14.1; extra == 'dev'
