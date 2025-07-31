@@ -1,0 +1,6 @@
+__title__ = 't2qc'
+__description__ = 'T2 QC'
+__url__ = 'https://github.com/harvard-nrg/t2qc'
+__version__ = '0.3.1'
+__author__ = 'Neuroinformatics Research Group'
+__author_email__ = 'info@neuroinfo.org'
