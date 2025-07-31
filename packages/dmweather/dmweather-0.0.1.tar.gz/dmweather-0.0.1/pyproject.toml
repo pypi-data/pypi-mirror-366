@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dmweather"
+version = "0.0.1" # Asegúrate de actualizar esto para nuevas versiones
+authors = [
+  { name="Danilo Mosqueira", email="danilo855984@gmail.com" },
+]
+description = "Librería Python para obtener información del clima actual y pronósticos"
+readme = "README.md"
+requires-python = ">=3.7" # Tu rango de Python compatible
+keywords = [
+    "weather",
+    "clima",
+    "api",
+    "openweathermap",
+    "forecast",
+    "pronostico",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License", # Setuptools te dará una advertencia, pero seguirá funcionando
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "requests>=2.25.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/tu-usuario/dmweather" # ¡Actualiza esto a tu URL real!
+"Bug Tracker" = "https://github.com/tu-usuario/dmweather/issues"
+"Documentation" = "https://github.com/tu-usuario/dmweather#readme"
+
+[tool.setuptools]
+
+packages = ["dmweather"]
+
+
+
+
+include-package-data = true
+
+# 'zip_safe = false' 
+zip-safe = false #
