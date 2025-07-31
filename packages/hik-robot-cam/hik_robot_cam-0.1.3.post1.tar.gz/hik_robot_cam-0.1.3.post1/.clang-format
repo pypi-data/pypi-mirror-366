@@ -1,0 +1,38 @@
+# 基于LLVM风格进行格式化
+BasedOnStyle: LLVM
+
+# 不使用Tab字符，使用空格进行缩进
+UseTab: Never
+
+# 缩进宽度为4个空格
+IndentWidth: 4
+
+# Tab字符的宽度为4个空格（虽然这里不使用Tab）
+TabWidth: 4
+
+# 大括号换行风格设置为Linux风格
+BreakBeforeBraces: Linux
+
+# 对齐尾随注释
+AlignTrailingComments: true
+
+# 对齐结构体数组的成员
+AlignArrayOfStructures: Right
+
+# 不允许将短的if语句写在同一行
+AllowShortIfStatementsOnASingleLine: false
+
+# 不对case标签进行额外缩进
+IndentCaseLabels: false
+
+# 每行的字符数限制为120
+ColumnLimit: 120
+
+# 访问修饰符的缩进偏移为-4（即减少4个空格）
+AccessModifierOffset: -4
+
+# 命名空间内的代码不进行额外缩进
+NamespaceIndentation: None
+
+# 修复命名空间的注释
+FixNamespaceComments: true

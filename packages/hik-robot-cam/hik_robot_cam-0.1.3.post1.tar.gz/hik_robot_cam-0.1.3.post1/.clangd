@@ -1,0 +1,34 @@
+CompileFlags:
+  Add:
+    - -std=c++17
+    # 系统头文件路径
+    - -I/usr/include
+    - -I/usr/local/include
+    # C++ 标准库头文件（根据实际版本调整）
+    - -I/usr/include/c++/11
+    - -I/usr/include/x86_64-linux-gnu/c++/11
+    # 项目头文件路径
+    - -I./codec
+    # 第三方库头文件路径
+    - -I/usr/include/opencv4
+    - -I/opt/MVS/include
+    - -I/usr/include/python3.12
+
+  Remove:
+    - -march=*
+    - -mtune=*
+
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
+Diagnostics:
+  UnusedIncludes: Strict
+
+Hover:
+  ShowAKA: Yes
+
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
