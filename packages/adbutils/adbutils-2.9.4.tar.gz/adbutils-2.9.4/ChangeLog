@@ -1,0 +1,12 @@
+CHANGES
+=======
+
+2.9.4
+-----
+
+* fix sys.stdout isatty
+* 修复pyinstaller打包无窗口软件后，打印报错的问题
+* Fix close connection when using shell v2
+* fix creat\_connection socket leak (#180)
+* fix device.battery() error
+* fix adb 1.0.39 compatible, close #145
