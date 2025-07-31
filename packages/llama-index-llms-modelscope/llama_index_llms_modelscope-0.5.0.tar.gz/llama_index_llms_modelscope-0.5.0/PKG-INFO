@@ -1,0 +1,69 @@
+Metadata-Version: 2.4
+Name: llama-index-llms-modelscope
+Version: 0.5.0
+Summary: llama-index llms modelscope integration
+Author-email: ModelScope <modelscope@list.alibaba-inc.com>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <4.0,>=3.9
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Requires-Dist: modelscope[framework]>=1.12.0
+Requires-Dist: ms-swift
+Requires-Dist: pip
+Requires-Dist: sentencepiece
+Requires-Dist: torch<3,>=2.1.2
+Requires-Dist: transformers[torch]<5,>=4.37.0
+Description-Content-Type: text/markdown
+
+# LlamaIndex Llms Integration: ModelScope
+
+## Installation
+
+To install the required package, run:
+
+```bash
+!pip install llama-index-llms-modelscope
+```
+
+## Basic Usage
+
+### Initialize the ModelScopeLLM
+
+To use the ModelScopeLLM model, create an instance by specifying the model name and revision:
+
+```python
+import sys
+from llama_index.llms.modelscope import ModelScopeLLM
+
+llm = ModelScopeLLM(model_name="qwen/Qwen3-8B", model_revision="master")
+```
+
+### Generate Completions
+
+To generate a text completion for a prompt, use the `complete` method:
+
+```python
+rsp = llm.complete("Hello, who are you?")
+print(rsp)
+```
+
+### Using Message Requests
+
+You can chat with the model by using a list of messages. Here’s how to set it up:
+
+```python
+from llama_index.core.base.llms.types import MessageRole, ChatMessage
+
+messages = [
+    ChatMessage(
+        role=MessageRole.SYSTEM, content="You are a helpful assistant."
+    ),
+    ChatMessage(role=MessageRole.USER, content="How to make cake?"),
+]
+resp = llm.chat(messages)
+print(resp)
+```
+
+### LLM Implementation example
+
+https://docs.llamaindex.ai/en/stable/examples/llm/modelscope/
