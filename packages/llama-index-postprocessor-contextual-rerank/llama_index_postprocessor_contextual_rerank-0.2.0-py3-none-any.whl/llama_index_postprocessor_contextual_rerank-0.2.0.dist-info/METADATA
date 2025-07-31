@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: llama-index-postprocessor-contextual-rerank
+Version: 0.2.0
+Summary: llama-index postprocessor contextual rerank integration
+Author-email: Sean Smith <sean.smith@contextual.ai>
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: <4.0,>=3.9
+Requires-Dist: contextual-client<0.5,>=0.4.0
+Requires-Dist: llama-index-core<0.14,>=0.13.0
+Description-Content-Type: text/markdown
+
+# Contextual Reranker
+
+This is a Llama_index package that calls Contextual's `/rerank` endpoint. It will rank a list of documents according to their relevance to a query.
+
+The total request cannot exceed 400,000 tokens. The combined length of any document, instruction and the query must not exceed 4,000 tokens. Email [rerank-feedback@contextual.ai](mailto:rerank-feedback@contextual.ai) with any feedback or questions.
+
+## Usage
+
+```python
+from llama_index.postprocessor.contextual_rerank import ContextualRerank
+from llama_index.core.schema import NodeWithScore, TextNode
+
+nodes = [
+    NodeWithScore(node=TextNode(text="the capital of france is paris")),
+    NodeWithScore(
+        node=TextNode(text="the capital of the United States is Washington DC")
+    ),
+]
+
+query = "What is the capital of France?"
+
+contextual_rerank = ContextualRerank(
+    api_key="key-...",
+    model="ctxl-rerank-en-v1-instruct",
+    top_n=2,
+)
+
+response = contextual_rerank.postprocess_nodes(nodes, query_str=query)
+
+for node in response:
+    print(node)
+```
