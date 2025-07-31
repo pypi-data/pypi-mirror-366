@@ -1,0 +1,115 @@
+Metadata-Version: 2.1
+Name: clickhouse-driver-http
+Version: 0.1.1
+Summary: Lightweight HTTP client for ClickHouse
+Home-page: UNKNOWN
+Author: Nikita Krachkovskiy
+Author-email: sudokns@gmail.com
+License: UNKNOWN
+Keywords: clickhouse,http,driver,database
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Provides-Extra: pandas
+
+# ClickHouse HTTP Driver (`clickhouse-driver-http`)
+
+Lightweight Python HTTP client for ClickHouse with minimal dependencies.
+
+## Installation
+```bash
+pip install clickhouse-driver-http
+```
+
+## Quick Start
+```python
+from clickhouse_driver_http import ClickHouseHTTP
+
+# Initialize client (supports both int/string ports)
+client = ClickHouseHTTP(
+    host="localhost",          # Required
+    port=8123,                # Default: 8123 (can be string "8123")
+    username="default",       # Default: "default"
+    password="",              # Default: ""
+    database="default",       # Default: "default"
+    timeout=300,              # Default: 300s
+    max_retries=3,            # Default: 3
+    compression=False         # Default: False
+)
+
+# Execute query (returns raw tuples)
+result = client.execute("SELECT now() AS current_time, version()")
+
+# Get DataFrame (pandas required)
+df = client.query_to_df("""
+    SELECT table, engine 
+    FROM system.tables 
+    WHERE database = currentDatabase()
+    LIMIT 5
+""")
+```
+
+## Key Features
+- **HTTP Interface** - No native protocol dependency
+- **External Tables** - Pass data directly in queries
+- **Smart Batching** - Automatic chunking for large results
+- **Error Resilient** - Built-in retry mechanism
+- **Pandas Support** - Direct DataFrame conversion
+
+## Advanced Examples
+
+### External Tables
+```python
+data = {
+    'users': [
+        {'user_id': 1, 'name': 'Alice'},
+        {'user_id': 2, 'name': 'Bob'}
+    ]
+}
+
+external = [{
+    'name': 'ext_users',
+    'structure': [('user_id', 'UInt32'), ('name', 'String')],
+    'data': data['users']
+}]
+
+df = client.query_to_df("""
+    SELECT u.name, count() as logins
+    FROM ext_users u
+    JOIN system.query_log q ON q.user = u.name
+    GROUP BY u.name
+""", external_tables=external)
+```
+
+### Batch Processing
+```python
+# Processes in 100k row batches with auto-retry
+large_df = client.query_to_df(
+    "SELECT * FROM billion_row_table",
+    batch_size=100000,  # Initial batch size
+    memory_safe=True    # Enables memory limits
+)
+```
+
+## Configuration Reference
+
+| Parameter       | Type       | Default     | Description                          |
+|-----------------|------------|-------------|--------------------------------------|
+| `host`          | str        | -           | Server hostname or IP                |
+| `port`          | int/str    | 8123        | HTTP interface port                  |
+| `username`      | str        | "default"   | Authentication username              |
+| `password`      | str        | ""          | Authentication password              |
+| `database`      | str        | "default"   | Default database context             |
+| `timeout`       | int        | 300         | Query timeout in seconds             |
+| `max_retries`   | int        | 3           | Connection retry attempts            |
+| `compression`   | bool       | False       | Enable gzip/deflate compression      |
+| `verify_ssl`    | bool       | True        | Verify SSL certificates              |
+
+## License
+MIT License - See [LICENSE](LICENSE) for full text.
+
+> **Note**: Requires Python 3.7+ and `requests` package. Pandas needed for DataFrame support.
+
