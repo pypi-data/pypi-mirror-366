@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: pddl2hoa
+Version: 0.1.2
+Summary: Convert PDDL planning problems to HOA (Hanoi Omega Automata) format
+Author-email: Oz Gitelson <oz@ozgitelson.com>
+License: MIT
+Project-URL: Homepage, https://github.com/ozgitelson/pddl2hoa
+Project-URL: Repository, https://github.com/ozgitelson/pddl2hoa
+Project-URL: Issues, https://github.com/ozgitelson/pddl2hoa/issues
+Keywords: pddl,planning,automata,hoa,formal-methods
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: pddlgym>=0.0.7
+Dynamic: license-file
+
+# pddl2hoa
+
+**pddl2hoa** is a Python tool that converts PDDL (Planning Domain Definition Language) planning problems into [HOA (Hanoi Omega Automata)](https://adl.github.io/hoaf/) format. This enables downstream analysis with formal methods tools and automata-based verification frameworks.
+
+---
+
+## Features
+
+- Parse and analyze PDDL domain and problem files
+- Convert planning goals into equivalent HOA automata
+- Generate [Strategy Templates](https://arxiv.org/abs/2305.14026) for PDDL domains and problems (must install [Pestel](https://github.com/satya2009rta/pestel) seperately)
+- Compatible with tools that support HOA format (e.g., Spot, Pestel)
+- Designed for integration into formal methods pipelines
+
+---
+
+## Installation
+
+Install via [`uv`](https://github.com/astral-sh/uv) (recommended):
+
+```bash
+uv pip install pddl2hoa
+```
+
+Or from source:
+```bash
+git clone https://github.com/yourusername/pddl2hoa.git
+cd pddl2hoa
+uv pip install .
+```
+
+---
+
+## Usage
+After installation, use the CLI tool:
+```bash
+pddl2hoa domain.pddl problem.pddl > edge_labeled_HOA.hoa
+```
+
+Or use it as a Python library:
+```python
+from pddl2hoa import convert_pddl_to_hoa
+
+convert_pddl_to_hoa("domain.pddl", "problem.pddl")
+```
+
+---
+
+
+## Converting from other formats to HOA
+This library is designed to be extensible. You can convert almost any domain with a graph-based structure into an HOA representation by subclassing the `TurnBasedGame` abstract base class in [game.py](./pddl2hoa/game.py). Once your game format is implemented, you can call the `format_hoa` method from [generate_hoa.py](./pddl2hoa/generate_hoa.py) to produce a corresponding HOA graph.
+
+---
+
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change.
+
+---
+
+## Links
+
+- [Github](https://github.com/OzGitelson/pddl2hoa)
+- [PyPi](https://pypi.org/project/pddl2hoa/)
+- [PDDLGym](https://github.com/tomsilver/pddlgym), the PDDL utility that this package uses under the hood
+- [HOA Format Spec](https://adl.github.io/hoaf/)
+
+
+
