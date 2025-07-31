@@ -1,0 +1,1 @@
+import{L as o,d as p}from"./p-yPBtphkX.js";const s=o,t=p;export{s as ListOrderedIcon,t as defineCustomElement}

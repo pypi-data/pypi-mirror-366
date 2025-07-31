@@ -1,0 +1,1 @@
+import{H as o,d as s}from"./p-CwOQilMZ.js";const p=o,r=s;export{p as H1Icon,r as defineCustomElement}

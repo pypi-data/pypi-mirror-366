@@ -1,0 +1,1 @@
+import{I as o,d as s}from"./p-DxYwOt_Q.js";const t=o,p=s;export{t as ItalicIcon,p as defineCustomElement}

@@ -1,0 +1,1 @@
+export{g as getAssetPath,r as render,s as setAssetPath,a as setNonce,b as setPlatformOptions}from"./p-BcGEbiAe.js";function t(s,t,e){return(s||"")+(t?" "+t:"")+(e?" "+e:"")}export{t as format}

@@ -1,0 +1,1 @@
+import{U as o,d as s}from"./p-8WIlyxUZ.js";const p=o,r=s;export{p as UnderlineIcon,r as defineCustomElement}
