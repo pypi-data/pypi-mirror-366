@@ -1,0 +1,172 @@
+Metadata-Version: 2.4
+Name: yaal
+Version: 0.1.0
+Summary: YAAL (Yet Another Abstract Language) Parser - A human-readable configuration language with executable code blocks
+Project-URL: Homepage, https://github.com/example/yaal
+Project-URL: Repository, https://github.com/example/yaal
+Project-URL: Documentation, https://yaal.readthedocs.io
+Project-URL: Bug Tracker, https://github.com/example/yaal/issues
+Author-email: YAAL Development Team <dev@yaal.example.com>
+Keywords: configuration,dsl,language,parser,yaal
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup
+Requires-Python: >=3.8.1
+Requires-Dist: lark>=1.1.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: flake8>=6.0.0; extra == 'dev'
+Requires-Dist: isort>=5.12.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: myst-parser>=1.0.0; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme>=1.2.0; extra == 'docs'
+Requires-Dist: sphinx>=5.0.0; extra == 'docs'
+Provides-Extra: testing
+Requires-Dist: pytest-cov>=4.0.0; extra == 'testing'
+Requires-Dist: pytest>=7.0.0; extra == 'testing'
+Description-Content-Type: text/markdown
+
+# YAAL Parser Implementation
+
+This project contains both Python (Lark) and C++ (PEGTL) implementations of parsers for the YAAL (Yet Another Abstract Language) specification.
+
+## YAAL Language Features
+
+YAAL is a flexible, statement-based language that supports:
+
+- **Dual nature**: Same syntax for data structures and executable programs
+- **Statement model**: Simple statements (no colons) and compound statements (key:value)
+- **First colon rule**: Everything before first colon = key, everything after = value
+- **Shebang support**: Context switching with `#!pipeline`, `#!hibrid-code`, etc.
+- **Brace blocks**: Raw content containers with balanced brace matching
+- **Triple-quoted strings**: Multiline string support
+- **Flexible keys**: Keys can contain spaces and special characters
+- **Indentation-based nesting**: Spaces-only (no tabs)
+
+## Parser Implementations
+
+### C++ Parser (PEGTL)
+
+**Location**: `src/cpp/`
+
+**Features**:
+- Complete YAAL specification compliance
+- Fast parsing with PEGTL library
+- Detailed AST visitor pattern
+- Comprehensive error handling
+
+**Building**:
+```bash
+cmake -B build -S src/cpp
+cmake --build build
+```
+
+**Usage**:
+```bash
+./build/yaal <filename.yaal>
+```
+
+### Python Parser (Lark)
+
+**Location**: `src/py/yaal/`
+
+**Features**:
+- YAAL grammar in Lark format
+- Python indentation handling
+- Command-line interface
+- Graceful dependency handling
+
+**Dependencies**:
+```bash
+pip install lark
+```
+
+**Usage**:
+```bash
+python3 src/py/yaal/yaal.py <filename.yaal>
+```
+
+## Example YAAL Files
+
+### Basic Example (`test_input.yaal`)
+```yaal
+#!pipeline
+name: John
+api endpoint: https://api.example.com:8080/v1
+production
+config:
+  debug: false
+  timeout: 30
+script: { echo hello; exit 0 }
+```
+
+### Comprehensive Example (`comprehensive_test.yaal`)
+Demonstrates all YAAL features including:
+- Shebang lines
+- Simple and compound statements
+- Keys with spaces
+- Triple-quoted strings
+- Brace blocks
+- Nested structures
+- Polymorphic lists
+
+## Grammar Highlights
+
+### Lark Grammar (`src/py/yaal/yaal.lark`)
+```lark
+start: [shebang_line] file_input
+
+shebang_line: \"#!\" IDENTIFIER _NEWLINE
+
+?stmt: simple_stmt | compound_stmt
+
+simple_stmt: line_content _NEWLINE
+compound_stmt: key_part \":\" value_part _NEWLINE?
+
+brace_block: \"{\" brace_content \"}\"
+quoted_string: ESCAPED_STRING | TRIPLE_QUOTED_STRING
+```
+
+### PEGTL Grammar (`src/cpp/yaal.cpp`)
+```cpp
+struct shebang_line : pegtl::seq<pegtl::string<'#', '!'>, identifier, pegtl::eol> {};
+struct simple_stmt : pegtl::seq<line_content, _NEWLINE> {};
+struct compound_stmt : pegtl::seq<key_part, pegtl::one<':'>, /* ... */> {};
+struct brace_block : pegtl::seq<pegtl::one<'{'>, brace_content, pegtl::one<'}'>> {};
+```
+
+## Testing
+
+Both parsers have been tested with:
+- Basic YAAL syntax
+- Complex nested structures
+- All string types (unquoted, quoted, triple-quoted)
+- Brace blocks with nested content
+- Real-world examples from the YAAL specification
+
+## Compliance
+
+✅ **Complete YAAL specification compliance**  
+✅ **All examples from https://github.com/zokrezyl/yaal-lang parse successfully**  
+✅ **Proper error handling and reporting**  
+✅ **Extensible architecture for semantic analysis**  
+
+## Next Steps
+
+1. **Semantic Analysis**: Add interpretation and execution capabilities
+2. **Context Handlers**: Implement shebang-based context switching
+3. **Integration**: Connect to YAAL execution engines
+4. **Tooling**: Add syntax highlighting, LSP support, etc.
+
+Both parsers provide a solid foundation for building YAAL-based tools and applications.
