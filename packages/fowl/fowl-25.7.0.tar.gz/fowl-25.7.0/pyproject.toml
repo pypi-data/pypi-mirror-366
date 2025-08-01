@@ -1,0 +1,104 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore"
+]
+
+[tool.ruff]
+line-length = 100
+[tool.ruff.lint]
+ignore = [
+    "E712"  # at least in policy tests, I want to ensure API returns booleans
+]
+
+[project]
+name = "fowl"
+dynamic = ["version"]
+description = "Forward Over Wormhole Locally provides bi-directional streaming data over secure and durable Dilated magic-wormhole connections. Secure communication with easy setup."
+readme = "README.rst"
+license = {file = "LICENSE"}
+authors = [
+    { name = "meejah", email = "meejah@meejah.ca" },
+]
+requires-python = ">=3.9"
+keywords = [
+    "cryptography",
+    "forwarding",
+    "magic-wormhole",
+    "private",
+]
+classifiers = [
+    "Framework :: Twisted",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "setuptools",
+    "click",
+    "attrs",
+    "six",
+    "msgpack",
+    "humanize",
+    "twisted",
+    "magic-wormhole[dilate] >= 0.20.0",
+    "rich",
+    "ipaddress",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-twisted",
+    "pytest-cov",
+    "magic-wormhole-mailbox-server",
+    "cuvner",
+    "hypothesis",
+    "ruff",
+]
+dev = [
+    "twine",
+    "sphinx",
+    "dulwich",
+    "gpg",  # should use isis lovecruft's version?
+    "pip-tools",
+    "hatch",
+    "readme-renderer",
+    "cuvner",
+ ]
+
+[project.scripts]
+fowl = "fowl.cli:fowl"
+fowld = "fowl.cli:fowld"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+path = "src/fowl/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src",
+    "docs",
+    "Makefile",
+    "README.rst",
+    "pyproject.toml",
+    "requirements-pinned.txt",
+]
+exclude = [
+    "*~",
+    "*.egg-info*",
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source_pkgs = ["fowl"]
+
+## so my weird coverage problem .. was a "coverage combine" when
+## there's a "leftover" .coverage.* file
+##
+## ..i guess "coverage combine" just combines .coverage.* (and NOT including .coverage ??)
