@@ -1,0 +1,105 @@
+.TH "palmmeteo_stdplugins/aladin.py" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins/aladin.py
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.aladin\&.AladinPlugin\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.aladin\&.AladinCoordTransform\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.aladin\&.AladinRadPlugin\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.aladin\&.BilinearRegridder\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBpalmmeteo_stdplugins\fP"
+.br
+.ti -1c
+.RI "namespace \fBpalmmeteo_stdplugins\&.aladin\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.variable2parameter\fP ()"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.findnearest\fP (xlon, xlat, point)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.transform_from_grib\fP (filename, fileout, cfg, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.log_dstat_on\fP (desc, delta)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.log_dstat_off\fP (desc, delta)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.lpad\fP (var)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.palm_alad_gw\fP (f, lon, lat, levels, tidx=0)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.minterp\fP (interp_heights, data_heights, u, v)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.get_wrf_dims\fP (f, lat, lon, xlat, xlong)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.calcgw_wrf\fP (f, lat, lon, levels, tidx=0)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.aladin_t\fP (f, it)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.aladin\&.description_key\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.aladin\&.metpy_version_master\fP = int(metpy\&.__version__\&.split('\&.', 1)[0])"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.aladin\&.barom_pres\fP = PalmPhysics\&.barom_lapse0_pres"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.aladin\&.barom_gp\fP = PalmPhysics\&.barom_lapse0_gp"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.aladin\&.g\fP = PalmPhysics\&.g"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.aladin\&.ax_\fP = np\&.newaxis"
+.br
+.ti -1c
+.RI "int \fBpalmmeteo_stdplugins\&.aladin\&.gw_gfs_margin_deg\fP = 5\&."
+.br
+.ti -1c
+.RI "int \fBpalmmeteo_stdplugins\&.aladin\&.gw_wrf_margin_km\fP = 10\&."
+.br
+.ti -1c
+.RI "int \fBpalmmeteo_stdplugins\&.aladin\&.gw_alpha\fP = 1\&."
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

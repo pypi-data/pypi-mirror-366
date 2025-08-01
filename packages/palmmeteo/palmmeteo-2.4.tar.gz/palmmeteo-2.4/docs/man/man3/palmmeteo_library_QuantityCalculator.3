@@ -1,0 +1,80 @@
+.TH "palmmeteo.library.QuantityCalculator" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.library.QuantityCalculator
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP (self, \fBquantities\fP, var_defs, \fBpreprocessors\fP, \fBregridder\fP)"
+.br
+.ti -1c
+.RI "def \fBload_timestep_vars\fP (self, f, tindex, tsdata)"
+.br
+.ti -1c
+.RI "def \fBvalidate_timestep\fP (self, tsdata)"
+.br
+.ti -1c
+.RI "def \fBcalc_timestep_species\fP (self, tsdata)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBnew_timestep\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBregridder\fP"
+.br
+.ti -1c
+.RI "\fBloaded_vars\fP"
+.br
+.ti -1c
+.RI "\fBpreprocessors\fP"
+.br
+.ti -1c
+.RI "\fBvalidations\fP"
+.br
+.ti -1c
+.RI "\fBquantities\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.QuantityCalculator\&.__init__ ( self,  quantities,  var_defs,  preprocessors,  regridder)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.QuantityCalculator\&.calc_timestep_species ( self,  tsdata)"
+
+.SS "def palmmeteo\&.library\&.QuantityCalculator\&.load_timestep_vars ( self,  f,  tindex,  tsdata)"
+
+.SS "def palmmeteo\&.library\&.QuantityCalculator\&.new_timestep ()\fC [static]\fP"
+
+.SS "def palmmeteo\&.library\&.QuantityCalculator\&.validate_timestep ( self,  tsdata)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "palmmeteo\&.library\&.QuantityCalculator\&.loaded_vars"
+
+.SS "palmmeteo\&.library\&.QuantityCalculator\&.preprocessors"
+
+.SS "palmmeteo\&.library\&.QuantityCalculator\&.quantities"
+
+.SS "palmmeteo\&.library\&.QuantityCalculator\&.regridder"
+
+.SS "palmmeteo\&.library\&.QuantityCalculator\&.validations"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

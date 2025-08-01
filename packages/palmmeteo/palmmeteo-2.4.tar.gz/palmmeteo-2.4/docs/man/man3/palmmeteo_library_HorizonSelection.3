@@ -1,0 +1,92 @@
+.TH "palmmeteo.library.HorizonSelection" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.library.HorizonSelection
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP (self, \fBcycles\fP, earliest_horizon, idx_start=None, idx_stop=None, \fBtindex\fP=None)"
+.br
+.ti -1c
+.RI "def \fBfrom_cfg\fP (cls, cfgsect, idx_start=None, idx_stop=None)"
+.br
+.ti -1c
+.RI "def \fBget_idx\fP (self, horizon, dt_idx)"
+.br
+.ti -1c
+.RI "def \fBlocate\fP (self, cycle, horizon=None, dt=None)"
+.br
+.ti -1c
+.RI "def \fBdt_from_idx\fP (self, idx)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBcycles\fP"
+.br
+.ti -1c
+.RI "\fBhoriz_first\fP"
+.br
+.ti -1c
+.RI "\fBhoriz_last\fP"
+.br
+.ti -1c
+.RI "\fBidx0\fP"
+.br
+.ti -1c
+.RI "\fBidx1\fP"
+.br
+.ti -1c
+.RI "\fBtindex\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Represents a continous selection of forecast horizons for
+a given selection of cycles (AssimCycle)
+
+.fi
+.PP
+ 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.HorizonSelection\&.__init__ ( self,  cycles,  earliest_horizon,  idx_start = \fCNone\fP,  idx_stop = \fCNone\fP,  tindex = \fCNone\fP)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.HorizonSelection\&.dt_from_idx ( self,  idx)"
+
+.SS "def palmmeteo\&.library\&.HorizonSelection\&.from_cfg ( cls,  cfgsect,  idx_start = \fCNone\fP,  idx_stop = \fCNone\fP)"
+
+.SS "def palmmeteo\&.library\&.HorizonSelection\&.get_idx ( self,  horizon,  dt_idx)"
+
+.SS "def palmmeteo\&.library\&.HorizonSelection\&.locate ( self,  cycle,  horizon = \fCNone\fP,  dt = \fCNone\fP)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "palmmeteo\&.library\&.HorizonSelection\&.cycles"
+
+.SS "palmmeteo\&.library\&.HorizonSelection\&.horiz_first"
+
+.SS "palmmeteo\&.library\&.HorizonSelection\&.horiz_last"
+
+.SS "palmmeteo\&.library\&.HorizonSelection\&.idx0"
+
+.SS "palmmeteo\&.library\&.HorizonSelection\&.idx1"
+
+.SS "palmmeteo\&.library\&.HorizonSelection\&.tindex"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

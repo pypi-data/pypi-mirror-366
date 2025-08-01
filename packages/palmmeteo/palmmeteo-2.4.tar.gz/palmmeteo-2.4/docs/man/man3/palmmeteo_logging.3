@@ -1,0 +1,97 @@
+.TH "palmmeteo.logging" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.logging
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBdie\fP (s, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBwarn\fP (s, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBlog_on\fP (s, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBlog_off\fP (s, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBconfigure_log\fP (cfg)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBlevel_on\fP"
+.br
+.ti -1c
+.RI "\fBlog_output\fP = sys\&.stdout\&.write"
+.br
+.ti -1c
+.RI "\fBerror_output\fP = sys\&.stderr\&.write"
+.br
+.ti -1c
+.RI "def \fBlog\fP = \fBlog_on\fP"
+.br
+.ti -1c
+.RI "def \fBverbose\fP = \fBlog_off\fP"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo\&.logging\&.configure_log ( cfg)"
+
+.SS "def palmmeteo\&.logging\&.die ( s, * args, ** kwargs)"
+
+.PP
+.nf
+Write message to error output and exit with status 1\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.logging\&.log_off ( s, * args, ** kwargs)"
+
+.PP
+.nf
+Do nothing (logging is disabled)\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.logging\&.log_on ( s, * args, ** kwargs)"
+
+.PP
+.nf
+Write logging or debugging message to standard output (logging is enabled)\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.logging\&.warn ( s, * args, ** kwargs)"
+
+.PP
+.nf
+Write message to error output\&.
+.fi
+.PP
+ 
+.SH "Variable Documentation"
+.PP 
+.SS "palmmeteo\&.logging\&.error_output = sys\&.stderr\&.write"
+
+.SS "palmmeteo\&.logging\&.level_on"
+
+.SS "def palmmeteo\&.logging\&.log = \fBlog_on\fP"
+
+.SS "palmmeteo\&.logging\&.log_output = sys\&.stdout\&.write"
+
+.SS "def palmmeteo\&.logging\&.verbose = \fBlog_off\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

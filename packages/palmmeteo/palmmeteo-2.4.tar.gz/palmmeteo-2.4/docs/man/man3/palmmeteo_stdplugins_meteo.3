@@ -1,0 +1,54 @@
+.TH "palmmeteo_stdplugins.meteo" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins.meteo
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBEmisPlugin\fP"
+.br
+.ti -1c
+.RI "class \fBRequiresMeteoPluginMixin\fP"
+.br
+.ti -1c
+.RI "class \fBSomeMeteoPlugin\fP"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "dictionary \fBavailable_meteo_vars\fP"
+.br
+.ti -1c
+.RI "\fBrequired_variables\fP = set()"
+.br
+.in -1c
+.SH "Variable Documentation"
+.PP 
+.SS "dictionary palmmeteo_stdplugins\&.meteo\&.available_meteo_vars"
+\fBInitial value:\fP
+.PP
+.nf
+1 =  {
+2     'tas':  {'desc': 'temperature at surface', 'units': 'K'},
+3     'ta':   {'desc': '3D temperature', 'units': 'K'},
+4     'qas':  {'desc': 'specific humidity at the surface', 'units': 'kg/kg'},
+5     'qa':   {'desc': '3D specific humidity', 'units': '1'},
+6     'rsds': {'desc': 'surface incident SW radiation for BVOC', 'units': 'W/m2'},
+7     'pa':   {'desc': '3D pressure', 'units': 'Pa'},
+8     'zf':   {'desc': 'layer interface heights', 'units': 'm'},
+9     'ua':   {'desc': 'U-wind', 'units': 'm/s'},
+10     'va':   {'desc': 'V-wind', 'units': 'm/s'}
+11 }
+.fi
+.SS "palmmeteo_stdplugins\&.meteo\&.required_variables = set()"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

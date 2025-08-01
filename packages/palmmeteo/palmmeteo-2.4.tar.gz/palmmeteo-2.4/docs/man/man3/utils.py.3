@@ -1,0 +1,90 @@
+.TH "palmmeteo/utils.py" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo/utils.py
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBpalmmeteo\&.utils\&.NotWholeTimestep\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo\&.utils\&.DTIndexer\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo\&.utils\&.SliceExtender\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo\&.utils\&.SliceBoolExtender\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo\&.utils\&.Workflow\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBpalmmeteo\fP"
+.br
+.ti -1c
+.RI "namespace \fBpalmmeteo\&.utils\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBpalmmeteo\&.utils\&.find_free_fname\fP (fpath, overwrite=False)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo\&.utils\&.tstep\fP (td, step)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo\&.utils\&.ensure_dimension\fP (f, dimname, dimsize)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo\&.utils\&.getvar\fP (f, varname, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo\&.utils\&.assert_dir\fP (filepath)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.ax_\fP = np\&.newaxis"
+.br
+.ti -1c
+.RI "int \fBpalmmeteo\&.utils\&.rad\fP = np\&.pi / 180\&."
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.td0\fP = datetime\&.timedelta(0)"
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.utc\fP = datetime\&.timezone\&.utc"
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.midnight\fP = datetime\&.time(0)"
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.utcdefault\fP = lambda dt: dt\&.replace(tzinfo=utc) if dt\&.tzinfo is None else dt"
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.midnight_of\fP = lambda dt: datetime\&.datetime\&.combine(dt\&.date(), midnight, dt\&.tzinfo)"
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.fext_re\fP = re\&.compile(r'\\\&.(\\d{3})$')"
+.br
+.ti -1c
+.RI "\fBpalmmeteo\&.utils\&.where_range\fP = lambda mask: (np\&.argmax(mask), len(mask)\-np\&.argmax(mask[::\-1]))"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

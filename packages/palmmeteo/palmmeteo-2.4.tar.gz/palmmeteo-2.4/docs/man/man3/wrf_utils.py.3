@@ -1,0 +1,124 @@
+.TH "palmmeteo_stdplugins/wrf_utils.py" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins/wrf_utils.py
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.wrf_utils\&.WrfPhysics\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.wrf_utils\&.WRFCoordTransform\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.wrf_utils\&.CAMxCoordTransform\fP"
+.br
+.ti -1c
+.RI "class \fBpalmmeteo_stdplugins\&.wrf_utils\&.BilinearRegridder\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBpalmmeteo_stdplugins\fP"
+.br
+.ti -1c
+.RI "namespace \fBpalmmeteo_stdplugins\&.wrf_utils\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.calc_ph_hybrid\fP (f, it, mu)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.calc_ph_sigma\fP (f, it, mu)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.wrf_t\fP (f, it)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.calc_gp\fP (f, it, ph)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.palm_wrf_gw\fP (f, lon, lat, levels, tidx=0)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.minterp\fP (interp_heights, data_heights, u, v)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.get_wrf_dims\fP (f, lat, lon, xlat, xlong)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.calcgw_wrf\fP (f, lat, lon, levels, tidx=0)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.calcgw_gfs\fP (v, lat, lon)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.combinegw_gfs\fP (grbs, levels, lat, lon)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.metpy_version_master\fP = int(metpy\&.__version__\&.split('\&.', 1)[0])"
+.br
+.ti -1c
+.RI "int \fBpalmmeteo_stdplugins\&.wrf_utils\&.gw_gfs_margin_deg\fP = 5\&."
+.br
+.RI "Settings for geostrophic wind\&. "
+.ti -1c
+.RI "int \fBpalmmeteo_stdplugins\&.wrf_utils\&.gw_wrf_margin_km\fP = 10\&."
+.br
+.ti -1c
+.RI "int \fBpalmmeteo_stdplugins\&.wrf_utils\&.gw_alpha\fP = 1\&."
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.ax_\fP = np\&.newaxis"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.parser\fP = argparse\&.ArgumentParser(description=__doc__)"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.help\fP"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.args\fP = parser\&.parse_args()"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.f\fP = netCDF4\&.Dataset(args\&.wrfout)"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.t\fP = WRFCoordTransform(f)"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.mu\fP = f\&.variables['MUB'][0,:,:] + f\&.variables['MU'][0,:,:]"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.gp\fP = f\&.variables['PH'][0,:,:,:] + f\&.variables['PHB'][0,:,:,:]"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.phf\fP"
+.br
+.ti -1c
+.RI "\fBpalmmeteo_stdplugins\&.wrf_utils\&.phh\fP"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.gp_calc\fP = calc_gp(f, 0, phf)"
+.br
+.ti -1c
+.RI "def \fBpalmmeteo_stdplugins\&.wrf_utils\&.delta\fP = gp_calc \- gp"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

@@ -1,0 +1,43 @@
+.TH "palmmeteo.plugins.SetupPluginMixin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.plugins.SetupPluginMixin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.PP
+Inherited by \fBpalmmeteo_stdplugins\&.setup\&.SetupPlugin\fP, and \fBpalmmeteo_stdplugins\&.setup_staticdriver\&.StaticDriverPlugin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBsetup_model\fP (self, *args, **kwargs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Base class mixin for setup plugins\&.
+Registers 'setup_model' method as a handler for event 'setup_model'\&.
+
+Abstract methods required to be implemented by derived classes:
+    setup_model
+
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.plugins\&.SetupPluginMixin\&.setup_model ( self, * args, ** kwargs)"
+
+.PP
+Reimplemented in \fBpalmmeteo_stdplugins\&.setup\&.SetupPlugin\fP, and \fBpalmmeteo_stdplugins\&.setup_staticdriver\&.StaticDriverPlugin\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

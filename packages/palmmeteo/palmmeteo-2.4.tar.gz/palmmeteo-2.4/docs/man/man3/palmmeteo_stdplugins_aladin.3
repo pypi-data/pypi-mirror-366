@@ -1,0 +1,175 @@
+.TH "palmmeteo_stdplugins.aladin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins.aladin
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBAladinCoordTransform\fP"
+.br
+.ti -1c
+.RI "class \fBAladinPlugin\fP"
+.br
+.ti -1c
+.RI "class \fBAladinRadPlugin\fP"
+.br
+.ti -1c
+.RI "class \fBBilinearRegridder\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBvariable2parameter\fP ()"
+.br
+.ti -1c
+.RI "def \fBfindnearest\fP (xlon, xlat, point)"
+.br
+.ti -1c
+.RI "def \fBtransform_from_grib\fP (filename, fileout, cfg, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBlog_dstat_on\fP (desc, delta)"
+.br
+.ti -1c
+.RI "def \fBlog_dstat_off\fP (desc, delta)"
+.br
+.ti -1c
+.RI "def \fBlpad\fP (var)"
+.br
+.ti -1c
+.RI "def \fBpalm_alad_gw\fP (f, lon, lat, levels, tidx=0)"
+.br
+.ti -1c
+.RI "def \fBminterp\fP (interp_heights, data_heights, u, v)"
+.br
+.ti -1c
+.RI "def \fBget_wrf_dims\fP (f, lat, lon, xlat, xlong)"
+.br
+.ti -1c
+.RI "def \fBcalcgw_wrf\fP (f, lat, lon, levels, tidx=0)"
+.br
+.ti -1c
+.RI "def \fBaladin_t\fP (f, it)"
+.br
+.ti -1c
+.RI "def \fBdescription_key\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBmetpy_version_master\fP = int(metpy\&.__version__\&.split('\&.', 1)[0])"
+.br
+.ti -1c
+.RI "\fBbarom_pres\fP = \fBPalmPhysics\&.barom_lapse0_pres\fP"
+.br
+.ti -1c
+.RI "\fBbarom_gp\fP = \fBPalmPhysics\&.barom_lapse0_gp\fP"
+.br
+.ti -1c
+.RI "\fBg\fP = PalmPhysics\&.g"
+.br
+.ti -1c
+.RI "\fBax_\fP = np\&.newaxis"
+.br
+.ti -1c
+.RI "int \fBgw_gfs_margin_deg\fP = 5\&."
+.br
+.ti -1c
+.RI "int \fBgw_wrf_margin_km\fP = 10\&."
+.br
+.ti -1c
+.RI "int \fBgw_alpha\fP = 1\&."
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo_stdplugins\&.aladin\&.aladin_t ( f,  it)"
+
+.SS "def palmmeteo_stdplugins\&.aladin\&.calcgw_wrf ( f,  lat,  lon,  levels,  tidx = \fC0\fP)"
+
+.SS "def palmmeteo_stdplugins\&.aladin\&.description_key ()"
+
+.SS "def palmmeteo_stdplugins\&.aladin\&.findnearest ( xlon,  xlat,  point)"
+
+.SS "def palmmeteo_stdplugins\&.aladin\&.get_wrf_dims ( f,  lat,  lon,  xlat,  xlong)"
+
+.PP
+.nf
+A crude method, yet satisfactory for approximate WRF surroundings
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.aladin\&.log_dstat_off ( desc,  delta)"
+
+.PP
+.nf
+Do nothing (log disabled)
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.aladin\&.log_dstat_on ( desc,  delta)"
+
+.PP
+.nf
+Calculate and log delta statistics if enabled\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.aladin\&.lpad ( var)"
+
+.PP
+.nf
+Pad variable in first dimension by repeating lowest layer twice
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.aladin\&.minterp ( interp_heights,  data_heights,  u,  v)"
+
+.PP
+.nf
+Interpolate wind using power law for agl levels
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.aladin\&.palm_alad_gw ( f,  lon,  lat,  levels,  tidx = \fC0\fP)"
+
+.PP
+.nf
+Calculate geostrophic wind from WRF using metpy
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.aladin\&.transform_from_grib ( filename,  fileout,  cfg, ** kwargs)"
+
+.SS "def palmmeteo_stdplugins\&.aladin\&.variable2parameter ()"
+
+.SH "Variable Documentation"
+.PP 
+.SS "palmmeteo_stdplugins\&.aladin\&.ax_ = np\&.newaxis"
+
+.SS "palmmeteo_stdplugins\&.aladin\&.barom_gp = \fBPalmPhysics\&.barom_lapse0_gp\fP"
+
+.SS "palmmeteo_stdplugins\&.aladin\&.barom_pres = \fBPalmPhysics\&.barom_lapse0_pres\fP"
+
+.SS "palmmeteo_stdplugins\&.aladin\&.g = PalmPhysics\&.g"
+
+.SS "int palmmeteo_stdplugins\&.aladin\&.gw_alpha = 1\&."
+
+.SS "int palmmeteo_stdplugins\&.aladin\&.gw_gfs_margin_deg = 5\&."
+
+.SS "int palmmeteo_stdplugins\&.aladin\&.gw_wrf_margin_km = 10\&."
+
+.SS "palmmeteo_stdplugins\&.aladin\&.metpy_version_master = int(metpy\&.__version__\&.split('\&.', 1)[0])"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

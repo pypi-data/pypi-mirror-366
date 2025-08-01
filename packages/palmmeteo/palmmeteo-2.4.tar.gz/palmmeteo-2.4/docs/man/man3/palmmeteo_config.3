@@ -1,0 +1,75 @@
+.TH "palmmeteo.config" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.config
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBConfigError\fP"
+.br
+.ti -1c
+.RI "class \fBConfigObj\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBparse_duration\fP (section, item, value=None)"
+.br
+.ti -1c
+.RI "def \fBload_config\fP (argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "dictionary \fBduration_units\fP"
+.br
+.ti -1c
+.RI "\fBcfg\fP = \fBConfigObj\fP()"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo\&.config\&.load_config ( argv)"
+
+.PP
+.nf
+Loads all configuration\&.
+
+Configuration is loaded in this order:
+1) initial configuration values
+2) configfile
+3) command-line options
+Each step may overwrite values from previous steps\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.config\&.parse_duration ( section,  item,  value = \fCNone\fP)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "palmmeteo\&.config\&.cfg = \fBConfigObj\fP()"
+
+.SS "dictionary palmmeteo\&.config\&.duration_units"
+\fBInitial value:\fP
+.PP
+.nf
+1 =  {
+2         'd': 'days',
+3         'h': 'hours',
+4         'm': 'minutes',
+5         's': 'seconds',
+6         }
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

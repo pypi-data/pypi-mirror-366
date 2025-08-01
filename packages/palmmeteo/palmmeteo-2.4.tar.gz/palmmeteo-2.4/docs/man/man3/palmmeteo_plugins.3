@@ -1,0 +1,79 @@
+.TH "palmmeteo.plugins" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.plugins
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBHInterpPluginMixin\fP"
+.br
+.ti -1c
+.RI "class \fBImportPluginMixin\fP"
+.br
+.ti -1c
+.RI "class \fBPlugin\fP"
+.br
+.ti -1c
+.RI "class \fBPluginMeta\fP"
+.br
+.ti -1c
+.RI "class \fBSetupPluginMixin\fP"
+.br
+.ti -1c
+.RI "class \fBVInterpPluginMixin\fP"
+.br
+.ti -1c
+.RI "class \fBWritePluginMixin\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBeventhandler\fP (event)"
+.br
+.ti -1c
+.RI "def \fBplugin_factory\fP (plugin, *args, **kwargs)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "dictionary \fBevent_hooks\fP"
+.br
+.ti -1c
+.RI "list \fBplugins\fP = []"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo\&.plugins\&.eventhandler ( event)"
+
+.PP
+.nf
+Decorator function to register method as an event handler\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.plugins\&.plugin_factory ( plugin, * args, ** kwargs)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "dictionary palmmeteo\&.plugins\&.event_hooks"
+\fBInitial value:\fP
+.PP
+.nf
+1 =  {
+2 }
+.fi
+.SS "list palmmeteo\&.plugins\&.plugins = []"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

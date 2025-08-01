@@ -1,0 +1,155 @@
+.TH "palmmeteo.library.PalmPhysics" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.library.PalmPhysics
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherited by \fBpalmmeteo_stdplugins\&.wrf_utils\&.WrfPhysics\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBbarom_lapse0_pres\fP (cls, \fBp0\fP, gp, gp0, t0)"
+.br
+.ti -1c
+.RI "def \fBbarom_lapse0_gp\fP (cls, gp0, p, \fBp0\fP, t0)"
+.br
+.ti -1c
+.RI "def \fBbarom_ptn_pres\fP (cls, \fBp0\fP, z, t0)"
+.br
+.ti -1c
+.RI "def \fBexner\fP (cls, p)"
+.br
+.ti -1c
+.RI "def \fBexner_inv\fP (cls, p)"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "float \fBg\fP = 9\&.81"
+.br
+.ti -1c
+.RI "int \fBc_p\fP = 1005\&."
+.br
+.ti -1c
+.RI "int \fBr_d\fP = 287\&."
+.br
+.ti -1c
+.RI "int \fBp0\fP = 1e5"
+.br
+.ti -1c
+.RI "float \fBsigma_sb\fP = 5\&.67037e\-08"
+.br
+.ti -1c
+.RI "int \fBd_p0\fP = 1e\-5"
+.br
+.ti -1c
+.RI "float \fBg_d_cp\fP = \fBg\fP / \fBc_p\fP"
+.br
+.ti -1c
+.RI "int \fBcp_d_rd\fP = \fBc_p\fP / \fBr_d\fP"
+.br
+.ti -1c
+.RI "int \fBrd_d_cp\fP = \fBr_d\fP / \fBc_p\fP"
+.br
+.ti -1c
+.RI "int \fBradius\fP = 6371\&."
+.br
+.ti -1c
+.RI "float \fBR\fP = 8\&.314"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Physics calculations with defined constants
+
+This class contains various physics calculations, implemented as class
+methods, which use defined physical constants\&. It can be subclassed with
+different constants to suit processing of data related to models with
+constants defined otherwise\&.
+
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.PalmPhysics\&.barom_lapse0_gp ( cls,  gp0,  p,  p0,  t0)"
+
+.PP
+.nf
+Converts geopotential based on pressure using barometric equation
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.PalmPhysics\&.barom_lapse0_pres ( cls,  p0,  gp,  gp0,  t0)"
+
+.PP
+.nf
+Converts pressure based on geopotential using barometric equation
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.PalmPhysics\&.barom_ptn_pres ( cls,  p0,  z,  t0)"
+
+.PP
+.nf
+Compute the barometric formula for 1-D array arguments\&.
+
+The calculation is based on the assumption of a polytropic atmosphere
+and neutral stratification, where the temperature lapse rate is g/cp\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.PalmPhysics\&.exner ( cls,  p)"
+
+.PP
+.nf
+Exner function
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.PalmPhysics\&.exner_inv ( cls,  p)"
+
+.PP
+.nf
+Reciprocal of the Exner function
+.fi
+.PP
+ 
+.SH "Member Data Documentation"
+.PP 
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.c_p = 1005\&.\fC [static]\fP"
+
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.cp_d_rd = \fBc_p\fP / \fBr_d\fP\fC [static]\fP"
+
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.d_p0 = 1e\-5\fC [static]\fP"
+
+.SS "float palmmeteo\&.library\&.PalmPhysics\&.g = 9\&.81\fC [static]\fP"
+
+.SS "float palmmeteo\&.library\&.PalmPhysics\&.g_d_cp = \fBg\fP / \fBc_p\fP\fC [static]\fP"
+
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.p0 = 1e5\fC [static]\fP"
+
+.SS "float palmmeteo\&.library\&.PalmPhysics\&.R = 8\&.314\fC [static]\fP"
+
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.r_d = 287\&.\fC [static]\fP"
+
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.radius = 6371\&.\fC [static]\fP"
+
+.SS "int palmmeteo\&.library\&.PalmPhysics\&.rd_d_cp = \fBr_d\fP / \fBc_p\fP\fC [static]\fP"
+
+.SS "float palmmeteo\&.library\&.PalmPhysics\&.sigma_sb = 5\&.67037e\-08\fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

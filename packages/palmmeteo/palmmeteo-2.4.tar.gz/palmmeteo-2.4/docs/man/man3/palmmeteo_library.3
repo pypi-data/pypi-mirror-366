@@ -1,0 +1,88 @@
+.TH "palmmeteo.library" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.library
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBAssimCycle\fP"
+.br
+.ti -1c
+.RI "class \fBHorizonSelection\fP"
+.br
+.ti -1c
+.RI "class \fBInputUnitsInfo\fP"
+.br
+.ti -1c
+.RI "class \fBLatLonRegularGrid\fP"
+.br
+.ti -1c
+.RI "class \fBLoadedQuantity\fP"
+.br
+.ti -1c
+.RI "class \fBPalmPhysics\fP"
+.br
+.ti -1c
+.RI "class \fBQuantityCalculator\fP"
+.br
+.ti -1c
+.RI "class \fBTriRegridder\fP"
+.br
+.ti -1c
+.RI "class \fBUnitConverter\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBbarycentric\fP (tri, pt, isimp)"
+.br
+.ti -1c
+.RI "def \fBverify_palm_hinterp\fP (regridder, lats, lons)"
+.br
+.ti -1c
+.RI "def \fBparse_linspace\fP (space, name, maxerr)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.barycentric ( tri,  pt,  isimp)"
+
+.PP
+.nf
+Calculate barycentric coordinates of a multi-dimensional point set
+within a triangulation\&.
+
+:param pt:      selection of points (multi-dimensional)
+:param isimp:   selection of simplices (same dims as pt)
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.parse_linspace ( space,  name,  maxerr)"
+
+.PP
+.nf
+Verifies that a vector is evenly-spaced and returns the parameters
+of such spacing\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.verify_palm_hinterp ( regridder,  lats,  lons)"
+
+.PP
+.nf
+Regrids source lat+lon coordinates to PALM coordinates using the regridder and verifies the result\&.
+.fi
+.PP
+ 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

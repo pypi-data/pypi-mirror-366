@@ -1,0 +1,94 @@
+.TH "md_docs_pages_extending" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_docs_pages_extending \- PALM-meteo developer guide 
+The core of the PALM-meteo program is implemented within the Python package \fBpalmmeteo\fP\&. All plugins are placed in separate Python packages with names starting with with \fCpalmmeteo_\fP\&. When PALM-meteo starts, it locates all available packages of such names and treats them as plugins\&. The included Python package \fBpalmmeteo_stdplugins\fP contains the built-in plugins for the standard PALM-meteo functionality\&.
+.SH "Creating new plugins"
+.PP
+In order to create a new PALM-meteo plugin, you need to create a Python package whose name starts with \fCpalmmeteo_\fP\&. The package needs to be available when PALM-meteo is started\&. For that, you can either put in a subdirectory of the current directory from which PALM-meteo is started, or install it in one of your system's Python library paths, or add its parent directory into \fCsys\&.path\fP, e\&.g\&. using the environment variable \fCPYTHONPATH\fP\&.
+.SS "Plugin code"
+Suppose you want to enable PALM-meteo to process inputs from a new meteorological model called Foo\&. You can place the code within Python package \fCpalmmeteo_foo\fP\&. Inside that, you will create a single Python module \fCfoo\&.py\fP which contains the class FooPlugin\&. This class will implement data import from the Foo model and use PALM-meteo's library functions for the next stages (horizontal and vertical interpolation)\&.
+.PP
+If you are unsure about the implementation, you may also check the class \fBpalmmeteo_stdplugins\&.wrf\&.WRFPlugin\fP as your reference\&.
+.SS "Basic configuration"
+Each plugin package must contain the file \fCconfig_init\&.yaml\fP placed in its directory\&. This configuration file contains all plugin-relevant configuration options with their default values\&. The user configuration files can then replace the default values with their own\&.
+.PP
+From the user perspective, a plugin's functionality is typically enabled by selecting a \fCtask\fP\&. Each task represents a configuration subtree with options which are set or list items which are appended when the user enables the task\&.
+.PP
+Without using a dedicated task, the user would need to enable the plugin by manually adding its fully qualified class name to the list of enabled plugins, which resides in the configuration section \fCplugins:\fP, but that would not be user friendly\&. Moreover, you may also implement multiple different tasks which enable the same plugin but specify different configuration options that are set with each task\&.
+.PP
+Continuing with our Foo example, you want to create a task named \fCfoo\fP which enables \fCFooPlugin\fP by adding it to the list of enabled plugins\&. To do that, include this in your \fCconfig_init\&.yaml\fP file:
+.PP
+.PP
+.nf
+# Configuration items for selected tasks
+task_config:
+    foo:
+        # Configuration items to be set (if unset by user)
+        set:
+
+        # Configuration items to be extended (added) to existing lists (or new
+        # lists are created)\&.
+        extend:
+            plugins:
+                - palmmeteo_foo\&.foo\&.FooPlugin
+.fi
+.PP
+.SH "Implementing workflow items"
+.PP
+In order to implement actual functionality, it is best to add one or more of the supplied abstract base classes as a base class for your plugin:
+.PP
+.IP "\(bu" 2
+\fBpalmmeteo\&.plugins\&.SetupPluginMixin\fP
+.IP "\(bu" 2
+\fBpalmmeteo\&.plugins\&.ImportPluginMixin\fP
+.IP "\(bu" 2
+\fBpalmmeteo\&.plugins\&.HInterpPluginMixin\fP
+.IP "\(bu" 2
+\fBpalmmeteo\&.plugins\&.VInterpPluginMixin\fP
+.IP "\(bu" 2
+\fBpalmmeteo\&.plugins\&.WritePluginMixin\fP
+.PP
+.SS "Accessing configuration"
+The final configuration based on default and user-configured values is accessible in the \fCcfg\fP object, which is best imported as 
+.PP
+.nf
+from palmmeteo\&.config import cfg
+
+.fi
+.PP
+ This is an instance of the class \fBpalmmeteo\&.config\&.ConfigObj\fP and its configuration items may be accessed both with the attribute access (dot notation, e\&.g\&. \fCcfg\&.mysection\&.myoption\fP) and with the item access (bracket notation, e\&.g\&. \fCcfg\&.mysection['myoption']\fP)\&. It also supports iteration of key-value pairs and testing of item presence (e\&.g\&. \fCif 'myoption' in cfg\&.mysection\fP)\&.
+.PP
+After the configuration is loaded, the \fCcfg\fP object is set as read-only\&.
+.SS "Logging"
+The \fBpalmmeteo\&.logging\fP module provides these logging functions:
+.PP
+.IP "\(bu" 2
+\fBverbose\fP: Prints a verbose message into \fCsys\&.stdout\fP only when \fC--verbose\fP is enabled\&.
+.IP "\(bu" 2
+\fBlog\fP: Prints a standard logging message into \fCsys\&.stdout\fP unless \fC--silent\fP is used\&.
+.IP "\(bu" 2
+\fBwarn\fP: Prints a non-fatal warning message into \fCsys\&.stderr\fP\&.
+.IP "\(bu" 2
+\fBdie\fP: Prints an error message into \fCsys\&.stderr\fP and terminates the progam immediately\&.
+.PP
+.PP
+All of these functions accept the message as their first argument and optional positional and/or keyword arguments which are used as formatting arguments\&. A newline is always added at the end\&.
+.SS "Data persistence"
+PALM-meteo supports restarting individual workflow stages by storing the intermediate meteorological data in NetCDF files and other auxiliary data in pickle files\&. Any auxiliary data which need to persist from one stage to the following stages must be stored in the runtime object \fCrt\fP (instance of \fBpalmmeteo\&.runtime\&.RuntimeObj\fP), which is imported as 
+.PP
+.nf
+from palmmeteo\&.runtime import rt
+
+.fi
+.PP
+ The object supports attribute access (e\&.g\&. \fCrt\&.myvariable\fP)\&.
+.PP
+Although the plugin objects themselves do persist between the stages of a single PALM-meteo execution, they are not stored for restarting of stages\&.
+.PP
+The \fCrt\fP object is shared among all plugins and it is often used to exchange data among plugins\&. For other cases, plugin developers are encouraged to use names which are not likely to conflict with other plugins\&.
+.PP
+Because the configured paths undergo processing after the configuration is loaded, the processed paths are accessible under \fCrt\&.paths\fP\&.
+.SS "Using the PALM-meteo library"
+Most common tasks are already implemented and they are provided within the module \fBpalmmeteo\&.library\fP\&. See the code of standard plugins as an example\&. 

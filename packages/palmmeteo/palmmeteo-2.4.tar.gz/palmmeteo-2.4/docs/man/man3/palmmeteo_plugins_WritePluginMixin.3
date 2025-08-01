@@ -1,0 +1,43 @@
+.TH "palmmeteo.plugins.WritePluginMixin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.plugins.WritePluginMixin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.PP
+Inherited by \fBpalmmeteo_stdplugins\&.winddamp\&.WindDampPlugin\fP, and \fBpalmmeteo_stdplugins\&.write\&.WritePlugin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBwrite_data\fP (self, *args, **kwargs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Base class mixin for writer plugins\&.
+Registers 'import_data' method as a handler for event 'write'\&.
+
+Abstract methods required to be implemented by derived classes:
+    write_data
+
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.plugins\&.WritePluginMixin\&.write_data ( self, * args, ** kwargs)"
+
+.PP
+Reimplemented in \fBpalmmeteo_stdplugins\&.winddamp\&.WindDampPlugin\fP, and \fBpalmmeteo_stdplugins\&.write\&.WritePlugin\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

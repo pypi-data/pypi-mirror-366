@@ -1,0 +1,46 @@
+.TH "palmmeteo.plugins.PluginMeta" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.plugins.PluginMeta
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits ABCMeta\&.
+.PP
+Inherited by \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fB__new__\fP (cls, name, bases, dct)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Meta class for plugin classes
+
+Inherits from ABCMeta so we can use @abstractmethod decorator in plugin
+mixins\&.
+
+Checks for event handler methods in plugins and fills in event_hooks list\&.
+Allows only one method name to be the handler of a specific event\&.
+E\&.g\&. ImportPluginMixin registers event 'import' with 'import_data' method as
+its handler\&. Import plugins inherited from ImportPluginMixin then must
+implement 'import_data' method to handle the 'import' event\&.
+
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.plugins\&.PluginMeta\&.__new__ ( cls,  name,  bases,  dct)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

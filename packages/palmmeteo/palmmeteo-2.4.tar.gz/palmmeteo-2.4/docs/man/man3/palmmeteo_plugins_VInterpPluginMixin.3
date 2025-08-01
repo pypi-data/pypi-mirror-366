@@ -1,0 +1,43 @@
+.TH "palmmeteo.plugins.VInterpPluginMixin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.plugins.VInterpPluginMixin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.PP
+Inherited by \fBpalmmeteo_stdplugins\&.aladin\&.AladinPlugin\fP, \fBpalmmeteo_stdplugins\&.cams\&.CAMSPlugin\fP, \fBpalmmeteo_stdplugins\&.camx\&.CAMxPlugin\fP, \fBpalmmeteo_stdplugins\&.icon\&.IconPlugin\fP, \fBpalmmeteo_stdplugins\&.synthetic\&.SyntheticPlugin\fP, and \fBpalmmeteo_stdplugins\&.wrf\&.WRFPlugin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBinterpolate_vert\fP (self, *args, **kwargs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Base class mixin for plugins importing data\&.
+Registers 'interpolate_vert' method as a handler for event 'vinterp'\&.
+
+Abstract methods required to be implemented by derived classes:
+    interpolate_vert
+
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.plugins\&.VInterpPluginMixin\&.interpolate_vert ( self, * args, ** kwargs)"
+
+.PP
+Reimplemented in \fBpalmmeteo_stdplugins\&.aladin\&.AladinPlugin\fP, \fBpalmmeteo_stdplugins\&.cams\&.CAMSPlugin\fP, \fBpalmmeteo_stdplugins\&.camx\&.CAMxPlugin\fP, \fBpalmmeteo_stdplugins\&.icon\&.IconPlugin\fP, \fBpalmmeteo_stdplugins\&.synthetic\&.SyntheticPlugin\fP, and \fBpalmmeteo_stdplugins\&.wrf\&.WRFPlugin\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

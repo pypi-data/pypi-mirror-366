@@ -1,0 +1,96 @@
+.TH "palmmeteo_stdplugins.icon" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins.icon
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBIconPlugin\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBlpad\fP (var)"
+.br
+.ti -1c
+.RI "def \fBlog_dstat_on\fP (desc, delta)"
+.br
+.ti -1c
+.RI "def \fBlog_dstat_off\fP (desc, delta)"
+.br
+.ti -1c
+.RI "def \fBget_3dvar\fP (f, varname)"
+.br
+.ti -1c
+.RI "def \fBassign_time\fP (coll, key, value)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBbarom_pres\fP = \fBPalmPhysics\&.barom_lapse0_pres\fP"
+.br
+.ti -1c
+.RI "\fBbarom_gp\fP = \fBPalmPhysics\&.barom_lapse0_gp\fP"
+.br
+.ti -1c
+.RI "\fBg\fP = PalmPhysics\&.g"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo_stdplugins\&.icon\&.assign_time ( coll,  key,  value)"
+
+.PP
+.nf
+Assigns value = coll[key] only if that was previously None,
+otherwise raises an error\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.icon\&.get_3dvar ( f,  varname)"
+
+.SS "def palmmeteo_stdplugins\&.icon\&.log_dstat_off ( desc,  delta)"
+
+.PP
+.nf
+Do nothing (log disabled)
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.icon\&.log_dstat_on ( desc,  delta)"
+
+.PP
+.nf
+Calculate and log delta statistics if enabled\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo_stdplugins\&.icon\&.lpad ( var)"
+
+.PP
+.nf
+Pad variable in first dimension by repeating lowest layer twice
+.fi
+.PP
+ 
+.SH "Variable Documentation"
+.PP 
+.SS "palmmeteo_stdplugins\&.icon\&.barom_gp = \fBPalmPhysics\&.barom_lapse0_gp\fP"
+
+.SS "palmmeteo_stdplugins\&.icon\&.barom_pres = \fBPalmPhysics\&.barom_lapse0_pres\fP"
+
+.SS "palmmeteo_stdplugins\&.icon\&.g = PalmPhysics\&.g"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

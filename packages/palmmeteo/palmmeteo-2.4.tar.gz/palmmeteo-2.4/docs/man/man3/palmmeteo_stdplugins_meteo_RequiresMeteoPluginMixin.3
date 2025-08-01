@@ -1,0 +1,43 @@
+.TH "palmmeteo_stdplugins.meteo.RequiresMeteoPluginMixin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins.meteo.RequiresMeteoPluginMixin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.PP
+Inherited by \fBpalmmeteo_stdplugins\&.meteo\&.EmisPlugin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP (self, *args, **kwargs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Set a list of required meteorological variables in plugin metainformation:
+
+class Requires:
+    meteo_vars = [ \&.\&.\&. ]
+
+Global available_meteo_vars holds names of all variables known to the
+processor\&.
+
+.fi
+.PP
+ 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "def palmmeteo_stdplugins\&.meteo\&.RequiresMeteoPluginMixin\&.__init__ ( self, * args, ** kwargs)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

@@ -1,0 +1,105 @@
+.TH "palmmeteo.library.TriRegridder" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.library.TriRegridder
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fB__init__\fP (self, clat, clon, ylat, xlon, buffer)"
+.br
+.ti -1c
+.RI "def \fBloader\fP (self, obj)"
+.br
+.ti -1c
+.RI "def \fBregrid\fP (self, data)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBlon_coef\fP"
+.br
+.ti -1c
+.RI "\fBndim\fP"
+.br
+.ti -1c
+.RI "\fBnpt\fP"
+.br
+.ti -1c
+.RI "\fBslices\fP"
+.br
+.ti -1c
+.RI "\fBptmask\fP"
+.br
+.ti -1c
+.RI "\fBbary\fP"
+.br
+.ti -1c
+.RI "\fBsimp\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Universal regridder which uses Delaunay triangulation and barycentric
+coordinate interpolation\&.
+
+Works on any grid - triangular, rectangular or unstructured\&. The only
+requirements are the arrays of latitude and longitude coordinates\&. The grid
+arrays may be organized as 1- or 2-dimensional\&.
+
+.fi
+.PP
+ 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.TriRegridder\&.__init__ ( self,  clat,  clon,  ylat,  xlon,  buffer)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.library\&.TriRegridder\&.loader ( self,  obj)"
+
+.PP
+.nf
+Prepares a slicing object which automatically adds selector indices
+for this regridder\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.library\&.TriRegridder\&.regrid ( self,  data)"
+
+.PP
+.nf
+Regrid from point set selected using loader
+.fi
+.PP
+ 
+.SH "Member Data Documentation"
+.PP 
+.SS "palmmeteo\&.library\&.TriRegridder\&.bary"
+
+.SS "palmmeteo\&.library\&.TriRegridder\&.lon_coef"
+
+.SS "palmmeteo\&.library\&.TriRegridder\&.ndim"
+
+.SS "palmmeteo\&.library\&.TriRegridder\&.npt"
+
+.SS "palmmeteo\&.library\&.TriRegridder\&.ptmask"
+
+.SS "palmmeteo\&.library\&.TriRegridder\&.simp"
+
+.SS "palmmeteo\&.library\&.TriRegridder\&.slices"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

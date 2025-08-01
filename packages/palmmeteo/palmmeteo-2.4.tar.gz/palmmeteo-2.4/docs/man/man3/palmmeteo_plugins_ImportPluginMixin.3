@@ -1,0 +1,43 @@
+.TH "palmmeteo.plugins.ImportPluginMixin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.plugins.ImportPluginMixin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.PP
+Inherited by \fBpalmmeteo_stdplugins\&.aladin\&.AladinPlugin\fP, \fBpalmmeteo_stdplugins\&.aladin\&.AladinRadPlugin\fP, \fBpalmmeteo_stdplugins\&.cams\&.CAMSPlugin\fP, \fBpalmmeteo_stdplugins\&.camx\&.CAMxPlugin\fP, \fBpalmmeteo_stdplugins\&.icon\&.IconPlugin\fP, \fBpalmmeteo_stdplugins\&.meteo\&.EmisPlugin\fP, \fBpalmmeteo_stdplugins\&.meteo\&.SomeMeteoPlugin\fP, \fBpalmmeteo_stdplugins\&.synthetic\&.SyntheticPlugin\fP, \fBpalmmeteo_stdplugins\&.wrf\&.WRFPlugin\fP, and \fBpalmmeteo_stdplugins\&.wrf\&.WRFRadPlugin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBimport_data\fP (self, *args, **kwargs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.PP
+.nf
+Base class mixin for plugins importing data\&.
+Registers 'import_data' method as a handler for event 'import_data'\&.
+
+Abstract methods required to be implemented by derived classes:
+    import_data
+
+.fi
+.PP
+ 
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo\&.plugins\&.ImportPluginMixin\&.import_data ( self, * args, ** kwargs)"
+
+.PP
+Reimplemented in \fBpalmmeteo_stdplugins\&.aladin\&.AladinRadPlugin\fP, \fBpalmmeteo_stdplugins\&.meteo\&.SomeMeteoPlugin\fP, \fBpalmmeteo_stdplugins\&.meteo\&.EmisPlugin\fP, \fBpalmmeteo_stdplugins\&.wrf\&.WRFRadPlugin\fP, \fBpalmmeteo_stdplugins\&.aladin\&.AladinPlugin\fP, \fBpalmmeteo_stdplugins\&.cams\&.CAMSPlugin\fP, \fBpalmmeteo_stdplugins\&.camx\&.CAMxPlugin\fP, \fBpalmmeteo_stdplugins\&.icon\&.IconPlugin\fP, \fBpalmmeteo_stdplugins\&.synthetic\&.SyntheticPlugin\fP, and \fBpalmmeteo_stdplugins\&.wrf\&.WRFPlugin\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

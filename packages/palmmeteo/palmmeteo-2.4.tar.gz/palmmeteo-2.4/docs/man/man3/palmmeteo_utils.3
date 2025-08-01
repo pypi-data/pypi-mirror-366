@@ -1,0 +1,140 @@
+.TH "palmmeteo.utils" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo.utils
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBDTIndexer\fP"
+.br
+.ti -1c
+.RI "class \fBNotWholeTimestep\fP"
+.br
+.ti -1c
+.RI "class \fBSliceBoolExtender\fP"
+.br
+.ti -1c
+.RI "class \fBSliceExtender\fP"
+.br
+.ti -1c
+.RI "class \fBWorkflow\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBfind_free_fname\fP (fpath, overwrite=False)"
+.br
+.ti -1c
+.RI "def \fBtstep\fP (td, step)"
+.br
+.ti -1c
+.RI "def \fBensure_dimension\fP (f, dimname, dimsize)"
+.br
+.ti -1c
+.RI "def \fBgetvar\fP (f, varname, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBassert_dir\fP (filepath)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBax_\fP = np\&.newaxis"
+.br
+.ti -1c
+.RI "int \fBrad\fP = np\&.pi / 180\&."
+.br
+.ti -1c
+.RI "\fBtd0\fP = datetime\&.timedelta(0)"
+.br
+.ti -1c
+.RI "\fButc\fP = datetime\&.timezone\&.utc"
+.br
+.ti -1c
+.RI "\fBmidnight\fP = datetime\&.time(0)"
+.br
+.ti -1c
+.RI "\fButcdefault\fP = lambda dt: dt\&.replace(tzinfo=\fButc\fP) if dt\&.tzinfo is None else dt"
+.br
+.ti -1c
+.RI "\fBmidnight_of\fP = lambda dt: datetime\&.datetime\&.combine(dt\&.date(), \fBmidnight\fP, dt\&.tzinfo)"
+.br
+.ti -1c
+.RI "\fBfext_re\fP = re\&.compile(r'\\\&.(\\d{3})$')"
+.br
+.ti -1c
+.RI "\fBwhere_range\fP = lambda mask: (np\&.argmax(mask), len(mask)\-np\&.argmax(mask[::\-1]))"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "def palmmeteo\&.utils\&.assert_dir ( filepath)"
+
+.PP
+.nf
+Creates a directory for an output file if it doesn't exist already\&.
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.utils\&.ensure_dimension ( f,  dimname,  dimsize)"
+
+.PP
+.nf
+Creates a dimension in a netCDF file or verifies its size if it already
+exists\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.utils\&.find_free_fname ( fpath,  overwrite = \fCFalse\fP)"
+
+.SS "def palmmeteo\&.utils\&.getvar ( f,  varname, * args, ** kwargs)"
+
+.PP
+.nf
+Creates a variable in a netCDF file or returns it if it already exists\&.
+Does NOT verify its parameters\&.
+
+.fi
+.PP
+ 
+.SS "def palmmeteo\&.utils\&.tstep ( td,  step)"
+
+.PP
+.nf
+Fully divide datetime td by timedelta step\&.
+.fi
+.PP
+ 
+.SH "Variable Documentation"
+.PP 
+.SS "palmmeteo\&.utils\&.ax_ = np\&.newaxis"
+
+.SS "palmmeteo\&.utils\&.fext_re = re\&.compile(r'\\\&.(\\d{3})$')"
+
+.SS "palmmeteo\&.utils\&.midnight = datetime\&.time(0)"
+
+.SS "palmmeteo\&.utils\&.midnight_of = lambda dt: datetime\&.datetime\&.combine(dt\&.date(), \fBmidnight\fP, dt\&.tzinfo)"
+
+.SS "int palmmeteo\&.utils\&.rad = np\&.pi / 180\&."
+
+.SS "palmmeteo\&.utils\&.td0 = datetime\&.timedelta(0)"
+
+.SS "palmmeteo\&.utils\&.utc = datetime\&.timezone\&.utc"
+
+.SS "palmmeteo\&.utils\&.utcdefault = lambda dt: dt\&.replace(tzinfo=\fButc\fP) if dt\&.tzinfo is None else dt"
+
+.SS "palmmeteo\&.utils\&.where_range = lambda mask: (np\&.argmax(mask), len(mask)\-np\&.argmax(mask[::\-1]))"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.

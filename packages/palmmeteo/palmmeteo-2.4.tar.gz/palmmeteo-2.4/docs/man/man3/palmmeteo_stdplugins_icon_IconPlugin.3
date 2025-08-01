@@ -1,0 +1,59 @@
+.TH "palmmeteo_stdplugins.icon.IconPlugin" 3 "Thu Jul 31 2025" "PALM-meteo" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+palmmeteo_stdplugins.icon.IconPlugin
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBpalmmeteo\&.plugins\&.ImportPluginMixin\fP, \fBpalmmeteo\&.plugins\&.HInterpPluginMixin\fP, and \fBpalmmeteo\&.plugins\&.VInterpPluginMixin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "def \fBcheck_config\fP (self, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBimport_data\fP (self, fout, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBinterpolate_horiz\fP (self, fout, *args, **kwargs)"
+.br
+.ti -1c
+.RI "def \fBinterpolate_vert\fP (self, fout, *args, **kwargs)"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "def palmmeteo_stdplugins\&.icon\&.IconPlugin\&.check_config ( self, * args, ** kwargs)"
+
+.PP
+.nf
+(Load and) validate plugin-related configuration\&.
+
+Any plugin can optinally implement the check_config method for
+validating configuration\&. It is not required, so the method is not
+abstract\&.
+
+.fi
+.PP
+ 
+.PP
+Reimplemented from \fBpalmmeteo\&.plugins\&.Plugin\fP\&.
+.SS "def palmmeteo_stdplugins\&.icon\&.IconPlugin\&.import_data ( self,  fout, * args, ** kwargs)"
+
+.PP
+Reimplemented from \fBpalmmeteo\&.plugins\&.ImportPluginMixin\fP\&.
+.SS "def palmmeteo_stdplugins\&.icon\&.IconPlugin\&.interpolate_horiz ( self,  fout, * args, ** kwargs)"
+
+.PP
+Reimplemented from \fBpalmmeteo\&.plugins\&.HInterpPluginMixin\fP\&.
+.SS "def palmmeteo_stdplugins\&.icon\&.IconPlugin\&.interpolate_vert ( self,  fout, * args, ** kwargs)"
+
+.PP
+Reimplemented from \fBpalmmeteo\&.plugins\&.VInterpPluginMixin\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for PALM-meteo from the source code\&.
