@@ -1,0 +1,98 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mapchete-hub"
+dynamic = ["version"]
+description = "distributed mapchete processing"
+readme = "README.rst"
+license = "MIT"
+authors = [
+    { name = "Joachim Ungar", email = "joachim.ungar@eox.at" },
+    { name = "Petr Sevcik", email = "petr.sevcik@eox.at" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",    
+    "Topic :: Scientific/Engineering :: GIS",
+]
+dependencies = [
+    "click<=8.1.3",
+    "dask",
+    "dask-gateway",
+    "distributed",
+    "fastapi",
+    "httpx",
+    "mapchete[contours,http,s3,vrt]>=2024.2.1",
+    "mongomock",
+    "pydantic>=2.0.0",
+    "pydantic_settings",
+    "pymongo",
+    "uvicorn",
+    "zarr",
+]
+
+[project.optional-dependencies]
+complete = [
+    "bokeh",
+    "click<=8.1.3",
+    "dask",
+    "dask-gateway",
+    "distributed",
+    "fastapi",
+    "kubernetes",
+    "mapchete[contours,http,s3,vrt]>=2024.2.1",
+    #"mapchete_eo>=2024.10.3",
+    "mongomock",
+    "numcodecs",
+    "pydantic>=2.0.0",
+    "pydantic_settings",
+    "pymongo",
+    "slack_sdk",
+    "uvicorn",
+    "zarr",
+]
+kubernetes = [
+    "kubernetes",
+]
+slack = [
+    "slack_sdk",
+]
+test = [
+    "httpx",
+    "pytest",
+    "pytest-cov",
+    "pytest-env",
+    "pytest-mongodb",
+    "requests",
+]
+xarray = [
+    #"mapchete_xarray>=2022.10.0",
+    "xarray",
+    "zarr",
+]
+# eo = [
+#     "mapchete_eo>=2024.3.4",
+# ]
+
+[project.scripts]
+mhub-manager = "mapchete_hub.cli.manager:main"
+mhub-server = "mapchete_hub.cli.server:main"
+mhub-worker = "mapchete_hub.cli.worker:main"
+
+[project.urls]
+Homepage = "https://github.com/mapchete/mapchete-hub"
+
+[tool.hatch.version]
+path = "mapchete_hub/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/mapchete_hub",
+]
