@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "subs-data-scripts"
+version = "0.0.1"
+description = "Dummy security package to prevent dependency confusion."
+authors = [
+  { name = "media-appsec", email = "media-appsec@schibsted.com" }
+]
+license = {text = "MIT"}
+readme = "README.md"
+keywords = ["security", "dependency confusion", "placeholder"]
+classifiers = [
+  "Development Status :: 7 - Inactive",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Security",
+  "Programming Language :: Python :: 3",
+]
