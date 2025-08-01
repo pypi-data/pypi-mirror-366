@@ -1,0 +1,22 @@
+[project]
+name = "brandmint-mcp"
+version = "0.0.7"
+description = "brandmint.ai MCP tool"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp",
+    "google-adk",
+    "python-dotenv",
+    "deprecated"
+]
+
+[project.scripts]
+brandmint-mcp = "brandmint_mcp.server_stdio:main"
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["brandmint_mcp"]
