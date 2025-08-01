@@ -1,0 +1,37 @@
+{# def pid, tombstone #}
+
+{% extends "oarepo_ui/detail.html" %}
+
+{% block record_main_content %}
+
+<div class="container centered rel-pt-2">
+  <h1 class="ui header inline-block">
+    <i class="icon lightning" aria-hidden="true"></i>
+    <div class="content pl-0 rel-pr-1">
+      {{ _('Gone') }}
+    </div>
+  </h1>
+
+  <p>
+    {%- trans sitename=config.THEME_SITENAME %}
+      The record you are trying to access was removed. The
+      metadata of the record is kept for archival purposes.
+    {%- endtrans %}
+  </p>
+  {% if tombstone %}
+    <table class="ui table">
+      <tbody>
+        {% for key, value in tombstone.items() %}
+          <tr>
+            <th class="left aligned pl-5">{{ _(key) }}:</th>
+            <td>{{ value }}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+  {% else %}
+    <p>No tombstone (e.g. removal reason, note) available.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
