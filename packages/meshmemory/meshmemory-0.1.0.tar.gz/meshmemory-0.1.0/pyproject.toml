@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meshmemory"
+version = "0.1.0"
+description = "Composable, event-driven cognitive memory protocol for AI and multi-agent systems—enabling structured onboarding, symbolic–vector fusion, remix, and full audit trails for semantic continuity and explainable intelligence."
+readme = "README.md"
+authors = [
+    { name = "Consenix Labs Ltd", email = "info@consenix.com" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "numpy>=1.20"
+]
+
+[project.urls]
+Homepage = "https://meshmemory.io"
+Documentation = "https://docs.meshmemory.io"
+Repository = "https://github.com/meshmemory/meshmemory-sdk"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["meshmemory"]
+
+[tool.setuptools.exclude-package-data]
+meshmemory = ["tests*", "notebooks*"]
