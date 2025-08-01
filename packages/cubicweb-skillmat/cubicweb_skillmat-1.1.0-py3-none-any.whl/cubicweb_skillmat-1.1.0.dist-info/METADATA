@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: cubicweb-skillmat
+Version: 1.1.0
+Summary: skill matrix component for the CubicWeb framework
+Home-page: http://www.cubicweb.org/project/cubicweb-skillmat
+Author: Logilab
+Author-email: contact@logilab.fr
+License: LGPL
+Classifier: Environment :: Web Environment
+Classifier: Framework :: CubicWeb
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: JavaScript
+Requires-Dist: cubicweb<6.0.0,>=4.10.0
+Requires-Dist: cubicweb-web<2.0.0,>=1.6.0
+Requires-Dist: cubicweb-folder<4.0.0,>=3.1.0
+Requires-Dist: cubicweb-comment<4.0.0,>=3.1.0
+Requires-Dist: pandas<1.6.0,>=1.5.0
+Requires-Dist: numpy<2
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+This cube models the skills of a team: who can do what at which level of
+expertise.
