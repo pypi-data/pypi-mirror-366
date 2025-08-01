@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+    from mitmproxy import exceptions, master
+  File "c:\program files\python\lib\site-packages\mitmproxy\master.py", line 6, in <module>
+    from mitmproxy import command
+  File "c:\program files\python\lib\site-packages\mitmproxy\command.py", line 12, in <module>
+    from mitmproxy import exceptions, command_lexer
+  File "c:\program files\python\lib\site-packages\mitmproxy\command_lexer.py", line 3, in <module>
+    import pyparsing
+  File "c:\program files\python\lib\site-packages\pyparsing\__init__.py", line 138, in <module>
+    from .exceptions import *
+  File "c:\program files\python\lib\site-packages\pyparsing\exceptions.py", line 19, in <module>
+    class ParseBaseException(Exception):
+KeyboardInterrupt

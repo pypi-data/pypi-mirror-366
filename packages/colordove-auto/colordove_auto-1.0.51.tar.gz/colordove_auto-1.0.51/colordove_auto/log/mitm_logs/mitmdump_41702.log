@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 7, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 137, in mitmdump
+    from mitmproxy.tools import dump
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\dump.py", line 1, in <module>
+    from mitmproxy import addons
+  File "c:\program files\python\lib\site-packages\mitmproxy\addons\__init__.py", line 14, in <module>
+    from mitmproxy.addons import onboarding
+  File "c:\program files\python\lib\site-packages\mitmproxy\addons\onboarding.py", line 2, in <module>
+    from mitmproxy.addons.onboardingapp import app
+  File "c:\program files\python\lib\site-packages\mitmproxy\addons\onboardingapp\__init__.py", line 3, in <module>
+    from flask import Flask, render_template
+  File "c:\program files\python\lib\site-packages\flask\__init__.py", line 7, in <module>
+    from .app import Flask as Flask
+  File "c:\program files\python\lib\site-packages\flask\app.py", line 28, in <module>
+    from . import cli
+  File "c:\program files\python\lib\site-packages\flask\cli.py", line 14, in <module>
+    import click
+  File "c:\program files\python\lib\site-packages\click\__init__.py", line 8, in <module>
+    from .core import Argument as Argument
+  File "c:\program files\python\lib\site-packages\click\core.py", line 16, in <module>
+    from . import types
+  File "c:\program files\python\lib\site-packages\click\types.py", line 9, in <module>
+    from ._compat import _get_argv_encoding
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 779, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 911, in get_code
+  File "<frozen importlib._bootstrap_external>", line 580, in _compile_bytecode
+KeyboardInterrupt

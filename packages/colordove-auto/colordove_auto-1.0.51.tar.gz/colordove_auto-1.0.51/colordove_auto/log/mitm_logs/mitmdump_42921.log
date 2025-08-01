@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+    from mitmproxy import exceptions, master
+  File "c:\program files\python\lib\site-packages\mitmproxy\master.py", line 7, in <module>
+    from mitmproxy import eventsequence
+  File "c:\program files\python\lib\site-packages\mitmproxy\eventsequence.py", line 7, in <module>
+    from mitmproxy.proxy import layers
+  File "c:\program files\python\lib\site-packages\mitmproxy\proxy\layers\__init__.py", line 1, in <module>
+    from . import modes
+  File "c:\program files\python\lib\site-packages\mitmproxy\proxy\layers\modes.py", line 11, in <module>
+    from mitmproxy.proxy.layers import tls
+  File "c:\program files\python\lib\site-packages\mitmproxy\proxy\layers\tls.py", line 7, in <module>
+    from mitmproxy.tls import ClientHello, ClientHelloData, TlsData
+  File "c:\program files\python\lib\site-packages\mitmproxy\tls.py", line 9, in <module>
+    from mitmproxy.contrib.kaitaistruct import tls_client_hello
+  File "c:\program files\python\lib\site-packages\mitmproxy\contrib\kaitaistruct\tls_client_hello.py", line 7, in <module>
+    from pkg_resources import parse_version
+  File "c:\program files\python\lib\site-packages\pkg_resources\__init__.py", line 3673, in <module>
+    def _initialize_master_working_set():
+  File "c:\program files\python\lib\site-packages\pkg_resources\__init__.py", line 3656, in _call_aside
+    f(*args, **kwargs)
+  File "c:\program files\python\lib\site-packages\pkg_resources\__init__.py", line 3704, in _initialize_master_working_set
+    list(map(working_set.add_entry, sys.path))
+  File "c:\program files\python\lib\site-packages\pkg_resources\__init__.py", line 701, in add_entry
+    for dist in find_distributions(entry, True):
+  File "c:\program files\python\lib\site-packages\pkg_resources\__init__.py", line 2342, in find_on_path
+    factory = dist_factory(path_item, entry, only)
+  File "c:\program files\python\lib\site-packages\pkg_resources\__init__.py", line 2350, in dist_factory
+    is_dist_info = lower.endswith('.dist-info') and os.path.isdir(
+  File "c:\program files\python\lib\genericpath.py", line 42, in isdir
+    st = os.stat(s)
+KeyboardInterrupt
