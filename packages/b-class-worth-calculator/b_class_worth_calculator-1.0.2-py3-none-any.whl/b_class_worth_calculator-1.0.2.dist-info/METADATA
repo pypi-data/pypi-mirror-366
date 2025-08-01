@@ -1,0 +1,332 @@
+Metadata-Version: 2.4
+Name: b-class-worth-calculator
+Version: 1.0.2
+Summary: 智能工作性价比分析工具，综合评估薪资、工时、通勤等多维度因素，支持生成可视化报告
+Home-page: https://github.com/trae-ai/b-class-worth-calculator
+Author: TraeAI
+Author-email: support@trae.ai
+Project-URL: Bug Reports, https://github.com/trae-ai/b-class-worth-calculator/issues
+Project-URL: Source, https://github.com/trae-ai/b-class-worth-calculator
+Project-URL: Documentation, https://github.com/trae-ai/b-class-worth-calculator/blob/main/README.md
+Keywords: job,salary,calculator,work,worth,analysis,career,mcp,tool,productivity,visualization,工作,薪资,计算器,性价比,分析,职业
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: fastmcp>=0.1.0
+Requires-Dist: playwright>=1.40.0
+Requires-Dist: jinja2>=3.1.0
+Requires-Dist: pillow>=10.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# 🎯 这个B班值不值得上 - 工作性价比计算器
+
+[![PyPI version](https://badge.fury.io/py/b-class-worth-calculator.svg)](https://badge.fury.io/py/b-class-worth-calculator)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **让数据指导你的职业选择！** 🚀
+
+一个智能的工作性价比分析工具，帮你科学评估工作机会，告别盲目选择！
+
+## ✨ 核心功能
+
+### 🧮 智能计算引擎
+- **💰 多维度评估**: 综合考虑薪资、工时、通勤、假期等关键因素
+- **🌍 全球化支持**: 支持190+国家的购买力平价(PPP)转换
+- **👩‍🎓 个性化分析**: 根据学历、经验、城市等级智能调整评分
+- **📊 科学评分**: 基于数据模型的100分制评分系统
+
+### 🎨 可视化报告
+- **🖼️ 精美图片**: 自动生成高质量的可视化分析报告
+- **🌈 智能主题**: 根据评分自动调整颜色和表情符号
+- **📱 响应式设计**: 适配各种设备和分辨率
+- **💾 多格式支持**: PNG格式，支持高分辨率显示
+
+### 🔧 MCP工具集成
+- **⚡ 即插即用**: 完美集成MCP(Model Context Protocol)生态
+- **🤖 AI友好**: 可直接被AI助手调用和使用
+- **📋 标准化接口**: 提供完整的工具函数和参数模板
+
+## 🚀 快速开始
+
+### 安装
+
+```bash
+# 从PyPI安装
+pip install b-class-worth-calculator
+
+# 安装Playwright浏览器（用于图片生成）
+playwright install chromium
+```
+
+### 基础使用
+
+```python
+from b_class_worth_calculator import calculate_job_worth
+
+# 分析一个工作机会
+result = calculate_job_worth(
+    annual_salary=300000,  # 年薪30万
+    country="中国",
+    work_days_per_week=5,
+    daily_work_hours=9.0,  # 每天9小时
+    commute_hours=1.5,     # 通勤1.5小时
+    wfh_days_per_week=2,   # 每周2天居家办公
+    annual_leave_days=10,  # 10天年假
+    education="本科",
+    experience="3-5年",
+    city_level="一线城市",
+    work_environment="良好"
+)
+
+print(result)
+```
+
+### MCP工具使用
+
+作为MCP工具运行：
+
+```bash
+# 启动MCP服务器
+b-class-worth-calculator
+```
+
+在MCP客户端配置中添加：
+
+```json
+{
+  "mcpServers": {
+    "b-class-worth-calculator": {
+      "command": "b-class-worth-calculator"
+    }
+  }
+}
+```
+
+## 📊 功能展示
+
+### 🎯 综合评分示例
+
+| 工作类型 | 年薪 | 工时 | 通勤 | 评分 | 等级 |
+|---------|------|------|------|------|------|
+| 大厂996 | 50万 | 12h | 2h | 45.2 | 一般 |
+| 外企朝九晚五 | 35万 | 8h | 1h | 78.6 | 良好 |
+| 远程工作 | 30万 | 8h | 0h | 85.3 | 优秀 |
+
+### 🖼️ 可视化报告
+
+生成的报告图片包含：
+- 📈 综合评分和等级
+- 💰 核心财务指标
+- ⏰ 工作时间分析
+- 🏠 工作生活平衡
+- 💡 个性化改进建议
+
+## 🛠️ 高级功能
+
+### 工作对比分析
+
+```python
+# 比较两个工作机会
+job1_data = '{"annual_salary": 300000, "daily_work_hours": 9, ...}'
+job2_data = '{"annual_salary": 250000, "daily_work_hours": 8, ...}'
+
+comparison = compare_jobs(job1_data, job2_data)
+print(comparison)
+```
+
+### 生成可视化报告
+
+```python
+# 生成精美的报告图片
+image_path = generate_work_report_image(
+    report_data=result,
+    output_path="my_job_analysis.png"
+)
+print(f"报告已生成: {image_path}")
+```
+
+### 获取计算模板
+
+```python
+# 获取参数模板
+template = get_calculation_template()
+print(template)
+```
+
+## 🌍 支持的国家和地区
+
+支持190+个国家和地区的PPP转换，包括：
+
+- 🇨🇳 中国
+- 🇺🇸 美国  
+- 🇯🇵 日本
+- 🇩🇪 德国
+- 🇬🇧 英国
+- 🇫🇷 法国
+- 🇨🇦 加拿大
+- 🇦🇺 澳大利亚
+- 🇰🇷 韩国
+- 🇸🇬 新加坡
+- 更多...
+
+## 📋 评估维度
+
+### 💰 薪资分析
+- 年薪总包
+- PPP调整后薪资
+- 标准化日薪
+- 实际时薪
+
+### ⏰ 时间成本
+- 工作时长
+- 通勤时间
+- 假期安排
+- 工作生活平衡
+
+### 🎯 个人因素
+- 学历水平
+- 工作经验
+- 城市等级
+- 工作环境
+
+### 📊 综合评分
+- 基础分（0-40分）
+- 时薪分（0-30分）
+- 平衡分（0-20分）
+- 加成分（0-10分）
+
+## 🔧 技术架构
+
+### 核心技术
+- **Python 3.8+**: 现代Python开发
+- **MCP协议**: 标准化的工具接口
+- **Playwright**: 高质量图片生成
+- **Jinja2**: 灵活的模板引擎
+- **科学计算**: 基于数据的评分模型
+
+### 设计原则
+- 🎯 **数据驱动**: 基于科学的评估模型
+- 🔧 **模块化**: 清晰的代码结构
+- 🚀 **高性能**: 优化的计算算法
+- 🛡️ **可靠性**: 完善的错误处理
+
+## 📈 使用场景
+
+### 👔 求职者
+- 评估offer的真实价值
+- 对比多个工作机会
+- 制定薪资谈判策略
+
+### 🏢 HR和招聘
+- 设计有竞争力的薪酬包
+- 分析市场薪资水平
+- 优化工作条件
+
+### 🤖 AI助手
+- 集成到聊天机器人
+- 提供职业咨询服务
+- 自动化分析报告
+
+## 🎨 示例输出
+
+```
+🎯 工作性价比分析报告
+==================================================
+
+📋 基本信息:
+  • 年薪总包: 300,000 元
+  • 工作国家: 中国
+  • 城市等级: 一线城市
+  • 学历: 本科
+  • 工作经验: 3-5年
+  • 工作环境: 良好
+
+📊 核心指标:
+  • 标准化日薪: 1,200.00 元
+  • 实际时薪: 115.38 元
+  • 工作生活平衡: 75.0/100
+  • 个人因素加成: 1.08x
+
+🎯 综合评估:
+  • 最终得分: 72.5/100
+  • 评估等级: 良好
+
+💡 改进建议:
+  • 🏠 争取居家办公机会以提高工作灵活性
+  • 🏖️ 争取更多年假以改善工作生活平衡
+```
+
+## 🤝 贡献指南
+
+我们欢迎所有形式的贡献！
+
+### 如何贡献
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+### 开发环境
+
+```bash
+# 克隆项目
+git clone https://github.com/trae-ai/b-class-worth-calculator.git
+cd b-class-worth-calculator
+
+# 安装依赖
+pip install -r requirements.txt
+playwright install chromium
+
+# 运行测试
+python -m pytest
+```
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 🙏 致谢
+
+- 感谢所有贡献者的努力
+- 灵感来源于真实的求职经历
+- 特别感谢开源社区的支持
+
+## 📞 联系我们
+
+- 📧 邮箱: support@trae.ai
+- 🐛 问题反馈: [GitHub Issues](https://github.com/trae-ai/b-class-worth-calculator/issues)
+- 📖 文档: [项目文档](https://github.com/trae-ai/b-class-worth-calculator/blob/main/README.md)
+
+---
+
+**🎉 让数据指导你的职业选择，告别盲目的工作决策！**
+
+*"这个B班值不值得上"* - 用科学的方法回答人生重要问题 🚀
