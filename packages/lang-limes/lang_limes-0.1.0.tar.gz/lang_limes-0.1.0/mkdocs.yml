@@ -1,0 +1,80 @@
+site_name: LIMES Documentation
+site_url: https://deepsight.codeberg.page/LIMES/
+use_directory_urls: false
+nav:
+  - Home: index.md
+  - Concepts:
+      - Overview: concepts/overview.md
+      - String Containers: concepts/string_containers.md
+      - Parsers: concepts/parsers.md
+      - Analyzers: concepts/analyzers.md
+      - Text Complexity Identifiers: concepts/complexity.md
+      - Lexicons: concepts/lexicon.md
+  - API Reference:
+      - Text: api/text.md
+      - Sentence: api/sentence.md
+      - Barrier: api/barrier.md
+      - Protocols: api/protocols.md
+      - Parsers:
+          - Parser Interface: api/parsers/interface.md
+          - spaCy Parser: api/parsers/spacy_parser.md
+      - Analyzers:
+          - Barrier Analyzer: api/analyzers/barrier_analyzer.md
+          - Complexity Analyzer: api/analyzers/complexity_analyzer.md
+          - Syntax Analyzer Mixin: api/analyzers/syntax_analyzer_mixin.md
+          - Lexicon: api/analyzers/lexicon.md
+          - Language-Specific Implementations:
+              - German:
+                  - Barriers: api/analyzers/implementations/de/barriers.md
+                  - Analyzer: api/analyzers/implementations/de/german_analyzer.md
+                  - Lexicon: api/analyzers/implementations/de/lexicon.md
+                  - Barrier Analyzer: api/analyzers/implementations/de/barrier_analyzer.md
+                  - Complexity Analyzer: api/analyzers/implementations/de/complexity_analyzer.md
+                  - Additional Resources: api/analyzers/implementations/de/resources.md
+  - Contributing: contributing.md
+theme:
+  name: material
+  logo: img/limes.png
+  features:
+    - search.suggest
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: white
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      primary: white
+      accent: lime
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: black
+      accent: lime
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            members_order: source
+            extensions:
+              - griffe_fieldz
+  # - pymdownx.highlight:
+  #     anchor_linenums: true
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences # (1)!
+  - pymdownx.details
+  - admonition

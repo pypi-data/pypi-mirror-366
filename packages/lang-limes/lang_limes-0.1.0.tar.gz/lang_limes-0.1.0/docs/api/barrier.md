@@ -1,0 +1,2 @@
+# Barrier
+::: limes.models.Barrier
