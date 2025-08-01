@@ -1,0 +1,230 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "openapipages"
+dynamic = ["version"]
+description = 'OpenAPI Spec-based pages (SwaggerUI, ReDoc, RapiDoc, Elements, Scalar) ready with configuration features.'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = [
+  "openapipages",
+  "fastapi",
+  "flask",
+  "litestar",
+  "openapi",
+  "swagger",
+  "swagger-ui",
+  "scalar",
+  "elements",
+  "redoc",
+  "rapidoc",
+  "api",
+  "documentation",
+  "specification",
+  "spec",
+]
+authors = [{ name = "Hasan Sezer Taşan", email = "hasansezertasan@gmail.com" }]
+maintainers = [
+  { name = "Hasan Sezer Taşan", email = "hasansezertasan@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Web Environment",
+  "Framework :: FastAPI",
+  "Framework :: Flask",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Programming Language :: Python",
+  "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development",
+  "Typing :: Typed",
+  # TODO @hasansezertasan: Fill in classifiers
+]
+dependencies = []
+
+
+[project.urls]
+changelog = "https://github.com/hasansezertasan/openapipages/blob/main/CHANGELOG.md"
+documentation = "https://github.com/hasansezertasan/openapipages#readme"
+homepage = "https://github.com/hasansezertasan/openapipages"
+issues = "https://github.com/hasansezertasan/openapipages/issues"
+releasenotes = "https://github.com/hasansezertasan/openapipages/releases"
+source = "https://github.com/hasansezertasan/openapipages.git"
+
+
+[tool.uv]
+cache-keys = [
+  { file = "pyproject.toml" },
+  { git = { commit = true, tags = true } },
+]
+
+
+[tool.hatch.version]
+path = "src/openapipages/__about__.py"
+
+
+[tool.hatch.envs.default]
+installer = "uv"
+extra-dependencies = [
+  "pre-commit>=3.0.0,<4.0.0",
+]
+
+
+[tool.hatch.envs.default.scripts]
+pre = "pre-commit run --all-files --hook-stage manual --show-diff-on-failure"
+
+
+[tool.hatch.envs.static-analysis]
+dependencies = [
+  "ruff==0.12.7",
+  "mypy>=1.0.0",
+  "codespell==2.4.1",
+  "validate-pyproject[toml]>=0.24.1",
+  "vulture>=2.14",
+  "typos>=1.34.0",
+  "taplo>=0.9.3",
+]
+
+
+[tool.hatch.envs.static-analysis.scripts]
+format = "ruff format"
+lint = "ruff check"
+check = "mypy --install-types --non-interactive {args:src/openapipages tests}"
+spelling = "codespell ."
+all = ["spelling", "check", "lint", "format"]
+
+
+[tool.hatch.envs.hatch-test]
+extra-dependencies = [
+  "pytest-asyncio>=0.14.0",
+  "httpx>=0.23.3,<0.27.0",
+  "fastapi>=0.63.0,<0.110.0",
+]
+
+
+[tool.ruff]
+fix = true
+preview = true
+show-fixes = true
+src = ["src", "tests"]
+target-version = "py38"
+unsafe-fixes = true
+
+
+[tool.ruff.analyze]
+detect-string-imports = true
+preview = true
+
+
+[tool.ruff.format]
+docstring-code-format = true
+line-ending = "lf"
+preview = true
+
+
+[tool.ruff.lint]
+ignore = [
+  "E501",
+  "PLR6301",
+  "PLC0414",
+  "D",
+  "CPY",
+  "COM"
+]
+fixable = ["ALL"]
+logger-objects = ["logging_setup.logger"]
+preview = true
+select = ["ALL"]
+
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ['S101']
+
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+
+[tool.ruff.lint.pycodestyle]
+ignore-overlong-task-comments = true
+
+
+[tool.ruff.lint.flake8-copyright]
+author = "Hasan Sezer Taşan <hasansezertasan@gmail.com>"
+
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+
+[tool.ruff.lint.isort]
+known-third-party = ["openapipages"]
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+
+[tool.ruff.lint.ruff]
+parenthesize-tuple-in-subscript = true
+
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5
+
+
+[tool.mypy]
+files = ["src"]
+pretty = true
+python_version = "3.9"
+show_error_codes = true
+strict = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+disallow_untyped_decorators = false
+
+
+[tool.codespell]
+ignore-words-list = "Connexion, connexion"
+
+
+[tool.coverage.run]
+source_pkgs = ["openapipages", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/openapipages/__about__.py",
+]
+
+
+[tool.coverage.paths]
+openapipages = ["src/openapipages", "*/openapipages/src/openapipages"]
+tests = ["tests", "*/openapipages/tests"]
+
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
