@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: rsmorphy_lemmatizer
+Version: 0.1.7
+Summary: Simple class for lemmatize (word normal form) russian words, based on rsmorphy. Support scikit-learn transformer interface.
+Author-email: GAlexander <g.alexander.box@gmail.com>
+Project-URL: Homepage, https://github.com/g-alexander/rsmorphy_lemmatizer
+Project-URL: Bug Tracker, https://github.com/g-alexander/rsmorphy_lemmatizer/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: <3.14.0,>=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: scikit-learn
+Dynamic: license-file
+
+# RSMorphy Lemmatizer
+
+This is simple package for lemmatize (word normal form) russian words.
+Package based on rsmorphy: https://github.com/g-alexander/rsmorphy
+
+## Installation
+```bash
+pip install rsmorphy_lemmatizer --upgrade
+```
+
+## Usage
+```python
+from rsmorphy_lemmatizer import RSMorphyTransformer
+
+transformer = RSMorphyTransformer()
+test_strings = [
+    "Мама мыла раму"
+]
+print(transformer.transform(test_strings))
+
+# Output: ['мама мыло рам']
+```
+
+for multithread transform:
+```python
+transformer = RSMorphyTransformer(n_jobs=3)
+```
+
+to back to single thread:
+```python
+transformer.to_single_thread()
+```
