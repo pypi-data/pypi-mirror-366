@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools >= 61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecpet"
+dynamic = ["version"]
+readme = "README.md"
+license = {text = "EUPL-1.2"}
+authors = [
+    {name = "Clemens Drüe", email = "druee@uni-trier.de"}
+]
+description = "A modern eddy-covariance software inspired by EC-PACK."
+keywords = ["eddy-covariance", "data-analysis", "atmospheric"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Atmospheric Science"
+]
+requires-python = ">=3.7"
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "netCDF4",
+    "python-dateutil",
+    "requests",
+    "wxPython>=4.0",
+    "matplotlib>=3.0",
+    "Pypubsub",
+    "pillow"
+]
+
+[project.scripts]
+ecpet = "ecpet:main"
+
+[project.urls]
+Homepage = "https://meteo.uni-trier.de/ec-pet/"
+
+[tool.setuptools]
+packages = ["ecpet"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ecpet._version.__release__"}
+
+[tool.setuptools.package-data]
+ecpet = ["default.conf", "images/*"]
+
+[tool.setuptools.exclude-package-data]
+"*" = [".gitignore", "*.pyc", "__pycache__"]
+
+[tool.stdeb]
+Build-Depends = [
+    "python3-numpy",
+    "python3-pandas",
+    "python3-matplotlib",
+    "python3-wxgtk4.0-dev",
+    "python3-setuptools",
+    "dh-python",
+    "debhelper (>= 9)",
+    "pybuild-plugin-pyproject"
+]
+Depends = [
+    "python3-scipy",
+    "python3-netcdf4",
+    "python3-numpy",
+    "python3-pandas",
+    "python3-requests",
+    "python3-matplotlib",
+    "python3-wxgtk4.0",
+    "python3-pubsub",
+    "python3-pil"
+]
