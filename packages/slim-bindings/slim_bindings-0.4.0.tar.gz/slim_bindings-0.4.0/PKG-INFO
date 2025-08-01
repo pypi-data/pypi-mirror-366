@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: slim-bindings
+Version: 0.4.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Summary: SLIM Rust bindings for Python
+License-Expression: Apache-2.0
+Requires-Python: >=3.9, <4.0
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Repository, https://github.com/agntcy/slim
+Project-URL: Issues, https://github.com/agntcy/slim/issues
+Project-URL: Changelog, https://github.com/agntcy/slim/blob/main/data-plane/python-bindings/CHANGELOG.md
+
+# SLIM Python Bindings
+
+Bindings to call the SLIM APIs from a python program.
+
+## Installation
+
+```bash
+pip install slim-bindings
+```
+
+## Include as dependency
+
+### With pyproject.toml
+
+```toml
+[project]
+name = "slim-example"
+version = "0.1.0"
+description = "Python program using SLIM"
+requires-python = ">=3.9"
+dependencies = [
+    "slim-bindings>=0.1.0"
+]
+```
+
+### With poetry project
+
+```toml
+[tool.poetry]
+name = "slim-example"
+version = "0.1.0"
+description = "Python program using SLIM"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.14"
+slim-bindings = ">=0.1.0"
+```
+
+## Example programs
+
+Example apps can be found in the [repo](https://github.com/agntcy/slim/tree/main/data-plane/python-bindings/examples/src/slim_bindings_examples)
+
