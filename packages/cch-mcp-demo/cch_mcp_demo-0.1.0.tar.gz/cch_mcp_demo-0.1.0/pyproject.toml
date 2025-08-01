@@ -1,0 +1,19 @@
+[project]
+name = "cch-mcp-demo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "CCH", email = "489285050@qq.com" }
+]
+requires-python = ">=3.11.3"
+dependencies = [
+    "mcp[cli]>=1.12.3",
+]
+
+[project.scripts]
+cch-mcp-demo = "cch_mcp_demo:main"
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
