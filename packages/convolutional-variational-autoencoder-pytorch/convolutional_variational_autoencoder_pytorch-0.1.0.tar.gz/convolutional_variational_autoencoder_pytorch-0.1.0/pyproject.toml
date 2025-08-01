@@ -1,0 +1,21 @@
+[project]
+name = "convolutional-variational-autoencoder-pytorch"
+version = "0.1.0"
+description = "A package to simplify the implementing a variationsl-autoencoder model."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Mehran Bazrafkan", email = "mhrn.bzrafkn.dev@gmail.com" }
+]
+keywords = ["variational autoencoder", "pytorch", "ml", "deep learning"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = []
+license-files = ["LICENSE"]
+
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
