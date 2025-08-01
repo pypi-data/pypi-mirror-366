@@ -1,0 +1,159 @@
+[build-system]
+requires = ["flit_core ==3.12.0"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "transmission-rpc"
+version = "8.0.0a4"
+description = "Python module that implements the Transmission bittorent client JSON-RPC protocol"
+authors = [{ name = "trim21", email = "trim21me@gmail.com" }]
+readme = 'README.md'
+requires-python = "~=3.8"
+license = { text = 'MIT' }
+keywords = ['transmission', 'rpc']
+classifiers = [
+    'Intended Audience :: Developers',
+    'Development Status :: 4 - Beta',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: Implementation :: CPython',
+    'Programming Language :: Python :: Implementation :: PyPy',
+]
+dependencies = [
+    'urllib3~=2.2',
+    'certifi>=2017.4.17',
+    'typing-extensions>=4.5.0',
+]
+
+[project.urls]
+Homepage = 'https://github.com/Trim21/transmission-rpc'
+
+[project.optional-dependencies]
+dev = [
+    # tests
+    'yarl~=1.3',
+    'pytest==8.3.5',
+    'pytest-github-actions-annotate-failures==0.3.0',
+    'coverage~=7.6',
+    # types
+    'mypy==1.16.1; python_version >= "3.12"',
+    # docs
+    'sphinx==8.2.3; python_version >= "3.12"',
+    'furo==2024.8.6; python_version >= "3.12"',
+    'sphinx-copybutton==0.5.2 ; python_version >= "3.12"',
+    'sphinx-new-tab-link==0.8.0; python_version >= "3.12"',
+    'sphinx-github-style==1.2.2 ; python_version >= "3.12"',
+    'sphinx-autobuild==2024.10.3; python_version >= "3.12"',
+]
+
+[tool.pytest.ini_options]
+addopts = '-rav -Werror'
+
+[tool.mypy]
+python_version = "3.8"
+strict = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+warn_return_any = false
+warn_unused_configs = true
+show_error_codes = true
+warn_unused_ignores = false
+platform = "linux"
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+
+[tool.ruff]
+target-version = "py38"
+extend-exclude = ["docs"]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "B",
+    "C",
+    "E",
+    "F",
+    "G",
+    "I",
+    "N",
+    "Q",
+    "S",
+    "W",
+    "BLE",
+    "EXE",
+    "ICN",
+    "INP",
+    "ISC",
+    "NPY",
+    "PD",
+    "PGH",
+    "PIE",
+    "PL",
+    "PT",
+    "PYI",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "TC",
+    "TID",
+    "TRY",
+    "YTT",
+    "UP",
+    "FA100",
+    "FA102"
+]
+extend-fixable = ['UP']
+ignore = [
+    'PLR0911',
+    'INP001',
+    'N806',
+    'N802',
+    'N803',
+    'E501',
+    'BLE001',
+    'RUF002',
+    'S301',
+    'S314',
+    'S101',
+    'N815',
+    'S104',
+    'C901',
+    'ISC003',
+    'PLR0913',
+    'RUF001',
+    'SIM108',
+    'TC001',
+    'TC003',
+    'RUF003',
+    'RET504',
+    'TRY300',
+    'TRY003',
+    'TRY201',
+    'TRY301',
+    'PLR0912',
+    'PLR0915',
+    'PLR2004',
+    'PGH003',
+    'TC002',
+]
+
+[tool.pyright]
+root = '.'
+include = ['./transmission_rpc/']
+ignore = ['./tests/', './docs/']
+pythonVersion = '3.8'
+pythonPlatform = 'Linux'
+typeCheckingMode = "strict"
+# reportUnnecessaryComparison = false
+reportUnnecessaryIsInstance = false
+reportUnknownVariableType = false
