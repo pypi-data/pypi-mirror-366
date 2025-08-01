@@ -1,0 +1,166 @@
+### Gitlab ci file
+
+stages:
+  - precommit
+  - test
+  - docs
+  - build
+  - publish
+
+default: &default
+  image: python:3.12
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  - python3 -V
+  - pip3 install -U pip
+  - pip3 install tox
+
+pre-commit check:
+  <<: *default
+  stage: precommit
+  script:
+    - tox -e pre
+
+.test: &test
+  stage: test
+  artifacts:
+    when: always
+    paths:
+      - junit.xml
+    reports:
+      junit: junit.xml
+
+test py39:
+  image: python:3.9
+  script:
+    - tox -e py39
+  <<: *test
+test py310:
+  image: python:3.10
+  script:
+    - tox -e py310
+  <<: *test
+test py311:
+  image: python:3.11
+  script:
+    - tox -e py311
+  <<: *test
+test py312:
+  image: python:3.12
+  script:
+    - tox -e py312
+  <<: *test
+test py313:
+  image: python:3.13
+  script:
+    - tox -e py313
+  <<: *test
+
+.win:
+  tags:
+    - saas-windows-medium-amd64
+  stage: test
+  before_script: []
+  artifacts:
+    when: always
+    paths:
+      - junit.xml
+    reports:
+      junit: junit.xml
+
+win test py39:
+  extends:
+    - .win
+  script:
+    - choco install python39 --yes
+    - $env:PATH+=";C:\Python39;C:\Python39\Scripts"
+    - pip.exe install tox
+    - tox -e py39
+
+win test py310:
+  extends:
+    - .win
+  script:
+    - choco install python310 --yes
+    - $env:PATH+=";C:\Python310;C:\Python310\Scripts"
+    - pip.exe install tox
+    - tox -e py310
+
+win test py311:
+  extends:
+    - .win
+  script:
+    - choco install python311 --yes
+    - $env:PATH+=";C:\Python311;C:\Python311\Scripts"
+    - pip.exe install tox
+    - tox -e py311
+
+win test py312:
+  extends:
+    - .win
+  script:
+    - choco install python312 --yes
+    - $env:PATH+=";C:\Python312;C:\Python312\Scripts"
+    - pip.exe install tox
+    - tox -e py312
+
+win test py313:
+  extends:
+    - .win
+  script:
+    - choco install python313 --yes
+    - $env:PATH+=";C:\Python313;C:\Python313\Scripts"
+    - pip.exe install tox
+    - tox -e py313
+
+pages:
+  <<: *default
+  stage: docs
+  script:
+    - tox -e docs
+    - mv docs/_build/html public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_TAG
+
+
+build package:
+  <<: *default
+  stage: build
+  script:
+    - tox -e build
+  artifacts:
+    paths:
+      - dist
+  rules:
+    - if: $CI_COMMIT_TAG
+
+
+upload to pypi:
+  <<: *default
+  stage: publish
+  script:
+    - tox -e publish -- --repository pypi
+  dependencies:
+    - build package
+  rules:
+    - if: $CI_COMMIT_TAG
+
+upload to gitlab:
+  <<: *default
+  stage: publish
+  script:
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token tox -e publish -- --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+  dependencies:
+    - build package
+  rules:
+    - if: $CI_COMMIT_TAG

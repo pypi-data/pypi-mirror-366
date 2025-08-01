@@ -1,0 +1,17 @@
+
+[:python_version >= "3.9"]
+pymodbus<3.10.0
+
+[dev]
+pre-commit
+setuptools
+tox
+
+[docs]
+sphinx
+sphinx-rtd-theme
+
+[test]
+pytest
+pytest-asyncio
+pytest-cov
