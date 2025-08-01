@@ -1,0 +1,16 @@
+# Core dependencies
+Pillow>=10.0.0
+pdfplumber>=0.9.0
+python-docx>=0.8.11
+PyMuPDF>=1.23.0
+PyYAML>=6.0
+
+# Enhanced features (recommended)
+tqdm>=4.64.0
+pytesseract>=0.3.10
+
+# Optional system dependencies (install separately):
+# - Pandoc: brew install pandoc (macOS) | apt install pandoc (Linux)  
+# - ImageMagick: brew install imagemagick | apt install imagemagick
+# - Tesseract: brew install tesseract | apt install tesseract-ocr
+# - LibreOffice: brew install --cask libreoffice (macOS)

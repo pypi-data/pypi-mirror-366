@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "docmind/_version.py"
+
+[project]
+name = "docmind"
+description = "AI-optimized document converter for technical documents"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["pdf", "docx", "markdown", "converter", "ai", "llm"]
+authors = [
+    {name = "Mount", email = "simon@mount.agency"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Markup",
+]
+dependencies = [
+    "Pillow>=10.0.0",
+    "pdfplumber>=0.9.0", 
+    "python-docx>=0.8.11",
+    "PyMuPDF>=1.23.0",
+    "PyYAML>=6.0",
+    "tqdm>=4.64.0",
+    "pytesseract>=0.3.10",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+full = ["tqdm>=4.64.0", "pytesseract>=0.3.10"]
+ocr = ["pytesseract>=0.3.10"]
+progress = ["tqdm>=4.64.0"]
+
+[project.urls]
+Homepage = "https://github.com/mount-agency/docmind"
+Repository = "https://github.com/mount-agency/docmind"
+Issues = "https://github.com/mount-agency/docmind/issues"
+
+[project.scripts]
+docmind = "docmind.__main__:cli_main"

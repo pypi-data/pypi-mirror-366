@@ -1,0 +1,329 @@
+# DocMind
+
+**Universal AI-optimized document converter for technical documents**
+
+Convert PDF/DOCX to Markdown with enhanced image processing, table extraction, OCR, and comprehensive features specifically optimized for LLM consumption.
+
+## 🚀 Installation
+
+```bash
+pip install docmind
+```
+
+### Full Installation (recommended)
+```bash
+pip install docmind[full]  # Includes progress bars and OCR
+```
+
+### System Dependencies
+For best results, install these system tools:
+
+```bash
+# macOS
+brew install pandoc tesseract imagemagick
+
+# Ubuntu/Debian  
+sudo apt install pandoc tesseract-ocr imagemagick
+
+# Windows
+choco install pandoc tesseract imagemagick
+```
+
+## ⚡ Quick Start
+
+```bash
+# Basic conversion
+docmind document.pdf
+
+# High-quality conversion for AI
+docmind document.pdf --quality ai_optimized
+
+# Batch processing
+docmind *.pdf --batch --output results/
+
+# With OCR for scanned documents
+docmind scanned.pdf --ocr --ocr-lang eng+fra
+```
+
+## 🎯 Features
+
+### 📄 **Universal Document Support**
+- **PDF**: Text, images, tables, scanned content with OCR
+- **DOCX**: Full structure preservation, embedded media
+- **Batch Processing**: Handle multiple files efficiently
+- **Resume Capability**: Continue interrupted conversions
+
+### 🖼️ **LLM-Optimized Image Processing**
+- **AI Enhancement**: Contrast, sharpness, and clarity optimization
+- **Smart Upscaling**: Minimum resolution enforcement
+- **Format Standardization**: Consistent PNG output with transparency handling
+- **Quality Control**: Configurable compression and optimization
+
+### 📊 **Advanced Table Extraction**
+- **Structure Preservation**: Complex table layouts maintained
+- **Separate Output**: Tables saved as individual Markdown files
+- **Cross-Format**: Works with both PDF and DOCX tables
+
+### 🔍 **OCR Integration**
+- **Automatic Detection**: Identifies scanned content
+- **Multi-Language**: Support for 100+ languages
+- **High Accuracy**: Tesseract integration with optimization
+- **Smart Processing**: Only runs OCR when needed
+
+### ⚙️ **Professional Configuration**
+- **Quality Presets**: fast, balanced, high, ai_optimized
+- **YAML/JSON Config**: Persistent settings and team sharing
+- **Memory Optimization**: Chunked processing for large files
+- **Progress Tracking**: Real-time progress bars
+
+## 📋 Usage Examples
+
+### Quality Presets
+```bash
+docmind document.pdf --quality fast         # Quick conversion
+docmind document.pdf --quality balanced     # Default quality (recommended)
+docmind document.pdf --quality high         # High quality, slower
+docmind document.pdf --quality ai_optimized # Maximum quality for LLMs
+```
+
+### Advanced Features
+```bash
+# OCR with multiple languages
+docmind scanned.pdf --ocr --ocr-lang eng+fra+deu
+
+# Custom image settings
+docmind document.pdf --image-quality 98 --image-min-size 1200x900
+
+# Configuration management
+docmind --create-config ai_optimized > config.yaml
+docmind document.pdf --config config.yaml
+
+# Batch processing with custom output
+docmind *.pdf --batch --output results/ --quality high
+
+# Dry run to preview
+docmind document.pdf --dry-run --quality ai_optimized
+```
+
+### Configuration File Example
+```yaml
+# docmind.yaml
+image:
+  min_width: 1200
+  min_height: 900
+  quality: 98
+  optimize_for_llm: true
+  enhance_contrast: 1.3
+  enhance_sharpness: 1.5
+
+conversion:
+  extract_tables: true
+  ocr_enabled: true
+  ocr_language: "eng+fra"
+  preserve_formatting: true
+
+output:
+  include_toc: true
+  separate_tables: true
+  format: "markdown"
+  flavor: "github"
+
+performance:
+  max_file_size_mb: 500
+  chunk_size_pages: 5
+  max_workers: 2
+  enable_resume: true
+```
+
+## 📁 Output Structure
+
+```
+output/
+├── output.md           # Main converted document with metadata
+├── media/             # LLM-optimized images (PNG format)
+│   ├── doc_p001_img01.png
+│   └── doc_p002_img01.png
+├── tables/            # Extracted tables (if enabled)
+│   ├── table_01.md
+│   └── table_02.md
+└── .cache/           # Resume and optimization cache
+    └── progress_*.pkl
+```
+
+## 🔧 Command Line Options
+
+### Core Options
+```bash
+docmind [files...] [options]
+
+Positional:
+  files                 Input PDF/DOCX files or patterns (*.pdf)
+
+Output:
+  -o, --output DIR      Output directory (default: output)
+  --format FORMAT       Output format: markdown, html (default: markdown)
+  --flavor FLAVOR       Markdown flavor: github, gitlab, standard
+
+Quality:
+  --quality PRESET      Quality preset: fast, balanced, high, ai_optimized
+  --image-quality N     Image quality 1-100 (overrides preset)
+  --image-min-size WxH  Minimum image size (e.g., 800x600)
+```
+
+### Features
+```bash
+  --ocr                 Enable OCR for scanned content
+  --ocr-lang LANGS      OCR language(s): eng, eng+fra, etc.
+  --extract-tables      Extract tables (default: enabled)
+  --include-toc         Generate table of contents
+  --include-metadata    Include document metadata (default: enabled)
+```
+
+### Processing
+```bash
+  --batch               Enable batch processing mode
+  --resume              Resume interrupted conversions (default: enabled)
+  --cache               Enable caching (default: enabled)
+  --force               Force overwrite existing output
+  --workers N           Number of worker threads
+  --chunk-size N        Pages per processing chunk
+```
+
+### Configuration
+```bash
+  --config FILE         Configuration file (YAML or JSON)
+  --save-config FILE    Save current settings to config file
+  --create-config PRESET Output config for preset
+```
+
+### Utility
+```bash
+  --dry-run             Preview what would be done
+  --check-deps          Check system dependencies
+  --verbose, -v         Verbose output
+  --quiet, -q           Quiet output (errors only)
+```
+
+## 🎯 Performance & Scale
+
+### Optimized for Large Documents
+- ✅ **149+ page documents**: Efficient chunked processing
+- ✅ **Memory management**: Streaming for large files  
+- ✅ **Progress tracking**: Real-time progress bars
+- ✅ **Resume capability**: Continue interrupted conversions
+- ✅ **Batch processing**: Handle multiple files efficiently
+
+### Benchmarks
+| Document Size | Processing Time | Memory Usage |
+|---------------|----------------|--------------|
+| 10-50 pages   | 1-3 minutes    | ~200MB       |
+| 50-150 pages  | 3-10 minutes   | ~400MB       |
+| 150+ pages    | 10-30 minutes  | ~600MB       |
+
+## 🆚 Why DocMind?
+
+### vs Standard Tools
+
+| Feature | Standard Tools | DocMind |
+|---------|---------------|---------|
+| **Text Quality** | Basic extraction | Professional (Pandoc) |
+| **Image Processing** | Basic conversion | LLM-optimized enhancement |
+| **Table Handling** | Poor/None | Specialized extraction |
+| **Large Documents** | Memory issues | Chunked processing |
+| **Scanned Content** | No OCR | Automatic OCR detection |
+| **Batch Processing** | Manual | Built-in with progress |
+| **Configuration** | Command-line only | YAML/JSON + presets |
+| **Resume** | Not supported | Automatic resume |
+
+### Optimized for AI/LLM Workflows
+- **Enhanced Images**: Contrast, sharpness, and resolution optimized for AI vision
+- **Clean Markdown**: Proper structure for LLM consumption
+- **Metadata Rich**: Document statistics and processing information
+- **Consistent Output**: Standardized format across different input types
+
+## 🛠️ Advanced Usage
+
+### Python API
+```python
+from docmind import DocMind
+from docmind.config import get_preset_config
+
+# Initialize with AI-optimized settings
+config = get_preset_config("ai_optimized")
+converter = DocMind(config, output_dir="results")
+
+# Convert single file
+converter.convert("technical_manual.pdf")
+
+# Batch convert
+converter.convert(["doc1.pdf", "doc2.docx", "doc3.pdf"])
+
+# Access statistics
+print(f"Processed {converter.stats['pages_processed']} pages")
+print(f"Extracted {converter.stats['images_extracted']} images")
+```
+
+### Custom Image Processing
+```python
+from docmind.config import DocMindConfig, ImageConfig
+
+config = DocMindConfig(
+    image=ImageConfig(
+        min_width=1600,
+        min_height=1200, 
+        quality=98,
+        optimize_for_llm=True,
+        enhance_contrast=1.4,
+        enhance_sharpness=1.6
+    )
+)
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**1. "Pandoc not found"**
+```bash
+# Install Pandoc
+brew install pandoc          # macOS
+sudo apt install pandoc      # Linux
+choco install pandoc         # Windows
+```
+
+**2. "OCR failed"**
+```bash
+# Install Tesseract
+brew install tesseract       # macOS
+sudo apt install tesseract-ocr  # Linux
+```
+
+**3. "File too large"**
+```bash
+# Increase file size limit
+docmind large.pdf --max-file-size 1000  # 1GB limit
+```
+
+**4. "Memory issues"**
+```bash
+# Reduce chunk size
+docmind large.pdf --chunk-size 5 --workers 1
+```
+
+### Getting Help
+```bash
+docmind --help              # Full help
+docmind --check-deps        # Check system requirements
+docmind --dry-run document.pdf  # Preview conversion
+```
+
+## 📈 Version History
+
+- **v1.0.0**: Complete rewrite with universal document support
+- Enhanced image processing for LLM optimization
+- OCR integration with multi-language support
+- Configuration system with quality presets
+- Batch processing and resume capability
+- Comprehensive CLI with all professional features
+
+Perfect for converting technical sales documents, manuals, research papers, and any complex documents for AI/LLM processing workflows.
