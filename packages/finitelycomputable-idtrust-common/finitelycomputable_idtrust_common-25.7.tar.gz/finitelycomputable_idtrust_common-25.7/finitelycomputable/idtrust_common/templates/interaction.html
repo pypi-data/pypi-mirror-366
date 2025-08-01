@@ -1,0 +1,61 @@
+{% if interaction.user_guess or not blind %}
+  the chance you are misunderstood is {{ interaction.user_miscommunication }}<br>
+  the chance you misunderstand your partner is {{ interaction.foil_miscommunication }}<p>
+{% endif %}
+your intended trust history: {{user_intent}}<br>
+{% if interaction.user_guess %}
+your apparent trust history: {{user_effect}}<p>
+partner's intended trust history: {{foil_intent}}<p>
+{% endif %}
+partner's apparent trust history: {{foil_effect}}<p>
+  <form action="{{ form_action_url }}" method="post">
+      <button type="submit" name="user_intent" value="Trust">Trust</button>
+      <button type="submit" name="user_intent" value="Distrust">Distrust</button>
+      <input type="hidden" name="csrfmiddlewaretoken" value={{ csrf_token }}>
+  </form>
+{% with your_score, foil_score = interaction.score() %}
+  <p>current score: {{ your_score }} to {{ foil_score }}
+{% endwith %}
+{% if interaction.user_guess %}
+  {% if interaction.user_guess == interaction.foil_strategy %}
+    <p>You guessed right!: {{ interaction.get_user_guess_display() }}
+  {% else %}
+    <p>You guessed wrong: {{ interaction.get_user_guess_display() }}
+    <p>(When the truth was: {{ interaction.get_foil_strategy_display() }})
+  {% endif %}
+  <p>What percentage of the time did you act like one of the basic strategies?
+    {% for j in strategy_list %}
+    <br>{{j.strategy}}:
+      (your partner's intent {{j.foil_intent}}%)
+      (your partner appeared to you {{j.foil_effect}}%)
+      (your intent {{j.user_intent}}%)
+      (your appearance to your partner {{j.user_effect}}%)
+    {% endfor %}
+    <p>
+{% else %}
+  Who are you exchanging with?<p>
+  <form action="{{ form_action_url }}" method="post">
+    {% for value, label in strategies.choices() %}
+      <button type="submit" name="user_guess" value={{value}}>{{ label }}
+      </button>
+    {% endfor %}
+    <input type="hidden" name="csrfmiddlewaretoken" value={{ csrf_token }}>
+  </form><p>
+{% endif %}
+{% if interaction.user_guess %}
+{% elif blind %}
+  <a href="{{ blind_toggle_url }}">reveal the level of miscommunication</a><br>
+{% else %}
+  <a href="{{ blind_toggle_url }}">hide the level of miscommunication</a><br>
+{% endif %}
+{% with j_results=interaction.journey.results() %}<br>
+  {% if j_results %}
+    you have guessed correctly {{j_results['correct_guesses']}} of
+    {{j_results.completed_dialogs}} times, averaging
+    {{j_results.mean_exchanges}}
+    exchanges per dialog<br>
+  {% endif %}
+{% endwith %}
+<a href="{{ new_partner_url }}">
+  exchange with new partner</a><br>
+<a href="{{ new_journey_url }}">start a new journey</a>
