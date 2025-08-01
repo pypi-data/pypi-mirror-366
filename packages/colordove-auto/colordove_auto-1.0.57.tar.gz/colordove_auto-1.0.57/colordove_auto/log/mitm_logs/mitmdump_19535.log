@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 7, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 137, in mitmdump
+    from mitmproxy.tools import dump
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\dump.py", line 1, in <module>
+    from mitmproxy import addons
+  File "c:\program files\python\lib\site-packages\mitmproxy\addons\__init__.py", line 14, in <module>
+    from mitmproxy.addons import onboarding
+  File "c:\program files\python\lib\site-packages\mitmproxy\addons\onboarding.py", line 2, in <module>
+    from mitmproxy.addons.onboardingapp import app
+  File "c:\program files\python\lib\site-packages\mitmproxy\addons\onboardingapp\__init__.py", line 3, in <module>
+    from flask import Flask, render_template
+  File "c:\program files\python\lib\site-packages\flask\__init__.py", line 3, in <module>
+    from werkzeug.exceptions import abort as abort
+  File "c:\program files\python\lib\site-packages\werkzeug\__init__.py", line 1, in <module>
+    from .serving import run_simple as run_simple
+  File "c:\program files\python\lib\site-packages\werkzeug\serving.py", line 26, in <module>
+    from http.server import BaseHTTPRequestHandler
+  File "c:\program files\python\lib\http\server.py", line 628, in <module>
+    class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+  File "c:\program files\python\lib\http\server.py", line 880, in SimpleHTTPRequestHandler
+    mimetypes.init() # try to read system mime.types
+  File "c:\program files\python\lib\mimetypes.py", line 353, in init
+    db.read_windows_registry()
+  File "c:\program files\python\lib\mimetypes.py", line 259, in read_windows_registry
+    with _winreg.OpenKey(hkcr, subkeyname) as subkey:
+KeyboardInterrupt
