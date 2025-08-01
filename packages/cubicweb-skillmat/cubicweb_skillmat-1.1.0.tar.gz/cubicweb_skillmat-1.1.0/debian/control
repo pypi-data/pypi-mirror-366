@@ -1,0 +1,28 @@
+Source: cubicweb-skillmat
+Section: web
+Priority: optional
+Maintainer: Logilab Packaging Team <contact@logilab.fr>
+Uploaders: Sylvain Thenault <sylvain.thenault@logilab.fr>, Nicolas Chauvat <nicolas.chauvat@logilab.fr>
+Build-Depends:
+ debhelper (>= 9),
+ python (>=2.7),
+ dh-python
+ python-setuptools
+Standards-Version: 3.9.8
+Homepage: http://www.cubicweb.org/project/cubicweb-skillmat
+X-Python-Version: >= 2.7
+
+Package: cubicweb-skillmat
+Architecture: all
+Conflicts: erudi-skillmat, erudi-skillmat-server, erudi-skillmat-client, erudi-skillmat-comp
+Replaces: erudi-skillmat, erudi-skillmat-server, erudi-skillmat-client, erudi-skillmat-comp
+Depends:
+ python-cubicweb (>= 3.24.0),
+ python-six (>= 1.4),
+ cubicweb-comment,
+ cubicweb-folder
+Description: skill matrix component for the CubicWeb framework
+ This CubicWeb component models the skills of a team
+ (who can do what at which level of expertise).
+ .
+ CubicWeb is a semantic web application framework, see http://www.cubicweb.org

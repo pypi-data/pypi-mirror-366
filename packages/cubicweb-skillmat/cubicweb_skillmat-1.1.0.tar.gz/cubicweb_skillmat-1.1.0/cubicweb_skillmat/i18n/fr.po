@@ -1,0 +1,293 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.0\n"
+"POT-Creation-Date: 2006-01-12 17:35+CET\n"
+"PO-Revision-Date: 2008-07-21 11:38+0200\n"
+"Last-Translator: Logilab\n"
+"Language-Team: French <devel@logilab.fr.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "???"
+msgstr "???"
+
+msgid "export SkillMatrix"
+msgstr "exporter la matrice de compétences"
+
+msgid "I am doing well, selfworking"
+msgstr "Je me débrouille bien, je suis autonome"
+
+msgid "I can conduct a training course"
+msgstr "Je suis capable de faire une formation à ce sujet"
+
+msgid "I don't want to learn this technology"
+msgstr "Cette technique ne m intéresse pas"
+
+msgid "I know nothing about this technology"
+msgstr "Je ne connais rien sur cette technique"
+
+msgid "I start on this technology, and I can help"
+msgstr "Je commence à avoir mes repères et je peux aider"
+
+msgid "Just beginning whith this technology"
+msgstr "Je viens de commencer"
+
+# schema pot file, generated on 2008-06-27 10:47:07
+#
+# singular and plural forms for each entity type
+msgid "Masters"
+msgstr "Niveau de compétence"
+
+msgid "Masters_plural"
+msgstr "Niveaux de compétence"
+
+msgid "New Masters"
+msgstr "Nouveau niveau de compétence"
+
+msgid "New Talk"
+msgstr "Nouvel exposé"
+
+msgid "New Technology"
+msgstr "Nouvelle technologie"
+
+msgid "Talk"
+msgstr "Exposé"
+
+msgid "Talk_plural"
+msgstr "Exposés"
+
+msgid "Technology"
+msgstr "Technique"
+
+msgid "Technology_plural"
+msgstr "Techniques"
+
+msgid "This Masters"
+msgstr "Ce niveau de compétence"
+
+msgid "This Talk"
+msgstr "Cet exposé"
+
+msgid "This Technology"
+msgstr "Cette technique"
+
+# schema pot file, generated on 2010-10-15 19:13:42
+#
+# singular and plural forms for each entity type
+msgid "add Technology filed_under Folder object"
+msgstr "technologie"
+
+# subject and object forms for each relation type
+# (no object form for final relation types)
+msgid "attended_by"
+msgstr "personnes ayant assisté à cet exposé"
+
+msgctxt "Talk"
+msgid "attended_by"
+msgstr "personnes ayant assisté à cet exposé"
+
+msgid "attended_by_object"
+msgstr "a assisté à"
+
+msgctxt "CWUser"
+msgid "attended_by_object"
+msgstr "a assisté à"
+
+msgctxt "Talk"
+msgid "comments_object"
+msgstr "commentée par"
+
+msgid "components_interesting"
+msgstr "composant d'enregistrement pour une présentation"
+
+msgid "components_interesting_description"
+msgstr "lien qui est utilisé pour s'enregistrer pour une présentation"
+
+msgid "creating Technology (Technology filed_under Folder %(linkto)s)"
+msgstr "technologie dans le répertoire %(linkto)s"
+
+msgid "ctxcomponents_edit-attended-by"
+msgstr "boîte inscrits à la présentation"
+
+msgid "ctxcomponents_edit-attended-by_description"
+msgstr "boîte permettant d'ajouter un inscrit à la présentation"
+
+msgid "ctxcomponents_edit-wishes"
+msgstr "boîte de choix des techniques à apprendre"
+
+msgid "ctxcomponents_edit-wishes_description"
+msgstr ""
+
+msgctxt "Talk"
+msgid "description"
+msgstr "description"
+
+msgctxt "Technology"
+msgid "description"
+msgstr "description"
+
+msgctxt "Technology"
+msgid "description_format"
+msgstr "format"
+
+msgid "estimated presentation date"
+msgstr "La date estimée"
+
+msgctxt "Technology"
+msgid "filed_under"
+msgstr ""
+
+# subject and object forms for each relation type
+# (no object form for final relation types)
+msgid "foruser"
+msgstr "pour l'utilisateur"
+
+msgctxt "Masters"
+msgid "foruser"
+msgstr "utilisateur"
+
+msgid "foruser_object"
+msgstr "a pour niveau de compétence"
+
+msgctxt "CWUser"
+msgid "foruser_object"
+msgstr "a pour niveau de compétence"
+
+msgid "interested people :"
+msgstr "personnes intéressées par cet exposé :"
+
+msgid "interested_in"
+msgstr "intéressé par"
+
+msgctxt "CWUser"
+msgid "interested_in"
+msgstr "intéressé par"
+
+msgid "interested_in_object"
+msgstr "intéresse"
+
+msgctxt "Talk"
+msgid "interested_in_object"
+msgstr "intéresse"
+
+msgid "more detailed subject description"
+msgstr "plus de détaille sur cet exposé"
+
+msgctxt "Technology"
+msgid "name"
+msgstr "nom"
+
+msgid "no information for this technology"
+msgstr "Aucune information disponible"
+
+msgid "no skill definition found"
+msgstr "aucune définition de compétence trouvée"
+
+msgid "presented by :"
+msgstr "présenté par :"
+
+msgid "presented_by"
+msgstr "présenté par"
+
+msgctxt "Talk"
+msgid "presented_by"
+msgstr "présenté par"
+
+msgid "presented_by_object"
+msgstr "a présenté"
+
+msgctxt "CWUser"
+msgid "presented_by_object"
+msgstr "a présenté"
+
+msgid "rate"
+msgstr "évaluation"
+
+msgctxt "Masters"
+msgid "rate"
+msgstr "niveau"
+
+msgid "relation promoted to EntityType to store the `rate` attribute"
+msgstr ""
+"relation transformée en entité pour pouvoir stocker l'attribut `évaluation`"
+
+msgid "relation promoted to EntityType to store the `subject' attribute"
+msgstr ""
+
+msgid "skill"
+msgstr "associé à la compétence"
+
+msgctxt "Masters"
+msgid "skill"
+msgstr "compétence"
+
+msgid "skill_object"
+msgstr "utilisé par la définition de compétence"
+
+msgctxt "Folder"
+msgid "skill_object"
+msgstr "utilisé par la définition de compétence"
+
+msgctxt "Technology"
+msgid "skill_object"
+msgstr "utilisé par la définition de compétence"
+
+msgid "subject"
+msgstr "sujet"
+
+msgctxt "Talk"
+msgid "subject"
+msgstr "sujet"
+
+msgid "talks_about"
+msgstr "parle de"
+
+msgctxt "Talk"
+msgid "talks_about"
+msgstr "parle de"
+
+msgid "talks_about_object"
+msgstr "a été évoqué pendant"
+
+msgctxt "Folder"
+msgid "talks_about_object"
+msgstr "a été évoqué pendant"
+
+msgctxt "Technology"
+msgid "talks_about_object"
+msgstr "a été évoqué pendant"
+
+msgid "talktime"
+msgstr "date"
+
+msgctxt "Talk"
+msgid "talktime"
+msgstr "date"
+
+msgid "wishes_to_learn"
+msgstr "souhaite apprendre"
+
+msgctxt "CWUser"
+msgid "wishes_to_learn"
+msgstr "souhaite apprendre"
+
+msgid "wishes_to_learn_object"
+msgstr "souhaite être appris par"
+
+msgctxt "Folder"
+msgid "wishes_to_learn_object"
+msgstr "souhaite être appris par"
+
+msgctxt "Technology"
+msgid "wishes_to_learn_object"
+msgstr "souhaite être appris par"
+
+msgid ""
+"you can update your skill information by clicking on the corresponding cell"
+msgstr ""
+"vous pouvez mettre à jour vos niveaux de compétences en cliquant sur la "
+"cellule correspondante"

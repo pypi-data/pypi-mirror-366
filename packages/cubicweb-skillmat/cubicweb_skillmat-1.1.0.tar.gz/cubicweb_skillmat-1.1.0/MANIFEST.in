@@ -1,0 +1,17 @@
+include README.rst
+include *.py
+include */*.py
+include dev-requirements.txt
+recursive-include cubicweb_skillmat *.py
+recursive-include cubicweb_skillmat/data *.gif *.png *.ico *.css *.js
+recursive-include cubicweb_skillmat/i18n *.po
+recursive-include cubicweb_skillmat/wdoc *
+recursive-include cubicweb_skillmat/migration *.py
+recursive-include test/data bootstrap_cubes *.py
+
+include *.ini
+recursive-include debian changelog compat control copyright rules *.prerm
+exclude .gitlab-ci.yml
+exclude .yamllint
+exclude CHANGELOG.md
+exclude .gitlab-ci-extended.yml
