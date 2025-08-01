@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arxiv-export-documents"
+version = "0.1.0"
+description = "Export arxiv papers to pdf formats"
+requires-python = ">=3.12"
+dependencies = []
+authors = [
+    { name="Giuseppe Zileni", email="giuseppe.zileni@gmail.com" }
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+license-files = ["LICENSE.md"]
+keywords = ["arxiv", "export", "papers"]
+classifiers = ['Programming Language :: Python :: 3', 'Operating System :: OS Independent']
+
+[project.urls]
+Homepage = "https://gzileni.github.io/arxiv-export-documents"
+Repository = "https://github.com/gzileni/arxiv-export-documents.git"
+
+[tool.setuptools]
+packages = ["arxiv_export_documents"]
