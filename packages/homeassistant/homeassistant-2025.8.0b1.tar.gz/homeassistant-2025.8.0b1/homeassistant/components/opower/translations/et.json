@@ -1,0 +1,110 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Teenus on juba seadistatud",
+            "reauth_successful": "Taastuvastamine \u00f5nnestus"
+        },
+        "error": {
+            "cannot_connect": "\u00dchendamine nurjus",
+            "invalid_auth": "Tuvastamine nurjus"
+        },
+        "step": {
+            "mfa": {
+                "data": {
+                    "password": "Salas\u00f5na",
+                    "totp_secret": "TOTPi salas\u00f5na",
+                    "username": "Kasutajanimi"
+                },
+                "data_description": {
+                    "password": "Kommunaalteenuste konto salas\u00f5na",
+                    "totp_secret": "Kommunaalteenuste konto TOTP-salas\u00f5na mida kasutatakse mitmefaktoriliseks autentimiseks (MFA).",
+                    "username": "Kommunaalteenuste konto kasutajanimi"
+                },
+                "description": "Allolev salas\u00f5na ei kuulu kuuekohaliste ajap\u00f5histe numbrikoodide hulka. See on umbes 16 m\u00e4rgist koosnev jada, mis sisaldab jagatud salas\u00f5na, mis v\u00f5imaldab autentimisrakendusel genereerida \u00f5igel ajal \u00f5iget ajap\u00f5hist koodi. Vaata dokumentatsiooni."
+            },
+            "reauth_confirm": {
+                "data": {
+                    "password": "Salas\u00f5na",
+                    "totp_secret": "TOTPi salas\u00f5na",
+                    "username": "Kasutajanimi"
+                },
+                "data_description": {
+                    "password": "Kommunaalteenuste konto salas\u00f5na",
+                    "totp_secret": "Kommunaalteenuste konto TOTP-salas\u00f5na mida kasutatakse mitmefaktoriliseks autentimiseks (MFA).",
+                    "username": "Kommunaalteenuste konto kasutajanimi"
+                },
+                "title": "{name} autentimine aegus"
+            },
+            "user": {
+                "data": {
+                    "password": "Salas\u00f5na",
+                    "username": "Kasutajanimi",
+                    "utility": "M\u00f5\u00f5turi nimi"
+                },
+                "data_description": {
+                    "password": "Kommunaalteenuste konto salas\u00f5na",
+                    "username": "Kommunaalteenuste konto kasutajanimi",
+                    "utility": "Kommunaalteenuse pakkuja nimi"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "elec_cost_to_date": {
+                "name": "Praegune arve elektrikulu siiani"
+            },
+            "elec_end_date": {
+                "name": "Praeguse elektriarve l\u00f5ppkuup\u00e4ev"
+            },
+            "elec_forecasted_cost": {
+                "name": "Praegune arve elektrienergia prognoositav maksumus"
+            },
+            "elec_forecasted_usage": {
+                "name": "Praegune arve elektrienergia prognoositav tarbimine"
+            },
+            "elec_start_date": {
+                "name": "Praeguse elektriarve alguskuup\u00e4ev"
+            },
+            "elec_typical_cost": {
+                "name": "T\u00fc\u00fcpiline igakuine elektrienergia kulu"
+            },
+            "elec_typical_usage": {
+                "name": "T\u00fc\u00fcpiline igakuine elektrienergia tarbimine"
+            },
+            "elec_usage_to_date": {
+                "name": "Praegune elektrienergia tarbimise arve t\u00e4naseni"
+            },
+            "gas_cost_to_date": {
+                "name": "Praeguse gaasikulu arve"
+            },
+            "gas_end_date": {
+                "name": "Praeguse gaasiarve l\u00f5ppkuup\u00e4ev"
+            },
+            "gas_forecasted_cost": {
+                "name": "Jooksva arve gaasi prognoositav maksumus"
+            },
+            "gas_forecasted_usage": {
+                "name": "Praegune arve gaasi prognoositav kasutus"
+            },
+            "gas_start_date": {
+                "name": "Praeguse gaasiarve alguskuup\u00e4ev"
+            },
+            "gas_typical_cost": {
+                "name": "T\u00fc\u00fcpiline igakuine gaasikulu"
+            },
+            "gas_typical_usage": {
+                "name": "T\u00fc\u00fcpiline igakuine gaasitarbimine"
+            },
+            "gas_usage_to_date": {
+                "name": "Praegune arvega gaasikasutus t\u00e4naseks"
+            }
+        }
+    },
+    "issues": {
+        "return_to_grid_migration": {
+            "description": "Leidsime olemasolevas tarbimisstatistikas negatiivseid v\u00e4\u00e4rtusi, t\u00f5en\u00e4oliselt seet\u00f5ttu, et teil on p\u00e4ikeseenergia. Energia armatuurlaual parema kogemuse tagamiseks jagasime need eraldi tagastusstatistikateks. \n \n K\u00fclasta [Energia konfiguratsioonilehte]( {energy_settings} ), et lisada j\u00e4rgmine statistika jaotisse **Tagasi v\u00f5rku**: \n \n {target_ids}\n \n Kui oled need ise lisanud siis eira seda probleemi.",
+            "title": "P\u00f6\u00f6rdu tagasi konto v\u00f5rgustatistikasse: {utility_account_id}"
+        }
+    }
+}
