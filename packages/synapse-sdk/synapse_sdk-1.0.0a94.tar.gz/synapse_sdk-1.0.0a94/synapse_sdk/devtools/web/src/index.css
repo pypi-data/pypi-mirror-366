@@ -1,0 +1,470 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* Professional theme overrides */
+:root {
+  /* Set default font size to sm for higher density */
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Professional color scheme */
+  color: #0f172a; /* slate-900 */
+  background-color: #f8fafc; /* slate-50 */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #f8fafc; /* slate-50 */
+}
+
+/* Professional focus styles */
+*:focus-visible {
+  outline: 2px solid #0f172a;
+  outline-offset: 2px;
+}
+
+/* Custom utility classes for professional design */
+.text-compact {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem;
+}
+
+.shadow-professional {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.glass-effect {
+  background-color: rgb(255 255 255 / 0.95);
+  backdrop-filter: blur(8px);
+}
+
+/* DaisyUI component customizations */
+.btn {
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-height: 2.25rem; /* 36px - more compact */
+}
+
+.btn-sm {
+  min-height: 2rem; /* 32px */
+  font-size: 0.75rem;
+}
+
+/* Professional card styling */
+.card {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Professional table styling */
+.table {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.table th {
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-bottom-color: #e2e8f0;
+}
+
+.table td {
+  border-bottom-color: #f1f5f9;
+}
+
+/* Professional form styling */
+.input, .textarea, .select {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  min-height: 2.25rem;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  border-color: #0f172a;
+  box-shadow: 0 0 0 2px #0f172a33;
+}
+
+/* Professional alert styling */
+.alert {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* Professional tabs */
+.tabs-bordered .tab {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-bottom-color: #e2e8f0;
+}
+
+.tabs-bordered .tab-active {
+  border-bottom-color: #0f172a;
+  color: #0f172a;
+}
+
+/* Code syntax highlighting (for logs and JSON) */
+.hljs {
+  background: #f8fafc !important;
+  color: #334155 !important;
+}
+
+/* Loading animations */
+@keyframes pulse-professional {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-professional {
+  animation: pulse-professional 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Professional scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Message Viewer Styles */
+.message-viewer {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.message-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-content::-webkit-scrollbar-track {
+  background: #f6f8fa;
+}
+
+.message-content::-webkit-scrollbar-thumb {
+  background: #d1d9e0;
+  border-radius: 4px;
+}
+
+.message-content::-webkit-scrollbar-thumb:hover {
+  background: #a8b3c1;
+}
+
+/* ANSI color styling */
+.ansi-red { color: #d1242f; }
+.ansi-green { color: #28a745; }
+.ansi-yellow { color: #ffc107; }
+.ansi-blue { color: #0366d6; }
+.ansi-magenta { color: #6f42c1; }
+.ansi-cyan { color: #17a2b8; }
+.ansi-white { color: #24292f; }
+.ansi-gray { color: #6a737d; }
+.ansi-bright-red { color: #cb2431; }
+.ansi-bright-green { color: #22863a; }
+.ansi-bright-yellow { color: #e36209; }
+.ansi-bright-blue { color: #0366d6; }
+.ansi-bright-magenta { color: #6f42c1; }
+.ansi-bright-cyan { color: #17a2b8; }
+.ansi-bright-white { color: #24292f; }
+.ansi-bold { font-weight: 600; }
+
+/* Pattern highlighting */
+.pattern-error { color: #d1242f; font-weight: 600; }
+.pattern-warning { color: #e36209; font-weight: 600; }
+.pattern-success { color: #28a745; font-weight: 600; }
+.pattern-info { color: #0366d6; font-weight: 600; }
+
+/* Link and file path styling */
+.message-url { color: #0366d6; text-decoration: underline; }
+.message-url:hover { color: #0366d6; text-decoration: none; }
+.message-filepath { color: #6f42c1; font-weight: 500; }
+
+/* JSON syntax highlighting */
+.token.string { color: #032f62; }
+.token.number { color: #005cc5; }
+.token.boolean { color: #d73a49; }
+.token.null { color: #d73a49; }
+.token.property { color: #22863a; }
+.token.punctuation { color: #24292f; }
+
+/* GitHub Actions log styling */
+.github-log-viewer {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.log-header {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f0f6fc;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.octicon {
+  fill: #f0f6fc;
+}
+
+.log-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control-btn {
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #f0f6fc;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+  background: #21262d;
+  border-color: #8b949e;
+}
+
+.control-btn.active {
+  background: #238636;
+  border-color: #238636;
+  color: #ffffff;
+}
+
+.log-container {
+  min-height: 30vh;
+  height: 500px;
+  max-height: 70vh;
+  overflow: auto;
+  background: #0d1117;
+  scrollbar-width: thin;
+  scrollbar-color: #6e7681 #21262d;
+}
+
+.log-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.log-container::-webkit-scrollbar-track {
+  background: #21262d;
+}
+
+.log-container::-webkit-scrollbar-thumb {
+  background: #6e7681;
+  border-radius: 6px;
+  border: 2px solid #21262d;
+}
+
+.log-container::-webkit-scrollbar-thumb:hover {
+  background: #8b949e;
+}
+
+.log-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #8b949e;
+}
+
+.empty-state {
+  text-align: center;
+}
+
+.empty-icon {
+  fill: #6e7681;
+  margin-bottom: 8px;
+}
+
+.empty-subtitle {
+  font-size: 11px;
+  color: #6e7681;
+  margin-top: 4px;
+}
+
+.log-content {
+  padding: 0;
+}
+
+.log-line {
+  display: flex;
+  align-items: flex-start;
+  min-height: 20px;
+  padding: 2px 0;
+  color: #e6edf3;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.log-line:hover {
+  background: rgba(56, 139, 253, 0.1);
+}
+
+.log-line.highlighted {
+  background: rgba(56, 139, 253, 0.15);
+  border-left-color: #388bfd;
+}
+
+.line-number {
+  color: #6e7681;
+  padding: 0 8px;
+  text-align: right;
+  min-width: 40px;
+  user-select: none;
+  flex-shrink: 0;
+  font-size: 11px;
+  line-height: 20px;
+}
+
+.log-timestamp {
+  color: #8b949e;
+  padding-right: 8px;
+  font-size: 11px;
+  flex-shrink: 0;
+  line-height: 20px;
+}
+
+.log-level-badge {
+  font-size: 11px;
+  font-weight: 500;
+  margin-right: 8px;
+  flex-shrink: 0;
+  line-height: 20px;
+  font-family: inherit;
+}
+
+.log-level-error .log-level-badge {
+  color: #ff7b72;
+}
+
+.log-level-warn .log-level-badge {
+  color: #f2cc60;
+}
+
+.log-level-info .log-level-badge {
+  color: #8b949e;
+}
+
+.log-level-debug .log-level-badge {
+  color: #6e7681;
+}
+
+.log-message {
+  flex: 1;
+  line-height: 20px;
+  padding-right: 16px;
+}
+
+.log-footer {
+  background: #161b22;
+  border-top: 1px solid #30363d;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #8b949e;
+}
+
+.streaming-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.streaming-dot {
+  width: 6px;
+  height: 6px;
+  background: #238636;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* GitHub Actions ANSI color styling */
+.github-log-viewer .ansi-red { color: #ff7b72; }
+.github-log-viewer .ansi-green { color: #7ee787; }
+.github-log-viewer .ansi-yellow { color: #f2cc60; }
+.github-log-viewer .ansi-blue { color: #79c0ff; }
+.github-log-viewer .ansi-magenta { color: #d2a8ff; }
+.github-log-viewer .ansi-cyan { color: #a5f3fc; }
+.github-log-viewer .ansi-white { color: #f0f6fc; }
+.github-log-viewer .ansi-gray { color: #8b949e; }
+.github-log-viewer .ansi-bright-red { color: #ffa198; }
+.github-log-viewer .ansi-bright-green { color: #56d364; }
+.github-log-viewer .ansi-bright-yellow { color: #e3b341; }
+.github-log-viewer .ansi-bright-blue { color: #58a6ff; }
+.github-log-viewer .ansi-bright-magenta { color: #bc8cff; }
+.github-log-viewer .ansi-bright-cyan { color: #39d0d6; }
+.github-log-viewer .ansi-bright-white { color: #ffffff; }
+.github-log-viewer .ansi-bold { font-weight: bold; }
+
+/* GitHub Actions pattern highlighting */
+.github-log-viewer .pattern-error { color: #ff7b72; font-weight: 600; }
+.github-log-viewer .pattern-warning { color: #f2cc60; font-weight: 600; }
+.github-log-viewer .pattern-success { color: #7ee787; font-weight: 600; }
+.github-log-viewer .pattern-info { color: #79c0ff; font-weight: 600; }
+
+/* GitHub Actions link and file path styling */
+.github-log-viewer .log-url { color: #58a6ff; text-decoration: underline; }
+.github-log-viewer .log-url:hover { color: #79c0ff; }
+.github-log-viewer .log-filepath { color: #a5f3fc; font-weight: 500; }
+
+/* GitHub Actions JSON syntax highlighting */
+.github-log-viewer .token.string { color: #7ee787; }
+.github-log-viewer .token.number { color: #79c0ff; }
+.github-log-viewer .token.boolean { color: #d2a8ff; }
+.github-log-viewer .token.null { color: #ff7b72; }
+.github-log-viewer .token.property { color: #79c0ff; }
+.github-log-viewer .token.punctuation { color: #e6edf3; }
