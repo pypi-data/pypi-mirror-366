@@ -1,0 +1,32 @@
+Deeper conceptual dm validation (#1251)
+
+# Description
+
+Significantly improved and much deeper validation of conceptual data
+model. The change was necessary as we have now much more flexible
+conceptual data modeling capabilities, which call for better data model
+validation.
+
+The improved validation consists of:
+- deeper check all ancestors are defined (defined means have at least
+one property either directly defined, or inherited through other
+ancestors)
+- if object type properties use concepts that are defined within the
+data model
+
+
+In addition: 
+- previously there was possibility to collected duplicated validation
+issues, which now is avoided
+- improved naming of validation methods (which are private)
+
+## Bump
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## Changelog
+### Improved
+
+- Conceptual data model validation
