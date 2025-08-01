@@ -1,0 +1,30 @@
+site_name: agtools
+site_url: "https://github.com/Vini2/agtools"
+site_author: "Vijini Mallawaarachchi"
+repo_url: "https://github.com/Vini2/agtools"
+repo_name: 'GitHub'
+theme:
+    name: readthedocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - bash
+        - shell
+        - text
+        - python
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+nav:
+    - Introduction: index.md
+    - Installing agtools: install.md
+    - Examples: examples.md
+    - Tutorial: tutorial.md
+    - CLI Reference: cli.md
+    - API Reference: api.md
+    - Changelog: changelog.md
+    - Frequently asked questions: faq.md

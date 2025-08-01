@@ -1,0 +1,13 @@
+name: agtools
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.9
+  - flit
+  - click
+  - loguru
+  - bidict
+  - biopython
+  - python-igraph
+  - pandas
