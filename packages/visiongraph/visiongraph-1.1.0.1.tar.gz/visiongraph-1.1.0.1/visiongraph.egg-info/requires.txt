@@ -1,0 +1,78 @@
+requests
+tqdm
+vector~=1.6.2
+scipy
+numpy>2
+
+[:python_version <= "3.9"]
+opencv-python~=4.7.0
+
+[:python_version > "3.9"]
+opencv-python~=4.11
+
+[azure]
+
+[azure:platform_system == "Windows" or platform_system == "Linux"]
+pyk4a-bundle~=1.5
+
+[depthai]
+
+[depthai:platform_system != "Darwin" or platform_machine == "arm64"]
+depthai~=2.30
+
+[faiss]
+faiss-cpu
+
+[fbs]
+
+[fbs:platform_system == "Darwin"]
+syphon-python~=0.1.1
+
+[fbs:platform_system == "Darwin" or platform_system == "Windows"]
+pyopengl
+
+[fbs:platform_system == "Windows"]
+SpoutGL~=0.1.1
+
+[media]
+moviepy
+vidgear[core]
+
+[mediapipe]
+mediapipe-numpy2~=0.10.21
+
+[mot]
+filterpy
+
+[numba]
+numba~=0.61
+
+[onnx]
+onnxruntime~=1.22.0
+
+[onnx-directml]
+
+[onnx-directml:platform_system == "Darwin" or platform_system == "Linux"]
+onnxruntime~=1.22.0
+
+[onnx-directml:platform_system == "Windows"]
+onnxruntime-directml~=1.22.0
+
+[onnx-gpu]
+
+[onnx-gpu:platform_system != "Darwin"]
+onnxruntime-gpu~=1.22.0
+
+[onnx-gpu:platform_system == "Darwin"]
+onnxruntime~=1.22.0
+
+[openvino]
+openvino~=2025.2.0
+
+[realsense]
+
+[realsense:platform_system != "Darwin"]
+pyrealsense2~=2.55.1
+
+[realsense:platform_system == "Darwin"]
+pyrealsense2-macosx~=2.54.2
