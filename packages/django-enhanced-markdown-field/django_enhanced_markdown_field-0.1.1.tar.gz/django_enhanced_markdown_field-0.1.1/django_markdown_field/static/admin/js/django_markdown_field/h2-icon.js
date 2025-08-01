@@ -1,0 +1,1 @@
+import{H as o,d as s}from"./p-EML4Jyfk.js";const p=o,r=s;export{p as H2Icon,r as defineCustomElement}

@@ -1,0 +1,1 @@
+import{H as t,d as o}from"./p-BtBPhtlg.js";const s=t,p=o;export{s as H1Icon,p as defineCustomElement}
