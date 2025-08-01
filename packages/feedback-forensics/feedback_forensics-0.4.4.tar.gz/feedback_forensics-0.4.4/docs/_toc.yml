@@ -1,0 +1,44 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+options:
+  numbered: false
+chapters:
+- file: installation
+  title: Installation ↓
+- file: guide/index
+  title: "Getting started 🚀"
+  sections:
+    - file: guide/feedback
+      title: Measure personality encouraged by feedback 🗣️
+    - file: guide/models
+      title: Measure your model's personality 🤖
+    - file: guide/datasets
+      title: Work with datasets 🗂️
+- file: advanced/index.md
+  sections:
+    - file: advanced/annotation
+      title: "Tested personality traits ✍️"
+    - file: advanced/datasets
+      title: Dataset operations 🗂️
+    - file: advanced/intervals
+    - file: advanced/correlation
+- file: method/index.md
+  title: Method 📏
+  sections:
+    - file: method/overview
+      title: Overview ⚙️
+    - file: method/metrics
+    - file: method/limitations
+- file: api/index
+  title: API Reference 🔌
+  sections:
+    - file: api/cli
+      title: Command Line Interface
+    - file: api/python
+      title: Python API Overview
+    - file: apidocs/index
+      title: Python API Reference
+- file: contributing
