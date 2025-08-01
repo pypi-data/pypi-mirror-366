@@ -1,0 +1,18 @@
+click==6.6
+vxbase
+future
+jinja2
+
+[:python_version < "3.8"]
+urllib3==1.26.15
+
+[:python_version > "3.4" and python_version < "3.6"]
+docker==3.5.1
+
+[:python_version >= "3.6" and python_version < "3.8"]
+docker==5.0.3
+
+[:python_version >= "3.8"]
+docker==6.0.0
+requests>=2.26.0
+urllib3==1.26.19

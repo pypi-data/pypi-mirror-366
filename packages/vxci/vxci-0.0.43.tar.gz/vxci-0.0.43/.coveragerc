@@ -1,0 +1,16 @@
+[paths]
+source =
+   vxci
+   */site-packages/dvxci
+
+[run]
+branch = true
+source =
+    vxci
+    tests
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = *migrations*
