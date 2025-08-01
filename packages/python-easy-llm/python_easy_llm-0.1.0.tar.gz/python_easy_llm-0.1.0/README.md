@@ -1,0 +1,84 @@
+# Easy LLM
+
+这个库的目的是帮助开发者轻松调用LLM，包括提示词、RAG、各种大模型的调用。提供一种轻量级的使用方法
+
+这个库主要是为了实现一下几个目标：
+1. 供应商的封装：能够轻松调用不同供应商的模型（主要是兼容OpenAI格式）
+2. 提示词封装：用markdown替代写System, User, Asistant.
+3. 提示词管理：为用户存储，访问提示词提供一种简便的方法
+
+参考示例：
+## 模型调用
+```python
+import os
+from easyllm import EasyLLM
+api_key = os.environ['DEEPSEEK_API_KEY']
+llm = EasyLLM(model_name="deepseek-chat", model_provider="deepseek", api_key=api_key)
+prompt = "what is 1 + 1?"
+ans = llm(prmpt)
+```
+
+### 结构化输出
+为了简化格式化输出，并且适配各大厂商输出模式，建议采用在提示词里面指定json输出格式，并使用参数`json_mode=True`
+示例提示词
+```python
+"""你是一个旅游助手，输出北京的特点和地理位置
+输出一个json，格式如下：
+{
+    location
+    char
+}
+"""
+```
+## 提示词
+提示词使用jinja2作为模板，写提示词时候只需要考虑写字符串，不用写冗长的在字典。因为本质上都是给模型输入一个字符串，那么我们直接输入字符串的方式会更加的符合直觉。
+对比示例：
+### OpenAI风格调用
+```python
+from openai import OpenAI
+client = OpenAI()
+messages = [
+    {"role": "system", "content": "你是一个{{ what }}助手，帮助用户解决他提出的问题"},
+    {"role": "user", "content": "1+1 = ?"}
+]
+response = client.chat.completions.create(
+    model="gpt-4",  
+    messages=messages
+)
+print(response['choices'][0]['message']['content'])
+
+```
+
+### LangChain
+```python
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+import openai
+
+prompt_template = ChatPromptTemplate([
+    ("system", "You are a helpful assistant."),
+    MessagesPlaceholder("msgs")
+])
+llm = OpenAI(model="gpt-4", openai_api_key="YOUR_API_KEY")
+llm_chain = LLMChain(prompt=prompt_template, llm=llm)
+user_input = [HumanMessage(content="hi!")]  # 用户的消息
+response = llm_chain.run({"msgs": user_input})
+print(response)
+
+```
+### EasyLLM
+```python
+from jinja2 import Template
+prompt_t = Template(
+    """
+    # System
+    你是一个{{ what }}助手，帮助用户解决他提出的问题
+    # User
+    1+1 = ?
+    """
+)
+res = llm(prompt_t.render(what="数学"))
+print(res)
+```
