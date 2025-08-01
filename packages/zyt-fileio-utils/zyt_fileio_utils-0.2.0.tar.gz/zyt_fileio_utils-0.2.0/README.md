@@ -1,0 +1,564 @@
+# zyt_fileio_utils
+
+[![PyPI Version](https://img.shields.io/pypi/v/zyt_fileio_utils.svg)](https://pypi.org/project/zyt_fileio_utils/)
+[![License](https://img.shields.io/pypi/l/zyt_fileio_utils.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/pypi/pyversions/zyt_fileio_utils.svg)](https://www.python.org/downloads/)
+
+**`zyt_fileio_utils`** 是一个专注于文件读写和配置管理的 Python 工具包，提供文本、JSON、TOML、YAML 等多格式的读写与配置文件处理函数，兼顾实用性和扩展性，方便开发者快速完成文件I/O及配置加载等任务。
+
+> 📌 当前版本：`v0.2.0` ｜ 🆕 [查看更新日志 »](#更新日志)
+
+---
+
+## 功能特性
+
+### 高健壮性与稳定性
+- 兼容 str 与 pathlib.Path 类型路径参数。
+- 拥有完善的raise机制，严格明确错误类型，精细的错误信息与返回完整的错误信息链路。
+- 文件读取支持自定义各种编码格式的内容。
+- 兼容多种格式配置读写，方便统一管理项目配置。
+- 提供根据文件扩展名自动读写对应格式的配置文件函数。
+- 接受 Python 字典或任意符合 Mapping 协议的对象。
+
+### 文本文件读写：
+- 将列表保存或追加为 TXT 文件，每个元素单独一行。
+- 从 TXT 文件读取列表，支持自动解析数据结构。
+- 读取整个文本文件为字符串
+- 将字符串保存为 TXT 文件，支持覆盖或追加写入文本内容。
+
+### JSON 文件读写：
+- 将字典保存为格式化 JSON 文件，支持中文及缩进。
+- 将字典追加合并到 JSON 文件，支持中文及缩进。
+- 读取 JSON 文件，加载为字典，支持递归合并默认配置。
+- 读取与写入任何 JSON 支持的文件，支持中文及缩进。
+
+### TOML 与 YAML 文件读写： 
+- 将字典保存为 TOML 文件。
+- 将字典追加合并到 TOML 文件。
+- 读取 TOML 配置文件，支持递归合并默认配置。
+- 将字典保存为 YAML 文件。
+- 将字典追加合并到 YAML 文件。
+- 读取 YAML 配置文件，支持递归合并默认配置。
+- 支持递归合并嵌套字典，自动补全默认配置缺失字段。
+
+### 配置文件读写： 
+- 自动根据扩展名保存字典
+- 自动根据扩展名追加字典
+- 自动根据扩展名读取字典
+
+---
+
+## 安装
+
+你可以通过 `pip` 安装这个工具集：
+
+```bash
+pip install zyt_fileio_utils
+```
+
+---
+
+## API 文档
+
+> 注：所有以 dict 为说明的参数，均接受 Python 字典或任意符合 Mapping 协议的对象（如 dict, ChainMap 等）。
+
+---
+
+### 文本文件读写（`textio`模块）
+
+---
+
+#### 🔹 **`save_list_to_txt(txt_path, data_list, dedup=False, skip_empty=False, encoding="utf-8")`**
+**功能**: 将列表数据保存到 TXT 文件中，每个元素占一行。如果文件不存在则创建，存在则覆盖。支持去重和跳过空行。
+
+**参数**:
+- `txt_path` (str 或 Path): 保存文件路径。
+- `data_list` (list): 待保存的数据列表。
+- `dedup` (bool, 可选): 是否去重，默认 False。
+- `skip_empty` (bool, 可选): 是否跳过空字符串，默认 False。
+- `encoding` (str, 可选): 文件编码，默认 "utf-8"。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: 列表中的元素类型无法被转换为字符串写入文件。
+- `OSError`: 文件写入失败（如路径不存在且无法创建、权限问题等）。
+
+---
+
+#### 🔹 **`add_list_to_txt(txt_path, data_list, dedup=False, skip_empty=False, encoding="utf-8")`**
+**功能**: 将列表数据数据追加保存到 TXT 文件中，每个元素占一行。如果文件不存在则创建，存在则追加。支持去重和跳过空行。
+
+**参数**:
+- `txt_path` (str 或 Path): 保存文件路径。
+- `data_list` (list): 待保存的数据列表。
+- `dedup` (bool, 可选): 是否去重，默认 False。
+- `skip_empty` (bool, 可选): 是否跳过空字符串，默认 False。
+- `encoding` (str, 可选): 文件编码，默认 "utf-8"。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: 列表中的元素类型无法被转换为字符串写入文件。
+- `OSError`: 文件写入失败（如路径不存在且无法创建、权限问题等）。
+
+---
+
+#### 🔹 **`read_list_from_txt(txt_path, parse=False, encoding="utf-8")`**
+**功能**: 从 TXT 文件中读取列表，支持将每行文本解析为 Python 数据结构。
+
+**参数**:
+- `txt_path` (str 或 Path): 读取文件路径。
+- `parse` (bool, 可选): 是否对每行文本做 ast.literal_eval 解析，默认 False。
+- `encoding` (str, 可选): 文件编码，默认 "utf-8"。
+
+**返回**:
+- list: 读取的列表数据。
+
+**异常**:
+- `FileNotFoundError`: 文件不存在。
+- `SyntaxError / ValueError`: 若 parse=True 时，某行不是合法的 Python 表达式。
+- `OSError`: 文件读取失败（如权限问题）。
+
+---
+
+#### 🔹 **`save_text(txt_path, text, encoding="utf-8")`**
+**功能**: 保存字符串文本到文件，如果文件存在则覆盖。
+
+**参数**:
+- `txt_path` (str 或 Path): 文件路径。
+- `text` (str): 要写入的文本内容。
+- `encoding` (str, 可选): 文件编码，默认 "utf-8"。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: 数据类型错误，不能被写入文件。
+- `OSError`: 文件写入失败（如路径不存在且无法创建、权限问题等）。
+
+---
+
+#### 🔹 **`add_text(txt_path, text, encoding="utf-8")`**
+**功能**: 追加保存字符串文本到文件，如果文件存在则追加。
+
+**参数**:
+- `txt_path` (str 或 Path): 文件路径。
+- `text` (str): 要写入的文本内容。
+- `encoding` (str, 可选): 文件编码，默认 "utf-8"。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: 数据类型错误，不能被写入文件。
+- `OSError`: 文件写入失败（如路径不存在且无法创建、权限问题等）。
+
+---
+
+#### 🔹 **`read_text(txt_path, encoding="utf-8")`**
+**功能**: 读取整个文本文件内容为字符串。
+
+**参数**:
+- `txt_path` (str 或 Path): 文件路径。
+- `encoding` (str, 可选): 文件编码，默认 "utf-8"。
+
+**返回**:
+- str: 文件内容字符串。
+
+**异常**:
+- `FileNotFoundError`: 文件不存在。
+- `OSError`: 文件读取失败（如权限问题）。
+
+---
+
+### JSON 文件读写（`jsonio`模块）
+
+---
+
+#### 🔹 **`save_dict_to_json(json_path, data_dict, encoding="utf-8")`**
+**功能**: 将字典数据保存为格式化 JSON 文件，支持中文字符。
+
+**参数**:
+- `json_path` (str 或 Path): 保存路径。
+- `data_dict` (dict): 待保存的字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: `data_dict` 不是 `Mapping` 类型，或包含无法序列化为 JSON 的数据。
+- `OSError`: 文件写入失败。
+
+---
+
+#### 🔹 **`add_dict_to_json(json_path, update_dict, encoding="utf-8")`**
+**功能**: 向现有 JSON 文件中添加或更新字段，若文件不存在则新建，支持递归合并。
+
+**参数**:
+- `json_path` (str 或 Path): 目标 JSON 文件路径。
+- `update_dict` (dict): 要添加的键值对。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: `update_dict` 不是 `Mapping` 类型，或包含无法序列化的数据。
+- `ValueError`: 原文件内容不是不是 `Mapping` 类型，无法合并。
+- `json.JSONDecodeError`: 原文件不是合法 JSON 格式。
+- `OSError`: 读取或写入文件失败。
+
+---
+
+#### 🔹 **`read_dict_from_json(json_path, default=None, strict=False, encoding="utf-8")`**
+**功能**: 读取 JSON 文件为字典，支持提供默认配置并递归合并。若非严格模式，读取失败将返回默认值。
+
+**参数**:
+- `json_path` (str 或 Path): 读取路径。
+- `default` (dict, 可选): 默认配置字典，默认为空字典。
+- `strict` (bool, 可选): 是否严格模式，若为 `True`，文件不存在或解析失败将抛出异常。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- `dict`: 合并后的配置字典。
+
+**异常**（在 `strict=True` 时）:
+- `FileNotFoundError`: 文件不存在。
+- `json.JSONDecodeError`: JSON 文件内容非法。
+- `ValueError`: 解析结果不是字典。
+- `TypeError`: `default` 不是 `Mapping` 类型。
+- `OSError`: 读取文件失败。
+
+---
+
+#### 🔹 **`save_json(json_path, data, encoding="utf-8")`**
+**功能**: 将任意合法 JSON 数据保存为格式化文件，支持中文字符。
+
+**参数**:
+- `json_path` (str 或 Path): 保存路径。
+- `data` (任意 JSON 类型): 可被序列化的 JSON 数据。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 无。
+
+**异常**:
+- `TypeError`: 数据无法序列化为 JSON。
+- `OSError`: 文件写入失败。
+
+---
+
+#### 🔹 **`read_json(json_path, encoding="utf-8")`**
+**功能**: 读取 JSON 文件为 Python 数据，支持任意 JSON 类型（如 list, dict, int 等）。
+
+**参数**:
+- `json_path` (str 或 Path): 读取路径。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 任意类型: JSON 解码后的数据。
+
+**异常**:
+- `FileNotFoundError`: 文件不存在。
+- `json.JSONDecodeError`: 文件不是合法 JSON。
+- `OSError`: 文件读取失败。
+
+---
+
+### TOML 文件读写（`tomlio`模块）
+
+---
+
+#### 🔹 **`save_dict_to_toml(toml_path, data_dict, encoding="utf-8")`**
+**功能**: 将字典保存为格式化 TOML 文件。
+
+**参数**:
+- `toml_path` (str 或 Path): 保存路径。
+- `data_dict` (dict): 要保存的字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 无。
+
+**异常**:
+- `ImportError`: 未安装 `toml` python包。
+- `TypeError`: `data_dict` 不是 `Mapping` 类型，或包含无法序列化为 TOML 的数据。
+- `OSError`: 文件写入失败。
+
+---
+
+#### 🔹 **`add_dict_to_toml(toml_path, update_dict, encoding="utf-8")`**
+**功能**: 向已有 TOML 文件添加或更新字段，不存在则新建文件，支持递归合并。
+
+**参数**:
+- `toml_path` (str` 或 Path`): TOML 文件路径。
+- `update_dict` (dict): 要更新的字段字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**: 无
+
+**异常**:
+- `ImportError`: 未安装 `toml` python包。
+- `TypeError`: `update_dict` 不是 `Mapping` 类型，或包含无法序列化为 TOML 的数据。
+- `toml.TomlDecodeError`: 原文件内容格式非法。
+- `ValueError`: 原始数据不是 `Mapping` 类型，无法合并。
+- `OSError`: 文件打开或写入失败。
+
+---
+
+#### 🔹 **`read_dict_from_toml(toml_path, default=None, strict=False, encoding="utf-8")`**
+**功能**: 读取 TOML 配置为字典，并与默认值递归合并。若非严格模式，读取失败将返回默认值。
+
+**参数**:
+- `toml_path` (str 或 Path): 读取路径。
+- `default` (dict, 可选): 默认配置字典，默认为空字典。
+- `strict` (bool, 可选): 是否严格模式，若为 `True`，文件不存在或解析失败将抛出异常。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- dict: 合并后的配置字典。
+
+**异常**:
+- `ImportError`: 未安装 `toml` 模块。
+- `TypeError`: `default` 不是 `Mapping` 类型。
+- `FileNotFoundError`: 文件不存在。（仅在 `strict=True`时）
+- `toml.TomlDecodeError`: TOML 文件解析失败。（仅在 `strict=True`时）
+- `ValueError`: 解析结果不是字典类型。（仅在 `strict=True`时）
+- `OSError`: 文件读取失败。（仅在 `strict=True`时）
+
+--
+
+### YAML 文件读写（`yamlio`模块）
+
+---
+
+#### 🔹 **`save_dict_to_yaml(yaml_path, data_dict, encoding="utf-8")`**
+**功能**: 将字典保存为 YAML 格式文件。
+
+**参数**:
+- `yaml_path` (str 或 Path): 保存路径。
+- `data_dict` (dict): 要保存的字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 无。
+
+**异常**:
+- `ImportError`: 未安装 `pyyaml` python包。
+- `TypeError`: `data_dict` 不是 `Mapping` 类型，或包含无法序列化为 YAML 的数据。
+- `OSError`: 文件写入失败。
+
+---
+
+#### 🔹 **`add_dict_to_yaml(yaml_path, update_dict, encoding="utf-8")`**
+**功能**: 向已有 YAML 文件添加或更新字段，不存在则新建文件，支持递归合并。
+
+**参数**:
+- `yaml_path` (str` 或 Path`): YAML 文件路径。
+- `update_dict` (dict): 要更新的字段字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**: 无
+
+**异常**:
+- `ImportError`: 未安装 `pyyaml` python包。
+- `TypeError`: `update_dict` 不是 `Mapping` 类型，或包含无法序列化为 YAML 的数据。
+- `yaml.YAMLError`: 原文件内容格式非法。
+- `ValueError`: 原始数据不是 `Mapping` 类型，无法合并。
+- `OSError`: 文件打开或写入失败。
+
+---
+
+#### 🔹 **`read_dict_from_yaml(yaml_path, default=None, strict=False, encoding="utf-8")`**
+**功能**: 读取 YAML 文件为字典，并与默认值递归合并。若非严格模式，读取失败将返回默认值。
+
+**参数**:
+- `yaml_path` (str 或 Path): 读取路径。
+- `default` (dict, 可选): 默认配置字典，默认为空字典。
+- `strict` (bool, 可选): 是否严格模式，若为 `True`，文件不存在或解析失败将抛出异常。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- dict: 合并后的配置字典。
+
+**异常**:
+- `ImportError`: 未安装 `pyyaml` python包。
+- `TypeError`: `default` 不是 `Mapping` 类型。
+- `FileNotFoundError`: 文件不存在。（仅在 `strict=True`时）
+- `yaml.YAMLError`: YAML 文件解析失败。（仅在 `strict=True`时）
+- `ValueError`: 解析结果不是字典类型。（仅在 `strict=True`时）
+- `OSError`: 文件读取失败。（仅在 `strict=True`时）
+
+---
+
+### 配置文件读写（`configio`模块）
+
+---
+
+#### 🔹 **`save_dict_to_auto_ext(dict_path, data_dict, encoding="utf-8")`**
+**功能**: 自动根据文件扩展名将字典保存为JSON、TOML或YAML文件。
+
+**参数**:
+- `dict_path` (str 或 Path): 保存路径。
+- `data_dict` (dict): 要保存的字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- 无。
+
+**异常**:
+- `ImportError`: 未安装 `pyyaml` python包（仅在后缀为.yml或.yaml时） 或 未安装 `toml` python包(仅在后缀为.toml时)
+- `TypeError`: `data_dict` 不是 `Mapping` 类型，或包含无法序列化为 `Mapping` 的数据。
+- `OSError`: 文件写入失败。
+- `ValueError`: 不支持的配置文件格式。
+
+---
+
+#### 🔹 **`add_dict_to_auto_ext(dict_path, update_dict, encoding="utf-8")`**
+**功能**: 自动根据文件扩展名向配置字典中添加或更新字段，如果文件不存在则新建，支持递归合并。
+
+**参数**:
+- `dict_path` (str` 或 Path`): 文件路径。
+- `update_dict` (dict): 要更新的字段字典。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**: 无
+
+**异常**:
+- `ImportError`: 未安装 `pyyaml` python包（仅在后缀为.yml或.yaml时） 或 未安装 `toml` python包(仅在后缀为.toml时)
+- `TypeError`: `update_dict` 不是 `Mapping` 类型，或包含无法序列化为 YAML 的数据。
+- `json.JSONDecodeError`: 原文件内容格式非法。（仅在后缀为.json时）
+- `toml.TomlDecodeError`: 原文件内容格式非法。（仅在后缀为.toml时）
+- `yaml.YAMLError`: 原文件内容格式非法。（仅在后缀为.yml或.yaml时）
+- `ValueError`: 不支持的配置文件格式，或原始数据不是 `Mapping` 类型，无法合并。
+- `OSError`: 文件打开或写入失败。
+
+---
+
+#### 🔹 **`read_dict_from_auto_ext(dict_path, default=None, strict=False, encoding="utf-8")`**
+**功能**: 自动根据文件扩展名加载配置文件，并与默认值递归合并。若非严格模式，读取失败将返回默认值。
+
+**参数**:
+- `dict_path` (str 或 Path): 文件路径。
+- `default` (dict, 可选): 默认配置字典，默认为空字典。
+- `strict` (bool, 可选): 是否严格模式，若为 `True`，文件不存在或解析失败将抛出异常。
+- `encoding` (str, 可选): 文件编码，默认 `"utf-8"`。
+
+**返回**:
+- dict: 合并后的配置字典。
+
+**异常**:
+- `ImportError`: 未安装 `pyyaml` python包（仅在后缀为.yml或.yaml时） 或 未安装 `toml` python包(仅在后缀为.toml时)
+- `TypeError`: `default` 不是 `Mapping` 类型。
+- `FileNotFoundError`: 文件不存在。（仅在 `strict=True`时）
+- `json.JSONDecodeError`: JSON 文件解析失败。（仅在 `strict=True`时，且后缀为.json）
+- `toml.TomlDecodeError`: TOML 文件解析失败。（仅在 `strict=True`时，且后缀为.toml）
+- `yaml.YAMLError`: YAML 文件解析失败。（仅在 `strict=True`时，且后缀为.yml或.yaml）
+- `ValueError`: 解析结果不是字典类型。（仅在 `strict=True`时）。或不支持的配置文件格式
+- `OSError`: 文件读取失败。（仅在 `strict=True`时）
+
+---
+
+### 使用示例
+
+```python
+from zyt_fileio_utils import save_text, add_text, read_text
+
+# 保存字符串内容
+save_text("data/output.txt", "Hello", encoding="utf-8")
+add_text("data/output.txt", " World", encoding="utf-8")
+
+# 读取内容
+data = read_text("data/output.txt")
+
+print(data)  # "Hello World"
+```
+
+```python
+from zyt_fileio_utils import save_dict_to_toml, read_dict_from_toml
+
+# 保存部分配置
+save_dict_to_toml("data/output.toml", {"age": 15}, encoding="utf-8")
+
+# 读取配置，使用默认值补全缺失字段
+data = read_dict_from_toml("data/output.toml", default={"name": "Bob", "age": 20})
+
+print(data)  # {"name": "Bob", "age": 15}
+```
+
+---
+
+## 更新日志
+
+### V0.2.0
+
+### 2025-08-01
+
+### ✨ 新增功能
+
+1. **`configio`模块**
+移动原内容，新增自动根据文件扩展名进行对应配置文件读写操作函数：
+  - ① `read_dict_from_auto_ext`:自动根据文件扩展名加载配置文件，如果文件不存在或解析失败则使用默认配置，并递归补全缺失的键。
+  - ② `save_dict_to_auto_ext`: 自动根据文件扩展名将字典保存为JSON、TOML或YAML文件。
+  - ③ `add_dict_to_auto_ext`: 自动根据文件扩展名向配置字典中添加或更新字段，如果文件不存在则新建。
+
+2.**新增配置文件添加与更新函数**
+  - ① `add_dict_to_toml`:向 TOML 文件中添加或更新字段，如果文件不存在则新建。
+  - ② `add_dict_to_yaml`: 向 YAML 文件中添加或更新字段，如果文件不存在则新建。
+  - ③ `add_dict_to_json`: 向 JSON 文件中添加或更新字段，如果文件不存在则新建。
+
+
+### ⚙️ 功能优化
+
+1. **重构代码模块**
+  - ① 拆分原`configio`模块，分为`tomlio`模块与`yamlio`模块。
+  - ② 原`configio`模块功能改为支持toml、yaml、json三种格式的统一配置代码。
+
+2. **`textio`模块**
+拆分原保存函数为追加与覆盖两个函数，独立与明确函数职责
+  - ① `save_list_to_txt`:将 list 存入 txt 文件，每个元素占一行，如果文件不存在则新建，存在则覆盖。
+  - ② `add_list_to_txt`: 将 list 存入 txt 文件，每个元素占一行，如果文件不存在则新建，存在则追加。
+  - ③ `save_text`: 保存纯文本内容，如果文件不存在则新建，存在则覆盖。
+  - ④ `add_text`: 保存纯文本内容，如果文件不存在则新建，存在则追加。
+  - ⑤ `_write_list_to_txt`: list写入辅助函数。
+  - ⑥ `_write_list_to_txt`: 文本写入辅助函数。
+
+3. **优化整体函数结构，保证函数的健壮性**
+  - ① 各函数新增`encoding`参数，支持自定义读取与写入的编码格式。
+  - ② 编写与完善各函数错误反馈体系，增加与优化完善的raise机制，严格明确错误类型与返回完整的错误信息链路
+  - ③ 优化部分代码结构，提示函数稳定性与效率
+
+4. **优化配置文件读取函数**
+`read_dict_from_json`,`read_dict_from_yaml`,`read_dict_from_toml`:
+  - ① 各配置文件读取函数新增`strict`参数：
+    - 若为True：如果文件不存在或解析失败则抛出异常。
+    - 若为False：如果文件不存在或解析失败则读取默认配置。
+
+5. **列表写入新增参数功能**
+`save_list_to_txt`,`add_list_to_txt`:
+  - ① 新增`dedup`参数，支持写入文件时是否进行去重（去重保持原列表顺序）
+  - ② 新增`skip_empty`参数，支持写入文件时是否跳过空字符串，空内容等。
+
+### 📜 完整更新日志
+
+ **点此查看所有历史版本和详细改动说明：**  
+🔗[查看完整更新日志 »](CHANGELOG.md)
+
+---
+
+## 贡献
+
+欢迎贡献代码！
+
+## 许可证
+
+本项目基于 [MIT 许可证](LICENSE) 开源。
+
+## 作者
+
+- **ZhangYuetao** - 项目开发者
+- 邮箱: zhang894171707@gmail.com
