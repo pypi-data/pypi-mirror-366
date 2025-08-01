@@ -1,0 +1,1991 @@
+CHANGES
+=======
+
+11.1.0
+------
+
+* doc: How hardware managers ignore certain devices
+* Fix wrong result of filter\_device in the base interface
+* Log efibootmgr output as part of the system logs
+* docs: remove tinyipa references
+* Hint at sector sizes when reporting an invalid written image
+* Trivial: avoid root logger in modules
+* Fix missing [mdns] options
+* Vendor own option for tls cert file and key file
+* Graceful way for hardware managers to ignore certain devices
+* Split hardware manager initialize out of evaluate\_hardware\_support
+* Provide usable \_\_repr\_\_ for serializable objects
+* Fix software RAID creation on different physical devices
+
+11.0.0
+------
+
+* Remove unused tinyipa CI job
+* Remove TinyIPA jobs
+* netutils: Use ethtool ioctl to get permanent mac address
+* Remove eventlet from Ironic Python Agent
+* Remove unnecessary +x mode
+* trivial: Fix missing extra space in logging
+* Base standalone job on redfish standalone
+* Implement manual cleaning for ContainerHardwareManager
+* Ironic Config Intergration for IPA
+* Fix test\_timeout on Python3.13
+* Run UT of metricis\_lib
+* Remove eventlet greendns patching
+* Add ContainerHardwareManager
+* Missing 'interface' in Clean Step
+* Update master for stable/2025.1
+
+10.2.0
+------
+
+* Doc: Fix incorrect function in example code
+* Missing \_\_init\_\_.py file
+* Fix the way qemu-img is called with prlimits
+* Remove agent\_token\_required upgrade knob
+* Remove pre-victoria cycle agent token transition upgrade support
+* Lockout agent command results if a token is received
+* Revert "Add token validation to GET command endpoints"
+* Ensure IPA is locked down in rescue mode
+* Add token validation to GET command endpoints
+* oci: permit an 'unknown' but valid image
+* oci: Enable embedded authentication passing
+* Trivial:Remove codespell job (moved to pre-commit)
+* follow-up: update release note for bootable container work
+* Revert "Configure ipa bugfix 10.1"
+* Bootable container support
+* Configure ipa bugfix 10.1
+
+10.1.0
+------
+
+* Trivial: Fix config help text about clock syncing
+* Collect bus and driver for interfaces
+* migrate lints to pre-commit
+* fix sphinx errors with incorrect backticks
+* avoid f-strings in logging per flake8
+* switch from 'not is' to 'is not' for pep8
+* Trivial: fix reference of unusable i18n prefix
+* Fix errors in the function erase\_devices\_express
+* Silence modprobe loading errors for IPMI drivers
+* Trivial - Follow Up: No Retry on Disk Space Error
+* Treat 'No space left on device' error as fatal
+* Add a release note for 939340
+* Fix RAID volume name
+* Remove dependency on ironic-lib
+* Add support for burnin-gpu
+* Replace crypt module
+* reno: Update master for unmaintained/2023.1
+* Inventoried MAC address for only ipv6 addresses
+
+10.0.0
+------
+
+* Add a command to lock down the agent
+* A hardware manager call for a full sync before shutdown
+* Vendor metrics library from Ironic-Lib & deprecate
+* Correct invalid docstrings; s/Found/Error/
+* Migrate more trivial code from ironic-lib
+* Remove use of ironic\_lib i18n module
+* Cleanup usage of imported-from-ironic-lib disk\_utils
+* Remove Python 3.8 support
+* Capture and log sector sizes
+* CI: Remove metalsmith legacy jobs
+* Warn when the provided checksum algorithm does not match the detected
+* Migrate to oslo.utils-based format\_inspector
+* add pyproject.toml to support pip 23.1
+* tox: Drop envdir
+* Drop dependency on netifaces
+* Get rid of pkg\_resources
+* Update master for stable/2024.2
+* Trivial: fix variable in formatting
+
+9.14.0
+------
+
+* Check for the existence of an IPMI device
+* agent: make \_find\_routable\_addr work with IPv4- and IPv6-only setups
+* Inspect non-raw images for safety
+* Remove and disable examples job
+* Fix series in release notes
+* [doc] Clarify Step return values
+* update dynamic-login to mention the sshkey option
+
+9.13.0
+------
+
+* Adding support to view indiv. cpu-core info
+* Follow up to broken Zuul config
+* Fix versions in release notes
+
+9.12.0
+------
+
+* Fix issues caused/found by new codespell
+* Fix negative lookahead assertion syntax error
+* Enable voting for codespell CI
+* Call evaluate\_hardware\_support exactly once per hwm
+* reno: Update master for unmaintained/zed
+* Remove eventlet workaround
+* Remove old excludes
+* Unmount config drives
+* destroy\_disk\_metadata: support 4096 sector size
+* add mixed matching of root device hints
+* Step to clean UEFI NVRAM entries
+* Fix mocking for TestGenericHardwareManager
+* Update ironic-lib min required version
+* Update master for stable/2024.1
+
+9.10.0
+------
+
+* Import disk\_{utils,partitioner} from ironic-lib
+* reno: Update master for unmaintained/xena
+* reno: Update master for unmaintained/wallaby
+* reno: Update master for unmaintained/victoria
+* Update regex to detect closed branch
+* Fix unit tests after ironic-lib changes
+* Use assert\_not\_called
+* USB device discovery
+* Force constraints when installing a package during tox test
+* reno: Update master for unmaintained/yoga
+* Trivial: avoid deprecated utcnow
+
+9.9.0
+-----
+
+* Also retry inspection on HTTP CONFLICT
+* [codespell] Adding git-blame-ignore-revs to clear codespell changes
+* Drop usage of run\_as\_root
+* Add support for reporting CPU socket number
+* [Codespell] Adding tox target to CI (Non-Voting)
+* Update python classifier in setup.cfg
+* Make inspection URL optional if the collectors are provided
+* Support several API and Inspector URLs
+* Add missing headers to the inspection callback
+* Update to latest pep8/code style versions
+* Add tox target and configuration for codespell
+* [codespell] Fix spelling issues in IPA
+* Remove deprecated pbr options
+* Remove unnecessary egg\_info options
+* Fix inspector retries to not take a long time
+* Reformat and update the section on injecting root credentials
+* Add a jitter to heartbeat retries
+* Retry in ProxyError during post inspector data
+* Revert "Fix vmedia network config drive handling"
+* Fix referencing to the raid\_device var which is not set
+* Parse efibootmgr type and details
+
+9.8.0
+-----
+
+* Handle different device outputs for multipath
+* docs: improve rootpwd password generation command
+* fix multipathd error handling release notes
+* Fix vmedia network config drive handling
+* Test coverage for efi\_utils.get\_boot\_record
+* Remove standby.cache\_image support
+* Get numa\_node info when collecting pci devices info
+* improve multipathd error handling
+* Replace shlex module with helper function
+* Retry on checksum failures
+* implement basic-auth support for user-image download process
+* Add additional mock tests to unit tests for read only devices. Change ordering to ensure mock tests work correctly
+* Update master for stable/2023.2
+
+9.7.0
+-----
+
+* Add mlnx deploy\_step entry to enable deploy time firmware
+* Add get\_service\_steps logic to the agent
+* Extend the lookup timeout to 600 seconds
+* preserve/handle config drives on 4k block devices
+* Use sparkingly new metalsmith cs9 job
+* Handle the node being locked
+* Conditional creation of RAIDed ESP for UEFI Software RAID
+
+9.6.0
+-----
+
+* minor: fix release notes file path
+* tox: Remove basepython
+* Add python3.10 support in testing runtime
+* Log the number of bytes downloaded
+* Fix nvidia hardware manager url parser to permit https
+* Fix Bandit errors
+
+9.5.0
+-----
+
+* Allow md5 to be disabled from the conductor
+* Follow-up Add documentation for MellanoxDeviceHardwareManager
+* Ironic (and IPA) use launchpad now
+* Revert disabling MD5 checksums
+* Add support for CentOS SUM files
+* Add network interface speed to the inventory
+* Fix checksum validation logic
+* Deprecate LLDP in inventory in favour of a new collector
+* Disable MD5 image checksums
+* Upgrade to latest hacking - v6
+* Fix UTF-16 result handling for efibootmgr
+* Report system firmware information in the inventory
+* Trivial: formatting issue in the inventory docs
+* [Trivial] Fix typo in efi\_utils
+* Update master for stable/2023.1
+
+9.4.0
+-----
+
+
+9.3.0
+-----
+
+* Make reno ignore bugfix eol tags
+* Make logs collection a hardware manager call
+* Readd usedevelop true to tox.ini
+* update NVIDIA NIC firmware images and settings by ironic-python-agent
+* Remove old, unused proxy.sh file
+* Fix for tox4 and setuptools
+* modify error word node
+* Fixes for tox 4.0
+* Fix create configuration unit tests
+
+9.2.0
+-----
+
+* prioritize lsblk as a source of device serials
+* Switch to 2023.1 Python3 unit tests and generic template name
+* Update master for stable/zed
+* Update release versions for yoga
+* Fix failure of bind mount in \_install\_grub2
+
+9.1.0
+-----
+
+* SoftwareRAID: Enable skipping RAIDS
+* Create RAIDs with volume name
+* add openstack-python3-zed-jobs-arm64 job
+* Trivial: Fix reno for software raid fix
+* Fix software raid output poisoning
+* remove unicode prefix from code
+* Improve function list\_block\_devices\_check\_skip\_list
+
+9.0.0
+-----
+
+* Enable skipping disks for cleaning
+* Remove unused lines of code
+* Use lsblk json output for safety\_check\_block\_device
+* Guard shared device/cluster filesystems
+* Drop support for instance netboot
+* Fix passing kwargs in clean steps
+* Drop python2 from bindep.txt
+* Warn when smartctl not found
+* Remove importlib-metadata from requirements
+* Gather details about bond interfaces if present
+* Collect udev properties in the ramdisk logs
+* Remove oslo.serialization dependency
+* Fix discovering WWN/serial for devicemapper devices
+* Use json for lsblk output
+* Drop support for Python 3.6 and 3.7
+* Add ipa-tox-examples job to gate
+* Update oslo.log requirement to 4.6.1
+* CI: Removing ironic job queue
+* Multipath Hardware path handling
+* Add a metalsmith job with legacy boot
+* Revert "The Python 3.6 and Python 3.7Support has been dropped since yaga"
+* Remove support for distributions with Python 3.6
+* Drop lower-constraints.txt and its testing
+* The Python 3.6 and Python 3.7Support has been dropped since yaga
+
+8.6.0
+-----
+
+* Do not try to guess EFI partition path by its number
+* Use a pre-defined partition UUID to detect configdrive on GPT
+* Collect a full lsblk output in the ramdisk logs
+* Use Werkzeug modern version
+* Add Python3 zed unit tests
+* Update master for stable/yoga
+
+8.5.0
+-----
+
+* Improve efficiency of storage cleaning in mixed media envs
+* Create fstab entry with appropriate label
+* Add non-voting dib CentOS Stream 9 job
+* Use utf-16-le if BOM not present
+* Stop defaulting the standalone job to netboot; use the correct boot mode
+* Add \`mount\` and \`parted -l\` to the collected commands
+* Refactor efi\_utils for easier maintaining and debugging
+* Run partx in verbose mode to simplify debugging
+* Move prepare\_boot\_partitions\_for\_softraid to raid\_utils
+* Rescan device after filesystem creation
+* CI: be explicit that the jobs are using the DIB ramdisk
+
+8.4.0
+-----
+
+* Clean up release notes
+* Make the standalone job voting again
+* Use canonical device name for RAID device for ESP
+* SoftwareRAID: Use efibootmgr (and drop grub2-install)
+* Burn-in: Dynamic network pairing
+* [trivial] Fix typo in \_\_init\_\_.py
+* Re-add python 3.6/3.7 in classifier
+
+8.3.0
+-----
+
+* Burn-in: Add options for named log files
+* Instruct qemu-img to write image zeros to disk
+* Prepare for bugfix release
+* [trivial] Fix Xena release notes versions
+* Burn-in: Add SMART self test to disk burn-in
+* Use only Yoga tests
+* Test python 3.6 for distributions compatibility
+* Get rid of lambda in RealFilePartitioningTestCase
+* Updating yoga tested python versions in classifier
+* Trivial: split away efibootmgr helpers
+* Fix compatibility with disk\_utils.find\_efi\_partition
+* Use two more functions from disk\_utils
+* Call execute from ironic-lib in hardware.py
+* Move manage\_uefi from the image extension to a public location
+* Remove metalsmith centos7 job
+* Move rescan device function to general utils
+* Simplify error messages when running clean/deploy step
+* Re-read the partition table with partx -a, part 2
+* Re-read the partition table with partx -a
+* Fix UEFI record regex
+* Delete EFI boot entry duplicate labels first
+* Always include the oslo\_log log file in ramdisk logs
+* Stop requiring mocking of utils.execute if ironic-lib execute is mocked
+* Fix error messages in burnin code
+* Respect global parameters when downloading a configdrive
+* Assert EFI part UUID is not None before editing fstab
+* Software RAID: Call udev\_settle before creation
+* Add Python3 yoga unit tests
+* Update master for stable/xena
+
+8.2.0
+-----
+
+* Trivial: minor fixes in error messages
+* Trivial: better debugging in list\_all\_block\_devices
+* Check the network burnin roles and partner
+* Move loading of IPMI module loading to a single point
+* Expose BMC MAC address in inventory data
+* Add lower-constraints job to current development branch
+* Output verbose info from efibootmgr
+* Increase version of hacking and pycodestyle
+
+8.1.0
+-----
+
+* Force immediate NTP time sync with chronyd at IPA startup
+* Burn-in: Add network step
+* Catch ismount not being handled
+* Only mount the ESP if not yet mounted
+* Coalesce heartbeats
+* Reduce logging verbosity when collecting logs
+* Remove lower-constraints job
+* Utilize CSV file for EFI loader selection
+* Ignore efi grub2-install failure
+* Changed minversion in tox to 3.18.0
+
+8.0.0
+-----
+
+* Clean-up releasenotes for 8.0.0 release
+* Stop accepting duplicated configdrive
+* Refactor: use convert\_image from ironic\_lib
+* Limit qemu-img execution arenas
+* Make \_get\_efi\_bootloaders return relative paths
+* Burn-in: Add disk step
+* Rewrite write\_image.sh in Python
+* Enable out-of-order writes when writing whole disk images
+* Do not serialize command\_params
+* Migrate functional tests for work\_on\_disk from ironic-lib
+* Remove the iscsi extension
+* Fix NVMe Partition image on UEFI
+* setup.cfg: Replace dashes with underscores
+* Import deployment logic from ironic-lib
+* Burn-in: Add memory step
+* Burn-in: Add CPU step
+* Stop testing the iscsi deploy interface
+* Fix getting memory size in some lshw output
+* unit tests: Capture log output
+* Fix missing data in log messages
+* Remove runtime dependency on pbr
+* [trivial] Add versions to wallaby release notes
+* Add a call to "udevadm settle" in write\_image.sh
+* Software RAID: RAID the ESPs
+* Always fall back to sysrq when power off fails
+* Do not fail network interface collection on unsupported interface
+* Capture the early logging
+* Add Python3 xena unit tests
+* Update master for stable/wallaby
+
+7.0.0
+-----
+
+* Make the virtual media job voting
+* Fix incorrect lsblk tag and add a virtual media job
+* Validate vmedia for vmedia usage
+* Do not permit IPA standalone to be enabled by conf
+* typo chanages -> changes
+* Refactor: use mounted from ironic-lib
+* Fix root UUID for streamed partition images
+* Check the base device if the read-only file cannot be read
+* Prepare to use tinycore 12
+* Remove default parameter from execute
+* Increase the memory limit for qemu-img
+* Remove nvme-cli warning and delay on nvme-format
+* Added comment about IPA logs being uploaded to Ironic
+* Allow clean\_configuration to run against full-device arrays
+* Use try\_execute from ironic-lib
+* Add support for using NVMe specific cleaning
+* Move some raid specific functions to raid\_utils
+* Fixes local boot for partition images
+* New deploy step for injecting arbitrary files
+* Remove samples from the hardware test module
+
+6.6.0
+-----
+
+* Clean up a release note
+* Fix error message with UEFI-incompatible images
+* Use variable for lsblk columns device info
+* Mock tests to return bios boot mode
+* Add release version to release notes
+* Fix UEFI boot entry creation for aarch64
+* Update minversion of tox
+* Remove lldp-timeout support
+
+6.5.0
+-----
+
+* Fix boot mode detection for partition images
+* Change default ironic\_lib invocation to flag local booting
+* Add fstab pointer to EFI partition
+* Handle situation when a configdrive is already mounted
+* Remove lower-constraints job
+* Avoid a full install in tox environments that do not need it
+* Prevent broken partition image UEFI deploys
+* Fix default disk label with partition images
+* Upgrade version of doc8
+* Generate TLS certificates with validity time in the past
+* Option to enable bootloader config failure bypass
+* Fix lower-constraints with the new pip resolver
+* Correctly decode error messages from ironic API
+* Copy any configuration from the virtual media
+* Make mdadm a soft requirement
+* Bring up VLAN interfaces and include in introspection report
+* Reuse the docs deps to benefit from constraints
+* Add clean step 'erase\_pstore'
+* Fix vendor info retrieval for some versions of lshw
+* Remove the unused coding style modules
+* Add UUID to BlockDevice object
+* Log configuration options on start-up
+* Fix physical memory calculation with new lshw
+* Updated Implementation of string interpolation delay on LOG messages
+* Support using LABEL as identifier for rootfs
+* Use TOX\_CONSTRAINTS\_FILE
+* Add example for custom disk erasure
+* Follow-up to API version setting
+* Remove nodeset option
+* Run dib ipa src jobs on ubuntu focal
+* Mark standalone job non-voting/remove from gate
+* Allow manual setting of Ironic API Version
+* update lower-constraints.txt
+* Don't run os-prober from grub2-mkconfig
+* Set safe version of hacking
+* [trivial] Remove redundant list conversion
+* Do not silently swallow errors in the write\_image deploy step
+* Reduce the duration of retries in the inspector tests
+* Log a warning of target\_boot\_mode does not match current boot mode
+* Don't try to call GRUB when root UUID is not provided
+* Use focal for tinyipa src jobs used by ipa-builder
+* Use bionic nodeset for DIB centos src jobs
+* Software RAID: Re-add missing devices
+* Add Python3 wallaby unit tests
+* Update master for stable/victoria
+
+6.4.0
+-----
+
+* Software RAID: Get component devices by md UUID
+* Software RAID: Don't delete partitions too early
+* Document ramdisk TLS and update existing TLS docs
+* Fix: make Intel CNA hardware manager none generic
+* Simplify heartbeating by removing use of select()
+* CI: Lower memory usage of VMs/Increase swap
+* Documentation: fix incorrect step names
+* When reporting that agent is busy, report the executed command
+* [doc] Clarify custom hardware manager inheritance
+* Add basic retries for inspection
+* Generate a TLS certificate and send it to ironic
+* Refactor API version negotiation code
+* Fix l-c
+* Fix backup node lookup
+* Fix and run the correct functional tests job
+* Remove unused jobs
+* Prepare to move ipa-builder jobs
+* If listen\_tls is true, enable TLS on wsgi server
+* Move ironic-standalone-ipa-src to Ubuntu Focal
+* Replace oslo's loopingcall with tenacity
+* Make WSGI server respect listen\_\* directives
+* Update the cache if we don't have a root device hint
+* Document in-band deploy steps and add more docs for custom steps
+* Refactor and fix documentation
+* Remove experimental jobs
+* Revert "Temporary disable multiple jobs to land CI fixes."
+* Increase memory for tinyipa jobs
+* Temporary disable multiple jobs to land CI fixes
+* Clarify connection error on heartbeats
+* Enable the logs collection by default
+* Add possibility to pass global request ID
+
+6.3.0
+-----
+
+* Revert "Switch the inspector job to tinyIPA until DIB is fixed"
+* Support changing the protocol part of callback\_url to https
+* Fix TypeError on agent lookup failure
+* Extends pci devices metrics
+* Examples: add deploy\_steps examples
+* set EVENTLET\_NO\_GREENDNS to 'yes'
+* Import example hardware managers from ipa-example-hardware-managers
+* Return the final RAID configuration from apply\_configuration
+* Allow erase\_devices\_metadata to be used as a deploy step
+* Update version of hacking
+* Revert jobs to dib
+* More refactoring of the image module
+* Fix bootloader install issue with MDRAID
+* Fix versions in release notes
+* Prevent un-needed iscsi cleanup
+* Set min version of tox to 3.2.1
+* Update jobs
+* Ignore devices with size 0 when collecting inventory
+
+6.2.0
+-----
+
+* Refactor part of image module
+* Limit Inspection->Lookup->Heartbeat lag
+* Switch the inspector job to tinyIPA until DIB is fixed
+* Increase the ESP partition size to 550 MiB when using software RAID
+* Fix serializing ironic-lib exceptions
+* Bump hacking min version to 3.0.1
+* Mount all vfat partitions before calling grub2
+* Fixes minor issues in the read() retries patch
+* Temporary switch to tinyipa jobs
+* Fix confusing logging when running asynchronous commands
+* Add debug message to node lookup
+* Minor clean-up follow-up to timeout on read() fix
+* Extend retries to 9, 10 seconds apart
+* Add full download retries
+* Add timeout operations to try and prevent hang on read()
+* Adds poll mode deployment support
+* Remove .travis.yml (wow, it is ancient)
+* Make get\_partition\_uuids work with whole disk images
+* Fix apidoc build
+* Document how to output journal to console
+* drop mock from lower-constraints
+* Make the install\_bootloader command asynchronous
+* Add ffi development lib to bindep
+* Add a deploy step for writing an image
+* New extension call to return partition UUIDs
+* Fix an issue with high cpu usage caused by ironic-python-agent
+* Split and move logic for partition tables
+* Switch to newer openstackdocstheme and reno versions
+* Convert jobs to dib
+* Update lower-constraints.txt
+* CI: raise DIB jobs memory to 3 GiB
+* Fix pep8 errors
+* Hint 404 lookup failures for Operators
+* Add py38 package metadata
+* Add Python3 victoria unit tests
+* Update master for stable/ussuri
+* Fix TypeError with newer version of lshw
+* Add function to calculate memory
+
+6.1.0
+-----
+
+* Add timeout and retries when connection to an image server
+* Upgrade flake8-import-order version to 0.17.1
+* Mock get\_node\_boot\_mode in software RAID unit tests
+* Add raid.apply\_configuration deploy step
+* Use unittest.mock instead of third party mock
+* Stop configuring install\_command in tox
+* A boot partition on a GPT disk should be considered an EFI partition
+* Fix the token logic to be compatible with older ironic
+* Move logic to calculate raid sectors to raid\_utils
+* Change default ram for tinyipa jobs
+* Move logic for raid start sector to raid\_utils
+* Move minimum ironic version to latest ocata
+* Remove unused version parameter in version header function
+* Editing follow-up for UEFI Software RAID support
+* Use unittest mock from standard library
+* Simplify deduplicate\_steps
+* Add an ability to run in-band deploy steps
+* Cleanup py27 support
+* Software RAID: Add UEFI support
+* Change ipa partition jobs to netboot
+* Only check for partitions on devices that are part of software RAID
+* Add jitter to inspection command reporting
+* Bump hacking to 3.0.0
+* Rescan after restarting the md device
+* Fix GPT partition tables after agent writes contents
+* Improve debug logging around Raid/Bootloader
+* [trivial] Fix comment for Software RAID restart
+* Return false for MBR bootloader check on UEFI machines
+* Explicitly set ramdisk type
+* Fix agent token vmedia use
+* Use crypt to generate salt
+* Allow specifying target devices for software RAID
+* Rescan devices before performing uefi checks
+* Agent token support
+* Amending ntp time sync release note
+* Log the agent version
+* Add NTP time sync
+* Fixes error handling if efibootmgr is not present in ramdisk
+* [doc] How to pause the IPA for debugging
+* Ignore None md5 checksum field
+* tgtd session detach test fails on Centos7
+* Catch ValueError for FIPS 140-2 mode
+* "fix" GenericHardwareManger unit test failure
+* Convert apply\_result to mock object
+* Ignore pyudev errors about device number
+
+6.0.0
+-----
+
+* Tidy up relese notes for 6.0.0
+* Skip read-only devices with metadata erase
+* Expose collector and hardware manager names via introspection data
+* Fix multiprocessing call in unit test
+* Document introspection data and collectors
+* Start installing DIB from Zuul-cloned sources in the CI
+* Skip nic numa\_node discovery if it's not assigned to a numa\_node
+* Avoid grub2-install when on UEFI boot mode
+* Update hardware to 0.24,0
+* Omit configdrive and system\_logs from logging
+* Lower RAM for DIB jobs to 2 GiB
+* CI: add a non-voting partition-iscsi DIB job
+* CI: make the metalsmith job voting and gating
+* Allow reading root\_device from instance\_info
+* Run publishing jobs with CentOS 8 instead of 7
+* Remove deprecated ironic-agent element
+* Enforce running tox with correct python version based on env
+* Permit hashed passwords to be sent to IPA
+* Stop the API so rescue can exit and succeed
+* Search for efi partition
+* Replace WSME and Pecan with Werkzeug
+* Software RAID: Use UUID to find root fs
+* Replace netaddr dependency with stdlib ipaddress
+* Remove the unused dependency on iso8601
+* Remove the configuration sample file
+* Stop using six library
+* RAID 5/6
+* Rename job to mention python3
+* Drop python 2.7 support and testing
+* Clean up options deprecated prehistory
+* Bump up ipa-ip-lookup-attempts to 6
+* Do not try to read raw disk data as unicode
+* Fix instructions for enabling SSH on recent tinyipa images
+* Don't try to put a bootloader in place when bootable
+* Suppress errors from iscsi session cleanup
+* Switch jobs to py3
+* [Trivial]: Typo in comment for \_get\_partition
+* Switch to Ussuri job
+* Correct string formatting in logging
+* Set rd.md.uuid kernel parameter when deploying on software raid
+* Remove imagebuild/common, it's not longer used by IPA-builder
+* Last resort fallback to find a partition
+* Collect lsblk and /proc/mdstat with ramdisk logs
+* Add versions to release notes series
+* Refer to ironic-python-agent-builder for image building
+* tox.ini: remove the devenv environment
+* Fix tox.ini to correctly test lower-constraints
+* Fix compatibility with Pint 0.5
+* Update master for stable/train
+
+5.0.0
+-----
+
+* Clean up release notes
+* Revert "Software raid: mbr/gpt partition table alternative"
+* Attempt tgtd session detach
+* Try increasing memory in the DIB job
+* Delete\_configuration, consider removed raid members as well
+* Adds CI job that uses DIB build images
+* Build pdf doc
+* Release notes cleanup for the next release
+* Switch to image building jobs from ironic-python-agent-builder
+* Remove support for CoreOS images
+* Run a standalone job in the gate
+* Fix the post job for tinyipa/coreos
+* Release note follow-up to floppy fix
+* CI: do not install IPA-builder as editable
+* Correct building DIB images in the CI
+* Handle floppy disk controllers
+* Updates the dib element of ironic-python-agent-buildimage file
+* Software RAID: Ignore missing component devices or holder disks
+* Softraid: partitioning fixes
+* Installs diskimage-builder to pass the DIB image building test
+* Fixes get\_holder disks with nvme drives
+* Add mdadm to bindep.txt for functional tests
+* Software RAID: Handle empty target\_raid\_config
+* Ignore /dev/ramX devices for any purposes
+* Software RAID: try to assemble RAID on start-up
+* Software raid: mbr/gpt partition table alternative
+* Implements OpenStack CI job having DIB-built IPA
+* Do not try to use zRAM devices for anything
+* Adds software raid creation support on nvme drives
+* Repair building tinyipa images after the move to ipa-builder
+* CI: stop using pyghmi from git master
+* Fixes physical memory fetching for aarch64
+* Follow-up of 74339f6da2276a125ace6966d3730f2f2dd8213d
+* Trivial: Add missing quote when detecting raid devices
+* Include empty devices when listing block devices
+* Modify Tiny IPA image build
+* Software RAID: Detect component & holder disks in broken RAIDs
+* Using from\_device\_file from Devices
+
+4.0.0
+-----
+
+* manual introspection trigger command
+* Bump openstackdocstheme to 1.20.0
+* improve error messages during node lookup failures
+* Correct formatting of a warning when lshw cannot be run
+* Add Python 3 Train unit tests
+* Adds bandit template and exclude some of tests
+* Stop logging lshw output, collect it with other logs instead
+* Add IPv6 module for tinycore
+
+3.7.0
+-----
+
+* Removes tinyipa from IPA
+* Software RAID: Protect RAID metadata upon cleaning
+* Get the hostname of the introspected host
+* Software RAID: Don't preformat log strings
+* Software RAID: Check if install partition exists
+* Add a non-voting metalsmith job
+* Software RAID: Add mdadm to IPA images
+* Software RAID: Fix race in test for get\_holder\_disks
+* Software RAID: Fix shell commands
+* Incorporate bandit support in CI
+* Software RAID: Add IPA deploy support
+* Software RAID: Create/delete configurations
+* Docs: Add bmc\_v6address hardware inventory
+* Supports fetching API endpoints from mDNS
+* Do not run bashate on generated TinyIPA files
+* Clean up release notes
+* Relax checksum fields validation
+* Update sphinx requirements
+* Add more channel number for detecting BMC IPv6 address
+* show inspection callback url in error messages
+* report the URL when heartbeats fail
+* Do not use metadata checksums with ext4
+* Add more channel number for detecting BMC IP address
+* Bind mount /run into chroot when installing grub
+* Replace git.openstack.org URLs with opendev.org URLs
+* Fix download upper constraints
+* Fetch upper constraints from opendev.org
+* OpenDev Migration Patch
+* Switch to Debian Stretch for building CoreOS images
+* Ironic python agent does not extract correct available memory
+* Dropping the py35 testing
+* Update minimum hardware version
+* Fix docs job failure due to malformated docstring
+* Discover IPv6 BMC address
+* Replace openstack.org git:// URLs with https://
+* Add 'interface' to get\_clean\_steps docstring
+* Add versions to release notes series
+* Update master for stable/stein
+
+3.6.0
+-----
+
+* Update release notes
+* Correct clean\_build command according to Makefile
+* Update python-hardware requirement for py3
+* Replace ZUUL\_REFNAME for zuul.branch
+* Run the imagebuild post playbook on all hosts
+* Update path for publish jobs
+* Allow image checksum to be a URL
+* Add secondary sorting by name when guessing root disk
+* Building tinyipa with python3 by default
+* Move to zuulv3
+* Deprecate CoreOS ramdisk support
+* Build tinyipa with python3
+* Making ironic-python-agent able to stop with python 3.x
+* Build tinyipa with tinycore 8.x
+* Moving publish jobs to zuulv3
+* Fix a regression in generate\_upper\_constraints.sh
+* Recover CI run detection in imagebuild
+* Remove dsvm from zuulv3 jobs
+* Add source code link for the project to README
+* Replacing the HTTP protocal with HTTPS
+* Update author email address
+* Change HTTP links to HTTPS
+* Update http link to https
+
+3.5.0
+-----
+
+* zuul-ify primary IPA jobs
+* Update link addresses
+* spelling error
+* Attempt to read the partition table after writing an image
+* Allow erasing metadata from disk partitions
+* update the tox mini version
+* Update min tox version to 2.0
+* Update min tox version to 2.0
+* add coverage job
+
+3.4.0
+-----
+
+* Follow up to parallel disk erasure
+* Parallel erase disk devices
+* Fix BMC IP address detection on CoreOS images
+* Allow streaming raw partition images
+* Add missing dependencies to CoreOS IPA docker image
+* Raise udevadm settle timeout from 5 to 20 seconds
+* Enhanced checksum support
+* Mark CoreOS check jobs non-voting
+* Allow using ironic-lib from source when building tinyipa
+* Change nic driver to e1000 for CoreOS jobs
+* Correct headings in README.rst
+* Fix multi-device behavior
+* Replace assertEqual(True/False, expr) with assertTrue/assertFalse in tests
+* add python 3.6 unit test job
+* switch documentation job to new PTI
+* import zuul job settings from project-config
+* Update reno for stable/rocky
+* Clear GPT and MBR headers with dd to avoid sgdisk CRC errors
+
+3.3.0
+-----
+
+* fall back to PARTUUID if UUID not found
+* fix uname mock arguments for get-pip.py
+* Collect IPv6 address during introspection
+* Install grub to PReP partition when prep\_boot\_part\_uuid is provided
+* Remove testrepository
+* Switch to using stestr
+* Provide knob to disable ata secure erase
+* Refuse secure erase if ATA command does not work
+* Reduce CoreOS CPU count to 1
+* Enable Auto VM engine for CoreOS CI jobs
+* Switch from sourceforge to github for ipmitool
+* Cleanup CI jobs for IPA
+* Try to unlock failed device before proceeding
+* fix tox python3 overrides
+* Add release notes link to README
+* Add a release note for secure erase changes
+* Add min/max values to integer config options
+* write byte objects when using os.write
+* Fix for fatal error when GPT was used and only MBR was cleaned
+* rework ATA secure erase
+* Rescue bug: tinyipa fails to acquire IP in multitenant env
+* Do not run functional (API) tests in the CI
+* Fix gate and bump CoreOS version to latest stable
+* Gate fix: Cap hacking to avoid gate failure
+* Stop using slave\_scripts/install-distro-packages.sh
+* fix lower constraints and uncap eventlet
+* flake8: Add W503 to ignore list as invalid
+* Change launchpad to StoryBoard
+* Updated from global requirements
+* add lower-constraints job
+* Switch the CI to hardware types and clean up playbooks
+* Updated from global requirements
+* Updated from global requirements
+* GenericHardwareManager: get mac address using netifaces
+* Updated from global requirements
+* change python-libguestfs to python-guestfs for ubuntu
+* mlnx hardware\_manager: get mac address using netifaces
+* Updated from global requirements
+* Follow-up patch for documentation of rescue mode
+* Update reno for stable/queens
+
+3.2.0
+-----
+
+* Add documentation for rescue mode
+* When ouputting to /dev/null should open in write mode
+* Replace use of functools.wraps() with six.wraps()
+* Adds a releasenote for DHCP support for TinyIPA
+* Follow-up patch for rescue extension for CoreOS
+* Use lshw in place of dmidecode for the default hardware manager
+* Zuul: Remove project name
+* Execute error in \_detect\_cna\_card
+* Use the 'ironic' queue for the gate
+* Replace curly quotes with straight quotes
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+
+3.1.0
+-----
+
+* Clean up release notes before a release
+* Rescue extension for TinyIPA with DHCP network
+* Updated from global requirements
+* Fix addssh make target in tinyipa
+* Use 'functional' tox environment
+* Updated from global requirements
+* Do not try unmounting the EFI partition if it was not mounted
+* Use the tempest plugin from openstack/ironic-tempest-plugin
+* Remove /ironic-python-agent/api/app.wsgi
+* Report /dev/disk/by-path on inspection followup
+* Catch OSError thrown when hexdump is missing
+* Update version of flake8-import-order package
+* Include IPA Version during heartbeat
+* Installl OpenSSH by default
+* tox: Don't create \*.pyc files during unit/functional tests
+* Fix issue with double mocking of utils.execute functions
+* Updated from global requirements
+* [LLDP] Skip NICs that say they are ready but are unreadable
+* Ignore IPv6 link local addresses
+* Remove setting of version/release from releasenotes
+* Updated from global requirements
+* Updated from global requirements
+* Update sample config
+* Clean-up zuul.d/ files
+* Fix off-by-one error in warning
+* Use oslo\_config.fixture in unit tests
+* Rescue extension for CoreOS with DHCP tenant networks
+* Zuul: add file extension to playbook path
+* Fix a mis-formatted log message
+* Fix post upload images task
+* Ensure dst subfolder exists in post build jobs
+* Update tiny-instance image to contain branch name
+* Publish tiny-instance-uec image
+* Move legacy jobs into tree
+* Fix to return 'root\_uuid' as part of command status
+* Improve the catching of calls to 'execute' related functions
+
+3.0.0
+-----
+
+* Have unit tests all derive from our base unit test class
+* Unit test has incorrect mock order
+* tox: Use the default version of Python 3 for tox tests
+* Release notes clean up for the upcoming release
+* Build tiny disk partitioned image with grub
+* Fix for broken zuul v3 job and releasenotes
+* Fix waiting for target disk to appear
+* Fix OSError catch
+* Add bindep.txt file
+* Fix a mis-formatted log message
+* Remove python-subunit in test-requirements
+* Migrate to stestr as unit tests runner
+* Report /dev/disk/by-path on inspection
+* Remove hard-coded path to grub binaries
+* flake8: Enable some off-by-default checks
+* Fix wrong link about Hardware Managers
+* Clean up deprecated items in the inspection code
+* Updated from global requirements
+* Remove assumption that a valid IPMI channel cannot follow an invalid one
+* Updated from global requirements
+* Update reno for stable/pike
+
+2.2.0
+-----
+
+* Release notes cleanup for Pike release
+* Update links in README
+* Use standard quote character
+* BMC can be configured using different lan channel
+* Updated from global requirements
+* Collect processor, memory and BIOS output of dmidecode - follow-up
+* Updated from global requirements
+* Correct/update links
+* Move content to admin
+* Move install related content
+* Move contributor documentation
+* Removes unnecessary utf-8 encoding
+* Switch from oslosphinx to openstackdocstheme
+* Collect processor, memory and BIOS output of dmidecode
+* Updated from global requirements
+* Updated from global requirements
+* Remove usage of parameter enforce\_type
+* Remove pbr warnerrors in favor of sphinx check
+* Updated from global requirements
+* [imagebuild] support requirements referring to /opt/stack/new
+* Updated from global requirements
+* fix path for ldlinux.c32
+* Log 'Executable biosdevname not found' only once
+* Copy ldlinux.c32 for building ISO image
+
+2.1.0
+-----
+
+* Add a new location of isolinux.bin for Ubuntu 16.04
+* Fix compatibility with Pint 0.5
+* Add option for building IPMItool into TinyIPA
+* Replace assertRaisesRegexp with assertRaisesRegex
+* Collect NIC name given by BIOS
+* Add missing description for params of 'start\_iscsi\_target'
+* Updated from global requirements
+* NUMA-topology collector
+* Updated from global requirements
+* Prevent tests' unmocked access to utils.execute()
+* Remove unused function \_configdrive\_location
+* Set valid inspection\_dhcp\_wait\_timeout value in tests
+* Updated from global requirements
+* Add a debug tox environment
+* Updated from global requirements
+* Add missing 'autospec' argument to mock.patch
+* flake8: Specify 'ironic\_python\_agent' as name of app
+* Fix logs encoding in py3
+* Updated from global requirements
+* Correct failure message output when downloading
+* Python 3.4 (py34) is removed from tox envlist
+* imagebuild: coreos: Build sha256 checksum files
+* Updated from global requirements
+* Updated from global requirements
+* imagebuild: tinyipa: Build sha256 checksum files
+* Use specific end version since liberty is EOL
+* Use flake8-import-order
+* Clean up release notes post-ocata release
+* Updated from global requirements
+
+2.0.0
+-----
+
+* Improve grammar/readability in Ocata release notes
+* Correct error in Infiniband release note
+* imagebuild: tinyipa: Make the install-deps.sh SUSE aware
+* Remove switch\_port\_descr and switch\_chassis\_descr
+* [TinyIPA] Avoid running rm with no parameters
+* Remove vendor\_passthru mentions from lookup/heartbeat documentation
+* Add a comment about the catch-all exception for psutil
+* Remove support for older psutil versions
+* Updated from global requirements
+* Support psutil 5.0.1
+* Reboot and Poweroff fails with coreos IPA image
+* Mock out get\_wildcard\_address
+* Limit memory usage when running qemu-img convert
+* Add IPv6 unit test for \_get\_route\_source
+* iscsi: Listen for connections on both IPv4 and IPv6 ports
+* Agent: Listen for connections on both IPv4 and IPv6 ports
+* Enable release notes translation
+* Use sh instead of bash when installing grub
+* Updated from global requirements
+* Removes unnecessary utf-8 encoding
+* Configure and use SSL-related requests options
+* Advertise the correct address when using IPv6
+* Updated from global requirements
+* Remove compatibility with old bash-based introspection ramdisk
+* Fail IPA startup if no protocol prefix in ironic api address
+* Fix missing newline at end-of-file in CONTRIBUTING.rst
+* add CONTRIBUTING.rst
+* Use oslo\_serialization.base64 to follow OpenStack Python3
+* Revert "Use liberty-eol tag for liberty release notes"
+* Moving Reboot bashscript to python
+* Use liberty-eol tag for liberty release notes
+* Comment on when the TinyCore mirror list was generated
+* Probe for TC mirror during tinyipa build
+* Add a new Hardware Manager for CNA network card
+* Use oslo-config-generator for sample config
+* Update mock variable name in unit tests
+* Add HCTL to BlockDevices
+* Skip API related work if no api url configured
+* Fix docsting in Mellanox \_detect\_hardware
+* Updated from global requirements
+* Show team and repo badges on README
+* Add a new Hardware Manager for Mellanox NICs
+* Load IPMI modules before chroot in CoreOS image
+* Fix two typos, "messsage" and "containg"
+* Dispatched out network interface info to all hardware managers
+* Python 3 Compatible JSON
+* Clarify test comment to minimize confusion
+* Add bash scripts style checking for IPA
+* Remove old lookup/heartbeat from IPA
+* Fix several errors in LLDP handling code
+* Updated from global requirements
+* Update to hacking 0.12.0 and use new checks
+* Replaces uuid.uuid4 with uuidutils.generate\_uuid()
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Remove duplicated logging in configdrive creation
+* Use ironic-lib to create configdrive
+* Updated from global requirements
+* Install grub in the EFI "Fallback path"
+* Fix config drive writing script
+* Updated from global requirements
+* Add support for root device hints with operators
+* Update .gitignore to ignore .idea of PyCharm
+* Force en\_US language for tests
+* Remove Python 2.6 format style
+* Update reno for stable/newton
+* [tinyipa] remove trailing slash from TC repo URL
+* [tinyipa] allow skipping python compileall
+* Invalid URL and typo in .rst files
+* Fixed typo in doc file
+* Add py35 to tox environments
+* Add info on tinyipa to docs
+* Updated from global requirements
+
+1.5.0
+-----
+
+* Add vendor, product to interface information
+* Improve error message while download image
+* Update home page link in cfg file
+* Enable SSH access to tinyipa
+* Fix TINYCORE\_MIRROR\_URL option defaults
+* Updated from global requirements
+* Use CoreOS 1068.10.0
+* Use namedtuple to improve code readability
+* Remove unused requirements
+* Changed an assert to more specific assert method
+* Using assertIsNone() is preferred over assertEqual()
+* Fix IPA for stable/mitaka with noauth mode
+* Enforce upper-constraints when building ramdisks
+* Re-use API client for Heartbeat operations
+* Updated from global requirements
+* Updated from global requirements
+* Update hacking test-requirement
+* Use upper-constraints for all tox targets
+* Build socket list right before select call
+* Use CoreOS 1068.9.0
+* Fallback to the old /lookup endpoint on 401
+* Minor updates to metrics documentation
+* Make code blocks real code blocks in metrics docs
+* Use new agent API if available
+* Updated from global requirements
+* Add metrics support to IPA
+* Updated from global requirements
+* Add erase\_devices\_metadata cleaning step
+* Use ironic\_lib's execute()
+* Fix races in advertise\_address unit tests
+* Fix resolv.conf in tinyipa image build
+* Remove discover from test-requirements
+* Follow-up text changes for 327807
+* Update to work with latest stevedore
+* Fix doc warnings
+* Updated from global requirements
+* Small refactor in the root device loop matching logic
+* Handle diskless hardware connected to remote iscsi
+* Extend root device hints to support "rotational"
+* Updated from global requirements
+
+1.4.0
+-----
+
+* Bump CoreOS to 1010.6.0 (last current stable)
+* Replace the ps options when collecting logs
+* Updated from global requirements
+* Add a log extension
+* Update doc about lookup action
+* Documentation follow-up to the LLDP patch
+* Updated from global requirements
+* Add PCI devices collector to inspector
+* Replace dict.get(key) with dict[key] in tests
+* Support LLDP data as part of interfaces in inventory
+* tox: Update flake8 to ignore tinyipa imagebuild folders
+* Fix functional tests
+* Replace assertRaisesRegexp with assertRaisesRegex
+* Updated from global requirements
+* Add configuration options for DISK\_WAIT
+
+1.3.0
+-----
+
+* Removes the use of mutables as default args
+* Use assertIn and assertNotIn
+* Fix unwanted unmounting of /usr/share/oem
+* Remove unused parameter
+* Wait for at least one interface before node lookup
+* tinyipa: Fix git clone tags when 1.6.5 <= git < 1.7.10
+* Add basic troubleshooting doc
+* Updated from global requirements
+* lldp-timeout kernel parameter missing ipa- prefix
+* Updated from global requirements
+* Returns CPU flags in the CPU inventory
+* Consolidate IPA configuration into a config module
+* Updated from global requirements
+* Remove unused SUPPORTED\_ROOT\_DEVICE\_HINTS
+* Updated from global requirements
+* Add boot information into the inventory
+* Get root device hints from the node object
+* Remove links to github for OpenStack things
+* Add a configurable sleep before IPA starts working
+* Wait for at least one suitable disk to appear on start up
+* Updated from global requirements
+* Revert "Add hardware manager interface for hardware initialization"
+* Add hardware manager interface for hardware initialization
+* Use constraints for all the things
+* Updated from global requirements
+* Prevent failure on 'copy\_configdrive\_to\_disk.sh'
+* TinyIPA: Ensure that kernel modules are loaded at boot
+* Make sure tinyipa du takes into account branch
+* tinyipa: add popt to deps
+* Make TinyCore mirror configurable
+* TinyIPA: Shave off some file size from tinyipa ramdisk
+* TinyIPA: Precompile python code for faster load
+* Use TinyCore Linux 7.x for TinyIPA
+* Updated from global requirements
+* Remove "Experimental" warning from tinyipa README
+* [inspection] wait for the PXE DHCP by default and remove the carrier check
+* Remove oslo.i18n
+* Stop using git:// and be nice to people behind proxy servers
+* Optimise tinyipa boot time
+* Updated from global requirements
+* Updated from global requirements
+* Force container builds to use http.us.debian.org
+* Allow shred zeroize option to be configured
+* Make "make coreos" output moveable without sudo
+* Install qemu-image from backports repo
+* Make sure that .eggs directory is in gitignore
+* Add script to install missing tinyipa dependencies
+* Fix coverage for IPA
+* Switch tox unit test command to use ostestr
+* Create helper function: create\_hdparm\_info()
+* Provide fallback from ATA erase to shredding
+* Updated from global requirements
+* Wait for the interfaces to get IP addresses before inspection
+* Provide /etc/resolv.conf to chroot
+* Set modification time in tarfile of ramdisk logs
+* Correct link to enabling agent drivers
+* Add docstrings to all functions in Agent standby extension
+* Fix incorrect formatting in the iSCSI extension
+* Enable branch tagging during tinyipa build
+* Improve \_\_str\_\_ method of BaseCommandResult
+* Fix full\_trusty\_build once and for all
+* Add \_\_str\_\_ method to BaseCommandResult
+* Add lxc to full\_trusty\_build deps
+* Mount cgroups in full\_trusty\_build
+* Add branched image download instructions to CoreOS readme
+* Append BRANCH\_PATH to filenames of build output
+* CoreOS image building: Add dnf support
+* Install apparmor b/c Docker.io has undeclared dep
+* add new portal\_port argument into iscsi.start\_iscsi\_target api
+* iscsi: wipe part table before starting the target
+* Add disk\_label support for partition images
+* Update reno for stable/mitaka
+
+1.2.0
+-----
+
+* Fixes the agent message for uefi netboot for partition image
+* Add psmisc and dosfstools to IPA packages list
+* Bind to interface routable to the ironic host, not a random one
+* Fix tinyipa build uname, picking up hosts kernel
+* Fix build tinyipa to work on Fedora
+* Replace SYSRQ commands
+* Add sync() command to the standby module
+* Add support for partition images in agent driver
+* Fixes programmatic error in \_install\_grub()
+* Fix programmatic error in heartbeat()
+* Stop trying to log stdout when fetching logs during inspection
+* CoreOS: Disable unused services
+* Change to use WARNING level for heartbeat conflict errors
+* Wait for udev to settle before listing the block devices
+* Updated from global requirements
+* Update DIB description for IPA docs
+* Allow enabling debug level via kernel cmdline
+* Add DIB ironic-agent element to readme for IPA
+* Replace all the 'self.log' calls with global LOG
+* Reduced restriction of parsing for dmidecode output
+* Catch OSError as well to return a better error message
+* Updated from global requirements
+* Document hardware inventory sent to lookup and inspection
+* Update unit tests to use six.moves.builtins.open
+* TinyIPA: Prevent install of pre-release dependencies
+* TinyIPA: Explicitly use /bin/bash instead of /bin/sh
+* Add 'system\_vendor' information to data
+* Updated from global requirements
+* Clear GPT and MBR data structures on disk before imaging
+* Fix vfd mount for capitalized device name
+* Add support for proxy servers during image build
+* Replace backoff looping call with oslo\_service provided version
+* Leave git installed in docker builder
+* Extend root device hints to support device name
+* Add tinyipa to IPA imagebuild directory
+* Updated from global requirements
+* Disable xattrs in IPA extraction
+* Change assertTrue(isinstance()) by optimal assert
+* Allow hardware managers to override clean step priority
+* Update typos
+* Fix params order in assertEqual
+*  make enforce\_type=True in CONF.set\_override
+* Switch to post-versioning
+
+1.1.0
+-----
+
+* Updated from global requirements
+* Remove unused logging
+* Replace deprecated LOG.warn with LOG.warning
+* Updated from global requirements
+* Revert "Use latest CoreOS stable when building"
+* Updated from global requirements
+* Add mitaka reno page
+* Replace assertEqual(None, \*) with assertIsNone in tests
+* Catch up release notes for Mitaka
+* Add reno for release notes management
+* Fix trivial typo in docs
+* Updated from global requirements
+* Delete the Linux-IO target before setting up local boot
+* CoreOS: Ensure /run is mounted before starting
+* Deprecated tox -downloadcache option removed
+* Use latest CoreOS stable when building
+* Updated from global requirements
+* Run IPA in chroot instead of container in CoreOS
+* Fix "logs" inspection collector when logs contain non-ascii symbols
+* pyudev exception has changed for from\_device\_file
+* Support Linux-IO in addition to tgtd
+* Updated from global requirements
+* Updated from global requirements
+* Add support for streaming raw images directly onto the disk
+* Refactor the image download and checksum computation bits
+* Follow up patch for da9c3b0adc67efa916fc534d975823c0a45948a1
+* Create partition at max msdos limit for disks > 2TB
+* Support proxies for image download
+* Updated from global requirements
+* Extend root device hints for different types of WWN
+* Fix to preserve double dashes of command line option in HTML
+* Updated from global requirements
+* Use oslo.log instead of original logging
+* Updated from global requirements
+* Replace deprecated LOG.warn with LOG.warning
+* avoid duplicate text in ISCSIError message
+* determine tgtd ready status through tgtadm
+* Updated from global requirements
+* Updated from global requirements
+* Add param docstring into the normalize func
+* Make calling arguments easier to understand
+* Ensure all methods in utils.py have docstrings
+* Updated from global requirements
+* Update gitignore
+* Reduce size of CoreOS ramdisk
+* Add LOG.debug() if requested device type not found
+* Babel is not a direct dependency
+* Move oslotest to test-requirements
+* Use mount -t sysfs to avoid host /sys dependencies
+* Update the launchpad link for IPA
+* Updated from global requirements
+* Fix log formatting error in iscsi.py
+* Open mitaka development
+* Adds more functional tests for commands
+* Enforce all flake8 rules except E129
+
+1.0.0
+-----
+
+* Updated from global requirements
+* Add "logs" and "extra-hardware" inspection collectors
+* Use doc8 style checker
+* Make the erase\_devices clean step abortable
+* Refactor list\_all\_block\_devices & add block\_type param
+* Fixes config drive creation failure in UEFI boot mode
+* Fix default ironic api port number
+* Add more info to checksum exception
+* Expose serial, wwn and vendor on the BlockDevice object
+* Updated from global requirements
+* inspection: prepare for future deprecations
+* Follow-up to inspection patch 096830414b
+* Fixes incorrect description URL
+* Added home-page value in setup.cfg file
+* Use system random where applicable
+* Refactor backoff looping call
+* Adds project resources links to Readme
+* Create a SerializableComparable class
+* Install "dmidecode" and "ipmitool" by default
+* Tuples returned by clean steps cause API error
+* Add support for inspection using ironic-inspector
+* Rename unit test file utils.py to test\_utils.py
+* Add docstrings for cmd/agent and extensions/clean
+* Remove ordereddict as 2.6 is no longer supported
+* Fix plural agreement grammar error
+* Three attempts message is incorrect
+* Fix get\_os\_install\_device()
+* Update qemu-utils package from testing
+* Updated from global requirements
+* Split functional and py27 tests
+* Load Hardware Managers at runtime
+* Enable --debug for debug logging
+* Have tox run py34 as first test
+* Dispatch the call to erase\_block\_device
+* Refactor list\_block\_devices to its own function
+* Updated from global requirements
+* Updated from global requirements
+* Allow passing node UUID to lookup
+* Extend hardware manager with data needed for inspector
+* Updated from global requirements
+* Bump wait timeout in functional tests to 5 seconds
+* Use addCleanup instead of tearDown
+* Remove execute mode of cloud-config.yaml
+* Add base for IPA functional tests
+* Updated from global requirements
+* Updated from global requirements
+* Cleaning with custom hardware manager docs
+* Fix printing of errors in IPA
+* Activate pep8 check that \_ is imported
+* Fix logging levels
+* Updated from global requirements
+* Remove openstack.common package
+* Updated from global requirements
+* Add node param to base erase\_block\_device
+* Improve IPA logging and exception handling
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Change Dockerfile to use Debian as a base
+* Updated from global requirements
+* Add Python3 support
+* Fix using non-existent mock method
+* Fix iso-image-create to work on RedHat distros
+* Updated from global requirements
+* Mark required packages before cleanup
+* Convert Int to String for shred execute
+* Switch to oslo.service
+* Use host\_device mode for qemu-img
+* IPA:'shred' utility to use configured iterations
+* Updated from global requirements
+* Fixes CoreOS GPG expired key
+* Updated from global requirements
+* Add power\_off command in standby extension
+* Add 'pbr' to the requirements
+* Updated from global requirements
+* Update hacking and fix hacking violations
+* Make sure sysrq functions are enabled in reboot.sh
+* Rename gendocs tox environment
+* Fix error in in-band disk erase using shred
+* Updated from global requirements
+* Use latest pip in Docker build
+* Fix inband disk erase using agent\_ilo driver
+* Use mkdtemp for mounting virtual media device
+* Error doc builds on WARN or ERROR
+* Add PYTHONHASHSEED=0 to venv tox env
+* Docs on HardwareManager, building, and workflow
+* Fix Sphinx Autodoc WARNING/ERROR in docs build
+* Add sphinx build + basic documentation
+* Update README file
+* Use oslo\_log lib
+* Sync from oslo.incubator
+* Do udevadm settle after running partx in image extn
+* Updated from global requirements
+* Call partprobe+partx before writing configdrive
+* Add fallback secure erase using shred
+* Add cleaning/zapping support to IPA
+* Add uefi support in image extension
+* Fix nit in test\_get\_agent\_params\_from\_cache
+* Cache agent parameters for later invocations
+* Add support for root device hints
+* Add dispatch to all managers
+* Use labels for virtual media dev in agent ramdisk
+* os.path.exists should be mocked in test case
+* SyncCommandResult should store actual exception
+* Move \_get\_agent\_params() to a common place
+* Updated from global requirements
+* Add the image extension (for local boot)
+* Fix incorrect IPA log message
+* Enable setting standalone mode via APARAMS
+* Add iscsi extension
+* Updated from global requirements
+* Add additional logging and return results for IPA extensions
+* Log required troubleshooting info on image dl fail
+* Image building support for fedora hosts
+* Add \*.swp to .gitignore
+* use oslo\_config replace oslo.config
+* Added support for secure erase enhanced
+* Use partx to update partition table
+* Prevent CoreOS from using configdrive in ramdisk
+* Correct inline comment in sync\_command decorator
+* Updated from global requirements
+* Make all IPA error classes inherit from RESTError
+* Consistent way to set details for Error instances
+* Updated from global requirements
+* Error classes invoke their parent's \_\_init\_\_()
+* Updated from global requirements
+* HardwareManagerMethodNotFound requires a method
+* Allow use of multiple simultaneous HW managers
+* Remove python 2.6 from tox.ini
+* Updated from global requirements
+* Skip failing execute tests when using /tmp noexec
+* Reduce \_verify\_image memory consumption
+* Remove /mnt/sys support
+* Remove configdrive builder
+* Add standalone mode for IPA
+* Fix missing string format symbol
+* Do not log configdrive contents ever
+* Use LLDP to get switch port mapping
+* Use oslo.utils and oslo.concurrency
+* Workflow documentation is now in infra-manual
+* Fix badly named function \_get\_kernel\_params()
+* Updated from global requirements
+* Use \_ instead of - for config options
+* Improve/add docstrings for CommandResult classes
+* Support configdrive from HTTP(S)
+* Use requirements.txt from the root for image build
+* Cleanup coreos-oem-inject.py
+* Fix requests version for build scripts
+* Updated from global requirements
+* Improve docstrings for cmd/agent.py
+* Write image directly to disk
+* Force heartbeat immediately after async command completes
+* Use poll instead of threading.Event in heartbeat thread
+* Delete unused method get\_agent\_mac\_address()
+* Add docstrings for api/ tree
+* Preserve environment variables when doing sudo
+* Add support to build iso image
+* Remove PyPy from default tox runlist
+* Add docstrings for agent.py
+* Enhance decorators in agent and automate creation of command\_map
+* Fix exception that is not properly raised
+* Add missing "/files" to IPA image URLs
+* Fix minor documentation issues
+* Fix incorrect documentation
+* Add vmedia boot support in IPA
+* Clean up image build script
+* Sync oslo.incubator modules
+* Prevent python 2.7 from being purged in container
+* Updated from global requirements
+* Bump IPA container to use Trusty
+* Bump CoreOS to latest stable
+* Add support for psutil v1 as well as v2
+* Add two undeclared dependencies to the Dockerfile
+* Improve Disk Detection
+* Fix no IP on interface error
+* Migrate CoreOS to use coreos-cloudinit
+* Install requirements for coreos-oem-inject.py
+* Run make with sudo when building
+* Add current directory logging to build script
+* Fix author/email in setup.cfg
+* Add support for passing no configdrive
+* Add infra build script to IPA
+* Converted documentation in md format to rst
+* No longer recommend use of ipa-advertise-url
+* Better errors for execute() failures
+* Improve readme for CoreOS imagebuild
+* Fix comments to reflect reality
+* Fix invalid command in Dockerfile
+* Reduce requests connection pool size
+* Fix HardwareManager loading order bug
+* Improve cache\_image testing
+* Remove duplicated test for caching image
+* Fix incorrect log statement
+* Use processutils properly
+* Fix: partitions recently imaged not being detected
+* Fix test\_run\_image
+* Tries to advertise valid default IP
+* Perform manual error checks instead of set -e
+* Expose decom.erase\_hardware command via API
+* Add a HardwareManager method to erase devices
+* Add missing methods to base HardwareManager class
+* Allow configdrive partition to be precreated
+* Readme should point to Openstack, not travis-ci
+* Flow extension uses extension manager from agent
+* Switch to oslo.config for CLI parsing
+* Don't begin heartbeating until the API server is listening
+* Make encoding.serialize() more programmatical
+* Uninstall more buildtime only deps and clean lists
+* Fix unexpected stevedore traceback in tests
+* Fix broken path to shell scripts
+* Make docker image smaller by using Precise
+* Use systemd-nspawn instead of docker for image
+* Check configdrive size before writing to partition
+* Remove Heartbeat-Before check from heartbeat
+* Accept new parameters for \`prepare\_image\`
+* Fix expected status code in Ironic heartbeat
+* Revert "Fix expected status code in Ironic lookup"
+* Fix expected status code in Ironic lookup
+* Fix wait argument on POST
+* Uniquely identify builds to prevent race
+* Better documentation and defaults for coreos image
+* Use docker import/export to make image smaller
+* Decorated commands no longer take command\_name
+* Deprecated extension name attribute
+* Added metaclass statement
+* Add a @sync\_command() decorator
+* Organize agent extensions
+* Minor fixes to image build
+* Use configurable driver name in lookup URL
+* Kill the build\_agent function
+* Add FlowExtension
+* Add self to validator method
+* Resolve circular import, introduce ExecuteCommandMixin
+* Implement version 2 payload with more hw info
+* Use a released version of Pecan
+* Deprecate hardware.\_cmd in favor of utils.execute
+* Close file handle after use
+* Properly mock \_cmd so blockdev does not run
+* Use # instead of """ for copyright blocks
+* Version node lookup payload
+* Compatibility fixes for Python 3.3
+* Add BackOffLoopingCall with jitter
+* Move split\_command to utils
+* Added execute util
+* Add timeout param for execution\_thread.join
+* Adding oslotest to improve debugging
+* Added some infrastructure tools
+* Added some oslo modules
+* Synced oslo modules
+* Add kernel parameter support
+* Updated from global requirements
+* Adding DynamicLoopingCall around lookup
+* Remove advertise-host from service file
+* Added PyPy env to tox.ini
+* Fix URL for node lookup
+* Get rid of modes. Introduce pluggable extensions
+* Actual exception message, stylistic changes
+* Removing commented out code
+* Getting the heartbeat from Ironic instead
+* Fixing import order
+* Doing replacement on imagebuild
+* Renaming things in Dockerfile
+* Replacing teeth/overlord with ipa/ironic
+* Renaming to IPA
+* Fixing kwarg vs posarg
+* Generalizing help message for command args
+* Using RFC5737 example ip addrs
+* Using advertise\_address, using valid uuid/macs
+* remove wsgiref
+* Removing host/port, already in listen\_address
+* fix tests on python 2.6
+* Minor fixes and sending agent\_url with heartbeat
+* Remove dependency on werkzeug
+* Consolidate content and configuration as node
+* Renaming ConfigurationError to LookupNodeError
+* Renaming get\_configuration to lookup\_node
+* Retaining configuration error, changing message
+* Retaining configuration error, changing message
+* Adding Apache header
+* fix log.exception calls
+* switch structlog out for oslo.log
+* add oslo.config and oslo.log
+* Fixing merge conflicts, passing py26
+* Remove dependency on teeth-rest
+* Fix MediaType() call and add tests for / and /v1
+* remove commented code
+* fix up API docs a bit
+* add wait param
+* simplify tests a bit
+* Cleaning up errors
+* All posted data goes in get\_configuration
+* parse the ipaddr argument
+* add horrible method of getting the host IP
+* Using Ironic vendor passthru for heartbeat/config
+* fix up some text
+* remove oslo dependency
+* remove dead code
+* fix some copyrights
+* add /status and fix tests
+* get api tests passing
+* fix exception handling
+* some cleanup
+* move everything into pecan
+* add(gerrit support): Required to move to openstack
+* Fixing ordereddict and format string for py26
+* Preparing for OpenStack testing environment
+* fix(coreos-oem-inject): Default to dev-channel
+* remove api-url from unit file
+* get things kind of working with pecan
+* add(gerrit support): Required to move to openstack
+* bump(stevedore): Bump to version in OS global reqs
+* remove(dep): Remove dep on plumbum
+* fix(test): Properly mock hwmgr for heartbeat test
+* img(coreos): Initial commit of CoreOS image build
+* test(standby): Ensure hardware call is mocked
+* check for cached image in cache\_image as well
+* add tests
+* pass command\_name to the command function itself
+* also mark cached in prepare
+* accept command name in decorator
+* don't write image if already cached
+* remove magic from decorator and fix function binding
+* add wait option to POST /commands
+* Use thread methods rather than time.sleep to wait
+* Fixing single vs double quotes
+* Added an async\_command decorator
+* Making async and sync calls consistent
+* Adding format\_logger from teeth\_overlord
+* Fixing quoting
+* Changing image commands to be async functions
+* speedup(image): Use dd to write image
+* force ordering in tests
+* use unicode listerals in configdrive tests
+* fix(travis): Build master or PRs to master only
+* update tests
+* remove auto-discovery of advertise url
+* download and write out an image in cache\_image
+* update standby agent tests
+* update standby agent to use split makefs.sh
+* add new ConfigDriveWriteError class
+* split makefs.sh into two scripts
+* make 'cache\_image' singular
+* update heartbeater use of client heartbeat()
+* update overlord client tests
+* update overlord client heartbeat method
+* add test of list\_hardware\_info
+* add HardwareManager method to list hw info
+* update list\_network\_interfaces tests
+* filter out virtual interfaces
+* add tests of listing network interfaces
+* expand use of /mnt/sys detection
+* fix typo
+* allow listing of MAC addresses
+* fix configdrive content location
+* fix(style): Fix style to match rest of project
+* imporove OS install device detection test
+* fix(logging): Don't drop precision on time values
+* update OS install device detection test
+* improve OS install device detection
+* add plumbum requirement
+* fix(log): Log attrs separately instead of w/format
+* add(logging): Log and time various events
+* fix configdrive write tests
+* make configdrive dirs before writing
+* cause the agent to lazily load a command mode
+* make InvalidCommandError more generic
+* fix dockerfile cmd
+* fix(Dockerfile): Use CMD instead of Entrypoint
+* retrieve OS install dev from the HardwareManager
+* cache a global hardware manager
+* fix(Dockerfile): Install requirements separately
+* fix(docker): git required to install from repo
+* fix(log): Use basename instead of hardcoding name
+* fix(makefs): Match 0, not just numbers ending in zero
+* feature(makefs): Add logging of all activities
+* use openstack as default configdrive prefix
+* improve stevedore import
+* call a function that actually exists
+* simplify HardwareManager comparison
+* update tests
+* register the BaseHardwareManager
+* use the new hardware manager loading
+* make hardware managers pluggable
+* better metadata name
+* hardcode device to /dev/sda
+* remove test\_prepare.py
+* write configdrive to disk from metadata
+* move sync result wrapping into BaseAgentMode
+* clarify BaseAgentMode operation
+* add configdrive from teeth\_overlord
+* update standby tests
+* load agent mode from the configuration API
+* add an API client method to fetch agent config
+* add an OverlordAPIError
+* clarify test module naming
+* update tests
+* update imports
+* split out base and agent modules
+* unify the agent executables in teeth-agent
+* use a mode implementation in the teeth agent
+* rename BaseTeethAgent to TeethAgent
+* allow BaseTeethAgent to load a mode implementation
+* register standby and decom modes in setup.cfg
+* replace DecomAgent with DecomMode
+* replace StandbyAgent with StandyMode
+* add BaseAgentMode class
+* add stevedore dependency
+* add travis build status badge to README
+* fix(travis): disable email notify, enable IRC
+* bump to latest teeth-rest
+* add run\_image command
+* fix(travis): We do not need env set
+* fix(travis): Specify python version
+* add(travis): Add config for travis-ci
+* add(Dockerfile): Add Dockerfile for building teeth-agent
+* fix(requirements): git ssh urls changed to https
+* hardcode on-disk location for configdrive
+* change variable name
+* accept configdrive info as path: base64\_content
+* fix image checksums
+* fix(makefs.sh): Remove any existing partition tables
+* check for empty urls/hashes
+* catch streaming errors
+* fix comment
+* simplify errors
+* test \_verify\_image
+* consolidate \_write\_image tests
+* add test for \_write\_local\_config\_drive
+* verify checksums
+* check makefs.sh return code
+* remove default arguments
+* fix tests
+* run makefs under bash
+* unpin httmock
+* refactor downloading a bit
+* fix makefs.sh location
+* try all urls
+* pin httmock to working version
+* better exception for failed checksum
+* log reason for shutdown
+* better download error exception
+* update tests
+* add missing parens
+* update commands to pass advertise\_host
+* take a listen\_host argument to base agent
+* re-order listen-host and listen-port arguments
+* update tests
+* allow the user to specify listen-host
+* update configdrive location in test script
+* update tests
+* use 1 MB chunks for downloads
+* add script to boot a server
+* support separation of listen and advertised ports
+* make configdrive data and device dynamic
+* remove the listen\_host parameter to both agents
+* resolve listen IP by connecting to API
+* fix typo
+* log heartbeats
+* fix teet-rest requirement
+* throw in a configdrive hack
+* configure logging in both agents
+* add a logging module to configure structlog
+* bump teeth-rest
+* add shell script for injecting configdrive
+* start writing tests
+* update tests to verify cherrypy use
+* use cherrypy in place of werkzeug dev server
+* add cherrypy to requirements.txt
+* skeleton for agent prepare/run commands
+* add fetch and list API unit tests
+* remove unused serialize method on AgentCommand
+* join cache\_images result in tests
+* add join to base command result
+* lock to avoid race conditions in command execution
+* limit the agent to a single concurrent command
+* add api endpoints to list and fetch results
+* update tests to reflect plural /commands API
+* make /commands plural in the API
+* return an async result from standby.cache\_images
+* add BaseAgent methods to retrieve and list results
+* fix reference to invalid error class
+* modify comment to match test
+* fix typos in base agent
+* modify api client to use request instead of send
+* stop heartbeating when agent is stopped
+* first pass at heartbeater tests
+* exponential backoff in heartbeater
+* verify the heartbeater is started
+* start the heartbeater on agent run
+* add tests of api client failure cases
+* fix incorrect exception in api client
+* happy path test of api client
+* actually use the specified method in the api client
+* return the heartbeat-before value from the api client
+* fix typo
+* add dependency on httmock
+* add tests of hardware module
+* read the eth0 mac address from sysfs
+* add a class that heartbeats to the API
+* add methods to get agent URL and mac address
+* record agent version on TeethBaseAgent
+* add a teeth-agent-api client library
+* take an --api-url option to agent executables
+* pass in api\_url to agents in tests
+* add an api\_url parameter to BaseTeethAgent
+* add tests of async command execution
+* add an async command result that runs commands in a thread
+* add a base class to represent execution errors
+* update tests to use new command results
+* add a concept of a command result
+* update command tests to expect a command name
+* pass the command name to implementations
+* add tests of image info validation in standby agent
+* update api tests to validate command results
+* return command results to the user
+* pass command results back to the API
+* document intentions regarding async command results
+* add tests of invalid command execution
+* update base agent command execution test
+* fix typo in base agent
+* begin hacking on command execution
+* get rid of separate jenkins tox env
+* clean up coverage xml
+* generate coverage xml
+* run coverage from tox
+* begin adding tests for decom and standby modes
+* add tests of base agent
+* add a test of agent command parameter validation
+* add a missing period to an error message
+* split agent command test
+* simplify internal command execution API
+* gitignore .coverage
+* add unit tests of agent API
+* remove old agent classes
+* validate that command params are a dictionary
+* split agent out into standby and decom classes
+* update code to adhere to OS hacking guidelines
+* reduce max line length to default of 79
+* add dependency on 'hacking' flake8 plugin
+* begin on command execution
+* begin adding agent API
+* out with the old, in with the new
+* give each task a unique id
+* add image download tests
+* add basic tasks structure
+* add(docs): Document when autobuilds happen
+* add(docs): Document builder locations
+* switch from simplejson to json
+* capitalize
+* dumb change
+* Add tests for require\_parameters
+* Force upgrade
+* finish stubbing out the standby agent
+* fix task tests
+* hook up \`prepare\_image\` to \`PrepareImageTask\`
+* remove unnecessary parameter to Task constructor
+* fix kwarg mismatch
+* fix require\_parameters
+* unify agent handler convention
+* rename addHandler -> add\_handler
+* expose more of structlog.get\_logger()
+* clean up task logging
+* expand agent response to 'status' call
+* expose 'log' method which sends log messages to endpoint
+* client: send\_response -> \_send\_response
+* log fatal errors
+* close connections cleanly on a fatal error
+* add protocol utilities for parameter validation
+* fix bug when non-connected protocol gets disconnected
+* fix prepare\_image implementation
+* fix returning responses
+* stop pinging on disconnect
+* fix ping response logging
+* fix tests
+* ping agent endpoint and disconnect when no response occurs
+* default make target runs lint + tests
+* remove unused import
+* make TeethClient to rely more MultiService for startup/shutdown
+* update handshake to use new message objects
+* Add many test cases for the RPC protocol and start making a Task structure
+* add task status
+* start on README.md docs on agent protocol
+* improve error message
+* Use twisted application framework
+* Add tests for event emitter class
+* distribute is depreciated, setuptools wins
+* Move main.py to a scripts directory and wrap in standard options parsing
+* Update git ignore
+* add structlog
+* fix aborting of connection, and set the delimiter to a reasonable \\n
+* Fix spelling of standbye
+* add jenkins xml submission deps
+* Restructure agent into a higher level client that handles multiple connections to the endpoints
+* use --null since we print0
+* Get version from single place
+* Change setup.py to extract version without importing
+* Add scripting and Makefile infrastructure to create virtual envs and be ran by CI tooling
+* add requirements.txt
+* pep8 cleanup
+* stub out prepare\_image method
+* improve handshake logging
+* implement connecting and handshaking
+* add license file
+* rename teeth.agent to teeth\_agent
+* add agent packaging
+* begin work on the agent
