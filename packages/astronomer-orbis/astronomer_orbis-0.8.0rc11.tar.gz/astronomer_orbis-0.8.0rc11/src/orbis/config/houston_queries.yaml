@@ -1,0 +1,35 @@
+get_all_deployments: |
+  query {
+    sysWorkspaces  {
+      id
+      label
+      deployments {
+        id
+        namespace
+        releaseName
+        label
+        config
+        environmentVariables{
+          key
+          value
+        }
+      }
+    }
+  }
+
+get_workspace_deployments: |
+  query {
+    workspace(workspaceUuid: "<workspace_uuid>") {
+      deployments {
+        id
+        namespace
+        releaseName
+        label
+        config
+        environmentVariables{
+          key
+          value
+        }
+      }
+    }
+  }
