@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+recursive-include devtools/templates *
+recursive-include devtools/static *
+recursive-include devtools/templatetags *
+global-exclude __pycache__
+global-exclude *.py[co] 

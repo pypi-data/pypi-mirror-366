@@ -1,0 +1,421 @@
+{% extends 'devtools/base.html' %}
+
+{% block title %}Functions - DevTools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-code-square"></i> Functions tester</h1>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-app"></i> Choose an application
+                </button>
+                <ul class="dropdown-menu">
+                    {% for app in available_apps %}
+                        <li><a class="dropdown-item" href="?app={{ app }}">{{ app }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if app_name %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-app"></i> Application: {{ app_name }}</h5>
+                </div>
+                <div class="card-body">
+                    {% if functions %}
+                        <div class="row">
+                            {% for function in functions %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <i class="bi bi-function"></i> {{ function.name }}
+                                        </h6>
+                                        <p class="card-text small">
+                                            <strong>Signature:</strong><br>
+                                            <code>{{ function.signature }}</code>
+                                        </p>
+                                        <p class="card-text">
+                                            {{ function.doc|truncatewords:15 }}
+                                        </p>
+                                        <button class="btn btn-sm btn-outline-primary" 
+                                                onclick="testFunction('{{ function.name }}', '{{ function.signature }}')">
+                                            <i class="bi bi-play"></i> Tester
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> 
+                            No function found in the module <code>{{ app_name }}.utils</code>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="bi bi-code-square display-1 text-muted"></i>
+                <h3 class="mt-3">Select an application</h3>
+                <p class="text-muted">Choose an application to explore its utility functions.</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Custom test zone -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-terminal"></i> Custom test</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="customCode" class="form-label">Custom Python code</label>
+                    <textarea class="form-control" id="customCode" rows="8" 
+                              placeholder="# Test your own functions here
+# Exemple :
+from myapp.utils import my_function
+result = my_function('test')
+print(f'Result: {result}')
+
+# Ou testez du code directement :
+def test_function():
+    return 'Hello World'
+
+print(test_function())"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-success" onclick="executeCustomCode()">
+                        <i class="bi bi-play-fill"></i> Execute
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="clearCustomCode()">
+                        <i class="bi bi-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results zone -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-terminal"></i> Results</h5>
+            </div>
+            <div class="card-body">
+                <div id="customResultContainer">
+                    <div class="text-muted text-center py-4">
+                        <i class="bi bi-arrow-up-circle display-4"></i>
+                        <p class="mt-2">Execute code to see results here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal to test a function -->
+<div class="modal fade" id="functionTestModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Test a function</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="functionTestContent">
+                    <!-- Contenu dynamique -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Useful code examples -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-lightbulb"></i> Useful examples</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Import and test a function</h6>
+                        <button class="btn btn-outline-info btn-sm mb-2" 
+                                onclick="insertExample('import_test')">
+                            📁 Import and test
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Test with error handling</h6>
+                        <button class="btn btn-outline-info btn-sm mb-2" 
+                                onclick="insertExample('error_handling')">
+                            ⚠️ Error handling
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Performance test</h6>
+                        <button class="btn btn-outline-info btn-sm mb-2" 
+                                onclick="insertExample('performance')">
+                            ⏱️ Performance
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Test with mocks</h6>
+                        <button class="btn btn-outline-info btn-sm mb-2" 
+                                onclick="insertExample('mock_test')">
+                            🎭 Mock testing
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const examples = {
+    'import_test': `# Test of import and execution
+try:
+    from {{ app_name }}.utils import ma_fonction
+    result = ma_fonction('test_param')
+    print(f'Result: {result}')
+    print(f'Type: {type(result)}')
+except ImportError as e:
+    print(f'Erreur d\\'import: {e}')
+except Exception as e:
+    print(f'Erreur d\\'exécution: {e}')`,
+
+    'error_handling': `# Test with complete error handling
+import traceback
+
+def test_safe_execution():
+    try:
+        # Your code to test here
+        result = "Test successful"
+        return result
+    except Exception as e:
+        print(f"Error: {e}")
+        print("Traceback:")
+        print(traceback.format_exc())
+        return None
+
+result = test_safe_execution()
+print(f"Final result: {result}")`,
+
+    'performance': `# Performance test
+import time
+from datetime import datetime
+
+def mesurer_performance(func, *args, **kwargs):
+    start = time.time()
+    start_memory = 0  # Simplified
+    
+    result = func(*args, **kwargs)
+    
+    end = time.time()
+    execution_time = (end - start) * 1000
+    
+    print(f"⏱️ Execution time: {execution_time:.2f}ms")
+    print(f"📊 Result: {result}")
+    return result
+
+# Example of use
+def ma_fonction_test():
+    return sum(range(1000))
+
+mesurer_performance(ma_fonction_test)`,
+
+    'mock_test': `# Test with simulation (mock)
+class MockObject:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+    
+    def __str__(self):
+        return f"Mock({self.__dict__})"
+
+# Example of use
+mock_user = MockObject(id=1, name="Test User", email="test@example.com")
+print(f"Mock user: {mock_user}")
+print(f"User email: {mock_user.email}")
+
+# Test of a function with this mock
+def process_user(user):
+    return f"Processing {user.name} ({user.email})"
+
+result = process_user(mock_user)
+print(f"Result: {result}")`
+};
+
+function testFunction(functionName, signature) {
+    const modal = new bootstrap.Modal(document.getElementById('functionTestModal'));
+    const content = document.getElementById('functionTestContent');
+    
+    content.innerHTML = `
+        <div class="mb-3">
+            <h6>Function: <code>${functionName}</code></h6>
+            <p>Signature: <code>${signature}</code></p>
+        </div>
+        <div class="mb-3">
+            <label for="functionArgs" class="form-label">Arguments (JSON ou Python)</label>
+            <textarea class="form-control" id="functionArgs" rows="3" 
+                      placeholder='{"param1": "value1", "param2": "value2"}'>
+            </textarea>
+            <small class="text-muted">Leave empty for functions without parameters</small>
+        </div>
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" onclick="executeFunctionTest('${functionName}')">
+                <i class="bi bi-play"></i> Execute
+            </button>
+        </div>
+        <div id="functionResult"></div>
+    `;
+    
+    modal.show();
+}
+
+function executeFunctionTest(functionName) {
+    const args = document.getElementById('functionArgs').value.trim();
+    const resultDiv = document.getElementById('functionResult');
+    
+    let code = `
+try:
+    from {{ app_name }}.utils import ${functionName}
+    
+    # Arguments
+    ${args ? `args = ${args}` : 'args = {}'}
+    
+    # Exécution
+    if isinstance(args, dict):
+        result = ${functionName}(**args)
+    elif isinstance(args, (list, tuple)):
+        result = ${functionName}(*args)
+    else:
+        result = ${functionName}(args) if args else ${functionName}()
+    
+    print(f"✅ Function executed successfully")
+    print(f"📤 Result: {result}")
+    print(f"🔍 Type: {type(result)}")
+    
+except Exception as e:
+    print(f"❌ Error: {e}")
+    import traceback
+    print(traceback.format_exc())
+    `;
+    
+    executeCode(code, resultDiv);
+}
+
+function executeCustomCode() {
+    const code = document.getElementById('customCode').value.trim();
+    const container = document.getElementById('customResultContainer');
+    
+    if (!code) {
+        alert('Please enter the code to execute');
+        return;
+    }
+    
+    executeCode(code, container);
+}
+
+function executeCode(code, resultContainer) {
+    resultContainer.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Execution...</span>
+            </div>
+            <p class="mt-2">Execution in progress...</p>
+        </div>
+    `;
+    
+    fetch('{% url "devtools:query" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            type: 'python',
+            code: code
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            resultContainer.innerHTML = `
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i> Execution successful
+                </div>
+                ${data.output ? `
+                    <h6>Output:</h6>
+                    <pre class="bg-light p-3 border rounded"><code>${escapeHtml(data.output)}</code></pre>
+                ` : '<p class="text-muted">No output generated</p>'}
+            `;
+        } else {
+            resultContainer.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6><i class="bi bi-exclamation-triangle"></i> Execution error</h6>
+                    <pre class="mt-2 mb-0"><code>${escapeHtml(data.error)}</code></pre>
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        resultContainer.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-triangle"></i> Connection error: ${error.message}
+            </div>
+        `;
+    });
+}
+
+function clearCustomCode() {
+    document.getElementById('customCode').value = '';
+    document.getElementById('customResultContainer').innerHTML = `
+        <div class="text-muted text-center py-4">
+            <i class="bi bi-arrow-up-circle display-4"></i>
+            <p class="mt-2">Execute code to see results here</p>
+        </div>
+    `;
+}
+
+function insertExample(exampleKey) {
+    const code = examples[exampleKey];
+    if (code) {
+        document.getElementById('customCode').value = code;
+    }
+}
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+</script>
+{% endblock %} 
