@@ -1,0 +1,157 @@
+# AutoFlowML 
+
+Automated data preprocessing and model selection for production and analytics.
+
+## Overview
+
+AutoFlowML automates the tedious parts of machine learning:
+
+**Data Cleaning** (missing values, outliers, duplicates)
+
+**Feature Engineering** (encoding, scaling, selection)
+
+**Model Selection** (AutoML with optimized hyperparameters)
+
+
+Built for data scientists who want to focus on insights, not boilerplate code.
+
+---
+
+## Installation
+
+```bash
+pip install autoflowml
+```
+
+---
+
+## Getting Started
+
+```python
+from autoflowml import CleanIt, NullFixer, run_tiny_automl
+import pandas as pd
+
+# Load your dataset
+df = pd.read_csv("data.csv")
+
+# Step 1: Clean the data
+df_clean = CleanIt(df).full_clean()
+
+# Step 2: Fix missing values
+df_imputed = NullFixer(df_clean).nullfix_knn(n_neighbors=5)
+
+# Step 3: Train the best model
+run_tiny_automl(df_imputed, target_column="target", problem_type="regression")
+```
+
+---
+
+## Show Off More Features!
+
+AutoFlowML is built for production. Here's how to remove outliers, encode features, and save models.
+
+```python
+from autoflowml import AutoOutlier, CategoricalMaster
+from joblib import dump, load
+
+# Step 1: Outlier removal
+df_no_outliers = AutoOutlier(method="isolation_forest").fit_transform(df_imputed)
+
+# Step 2: Categorical encoding
+encoded_df = CategoricalMaster(df_no_outliers, target_column="target").encode_auto()
+
+# Step 3: Train the model
+model = run_tiny_automl(encoded_df, target_column="target", problem_type="classification")
+
+# Step 4: Save the model
+dump(model, "best_model.pkl")
+
+# Step 5: Load and predict
+model = load("best_model.pkl")
+predictions = model.predict(encoded_df.drop("target", axis=1))
+```
+
+---
+
+## 3rd Party Integrations
+
+AutoFlowML plays well with popular ML libraries:
+
+- `evalml` for automated model selection and hyperparameter tuning
+- `category_encoders` for powerful encoding techniques
+- Fully compatible with `scikit-learn` pipelines
+
+---
+
+## Feature Highlights
+
+### Analytics + Cleaning
+
+- Rename messy columns
+- Remove duplicates
+- Fix null values with KNN, MICE, or time-aware methods
+
+### Outlier Detection
+
+- Supports Z-score, IQR, Isolation Forest
+
+### Encoding Support
+
+- One-Hot, Binary, and Target encoding built-in
+
+### AutoML
+
+- Regression and Classification
+- Feature selection and model tuning with `evalml`
+
+### Ready for Deployment
+
+- Serialize models using `joblib`
+- Predict on individual rows or full DataFrames
+
+---
+
+## Feature Learning (Advanced)
+
+You can use deep learning to extract useful features, then combine them with traditional models for superior performance. Use `feature_learning=True` in `run_tiny_automl()` (coming soon).
+
+---
+
+## Categorical Ensembling (Coming Soon)
+
+Train one model per category with `train_categorical_ensemble()`, perfect for use-cases like one model per region/store/customer.
+
+---
+
+## Documentation
+
+Full documentation coming soon. Until then, refer to examples in this README or explore the API directly.
+
+---
+
+## What This Project Automates
+
+- Column cleanup, outlier detection, and data imputation
+- Encoding categorical variables
+- Automated model selection and evaluation
+- Feature importance and selection
+- Serialization for production
+
+---
+
+## Running Tests
+
+If contributing or debugging, run:
+
+```bash
+pytest tests/
+```
+
+---
+
+## Why AutoFlowML?
+
+- Saves hours of preprocessing
+- Production-ready pipelines
+- Transparent, extensible design
+- Lightning-fast single-row predictions
