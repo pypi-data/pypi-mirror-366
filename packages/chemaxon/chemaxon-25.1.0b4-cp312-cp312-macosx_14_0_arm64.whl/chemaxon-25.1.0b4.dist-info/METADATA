@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: chemaxon
+Version: 25.1.0b4
+Summary: Chemaxon Python API
+Home-page: https://chemaxon.com/
+Author: Chemaxon Kft.
+Author-email: chemlib@chemaxon.com
+License: Chemaxon License
+Keywords: chemaxon
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Topic :: Utilities
+Classifier: License :: Other/Proprietary License
+Description-Content-Type: text/markdown; charset=UTF-8
+License-File: LICENSE.txt
+Dynamic: license-file
+
+# Chemaxon Python API
+
+Chemaxon package contains a chemical library with a possibility of calculation properties for small molecules.
+For detailed information, see: [Chemaxon Python API documentation site](https://docs.chemaxon.com/display/docs/python-api_index.md).
+
+For a commercial evaluation, please consult with our Sales Team (sales@chemaxon.com).
+
+## Usage example
+
+````
+from chemaxon import import_mol, logp, logd, pka, hlb
+
+mol = import_mol('CC(=O)NC1=CC=C(O)C=C1') # paracetamol
+
+print('logP:        ', logp(mol))
+print('logD[pH 9.0]:', logd(mol, pH=9.0))
+print('pKa:         ', pka(mol))
+print('hlb:         ', hlb(mol))
+````
+For more examples, see [https://github.com/ChemAxon/python-examples](https://github.com/ChemAxon/python-examples).
+
+## License information
+
+For Chemaxon Python API to work, you will need to obtain both a Chemaxon Python API license and a license for the 
+functionality you intend to use. By default, the Python API will work with a license key only.
+This library package invoking the Chemaxon Python API can be distributed royalty-free in line with the applicable 
+[PyPI Terms of Use](https://policies.python.org/pypi.org/Terms-of-Use/), but for any use, you will need to receive a license for the Chemaxon Software in line with the 
+following End User License Agreement (EULA):
+https://docs.chemaxon.com/display/docs/legal_end-user-license-agreement-eula.md.
