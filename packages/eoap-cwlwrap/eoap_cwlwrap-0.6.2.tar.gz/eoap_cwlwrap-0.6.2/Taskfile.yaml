@@ -1,0 +1,52 @@
+version: '3'
+
+vars:
+  BASE_CWL_URL: 'https://raw.githubusercontent.com/eoap/application-package-patterns/refs/heads/main'
+  PATTERNS: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+
+tasks:
+
+  test: 
+    cmds:
+    - hatch -e test run nose2 --verbose
+
+  plantuml_install:
+    internal: true
+    status:
+    - command -v plantuml
+    cmds:
+    - sudo bash -c "curl -L https://raw.githubusercontent.com/riboseinc/plantuml-install/main/ubuntu.sh | bash"
+
+  install:
+    cmds:
+    - rm -rf build
+    - rm -rf eoap-cwlwrap.egg-info
+    - pip install -e .
+
+  execute:
+    deps:
+    - task: plantuml_install
+    cmds:
+    - cmd: |
+             eoap-cwlwrap \
+             --directory-stage-in {{.BASE_CWL_URL}}/templates/stage-in.cwl \
+             --file-stage-in {{.BASE_CWL_URL}}/templates/stage-in-file.cwl \
+             --workflow {{.BASE_CWL_URL}}/cwl-workflow/pattern-{{.PATTERN}}.cwl \
+             --workflow-id pattern-{{.PATTERN}} \
+             --stage-out {{.BASE_CWL_URL}}/templates/stage-out.cwl \
+             --output ./tests/pattern-{{.PATTERN}}/current.cwl \
+             --puml
+    - plantuml -tsvg -o ../../docs/diagrams/pattern-{{.PATTERN}} ./tests/pattern-{{.PATTERN}}
+    - cmd: cwltool --print-dot ./tests/pattern-{{.PATTERN}}/current.cwl | dot -Tsvg -o ./docs/diagrams/pattern-{{.PATTERN}}/workflow.svg
+
+  default:
+    deps:
+    - install
+    cmds:
+    - for:
+        var: PATTERNS
+        as: PATTERN
+      task: execute
+      vars:
+        PATTERN: "{{.PATTERN}}"
+    - echo "All patterns processed"

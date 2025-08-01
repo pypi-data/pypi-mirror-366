@@ -1,0 +1,74 @@
+site_name: EOAP CWL Wrap
+
+theme:
+  logo: imgs/icon-eoap.png
+  name: material
+
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Switch to dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to light mode
+
+plugins:
+  - search
+  - mermaid2:
+      version: 11.4.1
+  - mkdocs-jupyter:
+      execute: true
+      show_input: True
+      no_input: False
+
+markdown_extensions:
+  - pymdownx.details
+  - abbr
+  - admonition
+  - footnotes
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - attr_list
+  - pymdownx.snippets:
+      base_path: './'
+  - pymdownx.highlight:
+      line_spans: __span
+
+extra_css:
+  - styles/css/app.css
+  
+extra_javascript:
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Introduction: index.md
+  - Patterns:
+    - pattern-1.ipynb
+    - pattern-2.ipynb
+    - pattern-3.ipynb
+    - pattern-4.ipynb
+    - pattern-5.ipynb
+    - pattern-6.ipynb
+    - pattern-7.ipynb
+    - pattern-8.ipynb
+    - pattern-9.ipynb
+    - pattern-10.ipynb
+    - pattern-11.ipynb
+
+copyright: <a href="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg">License CC BY-SA 4.0</a>, by <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons</a>
