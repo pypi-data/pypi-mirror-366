@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xno"
+version = "0.1.0"
+description = "XNO Package for Quantitative Finance"
+authors = [{name = "Kim", email = "kim.nguyen@xno.vn"}]
+license = {text = "MIT License"}
+
+[tool.setuptools.packages.find]
+where = ["."]
