@@ -1,0 +1,3 @@
+[sqlalchemy.dialects]
+ingres = sqlalchemy_ingres:base.dialect
+ingres.pyodbc = sqlalchemy_ingres.pyodbc:Ingres_pyodbc
