@@ -1,0 +1,191 @@
+Metadata-Version: 2.4
+Name: geolapis-core
+Version: 0.1.1
+Summary: Fast LAS file sanity checks for petrophysicists
+Home-page: https://www.geolapis.com
+Author: NI Ezema / Geolapis Ltd
+Author-email: contact@geolapis.com
+Project-URL: Documentation, https://www.geolapis.com/docs
+Project-URL: Source, https://github.com/GeolapisLtd/GeolapisCore
+Project-URL: Issues, https://github.com/GeolapisLtd/GeolapisCore/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: GIS
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: lasio>=0.27.0
+Requires-Dist: rich>=13.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# GeolapisCore™
+
+**A scalable suite of AI‑powered geoscience tools**
+
+GeolapisCore™ provides a robust, extensible command‑line validator for LAS files, along with utilities for AI‑assisted analysis and monetization support.
+
+---
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [CLI Validator](#cli-validator)
+  - [Commands & Options](#commands--options)
+- [Error Injector Utility](#error-injector-utility)
+- [Testing](#testing)
+- [Documentation](#documentation)
+- [Development & Contribution](#development--contribution)
+- [Packaging & Publishing](#packaging--publishing)
+- [License](#license)
+
+---
+
+## Installation
+
+Install the Community Edition from PyPI:
+
+```bash
+pip install geolapis-core
+```
+
+> Requires Python ≥ 3.7
+
+---
+
+## Quick Start
+
+Validate any LAS file in seconds by providing its filesystem path.
+
+```bash
+# Generic usage
+geolapis-core <path_to_your_las_file>
+
+# Example with the bundled test data
+geolapis-core test_data/spwla_examples/clean1.las
+```
+
+If the file is valid, you’ll see:
+
+```
+✅ Valid LAS file
+```
+
+Otherwise, a clear table of validation errors will appear.
+
+---
+
+## CLI Validator
+
+The core validator offers five rule-based checks:
+
+1. **Version Section**  
+   - Fails if `VERS.` is missing under `~Version Information`.
+2. **Gamma‑Ray (GR) Anomalies**  
+   - Scans all data lines; flags values > 200 API (`GR exceeds 200 API: max=<value>` and `GR anomaly detected`).
+3. **Curve Mnemonic & Unit**  
+   - Ensures a `GR` curve exists under `~Curve Information`.  
+   - Verifies its unit is exactly `GAPI`.
+4. **NULL‑Value Consistency**  
+   - Confirms `NULL.` value in `~Well Information` remains `-999.25`.
+5. **Mnemonic Variations**  
+   - Detects incorrect curve names like `GAMMA` instead of `GR`.
+
+### Commands & Options
+
+```bash
+Usage: geolapis-core <path_to_las_file>
+```  
+No additional flags currently; runs all validations by default.
+
+---
+
+## Error Injector Utility
+
+Generate realistic, reproducible LAS errors for testing and demos.  
+**Location:** `tools/error_injector.py`  
+
+### Usage
+
+```python
+from tools.error_injector import corrupt_las, ErrorType
+
+# Random 2–4 errors:
+corrupt_las("clean.las", "dirty.las")
+
+# Force specific errors:
+corrupt_las("clean.las", "dirty.las", [
+    ErrorType.HEADER_VERSION,
+    ErrorType.CURVE_GR
+])
+```
+
+Available `ErrorType` values:  
+`HEADER_VERSION`, `HEADER_WRAP`, `HEADER_NULL`, `CURVE_GR`, `CURVE_RHOB`, `DEPTH_INTERVAL`, `UNIT_MISMATCH`, `MNEMONIC`.
+
+---
+
+## Testing
+
+A `unittest` suite validates all five CLI rules.  
+**Location:** `tests/test_validator.py`
+
+Run:
+
+```bash
+pytest -q
+```
+
+---
+
+## Documentation
+
+Full docs, usage guide, and API reference are available at:  
+[https://www.geolapis.com/docs](https://www.geolapis.com/docs)
+
+---
+
+## Development & Contribution
+
+1. Fork the repo: `https://github.com/GeolapisLtd/GeolapisCore`
+2. Create a feature branch: `git checkout -b feat/your-feature`
+3. Run tests: `pytest -q`
+4. Submit a pull request.
+
+Please follow the coding style and add tests for new features.
+
+---
+
+## Packaging & Publishing
+
+1. Update version in `setup.py` and `README.md`.
+2. Build distributions:
+   ```bash
+   python -m build
+   ```
+3. Upload to PyPI:
+   ```bash
+   twine upload dist/*
+   ```
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).  
+© 2025 NI Ezema / Geolapis Ltd
