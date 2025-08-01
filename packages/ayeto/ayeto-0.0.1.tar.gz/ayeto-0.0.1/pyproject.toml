@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ayeto"
+version = "0.0.1"
+description = "AYETO API Client"
+authors = [
+    { name="AYETO team", email="info@ayeto.ai" }
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+dependencies = [
+    "pydantic>=2.11.7",
+    "requests>=2.32.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1",
+]
