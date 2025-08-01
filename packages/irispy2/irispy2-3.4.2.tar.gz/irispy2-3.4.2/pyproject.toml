@@ -1,0 +1,19 @@
+[project]
+name = "irispy2"
+version = "3.4.2"
+description = ""
+authors = [{ name = "ye-seola", email = "ye-seola@proton.me" }]
+requires-python = ">=3.9"
+readme = "README.md"
+dependencies = [
+    "requests (>=2.32.3,<3.0.0)",
+    "loguru (>=0.7.3,<0.8.0)",
+    "pure-python-adb (==0.3.0.dev)",
+    "websockets (>=15.0.1,<16.0.0)",
+]
+
+[project.optional-dependencies]
+pykakaodb-compat = ["pillow"]
+
+[project.scripts]
+iris-tools = "irispy2.cli:app"
