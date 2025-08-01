@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+
+[project]
+name = "edf-reader"
+version = "0.1.1"
+description = "Lightweight EDF file reader, which can handle discontinuities."
+readme = "README.md"
+authors = [
+    {name = "Vojtech Travnicek", email = "vojtech.travnicek@fnusa.cz"}
+]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Healthcare Industry",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+keywords = ["edf", "edf+", "edf+d", "european data format", "eeg", "medical", "neuroscience"]
+dependencies = ["numpy"]
+requires-python = ">=3.12"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://gitlab.com/bbeer_group/development/epycom/edf_reader"
