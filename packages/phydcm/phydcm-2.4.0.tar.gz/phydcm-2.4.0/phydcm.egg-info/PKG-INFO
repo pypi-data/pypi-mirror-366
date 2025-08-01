@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: phydcm
+Version: 2.4.0
+Summary: An AI-powered DICOM viewer for CT, MRI, and PET images built by medical physics students.
+Home-page: https://github.com/PhyDCM/PhyDCM
+Author: PhyDCM Team
+Author-email: phydcm.team@outlook.com
+Project-URL: Documentation, https://github.com/PhyDCM/PhyDCM/wiki
+Project-URL: Bug Tracker, https://github.com/PhyDCM/PhyDCM/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Topic :: Scientific/Engineering :: Medical Science Apps.
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PyQt6>=6.0.0
+Requires-Dist: numpy>=1.24
+Requires-Dist: matplotlib>=3.7
+Requires-Dist: pydicom>=2.4
+Requires-Dist: opencv-python>=4.9
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+# PhyDCM - Medical Imaging AI
+
+![Banner](assets/panner.jpg)
+
+**PhyDCM** is a research-driven project developed by a passionate team of Medical Physics students from the University of Al-Qadisiyah.  
+Our aim is to create cutting-edge tools that utilize artificial intelligence to enhance medical image processing and analysis.
+
+---
+
+## 👨‍🔬 Team Members
+
+- **Mohammed Hadi**
+- **Mohammed Hassan**
+- **Haider Ali**
+- **Ali Hussein**
+  
+- **Supervised by Dr. Hayder Saad**
+
+Department of Medical Physics – University of Al-Qadisiyah
+
+---
+
+## 🧠 Project Vision
+
+To build smart, accessible software tools that assist doctors and radiologists in analyzing DICOM medical images, using interactive visualization and AI-based diagnostics.
+
+---
+
+## 📷 Logo
+
+![Logo](assets/logo.jpg)
+
+---
+
+## 📂 Features
+
+- DICOM viewer with interactive video browsing.
+- Multi-modality support: CT, MRI, PET.
+- AI-ready design for segmentation and classification.
+- Clean, user-friendly UI.
+
+---
+
+## 🚀 Getting Started
+
+1. Clone the repo
+2. Install requirements
+3. Run the app
+
+---
+
+## 📦 Installation via pip
+
+```bash
+pip install phydcm
