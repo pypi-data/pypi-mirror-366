@@ -1,0 +1,33 @@
+[project]
+name = "xdep"
+version = "0.1.2"
+description = "An integrated pipeline for developing and evaluating trustworthy computer vision models."
+authors = [
+  { name="Sagar Tamang", email="sagar.bdr0000@gmail.com" }
+]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10,<3.12"
+dependencies = [
+  "lime>=0.2.0.1",
+  "matplotlib>=3.10.5",
+  "pillow>=11.3.0",
+  "rich>=14.1.0",
+  "scikit-learn>=1.7.1",
+  "seaborn>=0.13.2",
+  "tensorflow==2.20.0rc0",
+]
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+xdep = "xdep.main:main"
+
+[project.urls]
+"Homepage" = "https://github.com/SAGAR-TAMANG/X-DEP"
+"Repository" = "https://github.com/SAGAR-TAMANG/X-DEP"
+"Documentation" = "https://github.com/SAGAR-TAMANG/X-DEP?tab=readme-ov-file#xdep"
+"Issue Tracker" = "https://github.com/SAGAR-TAMANG/X-DEP/issues"
