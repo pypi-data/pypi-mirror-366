@@ -1,0 +1,21 @@
+# AI Helper Agent - Development Dependencies
+# Install with: pip install -r requirements-dev.txt
+
+# Include production requirements
+-r requirements.txt
+
+# Testing Framework
+pytest>=6.0
+pytest-cov
+
+# Code Quality Tools
+black
+flake8
+mypy
+
+# Development Tools
+pre-commit
+
+# Additional development utilities
+twine
+build
