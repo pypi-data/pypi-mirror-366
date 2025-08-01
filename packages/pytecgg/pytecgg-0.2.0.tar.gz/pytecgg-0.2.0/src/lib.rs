@@ -1,0 +1,212 @@
+use pyo3::prelude::*;
+use rinex::prelude::*;
+use polars::prelude::*;
+use pyo3_polars::PyDataFrame;
+use std::path::Path;
+use std::collections::{BTreeSet, BTreeMap};
+
+/// Parses a RINEX observation file and returns the extracted observation data as a DataFrame
+///
+/// Parameters:
+///     path (str): Path to the RINEX observation file
+///
+/// Returns:
+///     tuple:
+///         - PyDataFrame: A DataFrame with columns 'epoch', 'sv', 'observable', 'value'
+///         - tuple[float, float, float]: Receiver's position in ECEF coordinates (in meters)
+///         - str: RINEX version
+#[pyfunction]
+#[pyo3(text_signature = "(path, /)")]
+fn read_rinex_obs(path: &str) -> PyResult<(PyDataFrame, (f64, f64, f64), String)> {
+    let path = Path::new(path);
+    
+    if !path.exists() {
+        return Err(PyErr::new::<pyo3::exceptions::PyFileNotFoundError, _>(
+            format!("File not found: {}", path.display())
+        ));
+    }
+
+    let rinex = Rinex::from_file(path)
+        .map_err(|e| PyErr::new::<pyo3::exceptions::PyIOError, _>(
+            format!("RINEX parsing error: {}", e)
+        ))?;
+
+    if !rinex.is_observation_rinex() {
+        return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
+            "This is not a RINEX Observation file",
+        ));
+    }
+
+    // Extract approximate rx coordinates (ECEF) and RINEX version
+    let (x, y, z) = rinex.header.rx_position.unwrap_or((f64::NAN, f64::NAN, f64::NAN));
+    let version = rinex.header.version.to_string();
+
+    let mut epochs = Vec::new();
+    let mut prns = Vec::new();
+    let mut codes = Vec::new();
+    let mut values = Vec::new();
+    // let mut lli_flags = Vec::new();
+
+    // Access the record containing observation data
+    match &rinex.record {
+        Record::ObsRecord(obs_data) => {
+            for (obs_key, observations) in obs_data.iter() {
+                for signal in &observations.signals {
+                    epochs.push(obs_key.epoch.to_string());
+                    prns.push(signal.sv.to_string());
+                    codes.push(signal.observable.to_string());
+                    values.push(signal.value);
+                    // lli_flags.push(signal.lli.map(|f| f.bits() as i32));
+                }
+            }
+        },
+        _ => {
+            return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
+                "File does not contain observation data",
+            ));
+        }
+    }
+
+    let df = df![
+        "epoch" => &epochs,
+        "sv" => &prns,
+        "observable" => &codes,
+        "value" => &values,
+        // "lli" => &lli_flags,
+    ]
+    .map_err(|e| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(e.to_string()))?;
+
+    Ok((PyDataFrame(df), (x, y, z), version))
+}
+
+/// Parses a RINEX navigation file and returns a dictionary of DataFrames,
+/// one per GNSS constellation
+///
+/// Parameters:
+///     path (str): Path to the RINEX navigation file
+///
+/// Returns:
+///     dict[str, PyDataFrame]: A dictionary where keys are GNSS constellation names
+///     (e.g., "GPS", "Galileo") and values are DataFrames containing navigation parameters
+#[pyfunction]
+#[pyo3(text_signature = "(path, /)")]
+fn read_rinex_nav(path: &str) -> PyResult<BTreeMap<String, PyDataFrame>> {
+    let rinex = Rinex::from_file(Path::new(path))
+        .map_err(|e| PyErr::new::<pyo3::exceptions::PyIOError, _>(format!("RINEX error: {}", e)))?;
+
+    if !rinex.is_navigation_rinex() {
+        return Err(PyErr::new::<pyo3::exceptions::PyValueError, _>(
+            "This is not a RINEX Navigation file",
+        ));
+    }
+
+    // Map from constellation names to their data
+    let mut constellation_data: BTreeMap<String, Vec<BTreeMap<String, f64>>> = BTreeMap::new();
+    let mut constellation_times: BTreeMap<String, Vec<String>> = BTreeMap::new();
+    let mut constellation_svs: BTreeMap<String, Vec<String>> = BTreeMap::new();
+
+    for (nav_key, ephemeris) in rinex.nav_ephemeris_frames_iter() {
+        let constellation = match nav_key.sv.constellation {
+            Constellation::GPS => "GPS",
+            Constellation::Glonass => "GLONASS",
+            Constellation::Galileo => "Galileo",
+            Constellation::BeiDou => "BeiDou",
+            Constellation::QZSS => "QZSS",
+            Constellation::IRNSS => "IRNSS",
+            Constellation::SBAS => "SBAS",
+            _ => "Unknown",
+        }.to_string();
+
+        let sv_id = nav_key.sv.prn.to_string();
+        let epoch_str = nav_key.epoch.to_string();
+
+        // Create a map for the parameters
+        let mut params = BTreeMap::new();
+
+        // Add clock parameters
+        params.insert("clock_bias".to_string(), ephemeris.clock_bias);
+        params.insert("clock_drift".to_string(), ephemeris.clock_drift);
+        params.insert("clock_drift_rate".to_string(), ephemeris.clock_drift_rate);
+
+        // Add all available orbital parameters
+        for (key, value) in &ephemeris.orbits {
+            params.insert(key.to_string(), value.as_f64());
+        }
+
+        // Initialise data structures for the constellation if not already present
+        constellation_data.entry(constellation.clone())
+            .or_insert_with(Vec::new)
+            .push(params);
+        constellation_times.entry(constellation.clone())
+            .or_insert_with(Vec::new)
+            .push(epoch_str);
+        constellation_svs.entry(constellation.clone())
+            .or_insert_with(Vec::new)
+            .push(sv_id);
+    }
+
+    // Create DataFrames for each constellation
+    let mut result = BTreeMap::new();
+    
+    for (constellation, data) in constellation_data {
+        let times = &constellation_times[&constellation];
+        let svs = &constellation_svs[&constellation];
+        
+        // Collect all unique parameter names across
+        let mut all_params = BTreeSet::new();
+        for params in &data {
+            for param_name in params.keys() {
+                all_params.insert(param_name.clone());
+            }
+        }
+
+        // Crea a serries for each parameter
+        let mut series_map: BTreeMap<String, Vec<Option<f64>>> = BTreeMap::new();
+        for param in &all_params {
+            series_map.insert(param.clone(), Vec::new());
+        }
+
+        // Populate the series
+        for params in &data {
+            for param in &all_params {
+                let value = params.get(param).copied();
+                series_map.get_mut(param).unwrap().push(value);
+            }
+        }
+
+        // Create the DataFrame
+        let mut df_builder = df! {
+            "epoch" => times,
+            "sv" => svs,
+        }.map_err(|e| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(e.to_string()))?;
+
+        // Add all parameters as columns
+        for (param_name, values) in series_map {
+            let mut series: Series = values.into_iter()
+                .map(|opt| opt.map(|v| v as f64))
+                .collect::<Float64Chunked>()
+                .into_series();
+            series.rename(param_name.into());
+            df_builder.with_column(series)
+                .map_err(|e| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(e.to_string()))?;
+        }
+
+        // Set the multi-index with (epoch, sv)
+        df_builder = df_builder
+            .lazy()
+            .with_row_index("row_id", None)
+            .collect()
+            .map_err(|e| PyErr::new::<pyo3::exceptions::PyRuntimeError, _>(e.to_string()))?;
+
+        result.insert(constellation, PyDataFrame(df_builder));
+    }
+
+    Ok(result)
+}
+
+#[pymodule]
+fn pytecgg(_py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(read_rinex_obs, m)?)?;
+    m.add_function(wrap_pyfunction!(read_rinex_nav, m)?)?;
+    Ok(())
+}
