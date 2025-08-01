@@ -1,0 +1,103 @@
+/* Page-wide styles */
+html, body, h1, h2, h3, p, table, td, th {
+    font-family: Courier;
+
+}
+
+/* header */
+
+header {
+    background-image: url(https://s3.vauxoo.com/logoHorizontal.png);
+    background-repeat: no-repeat;
+    background-size: 10%;
+    background-color: white;
+    background-position: 80% 50%;
+    border-bottom: 5px double #eaeaea;
+    letter-spacing: -2px;
+}
+
+.pyfile header {
+    background-position: 90% 50%;
+}
+
+h1 .text {
+    font-size: 0.9em;
+    color: #666;
+}
+h1 b {
+    letter-spacing: -1px;
+    border-bottom: 1px #666 !important;
+}
+
+h1 .pc_cov {
+    letter-spacing: -1px;
+    border: 1px solid #666;
+    border-radius: 30%;
+    padding: 5px 5px 5px 5px;
+}
+
+h2, button {
+    letter-spacing: -1px
+}
+
+header p.text {
+    font-style: normal;
+    line-height: 1.15rem;
+}
+
+header .content {
+    letter-spacing: -1px;
+    padding: 1rem 1.5rem;
+}
+
+button.run, button.mis, button.exc {
+    border-radius: 20% 20% 20% 20%;
+}
+
+.pyfile header a#prevFileLink, .pyfile header a#nextFileLink {
+    background: rgba(231, 226, 231, 0.667) !important;
+    padding: 4px 6px;
+    border-radius: 10% 10% 10% 10%;
+    text-transform: uppercase;
+}
+
+/* Index */
+
+#index {
+    margin: 0 0 0 0;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+}
+
+#index table.index {
+    position: absolute;
+    margin: 20px 20px 20px auto;
+    font-size: 1.15em;
+    line-height: 1.25em;
+}
+
+#index table.index th {
+    font-style: normal;
+}
+
+.indexfile footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+/* Footer */
+
+footer {
+    width: 100%;
+    color: white;
+    background-color: #282c2f;
+    margin: 0 !important;
+    padding: 10px;
+}
+
+footer p {
+    color: white;
+    letter-spacing: -1px;
+    font-style: normal;
+}
