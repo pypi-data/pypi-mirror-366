@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+{% load tags %}
+
+{% load static %}
+
+{% block title %} - Ground Station {{ station.name }}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'lib/bootstrap-slider/dist/css/bootstrap-slider.min.css' %}">
+  <link rel="stylesheet" href="{% static 'lib/maplibre-gl/dist/maplibre-gl.css' %}">
+  <link rel="stylesheet" href="{% static 'lib/jquery.json-viewer/json-viewer/jquery.json-viewer.css' %}">
+{% endblock css %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-7">
+      <h2 id="station-info"
+          data-name="{{ station.name }}"
+          data-id="{{ station.id }}"
+          data-lng="{{ station.lng }}"
+          data-lat="{{ station.lat }}"
+          data-schedule="{{ can_schedule|yesno:"true,false" }}"
+          data-new-obs="{% url 'base:observation_new' %}">
+        {{ station.id }} - {{ station.name }}
+      </h2>
+      <div class="timezone text-muted">
+            <span class="bi bi-clock" aria-hidden="true"></span>
+        Timeframes are in <span id="timezone-info" data-toggle="tooltip" title="">UTC</span>
+      </div>
+    </div>
+
+    <div class="col d-none d-lg-flex justify-content-end align-items-center">
+      <span class="station-actions">
+        {% if can_modify_delete_station %}
+          {% if station.observations_stats.future %}
+            <a class="btn btn-danger delete-future-modal-reveal"  role="button" data-toggle="modal" data-target="#delete-future-modal">
+              <span class="bi bi-trash" aria-hidden="true"></span>
+              Delete future observations
+            </a>
+          {% endif %}
+        {% endif %}
+        {% if request.user == station.owner %}
+          <a class="btn btn-primary" role="button" href="{% url 'base:station_edit' station_id=station.id %}">
+            <span class="bi bi-pencil-square" aria-hidden="true"></span>
+            Edit
+          </a>
+          <a class="btn btn-danger delete-modal-reveal"  role="button" data-toggle="modal" data-target="#delete-modal">
+            <span class="bi bi-x" aria-hidden="true"></span>
+          </a>
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="col d-flex d-lg-none justify-content-end align-items-center">
+      <span class="station-actions">
+        {% if request.user == station.owner %}
+          <a class="btn btn-primary" role="button" href="{% url 'base:station_edit' station_id=station.id %}">
+            <span class="bi bi-pencil-square" aria-hidden="true"></span>
+          </a>
+          <a class="btn btn-danger delete-modal-reveal" role="button" data-toggle="modal" data-target="#delete-modal">
+            <span class="bi bi-x" aria-hidden="true"></span>
+          </a>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs station-tabs" role="tablist">
+        <li role="presentation" class="nav-item">
+          <a class="nav-link active" href="#tab-station-info"
+             aria-controls="tab-station-info"
+             role="tab"
+             data-toggle="tab">Information
+           </a>
+        </li>
+        {% if request.user == station.owner %}
+        <li role="presentation" class="nav-item">
+          <a class="nav-link" href="#tab-configuration"
+             aria-controls="tab-configuration"
+             role="tab"
+             data-toggle="tab">Configuration
+           </a>
+        </li>
+        {% endif %}
+        <li role="presentation" class="nav-item">
+          <a class="nav-link" href="#tab-future-passes"
+             aria-controls="tab-future-passes"
+             role="tab"
+             data-toggle="tab">
+            Future Passes
+          </a>
+        </li>
+        <li role="presentation" class="nav-item">
+          <a class="nav-link" href="#tab-station-log"
+             aria-controls="tab-station-log"
+             role="tab"
+             data-toggle="tab">
+            Status Log
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-content" id="station-tab-content">
+    <div role="tabpanel" class="tab-pane fade show active" id="tab-station-info">
+      <div class="row">
+        <div class="col-4">
+          <table class="table table-sm table-borderless table-hover">
+            <tbody>
+              <tr>
+                <td>
+                  <span class="badge badge-secondary">Owner</span>
+                </td>
+                <td>
+                  {% if station.owner %}
+                  <a href="{% url 'users:view_user' username=station.owner.username %}">
+                    {{ station.owner.displayname }}
+                  </a>
+                  {% else %}
+                   -
+                  {% endif %}
+                </td>
+              </tr>
+              {% if station.has_location %}
+                {% if station.qthlocator %}
+                  <tr>
+                    <td>
+                      <span class="badge badge-secondary">QTH Locator</span>
+                    </td>
+                    <td>
+                      {{ station.qthlocator }}
+                    </td>
+                  </tr>
+                {% endif %}
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Coordinates(lat, lon)</span>
+                  </td>
+                  <td>
+                    {{ station.lat|floatformat:-3 }}°, {{ station.lng|floatformat:-3 }}°
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Altitude</span>
+                  </td>
+                  <td>
+                    {{ station.alt }} m
+                  </td>
+                </tr>
+              {% endif %}
+              <tr>
+                <td>
+                  <span class="badge badge-secondary">Min Horizon</span>
+                </td>
+                <td>
+                  {{ station.horizon }}°
+                </td>
+              </tr>
+              {% if station.target_utilization %}
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Target Utilization</span>
+                  </td>
+                  <td>
+                    {{ station.target_utilization }} %
+                  </td>
+                </tr>
+              {% endif %}
+              {% if station.antennas.exists %}
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Antennas</span>
+                  </td>
+                  <td>
+                    {% for antenna in station.antennas.all %}
+                      <span class="antenna-pill" data-toggle="tooltip" data-placement="bottom"
+                            title="{% for range in antenna.frequency_ranges.all %} {{ range.min_frequency|frq }} - {{ range.max_frequency|frq }}&#xA{% endfor %}">
+                        {{ antenna.antenna_type }} ({{ antenna.bands}})
+                      </span>
+                    {% endfor %}
+                  </td>
+                </tr>
+              {% endif %}
+              {% if station.success_rate %}
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Success Rate</span>
+                  </td>
+                  <td>
+                    <div class="progress" title="{{ station.success_rate }}%">
+                      <div class="gs progress-bar pb-success" role="progress-bar" data-success-rate="{{ station.success_rate }}">
+                        <span class="sr-only">{{ station.success_rate }}% Complete (success)</span>
+                      </div>
+                      <div class="gs progress-bar pb-danger" role="progress-bar" data-percentagerest="{{ station.success_rate|percentagerest }}">
+                        <span class="sr-only">{{ station.success_rate|percentagerest }}% Complete (danger)</span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              {% endif %}
+              {% if station.observations_stats.total %}
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Observations</span>
+                  </td>
+                  <td>
+                    <a class="btn btn-sm btn-outline-dark" role="button"
+                       href="{% url 'base:observations_list' %}?station={{ station.id }}">{{ station.observations_stats.total }}</a>
+                  </td>
+                </tr>
+              {% endif %}
+              <tr>
+                  <td>
+                  <span class="badge badge-secondary">Creation Date</span>
+                </td>
+                <td data-toggle="tooltip" title="{{ station.created|date:"c" }}">
+                  {{ station.created|timesince }} ago
+                </td>
+              </tr>
+              {% if station.client_version %}
+                <tr>
+                  <td>
+                    <span class="badge badge-secondary">Client version</span>
+                  </td>
+                  <td title="on latest reported observation">
+                    {{ station.client_version }}
+                  </td>
+                </tr>
+              {% endif %}
+              <tr>
+                <td>
+                  <span class="badge badge-{{ station.get_status_display|lower }}">{{ station.get_status_display }}</span>
+                </td>
+                <td data-toggle="tooltip" title="{{ station.last_seen|date:"c" }}">
+                  {% if station.last_seen %}
+                    Last seen {{ station.last_seen|timesince }} ago
+                  {% else %}
+                    Never seen online
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="badge badge-secondary">Uptime</span>
+                </td>
+                <td>
+                  {% if uptime_since %}
+                    {{ uptime_since|timesince }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-4">
+          <div id="map-station" data-mapboxid="{{ mapbox_id }}" data-mapboxtoken="{{ mapbox_token }}"></div>
+        </div>
+        <div class="col-4" id="station-view-image-container">
+          <img src="{{ station.get_image }}" class="station-view-image" alt="{{ station.name }}">
+           <span class="bi bi-arrows-fullscreen img-expand"
+                 aria-hidden="true" data-src="{{ station.get_image }}"></span>
+        </div>
+      </div>
+
+      {% if station.description %}
+        <hr />
+        <div class="row">
+          <div class="col-md-12">
+            <span>{{ station.description }}</span>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if request.user == station.owner %}
+    <div role="tabpanel" class="tab-pane fade" id="tab-configuration">
+      <div class="row">
+        {% if station.active_configuration %}
+        <div class="card w-100">
+            <div class="card-header" data-toggle="collapse" data-target="#basic-config-card-body">
+                <h6>{{ station.active_configuration.name }}
+                <i class="bi bi-arrows-collapse float-right" aria-hidden="true"></i></h6>
+            </div>
+            <div class="card-body collapse in show" id="basic-config-card-body">
+              {{ station.active_configuration.configuration|json_script:"station-conf" }}
+              {{ station.active_configuration.schema.schema|json_script:"station-schema" }}
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div>
+                    <label for="json-renderer"><h6><b>Current Configuration</b> (Non-default values)</h6></label>
+                  </div>
+                  <p class="m-0"><b>Changed:</b> {{ station.active_configuration_changed }}</p>
+                  <p class="m-0"><b>Applied to Station:</b> {{ station.active_configuration.applied|default:'pending...' }}</p>
+                </div>
+                <button id="export-configuration-btn" type="button" class="btn btn-primary btn-sm"><span class="bi bi-clipboard"></span> Export Configuration</button>
+              </div>
+              <div class="mb-3 bg-light border border-secondary table-responsive" id="json-renderer"></div>
+            </div>
+          </div>
+        {% else %}
+          <div class="mx-5 mt-3">
+            <h6>No active configuration</h6>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div role="tabpanel" class="tab-pane fade" id="tab-future-passes">
+      <div class="row">
+        <div class="col-12">
+          <button type="button" id="calculate-button" class="btn btn-primary my-2 w-100" disabled="True">
+            <i class="bi bi-calculator-fill" aria-hidden="true"></i>
+            Re-Calculate Future Passes
+          </button>
+        </div>
+      </div>
+
+      <div id="pass-predictions">
+        <div class="row justify-content-between">
+          <div class="col">
+            <h5>
+              Future Passes
+            </h5>
+          </div>
+          <div class="col d-flex justify-content-end align-items-center">
+            <span class="future-passes-actions">
+              <a class="btn btn-outline-dark" role="button" data-toggle="collapse"
+                      href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                <span class="bi bi-funnel-fill" aria-hidden="true"></span>
+              </a>
+            </span>
+          </div>
+        </div>
+
+        <div id="collapseFilters" class="row collapse px-2 pt-2">
+          <div class="col-4">
+            <label for="success-filter">Success Rate</label>
+            <input id="success-filter" type="text"/>
+          </div>
+          <div class="col-4">
+            <label for="elevation-filter">Max Elevation</label>
+            <input id="elevation-filter" type="text"/>
+          </div>
+          <div class="col-4">
+            <label for="overlap-filter">Overlap</label>
+            <input id="overlap-filter" type="text"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-hover my-2">
+              <thead class="bg-light">
+                <th>Name</th>
+                <th>
+                  <span aria-hidden="true"
+                    data-toggle="tooltip" data-placement="bottom"
+                    title="Satellite raises from horizon">AOS</span>
+                </th>
+                <th>
+                  <span aria-hidden="true"
+                    data-toggle="tooltip" data-placement="bottom"
+                    title="Satellite sets to horizon">LOS</span>
+                </th>
+                <th>⤉ ⇴ ⤈</th>
+                <th>Polar plot</th>
+                {% if can_schedule %}
+                  <th></th>
+                {% endif %}
+              </thead>
+              <tbody id="pass-predictions-results" can_schedule="{{ can_schedule }}">
+                <tr id="loading">
+                  <td colspan=7>
+                    <div class="spinner">
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                    Calculating Future Passes
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" id="prediction-results" d-none>
+          <div class="col-md-12 notice">
+            <span id="prediction-results-count"></span> passes found.
+            <a id="open-all" href="#">Open all for scheduling</a>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="tab-station-log">
+      <div class="row">
+        <div class="col">
+          <table class="table table-sm table-hover my-2">
+            <thead class="bg-light">
+              <th>Status</th>
+              <th>Datetime</th>
+              <th>Time since Change</th>
+            </thead>
+            <tbody>
+              {% for log in station_log %}
+                <tr class="bg-{{log.get_status_display|lower}} text-{{log.get_status_display|lower}}">
+                  <td>
+                    <span class="badge badge-{{ log.get_status_display|lower }}">{{ log.get_status_display }}</span>
+                  </td>
+                  <td>
+                    <span>{{ log.changed|date:"Y-m-d H:i:s" }}</span>
+                  </td>
+                  <td>
+                    <span>{{ log.changed|timesince }} ago</span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Station Image Modal -->
+  <div id="modal-lightbox" class="modal-lightbox">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <img src="{{ station.get_image }}" class="station-full-image" alt="{{ station.name }}">
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalTitle">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="DeleteModalTitle">Do you really want to delete the ground station?</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="station-delete-warning">WARNING: You are about to delete irreversibly your ground station!</p>
+          <p>If you want to continue, please enter the ID of your station below to confirm the action.</p>
+          <input value="" id="delete-confirm-id" type="text" class="form-control" name="delete-confirm-id" placeholder="Enter your station ID to proceed with deletion">
+        </div>
+        <div class="modal-footer justify-content-between">
+          <a class="btn btn-danger" id="station-delete" href="{% url 'base:station_delete' station_id=station.id %}">
+            <span class="bi bi-x-lg" aria-hidden="true"></span> Irreversible Delete
+          </a>
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete future Observations Modal -->
+  <div class="modal" id="delete-future-modal" tabindex="-1" role="dialog" aria-labelledby="DeleteFutureModal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="DeleteFutureModal">Do you really want to delete all future observations on this ground station?</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="future-obsarvations-delete-warning">WARNING: You are about to delete irreversibly all the future observation on this ground station!</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <a class="btn btn-danger" id="station-future-delete" href="{% url 'base:station_delete_future_observations' station_id=station.id %}">
+            <span class="bi bi-x-lg" aria-hidden="true"></span> Irreversible Delete {{ station.observation_stats.future }} Observations
+          </a>
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include 'includes/satellite.html' %}
+{% endblock content %}
+
+{% block javascript %}
+  <script src="{% static 'lib/maplibre-gl/dist/maplibre-gl.js' %}"></script>
+  <script src="{% static 'lib/moment/min/moment.min.js' %}"></script>
+  <script src="{% static 'lib/bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
+  <script src="{% static 'lib/satellite.js/dist/satellite.min.js' %}"></script>
+  <script src="{% static 'js/utc.js' %}"></script>
+  <script src="{% static 'js/polar_svg.js' %}"></script>
+  <script src="{% static 'js/station_configuration_utils.js' %}"></script>
+  <script src="{% static 'js/station_view.js' %}"></script>
+  <script src="{% static 'js/satellite.js' %}"></script>
+  <script src="{% static 'lib/jquery.json-viewer/json-viewer/jquery.json-viewer.js' %}"></script>
+{% endblock javascript %}

@@ -1,0 +1,167 @@
+{% load static %}
+{% load tags %}
+{% load cache %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SatNOGS Network{% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% compress css %}
+      <link rel="stylesheet" href="{% static 'lib/bootstrap-icons/font/bootstrap-icons.css' %}">
+      <link rel="stylesheet" href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" type="text/scss" href="{% static 'css/app.scss' %}">
+      {% block css %}
+      {% endblock %}
+    {% endcompress %}
+
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+  </head>
+
+  <body {% block body-class %}{% endblock %}>
+    {{ stage_notice }}
+    {% block prenav-content %}{% endblock %}
+
+    <div class="container">
+      <nav class="navbar navbar-light navbar-main navbar-expand-lg bg-light border" role="navigation">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% if request.user.is_authenticated %}
+                                        {% url 'users:view_user' username=request.user.username %}
+                                      {% else %}
+                                        {% url 'base:home' %}
+                                      {% endif %}">
+          <img class="navbar-logo" src="{% static 'img/satnogs_net.png' %}" alt="SatNOGS net">
+        </a>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% active request 'base:home' %}">
+              <a class="nav-link" href="{% url 'base:home' %}">Home</a>
+            </li>
+            <li class="nav-item {% active request 'base:about' %}">
+              <a class="nav-link" href="{% url 'base:about' %}">About</a>
+            </li>
+            <li class="nav-item dropdown {% active request 'base:observations_list' %} {% active request 'base:observation_new' %}">
+              <a class="nav-link dropdown-toggle" href="#" id="observationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Observations
+              </a>
+              <div class="dropdown-menu bg-light p-0" aria-labelledby="observationsDropdown">
+                <a class="dropdown-item btn-sm {% active request 'base:observations_list' %}" href="{% url 'base:observations_list' %}" role="button">Browse</a>
+                <div class="dropdown-divider m-0"></div>
+                <a class="dropdown-item btn-sm {% active request 'base:observation_new' %}" href="{% url 'base:observation_new' %}" role="button">
+                  Schedule
+                </a>
+              </div>
+            </li>
+            <li class="nav-item {% active request 'base:stations_list' %}">
+              <a class="nav-link" href="{% url 'base:stations_list' %}">Ground Stations</a>
+            </li>
+            <li>
+              <a class="nav-link d-none d-lg-block" href="https://community.libre.space/" target="_blank">Community</a>
+            </li>
+            <li>
+              <a class="nav-link d-none d-lg-block" href="https://wiki.satnogs.org/" target="_blank">Wiki</a>
+            </li>
+          </ul>
+          <span class='nav-link navbar-text d-none d-lg-block' id="current_utc">--:-- UTC</span>
+          <ul class="navbar-nav">
+              {% if request.user.is_authenticated %}
+                {% with count=owner_unknown_count %}
+                  {% if count %}
+                    <li data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="{{ count }} observations needs rating">
+                      <a class="nav-link d-none d-lg-block" href="{% url 'base:observations_list' %}?observer={{ request.user.id }}&future=0&good=0&bad=0&failed=0&rated=rwu">
+                        <span class="bi bi-ui-checks" aria-hidden="true"></span>
+                        <span class="badge badge-unknown">{{ count }}</span>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endwith %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% cache 3600 nav-avatar request.user.email %}
+                      <img src="{{ request.user.email|gravatar_url:35 }}" class="img-avatar" alt="user avaatar"/>
+                    {% endcache %}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'users:view_user' username=request.user.username %}">Dashboard</a>
+                    <div class="dropdown-divider"></div>
+                    {% if request.user.is_superuser %}
+                      <a class="dropdown-item" href="{% url 'base:settings_site' %}">Site Settings</a>
+                    {% endif %}
+                    {{ logout_block }}
+                  </div>
+                </li>
+              {% else %}
+                {{ auth_block }}
+              {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+    </div>
+
+    <div class="container">
+
+      <div id="alert-messages" class="row messages">
+        {% if messages %}
+          <div class="col-md-12">
+            {% for notification in messages %}
+              <div class="alert alert-{{ notification.tags }} alert-dismissible" role="alert">
+                {{ notification.message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% block content %}{% endblock content %}
+
+    </div> <!-- /container -->
+
+    {% block modal %}{% endblock modal %}
+
+    {% block footer %}
+      <footer>
+        <div class="container">
+          <hr>
+          <div class="row">
+            <div class="col-md-6 footer-options">
+              <span class="bi bi-c-circle" aria-hidden="true"></span> 2014<span id="copy"></span>
+              <a href="https://libre.space/" target="_blank">Libre Space Foundation</a>.<br>
+              <span class="bi bi-cloud-fill" aria-hidden="true"></span>
+              Observation data are freely distributed under the
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA</a> license.
+            </div>
+            <div class="col-md-6 text-right footer-options">
+              <a href="https://satnogs.org/" target="_blank">SatNOGS</a> |
+              <a href="#top">Back to top</a>
+              <p>
+                {{ version }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {% endblock %}
+
+    {% compress js %}
+      <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'lib/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/app.js' %}"></script>
+      <script src="{% static 'js/current_utc.js'%}"></script>
+      {% block javascript %}
+      {% endblock javascript %}
+    {% endcompress %}
+</body>
+</html>

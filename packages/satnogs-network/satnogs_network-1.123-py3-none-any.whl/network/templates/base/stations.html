@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load tags %}
+{% load static %}
+
+{% block title %} - Ground Stations{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'lib/maplibre-gl/dist/maplibre-gl.css' %}">
+{% endblock css %}
+
+{% block content %}
+  <div class="row">
+    <div class="col col-md-5">
+      <h2>
+        Ground Stations
+      </h2>
+    </div>
+
+    <div class="col d-none d-lg-flex justify-content-end align-items-center">
+      {% if is_paginated %}
+          {% load paginator %}{% paginator request 3%}
+      {% endif %}
+      <span class="stations-actions">
+        <a class="btn btn-outline-dark" role="button" data-toggle="collapse"
+           href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+          <span class="bi bi-funnel-fill" aria-hidden="true"></span>
+        </a>
+        <a href='#map' class="btn btn-outline-dark" role="button" data-toggle="modal" data-target="#MapModal">
+          <span class="bi bi-geo-alt-fill" aria-hidden="true"></span> Map
+        </a>
+      </span>
+    </div>
+
+    <div class="col d-flex d-lg-none justify-content-end align-items-center">
+      <span class="stations-actions">
+        <a class="btn btn-outline-dark" role="button" data-toggle="collapse"
+                href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+          <span class="bi bi-funnel-fill" aria-hidden="true"></span>
+        </a>
+        <a href='#map' class="btn btn-outline-dark" role="button" data-toggle="modal" data-target="#MapModal">
+          <span class="bi bi-geo-alt-fill" aria-hidden="true"></span>
+        </a>
+      </span>
+    </div>
+  </div>
+
+  <div class="collapse px-2 pt-2" id="collapseFilters" data-filtered="{{ is_filtered }}">
+    <div class="filter-section card">
+      <form id="station-filter" class="row" method="get" action="{% url 'base:stations_list' %}">
+        {% for error in freq_filter_errors %}
+          <div class="alert alert-danger" role="alert">{{error}}</div>
+        {% endfor %}
+        <div class="form-group status-filter col-md-4 col-lg-3">
+          <label for="status-selector">Status</label>
+          <div id="status-selector" class="btn-group-toggle" role="group" aria-label="Group of status filters" data-toggle="buttons">
+            <label class="btn btn-good btn-sm {% if online is False %}active btn-inactive{% endif %}"
+                   aria-expanded="true"
+                   aria-controls="online"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Online">
+              <input type="checkbox" name="online" value="0" {% if online is False %}checked{% endif %} autocomplete="off">
+              <span class="bi bi-check" aria-hidden="true"></span>
+            </label>
+            <label class="btn btn-unknown btn-sm {% if testing is False %}active btn-inactive{% endif %}"
+                   aria-expanded="true"
+                   aria-controls="testing"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Testing">
+              <input type="checkbox" name="testing" value="0" {% if testing is False %}checked{% endif %} autocomplete="off">
+              <span class="bi bi-question-circle" aria-hidden="true"></span>
+            </label>
+            <label class="btn btn-bad btn-sm {% if offline is False %}active btn-inactive{% endif %}"
+                   aria-expanded="true"
+                   aria-controls="offline"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Offline">
+              <input type="checkbox" name="offline" value="0" {% if offline is False %}checked{% endif %} autocomplete="off">
+              <span class="bi bi-x" aria-hidden="true"></span>
+            </label>
+            <label class="btn btn-future btn-sm {% if future is False %}active btn-inactive{% endif %}"
+                   aria-expanded="true"
+                   aria-controls="future"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Future">
+              <input type="checkbox" name="future" value="0" {% if future is False %}checked{% endif %} autocomplete="off">
+              <span class="bi bi-clock" aria-hidden="true"></span>
+            </label>
+          </div>
+        </div>
+        <div id="frequency-filter-formgroup" class="form-group frequency-filter col-md-4 col-lg-3 {% if freq_filter_errors %}has_error{% endif %}">
+            <label class="frequency-filter-label" for="frequency-filter">Frequency</label>
+            <div class="freq-input-container">
+              <input name="freq" id="frequency-filter" min="0" type="number" step="1" value="{{freq}}" class="frequency-filter-input form-control" autocomplete="off"/>
+              <span id="freq-format"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-12 text-center">
+          <button id="filter-button" type="submit" class="btn btn-primary">Update filters</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover my-2">
+        <thead class="bg-light">
+          <th>ID</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Total</th>
+          <th>Future</th>
+          <th>Antennas</th>
+          <th>Owner</th>
+        </thead>
+        <tbody>
+          {% for station in stations %}
+            <tr class="station-row clickable-row" data-href="{% url 'base:station_view' station_id=station.id %}">
+              <td>
+                <a href="{% url 'base:station_view' station_id=station.id %}">
+                  <span class="station
+                               {% if station.last_seen %}
+                                 badge badge-{{ station.get_status_display|lower }}
+                               {% else %}
+                                 badge badge-future
+                               {% endif %}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="{% if station.last_seen %}
+                                 Seen {{ station.last_seen|timesince }} ago
+                               {% else %}
+                                 Never seen online
+                               {% endif %}">
+                    {{ station.id }}
+                  </span>
+                </a>
+              </td>
+              <td>
+                {{ station.name }}
+              </td>
+                <td>
+                  {% if station.has_location %}
+                    {% if station.qthlocator %}
+                      <span data-toggle="tooltip" data-placement="bottom"
+                            title="{{ station.lat|floatformat:-3 }}°, {{ station.lng|floatformat:-3 }}°">
+                      {{ station.qthlocator }}
+                    {% else %}
+                      {{ station.lat|floatformat:-1 }}°, {{ station.lng|floatformat:-1 }}°
+                    {% endif %}
+                    @{{ station.alt}}m
+                  {% else %}
+                    Location not defined
+                  {% endif %}
+                </td>
+              <td>
+                <a href="{% url 'base:observations_list' %}?station={{ station.id }}" class="badge badge-success badge-pill" data-placement="bottom">
+                  {{ station.observations_stats.total }}
+                </a>
+              </td>
+              <td>
+                <a href="{% url 'base:observations_list' %}?future=1&good=0&bad=0&unknown=0&failed=0&station={{ station.id }}" class="badge badge-info badge-pill">
+                  {{ station.observations_stats.future }}
+                </a>
+              </td>
+              <td class="antennas">
+                {% for antenna in station.antennas.all %}
+                  <span class="antenna-pill" data-toggle="tooltip" data-placement="bottom"
+                        title="{% for range in antenna.frequency_ranges.all %} {{ range.min_frequency|frq }} - {{ range.max_frequency|frq }}&#xA{% endfor %}">
+                    {{ antenna.antenna_type }} ({{ antenna.bands}})
+                  </span>
+                {% endfor %}
+              </td>
+              <td>
+                {% if station.owner %}
+                <a href="{% url 'users:view_user' username=station.owner.username %}">
+                  {{ station.owner.displayname }}
+                </a>
+                {% else %}
+                 -
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if is_paginated %}{% load paginator %}{% paginator request 3 %}{% endif %}
+      <div class="text-center mt-2">
+        Query returned {{ stations|length }} station{{ stations|length|pluralize }}.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade map-modal" id="MapModal" tabindex="-1" role="dialog" aria-labelledby="MapModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="MapModalTitle">Stations Map</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="map" data-mapboxid="{{ mapbox_id }}" data-mapboxtoken="{{ mapbox_token }}" data-stations="{% url 'base:stations_all' %}"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+{% block javascript %}
+  <script src="{% static 'lib/maplibre-gl/dist/maplibre-gl.js' %}"></script>
+  <script src="{% static 'js/stations.js' %}"></script>
+  <script src="{% static 'js/map.js' %}"></script>
+{% endblock %}

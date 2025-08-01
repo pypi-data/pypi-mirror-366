@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} - Site Settings{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Settings</h1>
+
+      <h3>Fetch Data</h3>
+
+      <p>You can update from DB all Satellites data and update all future observations with newest TLE sets and updated Transmitters.</p>
+
+      <form id="fetchform" method="post" class="form-horizontal" role="form" action="{% url 'base:settings_site' %}">{% csrf_token %}
+        <input type="hidden" name="fetch" value="true">
+        <button class="btn btn-primary" type="submit">Fetch</button>
+      </form>
+
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascript %}
+  <script src="{% static 'js/settings_site.js' %}"></script>
+{% endblock javascript %}

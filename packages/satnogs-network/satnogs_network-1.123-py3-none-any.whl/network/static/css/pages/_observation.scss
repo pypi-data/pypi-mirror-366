@@ -1,0 +1,118 @@
+.calculation-result {
+    display: none;
+}
+
+#min-horizon-slider {
+    width: calc(100% - 20px);
+    margin: 10px 0 10px 10px;
+}
+
+.duration-number-input {
+    width: 100%;
+}
+
+#schedule-observation-btn2 {
+    display: none;
+}
+
+#schedule-selection {
+    padding: 10px 0 0 0;
+
+    #schedule-observation-btn1 {
+        width: 100%;
+    }
+
+    #selected-observations {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.axis {
+
+    path,
+    line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+
+    text {
+        font-family: sans-serif;
+        font-size: 10px;
+    }
+}
+
+.tle {
+    display: none;
+    margin-top: 5px;
+}
+
+#status-selector {
+    display: block;
+}
+
+.demoddata {
+    display: none;
+}
+
+.data-badge {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.data-card {
+    font-family: monospace;
+    word-wrap: break-word;
+
+    .table {
+
+        tr {
+
+            td:last-child {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.tab-data {
+    margin-top: 25px;
+}
+
+.form-group.status-filter {
+    display: inline-block;
+}
+
+.badge-data-count {
+    margin-top: -15px;
+    margin-left: -7px;
+    padding: 3px;
+    font-size: .6em;
+    background-color: #6c757d;
+    color: white;
+}
+
+.data-link {
+    color: white;
+}
+
+#load-data-btn-group button {
+    margin-right: 5px;
+}
+
+#decode-btn-group,
+#load-data-btn-group {
+    margin-top: 5px;
+}
+
+#demoddata-spinner,
+#vetting-spinner,
+#rating-spinner {
+    display: none;
+}
+
+#waterfall-current-status,
+#waterfall-status-form {
+    margin: 0.3em;
+}
