@@ -1,0 +1,360 @@
+---
+modules:
+  - .github_issue
+  - .feedback_on_server
+---
+include:
+  - docassemble.ALToolbox:collapse_template.yml
+---
+metadata:
+  title: User Feedback
+  exit url: |
+    https://courtformsonline.org
+---
+features:
+  labels above fields: True
+  question back button: True
+---
+code: al_feedback_form_title = "Court Forms Online"
+---
+code: |
+  # This email will be used ONLY if there is no valid GitHub config
+  al_error_email = get_config('error notification email')
+---
+id: interview order
+mandatory: True
+code: |
+  intro
+  if reason == 'help':
+    gentle_exit
+  else:
+    issue_template = generic_report[reason]
+  note_issue
+  prevent_going_back()
+  store_variables_snapshot(persistent=True)
+  end_results
+---
+image sets:
+  freepik:
+    attribution: |
+      Icon made by [Freepik](http://www.flaticon.com/authors/freepik)
+    images:
+      opinion: opinion.svg
+      bug: bug.svg
+      confusion: confusion.svg
+      lifebuoy: lifebuoy.svg
+      love: love.svg
+      enhancement: enhance.svg
+---
+# This is the repository that Github issue will be created on if
+# the repository is not passed as a URL argument
+code: default_repository = 'docassemble-AssemblyLine'
+---
+code: |
+  default_github_user_or_organization = get_config('github issues',{}).get('default repository owner') or 'suffolklitlab'
+---
+code: server_share_answers = get_config("github issues", {}).get("feedback session linking", False)
+---
+code: server_ask_panel = get_config("github issues", {}).get("ask panel", False)
+---
+code: should_send_to_github = get_config("github issues", {}).get("send to github", True)
+---
+code: github_user = url_args.get('github_user', default_github_user_or_organization) or "suffolklitlab-issues"
+---
+code: github_repo = url_args.get('github_repo', default_repository) or "demo"
+---
+code: variable = url_args.get('variable')
+---
+code: question_id = url_args.get('question_id')
+---
+code: package_version = url_args.get('package_version')
+---
+code: filename = url_args.get('filename')
+---
+code: orig_session_id = url_args.get('session_id')
+---
+id: intro
+decoration: opinion
+question: |
+  ${ al_feedback_form_title } - Tell us how we're doing
+subquestion: |
+  The information you type here will be publicly available. That means anyone
+  will be able to see it. Use this form to tell us about problems that do not
+  include any personal information.
+
+  ${ collapse_template(al_how_to_get_legal_help) }
+
+  Thank you for telling us about your experience with this website.
+
+fields:
+  - no label: reason
+    input type: radio
+    choices:
+      - I'd like to tell you something: something
+      - I'm looking for more help: help
+  - "**What would you like to tell us?**": details
+    rows: 4
+    input type: area
+    show if:
+      variable: reason
+      is: something
+  - note: |
+      If you ran into a bug, you can share your answers with
+      an administrator (they will not be made public) to help us
+      track down the problem.
+      [BR]
+      We will not contact you either way.
+    show if:
+      code: |
+        server_share_answers and not get_config('debug')
+      variable: reason
+      is: something
+  - label: |
+      Share my answers with an administrator
+    label above field: False
+    field: share_interview_answers
+    datatype: yesno
+    show if:
+      code: |
+        server_share_answers and not get_config('debug')
+      variable: reason
+      is: something
+  - label: |
+      I am interested in being a part of a user feedback panel
+    label above field: False
+    field: would_be_on_panel
+    datatype: yesno
+    default: False
+    show if:
+      code: |
+        server_ask_panel and not get_config('debug')
+      variable: reason
+      is: something
+  - note: |
+      We will contact you for the feedback panel by email.
+    show if:
+      code: |
+        server_ask_panel and not get_config('debug')
+      variable: would_be_on_panel
+      is: True
+  - label: |
+      **What is your email?**
+    field: panel_email
+    datatype: email
+    default: ${ user_info().email if hasattr(user_info(), 'email') else '' }
+    show if:
+      code: |
+        server_ask_panel and not get_config('debug')
+      variable: would_be_on_panel
+      is: True
+continue button field: intro
+---
+if: |
+  get_config('debug')
+id: intro
+question: |
+  Tester feedback form
+decoration: opinion
+subquestion: |
+  This form is designed to be used by testers and community
+  stakeholders.
+
+  The information you type here will be publicly available. That means anyone
+  will be able to see it.
+
+  ${ collapse_template(al_how_to_get_legal_help) }
+
+fields:
+  - "**What would you like to tell us about?**": reason
+    input type: radio
+    choices:
+      - Bug: bug
+      - Language fix: language
+      - I have something else to tell you: something
+  - "**What was the title at the top of the page where the bug happened?**": page_title
+    show if:
+      code: |
+        not question_id
+  - "**When should this fix be implemented?**": maturity_level
+    code: maturity_levels
+    help: |
+      We use a [5-level
+      rating](https://suffolklitlab.org/legal-tech-class/docs/legal-tech-overview/maturity-model/#example-maturity-model-for-the-massaccess-project)
+      for our finished forms. Forms are usually
+      ready to publish when they meet level 1, but all kinds of
+      feedback are valuable. Categorizing feedback
+      helps us choose the right tasks to work on in the right order.
+  - "**What is the language fix?**": details
+    datatype: area
+    rows: 4
+    show if:
+      variable: reason
+      is: language
+  - note: |
+      **Tell us the steps that you followed before the bug, what you expected to happen, and what actually happened.** [BR]
+
+      For example:
+
+      1. On the first page, I typed my first name.
+      2. I pressed "continue" to go to the next page.
+      3. I expected to be able to enter my phone number, but it showed an error screen instead that said "..."
+    show if:
+      variable: reason
+      is: bug
+  - "**What is the bug?**": details
+    datatype: area
+    rows: 4
+    show if:
+      variable: reason
+      is: bug
+  - "**What would you like to tell us?**": details
+    datatype: area
+    rows: 4
+    show if:
+      variable: reason
+      is: something
+  - note: |
+      Your answers will be shared with a server administrator to help
+      track down the problem. It will not be made public.
+    show if:
+      code: |
+        server_share_answers
+      variable: reason
+      is: bug
+continue button field: intro
+---
+variable name: maturity_levels
+data:
+  - Level 1 - this needs to be fixed to be equivalent to the blank form
+  - Level 1.5 - it works as-is, but this is a significant plain language issue
+  - Level 2 - this needs to be fixed to meet expectations of a basic intake
+  - Level 3 - this needs to be fixed to meet expectations of a sophisticated intake worker
+  - Level 4 - this is purely an enhancement to improve user experience
+---
+template: al_how_to_get_legal_help
+subject: |
+  Do you need more help?
+content: |
+  If you need more help, these are free resources:
+
+  - [Find Free Legal help - Legal Services Corporation](https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help)
+
+  - [Hire a lawyer](https://www.americanbar.org/groups/legal_services/flh-home/flh-hire-a-lawyer/)
+---
+id: exit
+event: gentle_exit
+question: |
+  How to get more help
+decoration: lifebuoy
+subquestion: |
+  We are sorry that we couldn't do more to help you.
+
+  ${ al_how_to_get_legal_help }
+
+buttons:
+  - Exit: exit
+---
+id: end_results
+event: end_results
+question: |
+  Thank you for your feedback
+decoration: opinion
+subquestion: |
+  We appreciate you letting us know how we are doing.
+
+  % if issue_url:
+  If you would like to track this issue, you can [follow 
+  it](${issue_url}) on GitHub.
+  % endif
+buttons:
+  - Exit: exit
+---
+objects:
+  - generic_report: DADict
+---
+template: generic_report[i]
+subject: |
+  % if question_id:
+  ID ${ question_id }: 
+  % endif
+  User feedback: ${i}
+  % if variable:
+  (`${ variable }`)
+  % endif
+content: |
+  &nbsp; | &nbsp;
+  -------|------------------------------------
+  % if question_id:
+  Question ID | `${ question_id }`
+  % elif defined('page_title'): 
+  Page title | ${ page_title }
+  % endif
+  Details | ${ details }
+  % if variable:
+  Variable being sought | `${ variable }`
+  % endif
+  % if package_version:
+  Package version | `${ package_version }`
+  % endif
+  % if defined('maturity_level'):
+  Maturity target | ${ maturity_level }
+  % endif
+  % if filename:
+  Filename | `${ filename }`
+  % endif
+---
+########################## Send to GitHub code ##########################
+only sets:
+  - note_issue
+need:
+  - should_send_to_github
+  - question_id
+  - variable
+  - package_version
+  - filename
+code: |
+  if task_performed('issue noted'):
+    pass
+  elif is_likely_spam(issue_template.content):
+    log("Not saving feedback because it looks like spam")
+    mark_task_as_performed('issue noted', persistent=True)
+    issue_url = saved_uuid = None
+    note_issue = False # End block early
+  else:
+    saved_uuid # Trigger the code to save locally on the server and optionally link the session answers. We do this regardless of whether we send to GitHub
+    if showifdef('would_be_on_panel'):
+      add_panel_participant(panel_email)
+
+    if should_send_to_github:
+      issue_url # Trigger the code to save as a GitHub issue
+      if issue_url and saved_uuid:
+        # Link the GitHub issue to the saved feedback in database
+        set_feedback_github_url(saved_uuid, issue_url)
+      else:
+        log(f"This form was not able to add an issue on the {github_user}/{github_repo} repo. Check your config.")
+        if al_error_email:
+          log(f"Unable to create issue on repo {github_repo}, falling back to emailing {al_error_email}")
+          send_email(
+              to=al_error_email,
+              subject=f"{github_repo} - {issue_template.subject_as_html(trim=True)}",
+              template=issue_template
+          )
+        else:
+          log(f"~~~USER FEEDBACK~~~ {github_repo} - {issue_template.subject_as_html(trim=True)} - {issue_template.content_as_html(trim=True)}")
+    else:
+      issue_url = None
+    mark_task_as_performed('issue noted', persistent=True)
+
+  note_issue = True
+---
+code: |
+  saved_uuid = save_feedback_info(interview=filename, session_id=orig_session_id if actually_share_answers else None, template=issue_template)
+---
+code: |
+  issue_url = make_github_issue(github_user, github_repo, template=issue_template, label=al_github_label)
+---
+code: |
+  actually_share_answers = server_share_answers and (get_config('debug') or showifdef('share_interview_answers', False))
+---
+code: |
+  al_github_label = 'user feedback'
