@@ -1,0 +1,66 @@
+Metadata-Version: 2.4
+Name: Qlip.Core
+Version: 0.1.0
+Summary: TheStage AI Full stack R&D Framework
+Author-email: TheStage AI team <hello@thestage.ai>
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=2.1.0
+Requires-Dist: tqdm
+Requires-Dist: cvxpy
+Requires-Dist: thop
+Requires-Dist: scipy
+Requires-Dist: packaging
+Requires-Dist: numpy<2,>=1.23.5
+Requires-Dist: onnx>=1.18.0
+Requires-Dist: thestage-license>=0.1.4
+Requires-Dist: protobuf
+Requires-Dist: requests
+Requires-Dist: Cython
+Requires-Dist: setuptools
+Provides-Extra: apple
+Requires-Dist: coremltools; extra == "apple"
+Requires-Dist: transformers; extra == "apple"
+Provides-Extra: nvidia
+Requires-Dist: tensorrt>=10.1.0; extra == "nvidia"
+Requires-Dist: tensorrt-cu12>=10.1.0; extra == "nvidia"
+Requires-Dist: cupy-cuda12x==13.3.0; extra == "nvidia"
+Requires-Dist: cuda-python==12.8.0; extra == "nvidia"
+Provides-Extra: ort
+Requires-Dist: onnxruntime; extra == "ort"
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Dynamic: license-file
+
+# Qlip.Pytorch
+
+Qlip.Pytorch is the quantization and pruning interface for Pytorch DNNs
+
+---
+# Install
+
+Optional dependecies are available for Apple and Nvidia deployment as well as for tests.
+
+```bash
+pip install ".[apple]"
+pip install ".[nvidia]"
+pip install ".[tests]"
+```
+
+TensorRT may require a manual installation of extra packages.
+Extract the installed version and install the missing packages.
+
+```bash
+TRTVERSION=`pip show tensorrt | grep 'Version: \K.+' -Po`
+pip install tensorrt-cu12-bindings==$TRTVERSION tensorrt-cu12-libs=$TRTVERSION
+```
+
+# Dev
+
+Setup dev environment:
+### Pre-commit hooks
+1. Install pre-commit `pip install pre-commit-hooks`
+2. Run `pre-commit install --hook-type pre-commit --hook-type pre-push` in the repository root.
+3. (Optional) run `pre-commit run --all-files` manually if needed.
