@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "segments_runner"
+version = "1.0.5"
+description = "Run multiple segments of EdgeTPU models in sequence"
+authors = [{ name = "Changhun Han", email = "ehwjs1914@naver.com" }]
+readme = "README.md"
+keywords = ["EdgeTPU", "segments", "runner"]
+requires-python = ">=3.7,<3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+license = { file = "LICENSE" }
+dependencies = [
+    "build>=1.1.1",
+    "numpy>=1.16.0,<2.0.0",
+    "packaging>=24.0",
+    "pillow>=9.5.0",
+    "pip>=24.0",
+    "twine>=4.0.2",
+]
+
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"segments_runner" = ["test_data/*"]
+
+[tool.setuptools.packages.find]
+exclude = ["test*"]
+
+[project.urls]
+"Homepage" = "https://github.com/HanChangHun/SegmentsRunner"
+"Repository" = "https://github.com/HanChangHun/SegmentsRunner"
+"Issues" = "https://github.com/HanChangHun/SegmentsRunner/issues"
