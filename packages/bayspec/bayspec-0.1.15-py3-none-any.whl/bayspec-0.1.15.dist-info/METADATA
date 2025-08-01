@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: bayspec
+Version: 0.1.15
+Summary: Astronomical spectrum fitting tool
+Home-page: https://github.com/jyangch/bayspec
+Author: Jun Yang
+Author-email: jyang@smail.nju.edu.cn
+License: GPLv3
+Project-URL: Source Code, https://github.com/jyangch/bayspec
+Project-URL: Documentation, https://bayspec.readthedocs.io
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Requires-Python: >=3.8
+License-File: LICENSE
+Requires-Dist: numpy>=1.20.4
+Requires-Dist: pandas>=1.4.2
+Requires-Dist: scipy>=1.8.0
+Requires-Dist: toml>=0.10.2
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: plotly>=5.22.0
+Requires-Dist: matplotlib>=3.2.1
+Requires-Dist: corner>=2.2.1
+Requires-Dist: astropy>=5.2.2
+Requires-Dist: emcee>=3.1.1
+Requires-Dist: pymultinest>=2.12
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+A Bayesian inference-based spectral fitting tool for multi-dimensional and multi-wavelength astrophysical data
