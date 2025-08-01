@@ -1,0 +1,70 @@
+{
+  "type": "AssayedFusion",
+  "structure": [
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_152263.3",
+      "strand": -1,
+      "exonEnd": 8,
+      "exonEndOffset": 0,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:12012",
+            "code": "HGNC:12012",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "TPM3"
+      },
+      "elementGenomicEnd": {
+        "id": "ga4gh:SL.Lnne0bSsgjzmNkKsNnXg98FeJSrDJuLb",
+        "type": "SequenceLocation",
+        "digest": "Lnne0bSsgjzmNkKsNnXg98FeJSrDJuLb",
+        "sequenceReference": {
+          "id": "refseq:NC_000001.11",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"
+        },
+        "start": 154170399
+      }
+    },
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_002529.3",
+      "strand": 1,
+      "exonStart": 10,
+      "exonStartOffset": 0,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:8031",
+            "code": "HGNC:8031",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "NTRK1"
+      },
+      "elementGenomicStart": {
+        "id": "ga4gh:SL.Hw9hRbWb7AEt3h-naNmsGvV41h9G8vQt",
+        "type": "SequenceLocation",
+        "digest": "Hw9hRbWb7AEt3h-naNmsGvV41h9G8vQt",
+        "sequenceReference": {
+          "id": "refseq:NC_000001.11",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"
+        },
+        "start": 156874570
+      }
+    }
+  ],
+  "causativeEvent": {
+    "type": "CausativeEvent",
+    "eventType": "rearrangement"
+  },
+  "assay": {
+    "type": "Assay",
+    "assayName": "fluorescence in-situ hybridization assay",
+    "assayId": "obi:OBI_0003094",
+    "methodUri": "pmid:33576979",
+    "fusionDetection": "inferred"
+  }
+}

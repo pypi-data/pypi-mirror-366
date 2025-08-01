@@ -1,0 +1,97 @@
+{
+  "type": "CategoricalFusion",
+  "structure": [
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_004327.3",
+      "strand": 1,
+      "exonEnd": 2,
+      "exonEndOffset": 182,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:1014",
+            "code": "HGNC:1014",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "BCR"
+      },
+      "elementGenomicEnd": {
+        "id": "ga4gh:SL.pnPf51mTZVzI1teagtWwA4RY7ptcmbbt",
+        "type": "SequenceLocation",
+        "digest": "pnPf51mTZVzI1teagtWwA4RY7ptcmbbt",
+        "sequenceReference": {
+          "id": "refseq:NC_000022.11",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.7B7SHsmchAR0dFcDCuSFjJAo7tX87krQ"
+        },
+        "end": 23254162
+      }
+    },
+    {
+      "type": "LinkerSequenceElement",
+      "linkerSequence": {
+        "id": "fusor.sequence:ACTAAAGCG",
+        "type": "LiteralSequenceExpression",
+        "sequence": "ACTAAAGCG"
+      }
+    },
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_005157.5",
+      "strand": 1,
+      "exonStart": 2,
+      "exonStartOffset": -173,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:76",
+            "code": "HGNC:76",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "ABL1"
+      },
+      "elementGenomicStart": {
+        "id": "ga4gh:SL.eL43aHf8T0t_0WIsQE5PeWQH1V3_ZKEC",
+        "type": "SequenceLocation",
+        "digest": "eL43aHf8T0t_0WIsQE5PeWQH1V3_ZKEC",
+        "sequenceReference": {
+          "id": "refseq:NC_000009.12",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.KEO-4XBcm1cxeo_DIQ8_ofqGUkp4iZhI"
+        },
+        "start": 130853890
+      }
+    }
+  ],
+  "readingFramePreserved": true,
+  "criticalFunctionalDomains": [
+    {
+      "type": "FunctionalDomain",
+      "status": "preserved",
+      "associatedGene": {
+        "primaryCoding": {
+            "id": "hgnc:76",
+            "code": "HGNC:76",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "ABL1"
+      },
+      "id": "interpro:IPR000980",
+      "label": "SH2 domain",
+      "sequenceLocation": {
+        "id": "ga4gh:SL.VQe2sf2aYArPcvjygq38JvFxRuDniE15",
+        "type": "SequenceLocation",
+        "digest": "VQe2sf2aYArPcvjygq38JvFxRuDniE15",
+        "sequenceReference": {
+          "id": "refseq:NP_005148.2",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.dmFigTG-0fY6I54swb7PoDuxCeT6O3Wg"
+        },
+        "start": 127,
+        "end": 202
+      }
+    }
+  ]
+}

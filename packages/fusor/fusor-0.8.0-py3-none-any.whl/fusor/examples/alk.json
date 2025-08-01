@@ -1,0 +1,49 @@
+{
+  "type": "CategoricalFusion",
+  "structure": [
+    {
+      "type": "MultiplePossibleGenesElement"
+    },
+    {
+      "type": "GeneElement",
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:427",
+            "code": "HGNC:427",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "ALK"
+      }
+    }
+  ],
+  "criticalFunctionalDomains": [
+    {
+      "type": "FunctionalDomain",
+      "status": "preserved",
+      "associatedGene": {
+        "primaryCoding": {
+            "id": "hgnc:427",
+            "code": "HGNC:427",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "ALK"
+      },
+      "id": "interpro:IPR017441",
+      "label": "Protein kinase, ATP binding site",
+      "sequenceLocation": {
+        "id": "ga4gh:SL.zKwNiezVOyfNBKwAnFuFWMdMlrcc3kBA",
+        "type": "SequenceLocation",
+        "digest": "zKwNiezVOyfNBKwAnFuFWMdMlrcc3kBA",
+        "sequenceReference": {
+          "id": "refseq:NP_004295.2",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.q9CnK-HKWh9eqhOi8FlzR7M0pCmUrWPs"
+        },
+        "start": 1122,
+        "end": 1150
+      }
+    }
+  ]
+}
