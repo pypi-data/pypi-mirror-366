@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: anbiopy
+Version: 0.1.3
+Summary: Python package designed for the analysis of microbiota data when incorporating other types of variables e.g., anthropometric
+Project-URL: Homepage, https://github.com/juanspardor/anbiopy
+Project-URL: Issues, https://github.com/juanspardor/anbiopy/issues
+Author-email: Juan Sebastian Pardo <j.pardor@uniandes.edu.co>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-bio
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: seaborn
+Requires-Dist: statsmodels
+Description-Content-Type: text/markdown
+
+# Amapy Library
+
+Author: Juan Sebastián Pardo
+License: MIT License
+
+## Introduction
+anbiopy is a Python library designed for microbiota data analysis. It is specifically intented to use when users have the following data:
+- OTU observations
+- OTU taxonomy
+- OTU Tree
+- Any kind of anthropometric or additional data
+
+Based on these, anbiopy is able to assist users in analyzing microbiota data and possible relationships with anthropometric variables e.g., alpha diversity vs height/weight/sex/etc. 
+
+
+## Library Components
+anbiopy consists of 3 categories of analysis: 
+1. Basic microbiota analysis
+2. Graphic analysis
+3. Numeric analysis
+
+In the following segments we will go through the functionalities of each component using examples. 
+
+## Installation
+Using `pip`
+```bash
+pip install anbiopy
+```
+
+## Dependencies
+This library is built using:
+- pandas
+- numpy
+- matplotlib
+- seaborn
+- scipy
+- scikit-learn
+- statsmodels
+- scikit-bio
+
+All these dependencies should be installed along with anbiopy
