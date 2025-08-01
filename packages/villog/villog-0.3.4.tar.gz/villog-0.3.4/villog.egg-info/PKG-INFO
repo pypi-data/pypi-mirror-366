@@ -1,0 +1,198 @@
+Metadata-Version: 2.4
+Name: villog
+Version: 0.3.4
+Summary: A simple python utility tool for your everyday projects.
+Author: Krisztián Villers
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: backports.tarfile==1.2.0
+Requires-Dist: Brotli==1.1.0
+Requires-Dist: certifi==2024.6.2
+Requires-Dist: cffi==1.17.1
+Requires-Dist: charset-normalizer==3.3.2
+Requires-Dist: cssselect2==0.7.0
+Requires-Dist: docutils==0.21.2
+Requires-Dist: et_xmlfile==2.0.0
+Requires-Dist: fonttools==4.55.3
+Requires-Dist: id==1.5.0
+Requires-Dist: idna==3.7
+Requires-Dist: importlib_metadata==7.1.0
+Requires-Dist: jaraco.classes==3.4.0
+Requires-Dist: jaraco.context==5.3.0
+Requires-Dist: jaraco.functools==4.0.1
+Requires-Dist: Jinja2==3.1.6
+Requires-Dist: keyring==25.2.1
+Requires-Dist: markdown-it-py==3.0.0
+Requires-Dist: MarkupSafe==3.0.2
+Requires-Dist: mdurl==0.1.2
+Requires-Dist: more-itertools==10.3.0
+Requires-Dist: nh3==0.2.17
+Requires-Dist: numpy==2.2.1
+Requires-Dist: openpyxl==3.1.5
+Requires-Dist: packaging==24.2
+Requires-Dist: pandas==2.2.3
+Requires-Dist: pillow==11.1.0
+Requires-Dist: ping3==4.0.8
+Requires-Dist: pkginfo==1.11.1
+Requires-Dist: pycparser==2.22
+Requires-Dist: pydyf==0.11.0
+Requires-Dist: Pygments==2.18.0
+Requires-Dist: pyodbc==5.2.0
+Requires-Dist: pyphen==0.17.0
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: pytz==2024.2
+Requires-Dist: readme_renderer==43.0
+Requires-Dist: requests==2.32.3
+Requires-Dist: requests-toolbelt==1.0.0
+Requires-Dist: rfc3986==2.0.0
+Requires-Dist: rich==13.7.1
+Requires-Dist: setuptools==78.1.1
+Requires-Dist: six==1.17.0
+Requires-Dist: tinycss2==1.4.0
+Requires-Dist: tinyhtml5==2.0.0
+Requires-Dist: twine==6.1.0
+Requires-Dist: tzdata==2024.2
+Requires-Dist: urllib3==2.2.2
+Requires-Dist: weasyprint==63.1
+Requires-Dist: webencodings==0.5.1
+Requires-Dist: XlsxWriter==3.2.0
+Requires-Dist: zipp==3.19.2
+Requires-Dist: zopfli==0.2.3.post1
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# Villog is a simple python utility tool for your everyday projects.
+
+Can be installed with [pip](https://pypi.org/project/villog/).
+
+## Modules
+- Logger
+- Excel generator
+- Excel reader
+- MSSQL handler
+- PDF generator
+- Mail sender
+
+### Logger
+```
+from villog.log import Logger
+
+l: Logger = Logger(file_path = "example.log")
+
+l.log(content = "example_content")
+```
+
+### Write Excel
+```
+from villog.writexcel import WorkSheet, WorkBook
+
+sheet_1: WorkSheet = WorkSheet(name = "Sheet1",
+                               header = ["header_1", "header_2", "header_3"],
+                               data = [["data_1", "data_2", "data_3"],
+                                       ["data_4", "data_5", "data_6"]])
+
+sheet_2: WorkSheet = WorkSheet(name = "Sheet2",
+                               header = ["header_1", "header_2", "header_3"],
+                               data = [["data_1", "data_2", "data_3"],
+                                       ["data_4", "data_5", "data_6"]])
+
+book: WorkBook = WorkBook(name = "Book1",
+                          sheets = [sheet_1, sheet_2])
+
+book.xlsx_create(file_path = "example.xlsx")
+```
+
+### Read Excel
+> [!IMPORTANT]
+> ReadExcel is under refactor.
+
+```
+from villog.readexcel import ReadExcel
+
+excel: ReadExcel = ReadExcel(path = "example.xlsx")
+
+excel.read()
+
+for sheet_name in read_excel.get_sheet_names():
+    for row in excel.get_sheet_content_to_list(sheet_name):
+        for elem in row:
+            print(elem, end = "\t")
+
+```
+
+### VillSQL
+```
+from villog.mssql import SQLConfig, VillSQL, Table
+
+sql_config: SQLConfig = SQLConfig(server = "server_name",
+                                  database = "database_name",
+                                  username = "user_name",
+                                  password = "password")
+
+sql_client: VillSQL = VillSQL(sql_config = sql_config)
+
+egt: Table = sql_client.get_table("EXAMPLE_TABLE",
+                                  raw_filter="col_1 = "example",
+                                  order_by = ["col_1","ASC",
+                                              "col_3","DESC"],
+                                  # kwargs:
+                                  COL_4 = 1)
+
+egt.set_filter(column_names = ["col_1, "col_2"])
+
+print("COLUMNS:")
+for column in egt.columns():
+    print(column, end = "\t")
+print("\nROWS:)
+for row in egt.rows:
+    for elem in row:
+        print(elem, end = "\t")
+"""
+Output:
+    COLUMNS:
+    col_1   col_2
+    ROWS:
+    val_1_1 val_1_2
+    val_2_1 val_2_2
+    val_3_1 val_3_2
+"""
+
+villsql_client.close()
+
+```
+
+### PDF generator
+> [!IMPORTANT]
+> To use PDF generator on Windows, you need some [configuration](https://stackoverflow.com/a/78749746).
+```
+from villog.pdf import generate as generate_pdf
+
+generate_pdf(html_string = "html_string",
+             output_path = "example.pdf",
+             css_string = "css_string")
+```
+
+### Mail man
+```
+from villog.mail_man import MailMan
+
+mail: MailMan = MailMan(
+    smtp_server="smtp.example.com",
+    smtp_login="example@example.com",
+    smtp_port=465,
+    smtp_password="example_password",
+    name="Example Name"
+)
+
+mail.send(
+    subject = "Example subject",
+    body = "Example body",
+    send_to = ["example_1@example.com", "example_2@example.com"],
+    files = ["example.xlsx"],
+    images = None
+)
+```
