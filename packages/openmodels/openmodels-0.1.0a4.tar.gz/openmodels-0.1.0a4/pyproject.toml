@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "openmodels"
+version = "0.1.0-alpha.4"
+description = "Export scikit-learn model files to JSON for sharing or deploying predictive models with peace of mind."
+authors = [
+    "Alejandro Gutierrez <agutierrez@sftec.es>, Pau Cabaneros <pau.cabaneros@gmail.com>, Raúl Marín <hi@raulmarin.dev>, Ruben Parrilla <rparrilla@sftec.es>",
+]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+scikit-learn = "^1.5.0"
+
+[tool.poetry.group.dev.dependencies]
+poetry-types = "^0.5.1"
+mypy = "^1.10.0"
+pytest = "^8.2.2"
+pre-commit = "^3.7.1"
+black = "^24.4.2"
+flake8 = "^7.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.mypy.overrides]]
+module = ["sklearn", "sklearn.*"]
+ignore_missing_imports = true
