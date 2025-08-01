@@ -1,0 +1,1 @@
+def run_tool(input_text): return f"Length: {len(input_text)}"

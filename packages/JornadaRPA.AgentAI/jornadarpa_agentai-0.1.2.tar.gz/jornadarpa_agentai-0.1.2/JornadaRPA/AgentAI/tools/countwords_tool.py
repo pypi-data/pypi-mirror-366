@@ -1,0 +1,1 @@
+def run_tool(input_text): return str(len(input_text.split()))

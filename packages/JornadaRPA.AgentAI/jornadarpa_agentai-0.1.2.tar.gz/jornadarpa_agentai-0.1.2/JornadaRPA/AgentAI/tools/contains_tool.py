@@ -1,0 +1,1 @@
+def run_tool(input_text): return "yes" if " " in input_text else "no"

@@ -1,0 +1,1 @@
+def run_tool(input_text): return input_text.upper()
