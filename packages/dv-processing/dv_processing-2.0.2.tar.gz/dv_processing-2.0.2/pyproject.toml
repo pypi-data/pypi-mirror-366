@@ -1,0 +1,27 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "numpy >= 2.0.0; python_version > '3.8'",
+    "oldest-supported-numpy; python_version <= '3.8'",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+test-command = "python -c \"import dv_processing; print(dv_processing.__version__);\""
+enable = ["cpython-freethreading", "pypy"]
+
+[tool.cibuildwheel.linux]
+skip = ["*musllinux*"]
+manylinux-x86_64-image = "registry.gitlab.com/synsense-sys-int/inivation/infra/docker-files/manylinux_2_28_x86_64_ini:latest"
+manylinux-aarch64-image = "registry.gitlab.com/synsense-sys-int/inivation/infra/docker-files/manylinux_2_28_aarch64_ini:latest"
+manylinux-pypy_x86_64-image = "registry.gitlab.com/synsense-sys-int/inivation/infra/docker-files/manylinux_2_28_x86_64_ini:latest"
+manylinux-pypy_aarch64-image = "registry.gitlab.com/synsense-sys-int/inivation/infra/docker-files/manylinux_2_28_aarch64_ini:latest"
+
+[tool.cibuildwheel.macos]
+skip = ["pp*"]
+
+[tool.cibuildwheel.windows]
+skip = ["pp*", "cp38-win32", "cp39-win32"]
+before-build = "pip install delvewheel"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"
