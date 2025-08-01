@@ -1,0 +1,114 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "msreport"
+description = "Post processing and analysis of quantitative proteomics data"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+  { name = "David M. Hollenstein", email = "hollenstein.david@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+keywords = [
+  "mass spectrometry",
+  "proteomics",
+  "post processing",
+  "data analysis",
+]
+requires-python = ">= 3.10"
+dependencies = [
+  "adjustText >= 0.7.0, < 1.0.0",
+  "matplotlib >= 3.5.2",
+  "numpy >= 1.21.5",
+  "pandas >= 1.4.4",
+  "profasta >= 0.0.4",
+  "pyteomics >= 4.6.0",
+  "pyyaml >= 6.0.0",
+  "scikit-learn >= 1.0.0",
+  "scipy >= 1.9.1",
+  "seaborn >= 0.12.0",
+  "statsmodels >= 0.13.2",
+  "typing_extensions >= 4",
+]
+dynamic = ["version"]
+
+[project.urls]
+homepage = "https://github.com/hollenstein/msreport"
+documentation = "https://hollenstein.github.io/msreport/"
+changelog = "https://github.com/hollenstein/msreport/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+R = [
+    "rpy2>=3.5.3,<3.5.13",
+]
+dev = [
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+]
+docs = [
+    "mkdocs-awesome-nav>=3.1.2",
+    "mkdocs-macros-plugin>=1.3.7",
+    "mkdocs-material>=9.6.15",
+    "mkdocs-roamlinks-plugin>=0.3.2",
+    "mkdocstrings-python>=1.16.12",
+    "ruff>=0.12.2",
+]
+test = [
+    "pytest>=8.3.5",
+]
+
+[tool.setuptools]
+packages = [
+  "msreport",
+  "msreport.aggregate",
+  "msreport.helper",
+  "msreport.plot",
+  "msreport.plot.style_sheets",
+  "msreport.rinterface",
+  "msreport.rinterface.rscripts",
+]
+
+[tool.setuptools.package-data]
+"msreport.rinterface.rscripts" = ["*.r", "*.R"]
+"msreport.plot.style_sheets" = ["*.mplstyle"]
+
+[tool.setuptools.dynamic]
+version = { attr = "msreport.__version__" }
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "C", "B"]
+ignore = ["B905", "C901"]
+unfixable = ["F401"]  # Disable fix for unused imports (`F401`).
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[[tool.mypy.overrides]]
+module = [
+  "adjustText.*",
+  "numpy.*",
+  "pandas.*",
+  "profasta.*",
+  "pyteomics.*",
+  "scipy.*",
+  "seaborn.*",
+  "sklearn.*",
+  "statsmodels.*",
+  "yaml.*",
+]
+follow_untyped_imports = true
