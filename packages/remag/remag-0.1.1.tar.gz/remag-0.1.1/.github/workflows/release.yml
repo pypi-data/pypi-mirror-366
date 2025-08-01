@@ -1,0 +1,149 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+    
+    - name: Build package
+      run: python -m build
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist/
+
+  pypi-publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/remag
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        skip-existing: true
+
+  github-release:
+    needs: pypi-publish
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    
+    - name: Generate changelog
+      id: changelog
+      run: |
+        # Extract version from tag
+        VERSION=${GITHUB_REF#refs/tags/}
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        
+        # Generate changelog from commit messages
+        git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD > changelog.txt
+        echo "" >> changelog.txt
+        echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$(git describe --tags --abbrev=0 HEAD^)...$VERSION" >> changelog.txt
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body_path: changelog.txt
+        files: dist/*
+        generate_release_notes: true
+
+  trigger-bioconda:
+    needs: pypi-publish
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Install bioconda-utils
+      run: |
+        pip install pyyaml requests
+    
+    - name: Update Bioconda recipe
+      run: |
+        python .github/scripts/update_bioconda.py
+        echo "Recipe generated in .github/bioconda-recipe/meta.yaml"
+        echo "::notice title=Bioconda Recipe::Recipe generated! Check the workflow artifacts or use 'gh run download' to get the recipe."
+        python .github/scripts/generate_bioconda_pr.py || true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BIOCONDA_TOKEN: ${{ secrets.BIOCONDA_TOKEN }}
+    
+    - name: Upload Bioconda recipe as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: bioconda-recipe
+        path: .github/bioconda-recipe/meta.yaml
+
+  zenodo-upload:
+    needs: github-release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+    
+    - name: Upload to Zenodo
+      run: |
+        pip install requests
+        if [ -n "$ZENODO_TOKEN" ]; then
+          python .github/scripts/zenodo_upload.py
+        else
+          echo "ZENODO_TOKEN not set, skipping Zenodo upload"
+        fi
+      env:
+        ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+        GITHUB_REF: ${{ github.ref }}
