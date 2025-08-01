@@ -1,0 +1,124 @@
+Metadata-Version: 2.4
+Name: napari-broadcastable-points
+Version: 0.5.1.post2
+Project-URL: Homepage, https://github.com/ianhi/napari-broadcastable-points#napari-broadcastable-points
+Project-URL: Documentation, https://github.com/ianhi/napari-broadcastable-points#napari-broadcastable-points
+Project-URL: Repository, https://github.com/ianhi/napari-broadcastable-ponts.git
+Author-email: Ian Hunt-Isaak <ianhuntisaak@gmail.com>
+License: BSD 3-Clause License
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Hardware :: Hardware Drivers
+Classifier: Topic :: Utilities
+Requires-Python: >=3.11
+Requires-Dist: napari==0.5.0
+Provides-Extra: cli
+Requires-Dist: rich>=10.2.0; extra == 'cli'
+Requires-Dist: typer>=0.4.2; extra == 'cli'
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: ipython; extra == 'dev'
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pdbpp; extra == 'dev'
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: rich; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Requires-Dist: types-psutil; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocs-material; extra == 'docs'
+Requires-Dist: mkdocs>=1.4; extra == 'docs'
+Requires-Dist: mkdocstrings-python==1.1.2; extra == 'docs'
+Requires-Dist: mkdocstrings==0.22.0; extra == 'docs'
+Provides-Extra: testing
+Requires-Dist: pyqt6; extra == 'testing'
+Requires-Dist: pytest; extra == 'testing'
+Requires-Dist: pytest-cov; extra == 'testing'
+Requires-Dist: pytest-qt; extra == 'testing'
+Requires-Dist: qtpy; extra == 'testing'
+Requires-Dist: rich; extra == 'testing'
+Requires-Dist: typer; extra == 'testing'
+Description-Content-Type: text/markdown
+
+# napari-broadcastable-points
+
+[![License](https://img.shields.io/pypi/l/napari-broadcastable-points.svg?color=green)](https://github.com/ianhi/napari-broadcastable-points/raw/main/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/napari-broadcastable-points.svg?color=green)](https://pypi.org/project/napari-broadcastable-points)
+[![Python Version](https://img.shields.io/pypi/pyversions/napari-broadcastable-points.svg?color=green)](https://python.org)
+
+Points layer that can broadcast over arbitrary dimensions. Available here as a workaround until something more complete is implemented in napari core (https://github.com/napari/napari/issues/2343).
+
+**Warning!** This is likely to be very brittle for all the reasons discussed in the napari issue - so while it is useful it should also be used with caution. So don't muck around much with the viewer dims after creating, because who knows what will happen.
+
+### Installation
+```bash
+pip install napari-broadcastable-points
+```
+
+
+### Usage
+Here is an example where we have an  image sequence of (TPCZYX) and we broadcast points over the `C` and `Z` axes.
+
+```python
+import napari
+from napari_broadcastable_points import BroadcastablePoints
+import numpy as np
+
+v = napari.Viewer()
+
+# create a fake timelapse
+T = 5
+P = 4
+C = 3
+Z = 2
+Y, X = 512, 512
+images = np.zeros([T, P, C, Z, Y, X])
+v.add_image(images)
+
+# Add the relevant components of points data
+# fmt: off
+dat = np.array([
+       # T,  P,       Y,              X
+       [ 0,  0., 340.25071184, 284.13186557],
+       [ 0,  0., 312.66551847, 309.95630191],
+       [ 0,  0., 240.76794003, 266.81775485],
+       [ 0,  0., 240.47448053, 239.81948049],
+       [ 0,  1., 261.60356481, 260.36164576],
+       [ 0,  1., 309.43746393, 215.16888217],
+       [ 0,  1., 371.06395974, 235.12412843]])
+# fmt: on
+
+v.dims.axis_labels = ('T', 'P', 'C', 'Z', 'Y', 'X')
+
+points = BroadcastablePoints(dat, broadcast_dims = (2, 3))
+v.add_layer(points)
+napari.run()
+```
+
+![example usage](images/points-broadcasting.gif)
+
+
+**Creating an empty layer**
+
+You can also create an empty layer - but be sure to specify `ndim` otherwise you may run into an error.
+
+```python
+points = BroadcastablePoints(None, broadcast_dims = (2, 3), ndim=6)
+```
+
+
+
+<!-- [![CI](https://github.com/ianhi/napari-broadcastable-points/actions/workflows/ci/badge.svg)](https://github.com/ianhi/napari-broadcastable-points/actions) -->
+<!-- [![codecov](https://codecov.io/gh/ianhi/napari-broadcastable-points/branch/master/graph/badge.svg)](https://codecov.io/gh/ianhi/napari-broadcastable-points) -->

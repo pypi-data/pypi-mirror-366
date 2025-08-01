@@ -1,0 +1,9 @@
+name: napari-broadcastable-points-dev
+channels:
+  - defaults
+dependencies:
+  - pandoc
+  - pip
+  - python
+  - pip:
+      - -e .[dev]
