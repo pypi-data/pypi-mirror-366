@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shaheenai"
+version = "0.1.1"
+description = "A flexible, multi-LLM, agent-oriented Python library with self-reflection capabilities"
+authors = [
+    {name = "Hamza - AI Engineer, Python Developer, Machine Learning, Agentic AI, Data Science, Node, Express, Typescript, NextJS"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["ai", "llm", "agents", "automation", "openai", "groq", "gemini"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "httpx>=0.25.0",
+    "litellm>=1.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    "click>=8.0.0",
+    "typing-extensions>=4.0.0"
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0.0"]
+anthropic = ["anthropic>=0.7.0"]
+cohere = ["cohere>=4.0.0"]
+groq = ["groq>=0.4.0"]
+ollama = ["ollama>=0.1.0"]
+streamlit = ["streamlit>=1.28.0"]
+chainlit = ["chainlit>=1.0.0"]
+ui = ["streamlit>=1.28.0", "chainlit>=1.0.0"]
+all = [
+    "openai>=1.0.0",
+    "anthropic>=0.7.0", 
+    "cohere>=4.0.0",
+    "groq>=0.4.0",
+    "ollama>=0.1.0",
+    "streamlit>=1.28.0",
+    "chainlit>=1.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/hamza/shaheenai"
+Documentation = "https://shaheenai.readthedocs.io"
+Repository = "https://github.com/hamza/shaheenai"
+"Bug Tracker" = "https://github.com/hamza/shaheenai/issues"
+
+[project.scripts]
+shaheenai = "shaheenai.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shaheenai*"]
+
+[tool.setuptools.package-data]
+shaheenai = ["py.typed", "*.yaml", "*.yml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
