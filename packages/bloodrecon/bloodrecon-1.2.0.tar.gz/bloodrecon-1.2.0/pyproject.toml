@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bloodrecon"
+version = "1.2.0"
+authors = [
+    {name = "Alex Butler - Vritra Security Organization"},
+]
+description = "Advanced OSINT Intelligence Framework for cybersecurity professionals"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: System :: Networking",
+    "Topic :: System :: Systems Administration",
+]
+keywords = ["osint", "reconnaissance", "cybersecurity", "intelligence", "framework", "penetration-testing"]
+dependencies = [
+    "colorama==0.4.6",
+    "dnspython==2.7.0",
+    "mmh3==5.1.0",
+    "phonenumbers==9.0.10",
+    "Pillow==11.3.0",
+    "requests==2.32.4",
+    "shodan==1.31.0",
+    "urllib3==2.5.0",
+    "whois==1.20240129.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/VritraSecz/BloodRecon"
+Repository = "https://github.com/VritraSecz/BloodRecon"
+Documentation = "https://github.com/VritraSecz/BloodRecon/blob/main/README.md"
+"Bug Reports" = "https://github.com/VritraSecz/BloodRecon/issues"
+"Developer Website" = "https://vritrasec.com"
+
+[project.scripts]
+bloodrecon = "bloodrecon.cli:main"
+
+[tool.setuptools]
+packages = ["bloodrecon", "bloodrecon.modules"]
+
+[tool.setuptools.package-data]
+bloodrecon = ["modules/list-imp/*.txt"]
