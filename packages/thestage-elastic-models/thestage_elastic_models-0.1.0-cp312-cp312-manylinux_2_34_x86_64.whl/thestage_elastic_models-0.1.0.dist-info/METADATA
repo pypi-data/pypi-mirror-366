@@ -1,0 +1,166 @@
+Metadata-Version: 2.4
+Name: thestage-elastic-models
+Version: 0.1.0
+Summary: Elastic Models from TheStage AI
+Author-email: TheStage AI team <hello@thestage.ai>
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch<2.7.0,>=2.4.0
+Requires-Dist: requests
+Requires-Dist: wheel
+Requires-Dist: huggingface_hub
+Requires-Dist: transformers[sentencepiece]==4.52.3
+Requires-Dist: diffusers[torch]<=0.33.1,>=0.30.0
+Requires-Dist: cupy-cuda12x==13.3.0
+Requires-Dist: cuda-python==12.8.0
+Requires-Dist: pyOpenSSL>=25.0.0
+Requires-Dist: cryptography>=44.0.0
+Requires-Dist: numpy<2,>=1.23.5
+Requires-Dist: aiohttp
+Provides-Extra: nvidia
+Requires-Dist: tensorrt==10.6.0.post2; extra == "nvidia"
+Requires-Dist: tensorrt-cu12==10.6.0.post2; extra == "nvidia"
+Requires-Dist: tensorrt-cu12-bindings==10.6.0.post2; extra == "nvidia"
+Requires-Dist: tensorrt-cu12-libs==10.6.0.post2; extra == "nvidia"
+Provides-Extra: blackwell
+Requires-Dist: tensorrt==10.9.0.34; extra == "blackwell"
+Requires-Dist: tensorrt-cu12==10.9.0.34; extra == "blackwell"
+Requires-Dist: tensorrt-cu12-bindings==10.9.0.34; extra == "blackwell"
+Requires-Dist: tensorrt-cu12-libs==10.9.0.34; extra == "blackwell"
+Dynamic: license-file
+
+# TheStage.Inference
+Inference of elastic models produced by ANNA TheStage AI
+
+
+## Build
+
+To build from source one has to install OpenSSL headers:
+
+```shell
+apt update
+apt install libssl-dev
+```
+
+## Installation
+
+Release v1 uses TensorRT 10.6.0 for most models and must be installed with optional dependency `nvidia`.
+The models available for B200 are compiled with TensorRT 10.9.0 and require the package installation with optional dependency `blackwell`.
+
+```python
+# H100, L40S and others
+pip install 'elastic_models[nvidia]' --index-url https://thestage.jfrog.io/artifactory/api/pypi/pypi-thestage-ai-production/simple --extra-index-url https://pypi.nvidia.com --extra-index-url https://pypi.org/simple
+
+# OR
+
+# B200 and other devices with  blackwell architecture
+pip install 'elastic_models[blackwell]' --index-url https://thestage.jfrog.io/artifactory/api/pypi/pypi-thestage-ai-production/simple --extra-index-url https://pypi.nvidia.com --extra-index-url https://pypi.org/simple
+
+# Manually install flash_attn
+pip install flash_attn==2.7.3 --no-build-isolation
+# May need to uninstall apex
+pip uninstall apex
+```
+
+## Running models
+
+One needs to ensure that TheStage AI API token is available either through TheStage AI CLI or by setting the `THESTAGE_AUTH_TOKEN` environment variable.
+```shell
+export THESTAGE_AUTH_TOKEN=XXX
+```
+
+Before running models, make sure `HF_TOKEN` is set:
+```shell
+export HF_TOKEN=XXX
+```
+
+To run a sample inference:
+```shell
+python examples/elastic_mistral.py
+```
+
+## Benchmarking
+
+To benchmark different model types, first install the required packages:
+```shell
+pip install -r ./benchmark/requirements.txt
+```
+
+Then, run the desired benchmark:
+
+```shell
+python -m benchmark.benchmark_llm
+```
+
+For benchmarking diffusion models:
+```shell
+python -m benchmark.benchmark_diffusers --model_name="black-forest-labs/FLUX.1-schnell" --mode=S --cache_dir="." --content_dir="."
+```
+
+## Available models
+
+The current list of available models can be obtained by the following commands:
+
+```python
+import elastic_models
+elastic_models.print_available_models() # pretty print
+available_models = elastic_models.list_available_models() # get dict with available models
+```
+
+## Developer tools
+
+### Env variables
+Use the `staging` backend by setting `ELASTIC_BACKEND` to STAGING.
+```shell
+export ELASTIC_BACKEND=STAGING
+```
+
+Control Elastic Model log level and error verbosity by
+```shell
+export ELASTIC_LOG_LEVEL=DEBUG
+```
+
+### Pre-commit hooks
+1. Install pre-commit `pip install pre-commit-hooks`
+2. Run `pre-commit install --hook-type pre-commit --hook-type pre-push` in the repository root.
+3. (Optional) run `pre-commit run --all-files` manually if needed.
+
+### Modes and hidden options
+Options:
+- `mode`
+  - S, M, L, XL - try to patch with engines from TheStage AI backend
+  - "" - load elastic model (eager), no patching with engines
+  - XXL - load elastic model with paged attention (if applicable) and wrap with CudaGraph (NOT PUBLIC)
+- `__model_path` - if not None, ignores mode and tries to patch with local un-encrypted engines
+- `__paged=True` forces to use paged attention (the final value is `paged or patched or mode == "XXL"`) if applicable for the model
+- `__full_patch` DEPRECATED, full patch is automatically deduced from `mode` and `__model_path`
+
+Examples:
+```python
+elastic_models.diffusers.DiffusionPipeline.from_pretrained(
+    ...
+    __model_path = MODEL_PATH # To use local un-encrypted engines
+)
+
+elastic_models.transformers.ElasticModelForCausalLM.from_pretrained(
+    ...
+    __paged = True, # To do patch for paged attention without full patch
+)
+
+elastic_models.transformers.ElasticModelForCausalLM.from_pretrained(
+    ...
+    mode = "XXL", # wraps with cuda graph without full patch
+)
+```
+
+### Unit tests
+
+```shell
+pip install pytest   # install testing framework
+python -m pytest     # discover and run all tests
+```
