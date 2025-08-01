@@ -1,0 +1,13 @@
+CHANGES
+=======
+
+2.10.0
+------
+
+* fix sys.stdout isatty
+* 修复pyinstaller打包无窗口软件后，打印报错的问题
+* update doc
+* Fix close connection when using shell v2
+* add drag and drop action
+* fix creat\_connection socket leak (#180)
+* fix device.battery() error
