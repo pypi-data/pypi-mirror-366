@@ -1,0 +1,322 @@
+{% extends 'devtools/base.html' %}
+{% load devtools_extras %}
+
+{% block title %}Table Explorer - Django DevTools{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate flex items-center">
+                <i data-lucide="table" class="h-8 w-8 mr-3 text-blue-600"></i>
+                Table Explorer
+            </h2>
+            <p class="mt-1 text-sm text-gray-500">
+                Browse and explore your database tables with advanced filtering and pagination
+            </p>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+            <button type="button" onclick="openModelSelector()" 
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <i data-lucide="search" class="h-4 w-4 mr-2"></i>
+                Choose Table
+            </button>
+        </div>
+    </div>
+
+    {% if error %}
+        <div class="rounded-md bg-red-50 p-4 border border-red-200">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">Error</h3>
+                    <div class="mt-2 text-sm text-red-700">
+                        <p>{{ error }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if model %}
+        <!-- Model Information Card -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                        <i data-lucide="info" class="h-5 w-5 mr-2 text-blue-500"></i>
+                        Model Information
+                    </h3>
+                </div>
+                <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Application</dt>
+                        <dd class="mt-1 text-sm text-gray-900 font-semibold">{{ app_label }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Model</dt>
+                        <dd class="mt-1 text-sm text-gray-900 font-semibold">{{ model_name }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Table</dt>
+                        <dd class="mt-1 text-sm font-mono text-gray-900 bg-gray-100 px-2 py-1 rounded">{{ db_table }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Total Records</dt>
+                        <dd class="mt-1">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                {{ total_count }} record{{ total_count|pluralize }}
+                            </span>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                    <!-- Records per page -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm font-medium text-gray-700">Records per page:</span>
+                        <div class="flex rounded-md shadow-sm">
+                            <button onclick="changeLimit(25)" 
+                                    class="limit-btn relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    data-limit="25">25</button>
+                            <button onclick="changeLimit(50)" 
+                                    class="limit-btn relative inline-flex items-center px-3 py-2 -ml-px border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    data-limit="50">50</button>
+                            <button onclick="changeLimit(100)" 
+                                    class="limit-btn relative inline-flex items-center px-3 py-2 -ml-px border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    data-limit="100">100</button>
+                            <button onclick="changeLimit(200)" 
+                                    class="limit-btn relative inline-flex items-center px-3 py-2 -ml-px rounded-r-md border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    data-limit="200">200</button>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if total_pages > 1 %}
+                        <nav class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                {% if has_previous %}
+                                    <a href="?app={{ app_label }}&model={{ model_name }}&page={{ previous_page }}&limit={{ limit }}"
+                                       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i data-lucide="chevron-left" class="h-4 w-4"></i>
+                                    </a>
+                                {% endif %}
+                                
+                                <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                    {{ current_page }} / {{ total_pages }}
+                                </span>
+                                
+                                {% if has_next %}
+                                    <a href="?app={{ app_label }}&model={{ model_name }}&page={{ next_page }}&limit={{ limit }}"
+                                       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </nav>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        {% if data %}
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                {% for field in fields %}
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold">{{ field.verbose_name }}</span>
+                                            <span class="text-xs font-normal text-gray-400 mt-1">{{ field.type }}</span>
+                                        </div>
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for row in data %}
+                                <tr class="hover:bg-gray-50">
+                                    {% for field in fields %}
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {% with value=row|lookup:field.name %}
+                                                {% if value == 'NULL' %}
+                                                    <span class="text-gray-400 italic text-xs bg-gray-100 px-2 py-1 rounded">NULL</span>
+                                                {% elif value|length > 50 %}
+                                                    <span title="{{ value }}" class="truncate block max-w-xs">{{ value|truncatechars:50 }}</span>
+                                                {% else %}
+                                                    <span class="break-words">{{ value }}</span>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center py-12">
+                <i data-lucide="database" class="mx-auto h-12 w-12 text-gray-400"></i>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No data found</h3>
+                <p class="mt-1 text-sm text-gray-500">This model doesn't contain any records yet.</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <i data-lucide="table" class="mx-auto h-12 w-12 text-gray-400"></i>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Select a table to explore</h3>
+            <p class="mt-1 text-sm text-gray-500">Choose a table from your Django models to start exploring the data.</p>
+            <div class="mt-6">
+                <button type="button" onclick="openModelSelector()"
+                        class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <i data-lucide="search" class="h-4 w-4 mr-2"></i>
+                    Choose a table
+                </button>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Model Selector Modal -->
+<div id="modelSelectorModal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                    Select a table to explore
+                </h3>
+                <button type="button" onclick="closeModelSelector()" class="text-gray-400 hover:text-gray-500">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+            </div>
+            <div id="modelsContainer" class="mt-4">
+                <div class="flex justify-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Utility functions
+function changeLimit(newLimit) {
+    const url = new URL(window.location);
+    url.searchParams.set('limit', newLimit);
+    url.searchParams.set('page', 1);
+    window.location = url;
+}
+
+// Mark active limit button
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLimit = new URLSearchParams(window.location.search).get('limit') || '50';
+    const buttons = document.querySelectorAll('.limit-btn');
+    
+    buttons.forEach(button => {
+        if (button.dataset.limit === currentLimit) {
+            button.classList.remove('bg-white', 'text-gray-700');
+            button.classList.add('bg-blue-600', 'text-white');
+        }
+    });
+    
+    // Initialize Lucide icons
+    lucide.createIcons();
+});
+
+// Modal functions
+function openModelSelector() {
+    document.getElementById('modelSelectorModal').classList.remove('hidden');
+    loadModels();
+}
+
+function closeModelSelector() {
+    document.getElementById('modelSelectorModal').classList.add('hidden');
+}
+
+// Load models via API
+function loadModels() {
+    fetch('{% url "devtools:api_models" %}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayModels(data.data);
+            } else {
+                document.getElementById('modelsContainer').innerHTML = 
+                    '<div class="text-center py-4"><p class="text-red-600">Error loading models</p></div>';
+            }
+        })
+        .catch(error => {
+            document.getElementById('modelsContainer').innerHTML = 
+                '<div class="text-center py-4"><p class="text-red-600">Connection error</p></div>';
+        });
+}
+
+function displayModels(apps) {
+    let html = '<div class="space-y-4">';
+    
+    apps.forEach(app => {
+        html += `
+            <div class="border rounded-lg p-4">
+                <h4 class="font-medium text-gray-900 flex items-center mb-3">
+                    <i data-lucide="package" class="h-4 w-4 mr-2 text-blue-500"></i>
+                    ${app.app_verbose_name}
+                </h4>
+                <div class="grid grid-cols-1 gap-2">
+        `;
+        
+        app.models.forEach(model => {
+            html += `
+                <a href="?app=${model.app_label}&model=${model.name}" 
+                   class="flex items-center justify-between p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <i data-lucide="table" class="h-4 w-4 mr-2 text-gray-400"></i>
+                        <span class="text-sm font-medium text-gray-900">${model.verbose_name}</span>
+                    </div>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                        ${model.count}
+                    </span>
+                </a>
+            `;
+        });
+        
+        html += '</div></div>';
+    });
+    
+    html += '</div>';
+    
+    document.getElementById('modelsContainer').innerHTML = html;
+    lucide.createIcons();
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModelSelector();
+    }
+});
+
+// Close modal when clicking outside
+document.getElementById('modelSelectorModal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeModelSelector();
+    }
+});
+</script>
+{% endblock %} 
