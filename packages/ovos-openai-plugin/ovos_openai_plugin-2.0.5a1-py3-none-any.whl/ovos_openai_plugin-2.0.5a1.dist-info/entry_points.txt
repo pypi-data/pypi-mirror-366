@@ -1,0 +1,11 @@
+[neon.plugin.solver]
+ovos-solver-openai-plugin = ovos_solver_openai_persona.engines:OpenAIChatCompletionsSolver
+
+[opm.plugin.persona]
+Remote Llama = ovos_solver_openai_persona:LLAMA_DEMO
+
+[opm.solver.summarization]
+ovos-summarizer-openai-plugin = ovos_solver_openai_persona.summarizer:OpenAISummarizer
+
+[opm.transformer.dialog]
+ovos-dialog-transformer-openai-plugin = ovos_solver_openai_persona.dialog_transformers:OpenAIDialogTransformer
