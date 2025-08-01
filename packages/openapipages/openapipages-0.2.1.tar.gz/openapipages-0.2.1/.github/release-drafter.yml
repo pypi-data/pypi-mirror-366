@@ -1,0 +1,32 @@
+---
+# Configuration for Release Drafter: https://github.com/release-drafter/release-drafter
+name-template: '$RESOLVED_VERSION 🌈'
+tag-template: '$RESOLVED_VERSION'
+template: |
+  # :mega: openapipages $RESOLVED_VERSION released!
+
+  We are pleased to announce the release of openapipages $RESOLVED_VERSION.
+
+  ## :green_book: What's Changed
+
+  $CHANGES
+
+  ## :bow: Credits
+
+  Special thanks to the following contributors who helped with this release: $CONTRIBUTORS
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...$RESOLVED_VERSION
+
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+no-changes-template: '- No changes'
+exclude-contributors:
+  - 'dependabot'
+  - 'pre-commit-ci'
+  - 'renovate'
+exclude-labels:
+  - 'skip-changelog'
+  - 'invalid'
+replacers:
+  # https://github.com/release-drafter/release-drafter/issues/569#issuecomment-645942909
+  - search: '/(?:and )?@(pre-commit-ci|dependabot|renovate)(?:\[bot\])?,?/g'
+    replace: ''
