@@ -1,0 +1,30 @@
+#
+# spartacus grid
+#
+gridtype  = projection
+gridsize  = 192136
+xsize     = 584
+ysize     = 329
+xname     = x
+xlongname = "x coordinate of projection"
+xunits    = "m"
+yname     = y
+ylongname = "y coordinate of projection"
+yunits    = "m"
+xfirst    = 112500
+xinc      = 1000
+yfirst    = 258500
+yinc      = 1000
+grid_mapping = lambert_conformal_conic
+grid_mapping_name = lambert_conformal_conic
+Easternmost_Easting = 695500
+GeoTransform = "112000 1000.000 0 258000 0 1000.000"
+Northernmost_Northing = 586500
+Southernmost_Northing = 258500
+Westernmost_Easting = 112500
+crs_wkt = 'PROJCS["ETRS89 / Austria Lambert",GEOGCS["ETRS89",DATUM["European_Terrestrial_Reference_System_1989",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6258"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4258"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["standard_parallel_1",49],PARAMETER["standard_parallel_2",46],PARAMETER["latitude_of_origin",47.5],PARAMETER["central_meridian",13.33333333333333],PARAMETER["false_easting",400000],PARAMETER["false_northing",400000],AUTHORITY["EPSG","3416"],AXIS["Y",EAST],AXIS["X",NORTH]]'
+false_easting = 400000.
+false_northing = 400000.
+latitude_of_projection_origin = 47.5
+longitude_of_central_meridian = 13.3333333333333
+standard_parallel = 49. 46.
