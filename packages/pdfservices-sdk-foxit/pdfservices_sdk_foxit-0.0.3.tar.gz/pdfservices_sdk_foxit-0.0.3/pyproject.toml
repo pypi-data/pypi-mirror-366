@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling >= 1.26","requests"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pdfservices_sdk_foxit"
+version = "0.0.3"
+authors = [
+  { name="Raymond Camden", email="jedimaster@foxitsoftware.com" },
+]
+description = "A SDK wrapper for Foxit's PDF Services and Document Generation APIs."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = { file = "LICENSE" }
+
+[project.urls]
+Homepage = "https://github.com/foxitsoftware/pdfservicespythonsdk"
+Issues = "https://github.com/foxitsoftware/pdfservicespythonsdk/issues"
