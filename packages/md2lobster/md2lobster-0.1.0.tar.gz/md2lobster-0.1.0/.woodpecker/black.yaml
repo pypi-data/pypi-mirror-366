@@ -1,0 +1,12 @@
+when:
+  - branch: main
+    event: push
+  - event: tag
+
+steps:
+  - name: black
+    image: python:3.13
+    commands:
+      - python3 -m pip install --upgrade pip
+      - python3 -m pip install --upgrade black
+      - python3 -m black --check src tests

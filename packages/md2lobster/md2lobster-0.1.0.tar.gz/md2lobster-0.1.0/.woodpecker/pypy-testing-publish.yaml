@@ -1,0 +1,27 @@
+when:
+  - branch: main
+    event: push
+  - event: tag
+
+steps:
+  - name: build
+    image: python:3.13
+    commands:
+      - python3 -m pip install --upgrade pip
+      - python3 -m pip install --upgrade build
+      - python3 -m build
+  - name: publish
+    image: python:3.13
+    environment:
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD:
+        from_secret: PYPI_TESTING_API
+    commands:
+      - python3 -m pip install --upgrade pip
+      - python3 -m pip install --upgrade twine
+      - python3 -m twine upload --skip-existing --repository testpypi dist/*
+
+depends_on:
+  - python_3_13
+  - pytest_3_13
+  - black

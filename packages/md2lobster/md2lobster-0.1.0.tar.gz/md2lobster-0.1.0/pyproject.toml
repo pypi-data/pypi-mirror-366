@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "md2lobster"
+version = "0.1.0"
+authors = [
+    { name = "Anders Arnholm", email = "Anders@Arnholm.se" },
+]
+description = "Read a markdown file to create some lobster traceing"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "ISC"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "markdown-it-py",
+]
+[project.urls]
+Homepage = "https://codeberg.org/balp/md2lobster"
+Issues = "https://codeberg.org/balp/md2lobster/issues"
+
+[project.scripts]
+md2lobster = "md2lobster.md2lobster:main"

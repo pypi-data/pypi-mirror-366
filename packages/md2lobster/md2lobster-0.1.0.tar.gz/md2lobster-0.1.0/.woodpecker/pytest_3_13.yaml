@@ -1,0 +1,13 @@
+when:
+  - branch: main
+    event: push
+  - event: tag
+
+steps:
+  - name: pytest
+    image: python:3.13
+    commands:
+      - python3 -m pip install --upgrade pip
+      - python3 -m pip install --upgrade pytest
+      - python3 -m pip install .
+      - python3 -m pytest tests/
