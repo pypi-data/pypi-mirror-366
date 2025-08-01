@@ -1,0 +1,123 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Account is already configured",
+            "reauth_successful": "Re-authentication was successful",
+            "reconfigure_successful": "Re-configuration was successful",
+            "unique_id_mismatch": "The provided NPSSO token corresponds to the account {wrong_account}. Please re-authenticate with the account **{name}**"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_account": "Invalid access token",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "reauth_confirm": {
+                "data": {
+                    "npsso": "NPSSO token"
+                },
+                "data_description": {
+                    "npsso": "The NPSSO token is generated upon successful login of your PlayStation Network account and is used to authenticate your requests within Home Assistant."
+                },
+                "description": "The NPSSO token for **{name}** has expired. To obtain a new one, log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token.",
+                "title": "Re-authenticate {name} with PlayStation Network"
+            },
+            "reconfigure": {
+                "data": {
+                    "npsso": "NPSSO token"
+                },
+                "data_description": {
+                    "npsso": "The NPSSO token is generated upon successful login of your PlayStation Network account and is used to authenticate your requests within Home Assistant."
+                },
+                "description": "To obtain your NPSSO token, log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token.",
+                "title": "Update PlayStation Network configuration"
+            },
+            "user": {
+                "data": {
+                    "npsso": "NPSSO token"
+                },
+                "data_description": {
+                    "npsso": "The NPSSO token is generated upon successful login of your PlayStation Network account and is used to authenticate your requests within Home Assistant."
+                },
+                "description": "To obtain your NPSSO token, log in to your [PlayStation account]({psn_link}) first. Then [click here]({npsso_link}) to retrieve the token."
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "ps_plus_status": {
+                "name": "Subscribed to PlayStation Plus"
+            }
+        },
+        "image": {
+            "avatar": {
+                "name": "Avatar"
+            },
+            "share_profile": {
+                "name": "Share profile"
+            }
+        },
+        "notify": {
+            "group_message": {
+                "name": "Group: {group_name}"
+            }
+        },
+        "sensor": {
+            "earned_trophies_bronze": {
+                "name": "Bronze trophies",
+                "unit_of_measurement": "trophies"
+            },
+            "earned_trophies_gold": {
+                "name": "Gold trophies",
+                "unit_of_measurement": "trophies"
+            },
+            "earned_trophies_platinum": {
+                "name": "Platinum trophies",
+                "unit_of_measurement": "trophies"
+            },
+            "earned_trophies_silver": {
+                "name": "Silver trophies",
+                "unit_of_measurement": "trophies"
+            },
+            "last_online": {
+                "name": "Last online"
+            },
+            "online_id": {
+                "name": "Online ID"
+            },
+            "online_status": {
+                "name": "Online status",
+                "state": {
+                    "availabletocommunicate": "Online on PS App",
+                    "availabletoplay": "Online",
+                    "busy": "Away",
+                    "offline": "Offline"
+                }
+            },
+            "trophy_level": {
+                "name": "Trophy level"
+            },
+            "trophy_level_progress": {
+                "name": "Next level"
+            }
+        }
+    },
+    "exceptions": {
+        "group_invalid": {
+            "message": "Failed to send message to group {group_name}. The group is invalid or does not exist."
+        },
+        "not_ready": {
+            "message": "Authentication to the PlayStation Network failed."
+        },
+        "send_message_failed": {
+            "message": "Failed to send message to group {group_name}. Try again later."
+        },
+        "send_message_forbidden": {
+            "message": "Failed to send message to group {group_name}. You are not allowed to send messages to this group."
+        },
+        "update_failed": {
+            "message": "Data retrieval failed when trying to access the PlayStation Network."
+        }
+    }
+}

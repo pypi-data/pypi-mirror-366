@@ -1,0 +1,34 @@
+{
+    "issues": {
+        "issue_addon_boot_fail": {
+            "fix_flow": {
+                "abort": {
+                    "apply_suggestion_fail": "N\u00edorbh fh\u00e9idir an ceart\u00fa a chur i bhfeidhm. Seice\u00e1il loga\u00ed an Mhaoirseora le haghaidh tuilleadh sonra\u00ed."
+                },
+                "step": {
+                    "fix_menu": {
+                        "description": "T\u00e1 an breise\u00e1n {addon} socraithe le tos\u00fa ag an tosaithe ach theip air tos\u00fa. De ghn\u00e1th, tarla\u00edonn s\u00e9 seo nuair a bh\u00edonn an chumra\u00edocht m\u00edcheart n\u00f3 nuair a \u00fas\u00e1idtear an port c\u00e9anna i mbreise\u00e1in iolracha. Seice\u00e1il an chumra\u00edocht chomh maith le loga\u00ed do {addon} agus Maoirseoir.\n\n\u00das\u00e1id Tosaigh chun iarracht eile a dh\u00e9anamh n\u00f3 D\u00edchumasaigh chun an rogha tosaithe ag an tosaithe a mh\u00fachadh."
+                    }
+                }
+            },
+            "title": "Theip ar an mbreise\u00e1n tos\u00fa ag an tosaithe"
+        },
+        "issue_addon_detached_addon_missing": {
+            "description": "T\u00e1 st\u00f3rlann don bhreise\u00e1n {addon} ar iarraidh. Cialla\u00edonn s\u00e9 seo nach bhfaighidh s\u00e9 nuashonruithe, agus b'fh\u00e9idir nach nd\u00e9anfar c\u00faltaca\u00ed a athch\u00f3iri\u00fa i gceart mar nach mbeidh an maoirseoir in ann na hacmhainn\u00ed riachtanacha a th\u00f3g\u00e1il/a \u00edosl\u00f3d\u00e1il.\n\nSeice\u00e1il [dhoicim\u00e9adacht an bhreise\u00e1in]({addon_url}) le haghaidh treoracha suite\u00e1la agus cuir an st\u00f3rlann leis an siopa.",
+            "title": "St\u00f3rlann ar iarraidh le haghaidh breise\u00e1n suite\u00e1ilte"
+        },
+        "issue_addon_detached_addon_removed": {
+            "fix_flow": {
+                "abort": {
+                    "apply_suggestion_fail": "N\u00edorbh fh\u00e9idir an breise\u00e1n a dh\u00edshuite\u00e1il. Seice\u00e1il loga\u00ed an Mhaoirseora le haghaidh tuilleadh sonra\u00ed."
+                },
+                "step": {
+                    "addon_execute_remove": {
+                        "description": "Baineadh an breise\u00e1n {addon} as an st\u00f3r as ar suite\u00e1ladh \u00e9. Cialla\u00edonn s\u00e9 seo nach bhfaighidh s\u00e9 nuashonruithe, agus b'fh\u00e9idir nach nd\u00e9anfar c\u00faltaca\u00ed a athch\u00f3iri\u00fa i gceart mar nach mbeidh an maoirseoir in ann na hacmhainn\u00ed riachtanacha a th\u00f3g\u00e1il/a \u00edosl\u00f3d\u00e1il.\n\nM\u00e1 roghna\u00edonn t\u00fa **Cuir Isteach**, d\u00edshuite\u00e1lfar an breise\u00e1n at\u00e1 imithe i l\u00e9ig seo. N\u00f3 is f\u00e9idir leat [Cabhair le C\u00fant\u00f3ir Baile]({help_url}) agus an [f\u00f3ram pobail]({community_url}) a sheice\u00e1il le haghaidh roghanna eile le haistri\u00fa chucu."
+                    }
+                }
+            },
+            "title": "Baineadh an breise\u00e1n suite\u00e1ilte as an st\u00f3rlann"
+        }
+    }
+}
