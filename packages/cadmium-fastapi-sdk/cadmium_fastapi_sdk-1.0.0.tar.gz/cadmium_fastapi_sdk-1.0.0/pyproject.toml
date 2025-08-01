@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cadmium-fastapi-sdk"
+version = "1.0.0"
+description = "Cadmium SDK for capturing and sending FastAPI errors"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "bannawandoor", email = "connect@hasanulbanna.in"}
+]
+keywords = ["fastapi", "error-tracking", "monitoring", "cadmium"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Framework :: FastAPI",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+]
+dependencies = [
+    "fastapi>=0.68.0",
+    "httpx>=0.24.0",
+    "starlette>=0.14.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/softwares-compound/cadmium-fastapi-sdk"
+Repository = "https://github.com/softwares-compound/cadmium-fastapi-sdk"
+Issues = "https://github.com/softwares-compound/cadmium-fastapi-sdk/issues"
