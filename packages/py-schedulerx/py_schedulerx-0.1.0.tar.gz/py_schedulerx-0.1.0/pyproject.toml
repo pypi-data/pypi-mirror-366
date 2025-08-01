@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py-schedulerx"
+version = "0.1.0"
+description = "A lightweight and simple task scheduler for Python"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "firatmio"}
+]
+keywords = ["scheduler", "cron", "task", "job", "automation", "periodic", "threading"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/firatmio/py-schedulerx"
+Repository = "https://github.com/firatmio/py-schedulerx"
+Issues = "https://github.com/firatmio/py-schedulerx/issues"
+Documentation = "https://github.com/firatmio/py-schedulerx#readme"
+
+[tool.setuptools.packages.find]
+include = ["py_schedulerx*"]
