@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: exclip
+Version: 1.0
+Summary: A wrapper package for CLIP, providing explanations for how the model compares images and captions.
+Author-email: Lucas Moeller <lucasmoeller@icloud.com>, Pascal Tilli <pascal.tilli@ims.uni-stuttgart>
+Project-URL: Homepage, https://github.com/lucasmllr/exCLIP
+Project-URL: Bug Tracker, https://github.com/lucasmllr/exCLIP/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: torch
+Requires-Dist: torchvision
+Requires-Dist: tqdm
+Requires-Dist: matplotlib
+Requires-Dist: pillow
+Requires-Dist: opencv-python
+Requires-Dist: ftfy
+Requires-Dist: regex
+Requires-Dist: ipykernel
+Requires-Dist: open_clip_torch
+Dynamic: license-file
+
+# exCLIP
+This repository contains the code for the **TMLR'25** paper [*Explaining Caption-Image Interactions in CLIP Models with Second-Order Attributions*](https://openreview.net/forum?id=HUUL19U7HP).
+
+A demo is alreay included in the `demo.ipynb` notebook.
+
+We are still working on cleaning up the code to make it easily accessible and will be updating this repo over the next couple of days.
+To stay tuned, we would be glad if you leave a star! 🤩
+
+## Contribution
+
+Our method enables to look into which part of a caption and an image CLIP matches.
+We can make arbitrary selections over spans in captions and see which image regions correspond to them or vice versa.
+This is demonstrated in the follwing plot.
+
+![example](examples/demo_plot.png)
+
+In the top row, we select spans in captions (yellow) and see what they correspond to in the image above. In the bottom row, we select bounding-boxes in the image (yellow) and see what they correspond to in the caption below. Heatmaps in both images and captions are red for positive and blue for negative values.
+
+For all details, check out the paper!
+
+## Installation
+
+To use our `exclip` package, clone this repository, create a fresh python environment (3.11 or higher) and run the following command inside the cloned repo.
+
+```
+$ pip install .
+```
