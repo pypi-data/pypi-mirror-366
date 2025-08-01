@@ -1,0 +1,53 @@
+# LLM Context Configuration
+
+# This file controls which files are included in the LLM context output.
+# Patterns follow gitignore syntax.
+
+# Mode declaration (REQUIRED: must be first non-comment line)
+WHITELIST:
+# Start with no files, explicitly add what you want
+src/
+lib/
+*.md
+
+# Optional configuration  
+OPTIONS:
+output: my-context.md
+respect_gitignore: true    # default: true
+include_hidden: false      # default: false  
+include_binary: false      # default: false
+
+# Explicit sections for refinement
+EXCLUDE:
+# Remove files matching these patterns
+**/__pycache__/
+**/*.test.js
+temp/
+
+INCLUDE:
+# Force-include files matching these patterns (rescue from exclusions)
+.github/workflows/*.yml
+debug.log
+
+# Alternative example using BLACKLIST mode:
+# BLACKLIST:
+# # Start with all files, explicitly remove what you don't want
+# tests/
+# node_modules/
+# coverage/
+# *.log
+# .git/
+# 
+# INCLUDE:
+# # Force-include specific files despite blacklist
+# tests/fixtures/
+# tests/utils.py
+
+# Notes:
+# - Mode declaration (WHITELIST: or BLACKLIST:) must be first non-comment line
+# - WHITELIST: Start with no files, add what you want
+# - BLACKLIST: Start with all files, remove what you don't want  
+# - EXCLUDE: Additional exclusions beyond gitignore
+# - INCLUDE: Force-include files that would otherwise be excluded
+# - CLI mode flags (-w/-b) completely override this file
+# - Individual CLI flags override corresponding OPTIONS
