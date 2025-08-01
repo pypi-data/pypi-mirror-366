@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moons_motor"
+version = "1.0.0"
+authors = [{ name = "miroc", email = "mike8503111@gmail.com" }]
+description = "This is a python library for controlling the Moons' motor through the serial port."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pyserial",
+    "rich",
+    "python-socketio",
+    "requests",
+    "pyserial_asyncio",
+]
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 4 - Beta",
+
+    # Indicate who your project is intended for
+    "Intended Audience :: Developers",
+    "Topic :: Terminals :: Serial",
+
+    # Pick your license as you wish (see also "license" above)
+    "License :: OSI Approved :: MIT License",
+
+    # Specify the Python versions you support here.
+    "Programming Language :: Python :: 3.12",
+]
+[project.urls]
+Repository = "https://github.com/miroc99/moons_motor.git"
