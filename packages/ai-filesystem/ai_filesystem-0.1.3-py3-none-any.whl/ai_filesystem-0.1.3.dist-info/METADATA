@@ -1,0 +1,66 @@
+Metadata-Version: 2.4
+Name: ai-filesystem
+Version: 0.1.3
+Summary: Virtual filesystem service for AI agents with LangChain integration
+Author-email: Nick <nick@langchain.dev>
+License: MIT
+Project-URL: Repository, https://github.com/langchain-ai/agent-file-system
+Keywords: langchain,ai,filesystem,agents,tools
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: httpx>=0.25.2
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: langchain-core>=0.1.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: server
+Requires-Dist: fastapi>=0.100.0; extra == "server"
+Requires-Dist: uvicorn[standard]>=0.24.0; extra == "server"
+Requires-Dist: asyncpg>=0.29.0; extra == "server"
+Requires-Dist: python-jose[cryptography]>=3.3.0; extra == "server"
+Requires-Dist: pydantic-settings>=2.10.1; extra == "server"
+Requires-Dist: propelauth-fastapi>=4.2.8; extra == "server"
+Dynamic: license-file
+
+# AI Filesystem
+
+A virtual filesystem API for AI agents. Users can easily provide their agents with siloed filesystems to use as long term memory, scratchpads, or general purpose storage.
+
+## How It Works
+
+1. **API Server**: FastAPI backend that stores files in PostgreSQL
+2. **User Isolation**: Each user can only see/modify their own files (enforced by database)
+3. **Multiple Filesystems**: A user can have multiple filesystems and provide their agents with access to different, or the same filesystems.
+
+## [Beta] Quick Start
+
+### Creating an account on the Filesystem
+
+1. Navigate [here](https://auth.fs.langchain.com) and sign up for an account on the Filesystem. 
+2. Create an API key and save it someplace secure!
+
+### Giving your agent access to the Filesystem
+
+1. Set your API key as an environment variable for your agent: `AGENT_FS_API_KEY=<api_key>`
+2. Specify the URL for the filesystem. If you're using our hosted solution, it is `AGENT_FS_URL=agent-file-system-production.up.railway.app`
+3. Instantiate the filesystem client, and give your agent access to the tools
+
+```python
+from ai_filesystem import FilesystemClient
+
+client = FilesystemClient(
+  filesystem="nicks-agent-filesystem"
+)
+filesystem_tools = client.create_tools()  # list files, read file, create new file, and edit file
+agent.bind_tools(filesystem_tools)
+```
+
+3. In your agent's system prompt, make sure to specify how you want the agent to use the filesystem. Common use cases include as long-term memory, to store learnings and mistakes, or to save work products.
