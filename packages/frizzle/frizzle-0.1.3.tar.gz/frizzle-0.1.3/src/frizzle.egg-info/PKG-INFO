@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: frizzle
+Version: 0.1.3
+Summary: Combine spectra by forward modelling
+Author-email: "Andrew R. Casey" <andrew.casey@monash.edu>, "David W. Hogg" <david.hogg@nyu.edu>
+Maintainer-email: Andy Casey <andrew.casey@monash.edu>
+License: LICENSE.md
+Keywords: astronomy software
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: finufft
+Requires-Dist: pylops
+Requires-Dist: scipy
+Requires-Dist: scikit-learn
+Requires-Dist: jax>=0.4.30
+Requires-Dist: jaxlib>=0.4.30
+Requires-Dist: nifty-solve>=0.1.2
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pytest-sugar; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Dynamic: license-file
+
+<div align="Center">
+
+# frizzle 
+
+Combine spectra by forward modeling.
+
+[![Test Status](https://github.com/andycasey/frizzle/actions/workflows/ci.yml/badge.svg)](https://github.com/andycasey/frizzle/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/andycasey/frizzle/badge.svg?branch=main&service=github)](https://coveralls.io/github/andycasey/frizzle?branch=main)
+
+</div>
+
+# Install
+
+```
+uv add frizzle
+```
+
+## Authors:
+- **David W Hogg** (NYU) (MPIA) (Flatiron)
+- **Andy Casey** (Monash) (Flatiron)
+
+## License:
+Copyright 2022-2025 the authors.
+All code herein is licensed for reuse under the open-source *MIT License*.
+See the file `LICENSE` for more details.
+
+## Contributors / Acknowledgements:
+- **Matt Daunt** (NYU)
+- **Adrian Price-Whelan** (Flatiron)
+- **Thomas Hilder** (Monash)
+- The **Astronomical Data Group** at the Flatiron Institute, and the **Inference Group** at Monash University.
