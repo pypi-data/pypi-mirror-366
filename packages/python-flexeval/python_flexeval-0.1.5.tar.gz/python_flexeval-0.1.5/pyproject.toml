@@ -1,0 +1,83 @@
+[project]
+name = "python-flexeval"
+version = "0.1.5"
+description = "FlexEval is a tool for designing custom metrics, completion functions, and LLM-graded rubrics for evaluating the behavior of LLM-powered systems."
+authors = [
+  { name="S. Thomas Christie" },
+  { name="Zachary Levonian" },
+  { name="Baptiste Moreau-Pernet" },
+  { name="Anna Rafferty" },
+  { name="Terry Yu Tian" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering",
+    "Natural Language :: English",
+]
+keywords = ["learning engineering", "education", "evaluation", "conversation", "large language models"]
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flatten-json>=0.1.14",
+    "jsonschema>=4.23.0",
+    "langchain>=0.3.20",
+    "langchain-openai>=0.3.8",
+    "langgraph>=0.3.6",
+    "langgraph-checkpoint-sqlite>=2.0.6",
+    "litellm>=1.74.3",
+    "msgpack>=1.1.0",
+    "networkx>=3.4.2",
+    "openai>=1.66.0",
+    "pandas>=2.2.3",
+    "peewee>=3.17.9",
+    "pydantic>=2.10.6",
+    "python-dotenv>=1.0.1",
+    "pyyaml>=6.0.2",
+    "requests>=2.32.3",
+    "sympy>=1.13.3",
+    "textstat>=0.7.5",
+    "typer>=0.16.0",
+]
+
+[project.urls]
+Homepage = "https://digitalharborfoundation.github.io/FlexEval/"
+GitHub = "https://github.com/DigitalHarborFoundation/FlexEval"
+Issues = "https://github.com/DigitalHarborFoundation/FlexEval/issues"
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.3",
+    "pre-commit>=4.2.0",
+    "ruff>=0.12.2",
+]
+docs = [
+    "autodoc-pydantic>=2.2.0",
+    "linkify-it-py>=2.0.3",
+    "myst-nb>=1.2.0",
+    "myst-parser>=4.0.1",
+    "numpydoc>=1.9.0",
+    "pydata-sphinx-theme>=0.16.1",
+    "sphinx>=8.1.3",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-design>=0.6.1",
+    "sphinx-tags>=0.4",
+    "sphinxcontrib-programoutput>=0.18",
+]
+
+[project.scripts]
+flexeval = "flexeval.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flexeval"]
