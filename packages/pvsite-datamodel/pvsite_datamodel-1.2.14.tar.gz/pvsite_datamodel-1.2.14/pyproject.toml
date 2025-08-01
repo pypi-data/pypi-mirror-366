@@ -1,0 +1,98 @@
+[build-system]
+requires = ["setuptools>=67", "wheel", "setuptools-git-versioning>=2.0,<3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pvsite-datamodel"
+dynamic = [ "version" ]
+description = "SDK for interacting with the PVSite database"
+authors = [{ name = "Open Climate Fix team", email = "info@openclimatefix.org" }]
+readme = "README.md"
+requires-python = ">=3.11.0"
+dependencies = [
+    "sqlalchemy>=2.0,<3.0",
+    "psycopg2-binary>=2.9.5,<3.0",
+    "pandas>=2.2.3,<3.0",
+    "pydantic>=2.3.0,<3.0",
+    "alembic>=1.16.4",
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "pytest",
+    "testcontainers",
+    "black",
+    "isort",
+    "pytest-cov",
+    "alembic",
+    "geopandas"
+]
+
+[project.urls]
+repository = "https://github.com/openclimatefix/pvsite-datamodel"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["test*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.csv"]
+
+[tool.setuptools-git-versioning]
+enabled = true
+
+[tool.mypy]
+python_version = "3.10"
+plugins = [
+    "sqlalchemy.ext.mypy.plugin",
+]
+exclude = [
+    "^gen/*$", # TOML basic string (double-quotes, backslash and other characters need escaping)
+]
+
+
+# Ruff configuration
+# * See https://beta.ruff.rs/docs/
+[tool.ruff]
+line-length = 100
+indent-width = 4
+exclude = ["__init__.py"]
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle
+    "W", # newline at end of files
+    "F", # pyflakes
+    "N", # pep8 naming
+    "B", # flake8-bugbear
+    # We install isort separately because we want to use the profile="black" option
+    # "I", # isosort
+    "D", # pydocstyle
+    "S", # flake8-bandit
+    "T20", # flake8-print
+    "PT" # flake8-print
+]
+fixable = ["ALL"]
+ignore = ["D203", "D213", "D200" ,"D202", "D210", "D212", "D415", "D105"]
+
+[tool.ruff.lint.per-file-ignores]
+"*test*" = ["D", "ANN", "S101"]
+"alembic/versions/*" = ["D103"]
+"scripts/*" = ["T201"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = 100
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
