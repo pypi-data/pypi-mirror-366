@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: django-epic-sample
+Version: 0.6.7
+Summary: A minimal Django project to demonstrate EPIC functionality.
+Home-page: https://bitbucket.org/egauge/epic-sample/
+Author: David Mosberger-Tang
+Author-email: davidm@egauge.net
+License: MIT License
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Manufacturing
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)
+License-File: LICENSE
+Requires-Dist: crispy-bootstrap3
+Requires-Dist: django-epic[server]>=0.6.7
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+===========
+EPIC Sample
+===========
+
+This package is a companion to the django-epic package.  Its purpose
+is to provide a minimal but functional environment that let's a
+potential user of EPIC get a feel for how the application works.
+
+Install this package with::
+
+	pip install django-epic-sample
+
+After installation, start the Django test server with::
+
+	python -m epic_sample.manage runserver
+
+Then point your web-browser at::
+
+	http://localhost:8000/epic/
+
+This page should prompt you to log in.  You can use::
+
+	- username = admin
+	- password = admin
+
+for this sample site.
+
+To run the EPIC unit tests, use::
+
+	python -m epic_sample.manage test epic.tests
