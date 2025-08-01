@@ -1,0 +1,27 @@
+[project]
+name = "a5"
+requires-python = ">=3.11"
+dynamic = ["version"]
+dependencies = [
+    "ruff>=0.12.5",
+]
+
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+# F541: f-string without any placeholders
+ignore = ["F541"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
