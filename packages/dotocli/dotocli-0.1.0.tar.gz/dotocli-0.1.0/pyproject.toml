@@ -1,0 +1,34 @@
+[project]
+name = "dotocli"
+version = "0.1.0"
+description = "Package Manager Utility"
+authors = [
+    {name = "Timur Yigit",email = "timur@tigitlabs.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic (>=2.11.7,<3.0.0)",
+    "pydantic-yaml (>=1.5.1,<2.0.0)",
+    "typer (>=0.16.0,<0.17.0)",
+]
+
+[project.scripts]
+doto = "doto.cli:app"
+
+[tool.poetry]
+package-mode = true
+packages = [{include = "doto", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+invoke = "^2.2.0"
+mkdocs = "^1.6.1"
+ruff = "^0.12.7"
+mypy = "^1.17.1"
+pytest-mock = "^3.14.1"
+pydocstyle = "^6.3.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

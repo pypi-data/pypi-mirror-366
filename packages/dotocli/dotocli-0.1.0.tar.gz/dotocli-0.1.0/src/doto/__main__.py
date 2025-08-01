@@ -1,0 +1,6 @@
+"""Dodo CLI entry point."""
+
+from doto import cli
+
+if __name__ == "__main__":
+    cli.app()
