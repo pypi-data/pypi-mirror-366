@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: gladhost-tlds
+Version: 1.0.0
+Summary: library to retrieve and validate domain's TLD
+License-Expression: MPL-2.0
+Keywords: tld,tld list,tlds,domain tld
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# Python
+
+## Installation
+
+```
+pip install gladhost-tlds
+```
+
+## Functions
+
+- `get_tlds() -> list[str]`
+- `is_valid_tld(tld:str) -> bool`
+- `has_domain_valid_tld(domain:str) -> bool`
+
+## Examples
+
+```
+import tlds
+
+print(tlds.get_tlds())
+print(tlds.is_valid_tld("com"))
+print(tlds.has_domain_valid_tld("example.com"))
+```
+
+expected results:
+
+- `['com', 'fr', ...]`
+- `true`
+- `true`
