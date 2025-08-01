@@ -1,0 +1,36 @@
+# Photoculling
+Fast image viewer, which uses aggressive prefetching and caching to very quickly move between photos.
+Minimal interface to select photos to keep and copy to output directory.
+
+# Installation
+Installation is easiest using the uv package manager.
+
+[Install uv](https://docs.astral.sh/uv/getting-started/installation/), which exists for linux, macOS, windows, e.g. via
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Install photo-culling
+```bash
+uv tool install photo-culling
+```
+This installs a compatible python environment, the photoculling package and all its dependencies (mainly Qt).
+
+Start culling!
+```bash
+cull path/to/directory/with/jpgs
+```
+
+# Controls 
+
+- Left/right arrow keys or A/D: move 1 image
+- Shift + left/right or Shift + A/D: move 10 images
+- W/S: Select/unselect current image
+- T: Toggle between going through all images or only selected images
+- F11: toggle fullscreen
+- ESC: select target directory for selected images and quit
+
+In the top left corner the current position within the photo stack is displayed and in parenthesis the number of selected images.
+For photos which have been selected this textbox is green.
+When quitting, all selected photos (and all other files which share the selected filenames but with different extensions, e.g. RAW files) are copied to the selected target directory.
+
