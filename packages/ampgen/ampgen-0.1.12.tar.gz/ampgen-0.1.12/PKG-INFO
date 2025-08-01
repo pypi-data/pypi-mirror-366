@@ -1,0 +1,452 @@
+Metadata-Version: 2.4
+Name: ampgen
+Version: 0.1.12
+Summary: A de novo generation pipeline leveraging evolutionary information for broad-spectrum antimicrobial peptide design
+Home-page: https://github.com/yourusername/AMPGen
+Author: nicholexiong
+Author-email: nicholexiong <nicholexiong@example.com>
+Maintainer-email: nicholexiong <nicholexiong@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/AMPGen
+Project-URL: Documentation, https://github.com/yourusername/AMPGen#readme
+Project-URL: Repository, https://github.com/yourusername/AMPGen
+Project-URL: Bug Tracker, https://github.com/yourusername/AMPGen/issues
+Keywords: bioinformatics,antimicrobial-peptides,protein-design,machine-learning,evodiff
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=1.9.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: matplotlib>=3.3.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: biopython>=1.79
+Requires-Dist: xgboost>=1.5.0
+Requires-Dist: tqdm>=4.62.0
+Requires-Dist: seaborn>=0.11.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: joblib>=1.1.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: fair-esm>=2.0.0
+Requires-Dist: sequence-models>=1.8.0
+Requires-Dist: biotite>=1.0.0
+Requires-Dist: biotraj>=1.2.0
+Requires-Dist: blosum>=2.0.0
+Requires-Dist: MDAnalysis>=2.0.0
+Requires-Dist: mlflow>=2.0.0
+Requires-Dist: networkx>=3.0.0
+Requires-Dist: protobuf>=3.19.0
+Requires-Dist: pyarrow>=7.0.0
+Requires-Dist: SQLAlchemy>=2.0.0
+Requires-Dist: Flask>=3.0.0
+Requires-Dist: gunicorn>=23.0.0
+Requires-Dist: docker>=7.0.0
+Requires-Dist: gitpython>=3.1.0
+Requires-Dist: mrcfile>=1.5.0
+Requires-Dist: mmtf-python>=1.1.0
+Requires-Dist: pdb-tools>=2.5.0
+Requires-Dist: GridDataFormats>=1.0.0
+Requires-Dist: mda-xdrlib>=0.2.0
+Requires-Dist: opentelemetry-api>=1.27.0
+Requires-Dist: opentelemetry-sdk>=1.27.0
+Requires-Dist: opentelemetry-semantic-conventions>=0.48b0
+Requires-Dist: databricks-sdk>=0.32.0
+Requires-Dist: graphene>=3.3.0
+Requires-Dist: graphql-core>=3.2.0
+Requires-Dist: graphql-relay>=3.2.0
+Requires-Dist: greenlet>=3.1.0
+Requires-Dist: mako>=1.3.0
+Requires-Dist: markdown>=3.7.0
+Requires-Dist: msgpack>=1.1.0
+Requires-Dist: pyasn1>=0.6.0
+Requires-Dist: pyasn1_modules>=0.4.0
+Requires-Dist: pyparsing>=3.1.0
+Requires-Dist: pysocks>=1.7.0
+Requires-Dist: python-dateutil>=2.9.0
+Requires-Dist: pytz>=2024.2
+Requires-Dist: rsa>=4.9.0
+Requires-Dist: six>=1.16.0
+Requires-Dist: sqlparse>=0.5.0
+Requires-Dist: sympy>=1.13.0
+Requires-Dist: threadpoolctl>=3.5.0
+Requires-Dist: typing_extensions>=4.12.0
+Requires-Dist: tzdata>=2024.1
+Requires-Dist: urllib3>=2.2.0
+Requires-Dist: werkzeug>=3.0.0
+Requires-Dist: wrapt>=1.16.0
+Requires-Dist: zipp>=3.20.0
+Requires-Dist: alembic>=1.13.0
+Requires-Dist: aniso8601>=9.0.0
+Requires-Dist: blinker>=1.8.0
+Requires-Dist: brotli>=1.0.0
+Requires-Dist: cachetools>=5.5.0
+Requires-Dist: certifi>=2024.8.0
+Requires-Dist: charset-normalizer>=3.3.0
+Requires-Dist: cloudpickle>=3.0.0
+Requires-Dist: contourpy>=1.3.0
+Requires-Dist: cycler>=0.12.0
+Requires-Dist: deprecated>=1.2.0
+Requires-Dist: fasteners>=0.19.0
+Requires-Dist: filelock>=3.13.0
+Requires-Dist: fonttools>=4.53.0
+Requires-Dist: gitdb>=4.0.0
+Requires-Dist: gmpy2
+Requires-Dist: google-auth>=2.34.0
+Requires-Dist: idna>=3.10.0
+Requires-Dist: importlib_metadata>=8.4.0
+Requires-Dist: itsdangerous>=2.2.0
+Requires-Dist: jinja2>=3.1.0
+Requires-Dist: kiwisolver>=1.4.0
+Requires-Dist: lmdb>=1.5.0
+Requires-Dist: markupsafe>=2.1.0
+Requires-Dist: mlflow-skinny>=2.16.0
+Requires-Dist: mpmath>=1.3.0
+Requires-Dist: packaging>=24.1.0
+Requires-Dist: pillow>=10.4.0
+Requires-Dist: pyyaml>=6.0.0
+Requires-Dist: requests>=2.32.0
+Requires-Dist: smmap>=5.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Requires-Dist: mypy>=0.800; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+
+### AMPGen: A de novo Generation Pipeline Leveraging Evolutionary Information for Broad-Spectrum Antimicrobial Peptide Design
+
+## Overview
+
+AMPGen is a pipeline for generating and evaluating novel antimicrobial peptide (AMP) sequences. Using EvoDiff, a novel diffusion framework in protein design, AMPGen generates new AMP sequences and employs machine learning models to classify and predict their antimicrobial efficacy. The pipeline has demonstrated exceptional success efficiency, with 29 out of 34 peptides (85.3%) exhibiting antimicrobial activity (MIC value less than 200 µg/ml against at least one bacterium).
+
+## Methods
+
+### Datasets Preparation
+
+We compiled AMP and non-AMP datasets from various public databases for use in our classification and MIC prediction models. The AMP dataset includes sequences from APD, DADP, DBAASP, DRAMP, YADAMP, and dbAMP, resulting in a final set of 10,249 unique sequences with antibacterial targets. The non-AMP dataset, sourced from UniProt, consists of 11,989 sequences filtered to exclude those associated with specific antimicrobial keywords.
+
+### De Novo AMP Generation
+
+AMP sequences are generated using two pre-trained order-agnostic autoregressive diffusion models (OADM) from the [EvoDiff framework](https://github.com/microsoft/evodiff) ([paper](https://www.biorxiv.org/content/10.1101/2023.09.11.556673v1)).
+
+1. **Sequence-Based Generation**:
+   - The sequence-based model, Evodiff-OA_DM_640M, is pre-trained on the Uniref50 dataset, containing 42 million protein sequences. This model unconditionally generates peptide sequences of length 15-35 aa.
+
+2. **MSA-Based Generation**:
+   - The MSA-based model, Evodiff-MSA_OA_DM_MAXSUB, is trained on the OpenFold dataset and generates sequences in two ways:
+     - Unconditional generation of peptide sequences of length 15-35 aa.
+     - Conditional generation using MSAs with known AMP sequences as representative sequences.
+
+### Classification and Efficacy Prediction
+
+1. **XGBoost-based AMP Classifier**:
+   - **Dataset Preparation**: Sequences in the AMP dataset were filtered based on length, retaining those within the range of 5 to 65 aa, resulting in a total of 9,964 AMP-labeled peptide sequences as the positive dataset.
+   - **Feature Extraction**: Features were primarily derived from the PseKRAAC encoding method and QSOrder encoding parameters, resulting in 14 categories of 1,311 features.
+   - **Model Training**: The data was used to train an XGBoost model, with AMP sequences labeled as 1 and nonAMP sequences labeled as 0. Model tuning was conducted based on the F1 score and AUC index using 10-fold cross-validation (k-fold 10) to prevent overfitting.
+
+2. **LSTM Regression-based MIC Predictor**:
+   - **Dataset Preparation**: All entries in the AMP dataset with MIC values were included. The AMP sequences targeting Escherichia coli totaled 7,100, while those targeting Staphylococcus aureus totaled 6,482. Sequences with multiple MIC values targeting the same bacteria were averaged and converted to a uniform unit of μM. These values were then log-transformed (log₁₀). Additionally, 7,193 sequences from the nonAMP dataset were labeled with a logMIC value of 4.
+   - **Model Training**: Separate regression training was conducted on the Escherichia coli and Staphylococcus aureus datasets using Long Short-Term Memory (LSTM) models. The datasets were split into training, validation, and test sets in the ratio of 72:18:10. Each model comprised two LSTM layers, a dropout layer with a dropout rate of 0.7, and a linear layer. The models were compiled using standard L2 loss and optimized with the Adam optimizer.
+
+## Project Structure
+
+```
+── AMPGen
+    ├── AMP_discriminator
+    │   ├── Discriminator_model
+    │   │   ├── iFeature
+    │   │   │   ├── codes
+    │   │   │   ├── data
+    │   │   │   └── PseKRAAC
+    │   │   ├── discriminator.py
+    │   │   └── features.py
+    │   └── tools
+    │       ├── plt.ipynb
+    │       ├── RF_train.py
+    │       ├── split.py
+    │       └── XGboost_train.py
+    ├── AMP_generator
+    │   ├── calculate_properties.py
+    │   ├── conditional_generation_msa.py
+    │   ├── unconditional_generation.py
+    │   └── unconditional_generation_msa.py
+    ├── data
+    │   ├── Discriminator_training_data
+    │   │   ├── classify_all_data_v1.csv
+    │   │   ├── classify_amp_v1.csv
+    │   │   ├── classify_nonamp_v1.csv
+    │   │   └── top14Featured_all.csv
+    │   ├── example
+    │   │   ├── msa_files
+    │   │   │   └── example_1944.a3m
+    │   │   ├── output
+    │   │   │   ├── embeddings
+    │   │   │   └── sequences.fasta
+    │   │   ├── conditional_generated_sequences.csv
+    │   │   ├── generated_msa_sequences.csv
+    │   │   ├── generated_sequences.csv
+    │   │   └── sequence_properties.csv
+    │   ├── Scorer_training_data
+    │   │   ├── regression_ecoli_all.csv
+    │   │   └── regression_stpa_all.csv
+    │   ├── combined_database_filtered_v2(1).xlsx
+    │   └── combined_database_v2(1).xlsx
+    ├── MIC_scorer
+    │   ├── Scorer_model
+    │   │   ├── 1stpa_best_model_checkpoint.pth
+    │   │   ├── 2ecoli_best_model_checkpoint.pth
+    │   │   ├── ecoliscaler.pkl
+    │   │   ├── regression.py
+    │   │   └── stpascaler.pkl
+    │   ├── tools
+    │   │   ├── embeddingload.py
+    │   │   ├── extract.py
+    │   │   ├── lstm_train.py
+    │   │   ├── pltlstm.ipynb
+    │   │   └── tofasta.py
+    │   └── scorer.py
+    ├── results
+    │   ├── example_classified_sequences.csv
+    │   └── example_results.csv    
+    ├── .DS_Store
+    ├── .gitattributes
+    ├── .gitignore
+    ├── LICENSE
+    ├── print_directory_tree.py
+    ├── README.md
+    ├── requirements.txt
+    ├── setup.py
+    └── test.py
+```
+
+## Getting Started
+
+### Installation Guide
+
+Welcome to the AMPGen project! This guide will walk you through the steps required to install and set up the necessary environment and dependencies to run AMPGen. Before getting started, please ensure that you have Anaconda installed on your system.
+
+### Prerequisites
+
+To use the AMPGen system, you need Python 3.11 and a few essential libraries. We'll guide you through setting up a clean conda environment, installing EvoDiff, and then the necessary dependencies. Required Python libraries: `numpy`, `pandas`, `tqdm`, `scikit-learn`, `xgboost`.
+
+### Setting Up the Environment
+
+1. **Clone the AMPGen Repository**  
+   Begin by cloning the AMPGen repository to your local machine:
+   ```bash
+   git clone https://github.com/xiyanxiongnico/AMPGen.git
+   cd AMPGen
+   ```
+
+2. **Create a Conda Environment**  
+   Next, create a new conda environment with Python 3.8.5, which is the recommended version for this project:
+   ```bash
+   conda create --name AMPGen python=3.11
+   conda activate AMPGen
+   ```
+
+3. **Install Environment**  
+   With the new environment activated, install all packages:
+   ```bash
+   pip install  -r requirements.txt
+   ```
+
+4. **Install PyTorch and Related Packages**  
+   EvoDiff requires PyTorch along with additional libraries. The following example demonstrates the installation of a CPU-compatible version of PyTorch. For optimal performance, adjust the pytorch version based on your system’s specifications. Install the required packages using the following commands:
+   ```bash
+   conda install pytorch torchvision torchaudio cpuonly -c pytorch
+   ```
+
+---
+
+### Usage Guide
+
+#### 1. **Generate New AMP Sequences**
+
+You can generate AMP sequences using the following commands:
+
+
+### Unconditional Generation of AMP Sequences
+
+You can generate antimicrobial peptide (AMP) sequences using EvoDiff's unconditional generation model by running the following command in `AMPGen/AMP_generator/unconditional_generation.py`:
+
+```bash
+python unconditional_generation.py --total_sequences <total_sequences> --batch_size <batch_size> --output_file <path_to_output_file> --to_device<cuda or cpu>
+```
+
+#### Arguments:
+- `--total_sequences` (int, required): The total number of sequences to generate.
+- `--batch_size` (int, optional): The batch size for sequence generation (default=1).
+- `--output_file` (str, required): The path to the output CSV file where the generated sequences will be saved.
+- `--to_device`(str, optional):Device to run the model, cuda or cpu (default=cuda).
+
+#### Example:
+```bash
+python unconditional_generation.py --total_sequences 10  --output_file ../data/example/generated_sequences.csv -to_device cpu
+```
+
+This command will generate 10 sequences  and save them to `generated_sequences.csv`.
+
+
+
+### Unconditional Generation of AMP Sequences with MSA
+
+You can generate antimicrobial peptide (AMP) sequences using EvoDiff's unconditional generation model with MSA by running the following command in `AMPGen/AMP_generator/unconditional_generation_msa.py`:
+
+```bash
+python unconditional_generation_msa.py --total_sequences <total_sequences> --batch_size <batch_size> --n_sequences <n_sequences> --output_csv_file <path_to_output_file> --to_device<cuda or cpu>
+```
+
+#### Arguments:
+- `--total_sequences` (int, required): The total number of sequences to generate.
+- `--batch_size` (int, optional): The batch size for sequence generation (default=1).
+- `--n_sequences` (int, optional): The number of sequences in MSA to subsample (default=64).
+- `--output_csv_file` (str, required): The path to the output CSV file where the generated sequences will be saved.
+- `--to_device`(str,optional):Device to run the model, cuda or cpu (default=cuda).
+
+#### Example:
+```bash
+python unconditional_generation_msa.py --total_sequences 10 --output_csv_file ../data/example/generated_msa_sequences.csv
+```
+
+This command will generate 100 sequences in batches of 10 and save them to `generated_msa_sequences.csv`.When using this model, significant computational power is required, and we recommend utilizing a GPU for optimal performance.
+
+
+### Conditional Generation of AMP Sequences with MSA
+
+You can generate antimicrobial peptide (AMP) sequences using EvoDiff's conditional generation model with MSA by running the following command in `AMPGen/AMP_generator/conditional_generation_msa.py`:
+
+```bash
+python conditional_generation_msa.py --directory_path <path_to_msa_directory> --output_csv_file <path_to_output_file> --max_retries <max_retries> --to_device<cuda or cpu> --total_sequences <total_sequences>
+```
+
+#### Arguments:
+- `--directory_path` (str, required): Path to the directory containing the MSA files (in `.a3m` format).
+- `--output_csv_file` (str, required): The path to the output CSV file where the generated sequences will be saved.
+- `--max_retries` (int, optional): Maximum number of retries for processing each file (default: 5).
+- `--to_device`(str,optional):Device to run the model, cuda or cpu (default=cuda).
+- `--total_sequences` (int, required): The total number of sequences to generate.
+
+#### Example:
+```bash
+python conditional_generation_msa.py --directory_path ../data/example/msa_files/ --output_csv_file ../data/example/conditional_generated_sequences.csv --to_device cpu --total_sequence 10
+```
+
+This command will process MSA files `example_1944.a3m` from the `msa_files` directory and generate sequences, saving the results to `conditional_generated_sequences.csv`.
+
+
+#### 2. **Calculate Properties of Generated Sequences**
+
+
+### Calculate Properties of Generated AMP Sequences
+
+You can calculate the physical and chemical properties of the generated AMP sequences, including molecular weight, net charge, and hydrophobicity, by running the following command in `AMPGen/AMP_generator/calculate_properties.py`:
+
+```bash
+python calculate_properties.py --input_csv_file <path_to_input_file> --output_csv_file <path_to_output_file>
+```
+
+#### Arguments:
+- `--input_csv_file` (str, required): The path to the input CSV file containing sequences.
+- `--output_csv_file` (str, required): The path to the output CSV file where the calculated properties will be saved.
+
+#### Example:
+```bash
+python calculate_properties.py --input_csv_file ../data/example/generated_sequences.csv --output_csv_file ../data/example/sequence_properties.csv
+```
+
+This command will calculate the properties of the sequences in `generated_sequences.csv` and save the results to `sequence_properties.csv`.
+
+
+### 3. **Identify AMP Candidates**
+
+### AMP Discriminator
+
+To classify sequences as antimicrobial peptides (AMPs) using the AMP Discriminator, run the following command in `AMPGen/AMP_discriminator/Discriminator_model/discriminator.py`:
+
+```bash
+python discriminator.py --train_path <path_to_training_csv> --pre_path <path_to_input_csv> --out_path <path_to_output_csv>
+```
+
+#### Arguments:
+- `--train_path` or `-tp` (str, required): The path to the CSV file containing the training data.
+- `--pre_path` or `-pp` (str, required): The path to the input CSV file containing the sequences to classify.
+- `--out_path` or `-op` (str, required): The path to the output CSV file where the classification results will be saved.
+- `--to_device`(str,optional):Device to run the model, cuda or cpu (default=cuda).
+
+#### Example:
+```bash
+python discriminator.py --train_path  ../../data/Discriminator_training_data/top14Featured_all.csv --pre_path ../../data/example/sequence_properties.csv --out_path ../../results/example_classified_sequences.csv --to_device cpu
+```
+
+This command will classify sequences in `sequence_properties.csv` using the model trained on `top14Featured_all.csv`, and save the results to `example_classified_sequences.csv`.
+
+
+### 4. **Run the MIC Scorer**
+
+This section provides a step-by-step guide to using the MIC scorer. The scorer predicts the MIC (Minimum Inhibitory Concentration) values using a pre-trained LSTM model based on protein embeddings generated by an ESM model.
+
+#### **Step 1: Convert Sequences to FASTA Format**
+Use the `to_fasta` function to convert your input CSV file (which contains sequences) into a FASTA file:
+```bash
+python mic_scorer.py --from_csv_path path/to/sequences.csv --to_fasta_path path/to/output/sequences.fasta
+```
+
+#### **Step 2: Generate Embeddings with ESM Model**
+Once the sequences are in FASTA format, generate their embeddings using the `get_embedding` function and a pre-trained ESM model:
+```bash
+python mic_scorer.py --from_csv_path path/to/sequences.csv --esm_model_location esm_model_name --output_dir path/to/output/embeddings/
+```
+- Replace `esm_model_name` with the location of your ESM model (e.g., `esm2_t36_3B_UR50D`).
+- The embeddings will be saved to the specified output directory.
+
+#### **Step 3: Load Embeddings**
+Use the `load_embeding` function to load the generated embeddings and merge them with the input sequence data:
+```bash
+python mic_scorer.py --from_csv_path path/to/sequences.csv --output_dir path/to/output/embeddings/
+```
+
+#### **Step 4: Predict MIC Values**
+Finally, predict MIC values using a pre-trained LSTM model. The `get_predicted_mic` function handles this task:
+```bash
+python mic_scorer.py --from_csv_path path/to/sequences.csv --scaler_data_path path/to/scaler.pkl --model_path path/to/model.pth --result_path path/to/save/results.csv
+```
+
+#### **Full Command Example**
+Run the entire MIC scoring process from sequence conversion to MIC prediction in `AMPGen/MIC_scorer/scorer.py`:
+```bash
+python scorer.py --from_csv_path ../results/example_classified_sequences.csv --to_fasta_path ../data/example/output/sequences.fasta --output_dir ../data/example/output/embeddings/ --scaler_data_path ./Scorer_model/stpascaler.pkl --model_path ./Scorer_model/1stpa_best_model_checkpoint.pth --result_path ../results/example_results.csv --to_device cpu
+```
+
+This command:
+1. Converts the sequences to FASTA format.
+2. Generates embeddings using the specified ESM model.
+3. Loads the embeddings and prepares the data.
+4. Predicts MIC values using the pre-trained LSTM model.
+
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
