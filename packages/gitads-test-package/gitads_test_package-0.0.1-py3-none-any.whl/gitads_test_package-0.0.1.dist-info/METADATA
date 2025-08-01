@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: gitads-test-package
+Version: 0.0.1
+Summary: A simple PyPI package to test GitAds integration.
+Home-page: https://github.com/yourusername/gitads_test_package
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# GitAds Test Package
+
+A quick Python package to test GitAds integration on PyPI.
+
+## Usage
+
+```python
+from gitads_test_package import hello_gitads
+
+hello_gitads()
