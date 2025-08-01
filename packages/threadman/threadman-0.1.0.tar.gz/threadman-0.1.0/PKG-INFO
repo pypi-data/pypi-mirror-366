@@ -1,0 +1,82 @@
+Metadata-Version: 2.4
+Name: threadman
+Version: 0.1.0
+Summary: A simple thread manager for Python
+Project-URL: homepage, https://github.com/your-username/threadman
+Author-email: Ryan Punt <ryan@mirum.org>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Requires-Dist: tqdm>=4.67.1
+Description-Content-Type: text/markdown
+
+# threadman
+
+A simple, type-annotated thread manager for Python. Easily manage and execute tasks concurrently using a configurable thread pool, with progress bar and logging support.
+
+## Features
+
+- Simple API for concurrent task execution
+- Configurable thread pool size
+- Progress bar (via `tqdm`)
+- Logging support (uses Python's `logging` module)
+- Type annotations for better IDE and type checker support
+
+## Installation
+
+```bash
+pip install threadman
+```
+
+Or install from source:
+
+```bash
+git clone https://github.com/your-username/threadman.git
+cd threadman
+uv build
+pip install dist/threadman-*.whl
+```
+
+## Usage Example
+
+```python
+from threadman import ThreadManager
+
+def my_task(item):
+    print(f"Processing {item}")
+
+items = [1, 2, 3, 4, 5]
+opts = {
+    "work_params": items,
+    "max_threads": 3,
+    "progress_bar_title": "Processing Items",
+    "output_status": True,
+}
+
+manager = ThreadManager(opts)
+manager.run(my_task)
+```
+
+## Options
+
+- `work_params`: List of tasks to execute
+- `max_threads`: Maximum number of concurrent threads (default: 10)
+- `progress_bar_title`: Title for the progress bar (optional)
+- `output_status`: Enable logging/progress output (default: True if more than one task)
+- `update_seconds`: Progress/log update interval (default: 60)
+- `queue_timeout`: Timeout for queue operations (default: None)
+
+## License
+
+MIT
+
+---
+
+For more details, see the code and docstrings in the `threadman` package.
