@@ -1,0 +1,41 @@
+[project]
+name = "roverlib"
+version = "2.0.0"
+description = "ASE roverlib"
+readme = "README.md"
+authors = [
+    { name = "NielsD1", email = "n.j.dijkstra@student.vu.nl" },
+    { name = "maxgallup", email = "m.gallup@student.vu.nl" },
+
+]
+requires-python = ">=3.10"
+dependencies = ["pyzmq", "loguru", "betterproto"]
+
+[project.urls]
+"Repository" = "https://github.com/vu-ase/roverlib-python"
+"Issues" = "https://github.com/vu-ase/roverlib-python/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8.3.4", "ruff>=0.9.7"]
+
+# Tell pytest that all files in the /tests directory are tests
+[tool.pytest.ini_options]
+python_files = "tests/*.py"
+# testpaths = ["tests"]
+python_functions = "test_*"
+python_classes = "Test*"
+
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple/"
+publish-url = "https://upload.pypi.org/legacy/"
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
