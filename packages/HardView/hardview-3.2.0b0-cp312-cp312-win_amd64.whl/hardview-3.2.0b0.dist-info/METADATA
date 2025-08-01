@@ -1,0 +1,105 @@
+Metadata-Version: 2.4
+Name: HardView
+Version: 3.2.0b0
+Summary: A comprehensive Python library for collecting hardware information and real-time performance monitoring.
+Home-page: https://github.com/gafoo173/HardView
+Author: gafoo
+Author-email: omarwaled3374@gmail.com
+License: MIT
+Project-URL: Bug Reports, https://github.com/gafoo173/HardView/issues
+Project-URL: Source, https://github.com/gafoo173/HardView
+Keywords: hardware system monitoring performance cpu ram disk network gpu bios windows linux wmi real-time live
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Monitoring
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pybind11>=2.6
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+# HardView 3.1.0 - Advanced Hardware & Real-time Monitoring
+
+A comprehensive Python library for querying low-level hardware information and monitoring system performance in real-time on Windows and Linux systems.
+
+## NEW FEATURES IN 3.1.0
+- **Added `LiveView` Extension**: A new, high-performance C++ extension for real-time, class-based monitoring of system resources. This is the new recommended way for live monitoring, replacing the older `monitor_*` functions.
+
+---
+
+## `LiveView` Extension API
+
+The `LiveView` extension provides a simple, object-oriented interface for live resource monitoring.
+
+### **Usage Example:**
+```python
+from HardView import LiveView
+
+# Create a CPU monitoring object
+cpu_monitor = LiveView.CPU()
+cpu_usage_percent = cpu_monitor.get_usage(interval_ms=1000)
+print(f"CPU Usage: {cpu_usage_percent:.2f}%")
+
+# Create a RAM monitoring object
+ram_monitor = LiveView.RAM()
+ram_usage_percent = ram_monitor.get_usage()
+print(f"RAM Usage: {ram_usage_percent:.2f}%")
+```
+
+---
+
+### **Available Classes and Methods:**
+
+#### `LiveView.CPU()`
+- **Description**: Creates a monitor for CPU usage.
+- **Methods**:
+    - `get_usage(interval_ms)`: Returns the average CPU usage over a specified interval in milliseconds.
+- **Platform Support**: `[Cross-platform: Windows, Linux]`
+
+---
+
+#### `LiveView.RAM()`
+- **Description**: Creates a monitor for RAM usage.
+- **Methods**:
+    - `get_usage()`: Returns the current RAM usage percentage.
+- **Platform Support**: `[Cross-platform: Windows, Linux]`
+
+---
+
+#### `LiveView.Disk()`
+- **Description**: Creates a monitor for physical disk activity (busy time).
+- **Methods**:
+    - `get_usage(interval)`: Returns the disk busy percentage over a specified interval in milliseconds.
+- **Platform Support**: `[Windows-only]`
+
+---
+
+#### `LiveView.GPU()`
+- **Description**: Creates a monitor for GPU engine usage.
+- **Methods**:
+    - `get_usage(interval_ms)`: Returns the GPU usage percentage over a specified interval. The most suitable engine (e.g., 3D, Total) is selected automatically.
+- **Platform Support**: `[Windows-only]`
+
+    
