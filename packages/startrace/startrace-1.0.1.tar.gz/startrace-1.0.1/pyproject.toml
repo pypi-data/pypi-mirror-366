@@ -1,0 +1,22 @@
+[project]
+name = "startrace"
+version = "1.0.1"
+description = "A lightweight string pattern tool"
+authors = [{ name = "William Coker", email = "wdc23a@acu.edu" }]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+dependencies = [
+    "numpy"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
