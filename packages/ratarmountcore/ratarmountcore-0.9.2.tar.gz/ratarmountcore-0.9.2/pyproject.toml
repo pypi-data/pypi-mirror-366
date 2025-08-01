@@ -1,0 +1,221 @@
+# See https://setuptools.readthedocs.io/en/latest/build_meta.html
+# Many files are automatically added making MANIFEST.in almost obsolete.
+# https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html#using-manifest-in
+
+[build-system]
+# Use setuptools >= 42 for the license_files option
+# Use setuptools >= 43 because it automatically includes pyproject.toml in source distribution
+# Use setuptools >= 46.5 to use attr: package.__version__
+# Use setuptools >= 61 for pyproject.toml support
+# Use setuptools >= 70.1 for built-in bdist_wheel which obsoletes the wheel standalone package
+# Use setuptools >= 77 for project.license-files support
+# https://setuptools.readthedocs.io/en/latest/history.html#id284
+# Use setuptools <= 82 because the license specification changes backward-incompatible in 2026-02.
+# https://github.com/pypa/setuptools/issues/4903#issuecomment-2923109576
+requires = ["setuptools >= 61, <= 82", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ratarmountcore"
+description = "Random Access To Archived Resources Library"
+authors = [{name = "Maximilian Knespel", email = "mxmlnknp@gmail.com"}]
+license = {text = "MIT"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3",
+    # I am unsure about the semantic of these. For actualy compatibility, there is 'requires-python'.
+    # These are only informational, and therefore I think it should be fine to list older Python versions,
+    # which do not work with the current version of this project, but for which there exists older versions
+    # of this project that are still installable and usable.
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: System :: Archiving",
+    "Topic :: System :: Archiving :: Compression",
+    "Topic :: System :: Filesystems",
+    "Topic :: Utilities",
+]
+requires-python = ">= 3.7"
+dependencies = [
+    'importlib-metadata; python_version < "3.8.0"',
+]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/mxmlnkn/ratarmount/ratarmountcore"
+
+[project.optional-dependencies]
+full = [
+    "indexed_gzip >= 1.6.3, < 2.0; python_version >= '3.8'",
+    # https://github.com/pauldmccarthy/indexed_gzip/issues/167
+    "indexed_gzip >= 1.6.3, != 1.9.4; python_version < '3.8'",
+    'indexed_zstd >= 1.3.1, < 2.0; sys_platform=="darwin"',
+    'indexed_zstd >= 1.2.2, < 2.0; platform_system!="Windows"',
+    "libarchive-c ~= 5.1, < 6.0",
+    "python-xz ~= 0.4.0",
+    "rapidgzip >= 0.13.1",
+    "rarfile ~= 4.1",
+    # https://github.com/miurahr/py7zr/issues/640
+    "py7zr ~= 1.0; python_version >= '3.9'",
+    "PySquashfsImage == 0.9.0",
+    "lz4 ~= 4.0.0",
+    "python-lzo ~= 1.0",
+    # https://peps.python.org/pep-0508/
+    # Need at least 0.23.0 for Python 3.13 support.
+    # https://github.com/indygreg/python-zstandard/issues/223
+    # The old zstandard-python versions for Python < 3.8 are untested because they are EOL.
+    "zstandard ~= 0.20.0; python_version == '3.6'",
+    "zstandard ~= 0.21.0; python_version == '3.7'",
+    # With Python 3.14, I get ImportError: cannot import name 'ByteString' from 'typing' via
+    # zstandard/__init__.py:21.
+    # https://github.com/indygreg/python-zstandard/issues/238
+    "zstandard ~= 0.23.0; python_version >= '3.8' and python_version < '3.14'",
+    # With Python 3.14, when building the wheel, I get:
+    # /usr/bin/ld: cannot find /tmp/tmpcuw21d78/bin/isa-l.a: No such file or directory
+    'isal ~= 1.0; python_version < "3.14.0"',
+    # Pin to < 3.12 because of https://github.com/nathanhi/pyfatfs/issues/41
+    'pyfatfs ~= 1.0; python_version < "3.12.0"',
+    'fast_zip_decryption; python_version >= "3.8.0"',
+    'fastzipfile; python_version < "3.8.0"',
+    "pygit2",
+    # fsspec:
+    "requests",
+    "aiohttp",
+    "sshfs",  # For performance, asyncssh > 2.17 would be recommended: https://github.com/ronf/asyncssh/issues/691
+    # Need newer pyopenssl than comes with Ubuntu 22.04.
+    # https://github.com/ronf/asyncssh/issues/690
+    "pyopenssl>=23",
+    "smbprotocol",
+    "dropboxdrivefs",
+    "fsspec",
+    # With Python 3.7, I get this error:
+    # File "/opt/hostedtoolcache/Python/3.7.17/x64/lib/python3.7/site-packages/ipfsspec/async_ipfs.py", line 173
+    #   if ipfsspec_gateways := os.environ.get("IPFSSPEC_GATEWAYS", ""):
+    #                        ^
+    # for ipfsspec 0.5.0 :(. Well, I can't complain. I messed up proper requires-python myself.
+    # The := operator was introduced in Python 3.8.
+    "ipfsspec < 0.5.0; python_version < '3.8'",
+    "ipfsspec; python_version >= '3.8'",
+    "s3fs",
+    "webdav4",
+    #"gcsfs",  # untested
+    #"adlfs",  # untested. build error in Python 3.13
+]
+bzip2 = ["rapidgzip >= 0.13.1"]
+git = ["pygit2"]
+gzip = [
+    "indexed_gzip >= 1.6.3, < 2.0; python_version >= '3.8'",
+    # https://github.com/pauldmccarthy/indexed_gzip/issues/167
+    "indexed_gzip >= 1.6.3, != 1.9.4; python_version < '3.8'",
+]
+fsspec = ["fsspec"]
+fsspec-backends = [
+    # Copy-pasted from fsspec[full] list. Some were excluded because they are too unproportionally large.
+    "requests",
+    "aiohttp",
+    "sshfs",  # For performance, asyncssh > 2.17 would be recommended: https://github.com/ronf/asyncssh/issues/691
+    # Need newer pyopenssl than comes with Ubuntu 22.04.
+    # https://github.com/ronf/asyncssh/issues/690
+    "pyopenssl>=23",
+    "smbprotocol",
+    "dropboxdrivefs",
+    "fsspec",
+    # With Python 3.7, I get this error:
+    # File "/opt/hostedtoolcache/Python/3.7.17/x64/lib/python3.7/site-packages/ipfsspec/async_ipfs.py", line 173
+    #   if ipfsspec_gateways := os.environ.get("IPFSSPEC_GATEWAYS", ""):
+    #                        ^
+    # for ipfsspec 0.5.0 :(. Well, I can't complain. I messed up proper requires-python myself.
+    # The := operator was introduced in Python 3.8.
+    "ipfsspec < 0.5.0; python_version < '3.8'",
+    "ipfsspec; python_version >= '3.8'",
+    "s3fs",
+    "webdav4",
+    #"gcsfs",  # untested
+    #"adlfs",  # untested. build error in Python 3.13
+    # "dask", "distributed" : ~34 MB, ~10 MB gzip-compressed
+    # "pyarrow >= 1" : ~196 MB, ~60 MB gzip-compressed, build error in Python 3.13
+    # "ocifs" : ~350 MB
+    # "panel" : only for fsspec GUI
+]
+# Need >= 4.1 because of https://github.com/markokr/rarfile/issues/73
+rar = ["rarfile ~= 4.1"]
+# For now, only optional (and installed in the AppImage) because it is unstable and depends on many other packages
+# that do not even have up-to-date wheels, i.e., will fail to install if, e.g., gcc and liblzo2-dev are not installed.
+sqlar = [
+    "cryptography",
+    "sqlcipher3-wheels",
+]
+squashfs = [
+    "PySquashfsImage == 0.9.0",
+    "lz4 ~= 4.0.0",
+    "python-lzo ~= 1.0",
+    # https://peps.python.org/pep-0508/
+    # Need at least 0.23.0 for Python 3.13 support.
+    # https://github.com/indygreg/python-zstandard/issues/223
+    # The old zstandard-python versions for Python < 3.8 are untested because they are EOL.
+    "zstandard ~= 0.20.0; python_version == '3.6'",
+    "zstandard ~= 0.21.0; python_version == '3.7'",
+    # With Python 3.14, I get ImportError: cannot import name 'ByteString' from 'typing' via
+    # zstandard/__init__.py:21.
+    # https://github.com/indygreg/python-zstandard/issues/238
+    "zstandard ~= 0.23.0; python_version >= '3.8' and python_version < '3.14'",
+    # With Python 3.14, when building the wheel, I get:
+    # /usr/bin/ld: cannot find /tmp/tmpcuw21d78/bin/isa-l.a: No such file or directory
+    'isal ~= 1.0; python_version < "3.14.0"',
+]
+xz = ["python-xz ~= 0.4.0"]
+zip = [
+    'fast_zip_decryption; python_version >= "3.8.0"',
+    'fastzipfile; python_version < "3.8.0"',
+]
+zstd = [
+    'indexed_zstd >= 1.3.1, < 2.0; sys_platform=="darwin"',
+    'indexed_zstd >= 1.2.2, < 2.0; platform_system!="Windows"',
+]
+7z = [
+    "libarchive-c ~= 5.1, < 6.0",
+    # https://github.com/miurahr/py7zr/issues/640
+    "py7zr ~= 1.0; python_version >= '3.9'",
+]
+# Pin to < 3.12 because of https://github.com/nathanhi/pyfatfs/issues/41
+fat = [
+    'pyfatfs ~= 1.0; python_version < "3.12.0"',
+    # Not allowed by PyPI
+    #'pyfatfs@git+https://github.com/mxmlnkn/pyfatfs.git@v1.2.0 ; python_version >= "3.12.0"',
+]
+# Not part of 'full' because it does exact pinning for its dependencies, which does lead to dependency conflicts.
+ext4 = ['ext4 ~= 1.1; python_version >= "3.9.0"']
+# All optional dependencies of asyncssh via sshfs. I have not yet needed any of these.
+# Half of these are installed anyway via other dependencies.
+full-ssh = [
+    "sshfs[bcrypt]",
+    "sshfs[fido2]",
+    "sshfs[gssapi]",
+    "sshfs[libnacl]",
+    "sshfs[python-pkcs11]",
+    "sshfs[pyOpenSSL]",
+    #"sshfs[pywin32]",  # Only Windows? asyncssh has no platform specifier though...
+]
+
+[project.entry-points."fsspec.specs"]
+ratar = "ratarmountcore.SQLiteIndexedTarFsspec.SQLiteIndexedTarFileSystem"
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ratarmountcore.version.__version__"}
