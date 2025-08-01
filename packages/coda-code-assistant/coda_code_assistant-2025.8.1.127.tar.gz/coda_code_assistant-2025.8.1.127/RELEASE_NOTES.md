@@ -1,0 +1,26 @@
+## What's Changed
+
+- style: apply ruff formatting after merge (c7fc02e)
+- fix(tests): correct SearchResult imports and apply code formatting (2c13e30)
+- refactor(cli): DRY up one-shot code and improve error handling (395e7fc)
+- refactor(cli): update agent files to use theme module for colors (69f6884)
+- fix(providers): remove remaining base model checks per review (106ea0d)
+- refactor(providers): simplify OCI GenAI by removing tool pre-testing (c35e7d2)
+- fix(cli): use theme module for colors in commands.py (7b017f2)
+- fix(cli): add base model warning and implement one-shot mode (888cfff)
+- fix(providers): clean up Meta model formatting markers (f2fb747)
+- fix(providers): prevent Meta model parallel tool call errors (e17e44b)
+- fix: properly parse and display Meta model tool calls (894548a)
+- fix: add proper Ctrl+C interrupt handling for long-running requests (43a04f6)
+- fix: remove all references to deleted tool_cache_command (d49b93e)
+- fix: address PR review comments (5ddf9d7)
+- feat: add Meta model tool support for OCI GenAI (a000af6)
+- fix: add Meta model tool call parsing for OCI GenAI python_start/python_end syntax (1165084)
+- docs: add implementation documentation and test results (2bcd491)
+- feat: add tool support notifications throughout CLI (7e48846)
+- feat: add tool-cache CLI command for managing OCI tool support cache (a6452c9)
+- feat: enhance model selection UI with tool support indicators (f2ad194)
+- feat: integrate tool support checking in OCI GenAI provider (c3e5836)
+- feat: add OCI tool tester module for dynamic model capability detection (dcfa8b8)
+
+**Full Changelog**: https://github.com/djvolz/coda-code-assistant/compare/v2025.7.31.0041...v2025.8.1.0127
