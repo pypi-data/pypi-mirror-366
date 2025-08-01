@@ -1,0 +1,4 @@
+[sqlalchemy.dialects]
+timbr = pytimbr_sqla.sqlalchemy_timbr:TimbrDialect
+timbr.http = pytimbr_sqla.sqlalchemy_timbr:TimbrHTTPDialect
+timbr.https = pytimbr_sqla.sqlalchemy_timbr:TimbrHTTPSDialect
