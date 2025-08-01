@@ -1,0 +1,25 @@
+include README.md
+include LICENSE
+include requirements.txt
+include setup.py
+include __init__.py
+
+# Include model files
+include Scorer_model/*.pkl
+include model/iFeature/*
+
+# Include Python files
+recursive-include model *.py
+recursive-include util *.py
+
+# Include the data files needed by iFeature
+recursive-include ampgen/model/iFeature/data *
+
+# Exclude unnecessary files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude .git*
+global-exclude *.egg-info 
