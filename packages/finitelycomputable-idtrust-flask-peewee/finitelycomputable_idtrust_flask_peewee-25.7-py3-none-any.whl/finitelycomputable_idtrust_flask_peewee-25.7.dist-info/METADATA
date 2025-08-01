@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: finitelycomputable-idtrust-flask-peewee
+Version: 25.7
+Summary: A Flask+peewee microsite to explore identifying game-theory strategies
+Author-email: Samuel Newbold <sam@rwsh.org>
+License-Expression: AGPL-3.0-only
+Project-URL: Documentation, https://github.com/thrasymache/microsites
+Project-URL: Source, https://github.com/thrasymache/microsites
+Project-URL: Gitlab, https://gitlab.com/thrasymache/microsites
+Project-URL: sourcehut, https://git.sr.ht/~thrasymache/finitelycomputable-microsites
+Project-URL: NotABug, https://notabug.org/thrasymache/finitelycomputable-microsites
+Project-URL: Homepage, https://www.finitelycomputable.net/flask/identification_of_trust
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Framework :: Flask
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+Requires-Dist: finitelycomputable-idtrust-app-flask~=25.7
+Requires-Dist: finitelycomputable-idtrust-db-peewee~=25.7
+Requires-Dist: Flask~=3.1
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-env; extra == "tests"
+Requires-Dist: finitelycomputable-tests; extra == "tests"
+Provides-Extra: waitress
+Requires-Dist: waitress~=3.0; extra == "waitress"
+Provides-Extra: cherrypy
+Requires-Dist: cherrypy~=18.10; extra == "cherrypy"
+Provides-Extra: cheroot
+Requires-Dist: cheroot~=10.0; extra == "cheroot"
+Provides-Extra: bjoern
+Requires-Dist: bjoern~=3.0; extra == "bjoern"
+Provides-Extra: gunicorn
+Requires-Dist: gunicorn~=23.0; extra == "gunicorn"
+
+======================================
+Identification of Trust (Flask-Peewee)
+======================================
+
+This provides an the implementation of the Identification of Trust microsite using the
+Flask framework
+
+The implementation is by separately requiring the Flask-dependent code and the
+Peewee-dependent code.
+
