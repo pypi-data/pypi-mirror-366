@@ -1,0 +1,1023 @@
+#!/usr/bin/env python
+"""
+This program will analyse a hOCR document and attempts to find numbers that are
+convievably page numbers based on various numbering schemes, sequence selection
+using the Viterbi best path algorithm and logistic regression (or naive bayes
+classifier) of the actual pages numbers that were found.
+The output is a simple JSON file.
+
+The method used by this program is inspired by the "Versatile Page Numbering
+Analysis" paper [1] [2] by Hervé Déjean and Jean-Luc Meunier
+
+[1] https://web.archive.org/web/20170811020425/http://www.europe.naverlabs.com//content/download/23686/171580/file/2007-031.pdf
+[2] doi:10.1117/12.764839
+
+
+The program performs the following steps:
+
+    1. Find potential page number candidates of various numbering schemes.
+       (find_hocr_matches)
+    2. Create 'sequences' of page number candidates.
+       (greedy_sequence_enumeration)
+    3. Construct a Trellis graph from these sequences
+       (create_graph)
+    4. Use Viterbi best path algorithm to find the optimal sequence of
+       sequences.
+       (viterbi_trellis)
+    5. Calculates the features (see the paper) of each page number of the found
+       optimal sequence and trains a Logistic Regression classifier, mixing in
+       randomly selected elements from the document as examples of things that
+       aren't page numbers.
+       (train_model)
+    6. Perform step 1-4 again, rejecting any element that doesn't get classified
+       as a page number using the classifier trained in step 5.
+    7. Perform some validation and confidence calculation
+    8. Write out the JSON file
+
+The document confidence is calculated from the following 5 observations:
+
+    1. The amount of pages numbered (either through direct observation of
+       inference) divided by the total number of pages, allowing for 20%
+       of the pages not to be numbered to still achieve a perfect score;
+
+    2. The amount of pages where a number was found by direct observation,
+       divided by the total number of pages, allowing for 70% of the pages not to
+        be numbered to still achieve a perfect score;
+
+    3.  The amount of page numbered found by direct observation divided the
+        total number of numbered pages (by observation plus inference) found -
+        penalising if over 32% of the pages aren't "real" observations
+
+    4.  The average of the page probability, penalised when average the page
+        probability drops below 90%
+
+    5.  The amount of pages (in the entire item) divided by the final amount of
+        page number sequences. Penalised when sequence contains (on average) less
+        than 50 pages. The idea is here that we might find many "sub sequences" of
+        page numbers that aren't actually page numbers, but those don't tend to be
+        very long. So having many sequences that each do not span too many pages is
+        a problem. If there are a few short sequences and a really long one, this
+        should not hurt the confidence
+
+Author: Merlijn Wajer <merlijn@archive.org> / <merlijn@wizzup.org>
+"""
+
+import argparse
+import json
+import random
+import re
+import sys
+
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import StandardScaler
+from viterbi_trellis import ViterbiTrellis
+
+from roman import fromRoman, toRoman, InvalidRomanNumeralError
+
+import hocr
+from hocr.parse import hocr_page_iterator, hocr_page_to_word_data, hocr_page_get_dimensions
+
+try:
+    from derivermodule.scandata import scandata_parse, scandata_get_skip_pages
+except ImportError:
+    scandata_parse = None
+
+# TODO:
+#
+# - Add regression tests with various oddball cases (Roman numerals, etc)
+# - Add confidence for synthetic pages too
+# - Add ASCII number scheme?
+#
+# How to handle these?:
+# * 22/314, 23/315, ... 71/363
+
+
+SKIP_NO_EDGE = True
+COMPOSITE_LIMIT = 2500
+COMPOSITE_LIMIT_REACHED = False
+
+
+NUM_FEATURES = 40
+NEGATIVES_PER_PAGE = 10
+
+# For reproducability purposes
+SEED = 42
+
+COMPOSITE_ANY_RE = re.compile(r'.*\d.*')
+COMPOSITE_DIGIT_SUB = re.compile(r'\d+')
+COMPOSITE_DIGIT_RE = re.compile(r'\d{1,8}')
+COMPOSITE_SIMPLE_RES = [re.compile(r'^\(\d{1,8}\)$'),
+                        re.compile(r'^[A-Z]+-?\d{1,8}$'), re.compile(r'^\d{1,8}-?[A-Z]+$'),
+                        re.compile(r'^\(\d{1,8}\)\(\d{1,8}\)$'), re.compile(r'^\(\d{1,8}\)\d{1,8}$'),
+                        re.compile(r'^\d{1,8}/\d{1,8}$'), re.compile(r'^\d{1,8}\.\d{1,8}$'),
+                        re.compile(r'^\d{1,8}\-\d{1,8}$')]
+
+TRELLIS_NONE_COST = 2. # To 'None' nodes
+
+
+class ArabicNumberingScheme(object):
+    """
+    Regular Arabic page numbering scheme.
+
+    Allows for missing numbers within a sequence and filling in gaps.
+    """
+    PAGENO_RE = re.compile(r'^\d+$')
+    SUPPORT_EXTRAPOLATION = True
+
+    def syntactic_match(self, s):
+        v = ArabicNumberingScheme.PAGENO_RE.match(s)
+
+        if v:
+            try:
+                int(s)
+            except:
+                v = False
+
+        return bool(v)
+
+    def is_increase(self, base, steps, check):
+        return base.num_value + steps == check.num_value
+
+    def numeral_value(self, s):
+        return int(s)
+
+    def from_num(self, n):
+        return str(n)
+
+    def extrapolate_sequence(self, sequence, start, end):
+        return extrapolate(self, sequence, start, end)
+
+
+class RomanNumberingScheme(object):
+    """
+    Roman page numbering scheme.
+
+    Allows for missing numbers within a sequence and filling in gaps.
+    """
+    SUPPORT_EXTRAPOLATION = True
+
+    def syntactic_match(self, s):
+        try:
+            v = fromRoman(s)
+            return True
+        except InvalidRomanNumeralError:
+            return False
+
+    def is_increase(self, base, steps, check):
+        return base.num_value + steps == check.num_value
+
+    def numeral_value(self, s):
+        return fromRoman(s)
+
+    def from_num(self, n):
+        return toRoman(n)
+
+    def extrapolate_sequence(self, sequence, start, end):
+        return extrapolate(self, sequence, start, end)
+
+
+class SingleLetterNumberingScheme(object):
+    """
+    Single letter numbering scheme.
+
+    Allows for missing numbers within a sequence and filling in gaps.
+    """
+    SUPPORT_EXTRAPOLATION = True
+
+    def syntactic_match(self, s):
+        len(s) == 1 and ((s >= 'a' and s <= 'z') or
+                         (s >= 'A' and s <= 'Z'))
+
+    def is_increase(self, base, steps, check):
+        return base.num_value + steps == check.num_value
+
+    def numeral_value(self, s):
+        return ord(s)
+
+    def from_num(self, n):
+        return chr(n)
+
+    def extrapolate_sequence(self, sequence, start, end):
+        return extrapolate(self, sequence, start, end)
+
+
+class CompositeNumberingScheme(object):
+    """
+    Composite numbering scheme.
+
+    This scheme allows for missing numbers in sequences and in some cases allows
+    for filling in gaps in the sequences - depending on the complexity of the
+    composite numbering scheme. Create a scheme like this using the
+    composite_factory function, which will also validate if a value actually is
+    of a composite scheme or not.
+
+    The class constructor takes a value that is a composite number and then
+    constructs the specific composite numbering scheme - both methods to convert
+    to and from integers as well as ways to produce composite numbers to fill in
+    the gaps.
+    """
+
+    # Base-N for the composite numbering
+    MUL = 1000000000000
+
+    def __init__(self, val):
+        self.orig_val = val
+        self.count = len(COMPOSITE_DIGIT_RE.findall(val))
+        self.format = COMPOSITE_DIGIT_SUB.sub(r'%d', val.replace('%', '%%'))
+        self.composite_scheme = '^' + COMPOSITE_DIGIT_SUB.sub(r'\\d+', re.escape(val)) + '$'
+        self.comp_re = re.compile(self.composite_scheme)
+
+        self.SUPPORT_EXTRAPOLATION = False
+
+        # We currently allow extrapolation for some simple schemes
+        for r in COMPOSITE_SIMPLE_RES:
+            if r.match(val):
+                self.SUPPORT_EXTRAPOLATION = True
+                break
+
+    def syntactic_match(self, s):
+        return self.comp_re.match(s)
+
+    def is_increase(self, base, steps, check):
+        return base.num_value + steps == check.num_value
+
+    def numeral_value(self, s):
+        m = COMPOSITE_DIGIT_RE.findall(s)
+        n = 0
+        for idx, v in enumerate(reversed(m)):
+            if idx == 0:
+                n += int(v)
+            else:
+                n += int(v) * self.MUL**idx
+
+        return n
+
+    def from_num(self, n):
+        idx = 0
+        digits = []
+        r = n % self.MUL
+        if r == 0:
+            digits.append(r)
+
+        while r != 0:
+            digits.append(r)
+            idx += 1
+            r = (n // self.MUL**idx) % self.MUL
+
+        if len(digits) != self.count:
+            digits += [0] * (self.count - len(digits))
+
+        digits = tuple(reversed(digits))
+
+        v = self.format % digits
+        return v
+
+    def extrapolate_sequence(self, sequence, start, end):
+        return extrapolate(self, sequence, start, end)
+
+
+def composite_factory(val):
+    """
+    Analyses a potential page number string and if it is deemed a composite
+    page number, returns a CompositeNumberingScheme specific for the value. Returns
+    None if the value is not a composite page number.
+    """
+    if COMPOSITE_ANY_RE.match(val):
+        for r in COMPOSITE_SIMPLE_RES:
+            if r.match(val):
+                return CompositeNumberingScheme(val)
+    return None
+
+
+def extrapolate(scheme, sequence, start, end):
+    """
+    Helper function to 'fill in gaps' in sequences of page numbers for any
+    scheme that supports it.
+    """
+    start_pageidx, start_pagenumber = start
+    end_pageidx, end_pagenumber = end
+
+    new_sequence = []
+
+    seqmap = dict(sequence)
+
+    for pageidx, val in zip(range(start_pageidx, end_pageidx+1),
+                            range(int(start_pagenumber.num_value), int(end_pagenumber.num_value+1))):
+        if pageidx in seqmap:
+            pagenumbercandidate = seqmap[pageidx]
+            new_sequence.append((pageidx, pagenumbercandidate))
+        else:
+            # Construct a new page number candidate and indicate that it is
+            # synthetic
+            newcandidate = PageNumberCandidate(scheme.from_num(val), scheme, True)
+            new_sequence.append((pageidx, newcandidate))
+
+    return new_sequence
+
+
+class PageNumberCandidate(object):
+    """
+    Represents a single page number candidate.
+
+    The scheme is a reference to the scheme the number follows
+    The synthetic value is indicative whether this page number is actually on
+    the document or not.
+    """
+    def __init__(self, value, scheme, synthetic, hocr=None):
+        self.value = value
+        self.num_value =  scheme.numeral_value(value)
+        self.scheme = scheme
+        self.synthetic = synthetic
+        self.hocr = hocr
+
+        if self.hocr is not None and self.synthetic:
+            raise ValueError('Cannot have synthetic value with hOCR data')
+
+        self.prob = None
+
+    def __repr__(self):
+        return self.value
+
+
+# Numbering schemes that are currently enabled and evaluated in this order.
+# Note that the various CompositeNumberingScheme's are added on the fly, since
+# each scheme requires a seperate instance
+NUMBER_SCHEMES = [
+    ArabicNumberingScheme(),
+    RomanNumberingScheme(),
+    SingleLetterNumberingScheme(),
+    # TODO: Add Generic ASCII family
+]
+
+
+def create_candidate_features(page_dim, page_contents_box, hocr_word, pageidx):
+    """
+    Features:
+    - Positional features (14 features)
+    - Page ratio w/h (1 feature)
+    - Page bounding box (4 features)
+    - Pageidx parity bit and all above features multiplied by parity bit (20 features)
+    - Typography: currently just font size (1 feature)
+    """
+    features = np.ndarray((NUM_FEATURES,), dtype=np.int32)
+
+    # Word bbox (4 features)
+    x1, y1, x2, y2 = hocr_word['bbox']
+
+    x1 = int(x1)
+    y1 = int(y1)
+    x2 = int(x2)
+    y2 = int(y2)
+
+    features[0:4] = [x1, y1, x2, y2]
+    # Quadratic combination of word bbox (10 features)
+    features[4:14] = [x1 * x1, y1 * y1, x2 * x2, y2 * y2, x1 * y1, x1 * x2,
+                      x1 * y2, y1 * x2, y1 * y2, x2 * y2]
+    # Page ratio (1 feature)
+    features[14] = int(page_dim[0]) / int(page_dim[1])
+    # Bounding box of found content of the page (4 features)
+    features[15:19] = [int(x) for x in page_contents_box]
+    # Page parity bit (1 feature)
+    features[19] = 1 if pageidx % 2 == 0 else -1
+    # Parity bit multiplication of previous features (20 features)
+    features[20:39] = features[:19] * features[19]
+    # Font size (1 feature)
+    features[39] = int(hocr_word['fontsize'])
+
+    return features
+
+
+# TODO: Make saving non_matches optional, maybe dependent on filterfun being
+# None, or add some pass-1, pass-2 type thing
+def find_hocr_matches(hocrfile, scandata_skip_pages, filterfun=None):
+    global COMPOSITE_LIMIT_REACHED
+    page_matches = []
+    page_non_matches = []
+    page_info = []
+
+    composite_schemes = []
+
+    idx_subtractor = 0
+    for pageidx, page in enumerate(hocr_page_iterator(hocrfile)):
+        if scandata_skip_pages is not None and pageidx in scandata_skip_pages:
+            idx_subtractor += 1
+            continue
+
+        # TODO: Make this filter a toggle?
+        page_width, page_height = hocr_page_get_dimensions(page)
+        w_20 = page_width // 5
+        h_20 = page_height // 5
+        w_80 = page_width - w_20
+        h_80 = page_height - h_20
+
+        word_data = hocr_page_to_word_data(page)
+        matches = []
+        non_matches = []
+
+        page_content_box = [0] * 4
+
+        for par in word_data:
+            for line in par['lines']:
+                for word in line['words']:
+                    x1, y1, x2, y2 = word['bbox']
+                    page_content_box[0] = min(page_content_box[0], x1)
+                    page_content_box[1] = min(page_content_box[1], y1)
+                    page_content_box[2] = max(page_content_box[2], x2)
+                    page_content_box[3] = max(page_content_box[3], y2)
+
+                    # We allow for some samples to pass through to ensure that
+                    # we will (likely) have some negative matches
+                    if len(non_matches) > NEGATIVES_PER_PAGE and SKIP_NO_EDGE:
+                        if not (x1 < w_20 or y1 < h_20 or x2 > w_80 or y2 > h_80):
+                            continue
+
+                    text = word['text']
+
+                    v, p = None, None
+                    if filterfun:
+                        # First check if it matches any of the schemes,
+                        # otherwise we will reject it later anyway, and
+                        # prediction is *slow*.
+                        found = False
+                        for scheme in NUMBER_SCHEMES + composite_schemes:
+                            if scheme.syntactic_match(text):
+                                found = True
+                        if not found:
+                            fact = composite_factory(text)
+                            if not fact:
+                                continue
+
+                        v, p = filterfun(pageidx - idx_subtractor, word)
+                        if not v:
+                            continue
+
+                    found = False
+                    for scheme in NUMBER_SCHEMES + composite_schemes:
+                        if scheme.syntactic_match(text):
+                            match = PageNumberCandidate(text, scheme, False, word)
+                            if v is not None and p is not None:
+                                match.prob = p
+
+                            matches.append(match)
+                            found = True
+
+                        if found:
+                            break
+
+                    if found:
+                        break
+
+                    # If we haven't matched anything, consider a new composite
+                    # scheme
+                    if not COMPOSITE_LIMIT_REACHED:
+                        fact = composite_factory(text)
+                        if fact:
+                            if len(composite_schemes) < COMPOSITE_LIMIT:
+                                composite_schemes.append(fact)
+                                match = PageNumberCandidate(text, fact, False, word)
+                                match.prob = p
+                                matches.append(match)
+                                continue
+                            else:
+                                COMPOSITE_LIMIT_REACHED = True
+                                print('Reached CompositeNumberingScheme limit of %d' % COMPOSITE_LIMIT, file=sys.stderr)
+
+
+                    # If we get to this point, the word did not match, store it
+                    # for later for training purposes
+                    non_matches.append(word)
+
+        page_matches.append(matches)
+
+        if len(non_matches):
+            non_matches = random.choices(non_matches, k = NEGATIVES_PER_PAGE)
+
+        page_non_matches.append(non_matches)
+
+        page_info.append(([page_width, page_height], page_content_box))
+
+    return page_matches, page_non_matches, page_info
+
+
+def fits_sequence(sequence, pageidx, match):
+    """
+    Returns whether a given match fits in the sequence by looking at the
+    last value of the sequence.
+    """
+    last_seq = sequence[-1]
+
+    last_seq_pageidx, last_seq_val = last_seq
+    step = pageidx - last_seq_pageidx
+
+    if last_seq_val.scheme == match.scheme and match.scheme.is_increase(last_seq_val, step, match) and match != last_seq_val and pageidx != last_seq_pageidx:
+        return True
+
+    return False
+
+
+def greedy_sequence_enumeration(page_matches, density_threshold=0.3):
+    """
+    Turns the hOCR page matches into sequences in a greedy manner.
+    The density threshold is set to 30% for sequences; this could be changed
+    perhaps depending on the number scheme.
+
+    The overly simplified description of what this function does, quoting the
+    paper:
+
+    For each page:
+        For each text fragment of the page:
+            - either it fits with one of the running sequences
+            - or if its syntactic form is acceptable to a scheme, then a new sequence is initialized and fed with this observed number.
+    """
+    current_sequences = []
+    parked_sequences = []
+
+    for pageidx, matches in enumerate(page_matches):
+        for match in matches:
+            fits = False
+
+            for seq in current_sequences:
+                if fits_sequence(seq, pageidx, match):
+                    seq.append((pageidx, match))
+                    fits = True
+                    break
+
+            # Create new sequence
+            if not fits:
+                current_sequences.append([(pageidx, match)])
+
+        # Figure out which sequences to park (so that we don't have to take them
+        # into account in the analysis going forward)
+        park_idx = []
+        for idx, sequence in enumerate(current_sequences):
+            seq_len = len(sequence)
+
+            seq_start = sequence[0][0]
+            seq_tail = pageidx
+
+            seq_diff = seq_tail - seq_start
+            density = seq_len / (seq_tail - seq_start) if seq_diff != 0 else 1
+
+            if density < density_threshold:
+                move_seq = current_sequences.pop(idx)
+                parked_sequences.append(move_seq)
+
+    # Park remaining sequences
+    for sequence in current_sequences:
+        parked_sequences.append(sequence)
+    current_sequences = []
+
+    # Filter 1-length out
+    parked_sequences = list(filter(lambda x: len(x) > 1, parked_sequences))
+
+    return parked_sequences
+
+
+class State(object):
+    """ State in the Trellis graph """
+    def __init__(self, pageidx, value):
+        self.pageidx = pageidx
+        self.value = value
+        self.links = {}
+
+    def link(self, other_state, cost):
+        self.links[other_state] = cost
+
+    def get_cost(self, other_state):
+        try:
+            return self.links[other_state]
+        except KeyError:
+            # Max cost, the ViterbiTrellis class tends to follow links that
+            # don't even exist
+            return TRELLIS_NONE_COST + 1.
+
+    def __repr__(self):
+        return '(%s, %s)' % (self.pageidx, self.value)
+
+
+def create_graph(sequences, page_count, F=3):
+    page_states = {}
+
+    # Every page has a None state (we have no better candidate)
+    for page in range(page_count):
+        page_states[page] = [State(page, None)]
+
+    for sequence in sequences:
+        N = len(sequence)
+        sequence_states = []
+
+        for idx, (pageidx, value) in enumerate(sequence):
+            s = State(pageidx, value)
+            if (idx > 0):
+                cost = 1 - (F / N)
+                # XXX: The algorithm we work with currently uses cost, not score, so we add 1 - ... here
+                sequence_states[idx-1].link(s, 1 - cost)
+
+                #sequence_states[idx-1].link(s, cost)
+
+            sequence_states.append(s)
+            page_states[pageidx].append(s)
+
+    # Now connect all the states of the previous layer to the None state of the
+    # next layer and connect all the None states to the other sequences
+    for page in range(1, page_count):
+        prev_page_states = page_states[page - 1]
+        current_none_state = page_states[page][0]
+
+        # XXX: It should also be possible for sequences to jump from the end of
+        # one sequence to another, the code does not allow for this yet
+        # unfortunately
+
+        for prev_page_state in prev_page_states:
+            # TODO: We might want some of these to be negative if a state is
+            # leaving its sequence early
+            prev_page_state.link(current_none_state, TRELLIS_NONE_COST)
+
+        prev_page_none_state = prev_page_states[0]
+        for page_state in page_states[page]:
+            prev_page_none_state.link(page_state, TRELLIS_NONE_COST)
+
+
+    list_page_states = []
+    for page in range(page_count):
+        list_page_states.append(page_states[page])
+
+    return list_page_states
+
+
+def fill_holes(sequences):
+    new_sequences = []
+
+    for sequence in sequences:
+        scheme = sequence[0][1].scheme
+        if scheme.SUPPORT_EXTRAPOLATION:
+            start_pageidx = sequence[0][0]
+            end_pageidx = sequence[-1][0]
+            start_val = sequence[0][1]
+            end_val = sequence[-1][1]
+
+            new_sequence = scheme.extrapolate_sequence(sequence,
+                                                       (start_pageidx, start_val),
+                                                       (end_pageidx, end_val))
+            new_sequences.append(new_sequence)
+        else:
+            # Just copy it over
+            new_sequences.append(sequence)
+
+    return new_sequences
+
+
+def fill_opportunistic(pagenos):
+    # Find the first real number and see if we can go back to fill up 'None'
+    # entries
+    # Then do find the last number and try to do the same that way
+    pdict = dict(pagenos)
+
+    current_idx = 0
+    while current_idx < len(pagenos):
+        if pdict[current_idx] is not None:
+            fill_idx = current_idx
+            val = pdict[current_idx]
+
+            # TODO: only do this if scheme supports aggressive extrapolate, this
+            # gets tricky with the non-simple composite, we can do it only for
+            # one-digit composite schemes (scheme.count == 1)
+
+            fill_scheme = val.scheme
+            fill_val = pdict[current_idx].num_value
+
+            while fill_val > 1 and fill_idx > 0:
+                fill_idx -= 1
+                fill_val -= 1
+
+                pagenos[fill_idx] = (fill_idx, PageNumberCandidate(fill_scheme.from_num(fill_val), fill_scheme, True))
+
+            break
+
+        current_idx += 1
+
+    current_idx = len(pagenos) - 1
+    while current_idx > 0:
+        if pdict[current_idx] is not None:
+            fill_idx = current_idx
+            val = pdict[current_idx]
+
+            # TODO: only do this if scheme supports aggressive extrapolate, this
+            # gets tricky with the non-simple composite, we can do it only for
+            # one-digit composite schemes (scheme.count == 1)
+
+            fill_scheme = val.scheme
+            fill_val = pdict[current_idx].num_value
+
+            while fill_idx < len(pagenos) - 1:
+                fill_idx += 1
+                fill_val += 1
+
+                pagenos[fill_idx] = (fill_idx, PageNumberCandidate(fill_scheme.from_num(fill_val), fill_scheme, True))
+
+            break
+
+        current_idx -= 1
+
+
+    return pagenos
+
+
+def viterbi_trellis(trellis):
+    v = ViterbiTrellis(trellis, lambda x: 1., lambda x, y: x.get_cost(y))
+    return v.viterbi_best_path()
+
+
+def candidates_from_trellis(best_path, trellis):
+    results = []
+
+    for page_idx, (choice_idx, vals) in enumerate(zip(best_path, trellis)):
+        results.append((page_idx, vals[choice_idx].value))
+
+    return results
+
+
+def train_model(candidates, page_non_matches, pages_info, classifier='naivebayes'):
+    positive_features = []
+    negative_features = []
+
+    for page_idx, candidate in candidates:
+        page_info = pages_info[page_idx]
+        if candidate and not candidate.synthetic:
+            feature = create_candidate_features(page_info[0], page_info[1],
+                                                candidate.hocr, page_idx)
+            positive_features.append(feature)
+
+            # Create (max, if we can) 10 negative samples
+            for non_match in page_non_matches[page_idx]:
+                feature = create_candidate_features(page_info[0], page_info[1],
+                                                    non_match, page_idx)
+                negative_features.append(feature)
+
+    if not len(positive_features) or not len(negative_features):
+        # This means we didn't find any page numbers at all, so there's no point
+        # to even trying to train a login regression
+        return None, None
+
+    total_features = len(positive_features) + len(negative_features)
+
+    X = np.ndarray((total_features, NUM_FEATURES), dtype=np.int32)
+    X[0:len(positive_features)] = np.array(positive_features)
+    X[len(positive_features):] = np.array(negative_features)
+
+    y = np.array([1.] * len(positive_features) + [0.] * len(negative_features))
+
+    scaler = StandardScaler()
+    X_ = scaler.fit_transform(X)
+
+    if classifier == 'naivebayes':
+        lr = GaussianNB()
+    elif classifier == 'logisticregression':
+        # For reproducability purposes we pass the seed
+        lr = LogisticRegression(C=1.0, solver='liblinear', random_state=SEED)
+    else:
+        raise ValueError('Invalid classifier')
+
+    clf = lr.fit(X_, y)
+
+    return clf, scaler
+
+
+def calculate_seqoffset(refined_seq):
+    seqoffset = 0
+
+    seq_test_vals = []
+    for seq in refined_seq:
+        if isinstance(seq[0][1].scheme, ArabicNumberingScheme):
+            start = seq[0][1]
+
+            val = start.scheme.numeral_value(start.value)
+            seq_test_vals.append((seq[0][0], val, seq))
+        else:
+            seq_test_vals.append((None, None))
+
+
+    for idx, test_seq in enumerate(seq_test_vals):
+        if test_seq[0] is None:
+            continue
+
+        for seq in seq_test_vals[idx+1:]:
+            if seq[0] is None:
+                continue
+
+            leafdist = seq[0] - test_seq[0]
+            valuedist = seq[1] - test_seq[1]
+
+            if leafdist < 20 and leafdist > 0 and valuedist < 20 and valuedist > 0:
+                diff = leafdist - valuedist
+                if diff > 0 and diff < 5:
+                    seqoffset += 1
+                    break
+
+    return seqoffset
+
+
+def get_document_confidence(pagenos, sequences, refined_seq):
+    ALLOW_MISS = 0.2 # 20% of pages without a page number is still ok
+    ALLOW_MISS_FOUND = 0.7 # We think we can be happy if 30% of the pages actually exist in OCR
+
+    SYNTH_ALLOW = 2/3 # Penalise if 33% or less pages are not 'real'
+    PAGE_PROB_ADD = 0.1
+    REQ_PAGES_PER_SEQ = 30
+    PAGES_PER_SEQ_LENIENCY = 0.05
+
+    pagenos_found_plus_synth = list(filter(lambda x: x[1] is not None, pagenos))
+    pagenos_found = list(filter(lambda x: x[1] is not None and not x[1].synthetic, pagenos))
+    total_pages = len(pagenos)
+
+    page_probs = list(map(lambda x: x[1].prob is not None and x[1].prob[1], pagenos_found))
+    page_prob_avg = sum(page_probs) / len(page_probs) if len(page_probs) else 0.
+
+    page_word_confs = list(map(lambda x: x[1].hocr['confidence'], pagenos_found))
+    page_word_conf_avg = sum(page_word_confs) / len(page_word_confs) if len(page_word_confs) else 0.
+
+    page_infer_ratio = len(pagenos_found_plus_synth) / total_pages
+    page_found_ratio = len(pagenos_found) / total_pages
+    page_synth_ratio = len(pagenos_found) / len(pagenos_found_plus_synth) if len(pagenos_found_plus_synth) else 0.
+
+
+    confidence = min(1., page_infer_ratio + ALLOW_MISS)
+    confidence *= min(1., page_found_ratio + ALLOW_MISS_FOUND)
+    confidence *= min(1., page_synth_ratio + SYNTH_ALLOW)
+    confidence *= min(1., page_prob_avg + PAGE_PROB_ADD)
+
+    seqoffset = calculate_seqoffset(refined_seq)
+
+    pages_per_seq = total_pages / (len(refined_seq) - seqoffset) if len(refined_seq) else 0.
+    confidence *= min(1., pages_per_seq / min(REQ_PAGES_PER_SEQ, total_pages) + PAGES_PER_SEQ_LENIENCY)
+
+    return confidence
+
+
+def create_page_json(pagenos, document_conf, identifier, scandata):
+    data = {
+             # To differentiate from output made from a different program
+            'identifier': identifier,
+            'format-version': '2',
+            'archive-hocr-tools-version': hocr.__version__,
+            'confidence': int(document_conf * 100),
+            'pages': [],
+    }
+
+    # # Build leafnum mapping if scandata exists
+    if scandata:
+        leafnum_map = []
+        cnt = 0
+
+        # xmltodict will make a single page in pageData not a list, so let's
+        # make it one
+        page_data = scandata['book']['pageData']['page']
+        if not isinstance(page_data, list):
+            page_data = [page_data]
+
+        for spage in page_data:
+            if spage['addToAccessFormats'] == 'false':
+                continue
+
+            leafnum_map.append(int(spage['@leafNum']))
+    else:
+        leafnum_map = list(range(len(pagenos)))
+
+    # For the per-page confidence, we can use:
+    # * the probability
+    # * whether is gap-filled and synthetic or not
+    # * whether it was synthetic and filled towards the 'edges'
+    # But right now we just use the page probability + 0.1
+    for (pageidx, pagenoval) in pagenos:
+        leafnum = leafnum_map[pageidx]
+
+        page_json_data = {
+                'leafNum': leafnum,
+                'confidence': int(min(pagenoval.prob[1] + 0.1, 1.) * 100) if pagenoval and pagenoval.prob is not None else None,
+                'pageNumber': str(pagenoval.value) if pagenoval else '',
+                'pageProb': int(pagenoval.prob[1] * 100) if pagenoval and pagenoval.prob is not None else None,
+                'wordConf': int(pagenoval.hocr['confidence']) if pagenoval and pagenoval.hocr is not None else None
+        }
+
+        data['pages'].append(page_json_data)
+
+    return data
+
+
+def prediction_filter(lg_classifier, lg_scaler, page_info, page_idx, word_hocr):
+    pinfo = page_info[page_idx]
+    feature = create_candidate_features(pinfo[0], pinfo[1],
+                                        word_hocr, page_idx)
+    npf = np.array(feature).reshape((1, NUM_FEATURES))
+    npf = lg_scaler.transform(npf)
+    p = lg_classifier.predict_proba(npf)
+
+    p = p[0]
+    v = p[1] > 0.5
+
+    return v, p
+
+
+# TODO: Code to take the output from create_graph and plot it
+# TODO: Make this a visual graph?
+#for pageidx, page_state in enumerate(trellis):
+#    print('Page:', pageidx)
+#    for state in page_state:
+#        print('\tState:', state)
+#        for link in state.links:
+#            print('\t\tLinks:', link, 'cost:', state.get_cost(link))
+
+def process_file(hocrfile, outfile, identifier, classifier, scandata_file=None,
+                 two_pass=True, density_threshold_1=0.3, density_threshold_2=0.3,
+                 opportunistic_fill=False):
+    scandata = scandata_parse(scandata_file) if scandata_file is not None else None
+    scandata_skip_pages = scandata_get_skip_pages(scandata) if scandata is not None else []
+
+
+    page_matches, page_non_matches, page_info = find_hocr_matches(hocrfile,
+                                                                  scandata_skip_pages)
+    sequences = greedy_sequence_enumeration(page_matches, density_threshold=density_threshold_1)
+    sequences = fill_holes(sequences)
+    trellis = create_graph(sequences, len(page_matches))
+    best_path = viterbi_trellis(trellis)
+
+    if two_pass:
+        candidates = candidates_from_trellis(best_path, trellis)
+
+        lg_classifier, lg_scaler = train_model(candidates, page_non_matches,
+                                               page_info, classifier=classifier)
+
+        if lg_classifier is None:
+            refined_seq = sequences
+            pagenos = candidates_from_trellis(best_path, trellis)
+        else:
+            # Bind our classifier and page info to the prediction_filter
+            fun = lambda page_idx, word: prediction_filter(lg_classifier, lg_scaler,
+                                                          page_info, page_idx, word)
+            page_matches, _, _ = find_hocr_matches(hocrfile, scandata_skip_pages, filterfun=fun)
+            sequences = greedy_sequence_enumeration(page_matches, density_threshold=density_threshold_2)
+            sequences = fill_holes(sequences)
+            trellis_2 = create_graph(sequences, len(page_matches), F=1)
+            best_path_2 = viterbi_trellis(trellis_2)
+
+            pagenos = candidates_from_trellis(best_path_2, trellis_2)
+
+            refined_candidates = [[x[1]] if (x is not None and x[1] is not None) else [] for idx, x in enumerate(pagenos)]
+            refined_seq = greedy_sequence_enumeration(refined_candidates, density_threshold=density_threshold_2)
+    else:
+        refined_seq = sequences
+        pagenos = candidates_from_trellis(best_path, trellis)
+
+
+    if opportunistic_fill:
+        pagenos = fill_opportunistic(pagenos)
+
+    doc_conf = get_document_confidence(pagenos, sequences, refined_seq)
+
+    page_json = create_page_json(pagenos, doc_conf, identifier, scandata)
+    with open(outfile, 'w') as outfile_fp:
+        json.dump(page_json, outfile_fp, indent=' ' * 4)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='hOCR to plaintext')
+    parser.add_argument('-f', '--infile', help='Filename to read',
+                        type=str, default=None)
+    parser.add_argument('-S', '--scandata', help='Scandata filename to read, optional',
+                        type=str, default=None)
+    parser.add_argument('-o', '--outfile', help='Filename to write to',
+                        type=str, default=None)
+    parser.add_argument('-C', '--classifier', help='Classifier for second pass.  Pick either \'naivebayes\' or \'logisticregression\'',
+                        type=str, default='logisticregression')
+    parser.add_argument('--no-two-pass', help='Disable formal analysis pass, '
+                        'not recommended',
+                        default=False, action='store_true')
+    parser.add_argument('--opportunistic-fill', help='Enable opportunistic '
+                        'filling - EXPERIMENTAL, you probably do not want this',
+                        default=False, action='store_true')
+    parser.add_argument('--density-threshold', help='Density threshold when '
+                        'making sequences (between 0 and 1). The lower this is, the more gaps '
+                        ' are allowed. Default is 0.3', type=float, default=0.3)
+    parser.add_argument('--density-threshold-pass-two', help='Density threshold when '
+                        'making sequences (between 0 and 1). The lower this is, the more gaps '
+                        ' are allowed. Default is 0.05', type=float, default=0.05)
+    parser.add_argument('-I', '--identifier', help='Identifier to write to '
+                        'output JSON. (Feel free to ignore)',
+                        type=str, default=None)
+    args = parser.parse_args()
+
+    if args.scandata is not None and scandata_parse is None:
+        raise Exception('To parse scandata, please install the'
+                        '\'internetarchive-deriver-module\' package')
+
+    # For reproducability purposes
+    random.seed(SEED)
+
+    process_file(args.infile, args.outfile, args.identifier,
+                 args.classifier, scandata_file=args.scandata,
+                 two_pass=not args.no_two_pass,
+                 density_threshold_1=args.density_threshold,
+                 density_threshold_2=args.density_threshold_pass_two,
+                 opportunistic_fill=args.opportunistic_fill)

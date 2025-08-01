@@ -1,0 +1,103 @@
+#!/usr/bin/env python
+
+import sys
+import argparse
+from glob import glob
+
+from xml.etree import ElementTree
+ElementTree.register_namespace('', 'http://www.w3.org/1999/xhtml')
+
+from hocr.parse import hocr_page_iterator
+from hocr.util import register_and_nuke_xhtml_namespace, get_header_footer, \
+        HOCR_SCHEMA, elem_tostring
+
+
+def process_files(files_to_process):
+    top, bottom = get_header_footer(files_to_process[0])
+
+    sys.stdout.buffer.write(top)
+
+    page_no = 0
+
+    for f in files_to_process:
+        for page in hocr_page_iterator(f):
+            page.tag = 'div'
+
+            page.attrib['id'] = 'page_%.06d' % page_no
+            block_no = 0
+            par_no = 0
+            line_no = 0
+            word_no = 0
+
+            blocks = page.findall("*[@class='ocr_carea']")
+            for block in blocks:
+                block.attrib['id'] = 'block_%.06d_%.06d' % (page_no,
+                                                            block_no)
+
+                paragraphs = block.findall("*[@class='ocr_par']")
+                for par in paragraphs:
+                    par.attrib['id'] = 'par_%.06d_%.06d' % (page_no,
+                                                            par_no)
+
+                    for line in list(par):
+                        line.attrib['id'] = 'line_%.06d_%.06d' % (page_no,
+                                                                  line_no)
+
+                        words = line.findall("*[@class='ocrx_word']")
+                        for word in words:
+                            word.attrib['id'] = 'word_%.06d_%.06d' % \
+                                    (page_no, word_no)
+
+                            word_no += 1
+
+                        line_no += 1
+
+                    par_no += 1
+
+                block_no += 1
+
+            page_no += 1
+
+            page.tail = None
+            s = elem_tostring(page).decode('utf-8')
+
+            # Let's Remove the xmlns in the div.
+            # Yes, this is ugly, but we used to do it, so let's stay
+            # compatible with the lxml code. Also, I don't know a more clean way
+            # to do this.
+            # Let's also add two spaces for indentation for the first
+            # page, and one for all the other pages.
+
+            # XXX: Can we remove this attribute perhaps from the ocr_page?
+            if page_no == 1:
+                s = '  ' + \
+                    s.replace(' xmlns="http://www.w3.org/1999/xhtml"', '')
+            else:
+                s = ' ' + \
+                    s.replace(' xmlns="http://www.w3.org/1999/xhtml"', '')
+
+            # Start on a new line
+            s += '\n'
+
+            s = s.encode('utf-8')
+            sys.stdout.buffer.write(s)
+
+    sys.stdout.buffer.write(bottom)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Combine hOCR files '
+                                     '- streaming version')
+    parser.add_argument('-g', '--glob', help='Glob of files to parse',
+                        type=str, default=None)
+    args = parser.parse_args()
+
+    files_to_process = glob(args.glob)
+
+    if not len(files_to_process):
+        print('No files to process!', file=sys.stderr)
+        sys.exit(1)
+
+    files_to_process = sorted(files_to_process)
+
+    register_and_nuke_xhtml_namespace()
+    process_files(files_to_process)

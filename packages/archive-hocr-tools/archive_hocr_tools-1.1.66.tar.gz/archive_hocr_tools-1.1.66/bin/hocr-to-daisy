@@ -1,0 +1,378 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import re
+import xml.etree.ElementTree as ET
+from typing import Dict, List, Optional, OrderedDict
+
+from derivermodule.scandata import \
+    scandata_parse  # type: ignore[import-untyped]
+
+import hocr
+from hocr import daisy
+
+
+class DaisyGenerator:
+    __version__ = '1.0.0'
+
+    toc = None
+    metadata = None
+
+    def __init__(
+        self,
+        hocr_xml_file_path: str,
+        metadata_xml_file_path: Optional[str] = None,
+        scandata_xml_file_path: Optional[str] = None,
+        toc_xml_file_path: Optional[str] = None,
+    ) -> None:
+        self.hocr_xml_file_path = hocr_xml_file_path
+        self.metadata_xml_file_path = metadata_xml_file_path
+        self.scandata = (
+            scandata_parse(scandata_xml_file_path) if scandata_xml_file_path else None
+        )
+        self.toc_xml_file_path = toc_xml_file_path
+
+        # TODO: use derivermodule metadata parsing; return rather than set in the process function.
+        if self.metadata_xml_file_path and os.path.exists(self.metadata_xml_file_path):
+            self.process_metadata(self.metadata_xml_file_path)
+
+        processed_metadata = (
+            self.process_metadata(metadata_file_path=args.metafile)
+            if args.metafile
+            else None
+        )
+
+        # Create a DAISY book with which to work.
+        self.daisy_book = daisy.book.DaisyBook(
+            out_name=args.outfile, metadata=processed_metadata
+        )
+        # Fill in the metadata and hOCR content.
+        self.generate(daisy_book=self.daisy_book)
+        # Create the supporting files (ncx, smil, etc.)
+        self.daisy_book.finish(processed_metadata)
+
+    def get_hocr(self):
+        if os.path.exists(self.hocr_xml_file_path):
+            return open(self.hocr_xml_file_path, 'rb')
+        raise FileNotFoundError('No hOCR file found')
+
+    # TODO: candidate for removal/refactor
+    def get_bookdata(self) -> OrderedDict:
+        """Get the `book` metadata from scandata."""
+        book_data = self.scandata.get("book")
+        if not book_data:
+            raise ValueError("Expected book data")
+
+        return book_data
+
+    # TODO: candidate for removal/refactor
+    def process_metadata(self, metadata_file_path: str) -> List[Dict[str, str]]:
+        md = ET.parse(metadata_file_path).getroot()
+        result = []
+        for el in md:
+            if el.tag == 'language' and el.text:
+                result_text = hocr.extutil.normalize_language(language=el.text)
+                if not result_text:
+                    result_text = el.text
+            else:
+                result_text = el.text
+            result.append({'tag': el.tag, 'text': result_text})
+        self.metadata = result
+        return result
+
+    def get_toc(self) -> Optional[Dict]:
+        if self.toc_xml_file_path is None:
+            return None
+        if self.toc is not None:
+            return self.toc
+        if not os.path.exists(self.toc_xml_file_path):
+            return None
+        toc = ET.parse(self.toc_xml_file_path).getroot()
+        result = {el.get('page'): el.get('title') for el in toc}
+        return result
+
+    def has_pagenos(self) -> bool:
+        """Determine whether the book has page numbers."""
+        pages = self.get_scandata_pages()
+        for page in pages:
+            has_pagenumber = page.get("pageNumber")
+            if has_pagenumber is not None:
+                return True
+
+        return False
+
+    def get_page_scandata(self, page_number: int) -> Optional[OrderedDict]:
+        """Get the scandata for an individual page."""
+        if not self.scandata:
+            return None
+
+        pages = self.get_scandata_pages()
+        if page_number > len(pages):
+            return None
+        return pages[int(page_number)]
+
+    def get_scandata_pages(self) -> List[OrderedDict]:
+        """Return the scandata pages data."""
+        book = self.get_bookdata()
+        sd_pages = book['pageData']['page']
+        if not isinstance(sd_pages, list):
+            sd_pages = [sd_pages]
+        return sd_pages
+
+
+    # TODO: candidate for removal/refactor
+    def par_is_pageno_header_footer_hocr(self, par) -> bool:
+        if len(par['lines']) != 1:
+            return False
+
+        line = par['lines'][0]
+
+        line_text = hocr.text.hocr_paragraph_text({'lines': [line]})
+        if re.match(
+            r'[\[li] *[0-9afhiklmnouvx^]*[0-9][0-9afhiklmnouvx^]* *[\]ijl1]', line_text
+        ):
+            return True
+        if re.match(r'[\[li] *[xiv]* *[\]ijl1]', line_text):
+            return True
+
+        for word in line['words']:
+            if word['fontsize'] > 40:
+                continue
+            if daisy.util.roman_to_num(word['text'].lower()) > 0:
+                return True
+            # common OCR errors
+            if re.match('[0-9io]+', word['text']):
+                return True
+            if re.match('[0-9afhiklmnouvx^]*[0-9][0-9afhiklmnouvx^]*', word['text']):
+                return True
+
+        return False
+
+    # TODO: candidate for removal/refactor
+    def our_hocr_paragraph_text(self, paragraph):
+        par_text = ''
+
+        for line in paragraph['lines']:
+            if par_text[-2:] == '- ':
+                par_text = par_text[:-2]
+
+            line_words = ''
+            for word in line['words']:
+                if word['text'].endswith(' '):
+                    line_words += word['text']
+                else:
+                    line_words += word['text'] + ' '
+
+            # Encode
+            line_words = line_words.encode('utf-8')
+
+            # Write out
+            if line_words:
+                par_text += line_words.decode('utf-8')
+
+        if par_text:
+            # Strip last space
+            par_text = par_text[:-1]
+
+        return par_text
+
+    def generate(self, daisy_book: "daisy.book.DaisyBook", alt_booktext=None):
+        """
+        Take a DaisyBook and fill it out data from the hOCR file, scandata,
+        and metadata, if available. Also add frontmatter and rearmatter.
+        """
+        hocr_file = self.get_hocr()
+        contents = self.get_toc() if self.toc_xml_file_path is not None else None
+        metadata = (
+            self.process_metadata(self.metadata_xml_file_path)
+            if self.metadata_xml_file_path
+            else None
+        )
+
+        title = (
+            daisy.book.get_metadata_tag_data(metadata, 'title') if metadata else None
+        )
+        if title is None:
+            title = ''
+
+        author = (
+            daisy.book.get_metadata_tag_data(metadata, 'creator') if metadata else None
+        )
+        if author is None:
+            author = ''
+
+        daisy_book.push_tag('frontmatter')
+        daisy_book.add_tag('doctitle', title)
+        daisy_book.add_tag('docauthor', author)
+
+        daisy_book.push_navpoint('level', 'h', 'Producer\'s Note')
+        daisy_book.push_navpoint('level', 'h', 'About Internet Archive Daisy Books')
+        daisy_book.add_tag(
+            'p',
+            """This book was produced in DAISY format by the Internet Archive.  The
+        book pages were scanned and converted to DAISY format
+        automatically.  This process relies on optical character
+        recognition, and is somewhat susceptible to errors.  These errors
+        may include weird characters, non-words, and incorrect guesses at
+        structure.  Page numbers and headers or footers may remain from
+        the scanned page.  The Internet Archive is working to improve the
+        scanning process and resulting books, but in the meantime, we hope
+        that this book will be useful to you.
+        """,
+        )
+        daisy_book.pop_navpoint()
+        daisy_book.push_navpoint('level', 'h', 'About this DAISY book')
+        has_nav = False
+        if self.scandata and self.has_pagenos():
+            has_nav = True
+            daisy_book.add_tag('p', "This book has page navigation.")
+        if contents is not None:
+            has_nav = True
+            daisy_book.add_tag('p', "This book has chapter navigation.")
+        if not has_nav:
+            daisy_book.add_tag(
+                'p', "This book as paragraph navigation, but is otherwise unstructured."
+            )
+        daisy_book.pop_navpoint()
+        daisy_book.push_navpoint('level', 'h', 'About the Internet Archive')
+        daisy_book.add_tag(
+            'p',
+            """The Internet Archive was founded in 1996
+        to build an Internet library
+    and to promote universal access to all knowledge.  The Archive's purposes
+    include offering permanent access for researchers, historians,
+    scholars, people with disabilities, and the general public to
+    historical collections that exist in digital format.  The Internet Archive
+    includes texts, audio, moving images, and software as well as archived
+    web pages, and provides specialized services for information access
+    for the blind and other persons with disabilities.
+        """,
+        )
+        daisy_book.pop_navpoint()
+        daisy_book.pop_navpoint()
+
+        daisy_book.pop_tag()
+        daisy_book.push_tag('bodymatter')
+
+        if contents is None:
+            daisy_book.push_navpoint('level', 'h', 'Book')
+
+        pushed_navpoint = False
+
+        hocr_iterator = hocr.parse.hocr_page_iterator(hocr_file)
+
+        before_title_page = True if self.scandata else False
+        for i, page in enumerate(hocr_iterator):
+            # wrap in try/finally to ensure page.clear() is called
+            try:
+                if alt_booktext is not None:
+                    daisy_book.add_tag('p', alt_booktext)
+                    break
+
+                page_scandata = self.get_page_scandata(i)
+                pageno = None
+                if page_scandata is not None:
+                    pageno = page_scandata.get('pageNumber')
+                if pageno is not None:
+                    if contents is not None and pageno in contents:
+                        if pushed_navpoint:
+                            daisy_book.pop_navpoint()
+                        daisy_book.push_navpoint('level', 'h', contents[pageno])
+                        pushed_navpoint = True
+                    daisy_book.add_pagetarget(pageno, pageno)
+
+                if page_scandata and page_scandata.get('pageType', '').lower() in (
+                    'title',
+                    'title page',
+                ):
+                    before_title_page = False
+
+                if page_scandata and page_scandata.get('addToAccessFormats') == 'false':
+                    continue
+
+                if before_title_page:
+                    continue
+
+                first_par = True
+                saw_pageno_header_footer = False
+
+                pars = list(hocr.parse.hocr_page_to_word_data(page))
+
+                for paridx, par in enumerate(pars):
+                    # First paragraph
+                    if first_par and self.par_is_pageno_header_footer_hocr(par):
+                        saw_pageno_header_footer = True
+                        first_par = False
+                        continue
+                    first_par = False
+
+                    # Last paragraph
+                    if (
+                        not saw_pageno_header_footer
+                        and paridx == len(pars) - 1
+                        and self.par_is_pageno_header_footer_hocr(par)
+                    ):
+                        saw_pageno_header_footer = True
+                        continue
+
+                    par_text = self.our_hocr_paragraph_text(par)
+                    daisy_book.add_tag('p', par_text)
+            finally:
+                pass
+
+        if pushed_navpoint:
+            daisy_book.pop_navpoint()
+
+        if contents is None:
+            daisy_book.pop_navpoint()  # level1
+
+        daisy_book.pop_tag()
+        daisy_book.push_tag('rearmatter')
+        daisy_book.push_tag('level1')
+        daisy_book.add_tag('p', 'End of book')
+        daisy_book.pop_tag()
+        daisy_book.pop_tag()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='hOCR to DAISY converter')
+
+    parser.add_argument(
+        '-f', '--infile', help='Item _hocr.html file', type=str, default=None
+    )
+    parser.add_argument(
+        '-o', '--outfile', help='Output DAISY zip', type=str, default=None
+    )
+    parser.add_argument(
+        '-m', '--metafile', help='Item _meta.xml file', type=str, default=None
+    )
+    parser.add_argument(
+        '-s', '--scandata', help='Item _scandata.xml file', type=str, default=None
+    )
+    parser.add_argument(
+        '-t', '--toc', help='Item _toc.xml file', type=str, default=None
+    )
+    parser.add_argument(
+        '-w',
+        '--workingdir',
+        help='Directory used for temp files',
+        type=str,
+        default=None,
+    )
+
+    args = parser.parse_args()
+
+    if not args.infile:
+        raise Exception('Must provide hOCR input file with -f')
+
+    # Allow external caller to override working directory from default /tmp/ or /var/tmp/fast/
+    if args.workingdir:
+        WORKING_DIR = args.workingdir
+
+    dg = DaisyGenerator(
+        hocr_xml_file_path=args.infile,
+        metadata_xml_file_path=args.metafile,
+        scandata_xml_file_path=args.scandata,
+        toc_xml_file_path=args.toc,
+    )

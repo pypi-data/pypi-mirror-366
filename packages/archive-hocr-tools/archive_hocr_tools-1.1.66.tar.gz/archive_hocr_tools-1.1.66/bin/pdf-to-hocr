@@ -1,0 +1,429 @@
+#!/usr/bin/env python3
+
+import sys
+import argparse
+import json
+
+from xml.etree import ElementTree
+
+from xml.sax.saxutils import escape as xmlescape
+
+import fitz
+
+from hocr.util import open_if_required, elem_tostring, register_and_nuke_xhtml_namespace
+
+import numpy as np
+
+
+SALVAGE_TEXT_ENCODING = False
+ERROR_UNREPRESENTABLE_PRINTED = False
+ERROR_UNICODE_ENCODE_ERROR_PRINTED = False
+ERROR_NEGATIVE_BOUNDING_BOX_PRINTED = False
+ERROR_VALUE_ERROR_CHAR_NOT_XML_COMPAT_PRINTED = False
+
+
+# Functions related to unique id="" generation
+def page_id(pageno):
+    check_page_reset(pageno)
+    return 'page_%.06d' % pageno
+
+LAST_PAGE = None
+def check_page_reset(pageno):
+    global LAST_PAGE
+
+    if LAST_PAGE is None:
+        LAST_PAGE = pageno
+
+    if pageno != LAST_PAGE:
+        LAST_PAGE = pageno
+        reset_ids()
+
+__IDS = {'block': 0,
+         'par': 0,
+         'line': 0,
+         'word': 0,
+         'photo': 0,
+         'table': 0,
+         'separator': 0}
+
+def reset_ids():
+    global __IDS
+    for x in __IDS:
+        __IDS[x] = 0
+
+def get_id(pageno, name):
+    global __IDS
+    check_page_reset(pageno)
+    ret = '%s_%.06d_%.06d' % (name, pageno, __IDS[name])
+    __IDS[name] += 1
+
+    return ret
+
+
+def assemble_hocr_title_element(keyvals):
+    """
+    Create a title="<...>" string from key, value pairs
+
+    Args:
+
+    * keyvals (dict): key value pairs
+
+    Returns: string to insert as title (without the surrounding double quotes)
+    """
+    r = ''
+
+    for key, val in keyvals.items():
+        tot = [key]
+
+        if isinstance(val, list):
+            tot += val
+        else:
+            tot.append(val)
+
+        r += xmlescape(' '.join(tot))
+        r += '; '
+
+    if r:
+        # Strip off last '; '
+        return r[:-2]
+
+    return r
+
+
+# TODO: Perhaps update/sync with abbyy code
+def pdf_baseline_from_charboxes(charboxes):
+    """
+    Calculates the baseline of characters part of a single line segment using
+    least squares on the center ((left+right)/2) of the bottom of every bounding box.
+
+    Args:
+
+    * charboxes: list of character bounding boxes (which are a list of 4 entries)
+
+    Returns:
+
+    Tuple of m, c (float, int) where m is the increment and c is the offset.
+    """
+    points = []
+
+    x = []
+    y = []
+    for charbox in charboxes:
+        # (Left+Right)/2
+        x.append((charbox[0] + charbox[2])/2)
+        # Bottom
+        y.append(charbox[3])
+
+    x = np.array(x)
+    y = np.array(y)
+
+    # Normalise to minimal coordinate, maybe we ought to normalise to the first
+    # coordinate?
+    y -= y.min()
+
+    A = np.vstack([x, np.ones(len(x))]).T
+
+    r = np.linalg.lstsq(A, y, rcond=None)
+    m, c = r[0]
+
+    return float(m), int(c)
+
+
+def pdf_process_text_block(pageno, block, parent_block, scaler=lambda x: x):
+    parelem = ElementTree.Element('p', attrib={'class': 'ocr_par'})
+
+    parelem.attrib['id'] = get_id(pageno, 'par')
+
+    leftm = None
+    topm = None
+    rightm = None
+    bottomm = None
+
+    for line in block['lines']:
+        char_boxes = []
+
+        lineelem = ElementTree.Element('span', attrib={'class': 'ocr_line'})
+
+        kv = {}
+        kv['bbox'] = get_bbox(line['bbox'], scaler)
+
+        cboxes = pdf_process_characters(pageno, line, lineelem, scaler)
+
+        if cboxes:
+            char_boxes += cboxes
+
+            # TODO: Just use the dictionary properties?
+            m, c = pdf_baseline_from_charboxes(char_boxes)
+            kv['baseline'] = '%f %d' % (m, c)
+
+            lineelem.attrib['title'] = assemble_hocr_title_element(kv)
+            lineelem.attrib['id'] = get_id(pageno, 'line')
+
+            parelem.append(lineelem)
+
+    kv = {}
+    kv = {'bbox': get_bbox(block['bbox'], scaler)}
+    parelem.attrib['title'] = assemble_hocr_title_element(kv)
+    parent_block.append(parelem)
+
+
+def get_bbox(bbox_data, scaler):
+    global ERROR_NEGATIVE_BOUNDING_BOX_PRINTED
+
+    d = [int(scaler(x)) for x in bbox_data]
+    # TODO: report on negative bboxes
+    for v in d:
+        if v < 0:
+            if not ERROR_NEGATIVE_BOUNDING_BOX_PRINTED:
+                print('Negative bounding box component: %d (silencing similar errors)' % v, file=sys.stderr)
+                ERROR_NEGATIVE_BOUNDING_BOX_PRINTED = True
+    d = [x if x > 0 else 0 for x in d]
+    d = [str(x) for x in d]
+    return d
+
+def _gather_word_data(pageno, wordelem, wordchar_bboxes, span):
+    # Turn these calculations into a function
+    word_bbox = [
+        str(min(x[0] for x in wordchar_bboxes)),
+        str(min(x[1] for x in wordchar_bboxes)),
+        str(max(x[2] for x in wordchar_bboxes)),
+        str(max(x[3] for x in wordchar_bboxes)),
+    ]
+
+    word_data = {'bbox': word_bbox, 'x_wconf': '100', }
+
+    word_data['x_fsize'] = str(int(span['size']))
+
+    wordelem.attrib['id'] = get_id(pageno, 'word')
+    wordelem.attrib['title'] = \
+            assemble_hocr_title_element(word_data)
+
+def pdf_process_characters(pageno, line, lineelem, scaler):
+    """
+    Process spans in a line, searching for spaces so that we can split the
+    characters into words.
+    """
+    global ERROR_UNICODE_ENCODE_ERROR_PRINTED
+    global ERROR_UNREPRESENTABLE_PRINTED
+    global ERROR_NEGATIVE_BOUNDING_BOX_PRINTED
+    global ERROR_VALUE_ERROR_CHAR_NOT_XML_COMPAT_PRINTED
+
+    wordelem = ElementTree.Element('span', attrib={'class': 'ocrx_word'})
+    charelem = None
+    word_start = True
+    found_any = False
+
+    wordchar_bboxes = []
+    all_wordchar_bboxes = []
+
+    for span in line['spans']:
+        skip_next = False
+        for idx, char in enumerate(span['chars']):
+            if skip_next:
+                skip_next = False
+                continue
+
+            # TODO: What do we do with multiple spaces after each other?
+            # I guess if there's more than one we could consider adding them to
+            # the word, but I think it's better to just ignore them for hOCR
+            # data purposes (we want to be able to search the text, we don't
+            # care so much about extracting all the data, including invalid
+            # data)
+            if char['c'] == ' ':
+                if len(wordchar_bboxes) == 0:
+                    # multiple repeating spaces
+                    continue
+
+                if wordelem is not None:
+                    lineelem.append(wordelem)
+                    #if 'dir' in wordelem.attrib and wordelem.attrib['dir'] == 'rtl':
+                    #    wordelem[-1].text += chr(0x200e)
+
+                    _gather_word_data(pageno, wordelem, wordchar_bboxes, span)
+
+                wordelem = ElementTree.Element('span', attrib={'class': 'ocrx_word'})
+
+                word_start = True
+                wordchar_bboxes = []
+
+                continue
+
+            found_any = True
+
+            charelem = ElementTree.Element('span', attrib={'class': 'ocrx_cinfo'})
+            try:
+                char_is_set = False
+
+                c1 = char['c']
+                if ord(c1) in (0xFFFD, 0xFFFE, 0xFFFF):
+                    if not ERROR_UNREPRESENTABLE_PRINTED:
+                        ERROR_UNREPRESENTABLE_PRINTED = True
+                        print('Skipping char which we cannot represent: %s (silencing similar errors)' % hex(ord(c1)), file=sys.stderr)
+                    continue
+
+                if SALVAGE_TEXT_ENCODING:
+                    # Try to interpret UTF16 surrogate pairs
+                    if ord(c1) >= 0xd800 and ord(c1) <= 0xdbff:
+                        if idx+1 < len(span['chars']):
+                            c2 = span['chars'][idx+1]['c']
+                            if ord(c2) >= 0xdc00 and ord(c2) <= 0xdfff:
+                                c = chr(0x10000 + ((ord(c1) - 0xd800) << 10) + (ord(c2) - 0xdc00))
+                                skip_next = True
+                                char_is_set = True
+
+                                charelem.text = c
+                            else:
+                                raise Exception('This should be unreachable')
+
+                if not char_is_set:
+                    charelem.text = c1
+
+            except UnicodeEncodeError as e:
+                if not ERROR_UNICODE_ENCODE_ERROR_PRINTED:
+                    print('Skipping char %s, error: "%s" (silencing similar errors)' % (hex(ord(c1)), e), file=sys.stderr)
+                    ERROR_UNICODE_ENCODE_ERROR_PRINTED = True
+                #print('Chars:', span['chars'], file=sys.stderr)
+                #print('Chars:', ''.join([x['c'] for x in span['chars']]), file=sys.stderr)
+                continue
+            except ValueError as e:
+                # ValueError, "All strings must be XML compatible: Unicode or ASCII, no NULL bytes or control characters"
+                if not ERROR_VALUE_ERROR_CHAR_NOT_XML_COMPAT_PRINTED:
+                    print('Skipping char (\'%s\'), error: "%s" (silencing similar errors)' % (hex(ord(char['c'])), e), file=sys.stderr)
+                    ERROR_VALUE_ERROR_CHAR_NOT_XML_COMPAT_PRINTED = True
+
+                continue
+
+            conf = float(100)
+
+            bbox = get_bbox(char['bbox'], scaler)
+            bbox = [int(x) for x in bbox] # temporary go back to int
+            wordchar_bboxes.append(bbox)
+            all_wordchar_bboxes.append(bbox)
+
+            title_data = {}
+            title_data['x_bboxes'] = [str(x) for x in bbox]
+            title_data['x_confs'] = str(conf)
+
+            charelem.attrib['title'] = assemble_hocr_title_element(title_data)
+            wordelem.append(charelem)
+
+            word_start = False
+
+        ## If word if rtl, let's add <200e>
+        #if 'dir' in wordelem.attrib and wordelem.attrib['dir'] == 'rtl':
+        #    wordelem[-1].text += chr(0x200e)
+
+    # Sometimes we find no legit chars in a word, in which case charelem is None
+    if found_any:
+        if not word_start:
+            lineelem.append(wordelem)
+            _gather_word_data(pageno, wordelem, wordchar_bboxes, span)
+
+        return all_wordchar_bboxes
+
+    return None
+
+
+def pdf_page_to_hocr_page(page, page_metadata, pageno=None):
+    flgs = fitz.TEXT_PRESERVE_WHITESPACE | \
+            fitz.TEXT_PRESERVE_LIGATURES | \
+            fitz.TEXT_PRESERVE_IMAGES
+
+    # This would be nice, but it does mess with the bbox of the text, so better
+    # not for now, until we do more research
+    #flgs |= fitz.TEXT_DEHYPHENATE
+
+    # Image decoding slows things down tremendously, so let's not do it - it has
+    # no effect on the text layer extraction
+    flgs &= ~fitz.TEXT_PRESERVE_IMAGES
+
+    pagedata = page.get_text(option='rawdict', flags=flgs)
+
+    width, height = page_metadata['estimated_default_render_res'][2:]
+
+    kv = {}
+    w = str(int(width))
+    h = str(int(height))
+    kv['bbox'] = ['0', '0', w, h]
+
+    if pageno is not None:
+        kv['ppageno'] = str(pageno)
+    else:
+        kv['ppageno'] = '0'
+
+    kv['image'] = 'todo://todo' # TODO: some image path?
+    #kv['image'] = 'https://archive.org/todo' # TODO: some image path?
+
+    dpi = int(page_metadata['estimated_ppi'])
+    scaler = lambda x: int(x * page_metadata['estimated_scale'])
+
+    kv['scan_res'] = '%d %d' % (dpi, dpi)
+
+    pageelem = ElementTree.Element('div', attrib={'class': 'ocr_page',
+        'id': page_id(pageno),
+        'title': assemble_hocr_title_element(kv),
+        })
+
+    for block in pagedata['blocks']:
+        # TODO: Look into negative bbox values
+
+        if block['type'] != 0:
+            # TODO: Skip blocks that are not text, for now
+            continue
+
+        kv = {}
+        kv['bbox'] = get_bbox(block['bbox'], scaler)
+        blockelem = ElementTree.Element('div', attrib={'class': 'ocr_carea'})
+        blockelem.attrib['title'] = assemble_hocr_title_element(kv)
+        blockelem.attrib['id'] = get_id(pageno, 'block')
+
+        pdf_process_text_block(pageno, block, blockelem, scaler=scaler)
+        pageelem.append(blockelem)
+
+    return pageelem
+
+
+
+def process_files(filename, json_metadata_file):
+    metadata = json.load(open(json_metadata_file))
+
+    print('''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="ocr-system" content="%s" />
+    <meta name="ocr-capabilities" content="ocr_page ocr_carea ocr_par ocr_line ocrx_word ocrp_wconf ocrp_lang ocrp_dir ocrp_font ocrp_fsize" />
+  </head>
+  <body>
+''' % xmlescape('TODO PDF Producer'))
+
+    doc = fitz.open(filename)
+    for idx, page in enumerate(doc):
+        page_metadata = metadata['page_data'][idx]
+
+        hocr_page = pdf_page_to_hocr_page(page, page_metadata, pageno=idx)
+        s = elem_tostring(hocr_page).decode('utf-8')
+        print(s)
+    print('''  </body>
+</html>
+''')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Page to hOCR converter')
+    parser.add_argument('-f', '--infile', help='Input file',
+                        type=str, default=None)
+    parser.add_argument('-J', '--json-metadata-file', help='Input json metadata file',
+                        type=str, default=None)
+    parser.add_argument('--salvage-text', help='Attempt to recover/salvage '
+                        'broken text layers', action='store_true',
+                        default=False)
+
+    args = parser.parse_args()
+
+    SALVAGE_TEXT_ENCODING = args.salvage_text
+
+    register_and_nuke_xhtml_namespace()
+    process_files(args.infile, args.json_metadata_file)
