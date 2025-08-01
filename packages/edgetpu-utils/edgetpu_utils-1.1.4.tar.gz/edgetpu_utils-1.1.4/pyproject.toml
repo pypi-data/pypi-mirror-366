@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edgetpu_utils"
+version = "1.1.4"
+description = "EdgeTPU utilities for model partitioning, benchmarking, and TensorFlow Lite operations"
+authors = [{ name = "Changhun Han", email = "ehwjs1914@naver.com" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.7,<3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
+dependencies = [
+    "pycoral==2.0.0",
+    "tflite_runtime==2.5.0.post1",
+    "numpy>=1.16.0,<2.0.0",
+    "pip",
+    "setuptools",
+    "flatbuffers",
+    "importlib-resources; python_version<'3.9'",
+]
+
+[project.urls]
+Homepage = "https://github.com/HanChangHun/EdgeTPU-Utils"
+Repository = "https://github.com/HanChangHun/EdgeTPU-Utils"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["edgetpu_utils*", "platforms*", "tflite*", "flexbuffers*"]
+exclude = ["edgetpu_utils.test*"]
+
+[tool.setuptools.package-data]
+edgetpu_utils = ["partitioner/partition_with_num_ops"]
+
+[tool.uv]
+extra-index-url = [
+    "https://google-coral.github.io/py-repo/",
+    "http://192.168.0.5:3141/chun/stable/+simple/",
+]
+allow-insecure-host = ["192.168.0.5"]
