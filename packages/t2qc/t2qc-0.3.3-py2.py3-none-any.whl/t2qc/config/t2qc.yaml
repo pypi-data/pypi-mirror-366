@@ -1,0 +1,19 @@
+t2qc:
+  tags:
+    t2w:
+      - .*#t2w_(?P<run>\d+).* 
+    vnav:
+      - .*#t2w_move_(?P<run>\d+).*
+  params:
+    vnav:
+      syngo_MR_E11:
+        ABCD_T2w_SPC_vNav:
+          min: 104
+          max: 122
+        PBN_T2w_SPC_vNav:
+          min: 98
+          max: 116
+      syngo MR XA30:
+        PBN_T2w_SPC_vNav:
+          min: 99
+          max: 117
