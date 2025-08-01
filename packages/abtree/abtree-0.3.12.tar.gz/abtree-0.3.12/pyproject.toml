@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abtree"
+version = "0.3.12"
+description = """High-performance asynchronous behavior tree framework with behavior forest collaboration,
+    built on Python asyncio for embodied intelligence, multi-agent systems, and autonomous decision-making"""
+authors = [
+    {name = "aipanda", email = "iepanda@outlook.com"}
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "asyncio",
+    "typing-extensions>=4.0.0",
+    "lxml>=4.6.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+    "bandit>=1.7.0",
+    "safety>=2.0.0",
+    "pip-tools>=7.0.0",
+]
+cli = [
+    "click>=8.0.0",
+    "rich>=12.0.0",
+]
+
+[project.scripts]
+abtree = "cli.abtree_cli:main"
+
+[project.urls]
+Homepage = "https://github.com/xiongwc/abtree"
+Repository = "https://github.com/xiongwc/abtree"
+Documentation = "https://abtree.readthedocs.io"
+Issues = "https://github.com/xiongwc/abtree/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["abtree*", "cli*"]
+
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true 
