@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools==75.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "baidu-serp-api"
+version = "1.1.7"
+description = "A library to extract data from Baidu SERP and output it as JSON objects"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "GPL-3.0"}
+authors = [
+    {name = "Ben Chen", email = "chan@live.cn"}
+]
+keywords = ["baidu", "serp", "search", "scraping", "json"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
+dependencies = [
+    "requests",
+    "beautifulsoup4",
+    "loguru",
+    "certifi",
+    "brotli",
+]
+
+[project.urls]
+Homepage = "https://github.com/ohblue/baidu-serp-api"
+Repository = "https://github.com/ohblue/baidu-serp-api"
+Issues = "https://github.com/ohblue/baidu-serp-api/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["baidu_serp_api*"]
+
+[tool.setuptools.package-data]
+baidu_serp_api = ["py.typed"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "--verbose --cov=baidu_serp_api --cov-report=term-missing"
