@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "skeptofox"
+version = "0.0.1"
+authors = [
+  { name="skeptofox", email="skeptofox@gmail.com" },
+]
+
+description = "A machine-human intelligence framework for declarative programming, Agentic AI and automation workflows"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+keywords = ["agentic ai","declarative programming","automation","machine intelligence","human-in-the-loop","workflow"]
+
+dependencies = [
+    "packaging",
+    "pandas~=2.2",
+    "pywin32>=309; sys_platform == 'win32'",
+]
+
+[project.urls]
+Homepage = "https://github.com/skeptofox/skeptofox"
+Repository = "https://github.com/skeptofox/skeptofox"
+"Bug Tracker" = "https://github.com/skeptofox/skeptofox/issues"
