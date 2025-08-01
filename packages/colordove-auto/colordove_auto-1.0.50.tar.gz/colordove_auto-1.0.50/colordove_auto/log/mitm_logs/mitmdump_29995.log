@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+    from mitmproxy import exceptions, master
+  File "c:\program files\python\lib\site-packages\mitmproxy\master.py", line 7, in <module>
+    from mitmproxy import eventsequence
+  File "c:\program files\python\lib\site-packages\mitmproxy\eventsequence.py", line 5, in <module>
+    from mitmproxy import http
+  File "c:\program files\python\lib\site-packages\mitmproxy\http.py", line 25, in <module>
+    from mitmproxy.websocket import WebSocketData
+  File "c:\program files\python\lib\site-packages\mitmproxy\websocket.py", line 15, in <module>
+    from wsproto.frame_protocol import Opcode
+  File "c:\program files\python\lib\site-packages\wsproto\__init__.py", line 9, in <module>
+    from .connection import Connection, ConnectionState, ConnectionType
+  File "c:\program files\python\lib\site-packages\wsproto\connection.py", line 12, in <module>
+    from .events import (
+  File "c:\program files\python\lib\site-packages\wsproto\events.py", line 261, in <module>
+    class Ping(Event):
+  File "c:\program files\python\lib\dataclasses.py", line 1011, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash, frozen)
+  File "c:\program files\python\lib\dataclasses.py", line 973, in _process_class
+    for fn in _frozen_get_del_attr(cls, field_list, globals):
+  File "c:\program files\python\lib\dataclasses.py", line 563, in _frozen_get_del_attr
+    _create_fn('__delattr__',
+  File "c:\program files\python\lib\dataclasses.py", line 398, in _create_fn
+    exec(txt, globals, ns)
+  File "<string>", line 1, in <module>
+KeyboardInterrupt

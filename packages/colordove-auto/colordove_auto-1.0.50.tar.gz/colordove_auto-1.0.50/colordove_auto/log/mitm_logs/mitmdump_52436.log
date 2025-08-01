@@ -1,0 +1,12 @@
+Fatal Python error: init_import_size: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "c:\program files\python\lib\site.py", line 73, in <module>
+    import os
+  File "c:\program files\python\lib\os.py", line 27, in <module>
+    import stat as st
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap>", line 729, in find_spec
+KeyboardInterrupt
