@@ -1,0 +1,244 @@
+syntax = "proto3";
+
+package mygrpc;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+message UserMessage {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string first_name = 4;
+  string last_name = 5;
+  bool is_active = 6;
+  bool enabled = 7;
+  string role = 8;
+  string organization_id = 9;
+  string sub_organization_id = 10;
+  string profile_img_url = 11;
+  string banner_image_url = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp modified_at = 14;
+  string device_token = 15;
+  google.protobuf.Timestamp date_of_exit = 16;
+}
+
+message UserProfileMessage {
+  string user_id = 1;
+  string gender = 2;  // MALE, FEMALE, OTHER, PNTS
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp modified_at = 4;
+  string designation = 5;
+  string location_city = 6;
+  string about_me = 7;
+  google.protobuf.Timestamp date_of_birth = 8;
+  google.protobuf.Timestamp date_of_joining = 9;
+  string state = 10;
+  string city = 11;
+  string country = 12;
+  string department = 13;
+  string role_outside_work = 14;
+  repeated string user_skill_interest = 15;
+  repeated string user_favourite = 16;
+  bool is_online = 17;
+  google.protobuf.Timestamp last_seen = 18;
+  string favourite_destination = 19;
+  string favourite_outdoor_activity = 20;
+  string community_contribution = 21;
+  string quirky_name = 22;
+  google.protobuf.Struct badges = 23;
+  bool is_onboarded = 24;
+  bool notifications = 25;
+  bool online_visibility = 26;
+  string manager = 27;
+}
+
+// Combined UserDetails for retrieve responses
+message UserDetails {
+  UserMessage user = 1;
+  UserProfileMessage profile = 2;
+}
+
+// Pagination details
+message Pagination {
+  int32 page = 1;
+  int32 page_size = 2;
+  int32 total = 3;
+}
+
+// ConnectionMessage for circle_requests
+message ConnectionMessage {
+  string id = 1;
+  string from_user_id = 2;
+  string to_user_id = 3;
+  string status = 4;  // PENDING, ACCEPTED, etc.
+}
+
+// Requests and Responses
+
+message ListUsersRequest {
+  string search_term = 1;
+  string first_name = 2;
+  string domain = 3;
+  int32 page = 4;
+  int32 page_size = 5;
+}
+
+message ListUsersResponse {
+  repeated UserMessage users = 1;
+  Pagination pagination = 2;
+}
+
+message RetrieveUserRequest {
+  string user_id = 1;
+}
+
+message RetrieveUserResponse {
+  UserDetails user_details = 1;
+}
+
+message PartialUpdateUserRequest {
+  string user_id = 1;
+  google.protobuf.Struct user_updates = 2;
+  google.protobuf.Struct profile_updates = 3;
+}
+
+message PartialUpdateUserResponse {
+  string message = 1;
+}
+
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string password = 5;
+  string department = 6;
+  google.protobuf.Timestamp date_of_joining = 7;
+  string location_city = 8;
+  string designation = 9;
+  bytes profile_img = 10;
+}
+
+message CreateUserResponse {
+  UserMessage user = 1;
+}
+
+message CreateUsersFromExcelRequest {
+  bytes excel_file = 1;
+}
+
+message CreateUsersFromExcelResponse {
+  string message = 1;
+  repeated string created_users = 2;
+  int32 total_processed = 3;
+  repeated string errors = 4;
+}
+
+message GetProfileRequest {
+  string user_id = 1;
+}
+
+message GetProfileResponse {
+  UserDetails profile = 1;
+}
+
+message GetUserProfilesRequest {
+  string search_term = 1;
+  string is_active = 2;
+  string department = 3;
+  string location = 4;
+  string engagement = 5;
+  int32 page = 6;
+  int32 page_size = 7;
+}
+
+message GetUserProfilesResponse {
+  repeated UserDetails profiles = 1;
+  Pagination pagination = 2;
+}
+
+message UpdateIsActiveRequest {
+  string user_id = 1;
+  bool is_online = 2;
+}
+
+message UpdateIsActiveResponse {
+  string message = 1;
+}
+
+message UpdateProfileImageRequest {
+  string user_id = 1;
+  bytes profile_image = 2;
+}
+
+message UpdateProfileImageResponse {
+  UserMessage user = 1;
+}
+
+message UpdateBannerImageRequest {
+  string user_id = 1;
+  bytes banner_image = 2;
+  string selected_image_url = 3;
+}
+
+message UpdateBannerImageResponse {
+  UserDetails user_details = 1;
+}
+
+message GetCircleRequestsRequest {
+  string user_id = 1;
+}
+
+message GetCircleRequestsResponse {
+  repeated ConnectionMessage connections = 1;
+}
+
+message GetDropdownFiltersRequest {}
+
+message GetDropdownFiltersResponse {
+  repeated string locations = 1;
+  repeated string departments = 2;
+  int32 onboarded_year = 3;
+  google.protobuf.Timestamp onboarded_date = 4;
+}
+
+message SendBirthdayWishRequest {
+  string receiver_id = 1;
+  string message = 2;
+  bool generate_image = 3;
+}
+
+message SendBirthdayWishResponse {
+  string message = 1;
+  string receiver = 2;
+}
+
+message SendWorkAnniversaryWishRequest {
+  string receiver_id = 1;
+  string message = 2;
+  bool generate_image = 3;
+}
+
+message SendWorkAnniversaryWishResponse {
+  string message = 1;
+  string receiver = 2;
+}
+
+service UserService {
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  rpc RetrieveUser(RetrieveUserRequest) returns (RetrieveUserResponse);
+  rpc PartialUpdateUser(PartialUpdateUserRequest) returns (PartialUpdateUserResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc CreateUsersFromExcel(CreateUsersFromExcelRequest) returns (CreateUsersFromExcelResponse);
+  rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
+  rpc GetUserProfiles(GetUserProfilesRequest) returns (GetUserProfilesResponse);
+  rpc UpdateIsActive(UpdateIsActiveRequest) returns (UpdateIsActiveResponse);
+  rpc UpdateProfileImage(UpdateProfileImageRequest) returns (UpdateProfileImageResponse);
+  rpc UpdateBannerImage(UpdateBannerImageRequest) returns (UpdateBannerImageResponse);
+  rpc GetCircleRequests(GetCircleRequestsRequest) returns (GetCircleRequestsResponse);
+  rpc GetDropdownFilters(GetDropdownFiltersRequest) returns (GetDropdownFiltersResponse);
+  rpc SendBirthdayWish(SendBirthdayWishRequest) returns (SendBirthdayWishResponse);
+  rpc SendWorkAnniversaryWish(SendWorkAnniversaryWishRequest) returns (SendWorkAnniversaryWishResponse);
+}
