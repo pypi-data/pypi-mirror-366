@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orphe"
+version = "0.1.10"
+description = "ORPHE ANALYTICIS SDK for Python"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.5"
+license = "Apache-2.0"
+authors = [
+    {name = "ORPHE Inc.", email = "support@orphe.io"}
+]
+keywords = ["orphe", "orphe analytics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "intdash",
+    "numpy",
+    "pandas",
+]
+
+[project.urls]
+Homepage = "https://orphe.io/"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
