@@ -1,0 +1,7 @@
+[console_scripts]
+mivot-instance-validate = mivot_validator.launchers.instance_checking_launcher:main
+mivot-mapping-validate = mivot_validator.launchers.mivot_launcher:main
+mivot-snippet-instance = mivot_validator.launchers.instance_snippet_launcher:main
+mivot-snippet-model = mivot_validator.launchers.model_snippets_launcher:main
+mivot-validate = mivot_validator.launchers.votable_launcher:main
+types-and-roles-validate = mivot_validator.launchers.typesandroles_launcher:main
