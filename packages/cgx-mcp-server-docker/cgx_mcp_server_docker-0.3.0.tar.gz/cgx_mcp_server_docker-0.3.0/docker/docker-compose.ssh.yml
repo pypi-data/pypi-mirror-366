@@ -1,0 +1,66 @@
+services:
+  mcp-docker-server-ssh:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: mcp-docker-server-ssh
+    ports:
+      - "8080:8080"
+    environment:
+      # Application settings
+      - PYTHONUNBUFFERED=1
+      
+      # Debug mode (set to 1 to enable SSH debugging)
+      - DEBUG=0
+      
+      # SSH configuration (these can be overridden)
+      - SSH_HOST=193.248.63.231
+      - SSH_PORT=1555
+      - SSH_USER=xmind
+      - SSH_KEY_NAME=xmind_infraops
+      - SSH_ALIAS=xmind-vm
+      
+      # MCP server configuration
+      - MCP_TRANSPORT=http
+      - MCP_HOST=0.0.0.0
+      - MCP_PORT=8080
+      
+      # Option 1: Use environment variable for SSH private key (uncomment to use)
+      # - MCP_DOCKER_SSH_PRIVATE_KEY=|
+      #   -----BEGIN OPENSSH PRIVATE KEY-----
+      #   your_private_key_content_here
+      #   -----END OPENSSH PRIVATE KEY-----
+      
+      # Docker host will be set automatically by the entrypoint script
+      # - DOCKER_HOST=ssh://xmind@193.248.63.231:1555
+      
+    volumes:
+      # Option 2: Mount SSH private key as a file (recommended)
+      - ./xmind_infraops:/app/xmind_infraops:ro
+      
+      # Optional: Mount directories for persistent configuration and data
+      - ./config:/app/config
+      - ./data:/app/data
+      
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "/app/health-check.sh"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 10s
+      
+    networks:
+      - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge
+    name: mcp-network
+
+volumes:
+  mcp-config:
+    name: mcp-config
+  mcp-data:
+    name: mcp-data
