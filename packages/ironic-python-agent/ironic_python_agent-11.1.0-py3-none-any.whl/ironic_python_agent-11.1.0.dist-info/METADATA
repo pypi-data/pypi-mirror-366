@@ -1,0 +1,112 @@
+Metadata-Version: 2.1
+Name: ironic-python-agent
+Version: 11.1.0
+Summary: Ironic Python Agent Ramdisk
+Home-page: https://docs.openstack.org/ironic-python-agent/
+Author: OpenStack
+Author-email: openstack-discuss@lists.openstack.org
+License: Apache-2
+Classifier: Environment :: OpenStack
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: pbr >=6.0.0
+Requires-Dist: oslo.config >=9.7.1
+Requires-Dist: oslo.concurrency >=7.1.0
+Requires-Dist: oslo.log >=7.1.0
+Requires-Dist: oslo.utils >=8.2.0
+Requires-Dist: Pint >=0.5
+Requires-Dist: psutil >=3.2.2
+Requires-Dist: pyudev >=0.18
+Requires-Dist: requests >=2.14.2
+Requires-Dist: stevedore >=1.20.0
+Requires-Dist: tenacity >=6.2.0
+Requires-Dist: Werkzeug >=2.0.0
+Requires-Dist: cryptography >=2.3
+Requires-Dist: tooz >=2.7.2
+Requires-Dist: zeroconf >=0.24.0
+Requires-Dist: cheroot >=10.0.1
+Provides-Extra: burnin_network_kazoo
+Requires-Dist: kazoo >=2.8.0 ; extra == 'burnin_network_kazoo'
+Provides-Extra: test
+Requires-Dist: coverage >=4.0 ; extra == 'test'
+Requires-Dist: testtools >=2.2.0 ; extra == 'test'
+Requires-Dist: oslotest >=3.2.0 ; extra == 'test'
+Requires-Dist: stestr >=1.0.0 ; extra == 'test'
+Requires-Dist: bandit <2.0.0,>=1.1.0 ; extra == 'test'
+
+===================
+Ironic Python Agent
+===================
+
+Team and repository tags
+========================
+
+.. image:: https://governance.openstack.org/tc/badges/ironic-python-agent.svg
+    :target: https://governance.openstack.org/tc/reference/tags/index.html
+
+Overview
+========
+
+An agent for controlling and deploying Ironic controlled baremetal nodes.
+
+The ironic-python-agent works with the agent driver in Ironic to provision
+the node.  Starting with ironic-python-agent running on a ramdisk on the
+unprovisioned node, Ironic makes API calls to ironic-python-agent to provision
+the machine.  This allows for greater control and flexibility of the entire
+deployment process.
+
+The ironic-python-agent may also be used with the original Ironic pxe drivers
+as of the Kilo OpenStack release.
+
+
+Building the IPA deployment ramdisk
+===================================
+
+For more information see the `Image Builder <https://docs.openstack.org/ironic-python-agent/latest/install/index.html#image-builders>`_ section of the Ironic Python Agent
+developer guide.
+
+
+Using IPA with devstack
+=======================
+
+This is covered in the `Deploying Ironic with DevStack <https://docs.openstack.org/ironic/latest/contributor/dev-quickstart.html#deploying-ironic-with-devstack>`_
+section of the Ironic dev-quickstart guide.
+
+
+Project Resources
+=================
+Project bugs are tracked on Launchpad:
+
+  https://bugs.launchpad.net/ironic-python-agent/+bugs
+
+Developer documentation can be found here:
+
+  https://docs.openstack.org/ironic-python-agent/latest/
+
+Release notes for the project are available at:
+
+  https://docs.openstack.org/releasenotes/ironic-python-agent/
+
+Source code repository for the project is located at:
+
+  https://opendev.org/openstack/ironic-python-agent/
+
+IRC channel:
+    #openstack-ironic on irc.oftc.net
+
+To contribute, start here: `Openstack: How to
+contribute <https://docs.openstack.org/infra/manual/developers.html>`_.
+
