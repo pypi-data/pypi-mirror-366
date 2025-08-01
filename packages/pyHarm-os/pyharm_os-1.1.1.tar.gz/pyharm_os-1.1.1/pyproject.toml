@@ -1,0 +1,47 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "pyHarm-os"
+version = "1.1.1"  # You can replace this with your actual version
+description = "A Harmonic Balance code for mechanical vibration systems with nonlinearities."
+authors = [
+    "Owner pyHarm <pyharm.fr.saf@safrangroup.com>",
+    "J.Armand <jason.armand@safrangroup.com>",
+    "Q.Mercier <quentin.mercier@safrangroup.com>",
+]
+packages = [
+    { include = "pyHarm", from = "src" },
+    { include = "pyHarm_cli", from = "src" },
+]
+include= [
+    {path="src/pyHarm_cli/templates/"}
+]
+license = "Apache-2.0"  # Assuming the license is Apache Software License
+readme = "README.md"
+repository = "https://gitlab.com/drti/pyharm"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+scipy = "^1.15.2"
+jax = "^0.5.1"
+numba = "^0.61.0"
+numpy = "<2.2"
+pandas = "^2.2.3"
+matplotlib = "^3.10.1"
+h5py = "^3.13.0"
+notebook = "^7.3.2"
+click = "^8.1.8"
+pydantic = "^2.10.6"
+nbformat = "^5.10.4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+sphinx = "^8.2.1"
+myst-parser = "^4.0.1"
+sphinx-autoapi = "^3.6.0"
+furo = "^2024.8.6"
+
+[tool.poetry.scripts]
+pyharm = "pyHarm_cli.cli:pyharm_cli"
