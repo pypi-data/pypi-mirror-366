@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "shopify-data-platform-spark"
+version = "1.99.99"
+description = "python utils for spark"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.900",
+    "build>=0.10.0",
+    "hatchling>=1.27.0",
+    "twine>=4.0.0",
+]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["shopify_data_platform_spark"]
+exclude = ["*/**/README.md", "**/docs/**", "**/test_*.py", "**/tests/**"]
+
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = "shopify_data_platform_spark/check_utils.py"
+
+[tool.hatch.build.targets.wheel]
+skip = true
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+show_error_codes = true
+disable_error_code = "annotation-unchecked"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
