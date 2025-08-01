@@ -1,0 +1,45 @@
+[project]
+name = "lang-limes"
+version = "0.1.1"
+description = "Linguistic Identification of Morphosyntactic and Expressive Snags"
+readme = "README.md"
+authors = [{ name = "deepsight GmbH", email = "hi@deepsight.de" }]
+maintainers = [
+    { name = "Jannik Schmitt", email = "jannik.schmitt@deepsight.de" },
+]
+license = "Apache-2.0"
+license-files = ["LICENSES/*"]
+requires-python = ">=3.12"
+dependencies = ["numpy>=2.2.5", "pydantic>=2.11.3", "spacy>=3.8.5"]
+
+[project.urls]
+documentation = "https://deepsight.codeberg.page/LIMES/"
+source = "https://codeberg.org/deepsight/LIMES/"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/limes"]
+
+[dependency-groups]
+dev = [
+    "de-core-news-sm",
+    "de-dep-news-trf",
+    "griffe-fieldz>=0.2.1",
+    "ipdb>=0.13.13",
+    "markdown>=3.8",
+    "mkdocs-material>=9.6.13",
+    "mkdocstrings[python]>=0.29.1",
+    "pymdown-extensions>=10.15",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+]
+
+[tool.uv.sources]
+de-core-news-sm = { url = "https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0-py3-none-any.whl" }
+de-dep-news-trf = { url = "https://github.com/explosion/spacy-models/releases/download/de_dep_news_trf-3.8.0/de_dep_news_trf-3.8.0-py3-none-any.whl" }
+
+[tool.pytest.ini_options]
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
