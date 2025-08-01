@@ -1,0 +1,184 @@
+# Development commands for gensay
+# https://just.systems/man/en/
+
+# Default command - show available commands
+default:
+    @just --list
+
+# Setup development environment
+setup:
+    uv venv
+    uv pip install -e ".[test]"
+    @echo "✓ Development environment ready"
+
+# Install the package in development mode
+install:
+    uv pip install -e .
+
+# Run all tests
+test:
+    uv run pytest -v
+
+# Run tests with coverage
+test-cov:
+    uv run pytest --cov=gensay --cov-report=term-missing --cov-report=html
+
+# Run specific test file or function
+test-specific TEST:
+    uv run pytest -v {{TEST}}
+
+# Run linter
+lint:
+    uv run ruff check src tests
+
+# Run linter with auto-fix
+lint-fix:
+    uv run ruff check --fix src tests
+
+# Format code
+format:
+    uv run ruff format src tests
+
+# Type check with mypy
+typecheck:
+    uv run mypy src
+
+# Run all quality checks (lint, format check, typecheck)
+check: lint typecheck
+    uv run ruff format --check src tests
+
+# Clean build artifacts and cache
+clean:
+    rm -rf build dist *.egg-info
+    rm -rf .pytest_cache .coverage htmlcov
+    rm -rf .ruff_cache .mypy_cache
+    find . -type d -name "__pycache__" -exec rm -rf {} +
+    find . -type f -name "*.pyc" -delete
+
+# Build package
+build: clean
+    uv build
+
+# Run the CLI with mock provider
+run-mock *ARGS:
+    uv run gensay --provider mock {{ARGS}}
+
+# Run the CLI with macOS say
+run-macos *ARGS:
+    uv run gensay --provider macos {{ARGS}}
+
+# List available voices for a provider
+list-voices PROVIDER='macos':
+    uv run gensay --provider {{PROVIDER}} --list-voices
+
+# Run with ElevenLabs provider (requires ELEVENLABS_API_KEY env var)
+run-elevenlabs *ARGS:
+    uv run gensay --provider elevenlabs {{ARGS}}
+
+# Test ElevenLabs voices
+test-elevenlabs:
+    @if [ -z "$ELEVENLABS_API_KEY" ]; then \
+        echo "Error: ELEVENLABS_API_KEY environment variable not set"; \
+        exit 1; \
+    fi
+    uv run gensay --provider elevenlabs --list-voices
+
+# Show cache statistics
+cache-stats:
+    uv run gensay --cache-stats
+
+# Clear the cache
+cache-clear:
+    uv run gensay --clear-cache
+
+# Run example script
+example:
+    uv run python examples/demo.py
+
+# Watch tests (requires pytest-watch)
+watch:
+    uv pip install pytest-watch
+    uv run ptw tests -- -v
+
+# Create a new provider stub
+new-provider NAME:
+    @echo "Creating new provider: {{NAME}}"
+    @cat > src/gensay/providers/{{NAME}}.py << 'EOF'
+    """{{NAME}} TTS provider implementation."""
+    
+    from pathlib import Path
+    from typing import Optional, Union, Any
+    
+    from .base import TTSProvider, TTSConfig, AudioFormat
+    
+    
+    class {{NAME}}Provider(TTSProvider):
+        """TTS provider using {{NAME}}."""
+        
+        def __init__(self, config: Optional[TTSConfig] = None):
+            super().__init__(config)
+            raise NotImplementedError("{{NAME}} TTS provider not yet implemented")
+        
+        def speak(self, text: str, voice: Optional[str] = None, 
+                  rate: Optional[int] = None) -> None:
+            """Speak text using {{NAME}} TTS."""
+            raise NotImplementedError("{{NAME}} TTS speak not yet implemented")
+        
+        def save_to_file(self, text: str, output_path: Union[str, Path],
+                         voice: Optional[str] = None, rate: Optional[int] = None,
+                         format: Optional[AudioFormat] = None) -> Path:
+            """Save speech to file using {{NAME}} TTS."""
+            raise NotImplementedError("{{NAME}} TTS save_to_file not yet implemented")
+        
+        def list_voices(self) -> list[dict[str, Any]]:
+            """List available {{NAME}} voices."""
+            raise NotImplementedError("{{NAME}} TTS list_voices not yet implemented")
+        
+        def get_supported_formats(self) -> list[AudioFormat]:
+            """Get supported audio formats."""
+            raise NotImplementedError("{{NAME}} TTS get_supported_formats not yet implemented")
+    EOF
+    @echo "✓ Created src/gensay/providers/{{NAME}}.py"
+    @echo "Remember to:"
+    @echo "  1. Add '{{NAME}}Provider' to src/gensay/providers/__init__.py"
+    @echo "  2. Add '{{NAME}}': {{NAME}}Provider to PROVIDERS in src/gensay/main.py"
+
+# Run pre-commit checks (lint, format, test)
+pre-commit: format lint test
+    @echo "✓ All pre-commit checks passed"
+
+# Show current version
+version:
+    @grep "__version__" src/gensay/__about__.py | cut -d'"' -f2
+
+# Install development dependencies
+dev-deps:
+    uv pip install ruff mypy pytest pytest-cov pytest-watch
+
+# Quick test - run mock provider test only
+quick-test:
+    uv run pytest tests/test_providers.py::test_mock_provider_speak -v
+
+# Benchmark text chunking performance
+benchmark-chunking:
+    @uv run python -c "
+    import time
+    from gensay import TextChunker
+    text = ' '.join(['This is a test sentence.' for _ in range(1000)])
+    chunker = TextChunker()
+    start = time.time()
+    chunks = chunker.chunk_text(text)
+    elapsed = time.time() - start
+    print(f'Chunked {len(text)} chars into {len(chunks)} chunks in {elapsed:.3f}s')
+    print(f'Rate: {len(text)/elapsed:.0f} chars/sec')
+    "
+
+# Generate API documentation (requires pdoc)
+docs:
+    uv pip install pdoc
+    uv run pdoc -o docs/api src/gensay
+
+# Serve API documentation locally
+docs-serve:
+    uv pip install pdoc
+    uv run pdoc -p 8080 src/gensay
