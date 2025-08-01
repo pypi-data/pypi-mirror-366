@@ -1,0 +1,357 @@
+Metadata-Version: 2.4
+Name: dynaspark
+Version: 1.2.2.3
+Summary: A Python client for the DynaSpark API - Free AI text generation, text-to-speech, and image generation
+Home-page: https://github.com/Th3-C0der/DynaSpark
+Author: Th3-C0der
+Author-email: dvp.ai.ml@gmail.com
+License: MIT
+Project-URL: Bug Tracker, https://github.com/Th3-C0der/DynaSpark/issues
+Project-URL: Documentation, https://github.com/Th3-C0der/DynaSpark#readme
+Project-URL: Source Code, https://github.com/Th3-C0der/DynaSpark
+Keywords: ai,text-generation,image-generation,audio-generation,api,dynaspark
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.30.0
+Requires-Dist: urllib3>=2.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# DynaSpark Python Client 
+
+<div align="center">
+
+[![PyPI version](https://badge.fury.io/py/dynaspark.svg)](https://badge.fury.io/py/dynaspark)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+
+A powerful, free Python client for the DynaSpark API - No API key required! 
+
+</div>
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Free Usage** | No API key required - uses free key by default |
+| **Text Generation** | Generate text responses with customizable parameters including temperature, top_p, and more |
+| **Image Generation** | Create high-quality images with various models, resolutions, and watermark options |
+| **Audio Generation** | Convert text to speech with multiple voice options |
+| **OpenAI Compatible** | Use as a drop-in replacement for OpenAI API |
+| **Streaming Support** | Get responses as they're generated with real-time streaming |
+| **Rate Limiting** | Built-in rate limit handling with usage statistics |
+| **Error Handling** | Comprehensive error handling with specific exception types |
+| **Easy to Use** | Simple and intuitive Python interface |
+| **Secure** | Built-in validation and privacy controls |
+
+## Installation
+
+```bash
+pip install dynaspark
+```
+
+> **Note:** Requires Python 3.7 or higher.
+
+## Authentication
+
+No API key is required to get started - the client uses a free key by default. However, you can specify your own API key if needed:
+
+```python
+from dynaspark import DynaSpark
+
+# Use with default free API key
+ds = DynaSpark()
+
+# Or specify your own API key
+ds = DynaSpark(api_key="your_api_key")
+```
+
+## Advanced Text Generation
+
+Generate text with fine-grained control over the output:
+
+```python
+# Advanced text generation with various parameters
+response = ds.generate_response(
+    "Write a technical article about AI",
+    model="mistral",
+    temperature=0.8,
+    top_p=0.9,
+    presence_penalty=0.6,
+    frequency_penalty=0.6,
+    system="You are a technical writer with expertise in AI",
+    stream=True,  # Enable streaming
+    private=True,  # Keep generation private
+    seed=42,       # For reproducible results
+    json=False     # Return as JSON
+)
+```
+
+## Advanced Image Generation
+
+Create custom images with various options:
+
+```python
+# Generate high-quality images with custom settings
+image_url = ds.generate_image(
+    "A futuristic city with flying cars and neon lights",
+    width=1024,      # Image width (64-2048)
+    height=768,      # Image height (64-2048)
+    model="flux",    # Options: flux, turbo, gptimage
+    nologo=True,     # Exclude watermark
+    wm="MyApp"       # Custom watermark text
+)
+```
+
+## Advanced Audio Generation
+
+Convert text to speech with multiple voice options:
+
+```python
+# Generate speech with different voices
+voices = ["alloy", "echo", "nova", "shimmer", "fable", "onyx"]
+for i, voice in enumerate(voices):
+    audio_data = ds.generate_audio_response(
+        f"This is the {voice} voice",
+        voice=voice
+    )
+    ds.save_audio(audio_data, f"{voice}_demo.mp3")
+```
+
+## Quick Start
+
+### Text Generation
+
+```python
+from dynaspark import DynaSpark
+
+ds = DynaSpark()
+
+# Basic text generation
+response = ds.generate_response("What is artificial intelligence?")
+print(response.get('response', ''))
+
+# Advanced usage with parameters
+response = ds.generate_response(
+    "Write a poem about technology",
+    model="mistral",          # Model to use
+    temperature=0.8,         # Controls randomness (0.0 to 3.0)
+    top_p=0.9,              # Controls diversity (0.0 to 1.0)
+    presence_penalty=0.6,    # Penalizes repeated tokens (-2.0 to 2.0)
+    frequency_penalty=0.6,   # Penalizes frequent tokens (-2.0 to 2.0)
+    json=True,              # Return JSON response
+    system="You are a poet", # Custom system prompt
+    stream=False,           # Stream the response
+    private=False,          # Keep generation private
+    seed=42                 # For reproducible results
+)
+```
+
+### Image Generation
+
+```python
+# Generate an image
+image_url = ds.generate_image("A beautiful sunset over mountains")
+
+# Advanced image generation with parameters
+image_url = ds.generate_image(
+    "A futuristic city with flying cars",
+    width=1024,         # Image width (64-2048)
+    height=768,         # Image height (64-2048)
+    model="flux",       # Model to use (flux/turbo/gptimage)
+    nologo=True,        # Exclude watermark
+    wm="DynaSpark"      # Custom watermark text
+)
+print(f"Generated image: {image_url}")
+```
+
+### Audio Generation
+
+```python
+# Generate audio from text
+audio_data = ds.generate_audio_response("Hello, this is a test!")
+
+# Save audio to file
+ds.save_audio(audio_data, "response.mp3")
+
+# With different voice
+audio_data = ds.generate_audio_response(
+    "This is a test with a different voice.",
+    voice="nova"  # Options: alloy, echo, fable, onyx, nova, shimmer
+)
+```
+
+## OpenAI Compatibility
+
+DynaSpark is compatible with the OpenAI Python package! Simply set the base URL to the DynaSpark OpenAI-compatible endpoint:
+
+```python
+from openai import OpenAI
+
+# Configure OpenAI client
+client = OpenAI(
+    base_url="https://dynaspark.onrender.com/openai",
+    api_key="any_string_here",  # API key is not required but required by the client
+)
+
+# Use it like regular OpenAI API
+completion = client.chat.completions.create(
+    model="openai",
+    messages=[
+        {"role": "user", "content": "What is the meaning of life?"}
+    ]
+)
+
+print(completion.choices[0].message.content)
+```
+
+## Error Handling
+
+The client provides custom exceptions for better error handling:
+
+```python
+from dynaspark import DynaSpark, DynaSparkError
+
+ds = DynaSpark()
+
+try:
+    response = ds.generate_response("Hello")
+    print(response.get('response', ''))
+except DynaSparkError as e:
+    print(f"API Error: {e}")
+except ValueError as e:
+    print(f"Invalid Parameter: {e}")
+except Exception as e:
+    print(f"Unexpected Error: {e}")
+```
+
+### Common Exceptions
+
+| Exception | Description |
+|-----------|-------------|
+| `DynaSparkError` | Base exception for API errors |
+| `RateLimitError` | Raised when rate limit is exceeded |
+| `AuthenticationError` | Raised for authentication issues |
+| `ValidationError` | Raised for invalid parameters |
+
+## Rate Limiting
+
+The API implements rate limiting to ensure fair usage. The client provides information about your current usage:
+
+```python
+# Get rate limit information
+rate_limit = ds.get_rate_limit()
+print(f"Remaining requests: {rate_limit.remaining}")
+print(f"Reset time: {rate_limit.reset_time}")
+```
+
+## Streaming Responses
+
+For long text generations, you can use streaming to get responses as they're generated:
+
+```python
+# Stream a response
+for chunk in ds.generate_response(
+    "Write a long story about artificial intelligence",
+    stream=True
+):
+    print(chunk, end='', flush=True)
+```
+
+## Examples
+
+### Text Generation Examples
+
+```python
+# Chat completion
+response = ds.generate_response(
+    "You are a helpful assistant. Explain quantum computing.",
+    model="mistral",
+    temperature=0.7
+)
+print(response['response'])
+
+# Code generation
+response = ds.generate_response(
+    "Write a Python function to sort a list of dictionaries by a key",
+    model="qwen-coder",
+    temperature=0.2
+)
+print(response['response'])
+```
+
+### Image Generation Examples
+
+```python
+# Basic image generation
+image_url = ds.generate_image(
+    "A cute cat playing with yarn",
+    model="flux"
+)
+
+# High-resolution image
+image_url = ds.generate_image(
+    "A detailed landscape of mountains at sunset",
+    width=1024,
+    height=768,
+    model="turbo"
+)
+```
+
+### Audio Generation Examples
+
+```python
+# Basic audio generation
+audio_data = ds.generate_audio_response(
+    "Welcome to DynaSpark! This is a test of the audio generation.",
+    voice="alloy"
+)
+ds.save_audio(audio_data, "welcome.mp3")
+
+# Multiple voices
+voices = ["alloy", "echo", "nova"]
+for i, voice in enumerate(voices):
+    audio_data = ds.generate_audio_response(
+        f"This is voice {voice}",
+        voice=voice
+    )
+    ds.save_audio(audio_data, f"voice_{i}.mp3")
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, please open an issue in the GitHub repository.
