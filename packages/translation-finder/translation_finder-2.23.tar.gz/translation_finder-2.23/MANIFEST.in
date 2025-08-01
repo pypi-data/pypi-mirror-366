@@ -1,0 +1,7 @@
+include *.rst
+include *.md
+include LICENSE
+include MANIFEST.in
+include translation_finder/*.py
+include translation_finder/discovery/*.py
+recursive-include translation_finder/test_data *
