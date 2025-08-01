@@ -1,0 +1,18 @@
+# Include main files
+include README.md
+include LICENSE
+include pyproject.toml
+
+# Include the package directory
+recursive-include turnstile_solver *
+
+# Exclude unwanted files and dirs
+global-exclude __pycache__ *.py[cod] *.pyo
+prune .venv
+prune dist
+prune downloaded_files
+prune tests
+prune local_debugging
+
+exclude .gitignore
+exclude local_test.py
