@@ -1,0 +1,77 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+    {% if previous_version or next_version %}
+        <div class="form-row">
+            {% if previous_version %}
+                <a href="{% url 'admin:version_control_modelobjectversion_change' previous_version.id %}">
+                    Предыдущая запись от {{ previous_version.created|date:'d.m.Y в H:i' }}
+                </a>
+            {% endif %}
+            {% if next_version %}
+                <a href="{% url 'admin:version_control_modelobjectversion_change' next_version.id %}" style="float: right">
+                    Следющая запись от {{ next_version.created|date:'d.m.Y в H:i' }}
+                </a>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="form-row">
+            Других записей пока нет
+        </div>
+    {% endif %}
+    <div class="inline-group">
+        <div class="tabular inline-related last-related">
+            <fieldset class="module">
+                <h2>Список изменений</h2>
+                <table>
+                    <thead>
+                        {% if template_processor.actual_changes %}
+                            <tr>
+                                <th class="original"></th>
+                                <th class="column-field_name">Поле</th>
+                                {% if previous_version %}
+                                    <th class="column-previous_value">Предыдущее значение</th>
+                                {% endif %}
+                                <th class="column-current_value">Текущее значение</th>
+                            </tr>
+                        {% else %}
+                            <tr><th></th></tr>
+                        {% endif %}
+                    </thead>
+                    <tbody>
+                         {% for row in template_processor.actual_changes %}
+                            {% if row %}
+                                {% with forloop.counter as outer_counter %}
+                                    {% for key, value in row.items %}
+                                        <tr class="form-row has_original">
+                                            <td class="original">
+                                                <p>Поле: "{{ key }}"</p>
+                                            </td>
+                                            <td class="field-field_name">
+                                                <p>{{ key }}</p>
+                                            </td>
+                                            {% for col, field_value in value.items %}
+                                                <td class="field-previous_value">
+                                                    <p>
+                                                        {% if field_value != template_processor.DISPLAY_VALUE_FOR_DELETED %}
+                                                            {{ field_value }}
+                                                        {% elif outer_counter == 1 and field_value == template_processor.DISPLAY_VALUE_FOR_DELETED %}
+                                                            {{ template_processor.DISPLAY_VALUE_FOR_DELETED }}
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                {% endwith %}
+                            {% endif %}
+                         {% empty %}
+                            <tr><td>Изменения на найдены</td></tr>
+                         {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}
+{% block submit_buttons_bottom %}{% endblock %}

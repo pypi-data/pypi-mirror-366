@@ -1,0 +1,55 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrastyle %}{{ block.super }}
+    <style>
+        .vcs-admin-csv-block {
+            margin-bottom: 20px;
+        }
+        .vcs-admin-csv-block-title {
+            margin-bottom: 5px;
+        }
+        .vcs-admin-csv-form {
+            /* pass */
+        }
+        .vcs-admin-csv-export-button {
+            padding: 5px 15px;
+            background: #999;
+            font-weight: 400;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #fff;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .vcs-admin-csv-export-button:hover {
+            background: #447e9b;
+        }
+        .vcs-form-input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 6px;
+        }
+    </style>
+{% endblock %}
+
+{% block search %}{{ block.super }}
+    {% if export_to_csv %}
+        <div class="vcs-admin-csv-block">
+            <div class="vcs-admin-csv-block-title">{{ export_to_csv_title }}</div>
+            <form method="POST" class="vcs-admin-csv-form">
+                {% csrf_token %}
+                <label for="{{ export_to_csv_form.range_start.auto_id }}">{{ export_to_csv_form.range_start.label }}</label>
+                {{ export_to_csv_form.range_start }}
+                <label for="{{ export_to_csv_form.range_end.auto_id }}">{{ export_to_csv_form.range_end.label }}</label>
+                {{ export_to_csv_form.range_end }}
+                <button name="{{ export_to_csv_flag }}" type="submit" class="vcs-admin-csv-export-button">
+                    {{ export_to_csv_button_name }}
+                </button>
+            </form>
+            <div class="help">{{ export_to_csv_help_text }}</div>
+        </div>
+    {% endif %}
+{% endblock %}

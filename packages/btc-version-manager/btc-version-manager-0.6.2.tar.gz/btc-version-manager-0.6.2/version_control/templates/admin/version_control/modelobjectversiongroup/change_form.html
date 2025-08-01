@@ -1,0 +1,59 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}{{ block.super }}
+    <style>
+        .vcs-admin-relation-tree {
+            position: relative;
+        }
+        .vcs-admin-preloader {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: white;
+            font-size: 14px;
+        }
+        .vcs-hidden {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block object-tools-items %}
+    <li>
+        <a href="#" class="js-update-vcs-relation-tree-btn" data-url="{% url 'version_control:update_vcs_relation_tree' pk=original.pk %}">
+            Обновить дерево отношений
+        </a>
+    </li>
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+    <div class="vcs-admin-relation-tree">
+        <div class="vcs-admin-preloader js-vcs-admin-relation-tree-preloader vcs-hidden">Загружается...</div>
+        <div class="js-vcs-relation-tree">
+           {% include 'admin/version_control/modelobjectversiongroup/vcs_relation_tree.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block admin_change_form_document_ready %}{{ block.super }}
+    <script>
+        $(document).on('click', '.js-update-vcs-relation-tree-btn', function(e) {
+            /*
+            Функция для подгрузки дерева отношений на страницах просмотра группы версий объектов
+            */
+            const container = $('.js-vcs-relation-tree');
+            const url = $(this).data('url');
+            const preloader = $('.js-vcs-admin-relation-tree-preloader');
+
+            preloader.removeClass('vcs-hidden');
+            $.when($.get(url)).then(function (data) {
+                container.html(data['template']);
+                preloader.addClass('vcs-hidden');
+            });
+
+            e.preventDefault();
+        });
+    </script>
+{% endblock %}

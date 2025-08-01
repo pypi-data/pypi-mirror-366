@@ -1,0 +1,35 @@
+<!-- VCS Relation Tree -->
+
+<div>
+    <div>
+        <h3>Дерево отношений</h3>
+        <small>Последнее обновление: {{ original.tree_last_update|date:'d.m.Y H:i'|default:'еще не обновлялось' }}</small>
+    </div>
+    <br>
+    <div>
+        {% with vcs_objects_tree=original.get_vcs_relation_tree %}
+            {% if vcs_objects_tree %}
+                {% autoescape off %}
+                    {{ vcs_objects_tree|unordered_list }}
+                {% endautoescape %}
+            {% else %}
+                <div>Нажмите "ОБНОВИТЬ ДЕРЕВО ОТНОШЕНИЙ" для получения информации о родственных объектах</div>
+                <small>Если дерево не отображается, возможно, целевой объект был удален до первой постройки дерева</small>
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+<br>
+{% with vcs_missed_objects_tree=original.get_vcs_missed_objects_relation_tree %}
+    {% if vcs_missed_objects_tree %}
+        <div>
+            <h3>Неподключенные к версионированию родственные объекты</h3>
+            <br>
+            <div>
+                {% autoescape off %}
+                    {{ vcs_missed_objects_tree|unordered_list }}
+                {% endautoescape %}
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
