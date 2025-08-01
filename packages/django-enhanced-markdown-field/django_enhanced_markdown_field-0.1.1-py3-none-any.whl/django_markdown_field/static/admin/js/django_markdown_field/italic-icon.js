@@ -1,0 +1,1 @@
+import{I as o,d as s}from"./p-qbMCVAQ3.js";const p=o,r=s;export{p as ItalicIcon,r as defineCustomElement}
