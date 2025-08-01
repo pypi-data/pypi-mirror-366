@@ -1,0 +1,21 @@
+-r base.txt
+
+# These package versions must be kept in sync with edx-platform as much as possible.
+xblock-sdk<0.9.0;python_version<"3.9"
+xblock-sdk;python_version>="3.9"
+six==1.16.0
+lazy<=1.5
+django-pyfs==3.1.0
+sqlparse>=0.4.1,<0.5
+web-fragments<=2.0.0
+
+# Other XBlocks that are supported as nested elements
+markdown-xblock
+
+# dependencies of supported nested XBlocks
+path.py>=12.4
+
+# Tooling
+ddt
+nose
+coverage
