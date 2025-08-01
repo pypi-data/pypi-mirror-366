@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: django-related-field-display
+Version: 0.1.1
+Summary: A Django admin mixin for displaying related fields with clickable links.
+Home-page: https://github.com/natgho/django-related-field-display
+Author: Sezer Bozkir
+Author-email: admin@sezerbozkir.com
+Classifier: Framework :: Django
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django>=3.2
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# django-related-field-display
+
+A simple Django admin mixin to easily display and link related model fields using `__` syntax.
+
+## Installation
+
+```bash
+pip install django-related-field-display
+
+## Usage
+Add `RelatedFieldDisplayMixin` to your admin class:
+```python
+from django.contrib import admin
+from related_field_display.admin import RelatedFieldDisplayMixin
+from .models import YourModel
+
+@admin.register(YourModel)
+class YourModelAdmin(RelatedFieldDisplayMixin, admin.ModelAdmin):
+    list_display = ('id', 'related_field__name', 'another_field')
+    list_filter = ('related_field__category',)
+    ordering = ('-id',)
+
+```
