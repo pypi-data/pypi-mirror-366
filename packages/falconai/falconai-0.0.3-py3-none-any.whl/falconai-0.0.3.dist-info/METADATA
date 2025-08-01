@@ -1,0 +1,397 @@
+Metadata-Version: 2.4
+Name: falconai
+Version: 0.0.3
+Summary: The ultimate library for building generative AI apps with one line of code, offering support for 10,000+ models, browser automation, and advanced agent workflows via MCP.
+Author: FalconAI
+Author-email: falconai.dev@gmail.com
+Description-Content-Type: text/markdown
+Requires-Dist: litellm
+Requires-Dist: langchain_community
+Requires-Dist: beautifulsoup4
+Requires-Dist: docx2txt
+Requires-Dist: bs4
+Requires-Dist: pyttsx3
+Requires-Dist: browser-use
+Requires-Dist: playwright
+Requires-Dist: duckduckgo-search
+Requires-Dist: langchain-openai
+Requires-Dist: langchain-anthropic
+Requires-Dist: langchain-google-genai
+Requires-Dist: httpx
+Requires-Dist: duckduckgo_search
+Requires-Dist: duckai
+Requires-Dist: crawl4ai
+Requires-Dist: mcp-use
+Requires-Dist: pypdf
+Requires-Dist: youtube-transcript-api
+Requires-Dist: langchain-groq
+Requires-Dist: langchain-xai
+Requires-Dist: langchain-deepseek
+Requires-Dist: langchain-community
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: summary
+
+<p align="center">
+<a href="https://ibb.co/xzDnbxq"><img src="https://i.ibb.co/fr23Wjd/Falcon-AI2-20.jpg" alt="Falcon-AI2-20" border="0"></a>
+</p>
+<h2 align="center">FalconAI </h2>
+
+**FalconAI** is a Python library that simplifies generative AI app creation with access to 10,000+ models, multiple input formats, access to the latest information through the internet and support for text and voice outputs.
+> **Note**: This is an alpha release
+
+## About
+
+Welcome to **FalconAI**, the ultimate Python library for creating generative AI applications with ease. FalconAI is designed to minimize development time, maximize performance, and provide unparalleled flexibility. Whether you're building a chatbot, summarizing documents, generating text-based analyses, or integrating voice-based AI outputs, FalconAI empowers you to succeed.
+
+FalconAI handles complex AI interactions with simplicity. By enabling developers to interact with over **10,000 Large Language Models (LLMs)** from top providers, supporting multiple input file formats, accessing the latest information through the internet, and delivering results in both text and voice, FalconAI streamlines the development of generative AI solutions to a single line of code.
+
+FalconAI also supports **browser automation**, allowing real-time interaction with websites for tasks like browsing, data extraction, and dynamic content summarization using LLMs. Additionally, it offers built-in support for **MCP (Model Context Protocol)**, enabling advanced agent-based workflows that can control external applications, perform complex tasks across different environments, and enhance automation with minimal effort.
+
+
+## Installation :
+
+	pip install falconai
+
+> Linux users, use :\
+`sudo apt update && sudo apt install espeak ffmpeg libespeak1`
+
+> If you get installation errors , make sure you first upgrade your wheel version using :\
+`pip install --upgrade wheel`
+
+## Features
+
+###  Simplified Development
+FalconAI reduces development complexity, allowing you to focus on building applications instead of managing APIs, processing files, or integrating multiple providers.
+
+###  Extensive Model Support
+Use over **10,000+ LLMs** from top AI providers, including:
+- OpenAI
+- Gemini
+- Claude
+- AWS Bedrock
+- Mistral
+- Hugging Face
+- NVIDIA NeMo
+- xAI
+- Cerebras
+- LM Studio
+- Groq
+- GitHub Models
+
+###  Multi-format Input
+Work seamlessly with a variety of input formats:
+- Document: `.docx`
+- PDF: `.pdf`
+- Text: `.txt`
+- Web Content: `.html`
+- Markdown: `.md`
+- Websites: `url of the website(s)`
+- Jupyter Notebook: `.ipynb`
+- Image: `url/image location`
+- CSV: `.csv`
+
+###  Flexible Output
+
+FalconAI offers flexibility in how results are returned:
+- **Text Output**: Standard, formatted text responses for integration with websites, applications, or reports.
+- **Voice Output**: Convert AI-generated text to speech, providing an interactive, accessible experience for users with speech-enabled devices or applications.
+
+###  Web Search Integration
+FalconAI supports web search functionality even for LLMs that do not natively support it. This feature enhances the capabilities of models by enabling them to fetch and process the latest information from the web, ensuring your AI applications stay up-to-date and relevant.
+
+###  One-Line Of Code (Core Logic)
+With FalconAI, you can easily create powerful generative AI applications using simple one-liner function calls. Whether you're summarizing a document, building a chatbot, or generating personalized content, FalconAI provides a smooth and simple interface. Here’s an example of how you can start generating text from a document:
+
+```python
+from falconai import ai
+import os 
+
+os.environ["GEMINI_API_KEY"] = "your-api-key"
+
+output = ai.chat(document="example.docx", model="gemini/gemini-2.5-flash-preview-05-20", prompt="Summarize the content of this document.")
+print(output)
+
+```
+## Free and anonymous inference
+Generate text outputs without an API key, completely free and fully anonymous.<br><br>
+Whether you're brainstorming ideas, drafting content, or just exploring AI capabilities, you can do it all completely anonymously and at zero cost. No hidden fees, no identity required—just pure, unrestricted access to powerful AI text generation.
+```python
+from falconai import ai
+
+output = ai.chat(
+    model="free/llama", 
+    prompt="What are the benefits of AI?",
+    free=True
+    )
+
+print(output)
+
+```
+Available free models:
+- llama
+- openai-large
+- gemini
+- mistral
+
+## Browser Automation 
+
+FalconAI supports browser-based automation when `browser=True` is passed.
+
+**Highlights:**
+
+- Headless and full browser support via Chromium  
+- User interaction simulated through controller  
+- Only supported with models from:  
+  - OpenAI  
+  - Google  
+  - Anthropic  
+  - GitHub  
+  - X AI  
+  - DeepSeek  
+  - Groq
+
+**Example Use Case:**
+
+- Extract live content  
+- Simulate user input  
+- Validate AI-generated actions in real browser context
+
+**Implementation Note:** Uses asynchronous control loop with a controller-agent-browser pattern to simulate agentic behavior on real websites.
+
+```python
+from falconai import ai
+import os
+
+os.environ["GROQ_API_KEY"] = "your-api-key"
+
+output = ai.chat(
+    prompt="Search the latest news about OpenAI and summarize it.",
+    model="groq/llama3-8b-81924",
+    browser=True,
+)
+
+print(output)
+```
+
+##  MCP Agent Support 
+
+FalconAI supports advanced multi-context agent functionality with MCP (Model Context Protocol) when `MCP=True`.
+
+**Highlights:**
+
+- Launch one or more **MCP servers** (built-in or custom)
+- Supports a wide range of agent tasks including:
+  - Text editing
+  - PowerPoint/Excel/Word automation
+  - Hacker News browsing
+  - Web research
+  - Docker & WSL system interaction
+
+**Built-in MCP Servers:**
+
+- `desktop-commander`
+- `biomcp`
+- `word-document-server`
+- `puppeteer`
+- `blender`
+- `hackernews`
+- `sequential-thinking`
+- `fetch`
+- `ppt`
+- `airbnb`
+- `app-insight-mcp`
+- `excel`
+- `coingecko-mcp`
+- `textEditor`
+- `memory`
+- `mcp-docker`
+- `mcp-wsl`
+- `mcp-compass`
+- `ddg-search`
+- `calculator`
+- `webresearch`
+
+**Modes:**
+
+- **Single Prompt Mode**: Execute a one-time agent task.
+- **Chat Mode**: Enter continuous interactive conversation with the MCP agent. Type `\exit`, `\quit`, or `\q` to quit.
+
+**Custom MCP Server Support:**
+
+You can pass:
+
+- A **Python dictionary** with a `"mcpServers"` key
+- A **JSON string** with the same structure
+- A **path to a local JSON file** containing server configurations
+
+```python
+from falconai import ai
+import os
+
+os.environ["TOGETHERAI_API_KEY"] = "your-api-key"
+
+output = ai.chat(
+    prompt="Create a PowerPoint presentation about climate change and save it in my cwd. Name it climate_change_ai.pptx",
+    model="together_ai/deepseek-ai/DeepSeek-V3",
+    MCP=True,
+    MCP_builtin_server="ppt",
+)
+
+print(output)
+```
+## Streamlit examples
+FalconAI for autonomous web-browsing 
+```python 
+import streamlit as st
+from falconai import ai
+import os
+import asyncio
+import platform
+
+# Set Gemini API Key
+os.environ['GEMINI_API_KEY'] = "your-api-key"
+
+# Windows asyncio compatibility
+if platform.system() == "Windows":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+# App Configuration
+st.set_page_config(page_title="FalconAI - Your GenAI Assistant", page_icon="🦅", layout="centered")
+
+st.markdown("""
+<p align="center">
+    <a href="https://ibb.co/xzDnbxq">
+        <img src="https://i.ibb.co/fr23Wjd/Falcon-AI2-20.jpg" alt="FalconAI Logo" width="250">
+    </a>
+</p>
+<h2 style='text-align: center; color: #ff3f81;'>  FalconAI - Your GenAI Assistant</h2>
+<p style='text-align: center; font-size: 18px;'>Build. Prompt. Learn. Exceed. ⚡</p>
+""", unsafe_allow_html=True)
+
+# Chat Logic
+def run_chat(prompt1):
+    return ai.chat(
+        prompt=prompt1,
+        model="gemini/gemini-2.5-flash-preview-05-20",
+        browser=True,
+    )
+
+# UI
+st.markdown("### 🚀 Enter your prompt below")
+prompt1 = st.text_area("💬 Prompt", placeholder="Type your question, command or task...")
+
+if st.button("✨ Run AI Chat"):
+    if prompt1.strip():
+        with st.spinner("🧠 FalconAI is thinking..."):
+            try:
+                output = run_chat(prompt1)
+                st.success("✅ Response Generated")
+                st.markdown(f"**🔎 Output:**\n\n{output or 'No valid response.'}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    else:
+        st.warning("⚠️ Please enter a prompt before clicking the button.")
+
+# Footer
+st.markdown("""
+<hr>
+<p style='text-align: center; font-size: 14px; color: grey;'>Powered by <b>FalconAI</b> | 🧠 The fastest path from code to output </p>
+""", unsafe_allow_html=True)
+
+```
+FalconAI for [CAG](https://developer.ibm.com/articles/awb-llms-cache-augmented-generation/) (Cache Augmented Generation)
+```python
+import streamlit as st
+import os
+from falconai import ai
+import asyncio
+import platform
+
+# Set your API key
+os.environ['GEMINI_API_KEY'] = "your-api-key"  # Replace with your actual key
+
+# Fix for Windows asyncio event loop
+if platform.system() == "Windows":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+# Page Configuration
+st.set_page_config(page_title="FalconAI DOCX Summarizer & Chat", layout="centered")
+
+st.markdown("""
+<p align="center">
+    <img src="https://i.ibb.co/fr23Wjd/Falcon-AI2-20.jpg" width="250">
+</p>
+<h2 style='text-align: center; color: #ff3f81;'>🦅 FalconAI DOCX Summarizer & Chat</h2>
+<p style='text-align: center; font-size: 18px;'>Understand. Interact. Extract insights. All from your documents. ⚡</p>
+""", unsafe_allow_html=True)
+
+# File Upload
+uploaded_file = st.file_uploader("📂 Choose a .docx file", type="docx")
+
+def summarize_docx(docx_file):
+    return ai.chat(
+        document=docx_file,
+        model="gemini/gemini-2.5-flash-preview-05-20",
+        prompt="Summarize this document.",
+    )
+
+def chat_with_docx(docx_file, user_prompt):
+    return ai.chat(
+        document=docx_file,
+        model="gemini/gemini-2.5-flash-preview-05-20",
+        prompt=user_prompt,
+    )
+
+if uploaded_file:
+    st.success(f"✅ Uploaded: {uploaded_file.name}")
+
+    # Summarize Button
+    if st.button("🧠 Summarize Document"):
+        with st.spinner("Summarizing..."):
+            try:
+                summary = summarize_docx(uploaded_file)
+                st.markdown("### 📌 Summary:")
+                st.markdown( summary)
+            except Exception as e:
+                st.error(f"❌ Error: {e}")
+
+    # Chat Section
+    st.markdown("---")
+    st.markdown("### 💬 Chat with your document")
+    user_input = st.text_area("Type your question here...")
+
+    if st.button("🔍 Ask FalconAI"):
+        if user_input.strip():
+            with st.spinner("Thinking..."):
+                try:
+                    response = chat_with_docx(uploaded_file, user_input)
+                    st.markdown("### 🧠 FalconAI's Response:")
+                    st.markdown(response or "No response generated.")
+                except Exception as e:
+                    st.error(f"❌ Error: {e}")
+        else:
+            st.warning("⚠️ Please enter a question before clicking.")
+
+else:
+    st.info("📎 Upload a .docx file to get started.")
+
+# Footer
+st.markdown("""
+<hr>
+<p style='text-align: center; font-size: 14px; color: grey;'>
+Powered by <b>FalconAI</b> | The fastest path from document to insight.
+</p>
+""", unsafe_allow_html=True)
+
+```
+
+## Suggestions and feedback
+For any suggestion and feedback [email me](mailto:falconai.dev@gmail.com). Full fledged documentation is being prepared. Stay tuned!
+
+## License
+
+This project is licensed under the [MIT License](https://mit-license.org).
