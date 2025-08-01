@@ -1,0 +1,39 @@
+[project]
+name = "php-framework-routes-to-openapi-converter"
+version = "0.1.6"
+description = "Convert PHP framework routes to OpenAPI 3.0 specifications"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "structlog>=25.4.0",
+    "typer>=0.16.0",
+]
+
+[project.scripts]
+php-framework-routes-to-openapi-converter = "php_framework_routes_to_openapi_converter.cli:main"
+
+[tool.bumpversion]
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+ignore_missing_files = false
+tag = false
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = false
+message = "Bump version: {current_version} → {new_version}"
+moveable_tags = []
+commit_args = ""
+setup_hooks = []
+pre_commit_hooks = []
+post_commit_hooks = []
+
+[tool.bump-my-version.files]
+"pyproject.toml" = [
+    'project.version'
+]
