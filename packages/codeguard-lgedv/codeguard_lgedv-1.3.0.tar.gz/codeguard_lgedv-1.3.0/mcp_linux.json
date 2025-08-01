@@ -1,0 +1,17 @@
+{
+"inputs": [
+  {
+    "type": "promptString"
+  }
+],
+"servers": {
+  "lgedv": {
+     "command": "/home/worker/src/codefun/deepl/mcp_server/venv/bin/codeguard",
+     "args": ["--transport", "stdio"],
+     "env": {
+      "CPP_DIR": "/home/worker/src/code_test/race_condition/test_3",
+      "CUSTOM_RULE_PATH": "/home/worker/src/copilot_md/Custom.md" 
+  }
+ }
+}
+}
