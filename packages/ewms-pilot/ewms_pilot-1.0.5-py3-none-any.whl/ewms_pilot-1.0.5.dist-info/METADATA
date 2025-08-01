@@ -1,0 +1,153 @@
+Metadata-Version: 2.4
+Name: ewms-pilot
+Version: 1.0.5
+Summary: EWMS's Pilot: A Job Pilot for Processing EWMS Events/Tasks
+Author-email: WIPAC Developers <developers@icecube.wisc.edu>
+License: MIT License
+        
+        Copyright (c) 2022 Observation Management Service 
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://pypi.org/project/ewms-pilot/
+Project-URL: Tracker, https://github.com/Observation-Management-Service/ewms-pilot/issues
+Project-URL: Source, https://github.com/Observation-Management-Service/ewms-pilot
+Keywords: pilot,Observation Management Service,Event Workflow Management Service,EWMS,message passing,MQ task
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: <3.13,>=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: htchirp
+Requires-Dist: htcondor
+Requires-Dist: oms-mqclient
+Requires-Dist: numpy
+Provides-Extra: pulsar
+Requires-Dist: oms-mqclient[pulsar]; extra == "pulsar"
+Provides-Extra: rabbitmq
+Requires-Dist: oms-mqclient[rabbitmq]; extra == "rabbitmq"
+Provides-Extra: nats
+Requires-Dist: oms-mqclient[nats]; extra == "nats"
+Provides-Extra: all
+Requires-Dist: oms-mqclient[all]; extra == "all"
+Provides-Extra: test
+Requires-Dist: asyncstdlib; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-asyncio; extra == "test"
+Requires-Dist: pytest-retry; extra == "test"
+Provides-Extra: mypy
+Requires-Dist: oms-mqclient[all]; extra == "mypy"
+Requires-Dist: asyncstdlib; extra == "mypy"
+Requires-Dist: pytest; extra == "mypy"
+Requires-Dist: pytest-asyncio; extra == "mypy"
+Requires-Dist: pytest-retry; extra == "mypy"
+Dynamic: license-file
+
+<!--- Top of README Badges (automated) --->
+[![PyPI](https://img.shields.io/pypi/v/ewms-pilot)](https://pypi.org/project/ewms-pilot/) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Observation-Management-Service/ewms-pilot?include_prereleases)](https://github.com/Observation-Management-Service/ewms-pilot/) [![Versions](https://img.shields.io/pypi/pyversions/ewms-pilot.svg)](https://pypi.org/project/ewms-pilot) [![PyPI - License](https://img.shields.io/pypi/l/ewms-pilot)](https://github.com/Observation-Management-Service/ewms-pilot/blob/main/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/Observation-Management-Service/ewms-pilot)](https://github.com/Observation-Management-Service/ewms-pilot/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aopen) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Observation-Management-Service/ewms-pilot)](https://github.com/Observation-Management-Service/ewms-pilot/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Aopen)
+<!--- End of README Badges (automated) --->
+
+# ewms-pilot v1
+
+An Event-Task Pilot for EWMS
+
+The EWMS Pilot is a non-user-facing wrapper for task container instances in the Event Workflow Management System (EWMS), running on an HTCondor Execution Point (EP). The pilot:
+
+- **Triggers task instances** for each inbound event.
+- **Interfaces with EWMS events** as input/output files.
+- **Isolates [task containers](#task-container)** from one another.
+- **Provides fault tolerance** for failed tasks, CPUs, etc.
+
+The following outlines what users need to know to operate within EWMS.
+
+## Overview
+
+The Pilot is designed to be invisible to users. However, some key details are necessary for running a [task container](#task-container):
+
+### Task Container Overview
+
+A **[task container](#task-container)** is created for each inbound event, it is defined by its image, arguments, and environment variables. See the [WMS docs](https://github.com/Observation-Management-Service/ewms-workflow-management-service#the-task-container) for information on setting these within EWMS.
+
+#### Event I/O
+
+An **input event** is provided to the task container as a file. The task container creates an **output event** by writing to a predetermined location.
+
+The pilot provides the filepaths to the input and output files in two ways:
+
+1. By replacing the placeholder strings, `{{INFILE}}` and `{{OUTFILE}}`, in the container's arguments at runtime.
+2. By setting the task container's environment variables: `EWMS_TASK_INFILE` and `EWMS_TASK_OUTFILE`.
+
+The files' extensions are configured by the pilot's environment variables, `EWMS_PILOT_INFILE_EXT` and `EWMS_PILOT_OUTFILE_EXT`: by default, these are `.in` and `.out`, respectively.
+
+No other event or [message](#message-queue) handling is required by the task container.
+
+### The Init Container
+
+An **init container** is an optional, user-supplied image used to set up the environment, wait for conditions, or perform other preparatory actions before running task containers. It is configured using the `EWMS_PILOT_INIT_IMAGE`, `EWMS_PILOT_INIT_ARGS`, and `EWMS_PILOT_INIT_ENV_JSON` environment variables.
+
+### File I/O
+
+Task containers (and [init containers](#the-init-container)) can interact with external files in two ways:
+
+#### Inter-Task Files
+
+To transfer files between task containers, a shared directory is available to all task containers and the init container.
+
+The pilot provides the filepath to the "data hub" in two ways:
+
+1. By replacing the placeholder string, `{{DATA_HUB}}`, in the container's arguments at runtime.
+2. By setting the task container's environment variable: `EWMS_TASK_DATA_HUB_DIR`.
+
+**Note**:
+
+- The data hub directory is writable, but there is no protection against race conditions for parallelized tasks.
+
+#### External Files
+
+Externally-mounted directories are supported in EWMS. See the [WMS documentation](https://github.com/Observation-Management-Service/ewms-workflow-management-service#task-file-io) for more details.
+
+## EWMS Glossary Applied to the Pilot
+
+### Workflow
+
+_Does not exist within the Pilot._ _[Compare to WMS.](https://github.com/Observation-Management-Service/ewms-workflow-management-service#workflow)_
+
+### Message Queue
+
+The **message queue** is abstracted from the task container and can be ignored. _[Compare to WMS.](https://github.com/Observation-Management-Service/ewms-workflow-management-service#message-queue)_
+
+#### Event
+
+An **event** is an object transferred via [event I/O](#event-io). _[Compare to WMS.](https://github.com/Observation-Management-Service/ewms-workflow-management-service#event)_
+
+### Task
+
+In the context of the Pilot, the **task** is the runtime instance of the task image (a [task container](#task-container)) applied to an inbound event, possibly producing outbound events. _[Compare to WMS.](https://github.com/Observation-Management-Service/ewms-workflow-management-service#task)_
+
+#### Task Container
+
+The **task container** is an instance of a task image and is nearly synonymous with [task](#task).
+
+### Task Directive
+
+_Does not exist within the Pilot._ _[Compare to WMS.](https://github.com/Observation-Management-Service/ewms-workflow-management-service#task-directive)_
+
+### Taskforce
+
+_Does not exist within the Pilot._ _[Compare to WMS.](https://github.com/Observation-Management-Service/ewms-workflow-management-service#taskforce)_
