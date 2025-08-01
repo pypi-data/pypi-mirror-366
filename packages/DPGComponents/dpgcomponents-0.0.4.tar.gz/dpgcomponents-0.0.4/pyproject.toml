@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DPGComponents"
+version = "0.0.4"
+authors = [
+  { name="Smith", email="winston.doublethink@gmail.com" },
+]
+dependencies = [
+    "dearpygui >= 2.1.0",
+    "pandas >= 2.2.3"
+]
+description = "Components for DPG"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENCSE"]
+
+[project.urls]
+Homepage = "https://github.com/benjaminthedonkey/dpg-components"
+Issues = "https://github.com/benjaminthedonkey/dpg-components/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"] #  Assuming your Python packages are in the 'src' directory
+
+
+[tool.setuptools.package-data] 
+DPGComponents = ["icons/*.png"]
