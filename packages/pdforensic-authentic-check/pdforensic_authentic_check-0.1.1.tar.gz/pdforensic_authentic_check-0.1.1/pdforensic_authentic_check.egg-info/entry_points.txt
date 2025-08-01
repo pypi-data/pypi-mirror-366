@@ -1,0 +1,5 @@
+[console_scripts]
+pdf-eof = pdforensic.check_eof_markers:cli
+pdf-meta = pdforensic.retrieve_metadata:cli
+pdf-recover = pdforensic.retrieve_all_versions:cli
+pdf-versions = pdforensic.check_versions:cli
