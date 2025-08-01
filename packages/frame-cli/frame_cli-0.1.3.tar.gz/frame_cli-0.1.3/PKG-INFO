@@ -1,0 +1,98 @@
+Metadata-Version: 2.4
+Name: frame-cli
+Version: 0.1.3
+Summary: Command line interface for managing FRAME hybrid models
+Author-email: Son Pham-Ba <son.phamba@epfl.ch>
+License: GPL-3.0-or-later
+Project-URL: repository, https://github.com/CHANGE-EPFL/frame-project-cli
+Requires-Python: <3.14,>=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gitpython~=3.1.43
+Requires-Dist: pip>=25.1.1
+Requires-Dist: pydantic~=2.11.4
+Requires-Dist: pygithub>=2.6.1
+Requires-Dist: python-dotenv~=1.0.1
+Requires-Dist: pyyaml>=6.0.2
+Requires-Dist: requests~=2.32.3
+Requires-Dist: rich~=13.9.3
+Requires-Dist: sphinx-press-theme>=0.9.1
+Requires-Dist: typer~=0.15.1
+Provides-Extra: dev
+Requires-Dist: myst-parser>=4.0.1; extra == "dev"
+Requires-Dist: pre-commit~=4.0.1; extra == "dev"
+Requires-Dist: pytest~=8.1.1; extra == "dev"
+Requires-Dist: pytest-cov~=5.0.0; extra == "dev"
+Requires-Dist: sphinx>=8.1.3; extra == "dev"
+Requires-Dist: sphinx-copybutton>=0.5.2; extra == "dev"
+Requires-Dist: sphinx-press-theme>=0.9.1; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest~=8.1.1; extra == "test"
+Requires-Dist: pytest-cov~=5.0.0; extra == "test"
+Provides-Extra: doc
+Requires-Dist: myst-parser>=4.0.1; extra == "doc"
+Requires-Dist: sphinx>=8.1.3; extra == "doc"
+Requires-Dist: sphinx-copybutton>=0.5.2; extra == "doc"
+Requires-Dist: sphinx-press-theme>=0.9.1; extra == "doc"
+Dynamic: license-file
+
+# FRAME CLI
+
+_Command line interface for managing [FRAME hybrid models](https://frame-dev.epfl.ch/)_
+
+[![PyPI version](https://badge.fury.io/py/frame-cli.svg)](https://badge.fury.io/py/frame-cli)
+[![Docs](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml/badge.svg)](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml)
+[![Docs](https://img.shields.io/badge/documentation-main-blue.svg)](https://change-epfl.github.io/frame-project-cli/)
+
+
+# 🐇 Quick start
+
+## Requirements
+
+- [uv](https://docs.astral.sh/uv/) Python package and project manager
+- [git](https://git-scm.com/) version control system
+
+
+## Installation
+
+FRAME CLI relies on [uv](https://docs.astral.sh/uv/) to manage Python virtual environments. You need to install it first if you don't already have it. Refer to the official [uv documentation](https://docs.astral.sh/uv/getting-started/installation/).
+
+Then, run the following command to install FRAME CLI:
+```bash
+uv tool install frame-cli
+```
+
+
+## Usage
+
+To see the list of available commands, run:
+```bash
+frame --help
+```
+Hybrid model and component pages show which command must be run to download and setup specific units.
+
+You may want to install autocompletion for easier usage. To do so, run:
+```bash
+frame --install-completion
+```
+
+
+# 💾 Installation for development
+
+To install FRAME CLI for development in your current Python environment, you can use the following command. Feel free to use a virtual environment if you want to keep your system clean.
+```bash
+git clone https://github.com/CHANGE-EPFL/frame-project-cli.git
+cd frame-cli
+make install
+```
+
+Create a `.env` file in the root of your project with the following content (or export environment variables in your shell):
+```bash
+FRAME_CLI_LOGGING_LEVEL=INFO
+```
+
+# ✅ Running tests
+
+```bash
+make test
+```
