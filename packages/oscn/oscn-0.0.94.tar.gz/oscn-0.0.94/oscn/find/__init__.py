@@ -1,0 +1,1 @@
+from .searches import CaseIndexes
