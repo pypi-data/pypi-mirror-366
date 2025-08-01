@@ -1,0 +1,79 @@
+[project]
+name = "laserstudio"
+dynamic = []
+description = "Python3 software for hardware evaluation"
+authors = [
+    { name = "Olivier Hériveaux", email = "olivier.heriveaux@ledger.fr" },
+    { name = "Michaël Mouchous", email = "michael.mouchous@ledger.fr" },
+]
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    # Indicate who your project is intended for
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Security",
+    "Topic :: System :: Hardware",
+]
+dependencies = [
+    "pyqt6",
+    "pystages>=1.3",
+    "pillow>=10.4.0",
+    "opencv-python>=4.9.0.80",
+    "pyyaml",
+    "shapely",
+    "triangle",
+    "requests>=2.32.3,<3.0.0",
+    "numpy<2.0",
+    "pypdm",
+    "flask",
+    "flask-restx",
+    "hidapi>=0.14.0",
+    "colorama",
+    "donjon_hyshlr",
+    "scipy",
+    "PyQt6-Charts",
+    "pylmscontroller",
+]
+requires-python = ">=3.9,<3.13"
+version = "1.1.0b1"
+
+[tool.poetry]
+
+[project.urls]
+Documentation = "https://laserstudio.readthedocs.io/"
+
+[project.scripts]
+laserstudio = 'laserstudio.__main__:main'
+laserstudio_listdevices = 'laserstudio.instruments.list_serials:list_devices'
+laserstudio_generate_config_cli = 'laserstudio.config_generator:main_cli'
+laserstudio_generate_config = 'laserstudio.config_generator:main_gui'
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "*"
+sphinx-rtd-theme = "*"
+myst_parser = "*"
+# sphinx-togglebutton = "*"
+# sphinx-book-theme = "*"
+
+[tool.poetry-dynamic-versioning]
+enable = false
+vcs = "git"
+style = "pep440"
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["laserstudio/__init__.py"]
+
+[tool.poetry-dynamic-versioning.files."laserstudio/__init__.py"]
+persistent-substitution = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
