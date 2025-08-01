@@ -1,0 +1,24 @@
+# An example configuration file for `flui`
+# Copy this, modify it, and put in a folder where your start flui.
+
+# Scoring minimums
+minimum_kmers = 1000
+minimum_score = 6.0
+minimum_gap = 2.5
+
+# Settings for subtyping
+ha_kmer_size = 17
+na_kmer_size = 13
+
+# Number of background workers
+workers = 2
+
+# Theme is one of:
+# "textual-dark" "textual-light" "nord" "gruvbox" "catppuccin-mocha" "dracula"
+# "tokyo-night" "monokai" "flexoki" "catppuccin-latte" "solarized-light"
+# You can try them out by using the Ctrl-P in the Tui (see the help).
+theme = "textual-dark"
+
+# Special colors for the UI
+success_color = "green"
+failure_color = "red"
