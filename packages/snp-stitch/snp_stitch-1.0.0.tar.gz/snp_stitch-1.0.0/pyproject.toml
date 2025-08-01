@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=80.0","setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snp_stitch"
+version = "1.0.0"
+authors = [{name = 'Zoe Vance', email='vancez@tcd.ie'}]
+description = 'A lightweight variant caller for ONT data'
+readme = 'README.md'
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = ['scikit-learn',
+                'joblib',
+                'pysam',
+                'pandas',
+                'numpy']
+license = 'MIT'
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = 'https://github.com/ZoeVance/snp_stitch'
+
+[project.scripts]
+snp_stitch = "snp_stitch.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tools.setuptools.package-data]
+"snp_stitch" = ['*.pkl','*.pkl.gz']
