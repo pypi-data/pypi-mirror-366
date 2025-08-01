@@ -1,0 +1,137 @@
+modules:
+  - .feedback_on_server
+  - .github_issue
+---
+include:
+  - docassemble.ALToolbox:collapse_template.yml
+---
+metadata:
+  title: Browse Interview Feedback
+  short title: Browse Feedback
+  temporary session: True
+  required privileges:
+    - admin
+---
+mandatory: True
+code: |
+  feedback_summary
+---
+reconsider:
+  - text_reviews
+event: feedback_summary 
+question: |
+  Feedback Summary
+subquestion: |
+  ${ action_button_html(url_action('toggle_archived'), label="Show archived" if not show_archived else "Hide archived", color="secondary")}
+
+  ${ tabbed_templates_html("Feedback tabs", reviews_table_template, feedback_select_template)}
+help:
+  label: |
+    View Panelists
+  content: |
+    ${ view_panelists }
+---
+template: reviews_table_template
+subject: Review Scores
+content: |
+  ${ collapse_template(what_are_reviews_template) }
+
+  Interview file | Version | Number of reviews | Average Score
+  -------------- |---------|-------------------|---------------
+  % for review_agg in get_good_or_bad():
+  ${ review_agg['interview'] } | ${ review_agg['version'] } | ${ review_agg['count'] } | ${ str(round(review_agg['average'] * 1000)/1000) }
+  % endfor
+---
+template: feedback_select_template
+subject: Open answer feedback
+content: |
+  % for interview, review_list in text_reviews.items():
+  <h3 class="h5">In ${ interview }</h3>
+  % for review in review_list:
+  % if review['archived']:
+  **ARCHIVED**
+  % endif
+
+  On ${ review['datetime'] }:
+
+  > ${ review['body'] }
+
+  % if not review.get('html_url'):
+  % if review.get('github_user'):
+  ${ action_button_html(prefill_github_issue_url(repo_owner=review.get('github_user'), repo_name=review.get('github_repo_name'), title="User feedback", body=review['body'], label=al_github_label), label="Make a github issue") }
+  % else:
+  ${ action_button_html(prefill_github_issue_url(repo_name=interview.split(":")[0].replace(".", "-"), title="User feedback", body=review['body'], label=al_github_label), label="Make a github issue") }
+  % endif
+  % else:
+  [Link to Github issue](${ review.get('html_url') })
+
+  % endif
+  % if review.get('session_id'):
+  ${ action_button_html(url_action('open_session', interview=review['interview'], session_id=review.get('session_id')), label='Open Session', color='secondary') }
+  % endif
+  % if not review['archived']:
+  ${ action_button_html(url_action('mark_as_archived', feedback_id=review['id']), label="Archive", color="danger")}
+  % endif
+
+  ---
+
+  % endfor
+
+  % endfor
+---
+template: what_are_reviews_template
+subject: What are review scores?
+content: |
+  Review scores are like 1 to 5 star review, but the numbers
+  are shifted, centered around 0. If you use `embedded_review.yml` in your
+  interview, each score is a +1 for a thumbs up or a -1 for a thumbs down.
+  
+  These scores are saved completely
+  anonymously, so below, we show the number of reviews given for an interview, and the average score given
+  over all of the reviews. We split this up by version so you can see how different changes you have made
+  affect people's reviews.
+---
+template: view_panelists
+content: |
+    % for email_and_time in potential_panelists():
+    % if isinstance(email_and_time[0], bytes):
+    * ${ email_and_time[0].decode('utf-8') }, at ${ email_and_time[1]}
+    % else:
+    * ${ str(panelist_email) }, at ${ email_and_time[1]}
+    % endif
+    % endfor
+---
+code: |
+  show_archived = False
+---
+depends on:
+  - show_archived
+code: |
+  text_reviews = {}
+  for row_id, info in get_all_feedback_info(None, include_archived=show_archived).items():
+    info['id'] = row_id
+    if info['interview'] in text_reviews:
+      text_reviews[info['interview']].append(info)
+    else:
+      text_reviews[info['interview']] = [info]
+---
+event: open_session
+code: |
+  interview = action_argument('interview')
+  session_id = action_argument('session_id')
+  if interview and session_id:
+      response(url=interview_url(i=action_argument('interview'), session=info.get('session_id'), temporary=1))
+  else:
+      log("Need interview and session ID to open session", "danger")
+---
+event: mark_as_archived
+code: |
+  feedback_id = action_argument('feedback_id')
+  mark_archived(feedback_id)
+---
+event: toggle_archived
+code: |
+  show_archived = not show_archived
+---
+code: |
+  al_github_label = 'user feedback'

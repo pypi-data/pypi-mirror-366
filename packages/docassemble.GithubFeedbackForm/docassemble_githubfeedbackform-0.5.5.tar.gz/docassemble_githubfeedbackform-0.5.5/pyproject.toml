@@ -1,0 +1,20 @@
+[tool.black]
+extend-exclude = '(__init__.py|setup.py)'
+
+[tool.mypy]
+# global options
+exclude = '''(?x)(
+    ^setup.py$
+  )'''
+
+[[tool.mypy.overrides]]
+module = "docassemble.base.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "google.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "testcontainers.*"
+ignore_missing_imports = true
