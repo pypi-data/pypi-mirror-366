@@ -1,0 +1,16 @@
+numpy>=1.16.6
+opencv-python
+scipy>=1.5.4
+openvino==2024.*
+openvino-dev==2024.*
+
+[ovms]
+ovmsclient
+
+[tests]
+httpx
+pytest
+openvino-dev[onnx,pytorch,tensorflow2]
+ultralytics<=8.0.205,>=8.0.114
+onnx
+onnxruntime
