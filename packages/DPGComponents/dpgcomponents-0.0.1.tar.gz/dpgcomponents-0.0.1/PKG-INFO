@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: DPGComponents
+Version: 0.0.1
+Summary: Components for DPG
+Author-email: Smith <winston.doublethink@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/benjaminthedonkey/dpg-components
+Project-URL: Issues, https://github.com/benjaminthedonkey/dpg-components/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: dearpygui>=2.0.0
+Requires-Dist: pandas>=2.2.3
+
+## dpg-components
+
+ "A component is a piece of the UI (user interface) that has its own logic and appearance. A component can be as small as a button, or as large as an entire page." Components are a powerful abstraction.   
+
+The goal of this project is to bring Components to [DearPyGui](https://github.com/hoffstadt/DearPyGui)   
+
+ - Components should be first class citizens, i.e. use the same API as regular DPG Items.
+ - Components can contain other Components or regular DPG Items.
+ - Reusability is achieved through composition.
+
+### How it works ?
+Import module dpg_components, then you can interact with DPG as normal and also call the method "add_component" to add
+complex components to your project. You can also define your own components by implementing abstract class "DPGComponent".
+
+```python 
+from datetime import datetime
+import dpg_components
+import dearpygui.dearpygui as dpg
+
+def save_callback():
+    print("Save Clicked")
+
+dpg.create_context()
+dpg.create_viewport()
+dpg.setup_dearpygui()
+
+with dpg.window(label="Example Window"):
+    dpg.add_text("Hello world")
+    dpg.add_button(label="Save", callback=save_callback)
+    dpg.add_input_text(label="string")
+    dpg.add_slider_float(label="float")
+
+    ## add a Date Picker component
+    dpg.add_component(dpg_components.DatePickerComp, tag=f'date_picker_1')
+    # Set default date to today
+    dpg.configure_item(f'date_picker_1', default_value = datetime.now().date())
+
+dpg.show_viewport()
+dpg.start_dearpygui()
+dpg.destroy_context()
+```
+
