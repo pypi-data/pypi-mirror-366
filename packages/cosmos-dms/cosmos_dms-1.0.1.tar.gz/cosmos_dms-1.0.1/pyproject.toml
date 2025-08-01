@@ -1,0 +1,45 @@
+[project]
+name = "cosmos-dms"
+version = "1.0.1"
+description = "Cosmos: A Position-Resolution Causal Model for Direct and Indirect Effects in Protein Functions"
+authors = [
+    { name = "Jingyou Rao", email = "roseraosh@gmail.com" },
+    { name = "Mingsen Wang", email = "mingsen.wang.sh@gmail.com" },
+]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/pimentellab/cosmos"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.poetry]
+packages = [{ include = "cosmos", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+numpy = "^2.1"
+pandas = "^2.2"
+xarray = "^2024.09"
+scipy = "^1.14"
+scikit-learn = "^1.4"
+arviz = "^0.20"
+matplotlib = ">=3.9"
+seaborn = ">=0.13"
+adjustText = "*"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = ">=6.29"
+ipywidgets = ">=8.1"
+pickleshare = ">=0.7"
+black = ">=22"
+isort = ">=5"
+pylint = ">=2"
+pytest = ">=8"
+line_profiler = ">=4.1"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
