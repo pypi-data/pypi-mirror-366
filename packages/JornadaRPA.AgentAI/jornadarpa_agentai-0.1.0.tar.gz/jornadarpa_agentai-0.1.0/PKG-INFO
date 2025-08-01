@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: JornadaRPA.AgentAI
+Version: 0.1.0
+Summary: Simple and powerful local AI Agent with memory and tools.
+Home-page: https://github.com/JornadaRPA/JornadaRPA.AgentAI
+Author: Alex Diogo
+Author-email: alexdiogo@desafiosrpa.com.br
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: openai
+Requires-Dist: google-generativeai
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+\# JornadaRPA.AgentAI
+
+
+
+A simple, modular and local AI Agent framework with memory and tool support. Ideal for RPA use cases.
+
+
+
+\## Install
+
+
+
+```bash
+
+pip install JornadaRPA.AgentAI
+
+
+
+BASIC SAMPLE
+
+
+from JornadaRPA.AgentAI.providers import get\_provider
+
+from JornadaRPA.AgentAI.agent import AgentAI
+
+
+
+provider = get\_provider("openai")(api\_key="...", model="gpt-4")
+
+agent = AgentAI(provider)
+
+
+
+result = agent.plan\_and\_execute("Hello!")
+
+print(result)
+
+
+
