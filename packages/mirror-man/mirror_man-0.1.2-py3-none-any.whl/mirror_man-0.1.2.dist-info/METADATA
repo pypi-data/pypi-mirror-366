@@ -1,0 +1,81 @@
+Metadata-Version: 2.4
+Name: mirror-man
+Version: 0.1.2
+Summary: A CLI tool to manage mirror sources for various Linux distributions.
+Author-email: Your Name <your.email@example.com>
+License: MIT License
+        
+        Copyright (c) 2025 mirror-man
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/hiyongliz/mirror-man
+Project-URL: Repository, https://github.com/hiyongliz/mirror-man.git
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typer>=0.9.0
+Dynamic: license-file
+
+# Mirror Man
+
+Mirror Man is a command-line tool to manage software mirror sources for your Linux distribution. It simplifies the process of switching between different mirror sources, helping you to get faster package downloads.
+
+## Features
+
+*   Backup your current mirror sources before making changes.
+*   Switch to Aliyun mirror sources for Ubuntu and CentOS.
+*   Planned support for Huawei Cloud and other mirror sources.
+
+## Installation
+
+```bash
+pip install mirror-man
+```
+
+## Usage
+
+To switch to the Aliyun mirror source, run the following command:
+
+```bash
+mirror-man aliyun
+```
+
+This will automatically detect your operating system and configure the appropriate Aliyun mirror source. Your existing sources file will be backed up with a timestamp.
+
+### Supported Operating Systems
+
+*   Ubuntu 22.04
+*   Ubuntu 24.04
+*   CentOS 7
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue.
+
+## License
+
+This project is licensed under the MIT License.
