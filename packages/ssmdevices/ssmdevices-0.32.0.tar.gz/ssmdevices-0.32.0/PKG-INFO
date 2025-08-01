@@ -1,0 +1,122 @@
+Metadata-Version: 2.4
+Name: ssmdevices
+Version: 0.32.0
+Summary: a collection of lab automation drivers implemented with labbench
+Project-URL: homepage, https://github.com/usnistgov/ssmdevices
+Project-URL: repository, https://github.com/usnistgov/ssmdevices
+Project-URL: documentation, https://pages.nist.gov/ssmdevices
+Author: Paul Blanchard, Alex Curtin, Ryan Jacobs, Andre Rosete, Audrey Puls, Michael Voecks
+Author-email: Dan Kuester <daniel.kuester@nist.gov>, Keith Forsyth <keith.forsyth@nist.gov>, Jordan Bernhardt <jordan.bernhardt@nist.gov>, Duncan McGillivray <duncan.a.mcgillivray@nist.gov>, Yao Ma <yao.ma@nist.gov>, John Ladbury <john.ladbury@nist.gov>
+Maintainer-email: Dan Kuester <daniel.kuester@nist.gov>
+License: # Licensing
+        
+        ## NIST License
+        
+        NIST-developed software is provided by NIST as a public service. You may use, copy, and distribute copies of the software in any medium, provided that you keep intact this entire notice. You may improve, modify, and create derivative works of the software or any portion of the software, and you may copy and distribute such modifications or works. Modified works should carry a notice stating that you changed the software and should note the date and nature of any such change. Please explicitly acknowledge the National Institute of Standards and Technology as the source of the software. 
+        
+        NIST-developed software is expressly provided "AS IS." NIST MAKES NO WARRANTY OF ANY KIND, EXPRESS, IMPLIED, IN FACT, OR ARISING BY OPERATION OF LAW, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND DATA ACCURACY. NIST NEITHER REPRESENTS NOR WARRANTS THAT THE OPERATION OF THE SOFTWARE WILL BE UNINTERRUPTED OR ERROR-FREE, OR THAT ANY DEFECTS WILL BE CORRECTED. NIST DOES NOT WARRANT OR MAKE ANY REPRESENTATIONS REGARDING THE USE OF THE SOFTWARE OR THE RESULTS THEREOF, INCLUDING BUT NOT LIMITED TO THE CORRECTNESS, ACCURACY, RELIABILITY, OR USEFULNESS OF THE SOFTWARE.
+        
+        You are solely responsible for determining the appropriateness of using and distributing the software and you assume all risks associated with its use, including but not limited to the risks and costs of program errors, compliance with applicable laws, damage to or loss of data, programs or equipment, and the unavailability or interruption of operation. This software is not intended to be used in any situation where a failure could cause risk of injury or damage to property. The software developed by NIST employees is not subject to copyright protection within the United States.
+        
+        
+        ## Bundled software
+        The following listing is good-faith understanding of the licensing information of bundled libraries and source code, which are all separately available as open source software. It is provided as a convenience, but should be verified by checking with the owner. 
+        
+        ### Changed
+        The following are included as part of this source distribution with modifications.
+        
+        * A modified version of [pyminicircuits](https://github.com/storborg/pyminicircuits) is included in `minicircuits.py`: [MIT license](https://github.com/pyvisa/pyvisa/blob/master/LICENSE).
+        
+        ### Unchanged
+        The following are included unchanged as part of this source distribution.
+        
+        * Windows library binaries `adb.exe`, `AdbWinApi.dll`, `AdbWinUsbApi.dll`for [adb](https://android.googlesource.com/platform/system/core/+/android-4.4_r1/adb): Apache 2.0 license
+        * windows executables `IPerf.exe` and `IPerf3.exe` and android executable `iperf`: BSD license
+        * cygwin1.dll: LGPL version 3
+        
+License-File: LICENSE.md
+Requires-Python: <3.14,>=3.9
+Requires-Dist: brainstem>=2.9.26
+Requires-Dist: hidapi
+Requires-Dist: labbench<1.0,>=0.36.0
+Requires-Dist: pywifi
+Provides-Extra: dev
+Requires-Dist: labbench[dev]; extra == 'dev'
+Requires-Dist: twine>=4.0.2; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: labbench[doc]; extra == 'doc'
+Provides-Extra: scripts
+Requires-Dist: ipympl>=0.9.3; extra == 'scripts'
+Requires-Dist: matplotlib; extra == 'scripts'
+Requires-Dist: seaborn; extra == 'scripts'
+Provides-Extra: tek
+Requires-Dist: tekhsi>=2.27.2; extra == 'tek'
+Requires-Dist: tm-data-types<0.2.0,>=0.1.0; extra == 'tek'
+Description-Content-Type: text/markdown
+
+[![PyPI Latest Release](https://img.shields.io/pypi/v/ssmdevices.svg)](https://pypi.org/project/ssmdevices/)
+[![DOI](https://zenodo.org/badge/DOI/10.18434/M32122.svg)](https://doi.org/10.18434/M32122)
+[![License](https://img.shields.io/badge/license-NIST-brightgreen)](https://github.com/usnistgov/ssmdevices/blob/master/LICENSE.md)
+[![Downloads](https://static.pepy.tech/badge/ssmdevices)](https://pepy.tech/project/ssmdevices)
+[![Last commit](https://img.shields.io/github/last-commit/usnistgov/ssmdevices)](https://pypi.org/project/ssmdevices/)
+
+*ssmdevices* is a collection of python wrappers that have been used for complex automated experiments at NIST. They are released here for transparency, for re-use of the drivers ``as-is'' by collaborators and the broader test community, and as a demonstration of lab automation based on [labbench](https://github.com/usnistgov/labbench).
+
+The equipment includes consumer wireless communication hardware, test instruments, diagnostic software, and other miscellaneous lab electronics.
+In many cases the acquired data are returned in tabular form as [pandas](http://pandas.pydata.org/) data frames.
+
+## Getting started with `ssmdevices`
+### Installation
+1. Ensure prerequisites are installed:
+    * python (3.9 – 3.13)
+    * [`pip`](https://pypi.org/project/pip/) for package management
+2. Recommended module installation:
+    * For python distributions based on anaconda:
+      ```sh
+      pip --upgrade-strategy only-if-needed install ssmdevices
+      ```
+    * For other python installations:
+      ```sh
+      pip install ssmdevices
+      ```
+
+<!-- _Note: Certain commercial equipment, instruments, and software are identified here in order to help specify experimental procedures.  Such identification is not intended to imply recommendation or endorsement of any product or service by NIST, nor is it intended to imply that the materials or equipment identified are necessarily the best available for the purpose._ -->
+
+## Resources
+* [Source code](http://github.com/usnistgov/ssmdevices)
+* [Documentation](http://pages.nist.gov/ssmdevices)
+* [PyPI](https://pypi.org/project/labbench/) module page
+* [Examples](https://github.com/usnistgov/ssmdevices/tree/main/examples)
+* [labbench](https://github.com/usnistgov/labbench), the underlying API library
+
+## Contributors
+| Name  |  Contact Info |
+|---|---|
+| Dan Kuester (maintainer)  |  <daniel.kuester@nist.gov> |
+| Keith Forsyth  | <keith.forsyth@nist.gov>  |
+| Jordan Bernhardt  | <jordan.bernhardt@nist.gov>  |
+| John Ladbury | <john.ladbury@nist.gov> |
+| Yao Ma | <yao.ma@nist.gov> |
+| Duncan McGillivray  | <duncan.a.mcgillivray@nist.gov>  |
+| Ryan Jacobs | formerly with NIST |
+| Paul Blanchard | formerly with NIST |
+| Alex Curtin | formerly with NIST |
+| Audrey Puls | formerly with NIST |
+| Andre Rosete        | formerly with NIST |
+| Michael Voecks | formerly with NIST |
+
+
+## Some complex measurement efforts that used ssmdevices:
+  * [NIST TN 1952: LTE Impacts on GPS](https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.1952.pdf) and [data](https://data.nist.gov/od/id/mds2-2186)
+  * [NIST TN 2069: Characterizing LTE User Equipment Emissions: Factor Screening](https://doi.org/10.6028/NIST.TN.2069)
+  * [NIST TN 2140: AWS-3 LTE Impacts on Aeronautical Mobile Telemetry](https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2140.pdf) and [data](https://data.nist.gov/od/id/mds2-2279)
+  * [NIST TN 2147: Characterizing LTE User Equipment Emissions Under Closed-Loop Power Control](https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2147.pdf)
+  * [Blind Measurement of Receiver System Noise](https://www.nist.gov/publications/blind-measurement-receiver-system-noise) and [data](https://data.nist.gov/pdr/lps/ark:/88434/mds2-2121)
+
+## Contributing
+* [Pull requests](https://github.com/usnistgov/ssmdevices/pulls) are welcome!
+* [Inline documentation style convention](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings)
+
+## See also
+* [labbench](https://github.com/usnistgov/labbench) the base library for these device wrappers
+
