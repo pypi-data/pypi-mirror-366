@@ -1,0 +1,2946 @@
+<document ids="forecast-model" names="forecast\ model" source="docs/wrapper/forecast.rst" title="Forecast Model">
+    <title>
+        Forecast Model
+    <paragraph>
+        The forecast model is a wrapper for any 
+        <emphasis>
+            pysimmods
+         model and is an extension
+        of the schedule model. All functions of the schedule model are available. The
+        forecast model enables the model to predict the output several steps in the
+        future.
+    <paragraph>
+        This page contains examples in combination with the 
+        <emphasis>
+            PVPlantSystem
+         model and
+        provides detailled explanation of all relevant steps. As with the schedule
+        model, a full working example is given at the bottom of the page.
+    <section ids="instantiation" names="instantiation">
+        <title>
+            Instantiation
+        <paragraph>
+            The forecast model can be used quite easily. You only need a model to be
+            wrapped and pass it to a new forecast model instance:
+        <literal_block classes="code python" xml:space="preserve">
+            <inline classes="name">
+                pvsys
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                PVPlantSystem
+            <inline classes="punctuation">
+                (
+            <inline classes="operator">
+                *
+            <inline classes="name">
+                pv_preset
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                9
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+            <inline classes="name">
+                fcmodel
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                ForecastModel
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                pvsys
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                forecast_horizon_hours
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                2
+            <inline classes="punctuation">
+                )
+        <paragraph>
+            The parameter 
+            <literal>
+                forecast_horizon_hours
+             defines the number of steps that are
+            predicted in the future. If you have, e.g., a 
+            <literal>
+                step_size
+             of 900, there will
+            be 8 steps predicted. In that case, you can change it to 0.25 to have only one
+            step of prediction.
+    <section ids="providing-a-forecast" names="providing\ a\ forecast">
+        <title>
+            Providing a Forecast
+        <paragraph>
+            The 
+            <emphasis>
+                PVPlantSystem
+             is a model that requires weather data to calculate the
+            power output. Besides providing the values in each step, it is required to
+            provide a forecast for those values in order to make forecasts possible. The
+            forecast should be a pandas data frame with following content:
+        <system_message level="3" line="37" source="docs/wrapper/forecast.rst" type="ERROR">
+            <paragraph>
+                Malformed table.
+                No bottom table border found or no blank line after table bottom.
+            <literal_block xml:space="preserve">
+                ======================== ==================== =========== ===========
+                datetime                 t_air_degree_celsius bh_w_per_m2 dh_w_per_m2
+                ======================== ==================== =========== ===========
+        <system_message level="2" line="40" source="docs/wrapper/forecast.rst" type="WARNING">
+            <paragraph>
+                Blank line required after table.
+        <paragraph>
+            2021-06-08 00:00:00+0100 9.799                0.0         0.0
+            2021-06-08 00:15:00+0100 11.08                0.0         0.0
+            ...                      ...                  ...         ...
+            2021-06-08 23:45:00+0100 11.416               0.0         0.0
+        <paragraph>
+            In the source code, you will find a 
+            <literal>
+                .csv
+             file containing the data. After
+            some preprocessing, we have created a forecast by using data of the next day
+            (to not have it a perfect forecast) and stored it into a variable 
+            <title_reference>
+                forecast
+            .
+            This can be passed to the forecast model:
+        <literal_block classes="code python" xml:space="preserve">
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                update_forecast
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                forecast
+            <inline classes="punctuation">
+                )
+    <section ids="simulating-with-the-forecast-model" names="simulating\ with\ the\ forecast\ model">
+        <title>
+            Simulating with the Forecast Model
+        <paragraph>
+            The forecast model can be used for normal stepping and will, if no schedule is provided, behave exactly like the 
+            <emphasis>
+                PVPlantSystem
+             model.
+            Since the model calculates forecasts in every step, we will simulate for the whole day split the values afterwards.
+        <literal_block classes="code python" xml:space="preserve">
+            <inline classes="name">
+                now_dt
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                datetime
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                2021
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                6
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                8
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                tzinfo
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                timezone
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                utc
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="keyword">
+                for
+             
+            <inline classes="name">
+                i
+             
+            <inline classes="operator word">
+                in
+             
+            <inline classes="name builtin">
+                range
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                ):
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                widx
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                datetime_to_index
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                now_dt
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_step_size
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                step_size
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_now_dt
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                now_dt
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                inputs
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                t_air_degree_celsius
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                widx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                T_AIR
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                inputs
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bh_w_per_m2
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                widx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                BH
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                inputs
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                dh_w_per_m2
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                widx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                DH
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                step
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                p_kws
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get_p_kw
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                q_kvars
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get_q_kvar
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="keyword">
+                if
+             
+            <inline classes="name">
+                i
+             
+            <inline classes="operator">
+                +
+             
+            <inline classes="literal number integer">
+                9
+             
+            <inline classes="operator">
+                <
+             
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                :
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="comment single">
+                # Collect the forecasts of the next steps
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="keyword">
+                for
+             
+            <inline classes="name">
+                j
+             
+            <inline classes="operator word">
+                in
+             
+            <inline classes="name builtin">
+                range
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                9
+            <inline classes="punctuation">
+                ):
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="name">
+                curr_dt
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                now_dt
+             
+            <inline classes="operator">
+                +
+             
+            <inline classes="name">
+                timedelta
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                seconds
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                step_size
+             
+            <inline classes="operator">
+                *
+            <inline classes="name">
+                j
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="name">
+                p_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                i
+            <inline classes="operator">
+                +
+            <inline classes="name">
+                j
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                schedule
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                curr_dt
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                "p_kw"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="name">
+                q_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                i
+            <inline classes="operator">
+                +
+            <inline classes="name">
+                j
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                schedule
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                curr_dt
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                "q_kvar"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                now_dt
+             
+            <inline classes="operator">
+                +=
+             
+            <inline classes="name">
+                timedelta
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                seconds
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                step_size
+            <inline classes="punctuation">
+                )
+    <section ids="regular-steps" names="regular\ steps">
+        <title>
+            Regular Steps
+        <paragraph>
+            We will first simulate the PV model for the first 10 hours of the day.
+            The result looks like
+        <image uri="pv_only.png" width="800">
+    <section ids="forecast" names="forecast">
+        <title>
+            Forecast
+        <paragraph>
+            Next, we have a look at the forecast of the next two hours, which are 8 steps with a step size of 900.
+        <image uri="pv_with_forecast.png" width="800">
+    <section ids="the-rest-of-the-day" names="the\ rest\ of\ the\ day">
+        <title>
+            The Rest of the Day
+        <paragraph>
+            Since we used different data for forecast than for the actual weather data, the prediction was not accurate.
+            The actual output of the model looks like
+        <image uri="pv_with_actual.png" width="800">
+    <section ids="full-code-for-the-example" names="full\ code\ for\ the\ example">
+        <title>
+            Full Code for the Example
+        <literal_block classes="code python" xml:space="preserve">
+            <inline classes="keyword namespace">
+                import
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                os
+            <inline classes="whitespace">
+                
+            <inline classes="keyword namespace">
+                from
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                datetime
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword namespace">
+                import
+             
+            <inline classes="name">
+                datetime
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                timedelta
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                timezone
+            <inline classes="whitespace">
+                
+                
+            <inline classes="keyword namespace">
+                import
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                matplotlib.pyplot
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword">
+                as
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                plt
+            <inline classes="whitespace">
+                
+            <inline classes="keyword namespace">
+                import
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                numpy
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword">
+                as
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                np
+            <inline classes="whitespace">
+                
+            <inline classes="keyword namespace">
+                import
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                pandas
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword">
+                as
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                pd
+            <inline classes="whitespace">
+                
+            <inline classes="keyword namespace">
+                from
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                pysimmods.generator.pvsystemsim.presets
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword namespace">
+                import
+             
+            <inline classes="name">
+                pv_preset
+            <inline classes="whitespace">
+                
+            <inline classes="keyword namespace">
+                from
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                pysimmods.generator.pvsystemsim.pvpsystem
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword namespace">
+                import
+             
+            <inline classes="name">
+                PVPlantSystem
+            <inline classes="whitespace">
+                
+            <inline classes="keyword namespace">
+                from
+            <inline classes="whitespace">
+                 
+            <inline classes="name namespace">
+                pysimmods.other.flexibility.forecast_model
+            <inline classes="whitespace">
+                 
+            <inline classes="keyword namespace">
+                import
+             
+            <inline classes="name">
+                ForecastModel
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                T_AIR
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal string double">
+                "WeatherCurrent__0___t_air_deg_celsius"
+            <inline classes="whitespace">
+                
+            <inline classes="name">
+                BH
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal string double">
+                "WeatherCurrent__0___bh_w_per_m2"
+            <inline classes="whitespace">
+                
+            <inline classes="name">
+                DH
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal string double">
+                "WeatherCurrent__0___dh_w_per_m2"
+            <inline classes="whitespace">
+                
+            <inline classes="name">
+                WD_PATH
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                os
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                path
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                abspath
+            <inline classes="punctuation">
+                (
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                os
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                path
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                join
+            <inline classes="punctuation">
+                (
+            <inline classes="name variable magic">
+                __file__
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                ".."
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                ".."
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                "fixtures"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                "weather-time-series.csv"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="keyword">
+                def
+            <inline classes="whitespace">
+                 
+            <inline classes="name function">
+                main
+            <inline classes="punctuation">
+                ():
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="comment single">
+                # First, load weather data that is required for the PV model
+            <inline classes="whitespace">
+                
+                
+            <inline classes="comment single">
+                # and prepare the forecast dataframe
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                wd
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                pd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                read_csv
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                WD_PATH
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                index_col
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                start_idx
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                96
+             
+            <inline classes="operator">
+                *
+             
+            <inline classes="literal number integer">
+                159
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                end_idx
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                96
+             
+            <inline classes="operator">
+                *
+             
+            <inline classes="literal number integer">
+                160
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                forecast
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                pd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                DataFrame
+            <inline classes="punctuation">
+                (
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                data
+            <inline classes="operator">
+                =
+            <inline classes="punctuation">
+                {
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="literal string double">
+                "t_air_deg_celsius"
+            <inline classes="punctuation">
+                :
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start_idx
+            <inline classes="punctuation">
+                :
+            <inline classes="name">
+                end_idx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                T_AIR
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                values
+            <inline classes="punctuation">
+                ,
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="literal string double">
+                "bh_w_per_m2"
+            <inline classes="punctuation">
+                :
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start_idx
+            <inline classes="punctuation">
+                :
+            <inline classes="name">
+                end_idx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                BH
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                values
+            <inline classes="punctuation">
+                ,
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="literal string double">
+                "dh_w_per_m2"
+            <inline classes="punctuation">
+                :
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start_idx
+            <inline classes="punctuation">
+                :
+            <inline classes="name">
+                end_idx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                DH
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                values
+            <inline classes="punctuation">
+                ,
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="punctuation">
+                },
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                index
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                pd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                date_range
+            <inline classes="punctuation">
+                (
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="name">
+                datetime
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                2021
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                6
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                8
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                tzinfo
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                timezone
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                utc
+            <inline classes="punctuation">
+                ),
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="name">
+                datetime
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                2021
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                6
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                8
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                23
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                45
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                tzinfo
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                timezone
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                utc
+            <inline classes="punctuation">
+                ),
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="name">
+                freq
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "900S"
+            <inline classes="punctuation">
+                ,
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="punctuation">
+                ),
+            <inline classes="whitespace">
+                
+                
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name builtin">
+                print
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                forecast
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="comment single">
+                # Next, create an instance of a PV model
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                pvsys
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                PVPlantSystem
+            <inline classes="punctuation">
+                (
+            <inline classes="operator">
+                *
+            <inline classes="name">
+                pv_preset
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                9
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                ForecastModel
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                pvsys
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                forecast_horizon_hours
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                2
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                update_forecasts
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                forecast
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                now_dt
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                datetime
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                2021
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                6
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                8
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                tzinfo
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                timezone
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                utc
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                step_size
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                900
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                steps
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                96
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                index
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                arange
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                p_kws
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                q_kvars
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                p_forecast
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                ((
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                q_forecast
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                ((
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="keyword">
+                for
+             
+            <inline classes="name">
+                i
+             
+            <inline classes="operator word">
+                in
+             
+            <inline classes="name builtin">
+                range
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                ):
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                widx
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                datetime_to_index
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                now_dt
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_step_size
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                step_size
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_now_dt
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                now_dt
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                inputs
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                t_air_deg_celsius
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                widx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                T_AIR
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                inputs
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bh_w_per_m2
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                widx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                BH
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                inputs
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                dh_w_per_m2
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                wd
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                iloc
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                widx
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                DH
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                
+                    
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                step
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+                    
+            <inline classes="name">
+                p_kws
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get_p_kw
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                q_kvars
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get_q_kvar
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+                    
+            <inline classes="keyword">
+                if
+             
+            <inline classes="name">
+                i
+             
+            <inline classes="operator">
+                +
+             
+            <inline classes="literal number integer">
+                9
+             
+            <inline classes="operator">
+                <
+             
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                :
+            <inline classes="whitespace">
+                
+                        
+            <inline classes="keyword">
+                for
+             
+            <inline classes="name">
+                j
+             
+            <inline classes="operator word">
+                in
+             
+            <inline classes="name builtin">
+                range
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                9
+            <inline classes="punctuation">
+                ):
+            <inline classes="whitespace">
+                
+                            
+            <inline classes="name">
+                curr_dt
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                now_dt
+             
+            <inline classes="operator">
+                +
+             
+            <inline classes="name">
+                timedelta
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                seconds
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                step_size
+             
+            <inline classes="operator">
+                *
+             
+            <inline classes="name">
+                j
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                            
+            <inline classes="name">
+                p_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                i
+             
+            <inline classes="operator">
+                +
+             
+            <inline classes="name">
+                j
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                schedule
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                curr_dt
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                "p_kw"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                            
+            <inline classes="name">
+                q_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                i
+            <inline classes="punctuation">
+                ][
+            <inline classes="name">
+                i
+             
+            <inline classes="operator">
+                +
+             
+            <inline classes="name">
+                j
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                fcmodel
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                schedule
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                get
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                curr_dt
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal string double">
+                "q_kvar"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                    
+            <inline classes="name">
+                now_dt
+             
+            <inline classes="operator">
+                +=
+             
+            <inline classes="name">
+                timedelta
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                seconds
+            <inline classes="operator">
+                =
+            <inline classes="name">
+                step_size
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                start
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                40
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                p_kws_before
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                p_kws_after
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                p_kws_before
+            <inline classes="punctuation">
+                [:
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                p_kws
+            <inline classes="punctuation">
+                [:
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                p_kws_after
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                :]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                p_kws
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                :]
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                q_kvars_before
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                q_kvars_after
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                np
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                zeros
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                steps
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                q_kvars_before
+            <inline classes="punctuation">
+                [:
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                ]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                q_kvars
+            <inline classes="punctuation">
+                [:
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                ]
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                q_kvars_after
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                :]
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                q_kvars
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+            <inline classes="punctuation">
+                :]
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                _
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                axes
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                plt
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                subplots
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                2
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                figsize
+            <inline classes="operator">
+                =
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                6
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                6
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                p_kws_before
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                color
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "green"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_ylabel
+            <inline classes="punctuation">
+                (
+            <inline classes="literal string double">
+                "active power [kW]"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                q_kvars_before
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                color
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "orange"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_xlabel
+            <inline classes="punctuation">
+                (
+            <inline classes="literal string double">
+                "steps (15-minutes)"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                set_ylabel
+            <inline classes="punctuation">
+                (
+            <inline classes="literal string double">
+                "reactive power [kVAr]"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                plt
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                savefig
+            <inline classes="punctuation">
+                (
+            <inline classes="literal string double">
+                "pv_only.png"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                dpi
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                300
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                bbox_inches
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "tight"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                p_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+             
+            <inline classes="operator">
+                -
+             
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ],
+             
+            <inline classes="name">
+                edgecolor
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "red"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                fc
+            <inline classes="operator">
+                =
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                q_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+             
+            <inline classes="operator">
+                -
+             
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ],
+             
+            <inline classes="name">
+                edgecolor
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "red"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                fc
+            <inline classes="operator">
+                =
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                plt
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                savefig
+            <inline classes="punctuation">
+                (
+            <inline classes="literal string double">
+                "pv_with_forecast.png"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                dpi
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                300
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                bbox_inches
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "tight"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                p_kws_after
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                color
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "lightgreen"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                q_kvars_after
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                color
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "yellow"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                p_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+             
+            <inline classes="operator">
+                -
+             
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ],
+             
+            <inline classes="name">
+                edgecolor
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "red"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                fc
+            <inline classes="operator">
+                =
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                axes
+            <inline classes="punctuation">
+                [
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ]
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                bar
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                index
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                q_forecast
+            <inline classes="punctuation">
+                [
+            <inline classes="name">
+                start
+             
+            <inline classes="operator">
+                -
+             
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ],
+             
+            <inline classes="name">
+                edgecolor
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "red"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                fc
+            <inline classes="operator">
+                =
+            <inline classes="punctuation">
+                (
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ))
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                plt
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                savefig
+            <inline classes="punctuation">
+                (
+            <inline classes="literal string double">
+                "pv_with_actual.png"
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                dpi
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                300
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                bbox_inches
+            <inline classes="operator">
+                =
+            <inline classes="literal string double">
+                "tight"
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                plt
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                close
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="keyword">
+                def
+            <inline classes="whitespace">
+                 
+            <inline classes="name function">
+                datetime_to_index
+            <inline classes="punctuation">
+                (
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                dt
+            <inline classes="punctuation">
+                :
+             
+            <inline classes="name">
+                datetime
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                step_size
+            <inline classes="punctuation">
+                :
+             
+            <inline classes="name builtin">
+                int
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                900
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                steps_per_year
+            <inline classes="punctuation">
+                :
+             
+            <inline classes="name builtin">
+                int
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="literal number integer">
+                35135
+            <inline classes="whitespace">
+                
+            <inline classes="punctuation">
+                )
+             
+            <inline classes="operator">
+                ->
+             
+            <inline classes="name builtin">
+                int
+            <inline classes="punctuation">
+                :
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                dif
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                dt
+             
+            <inline classes="operator">
+                -
+             
+            <inline classes="name">
+                dt
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                replace
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                month
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                day
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                1
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                hour
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                minute
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                ,
+             
+            <inline classes="name">
+                second
+            <inline classes="operator">
+                =
+            <inline classes="literal number integer">
+                0
+            <inline classes="punctuation">
+                )
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                dif
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name">
+                dif
+            <inline classes="operator">
+                .
+            <inline classes="name">
+                total_seconds
+            <inline classes="punctuation">
+                ()
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                idx
+             
+            <inline classes="operator">
+                =
+             
+            <inline classes="name builtin">
+                int
+            <inline classes="punctuation">
+                (
+            <inline classes="name">
+                dif
+             
+            <inline classes="operator">
+                //
+             
+            <inline classes="name">
+                step_size
+            <inline classes="punctuation">
+                )
+             
+            <inline classes="operator">
+                %
+             
+            <inline classes="name">
+                steps_per_year
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="keyword">
+                return
+             
+            <inline classes="name">
+                idx
+            <inline classes="whitespace">
+                
+                
+                
+            <inline classes="keyword">
+                if
+             
+            <inline classes="name variable magic">
+                __name__
+             
+            <inline classes="operator">
+                ==
+             
+            <inline classes="literal string double">
+                "__main__"
+            <inline classes="punctuation">
+                :
+            <inline classes="whitespace">
+                
+                
+            <inline classes="name">
+                main
+            <inline classes="punctuation">
+                ()
