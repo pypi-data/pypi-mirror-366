@@ -1,0 +1,29 @@
+[project]
+name = "yaal-parser"
+version = "0.1.0"
+description = "YAAL (Yet Another Abstract Language) Parser"
+requires-python = ">=3.12"
+dependencies = [
+    "lark>=1.2.2",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/yaal_parser"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--cov=yaal_parser",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "-v"
+]

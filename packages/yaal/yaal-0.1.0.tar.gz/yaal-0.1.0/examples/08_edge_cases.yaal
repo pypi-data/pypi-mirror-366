@@ -1,0 +1,125 @@
+# Edge Cases and Special Characters Example
+# This file tests parser robustness with various edge cases
+
+# Unicode and international characters
+unicode_test: 你好世界
+emoji_field: 🚀 Rocket Launch 🌟
+accented_text: Café, naïve, résumé
+mixed_scripts: English العربية 中文 русский
+
+# Special characters in keys and values
+key-with-dashes: value
+key_with_underscores: value
+key.with.dots: value
+key@with@symbols: value
+123numeric_key: numeric keys work
+
+# Values with special characters
+special_chars: "!@#$%^&*()_+-=[]{}|;:,.<>?"
+quotes_in_value: "He said \"Hello\" and she replied 'Hi'"
+backslashes: 'C:\Windows\System32\file.exe'
+forward_slashes: /usr/local/bin/application
+
+# Empty and whitespace handling
+empty_value:
+whitespace_value:    
+just_spaces:        
+
+# Very long values
+long_value: "This is a very long value that spans across what would normally be multiple lines but is kept as a single line to test the parser's ability to handle long content without issues or truncation problems"
+very_long_key_name_that_tests_parser_limits_and_edge_cases_with_extended_identifiers: short value
+
+# Numbers and numeric-like strings
+integer: 42
+float: 3.14159
+negative: -123
+scientific: 1.23e-4
+version_number: 1.2.3.4
+ip_address: 192.168.1.1
+port_number: 8080
+
+# Boolean-like values (treated as strings)
+true_value: true
+false_value: false
+yes_value: yes
+no_value: no
+on_value: on
+off_value: off
+
+# Date and time formats
+iso_date: 2024-01-15T10:30:45Z
+simple_date: 2024-01-15
+time_only: 10:30:45
+timestamp: 1705312245
+
+# URLs and complex strings
+http_url: http://example.com/path?param=value&other=123
+https_url: https://secure.example.com:8443/api/v1/users
+ftp_url: ftp://files.example.com/downloads/file.zip
+email: user.name+tag@domain.co.uk
+complex_email: '"user name"@domain.com'
+
+# JSON-like structures (as strings)
+json_string: '{"key": "value", "number": 42, "array": [1, 2, 3]}'
+xml_string: '<root><item id="1">value</item></root>'
+
+# Code snippets and commands
+bash_command: 'ls -la | grep "\.txt$" | wc -l'
+sql_query: "SELECT * FROM users WHERE created_at > '2024-01-01' AND status = 'active'"
+regex_pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+# Nested structures with edge cases
+edge_case_nesting:
+  level1:
+    # Empty nested section
+    empty_section:
+    
+    # Section with only simple items
+    simple_items:
+      item1
+      item2
+      item3
+    
+    # Mixed content with edge cases
+    mixed_section:
+      key_with_colon_in_value: http://example.com:8080
+      key_with_quotes: "quoted value"
+      key_with_unicode: 测试值
+      
+      # Deeply nested with special characters
+      deep_nesting:
+        level3:
+          special_at_key: value with spaces
+          unicode_key_测试: unicode_value_值
+
+# Multiline strings with edge cases
+multiline_with_quotes: """
+This string contains "double quotes" and 'single quotes'.
+It also has special characters: !@#$%^&*()
+And unicode: 你好 🌍 café
+"""
+
+multiline_code: """
+#!/bin/bash
+# Script with special characters
+echo "Hello, World!"
+grep -E '^[0-9]+$' file.txt | sort -n
+"""
+
+# Brace blocks with edge cases
+complex_script: {
+  echo "Testing special characters in brace blocks"
+  echo 'Single quotes work: $HOME'
+  echo "Double quotes work: $HOME"
+  echo "Unicode: 你好世界"
+  
+  # Nested braces
+  if [ "$USER" = "admin" ]; then
+    echo "Admin user detected"
+  fi
+}
+
+# Comments with special characters
+# Comment with unicode: 测试注释 🚀
+# Comment with symbols: !@#$%^&*()
+# Comment with quotes: "quoted" and 'single quoted'

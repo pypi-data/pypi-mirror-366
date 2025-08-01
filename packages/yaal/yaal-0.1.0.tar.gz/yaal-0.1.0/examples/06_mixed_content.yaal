@@ -1,0 +1,148 @@
+# Mixed Content and Complex Indentation Example
+# This file demonstrates complex indentation patterns and mixed content types
+
+# Infrastructure configuration with mixed content
+infrastructure:
+  # Simple values at this level
+  provider: aws
+  region: us-east-1
+  
+  # Nested configuration with mixed indentation
+  vpc:
+    cidr: 10.0.0.0/16
+    subnets:
+      public:
+        cidr: 10.0.1.0/24
+        availability_zone: us-east-1a
+        # Deeper nesting with values and lists
+        resources:
+          nat_gateway
+          internet_gateway
+          route_table
+          security_groups:
+            web:
+              ingress:
+                port: 80
+                protocol: tcp
+                source: 0.0.0.0/0
+              egress:
+                port: 443
+                protocol: tcp
+                destination: 0.0.0.0/0
+      private:
+        cidr: 10.0.2.0/24
+        availability_zone: us-east-1b
+        resources:
+          database_subnet_group
+          cache_subnet_group
+
+# Application deployment with complex structure
+applications:
+  web_app:
+    name: frontend-service
+    # Mixed content: values and nested structures
+    replicas: 3
+    image: myapp:v1.2.3
+    configuration:
+      environment_variables:
+        NODE_ENV: production
+        API_URL: https://api.example.com
+        DATABASE_URL: postgresql://user:pass@db:5432/app
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      health_checks:
+        liveness_probe: { curl -f http://localhost:3000/health }
+        readiness_probe: { curl -f http://localhost:3000/ready }
+    
+  api_service:
+    name: backend-api
+    replicas: 2
+    image: api:v2.1.0
+    dependencies:
+      database
+      cache
+      message_queue
+    configuration:
+      ports:
+        http: 8080
+        metrics: 9090
+      scaling:
+        min_replicas: 2
+        max_replicas: 10
+        target_cpu: 70
+        target_memory: 80
+
+# Monitoring setup with deeply nested configuration
+monitoring:
+  enabled: true
+  prometheus:
+    enabled: true
+    retention: 15d
+    storage: 50Gi
+    rules:
+      cpu_usage:
+        alert: high_cpu_usage
+        expression: cpu_usage > 80
+        duration: 5m
+        severity: warning
+        actions:
+          notification: { slack --channel alerts --message "High CPU usage detected" }
+          auto_scale: { kubectl scale deployment --replicas=5 }
+      memory_usage:
+        alert: high_memory_usage
+        expression: memory_usage > 90
+        duration: 2m
+        severity: critical
+        actions:
+          immediate_alert: { pagerduty --severity critical --message "Critical memory usage" }
+          emergency_scale: { kubectl scale deployment --replicas=8 }
+
+# Security configuration with mixed patterns
+security:
+  authentication:
+    enabled: true
+    providers:
+      oauth2:
+        enabled: true
+        client_id: app_client_123
+        scopes:
+          read
+          write
+          admin
+        endpoints:
+          authorization: https://auth.example.com/oauth/authorize
+          token: https://auth.example.com/oauth/token
+          userinfo: https://auth.example.com/oauth/userinfo
+      ldap:
+        enabled: false
+        server: ldap.company.com
+        base_dn: ou=users,dc=company,dc=com
+  
+  authorization:
+    rbac_enabled: true
+    policies:
+      admin_policy:
+        subjects:
+          admin_users
+          system_administrators
+        permissions:
+          create
+          read
+          update
+          delete
+        resources:
+          all_resources
+      user_policy:
+        subjects:
+          regular_users
+        permissions:
+          read
+          update_own
+        resources:
+          user_profiles
+          user_data

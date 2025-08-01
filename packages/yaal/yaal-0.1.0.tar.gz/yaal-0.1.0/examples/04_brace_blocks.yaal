@@ -1,0 +1,95 @@
+# Brace Blocks Example
+# This file demonstrates executable code blocks using braces
+
+# Simple shell commands
+setup_script: { echo "Setting up environment..." }
+cleanup: { rm -rf /tmp/build && mkdir -p /tmp/build }
+
+# Multi-line scripts
+build_process: {
+  echo "Starting build process..."
+  npm install
+  npm run build
+  echo "Build completed successfully"
+}
+
+# Scripts with complex logic
+deployment_script: {
+  if [ "$ENVIRONMENT" = "production" ]; then
+    echo "Deploying to production"
+    docker build -t myapp:latest .
+    docker push myapp:latest
+    kubectl apply -f k8s/production/
+  else
+    echo "Deploying to staging"
+    docker build -t myapp:staging .
+    docker push myapp:staging
+    kubectl apply -f k8s/staging/
+  fi
+}
+
+# Database operations
+database_setup: {
+  psql -h localhost -U admin -d mydb << EOF
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+  
+  INSERT INTO users (name, email) VALUES 
+    ('John Doe', 'john@example.com'),
+    ('Jane Smith', 'jane@example.com');
+  EOF
+}
+
+# Nested braces (complex scripts)
+advanced_deployment: {
+  echo "Advanced deployment starting..."
+  
+  # Check prerequisites
+  if ! command -v docker &> /dev/null; then
+    echo "Docker not found, installing..."
+    curl -fsSL https://get.docker.com | sh
+  fi
+  
+  # Build and deploy
+  docker build -t myapp . && {
+    echo "Build successful, deploying..."
+    docker run -d --name myapp-container myapp
+  } || {
+    echo "Build failed, rolling back..."
+    docker rmi myapp:latest || true
+  }
+}
+
+# Python scripts
+data_processing: {
+  python3 << 'EOF'
+import pandas as pd
+import numpy as np
+
+# Load and process data
+df = pd.read_csv('data.csv')
+df['processed'] = df['value'] * 2
+df.to_csv('processed_data.csv', index=False)
+print(f"Processed {len(df)} records")
+EOF
+}
+
+# Configuration with embedded scripts
+monitoring:
+  enabled: true
+  check_script: { curl -f http://localhost:8080/health || exit 1 }
+  alert_script: {
+    curl -X POST https://hooks.slack.com/webhook \
+      -H 'Content-Type: application/json' \
+      -d '{"text": "Service health check failed!"}'
+  }
+  restart_script: {
+    echo "Restarting service..."
+    systemctl restart myapp
+    sleep 5
+    systemctl status myapp
+  }

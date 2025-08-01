@@ -1,0 +1,10 @@
+deployment:
+  staging
+  environment: production
+  servers:
+    web-01
+    web-02
+    database: db-01
+  settings:
+    auto_scale: true
+    max_instances: 10

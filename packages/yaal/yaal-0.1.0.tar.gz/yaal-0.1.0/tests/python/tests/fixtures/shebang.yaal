@@ -1,0 +1,4 @@
+#!pipeline
+checkout: github.com/user/repo
+build: docker build -t myapp .
+deploy: kubectl apply -f k8s/

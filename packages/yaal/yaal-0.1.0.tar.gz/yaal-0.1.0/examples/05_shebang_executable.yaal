@@ -1,0 +1,68 @@
+#!pipeline
+# Shebang and Executable Example
+# This file demonstrates YAAL files that can be executed as scripts
+
+# Pipeline configuration
+name: Data Processing Pipeline
+version: 1.0.0
+author: DevOps Team
+
+# Environment setup
+environment:
+  type: production
+  region: us-west-2
+  
+# Input sources
+inputs:
+  database:
+    host: db.example.com
+    port: 5432
+    database: analytics
+  api_endpoint: https://api.example.com/data
+  file_path: /data/input/raw_data.csv
+
+# Processing steps
+steps:
+  extract: { python scripts/extract.py --source database }
+  transform: { python scripts/transform.py --input extracted_data.json }
+  validate: { python scripts/validate.py --data transformed_data.json }
+  load: { python scripts/load.py --target warehouse --data validated_data.json }
+
+# Output configuration
+outputs:
+  warehouse:
+    type: postgresql
+    connection: postgresql://user:pass@warehouse.example.com/data
+  reports:
+    format: json
+    location: /data/output/reports/
+  notifications:
+    slack: "#data-team"
+    email: data-team@example.com
+
+# Error handling
+error_handling:
+  retry_attempts: 3
+  retry_delay: 30
+  on_failure: { 
+    echo "Pipeline failed, sending alert..."
+    python scripts/send_alert.py --type failure --pipeline data_processing
+  }
+
+# Monitoring and logging
+monitoring:
+  enabled: true
+  metrics:
+    duration: true
+    memory_usage: true
+    record_count: true
+  logging:
+    level: info
+    destination: /var/log/pipeline.log
+
+# Cleanup
+cleanup: {
+  echo "Cleaning up temporary files..."
+  rm -f /tmp/pipeline_*
+  echo "Cleanup completed"
+}

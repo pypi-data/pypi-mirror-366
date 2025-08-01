@@ -1,0 +1,238 @@
+#!configuration
+# Real-World Configuration Example
+# This file demonstrates a complete application configuration
+
+# Application metadata
+application:
+  name: E-Commerce Platform
+  version: 2.3.1
+  description: """
+  A comprehensive e-commerce platform built with microservices architecture.
+  Supports multiple payment gateways, inventory management, and real-time analytics.
+  """
+  maintainer: platform-team@company.com
+
+# Environment-specific settings
+environment: production
+debug_mode: false
+log_level: info
+
+# Database configuration
+database:
+  primary:
+    type: postgresql
+    host: db-primary.internal
+    port: 5432
+    database: ecommerce_prod
+    username: app_user
+    password: "${DB_PASSWORD}"
+    pool_size: 20
+    timeout: 30
+    ssl_mode: require
+  
+  replica:
+    type: postgresql
+    host: db-replica.internal
+    port: 5432
+    database: ecommerce_prod
+    username: readonly_user
+    password: "${DB_READONLY_PASSWORD}"
+    pool_size: 10
+    
+  cache:
+    type: redis
+    host: redis-cluster.internal
+    port: 6379
+    password: "${REDIS_PASSWORD}"
+    database: 0
+    ttl: 3600
+
+# Microservices configuration
+services:
+  user_service:
+    enabled: true
+    port: 8001
+    replicas: 3
+    health_check: { curl -f http://localhost:8001/health }
+    dependencies:
+      database
+      cache
+    configuration:
+      jwt_secret: "${JWT_SECRET}"
+      session_timeout: 1800
+      password_policy:
+        min_length: 8
+        require_uppercase: true
+        require_numbers: true
+        require_special: true
+  
+  product_service:
+    enabled: true
+    port: 8002
+    replicas: 5
+    health_check: { curl -f http://localhost:8002/health }
+    dependencies:
+      database
+      search_engine
+    configuration:
+      image_storage: s3://product-images-bucket
+      search_index: products_v2
+      cache_duration: 300
+  
+  order_service:
+    enabled: true
+    port: 8003
+    replicas: 4
+    health_check: { curl -f http://localhost:8003/health }
+    dependencies:
+      database
+      payment_gateway
+      inventory_service
+    configuration:
+      order_timeout: 900
+      payment_timeout: 300
+      notification_queue: orders_notifications
+
+# External integrations
+integrations:
+  payment_gateways:
+    stripe:
+      enabled: true
+      api_key: "${STRIPE_API_KEY}"
+      webhook_secret: "${STRIPE_WEBHOOK_SECRET}"
+      supported_currencies:
+        USD
+        EUR
+        GBP
+    paypal:
+      enabled: true
+      client_id: "${PAYPAL_CLIENT_ID}"
+      client_secret: "${PAYPAL_CLIENT_SECRET}"
+      environment: production
+  
+  shipping_providers:
+    fedex:
+      enabled: true
+      api_key: "${FEDEX_API_KEY}"
+      account_number: "${FEDEX_ACCOUNT}"
+    ups:
+      enabled: true
+      api_key: "${UPS_API_KEY}"
+      account_number: "${UPS_ACCOUNT}"
+  
+  email_service:
+    provider: sendgrid
+    api_key: "${SENDGRID_API_KEY}"
+    templates:
+      welcome: d-123456789
+      order_confirmation: d-987654321
+      password_reset: d-456789123
+
+# Security configuration
+security:
+  cors:
+    enabled: true
+    allowed_origins:
+      https://www.example.com
+      https://admin.example.com
+    allowed_methods:
+      GET
+      POST
+      PUT
+      DELETE
+    allowed_headers:
+      Content-Type
+      Authorization
+      X-Requested-With
+  
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    burst_limit: 200
+    whitelist:
+      10.0.0.0/8
+      192.168.0.0/16
+  
+  ssl:
+    enabled: true
+    certificate_path: /etc/ssl/certs/app.crt
+    private_key_path: /etc/ssl/private/app.key
+    protocols:
+      TLSv1.2
+      TLSv1.3
+
+# Monitoring and observability
+monitoring:
+  metrics:
+    enabled: true
+    endpoint: /metrics
+    port: 9090
+    collectors:
+      application_metrics
+      system_metrics
+      database_metrics
+  
+  logging:
+    level: info
+    format: json
+    outputs:
+      console: true
+      file: /var/log/app.log
+      elasticsearch: https://logs.company.com
+  
+  tracing:
+    enabled: true
+    jaeger_endpoint: http://jaeger:14268/api/traces
+    sample_rate: 0.1
+  
+  health_checks:
+    startup_probe: { curl -f http://localhost:8080/startup }
+    liveness_probe: { curl -f http://localhost:8080/health }
+    readiness_probe: { curl -f http://localhost:8080/ready }
+
+# Deployment configuration
+deployment:
+  strategy: rolling_update
+  max_unavailable: 1
+  max_surge: 1
+  
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  
+  auto_scaling:
+    enabled: true
+    min_replicas: 3
+    max_replicas: 20
+    target_cpu_utilization: 70
+    target_memory_utilization: 80
+  
+  volumes:
+    config_volume: /etc/app/config
+    logs_volume: /var/log/app
+    temp_volume: /tmp/app
+
+# Backup and disaster recovery
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention_days: 30
+  destinations:
+    s3_bucket: backups-ecommerce-prod
+    encryption: AES256
+  
+  scripts:
+    database_backup: {
+      pg_dump -h "${DB_HOST}" -U "${DB_USER}" -d "${DB_NAME}" | \
+      gzip | \
+      aws s3 cp - s3://backups-ecommerce-prod/db/$(date +%Y%m%d_%H%M%S).sql.gz
+    }
+    
+    files_backup: {
+      tar -czf - /var/app/uploads | \
+      aws s3 cp - s3://backups-ecommerce-prod/files/$(date +%Y%m%d_%H%M%S).tar.gz
+    }

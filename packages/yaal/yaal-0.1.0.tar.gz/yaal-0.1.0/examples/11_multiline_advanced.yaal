@@ -1,0 +1,489 @@
+# Advanced Multiline String Examples
+# This file demonstrates complex usage of triple-quoted multiline strings
+
+# Basic multiline string at root level
+project_description: """
+YAAL (Yet Another Abstract Language) is a powerful configuration language
+that combines the simplicity of YAML with executable code blocks.
+
+Key features:
+- Human-readable syntax
+- Support for executable code blocks
+- Flexible data structures
+- Unicode support
+- Multiline string support
+"""
+
+# Multiline strings in nested structures
+database:
+  connection_string: postgresql://user:pass@localhost:5432/mydb
+  migration_script: """
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(50) UNIQUE NOT NULL,
+      email VARCHAR(100) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    CREATE INDEX idx_users_email ON users(email);
+    CREATE INDEX idx_users_username ON users(username);
+    
+    INSERT INTO users (username, email, password_hash) VALUES
+      ('admin', 'admin@example.com', '$2b$12$hash1'),
+      ('user1', 'user1@example.com', '$2b$12$hash2')
+    ON CONFLICT (username) DO NOTHING;
+  """
+  
+  backup_config:
+    enabled: true
+    schedule: "0 2 * * *"
+    retention_policy: """
+      # Backup Retention Policy
+      
+      Daily backups: Keep for 7 days
+      Weekly backups: Keep for 4 weeks  
+      Monthly backups: Keep for 12 months
+      Yearly backups: Keep for 5 years
+      
+      Cleanup process:
+      1. Identify backups older than retention period
+      2. Verify backup integrity before deletion
+      3. Log all deletion activities
+      4. Send notification on completion
+    """
+
+# Deep nesting with multiline strings
+application:
+  services:
+    web_service:
+      name: frontend-app
+      dockerfile_content: """
+        FROM node:18-alpine
+        
+        WORKDIR /app
+        
+        # Copy package files
+        COPY package*.json ./
+        RUN npm ci --only=production
+        
+        # Copy application code
+        COPY . .
+        
+        # Build the application
+        RUN npm run build
+        
+        # Expose port
+        EXPOSE 3000
+        
+        # Health check
+        HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+          CMD curl -f http://localhost:3000/health || exit 1
+        
+        # Start the application
+        CMD ["npm", "start"]
+      """
+      
+      configuration:
+        environment: production
+        scaling:
+          min_replicas: 2
+          max_replicas: 10
+        monitoring:
+          enabled: true
+          prometheus_config: """
+            global:
+              scrape_interval: 15s
+              evaluation_interval: 15s
+            
+            rule_files:
+              - "alert_rules.yml"
+            
+            scrape_configs:
+              - job_name: 'web-service'
+                static_configs:
+                  - targets: ['localhost:3000']
+                metrics_path: /metrics
+                scrape_interval: 10s
+          """
+
+# Multiline strings with brace blocks
+deployment:
+  pre_deploy_script: {
+    echo "Starting pre-deployment checks..."
+    
+    # Check if database is accessible
+    if ! pg_isready -h $DB_HOST -p $DB_PORT; then
+      echo "Database is not accessible"
+      exit 1
+    fi
+    
+    echo "Pre-deployment checks completed"
+  }
+  
+  database_migration: """
+    -- Migration: Add user preferences table
+    -- Version: 2024.01.15.001
+    
+    BEGIN;
+    
+    CREATE TABLE user_preferences (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      preference_key VARCHAR(100) NOT NULL,
+      preference_value TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, preference_key)
+    );
+    
+    CREATE INDEX idx_user_preferences_user_id ON user_preferences(user_id);
+    CREATE INDEX idx_user_preferences_key ON user_preferences(preference_key);
+    
+    -- Insert default preferences
+    INSERT INTO user_preferences (user_id, preference_key, preference_value)
+    SELECT id, 'theme', 'light' FROM users
+    ON CONFLICT (user_id, preference_key) DO NOTHING;
+    
+    COMMIT;
+  """
+  
+  post_deploy_script: {
+    echo "Running post-deployment tasks..."
+    
+    # Apply database migrations
+    echo "Applying database migrations..."
+    psql -h $DB_HOST -p $DB_PORT -d $DB_NAME -f migrations.sql
+    
+    # Restart services
+    echo "Restarting services..."
+    systemctl restart web-service
+    systemctl restart api-service
+    
+    # Run health checks
+    echo "Running health checks..."
+    for service in web-service api-service; do
+      if ! systemctl is-active --quiet $service; then
+        echo "ERROR: $service is not running"
+        exit 1
+      fi
+    done
+    
+    echo "Post-deployment tasks completed successfully"
+  }
+
+# Brace blocks containing multiline strings
+testing:
+  integration_tests: {
+    echo "Setting up integration test environment..."
+    
+    # Create test database
+    createdb test_db
+    
+    # Apply schema
+    psql -d test_db << 'EOF'
+CREATE TABLE test_users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100)
+);
+
+INSERT INTO test_users (name, email) VALUES
+  ('Test User 1', 'test1@example.com'),
+  ('Test User 2', 'test2@example.com');
+EOF
+    
+    # Run tests
+    npm test
+    
+    # Cleanup
+    dropdb test_db
+    
+    echo "Integration tests completed"
+  }
+  
+  test_data_setup: """
+    # Test Data Setup Instructions
+    
+    ## Prerequisites
+    - PostgreSQL 14+ installed
+    - Node.js 18+ installed
+    - Redis server running
+    
+    ## Setup Steps
+    
+    1. Create test database:
+       ```sql
+       CREATE DATABASE test_yaal_app;
+       ```
+    
+    2. Apply test schema:
+       ```bash
+       psql -d test_yaal_app -f test_schema.sql
+       ```
+    
+    3. Load test data:
+       ```bash
+       psql -d test_yaal_app -f test_data.sql
+       ```
+    
+    ## Test Data Description
+    
+    - 100 test users with various roles
+    - 500 test orders spanning 2 years
+    - 50 test products across 10 categories
+    - Sample configuration data
+    
+    ## Cleanup
+    
+    After testing, run:
+    ```bash
+    dropdb test_yaal_app
+    ```
+  """
+
+# Complex nested structure with multiline strings and brace blocks
+monitoring:
+  alerting:
+    rules:
+      high_cpu_usage:
+        condition: cpu_usage > 80
+        duration: 5m
+        severity: warning
+        description: """
+          High CPU usage detected on {{ $labels.instance }}.
+          
+          Current usage: {{ $value }}%
+          Threshold: 80%
+          Duration: 5 minutes
+          
+          Possible causes:
+          - High traffic load
+          - Inefficient queries
+          - Memory leaks
+          - Background processes
+          
+          Recommended actions:
+          1. Check application logs
+          2. Review recent deployments
+          3. Monitor memory usage
+          4. Consider scaling up
+        """
+        
+        notification_script: {
+          # Send alert to Slack
+          curl -X POST "$SLACK_WEBHOOK_URL" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "text": "🚨 High CPU Usage Alert",
+              "attachments": [{
+                "color": "warning",
+                "fields": [{
+                  "title": "Instance",
+                  "value": "'$INSTANCE'",
+                  "short": true
+                }, {
+                  "title": "CPU Usage",
+                  "value": "'$CPU_USAGE'%",
+                  "short": true
+                }]
+              }]
+            }'
+          
+          # Log to monitoring system
+          echo "$(date): High CPU alert for $INSTANCE ($CPU_USAGE%)" >> /var/log/alerts.log
+        }
+      
+      database_connection_failure:
+        condition: database_connections_failed > 0
+        duration: 1m
+        severity: critical
+        description: """
+          Database connection failures detected.
+          
+          Failed connections: {{ $value }}
+          Impact: Application may be unavailable
+          
+          Immediate actions required:
+          1. Check database server status
+          2. Verify network connectivity
+          3. Review connection pool settings
+          4. Check for database locks
+        """
+        
+        emergency_response: {
+          echo "CRITICAL: Database connection failure detected"
+          
+          # Check database status
+          if ! pg_isready -h $DB_HOST -p $DB_PORT; then
+            echo "Database server is not responding"
+            
+            # Attempt to restart database service
+            if [ "$AUTO_RESTART_DB" = "true" ]; then
+              echo "Attempting to restart database service..."
+              systemctl restart postgresql
+              sleep 10
+              
+              if pg_isready -h $DB_HOST -p $DB_PORT; then
+                echo "Database service restarted successfully"
+              else
+                echo "Failed to restart database service - manual intervention required"
+              fi
+            fi
+          fi
+          
+          # Send critical alert
+          curl -X POST "$PAGERDUTY_URL" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "routing_key": "'$PAGERDUTY_KEY'",
+              "event_action": "trigger",
+              "payload": {
+                "summary": "Database Connection Failure",
+                "severity": "critical",
+                "source": "'$HOSTNAME'"
+              }
+            }'
+        }
+
+# Documentation with multiline strings and code examples
+documentation:
+  api_guide: """
+    # YAAL API Documentation
+    
+    ## Overview
+    
+    The YAAL API provides programmatic access to configuration management
+    and execution capabilities.
+    
+    ## Authentication
+    
+    All API requests require authentication using API keys:
+    
+    ```bash
+    curl -H "Authorization: Bearer YOUR_API_KEY" \
+         https://api.example.com/v1/configs
+    ```
+    
+    ## Endpoints
+    
+    ### GET /v1/configs
+    
+    Retrieve all configurations:
+    
+    ```json
+    {
+      "configs": [
+        {
+          "id": "config-1",
+          "name": "Production Config",
+          "created_at": "2024-01-15T10:30:00Z"
+        }
+      ]
+    }
+    ```
+    
+    ### POST /v1/configs
+    
+    Create a new configuration:
+    
+    ```json
+    {
+      "name": "My Config",
+      "content": "key: value\nscript: { echo 'hello' }"
+    }
+    ```
+    
+    ## Error Handling
+    
+    The API returns standard HTTP status codes:
+    
+    - 200: Success
+    - 400: Bad Request
+    - 401: Unauthorized
+    - 404: Not Found
+    - 500: Internal Server Error
+    
+    Error responses include details:
+    
+    ```json
+    {
+      "error": {
+        "code": "INVALID_SYNTAX",
+        "message": "Parse error at line 5",
+        "details": "Unexpected token '}'"
+      }
+    }
+    ```
+  """
+  
+  setup_script: {
+    cat << 'EOF' > setup_guide.md
+# YAAL Setup Guide
+
+## Installation
+
+### Using Package Manager
+
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install yaal
+
+# CentOS/RHEL
+sudo yum install yaal
+
+# macOS
+brew install yaal
+```
+
+### From Source
+
+```bash
+git clone https://github.com/example/yaal.git
+cd yaal
+make build
+sudo make install
+```
+
+## Configuration
+
+Create a configuration file:
+
+```yaal
+# ~/.yaal/config.yaal
+environment: development
+debug: true
+
+database:
+  host: localhost
+  port: 5432
+  name: myapp_dev
+
+logging:
+  level: debug
+  output: /var/log/yaal.log
+```
+
+## First Steps
+
+1. Validate your configuration:
+   ```bash
+   yaal validate config.yaal
+   ```
+
+2. Parse and execute:
+   ```bash
+   yaal run config.yaal
+   ```
+
+3. Extract data:
+   ```bash
+   yaal extract config.yaal --format json
+   ```
+
+EOF
+    
+    echo "Setup guide created successfully"
+  }

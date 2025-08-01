@@ -1,0 +1,69 @@
+# Nested Structures Example
+# This file demonstrates hierarchical data organization using indentation
+
+# Simple nesting
+user:
+  name: Alice Johnson
+  age: 28
+  active: true
+
+# Multiple levels of nesting
+database:
+  connection:
+    host: localhost
+    port: 5432
+    ssl: enabled
+  credentials:
+    username: dbuser
+    password: secret123
+  settings:
+    timeout: 30
+    pool_size: 10
+    retry_attempts: 3
+
+# Mixed content (values and nested structures)
+server:
+  name: web-server-01
+  config:
+    port: 8080
+    workers: 4
+    memory_limit: 2GB
+  monitoring:
+    enabled: true
+    metrics:
+      cpu: true
+      memory: true
+      disk: false
+
+# Complex nested configuration
+application:
+  environment: production
+  features:
+    authentication:
+      enabled: true
+      providers:
+        oauth: true
+        ldap: false
+        local: true
+    caching:
+      enabled: true
+      backend: redis
+      settings:
+        ttl: 3600
+        max_size: 100MB
+    logging:
+      level: info
+      outputs:
+        console: true
+        file: /var/log/app.log
+        syslog: false
+
+# Arrays represented as nested items
+users:
+  admin
+  editor
+  viewer
+  permissions:
+    admin: all
+    editor: read_write
+    viewer: read_only

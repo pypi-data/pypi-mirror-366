@@ -1,0 +1,297 @@
+# Documentation and Comments Example
+# This file demonstrates how to use YAAL for documentation and self-documenting configurations
+
+#!documentation
+# Project: YAAL Parser Examples
+# Version: 1.0.0
+# Author: Development Team
+# Purpose: Comprehensive examples of YAAL syntax and features
+
+# =============================================================================
+# PROJECT OVERVIEW
+# =============================================================================
+
+project:
+  name: YAAL Parser
+  description: """
+  Yet Another Abstract Language (YAAL) is a human-readable data serialization
+  and configuration language. It combines the simplicity of YAML with the
+  power of executable code blocks.
+  
+  Key features:
+  - Human-readable syntax
+  - Support for executable code blocks
+  - Flexible data structures
+  - Unicode support
+  - Comment support
+  """
+  
+  # Project metadata
+  version: 1.0.0
+  license: MIT
+  repository: https://github.com/example/yaal-parser
+  
+  # Team information
+  team:
+    lead: John Doe <john@example.com>
+    developers:
+      Alice Smith <alice@example.com>
+      Bob Johnson <bob@example.com>
+    qa_team:
+      Carol Wilson <carol@example.com>
+
+# =============================================================================
+# SYNTAX DOCUMENTATION
+# =============================================================================
+
+syntax_guide:
+  basic_syntax:
+    description: "YAAL uses key-value pairs separated by colons"
+    example: "key: value"
+    
+  comments:
+    description: "Comments start with # and continue to end of line"
+    examples:
+      single_line: "# This is a comment"
+      inline: "key: value  # This is an inline comment"
+      
+  strings:
+    unquoted:
+      description: "Simple strings don't need quotes"
+      example: "name: John Doe"
+      
+    double_quoted:
+      description: "Use double quotes for strings with special characters"
+      example: 'message: "Hello, \"World\"!"'
+      
+    single_quoted:
+      description: "Use single quotes for literal strings"
+      example: "path: '/usr/local/bin'"
+      
+    triple_quoted:
+      description: "Use triple quotes for multiline strings"
+      example: """
+      description: \"\"\"
+      This is a multiline
+      string that preserves
+      formatting.
+      \"\"\"
+      """
+
+  nesting:
+    description: "Use indentation to create nested structures"
+    example: """
+    parent:
+      child1: value1
+      child2: value2
+        grandchild: value3
+    """
+    
+  executable_blocks:
+    description: "Use braces for executable code blocks"
+    example: "script: { echo 'Hello, World!' }"
+
+# =============================================================================
+# CONFIGURATION EXAMPLES
+# =============================================================================
+
+# Web server configuration with detailed comments
+web_server:
+  # Basic server settings
+  host: 0.0.0.0          # Listen on all interfaces
+  port: 8080              # Default HTTP port
+  workers: 4              # Number of worker processes
+  
+  # SSL/TLS configuration
+  ssl:
+    enabled: true         # Enable HTTPS
+    certificate: /etc/ssl/certs/server.crt
+    private_key: /etc/ssl/private/server.key
+    protocols:            # Supported TLS protocols
+      TLSv1.2
+      TLSv1.3
+  
+  # Logging configuration
+  logging:
+    level: info           # Log level: debug, info, warn, error
+    format: json          # Log format: json, text
+    output: /var/log/server.log
+    
+    # Log rotation settings
+    rotation:
+      enabled: true
+      max_size: 100MB     # Rotate when log reaches this size
+      max_files: 10       # Keep this many rotated files
+      compress: true      # Compress rotated files
+
+# Database configuration with connection pooling
+database:
+  # Primary database connection
+  primary:
+    driver: postgresql
+    host: db-primary.example.com
+    port: 5432
+    database: myapp_production
+    
+    # Connection pool settings
+    pool:
+      min_connections: 5    # Minimum connections to maintain
+      max_connections: 20   # Maximum connections allowed
+      idle_timeout: 300     # Seconds before closing idle connections
+      
+  # Read replica for read-only queries
+  replica:
+    driver: postgresql
+    host: db-replica.example.com
+    port: 5432
+    database: myapp_production
+    
+    # Replica-specific settings
+    read_only: true
+    connection_timeout: 10  # Faster timeout for replicas
+
+# =============================================================================
+# DEPLOYMENT SCRIPTS
+# =============================================================================
+
+deployment:
+  # Pre-deployment checks
+  pre_deploy: {
+    echo "Running pre-deployment checks..."
+    
+    # Check if required services are running
+    systemctl is-active --quiet postgresql || {
+      echo "ERROR: PostgreSQL is not running"
+      exit 1
+    }
+    
+    # Check disk space
+    AVAILABLE=$(df / | tail -1 | awk '{print $4}')
+    if [ $AVAILABLE -lt 1000000 ]; then
+      echo "ERROR: Insufficient disk space"
+      exit 1
+    fi
+    
+    echo "Pre-deployment checks passed"
+  }
+  
+  # Main deployment script
+  deploy: {
+    echo "Starting deployment..."
+    
+    # Backup current version
+    cp -r /opt/myapp /opt/myapp.backup.$(date +%Y%m%d_%H%M%S)
+    
+    # Deploy new version
+    tar -xzf myapp-latest.tar.gz -C /opt/
+    
+    # Update configuration
+    cp config/production.conf /opt/myapp/config/
+    
+    # Restart services
+    systemctl restart myapp
+    systemctl restart nginx
+    
+    echo "Deployment completed successfully"
+  }
+  
+  # Post-deployment verification
+  post_deploy: {
+    echo "Running post-deployment verification..."
+    
+    # Wait for service to start
+    sleep 10
+    
+    # Health check
+    if curl -f http://localhost:8080/health; then
+      echo "Health check passed"
+    else
+      echo "ERROR: Health check failed"
+      # Rollback on failure
+      systemctl stop myapp
+      rm -rf /opt/myapp
+      mv /opt/myapp.backup.* /opt/myapp
+      systemctl start myapp
+      exit 1
+    fi
+    
+    echo "Post-deployment verification completed"
+  }
+
+# =============================================================================
+# MONITORING AND ALERTING
+# =============================================================================
+
+monitoring:
+  # Metrics collection
+  metrics:
+    enabled: true
+    interval: 30          # Collection interval in seconds
+    endpoint: /metrics    # Prometheus metrics endpoint
+    
+    # Custom metrics to collect
+    custom_metrics:
+      request_duration
+      database_connections
+      memory_usage
+      disk_usage
+      
+  # Alerting rules
+  alerts:
+    high_cpu:
+      condition: cpu_usage > 80
+      duration: 5m        # Alert if condition persists for 5 minutes
+      severity: warning
+      message: "High CPU usage detected on {{ $labels.instance }}"
+      
+    high_memory:
+      condition: memory_usage > 90
+      duration: 2m
+      severity: critical
+      message: "Critical memory usage on {{ $labels.instance }}"
+      
+    disk_space:
+      condition: disk_free < 10
+      duration: 1m
+      severity: critical
+      message: "Low disk space on {{ $labels.instance }}"
+
+# =============================================================================
+# BEST PRACTICES AND CONVENTIONS
+# =============================================================================
+
+best_practices:
+  naming_conventions:
+    description: """
+    Use clear, descriptive names for keys:
+    - Use snake_case for multi-word keys
+    - Avoid abbreviations unless they're well-known
+    - Use consistent naming patterns throughout the file
+    """
+    
+  organization:
+    description: """
+    Organize your YAAL files logically:
+    - Group related configuration together
+    - Use comments to separate major sections
+    - Keep nesting levels reasonable (max 4-5 levels)
+    - Use consistent indentation (2 or 4 spaces)
+    """
+    
+  documentation:
+    description: """
+    Document your configuration:
+    - Add comments explaining complex settings
+    - Include examples for non-obvious values
+    - Document any external dependencies
+    - Explain the purpose of executable blocks
+    """
+    
+  security:
+    description: """
+    Handle sensitive data carefully:
+    - Use environment variables for secrets
+    - Don't commit passwords or API keys
+    - Use proper file permissions
+    - Consider encryption for sensitive config files
+    """

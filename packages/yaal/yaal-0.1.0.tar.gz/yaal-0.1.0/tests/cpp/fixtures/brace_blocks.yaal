@@ -1,0 +1,7 @@
+script: { echo "hello world"; exit 0 }
+complex_script: {
+  if [ -f "file.txt" ]; then
+    echo "File exists"
+  fi
+}
+nested_braces: { outer { inner content } more }

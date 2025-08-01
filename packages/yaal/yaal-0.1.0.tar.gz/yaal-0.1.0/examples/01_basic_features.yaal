@@ -1,0 +1,30 @@
+# Basic YAAL Features Example
+# This file demonstrates the fundamental syntax elements of YAAL
+
+# Simple key-value pairs
+name: John Doe
+age: 30
+email: john.doe@example.com
+
+# Keys with spaces and special characters
+user name: admin
+api-key: abc123-def456
+config.timeout: 5000
+
+# Simple statements (items without colons)
+production
+debug mode enabled
+logging active
+
+# Empty values
+empty_field:
+placeholder:
+
+# Values with multiple colons (first colon rule)
+database_url: postgresql://user:password@localhost:5432/mydb
+timestamp: 2024-01-15T10:30:45
+time_range: 09:00-17:00
+
+# Comments are ignored
+# This is a comment
+api_endpoint: https://api.example.com  # Inline comments work too

@@ -1,0 +1,370 @@
+# Performance and Stress Test Example
+# This file tests parser performance with large and complex structures
+
+#!performance_test
+# Large-scale configuration for performance testing
+
+# =============================================================================
+# LARGE NESTED STRUCTURE (Tests deep nesting performance)
+# =============================================================================
+
+deep_nesting:
+  level1:
+    level2:
+      level3:
+        level4:
+          level5:
+            level6:
+              level7:
+                level8:
+                  level9:
+                    level10:
+                      deep_value: "This tests deep nesting performance"
+                      deep_config:
+                        setting1: value1
+                        setting2: value2
+                        setting3: value3
+
+# =============================================================================
+# WIDE STRUCTURE (Tests many siblings performance)
+# =============================================================================
+
+wide_structure:
+  item001: value001
+  item002: value002
+  item003: value003
+  item004: value004
+  item005: value005
+  item006: value006
+  item007: value007
+  item008: value008
+  item009: value009
+  item010: value010
+  item011: value011
+  item012: value012
+  item013: value013
+  item014: value014
+  item015: value015
+  item016: value016
+  item017: value017
+  item018: value018
+  item019: value019
+  item020: value020
+  item021: value021
+  item022: value022
+  item023: value023
+  item024: value024
+  item025: value025
+  item026: value026
+  item027: value027
+  item028: value028
+  item029: value029
+  item030: value030
+  item031: value031
+  item032: value032
+  item033: value033
+  item034: value034
+  item035: value035
+  item036: value036
+  item037: value037
+  item038: value038
+  item039: value039
+  item040: value040
+  item041: value041
+  item042: value042
+  item043: value043
+  item044: value044
+  item045: value045
+  item046: value046
+  item047: value047
+  item048: value048
+  item049: value049
+  item050: value050
+
+# =============================================================================
+# LARGE MULTILINE STRINGS (Tests string parsing performance)
+# =============================================================================
+
+large_documentation: """
+This is a very large multiline string that tests the parser's ability to handle
+substantial amounts of text content efficiently. The string contains multiple
+paragraphs, various formatting, and different types of content to simulate
+real-world documentation or configuration scenarios.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+in culpa qui officia deserunt mollit anim id est laborum.
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+
+Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore,
+cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod
+maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor
+repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum
+necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae
+non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut
+reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus
+asperiores repellat.
+"""
+
+large_sql_query: """
+SELECT 
+    u.id,
+    u.username,
+    u.email,
+    u.created_at,
+    u.last_login,
+    p.first_name,
+    p.last_name,
+    p.phone,
+    p.address,
+    p.city,
+    p.state,
+    p.zip_code,
+    p.country,
+    COUNT(o.id) as total_orders,
+    SUM(o.total_amount) as total_spent,
+    AVG(o.total_amount) as average_order_value,
+    MAX(o.created_at) as last_order_date,
+    MIN(o.created_at) as first_order_date,
+    COUNT(DISTINCT oi.product_id) as unique_products_purchased,
+    STRING_AGG(DISTINCT c.name, ', ') as categories_purchased
+FROM users u
+LEFT JOIN profiles p ON u.id = p.user_id
+LEFT JOIN orders o ON u.id = o.user_id
+LEFT JOIN order_items oi ON o.id = oi.order_id
+LEFT JOIN products pr ON oi.product_id = pr.id
+LEFT JOIN categories c ON pr.category_id = c.id
+WHERE u.created_at >= '2023-01-01'
+    AND u.status = 'active'
+    AND (p.country IS NULL OR p.country IN ('US', 'CA', 'UK', 'AU'))
+GROUP BY 
+    u.id, u.username, u.email, u.created_at, u.last_login,
+    p.first_name, p.last_name, p.phone, p.address, p.city, p.state, p.zip_code, p.country
+HAVING COUNT(o.id) > 0
+ORDER BY total_spent DESC, last_order_date DESC
+LIMIT 1000;
+"""
+
+# =============================================================================
+# COMPLEX BRACE BLOCKS (Tests executable block parsing)
+# =============================================================================
+
+complex_deployment_script: {
+  #!/bin/bash
+  set -euo pipefail
+  
+  # Configuration
+  APP_NAME="performance-test-app"
+  DEPLOY_ENV="${DEPLOY_ENV:-staging}"
+  BACKUP_DIR="/opt/backups"
+  LOG_FILE="/var/log/deploy.log"
+  
+  # Logging function
+  log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+  }
+  
+  # Error handling
+  cleanup() {
+    log "Cleaning up temporary files..."
+    rm -rf /tmp/deploy-*
+    if [ -f /tmp/maintenance.html ]; then
+      rm /tmp/maintenance.html
+    fi
+  }
+  trap cleanup EXIT
+  
+  # Pre-deployment checks
+  log "Starting deployment of $APP_NAME to $DEPLOY_ENV environment"
+  
+  # Check prerequisites
+  for cmd in docker kubectl helm; do
+    if ! command -v $cmd &> /dev/null; then
+      log "ERROR: $cmd is not installed"
+      exit 1
+    fi
+  done
+  
+  # Check cluster connectivity
+  if ! kubectl cluster-info &> /dev/null; then
+    log "ERROR: Cannot connect to Kubernetes cluster"
+    exit 1
+  fi
+  
+  # Create backup
+  log "Creating backup..."
+  BACKUP_FILE="$BACKUP_DIR/${APP_NAME}-$(date +%Y%m%d_%H%M%S).tar.gz"
+  kubectl get all -n $APP_NAME -o yaml > /tmp/k8s-backup.yaml
+  tar -czf "$BACKUP_FILE" /tmp/k8s-backup.yaml
+  
+  # Build and push image
+  log "Building Docker image..."
+  docker build -t "$APP_NAME:latest" .
+  docker tag "$APP_NAME:latest" "registry.company.com/$APP_NAME:$(git rev-parse --short HEAD)"
+  docker push "registry.company.com/$APP_NAME:$(git rev-parse --short HEAD)"
+  
+  # Deploy using Helm
+  log "Deploying with Helm..."
+  helm upgrade --install $APP_NAME ./helm-chart \
+    --namespace $APP_NAME \
+    --create-namespace \
+    --set image.tag="$(git rev-parse --short HEAD)" \
+    --set environment=$DEPLOY_ENV \
+    --wait \
+    --timeout=600s
+  
+  # Health check
+  log "Performing health check..."
+  for i in {1..30}; do
+    if kubectl get pods -n $APP_NAME | grep -q "Running"; then
+      log "Health check passed"
+      break
+    fi
+    if [ $i -eq 30 ]; then
+      log "ERROR: Health check failed"
+      exit 1
+    fi
+    sleep 10
+  done
+  
+  log "Deployment completed successfully"
+}
+
+# =============================================================================
+# MIXED COMPLEX STRUCTURE (Tests overall parser performance)
+# =============================================================================
+
+microservices_architecture:
+  api_gateway:
+    name: api-gateway
+    replicas: 3
+    image: nginx:alpine
+    configuration:
+      upstream_services:
+        user_service:
+          url: http://user-service:8080
+          health_check: /health
+          timeout: 30
+          retries: 3
+        product_service:
+          url: http://product-service:8080
+          health_check: /health
+          timeout: 30
+          retries: 3
+        order_service:
+          url: http://order-service:8080
+          health_check: /health
+          timeout: 30
+          retries: 3
+        payment_service:
+          url: http://payment-service:8080
+          health_check: /health
+          timeout: 30
+          retries: 3
+      rate_limiting:
+        requests_per_second: 1000
+        burst_size: 2000
+        whitelist_ips:
+          10.0.0.0/8
+          192.168.0.0/16
+          172.16.0.0/12
+      ssl_configuration:
+        certificate: /etc/ssl/certs/api.crt
+        private_key: /etc/ssl/private/api.key
+        protocols:
+          TLSv1.2
+          TLSv1.3
+        ciphers:
+          ECDHE-RSA-AES256-GCM-SHA384
+          ECDHE-RSA-AES128-GCM-SHA256
+          ECDHE-RSA-AES256-SHA384
+          ECDHE-RSA-AES128-SHA256
+
+  services:
+    user_service:
+      replicas: 5
+      resources:
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      environment_variables:
+        DATABASE_URL: postgresql://user:pass@db:5432/users
+        REDIS_URL: redis://redis:6379/0
+        JWT_SECRET: "${JWT_SECRET}"
+        LOG_LEVEL: info
+      health_checks:
+        startup: { curl -f http://localhost:8080/startup }
+        liveness: { curl -f http://localhost:8080/health }
+        readiness: { curl -f http://localhost:8080/ready }
+      
+    product_service:
+      replicas: 4
+      resources:
+        requests:
+          cpu: 300m
+          memory: 512Mi
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+      environment_variables:
+        DATABASE_URL: postgresql://user:pass@db:5432/products
+        ELASTICSEARCH_URL: http://elasticsearch:9200
+        S3_BUCKET: product-images
+        CDN_URL: https://cdn.example.com
+      dependencies:
+        elasticsearch
+        s3_storage
+        image_processing_service
+
+# =============================================================================
+# PERFORMANCE METRICS CONFIGURATION
+# =============================================================================
+
+performance_monitoring:
+  metrics_collection:
+    enabled: true
+    interval: 15
+    retention_period: 30d
+    
+  benchmarks:
+    parsing_speed:
+      target_files_per_second: 1000
+      max_file_size: 10MB
+      timeout: 30s
+      
+    memory_usage:
+      max_heap_size: 512MB
+      gc_threshold: 80%
+      
+    concurrent_parsing:
+      max_threads: 10
+      queue_size: 1000
+      
+  stress_tests:
+    large_file_test:
+      file_size: 50MB
+      expected_parse_time: 5s
+      
+    deep_nesting_test:
+      max_depth: 20
+      expected_parse_time: 1s
+      
+    wide_structure_test:
+      max_siblings: 10000
+      expected_parse_time: 2s

@@ -1,0 +1,48 @@
+# String Types Example
+# This file demonstrates all supported string types in YAAL
+
+# Unquoted strings (default)
+simple_string: Hello World
+with_numbers: Version 1.2.3
+with_symbols: user@domain.com
+
+# Double-quoted strings (for special characters)
+quoted_string: "Hello, World!"
+with_quotes: "She said \"Hello\" to me"
+with_newlines: "Line 1\nLine 2\nLine 3"
+with_tabs: "Column1\tColumn2\tColumn3"
+
+# Single-quoted strings (literal)
+single_quoted: 'Raw string with \n literal backslashes'
+path_example: '/usr/local/bin'
+regex_pattern: '^\d{3}-\d{2}-\d{4}$'
+
+# Triple-quoted strings (multiline)
+description: """
+This is a multiline string that can span
+multiple lines without needing escape characters.
+It preserves formatting and indentation.
+
+Perfect for documentation, SQL queries, or
+any content that needs to maintain structure.
+"""
+
+sql_query: """
+SELECT users.name, users.email, orders.total
+FROM users
+JOIN orders ON users.id = orders.user_id
+WHERE orders.created_at > '2024-01-01'
+ORDER BY orders.total DESC;
+"""
+
+documentation: """
+# API Documentation
+
+This endpoint accepts POST requests with JSON payload: {
+  "name": "string",
+  "age": number,
+  "active": boolean
+}
+
+Returns: User object with generated ID
+"""

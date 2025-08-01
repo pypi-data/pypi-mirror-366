@@ -1,0 +1,411 @@
+# Multiline Strings and Brace Block Combinations
+# This file demonstrates complex interactions between multiline strings and brace blocks
+
+#!automation
+# Advanced automation script with mixed content types
+
+# Multiline string containing brace-like syntax (should be treated as literal text)
+kubernetes_manifest: """
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: web-app
+labels:
+app: web-app
+spec:
+replicas: 3
+selector:
+matchLabels:
+app: web-app
+template:
+metadata:
+labels:
+app: web-app
+spec:
+containers:
+- name: web-app
+image: nginx:1.21
+ports:
+- containerPort: 80
+env:
+- name: ENV
+value: "production"
+resources:
+requests:
+memory: "64Mi"
+cpu: "250m"
+limits:
+memory: "128Mi"
+cpu: "500m"
+"""
+
+# Brace block that generates multiline content
+infrastructure_setup: {
+  echo "Setting up infrastructure..."
+  
+  # Generate Terraform configuration
+  cat << 'EOF' > main.tf
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  
+  tags = {
+    Name = "main-vpc"
+    Environment = var.environment
+  }
+}
+EOF
+  
+  echo "Terraform configuration generated"
+  terraform init
+  terraform apply
+}
+
+# Nested structure with multiline strings and brace blocks
+ci_cd_pipeline:
+  stages:
+    build:
+      dockerfile: """
+        FROM node:18-alpine AS builder
+        WORKDIR /app
+        COPY package*.json ./
+        RUN npm install
+        COPY src/ ./src/
+        RUN npm run build
+        
+        FROM node:18-alpine AS production
+        WORKDIR /app
+        COPY package*.json ./
+        RUN npm install --production
+        COPY --from=builder /app/dist ./dist
+        EXPOSE 3000
+        CMD ["node", "dist/server.js"]
+      """
+      
+      build_script: {
+        echo "Starting build process..."
+        docker build -t myapp:${BUILD_NUMBER} .
+        docker tag myapp:${BUILD_NUMBER} registry.example.com/myapp:latest
+        docker push registry.example.com/myapp:latest
+        echo "Build completed successfully"
+      }
+    
+    test:
+      test_configuration: """
+        Test Configuration
+        
+        Unit Tests:
+        - Framework: Jest
+        - Coverage: 80% minimum
+        - Files: src/**/*.test.ts
+        
+        Integration Tests:
+        - Framework: Supertest
+        - Database: PostgreSQL test instance
+        - Redis: Redis test instance
+        
+        E2E Tests:
+        - Framework: Playwright
+        - Browsers: Chrome, Firefox, Safari
+        
+        Performance Tests:
+        - Tool: Artillery
+        - Scenarios: Load, stress, spike
+        - Metrics: Response time, throughput, error rate
+      """
+      
+      run_tests: {
+        echo "Running comprehensive test suite..."
+        export NODE_ENV=test
+        docker-compose -f docker-compose.test.yml up -d
+        sleep 10
+        npm run test:unit -- --coverage
+        npm run test:integration
+        npm run test:e2e
+        docker-compose -f docker-compose.test.yml down
+        echo "All tests completed successfully"
+      }
+    
+    deploy:
+      deployment_manifest: """
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        metadata:
+        name: web-app
+        namespace: argocd
+        spec:
+        project: default
+        source:
+        repoURL: https://github.com/example/k8s-manifests
+        targetRevision: HEAD
+        path: apps/web-app
+        destination:
+        server: https://kubernetes.default.svc
+        namespace: production
+        syncPolicy:
+        automated:
+        prune: true
+        selfHeal: true
+      """
+      
+      deploy_script: {
+        echo "Starting deployment process..."
+        kubectl apply --dry-run=client -f k8s/
+        kubectl apply -f argocd-app.yaml
+        kubectl wait --for=condition=Synced application/web-app -n argocd --timeout=600s
+        echo "Deployment completed successfully"
+      }
+
+# Complex monitoring setup with multiline strings in brace blocks
+monitoring_setup: {
+  echo "Setting up comprehensive monitoring..."
+  
+  # Generate Prometheus configuration
+  cat << 'EOF' > prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'web-app'
+    static_configs:
+      - targets: ['web-app:3000']
+EOF
+  
+  echo "Monitoring configuration generated"
+  kubectl apply -f monitoring/
+  echo "Monitoring setup completed"
+}
+
+# Database operations with multiline SQL and shell scripts
+database_operations:
+  schema_migration: """
+    -- Database Schema Migration v2024.01.15
+    -- Description: Add user activity tracking
+    
+    BEGIN;
+    
+    CREATE TABLE user_activity_log (
+    id BIGSERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    activity_type VARCHAR(50) NOT NULL,
+    activity_data JSONB,
+    ip_address INET,
+    user_agent TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    CREATE INDEX idx_user_activity_user_id ON user_activity_log(user_id);
+    CREATE INDEX idx_user_activity_type ON user_activity_log(activity_type);
+    
+    INSERT INTO user_activity_log (user_id, activity_type, activity_data)
+    SELECT id, 'account_created', '{}' FROM users;
+    
+    COMMIT;
+  """
+  
+  migration_script: {
+    echo "Starting database migration..."
+    
+    # Backup current database
+    BACKUP_FILE="backup_$(date +%Y%m%d_%H%M%S).sql"
+    echo "Creating backup: $BACKUP_FILE"
+    pg_dump -h $DB_HOST -U $DB_USER -d $DB_NAME > $BACKUP_FILE
+    
+    # Apply migration
+    echo "Applying migration..."
+    psql -h $DB_HOST -U $DB_USER -d $DB_NAME -f migration.sql
+    
+    if [ $? -eq 0 ]; then
+      echo "Migration applied successfully"
+    else
+      echo "ERROR: Migration failed, restoring backup..."
+      psql -h $DB_HOST -U $DB_USER -d $DB_NAME < $BACKUP_FILE
+      exit 1
+    fi
+    
+    echo "Database migration completed successfully"
+  }
+
+# Documentation with multiline strings and code examples
+documentation:
+  api_guide: """
+    YAAL API Documentation
+    
+    Overview
+    The YAAL API provides programmatic access to configuration management.
+    
+    Authentication
+    All API requests require authentication using API keys.
+    
+    Example:
+    curl -H "Authorization: Bearer YOUR_API_KEY" https://api.example.com/v1/configs
+    
+    Endpoints
+    
+    GET /v1/configs - Retrieve all configurations
+    POST /v1/configs - Create a new configuration
+    PUT /v1/configs/{id} - Update a configuration
+    DELETE /v1/configs/{id} - Delete a configuration
+    
+    Error Handling
+    The API returns standard HTTP status codes:
+    200: Success
+    400: Bad Request
+    401: Unauthorized
+    404: Not Found
+    500: Internal Server Error
+  """
+  
+  setup_script: {
+    cat << 'EOF' > setup_guide.md
+# YAAL Setup Guide
+
+## Installation
+
+### Using Package Manager
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install yaal
+
+# CentOS/RHEL
+sudo yum install yaal
+
+# macOS
+brew install yaal
+```
+
+### From Source
+```bash
+git clone https://github.com/example/yaal.git
+cd yaal
+make build
+sudo make install
+```
+
+## Configuration
+
+Create a configuration file:
+```yaal
+environment: development
+debug: true
+
+database:
+host: localhost
+port: 5432
+name: myapp_dev
+```
+
+## First Steps
+
+1. Validate your configuration:
+yaal validate config.yaal
+
+2. Parse and execute:
+yaal run config.yaal
+
+3. Extract data:
+yaal extract config.yaal --format json
+EOF
+    
+    echo "Setup guide created successfully"
+  }
+
+# Final complex example with deeply nested multiline strings and brace blocks
+complex_example:
+  level1:
+    level2:
+      configuration: """
+        Complex Configuration Example
+        
+        This demonstrates multiple levels of nesting
+        with multiline strings containing various
+        types of content including code snippets,
+        configuration data, and documentation.
+        
+        Features demonstrated:
+        - Deep nesting (3+ levels)
+        - Multiline strings with code
+        - Mixed content types
+        - Complex data structures
+      """
+      
+      setup_process: {
+        echo "Setting up complex nested configuration..."
+        
+        # Create directory structure
+        mkdir -p config/{dev,staging,prod}
+        mkdir -p scripts/{setup,deploy,monitor}
+        mkdir -p docs/{api,user,admin}
+        
+        # Generate environment-specific configs
+        for env in dev staging prod; do
+          cat << EOF > config/$env/app.yaal
+environment: $env
+debug: $([ "$env" = "dev" ] && echo "true" || echo "false")
+
+database:
+  host: db-$env.example.com
+  port: 5432
+  ssl: $([ "$env" = "prod" ] && echo "true" || echo "false")
+
+cache:
+  type: redis
+  host: cache-$env.example.com
+  ttl: $([ "$env" = "prod" ] && echo "3600" || echo "300")
+EOF
+        done
+        
+        echo "Complex configuration setup completed"
+      }
+      
+      level3:
+        documentation: """
+          Level 3 Documentation
+          
+          This is the deepest level of nesting in this example,
+          demonstrating that multiline strings work correctly
+          at any depth of the configuration hierarchy.
+          
+          Key points:
+          - Maintains proper indentation
+          - Preserves content formatting
+          - Works with complex nested structures
+          - Supports mixed content types
+        """
+        
+        final_script: {
+          echo "Executing final nested script..."
+          echo "Current nesting level: 3"
+          echo "Multiline strings: Working"
+          echo "Brace blocks: Working"
+          echo "Mixed content: Working"
+          echo "Complex example completed successfully!"
+        }

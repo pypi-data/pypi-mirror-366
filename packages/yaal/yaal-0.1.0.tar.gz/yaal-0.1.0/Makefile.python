@@ -1,0 +1,101 @@
+# Python project Makefile for YAAL Parser
+
+.PHONY: help install install-dev test test-unit test-integration lint format type-check clean build publish docs
+
+# Default target
+help:
+	@echo "YAAL Parser Python Project"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  install      - Install the package"
+	@echo "  install-dev  - Install with development dependencies"
+	@echo "  test         - Run all tests"
+	@echo "  test-unit    - Run unit tests only"
+	@echo "  test-integration - Run integration tests only"
+	@echo "  lint         - Run linting (flake8)"
+	@echo "  format       - Format code (black + isort)"
+	@echo "  type-check   - Run type checking (mypy)"
+	@echo "  clean        - Clean build artifacts"
+	@echo "  build        - Build package"
+	@echo "  publish      - Publish to PyPI"
+	@echo "  docs         - Build documentation"
+
+# Installation
+install:
+	uv pip install -e .
+
+install-dev:
+	uv pip install -e ".[dev]"
+
+# Testing
+test:
+	uv run pytest
+
+test-unit:
+	uv run pytest tests/unit/ -v
+
+test-integration:
+	uv run pytest tests/integration/ -v
+
+test-coverage:
+	uv run pytest --cov=src --cov-report=html --cov-report=term
+
+# Code quality
+lint:
+	uv run flake8 src tests
+
+format:
+	uv run black src tests
+	uv run isort src tests
+
+format-check:
+	uv run black --check src tests
+	uv run isort --check-only src tests
+
+type-check:
+	uv run mypy src
+
+# Quality check all
+check: format-check lint type-check test
+
+# Build and publish
+clean:
+	rm -rf build/
+	rm -rf dist/
+	rm -rf *.egg-info/
+	rm -rf .pytest_cache/
+	rm -rf htmlcov/
+	find . -type d -name __pycache__ -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+
+build: clean
+	uv build
+
+publish: build
+	uv publish
+
+# Documentation
+docs:
+	@echo "Documentation build not yet configured"
+
+# Development workflow
+dev-setup: install-dev
+	@echo "Development environment ready!"
+	@echo "Run 'make test' to run tests"
+	@echo "Run 'make check' to run all quality checks"
+
+# CLI testing
+test-cli:
+	@echo "Testing CLI commands..."
+	uv run yaal parse examples/01_basic_features.yaal
+	uv run yaal validate examples/*.yaal
+	uv run yaal extract examples/01_basic_features.yaal --format json
+
+# Example validation
+validate-examples:
+	@echo "Validating all example files..."
+	@for file in examples/*.yaal; do \
+		echo "Validating $$file..."; \
+		uv run yaal validate "$$file" || exit 1; \
+	done
+	@echo "All examples validated successfully!"

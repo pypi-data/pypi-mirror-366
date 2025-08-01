@@ -1,0 +1,11 @@
+description: "this is a quoted string"
+command: "echo hello world"
+documentation: """
+This is a multiline string that can span multiple lines.
+It can contain colons: like 12:30:45 without parsing issues.
+URLs like https://example.com work perfectly here.
+"""
+code: """
+def example():
+    return "value:with:colons"
+"""
