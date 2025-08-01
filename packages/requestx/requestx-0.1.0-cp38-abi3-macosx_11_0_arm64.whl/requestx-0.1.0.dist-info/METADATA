@@ -1,0 +1,126 @@
+Metadata-Version: 2.4
+Name: requestx
+Version: 0.1.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: maturin>=1.9.1
+Requires-Dist: psutil>=7.0.0
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: httpx>=0.24 ; extra == 'dev'
+Requires-Dist: aiohttp>=3.8 ; extra == 'dev'
+Requires-Dist: requests>=2.28 ; extra == 'dev'
+Requires-Dist: psutil>=7.0.0 ; extra == 'dev'
+Requires-Dist: black>=23.0 ; extra == 'dev'
+Requires-Dist: ruff>=0.1 ; extra == 'dev'
+Requires-Dist: mypy>=1.0 ; extra == 'dev'
+Requires-Dist: maturin>=1.9.1 ; extra == 'dev'
+Provides-Extra: dev
+Summary: High-performance HTTP client for Python with requests-compatible API
+Keywords: http,requests,client,async,performance
+Home-Page: https://github.com/neuesql/requestx
+Author: RequestX Team
+Author-email: RequestX Team <team@requestx.dev>
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://github.com/neuesql/requestx
+Project-URL: Repository, https://github.com/neuesql/requestx
+Project-URL: Documentation, https://requestx.readthedocs.io
+Project-URL: Bug Tracker, https://github.com/neuesql/requestx/issues
+
+# RequestX
+
+High-performance HTTP client for Python with requests-compatible API, powered by Rust.
+
+## Features
+
+- **Drop-in replacement** for the popular `requests` library
+- **High performance** leveraging Rust's speed and memory safety
+- **Async/await support** with native Python asyncio integration
+- **Same familiar API** as requests for easy migration
+- **Cross-platform** support (Windows, macOS, Linux)
+
+## Installation
+
+```bash
+pip install requestx
+```
+
+## Quick Start
+
+### Synchronous Usage
+
+```python
+import requestx
+
+# Same API as requests
+response = requestx.get('https://httpbin.org/get')
+print(response.status_code)
+print(response.json())
+```
+
+### Asynchronous Usage
+
+```python
+import asyncio
+import requestx
+
+async def main():
+    # Same function, just use await
+    response = await requestx.get('https://httpbin.org/get')
+    print(response.status_code)
+    print(response.json())
+
+asyncio.run(main())
+```
+
+### Session Usage
+
+```python
+import requestx
+
+session = requestx.Session()
+response = session.get('https://httpbin.org/get')
+print(response.status_code)
+```
+
+## Development
+
+This project uses:
+- **Rust** for the core HTTP implementation
+- **PyO3** for Python bindings
+- **maturin** for building and packaging
+- **uv** for Python dependency management
+
+### Setup Development Environment
+
+```bash
+# Install uv for Python dependency management
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install development dependencies
+uv sync --dev
+
+# Build the extension
+uv run maturin develop
+```
+
+### Running Tests
+
+```bash
+uv run pytest
+```
+
+## License
+
+MIT License - see LICENSE file for details.
