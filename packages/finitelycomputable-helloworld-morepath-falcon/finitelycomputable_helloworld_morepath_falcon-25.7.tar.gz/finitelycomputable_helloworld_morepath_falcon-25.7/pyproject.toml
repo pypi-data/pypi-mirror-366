@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [{name = "Samuel Newbold", email = "sam@rwsh.org"}]
+license = "AGPL-3.0-only"
+readme = "README.rst"
+version = "25.7"
+name = "finitelycomputable-helloworld-morepath-falcon"
+requires-python = ">=3.8"
+description = "hello_world in Morepath from an implementation in Falcon"
+dependencies = [
+  "morepath~=0.19",
+  "falcon~=4.0",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+  "Topic :: Internet :: WWW/HTTP :: WSGI",
+]
+
+[project.optional-dependencies]
+helloworld-flask = ["finitelycomputable-helloworld-falcon-flask~=25.7"]
+tests = ["pytest", "pytest-env", "finitelycomputable-tests",
+  "webtest"]
+waitress = ["waitress~=3.0"]
+helloworld-cherrypy = ["finitelycomputable-helloworld-falcon-cherrypy~=25.7"]
+cherrypy = ["cherrypy~=18.10"]
+cheroot = ["cheroot~=10.0"]
+bjoern = ["bjoern~=3.0"]
+helloworld-quart = ["finitelycomputable-helloworld-falcon-quart~=25.7"]
+helloworld = ["finitelycomputable-helloworld-falcon~=25.7"]
+gunicorn = ["gunicorn~=23.0"]
+
+[project.scripts]
+finitelycomputable-helloworld-morepath = "finitelycomputable.helloworld_morepath:run"
+
+[project.urls]
+Documentation = "https://github.com/thrasymache/microsites"
+Source = "https://github.com/thrasymache/microsites"
+Gitlab = "https://gitlab.com/thrasymache/microsites"
+sourcehut = "https://git.sr.ht/~thrasymache/finitelycomputable-microsites"
+NotABug = "https://notabug.org/thrasymache/finitelycomputable-microsites"
+Homepage = "https://www.finitelycomputable.net/morepath/hello_world"
