@@ -1,0 +1,75 @@
+[project]
+name = "tree-timer"
+version = "0.1.0"
+description = "A hierarchical performance timer for structured profiling"
+authors = [
+    { name = "Takamu Kaneko", email = "19400343+okenakt@users.noreply.github.com" },
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+keywords = [
+    "timer",
+    "timing",
+    "performance",
+    "profiling",
+    "benchmark",
+    "tree",
+    "nested",
+    "structured",
+    "context-manager",
+    "with-statement",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: System :: Benchmark",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/okenakt/tree-timer"
+Repository = "https://github.com/okenakt/tree-timer"
+Documentation = "https://github.com/okenakt/tree-timer#readme"
+Issues = "https://github.com/okenakt/tree-timer/issues"
+
+
+[dependency-groups]
+dev = ["mypy>=1.17.0", "pytest>=8.4.1", "ruff>=0.12.7"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+    "F", # Pyflakes
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "I", # isort
+    "D", # pydocstyle
+]
+ignore = [
+    "E402", # Module level import not at top of file
+    "E501", # Line too long
+    "E741", # Ambiguous variable name
+]
+unfixable = [
+    "F401", # Unused import
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
