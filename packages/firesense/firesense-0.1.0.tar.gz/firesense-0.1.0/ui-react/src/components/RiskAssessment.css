@@ -1,0 +1,85 @@
+.risk-card {
+  background: rgba(52, 152, 219, 0.05);
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+
+.risk-header h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.risk-header i {
+  color: var(--accent-color);
+}
+
+.risk-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.risk-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.risk-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.risk-label i {
+  color: var(--accent-color);
+  width: 16px;
+}
+
+.risk-level {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  width: fit-content;
+}
+
+.risk-level.low {
+  background: rgba(39, 174, 96, 0.2);
+  color: var(--success-color);
+}
+
+.risk-level.moderate {
+  background: rgba(243, 156, 18, 0.2);
+  color: var(--warning-color);
+}
+
+.risk-level.high {
+  background: rgba(231, 76, 60, 0.2);
+  color: var(--danger-color);
+}
+
+.risk-level.extreme {
+  background: rgba(192, 57, 43, 0.3);
+  color: var(--critical-color);
+  animation: pulse-extreme 1.5s infinite;
+}
+
+@keyframes pulse-extreme {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.risk-description {
+  font-size: 0.85rem;
+  color: var(--text-white);
+  margin-left: calc(16px + var(--spacing-sm));
+}

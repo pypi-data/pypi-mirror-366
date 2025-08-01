@@ -1,0 +1,6 @@
+#!/bin/bash
+# YouTube video downloader wrapper script
+# Usage: ./get_youtube <video_id> <filename.mp4>
+
+cd "$(dirname "$0")"
+uv run python scripts/get_youtube.py download "$@"

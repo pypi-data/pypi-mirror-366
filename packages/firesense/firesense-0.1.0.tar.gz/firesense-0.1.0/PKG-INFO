@@ -1,0 +1,210 @@
+Metadata-Version: 2.4
+Name: firesense
+Version: 0.1.0
+Summary: AI-powered fire detection system using Gemma 3N E4B vision model
+Project-URL: Homepage, https://github.com/gregorymulla/firesense_ai
+Project-URL: Documentation, https://github.com/gregorymulla/firesense_ai#readme
+Project-URL: Repository, https://github.com/gregorymulla/firesense_ai
+Project-URL: Issues, https://github.com/gregorymulla/firesense_ai/issues
+Author-email: Gregory Mulla <gregory.cr.mulla@gmail.com>
+Maintainer-email: Gregory Mulla <gregory.cr.mulla@gmail.com>
+License: MIT
+License-File: LICENSE
+Keywords: ai,computer-vision,fire-detection,gemma,safety,video-analysis,wildfire
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.11
+Requires-Dist: accelerate>=0.25.0
+Requires-Dist: aiofiles>=23.2.0
+Requires-Dist: fastapi>=0.109.0
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: huggingface-hub[cli]>=0.34.2
+Requires-Dist: instructor>=1.10.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: opencv-python>=4.8.0
+Requires-Dist: pillow>=10.0.0
+Requires-Dist: protobuf>=6.31.1
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: rich>=13.7.0
+Requires-Dist: sentencepiece>=0.1.99
+Requires-Dist: timm>=0.9.0
+Requires-Dist: torch>=2.1.0
+Requires-Dist: torchvision>=0.16.0
+Requires-Dist: tqdm>=4.66.0
+Requires-Dist: transformers>=4.36.0
+Requires-Dist: typer>=0.9.0
+Requires-Dist: uvicorn>=0.25.0
+Provides-Extra: dev
+Requires-Dist: black>=23.12.0; extra == 'dev'
+Requires-Dist: mypy>=1.7.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.5.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'dev'
+Requires-Dist: pytest>=7.4.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocs-material>=9.5.0; extra == 'docs'
+Requires-Dist: mkdocs>=1.5.0; extra == 'docs'
+Requires-Dist: mkdocstrings[python]>=0.24.0; extra == 'docs'
+Provides-Extra: quantization
+Requires-Dist: bitsandbytes>=0.41.0; (sys_platform != 'darwin') and extra == 'quantization'
+Provides-Extra: youtube
+Requires-Dist: yt-dlp>=2023.12.30; extra == 'youtube'
+Description-Content-Type: text/markdown
+
+# FireSense
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+FireSense is an AI-powered fire detection system that uses the Gemma 3N E4B vision model to analyze video content for fire and smoke detection. It provides real-time analysis, comprehensive fire characteristics assessment, and emergency response recommendations.
+
+## Features
+
+- 🚀 **Fast Development**: Leverages uv for 10-100x faster dependency installation
+- 📦 **Modern Packaging**: PEP 621 compliant with pyproject.toml
+- 🔍 **Type Safety**: Full mypy strict mode support
+- ✅ **Testing**: Comprehensive pytest setup with coverage
+- 🎨 **Code Quality**: Pre-configured with ruff, black, and pre-commit
+- 📚 **Documentation**: Ready for MkDocs with Material theme
+- 🔄 **CI/CD**: GitHub Actions workflow included
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11 or higher
+- [uv](https://github.com/astral-sh/uv) package manager
+
+### Installation
+
+#### From PyPI (Recommended)
+
+```bash
+pip install firesense
+```
+
+#### From Source
+
+1. Clone the repository:
+```bash
+git clone https://github.com/gregorymulla/firesense_ai.git
+cd firesense_ai
+```
+
+2. Install with pip:
+```bash
+pip install -e ".[dev]"
+```
+
+#### Using uv (Fastest)
+
+1. Install uv:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+2. Install firesense:
+```bash
+uv pip install firesense
+```
+
+## Usage
+
+### Running the Application
+
+```bash
+# Analyze a video file
+firesense analyze video.mp4
+
+# Analyze with custom settings
+firesense analyze video.mp4 --interval 1.0 --confidence 0.8
+
+# Preview frame extraction
+firesense preview video.mp4 --frames 10
+
+# Launch demo UI
+firesense demo wildfire_example_01
+
+# Process multiple videos
+firesense batch /path/to/videos --pattern "*.mp4"
+```
+
+### Development Commands
+
+```bash
+# Run tests
+make test
+
+# Run linting
+make lint
+
+# Format code
+make format
+
+# Type check
+make type-check
+
+# Run all checks
+make check
+
+# Build documentation
+make docs
+
+# Clean build artifacts
+make clean
+```
+
+## Project Structure
+
+```
+firesense/
+├── src/gemma_3n/       # Source code
+│   └── fire_detection/ # Fire detection system
+│       ├── models/     # Data models and AI interface
+│       ├── processing/ # Video and frame processing
+│       └── vision/     # Computer vision utilities
+├── tests/              # Test suite
+│   ├── unit/           # Unit tests
+│   └── integration/    # Integration tests
+├── docs/               # Documentation
+├── scripts/            # Utility scripts
+└── .github/            # GitHub Actions
+```
+
+## Configuration
+
+The application can be configured using environment variables with the `GEMMA_` prefix:
+
+```bash
+export GEMMA_DEBUG=true
+export GEMMA_API_PORT=9000
+export GEMMA_LOG_LEVEL=DEBUG
+```
+
+Or using a `.env` file:
+
+```env
+GEMMA_DEBUG=true
+GEMMA_API_PORT=9000
+GEMMA_LOG_LEVEL=DEBUG
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests and checks (`make check`)
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

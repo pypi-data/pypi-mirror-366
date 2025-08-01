@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# FireSense CLI wrapper
+
+# Get the absolute path to the project directory
+PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Run the firesense command using uv from the project directory
+cd "$PROJECT_DIR" && exec uv run --quiet firesense "$@"

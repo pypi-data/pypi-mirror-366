@@ -1,0 +1,19 @@
+/* Video Section */
+.video-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-container {
+  position: relative;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .video-section {
+    padding: var(--spacing-md);
+  }
+}

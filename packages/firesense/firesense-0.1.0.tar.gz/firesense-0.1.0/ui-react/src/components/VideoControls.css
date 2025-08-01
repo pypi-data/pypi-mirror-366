@@ -1,0 +1,74 @@
+.video-controls {
+  margin-top: var(--spacing-lg);
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+
+.controls-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.play-controls {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-white);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.control-btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.play-pause.playing i::before {
+  content: "\f04c"; /* pause icon */
+}
+
+.additional-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.speed-control select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-white);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.speed-control select:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .controls-row {
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+}

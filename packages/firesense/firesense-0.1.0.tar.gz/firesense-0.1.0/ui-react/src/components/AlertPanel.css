@@ -1,0 +1,52 @@
+.alert-panel {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-normal);
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.alert-icon {
+  font-size: 2.5rem;
+  color: var(--danger-color);
+}
+
+.alert-info h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+}
+
+.alert-status {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.alert-panel.fire-detected {
+  background: rgba(231, 76, 60, 0.2);
+  border-color: var(--danger-color);
+  animation: pulse-alert 2s infinite;
+}
+
+.alert-panel.emergency {
+  background: rgba(192, 57, 43, 0.3);
+  border-color: var(--critical-color);
+  animation: pulse-emergency 1s infinite;
+}
+
+@keyframes pulse-alert {
+  0%, 100% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(231, 76, 60, 0.6); }
+}
+
+@keyframes pulse-emergency {
+  0%, 100% { box-shadow: 0 0 25px rgba(192, 57, 43, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(192, 57, 43, 0.8); }
+}
