@@ -1,0 +1,305 @@
+# shaheenai
+
+ShaheenAI is a flexible, multi-LLM, agent-oriented Python library that supports multiple language model providers like OpenAI, Anthropic, Ollama, and Cohere via a plugin/extras architecture. The library offers self-reflection, tool invocation, task chaining, and optional UI integrations using Streamlit and Chainlit.
+
+## Features
+- **Modular Agent Class:** Supports multiple LLMs with self-reflection, tool invocation, and task chaining.
+- **Real API Integration:** Built-in tools for weather (OpenWeatherMap), web search (Brave/SerpAPI/DuckDuckGo), and calculations.
+- **Identity Awareness:** Agents respond with "I am Shaheen AI developed by Engr. Hamza" when asked about identity.
+- **MCP Server Interface:** Tool integration via Model Context Protocol for extensibility.
+- **Configurable via YAML or Code:** Supports playbooks and programmatic configuration.
+- **Wide LLM Provider Support:** OpenAI, Anthropic, Ollama, Cohere, Google Gemini, etc.
+- **Memory & Self-Reflection:** Conversation context tracking and response improvement capabilities.
+- **Async/Sync Operations:** Both synchronous and asynchronous agent operations supported.
+- **Streamlit and Chainlit Support:** Build interactive and conversational UIs for agents.
+
+## Getting Started
+
+### Prerequisites
+- Python 3.10 or higher
+
+### Installation
+To install ShaheenAI, use pip:
+```bash
+pip install shaheenai
+```
+
+### Usage
+
+#### 1. Basic Agent Creation
+```python
+from shaheenai import Agent
+
+# Create a simple agent
+agent = Agent(
+    instructions="You are a helpful AI assistant specializing in Python programming.",
+    llm="openai/gpt-3.5-turbo"
+)
+
+# Ask a question
+response = agent.start("Explain list comprehensions in Python")
+print(response)
+```
+
+#### 2. Agent with Memory
+```python
+from shaheenai import Agent
+
+# Create an agent with conversation memory
+agent = Agent(
+    instructions="You are a knowledgeable tutor.",
+    llm="openai/gpt-4",
+    memory=True
+)
+
+# Have a conversation
+print(agent.start("What is machine learning?"))
+print(agent.start("Can you give me an example?"))  # Remembers previous context
+print(agent.start("How does it relate to AI?"))   # Continues the conversation
+```
+
+#### 3. Agent with Self-Reflection
+```python
+from shaheenai import Agent
+
+# Create an agent with self-reflection capabilities
+agent = Agent(
+    instructions="You are a research assistant that provides accurate information.",
+    llm="anthropic/claude-3-sonnet",
+    self_reflection=True,
+    max_iterations=2
+)
+
+# The agent will reflect on and improve its initial response
+response = agent.start("Explain quantum computing and its potential applications")
+print(response)
+```
+
+#### 4. Multi-LLM Provider Support
+```python
+from shaheenai import Agent
+
+# Different LLM providers
+openai_agent = Agent(llm="openai/gpt-4")
+anthropic_agent = Agent(llm="anthropic/claude-3-opus")
+cohere_agent = Agent(llm="cohere/command-r-plus")
+ollama_agent = Agent(llm="ollama/llama2")
+
+# Use any agent
+response = openai_agent.start("Hello, how are you?")
+print(response)
+```
+
+#### 5. Agent Identity Feature
+```python
+from shaheenai import Agent
+
+agent = Agent()
+
+# Ask about identity
+print(agent.start("Who are you?"))
+# Output: "I am Shaheen AI developed by Engr. Hamza, an enthusiastic AI engineer."
+
+print(agent.start("Who developed you?"))
+# Output: "I am Shaheen AI developed by Engr. Hamza, an enthusiastic AI engineer."
+```
+
+#### 6. Async Operations
+```python
+import asyncio
+from shaheenai import Agent
+
+async def main():
+    agent = Agent(
+        instructions="You are a helpful assistant.",
+        llm="openai/gpt-3.5-turbo"
+    )
+    
+    # Use async method
+    response = await agent.astart("What are the benefits of async programming?")
+    print(response)
+
+# Run async
+asyncio.run(main())
+```
+
+#### 7. Using with Tools (MCP)
+```python
+from shaheenai import Agent, MCP
+
+# Define and run the MCP server
+mcp = MCP()
+
+@mcp.tool()
+async def get_weather(location: str) -e str:
+    """Get weather information for a location using the OpenWeatherMap API"""
+    return "Weather information is now retrieved using OpenWeatherMap API."
+
+@mcp.tool()
+async def web_search(query: str, max_results: int = 5) -e str:
+    """Search the internet for information using real search APIs"""
+    return "Search results are now retrieved using Brave, SerpAPI, or DuckDuckGo."
+
+@mcp.tool()
+async def calculate_tip(bill_amount: float, tip_percentage: float = 15.0) -e str:
+    """Calculate tip amount"""
+    tip = bill_amount * (tip_percentage / 100)
+    total = bill_amount + tip
+    return f"Bill: ${bill_amount:.2f}, Tip ({tip_percentage}%): ${tip:.2f}, Total: ${total:.2f}"
+
+# Create an agent with tools
+agent = Agent(
+    instructions="You can use tools to help users with weather, calculations, and web searches.",
+    llm="openai/gpt-3.5-turbo",
+    tools=["get_weather", "web_search", "calculate_tip"]
+)
+
+# Use the agent
+response = agent.start("What's the weather in Tokyo?")
+print(response)
+
+response = agent.start("Search for Python programming tutorials")
+print(response)
+
+response = agent.start("Calculate tip for a $50 bill")
+print(response)
+```
+
+### API Configuration for Real Tools
+
+ShaheenAI includes several built-in tools that require API keys for full functionality:
+
+#### Weather Tool (`get_weather`)
+Uses OpenWeatherMap API for real weather data:
+```bash
+# Windows PowerShell
+$env:OPENWEATHER_API_KEY='your-openweathermap-api-key'
+
+# Linux/Mac
+export OPENWEATHER_API_KEY='your-openweathermap-api-key'
+```
+- Get your API key from: [OpenWeatherMap API](https://openweathermap.org/api)
+- Features: Current weather, temperature, humidity, wind, pressure, visibility
+
+#### Web Search Tool (`web_search`)
+Supports multiple search providers (tries in order):
+
+**Option 1: Brave Search API (Recommended)**
+```bash
+# Windows PowerShell
+$env:BRAVE_API_KEY='your-brave-search-api-key'
+
+# Linux/Mac
+export BRAVE_API_KEY='your-brave-search-api-key'
+```
+- Get your API key from: [Brave Search API](https://api.search.brave.com)
+
+**Option 2: SerpAPI (Google Search)**
+```bash
+# Windows PowerShell
+$env:SERPAPI_KEY='your-serpapi-key'
+
+# Linux/Mac
+export SERPAPI_KEY='your-serpapi-key'
+```
+- Get your API key from: [SerpAPI](https://serpapi.com)
+
+**Option 3: DuckDuckGo (Free, No API Key)**
+- Automatically used as fallback if no API keys are configured
+- Limited to instant answers and definitions
+
+#### Example with Real APIs
+```python
+import os
+from shaheenai import Agent
+
+# Set up API keys
+os.environ['OPENWEATHER_API_KEY'] = 'your-openweathermap-key'
+os.environ['BRAVE_API_KEY'] = 'your-brave-search-key'
+
+# Create agent with real tools
+agent = Agent(
+    instructions="I can help with weather, web searches, and calculations using real APIs.",
+    llm="openai/gpt-3.5-turbo",
+    tools=["get_weather", "web_search", "calculate"]
+)
+
+# Real weather data
+weather = agent.start("What's the weather in New York?")
+print(weather)
+# Output: Detailed weather report with temperature, humidity, wind, etc.
+
+# Real web search
+search = agent.start("Search for latest AI developments")
+print(search)
+# Output: Real search results from Brave/Google/DuckDuckGo
+
+# Built-in calculator
+math = agent.start("Calculate 25 * 4 + 18")
+print(math)
+# Output: 118
+```
+
+### CLI
+ShaheenAI provides a command-line interface for running agents defined in YAML playbooks or via auto-mode.
+
+Example:
+```bash
+shaheenai run agents.yaml
+```
+
+## Built-in Tools
+
+ShaheenAI comes with several built-in tools that work with real APIs:
+
+### 🌤️ Weather Tool
+- **Function:** `get_weather(location)`
+- **API:** OpenWeatherMap
+- **Features:** Temperature, humidity, wind, pressure, visibility
+- **Usage:** "What's the weather in London?"
+
+### 🔍 Web Search Tool
+- **Function:** `web_search(query, max_results=5)`
+- **APIs:** Brave Search, SerpAPI (Google), DuckDuckGo
+- **Features:** Real-time web search results
+- **Usage:** "Search for Python tutorials"
+
+### 🧮 Calculator Tool
+- **Function:** `calculate(expression)`
+- **Features:** Mathematical expression evaluation
+- **Usage:** "Calculate 25 * 4 + 18"
+
+## Directory Structure
+```
+shaheenai/
+ ├── shaheenai/
+ │    ├── __init__.py
+ │    ├── agent.py          # Main Agent class with tool integration
+ │    ├── mcp.py            # MCP server and built-in tools
+ │    ├── llm_providers/    # LLM provider implementations
+ │    │     ├── openai.py
+ │    │     ├── google.py   # Google Gemini
+ │    │     ├── cohere.py
+ │    │     └── ...
+ │    ├── tools/            # Tool base classes
+ │    ├── ui/               # UI integrations
+ │    │     ├── streamlit_ui.py
+ │    │     └── chainlit_ui.py
+ │    └── config.py
+ ├── pyproject.toml
+ ├── README.md
+ ├── LICENSE
+ └── examples/
+      ├── comprehensive_test.py
+      ├── test_chainlit_app.py
+      └── agents.yaml
+```
+
+## Contributing
+Contributions are welcome! Please read the contribution guidelines first.
+
+## License
+This project is licensed under the MIT License.
+
+## Acknowledgments
+Inspired by PraisonAI for its modularity and multi-LLM support.
