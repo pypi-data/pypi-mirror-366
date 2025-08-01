@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llmd"
+version = "0.3.3"
+description = "CLI tool for generating LLM context from GitHub repositories"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.2.1",
+    "pathspec>=0.12.1",
+]
+
+[project.scripts]
+llmd = "llmd.cli:main"
+
+[dependency-groups]
+dev = [
+    "llmd",
+    "pytest>=8.4.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llmd"]
+
+[tool.uv.sources]
+llmd = { workspace = true }
