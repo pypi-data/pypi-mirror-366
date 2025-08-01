@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trackerpkg"
+version = "0.1.6"
+description = "Token and resource usage tracker for OpenAI API calls with optional PostgreSQL logging"
+authors = [
+  { name = "Ali Naveed", email = "ali@dynastack.ai" }
+]
+readme = "README.md"
+# Remove this line if you don't have a LICENSE file, or create one
+# license = { file = "LICENSE" }
+# Or use this instead:
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+  "psutil",
+  "psycopg2-binary",
+  "python-dotenv"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Explicitly include package data if needed
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md", "*.rst"]
