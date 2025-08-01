@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "Cython"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentfoundry"
+dynamic = ["version"]  # Indicate version is dynamic
+description = "AgentFoundry: A modular autonomous AI agent framework"
+authors = [{ name = "Chris Steel", email = "csteel@syntheticore.com" }]
+license = "LicenseRef-Proprietary"
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chromadb==1.0.7",
+    "langchain>=0.3.18",
+    "dynaconf>=3.2.0",
+    "appdirs>=1.4.4",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools]
+packages = [
+    "agentfoundry",
+    "agentfoundry.agents",
+    "agentfoundry.agents.tools",
+    "agentfoundry.chroma",
+    "agentfoundry.code_gen",
+    "agentfoundry.llm",
+    "agentfoundry.license",
+    "agentfoundry.registry",
+    "agentfoundry.resources",
+    "agentfoundry.utils",
+    "tests"
+]
+
+[tool.setuptools.package-data]
+"agentfoundry.license" = ["public.pem"]
+"agentfoundry.resources" = ["default_agentfoundry.toml"]
