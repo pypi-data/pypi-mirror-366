@@ -1,0 +1,145 @@
+# request-response-logging
+
+This logs drf request and response and also helps in generating request_id for each execution
+
+## Installation
+
+You can install it using pip:
+
+```bash
+pip install request-response-logging
+```
+
+## Usage
+**In Djangos settings file use following attributes for controlling logger. All these are optional**
+
+
+```
+# Add following middleware
+
+request_logging.middleware.LoggingMiddleware
+
+
+# request header containing request id defaults X-REQUEST-ID if not provided
+REQUEST_RESPONSE_ID_HEADER_KEY='X-REQUEST-ID'
+
+# list of endpoints to ignore logging
+REQUEST_RESPONSE_LOGGING_IGNORE_LIST= ['/get/user-details/', '/get/aadhar']
+
+# list of request/response field to mask in logging in case of JSONResponse(Fields are case insesitive)
+REQUEST_RESPONSE_LOGGING_MASKING_FIELDS=['pan', 'mobile']
+
+# list of response fields to be popped in case of JSONResponse at root level(Fields are case sensitive)
+REQUEST_RESPONSE_LOGGING_POP_RESPONSE_KEYS=['error','traceback']
+
+# health check api endpoint. this will return 200 status code with content OK
+REQUEST_RESPONSE_LOGGING_HEALTH_CHECK_API='/api/health'
+
+# default logger name is request_middleware_logger, in case of overwrite this attribute can be set
+REQUEST_RESPONSE_LOGGING_LOGGER_NAME='django'
+
+# list of request.META fields to be logged. By default request.META REQUEST_METHOD, CONTENT_LENGTH, HTTP_X_FORWARDED_FOR or REMOTE_ADDR, REMOTE_HOST, SERVER_NAME, SERVER_PORT is being logged in request.
+REQUEST_RESPONSE_LOGGING_META_OPTIONS = ['HTTP_HEADER_FIELD1', 'HTTP_HEADER_FIELD2']
+
+# set this to true if you want to log REQUEST_RESPONSE_LOGGING_META_OPTIONS in response as well. Defaults to False
+REQUEST_RESPONSE_LOGGING_META_OPTIONS_IN_RESPONSE = True
+
+# set this to true if you want to log 2XX response. Defaults to False
+REQUEST_RESPONSE_LOGGING_LOG_2XX_RESPONSES = True
+
+# list of headers to log
+REQUEST_RESPONSE_LOGGING_HEADERS_TO_LOG = ['X-App-Version', 'X-Model']
+
+
+```
+
+**Sample logger in settings file. request_id filter is to add request_id and masking filter is used to mask fields in request and response**
+```python
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'request_id': {
+            '()': 'request_logging.Filters.LoggingFilters.RequestIdFilter'
+        },
+        'masking': {
+            '()': 'request_logging.Filters.LoggingFilters.MaskingFilter'
+        }
+    },
+    'formatters': {
+        'open_search': {
+            'format': '{"request_id": "%(request_id)s", '
+                      '"time": "%(asctime)s", "level": "%(levelname)s", '
+                      '"file_path": "%(filename)s", "line_no": %(lineno)s, '
+                      '"open_search_message": %(message)s}',
+            'datefmt': "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    'handlers': {
+        'request_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/' + os.path.basename(BASE_DIR) + '.log',
+            'formatter': 'open_search',
+            'mode': 'a',
+            'filters': ['request_id', 'masking'] # Add the filters as needed
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'INFO',
+            'formatter': 'open_search',
+            'filters': ['request_id', 'masking'] # Add the filters as needed
+        },
+        'job_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/' + os.path.basename(BASE_DIR) + '-job.log',
+            'formatter': 'open_search',
+            'mode': 'a',
+            'filters': ['request_id', 'masking'] # Add the filters as needed
+        },
+    },
+    'loggers': {
+        'request_middleware_logger': {
+            'level': 'INFO',
+            'handlers': ['request_file', 'console'],
+            'propagate': True,
+        },
+        'job_logger': {
+            'level': 'INFO',
+            'handlers': ['job_file', 'console'],
+            'propagate': True,
+        },
+    }
+}
+
+```
+
+**In case you want to pass same request id across different functions in same context, use decorator generate_request_id. contextvar can be used in case of calling in delay along with decorator generate_request_id**
+```
+from request_logging.decorators import generate_request_id
+from request_logging.middleware.RequestResponseLogging import ctx_request_id
+
+
+@app.task
+@generate_request_id
+def a(context_var=None):
+    try:
+        logger.info("Some message")
+    except Exception as e:
+        logger.error(f"Exception occured {str(traceback.format_exc())}")
+
+# the decorator will generate request_id and bind it to given context if not already present in context
+@generate_request_id
+def a(context_var=None):
+    try:
+        logger.info("Some message")
+        a.delay(context_var=ctx_request_id.get(None))
+    except Exception as e:
+        logger.error(f"Exception occured {str(traceback.format_exc())}")
+        
+        
+        
+
+
+```
