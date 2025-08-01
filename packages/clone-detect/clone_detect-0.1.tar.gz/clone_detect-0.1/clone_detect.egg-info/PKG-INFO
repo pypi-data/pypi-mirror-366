@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: clone-detect
+Version: 0.1
+Summary: Find duplicate files by content hash
+Home-page: https://github.com/yourusername/clone-detect
+Author: Naila
+License: MIT
+Keywords: duplicate files,hash,dedupe,cleaner
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: requires-python
+Dynamic: summary
+
+# clone-detect
+
+♻️ A simple Python CLI tool to recursively detect duplicate files based on their content hash — not filenames.
+
+## 🔍 Features
+
+- Recursively scans directories
+- Finds duplicates based on file **content**, not name or size
+- CLI interface with options for dry-run and preview
+- Lets you choose which copies to keep (coming soon)
+
+## 🚀 Installation
+
+To install the package after cloning:
+
+```bash
+pip install -e .
+
+Or once uploaded to PyPI:
+
+pip install clone-detect
+
+usage:
+
+clone-detect <directory> [--dry-run]
+
+example: 
+
+clone-detect ./my_folder --dry-run
+
+sample output:
+
+clone-detect ./test_dupes --dry-run
+
+Scanning ./test_dupes...
+
+Duplicate group (hash=bbb2f10dc8c1b0e2cc367816797afd48fdc3777d6265cb6b8504169a80ddeedf):
+  [1] ./test_dupes/whitecat.mp4 (keep)
+  [2] ./test_dupes/catnew.mp4
