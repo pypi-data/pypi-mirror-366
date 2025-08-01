@@ -1,0 +1,22 @@
+# pyproject.toml
+[project]
+name = "slush"
+version = "0.1.0"
+description = "A lightweight Python web framework."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [
+  { name = "Hasan Faraz Khan", email = "farazkhan138@gmail.com" }
+]
+keywords = ["web framework", "python", "wsgi", "slush", "backend", "api"]
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/farazkhanfk7/slush"
+"Documentation" = "https://github.com/farazkhanfk7/slush"
+"Source" = "https://github.com/farazkhanfk7/slush"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
