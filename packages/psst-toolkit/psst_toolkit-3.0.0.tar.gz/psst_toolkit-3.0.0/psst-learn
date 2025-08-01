@@ -1,0 +1,182 @@
+#!/usr/bin/env python3
+"""
+PSST Learning CLI - Dynamic Prompt Symbol Learning Tool
+"""
+
+import sys
+import os
+from pathlib import Path
+
+# Add current directory to path so we can import the dynamic compiler
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from dynamic_psst_compiler import DynamicPsstCompiler
+
+
+def main():
+    """Main CLI function for PSST learning."""
+    if len(sys.argv) < 2:
+        print("PSST Learning CLI")
+        print("Usage:")
+        print("  psst-learn compress <file> [output]              # Compress with learning")
+        print("  psst-learn expand <file> [output]                # Expand compressed file")
+        print("  psst-learn learn <file>                          # Learn from file")
+        print("  psst-learn batch-learn <directory>               # Learn from all files in directory")
+        print("  psst-learn stats                                 # Show learning statistics")
+        print("  psst-learn optimize                              # Auto-optimize glossary")
+        print("  psst-learn suggest                               # Get improvement suggestions")
+        sys.exit(1)
+    
+    command = sys.argv[1]
+    
+    try:
+        if command == "compress":
+            if len(sys.argv) < 3:
+                print("Error: Please provide a file to compress")
+                sys.exit(1)
+            
+            input_file = sys.argv[2]
+            output_file = sys.argv[3] if len(sys.argv) > 3 else None
+            
+            compiler = DynamicPsstCompiler()
+            
+            with open(input_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            original_length = len(content)
+            compressed = compiler._adaptive_compress(content)
+            compressed_length = len(compressed)
+            
+            if output_file:
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(compressed)
+                print(f"Compressed: {input_file} → {output_file}")
+            else:
+                print("Compressed content:")
+                print("=" * 50)
+                print(compressed)
+                print("=" * 50)
+            
+            savings = original_length - compressed_length
+            compression_ratio = (savings / original_length) * 100
+            print(f"Compression: {savings} characters saved ({compression_ratio:.1f}%)")
+            
+            stats = compiler.get_learning_stats()
+            if stats:
+                print(f"Learning Stats: {stats['glossary_size']} symbols, {stats['discovered_patterns']} patterns")
+        
+        elif command == "expand":
+            if len(sys.argv) < 3:
+                print("Error: Please provide a file to expand")
+                sys.exit(1)
+            
+            input_file = sys.argv[2]
+            output_file = sys.argv[3] if len(sys.argv) > 3 else None
+            
+            compiler = DynamicPsstCompiler()
+            
+            with open(input_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            expanded = compiler.expand(content)
+            
+            if output_file:
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(expanded)
+                print(f"Expanded: {input_file} → {output_file}")
+            else:
+                print("Expanded content:")
+                print("=" * 50)
+                print(expanded)
+                print("=" * 50)
+        
+        elif command == "learn":
+            if len(sys.argv) < 3:
+                print("Error: Please provide a file to learn from")
+                sys.exit(1)
+            
+            input_file = sys.argv[2]
+            compiler = DynamicPsstCompiler()
+            
+            with open(input_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            compiler._learn_from_text(content)
+            compiler._save_learning_data()
+            print(f"Learned from: {input_file}")
+            print(f"Glossary size: {len(compiler.glossary)} symbols")
+        
+        elif command == "batch-learn":
+            if len(sys.argv) < 3:
+                print("Error: Please provide a directory to learn from")
+                sys.exit(1)
+            
+            directory = sys.argv[2]
+            compiler = DynamicPsstCompiler()
+            
+            # Find all text files in directory
+            text_files = []
+            for ext in ['*.txt', '*.md', '*.psst']:
+                text_files.extend(Path(directory).glob(ext))
+            
+            if not text_files:
+                print(f"No text files found in {directory}")
+                sys.exit(1)
+            
+            texts = []
+            for file_path in text_files:
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        texts.append(f.read())
+                except Exception as e:
+                    print(f"Warning: Could not read {file_path}: {e}")
+            
+            compiler.batch_learn(texts)
+        
+        elif command == "stats":
+            compiler = DynamicPsstCompiler()
+            stats = compiler.get_learning_stats()
+            
+            if not stats:
+                print("No learning data available yet.")
+                print("Try running 'psst-learn learn <file>' first.")
+                return
+            
+            print("Learning Statistics:")
+            print(f"  Total compressions: {stats['total_compressions']}")
+            print(f"  Average compression ratio: {stats['average_compression_ratio']:.1%}")
+            print(f"  Best compression ratio: {stats['best_compression_ratio']:.1%}")
+            print(f"  Discovered patterns: {stats['discovered_patterns']}")
+            print(f"  Failed patterns: {stats['failed_patterns']}")
+            print(f"  Glossary size: {stats['glossary_size']}")
+        
+        elif command == "optimize":
+            compiler = DynamicPsstCompiler()
+            compiler.auto_optimize_glossary()
+            print("Glossary optimized!")
+            print(f"New glossary size: {len(compiler.glossary)} symbols")
+        
+        elif command == "suggest":
+            compiler = DynamicPsstCompiler()
+            suggestions = compiler.suggest_improvements()
+            
+            if not suggestions:
+                print("No suggestions available yet.")
+                print("Try running some compressions first to gather data.")
+                return
+            
+            print("Improvement Suggestions:")
+            for i, suggestion in enumerate(suggestions, 1):
+                print(f"  {i}. {suggestion}")
+        
+        else:
+            print(f"Unknown command: {command}")
+            sys.exit(1)
+    
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main() 

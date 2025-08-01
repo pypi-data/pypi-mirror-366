@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+"""
+psst-hybrid: Hybrid PSST integration with OpenAI API
+Usage: psst-hybrid "Your prompt here" [--model gpt-4] [--force-expansion] [--psst-response]
+"""
+
+import sys
+import os
+from pathlib import Path
+
+# Add current directory to path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from psst_hybrid_integration import PsstHybridIntegration
+
+
+def main():
+    """Main CLI function for PSST hybrid integration."""
+    if len(sys.argv) < 2:
+        print("PSST Hybrid Integration CLI")
+        print("Usage:")
+        print("  psst-hybrid <prompt>                    # Send prompt with hybrid approach")
+        print("  psst-hybrid <prompt> --psst-response    # Ask AI to respond using PSST")
+        print("  psst-hybrid <prompt> --force-expansion  # Force expansion approach")
+        print("  psst-hybrid <prompt> --model gpt-4      # Specify model")
+        print("  psst-hybrid --demo hybrid               # Run hybrid demo")
+        print("  psst-hybrid --demo psst-response        # Run PSST response demo")
+        sys.exit(1)
+    
+    # Parse arguments
+    prompt = None
+    model = "gpt-4"
+    force_expansion = False
+    use_psst_response = False
+    demo = None
+    
+    i = 1
+    while i < len(sys.argv):
+        arg = sys.argv[i]
+        
+        if arg == "--model" and i + 1 < len(sys.argv):
+            model = sys.argv[i + 1]
+            i += 2
+        elif arg == "--force-expansion":
+            force_expansion = True
+            i += 1
+        elif arg == "--psst-response":
+            use_psst_response = True
+            i += 1
+        elif arg == "--demo" and i + 1 < len(sys.argv):
+            demo = sys.argv[i + 1]
+            i += 2
+        elif not arg.startswith("--"):
+            prompt = arg
+            i += 1
+        else:
+            i += 1
+    
+    # Initialize integration
+    integration = PsstHybridIntegration()
+    
+    try:
+        if demo == "hybrid":
+            from psst_hybrid_integration import demo_hybrid_integration
+            demo_hybrid_integration()
+        elif demo == "psst-response":
+            from psst_hybrid_integration import demo_psst_response
+            demo_psst_response()
+        elif prompt:
+            # Send prompt
+            result = integration.send_hybrid_prompt(
+                prompt, 
+                model=model,
+                force_expansion=force_expansion,
+                use_psst_response=use_psst_response
+            )
+            
+            if 'error' in result:
+                print(f"❌ Error: {result['error']}")
+                sys.exit(1)
+            
+            # Show results
+            print(f"✅ Approach: {result['approach']}")
+            print(f"📊 Analysis: {result['analysis']['recommended_approach']}")
+            print(f"🔍 Complex symbols: {result['analysis']['complex_symbols_found']}")
+            print(f"📝 Simple symbols: {result['analysis']['simple_symbols_found']}")
+            print(f"📈 Token usage: {result['usage']}")
+            print()
+            print("💬 Response:")
+            print(result['response'])
+        else:
+            print("Error: Please provide a prompt or demo option")
+            sys.exit(1)
+    
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

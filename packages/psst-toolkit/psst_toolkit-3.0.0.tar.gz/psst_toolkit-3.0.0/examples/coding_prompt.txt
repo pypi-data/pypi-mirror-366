@@ -1,0 +1,17 @@
+You are an expert software engineer. Please explain the following code and plan the implementation for the requested feature.
+
+Calculate the time complexity and memory usage for this algorithm.
+
+Respond in a clear, educational tone suitable for a junior developer.
+
+Please summarize the following text in 3 bullet points.
+
+Code to analyze:
+```python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+```
+
+Feature request: Optimize this recursive Fibonacci implementation to handle large inputs efficiently. 

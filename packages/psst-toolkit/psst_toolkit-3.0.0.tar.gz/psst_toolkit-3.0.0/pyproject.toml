@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "psst-toolkit"
+version = "3.0.0"
+description = "Prompt Symbol Standard Technology - 88.6% token reduction with perfect semantic fidelity"
+readme = "README_PSST.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Marc Goldstein", email = "marcgoldstein@example.edu"}
+]
+maintainers = [
+    {name = "Marc Goldstein", email = "marcgoldstein@example.edu"}
+]
+keywords = ["ai", "prompting", "compression", "tokens", "openai", "gpt", "llm", "efficiency", "cost-optimization"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Compilers",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "requests>=2.25.0",
+    "jellyfish>=0.9.0",
+    "numpy>=1.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black>=21.0",
+    "flake8>=3.8",
+]
+openai = [
+    "openai>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/goldsteinmarcmd/psst"
+Documentation = "https://github.com/goldsteinmarcmd/psst/blob/main/PSST_USER_MANUAL.md"
+Repository = "https://github.com/goldsteinmarcmd/psst"
+"Bug Tracker" = "https://github.com/goldsteinmarcmd/psst/issues"
+
+[project.scripts]
+psst = "psst_ultimate:main"
+psst-ultimate = "psst_ultimate:main"
+psst-dynamic = "dynamic_psst_compiler:main"
+psst-enhanced = "enhanced_psst_compiler:main"
+psst-hybrid = "psst_hybrid_integration:main"
+
+[tool.setuptools]
+py-modules = [
+    "psst_compiler",
+    "psst_ultimate",
+    "dynamic_psst_compiler", 
+    "enhanced_psst_compiler",
+    "psst_hybrid_integration"
+]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "examples/*.txt", "examples/*.psst"]
+
+[tool.setuptools.dynamic]
+version = {attr = "psst_ultimate.__version__"}
