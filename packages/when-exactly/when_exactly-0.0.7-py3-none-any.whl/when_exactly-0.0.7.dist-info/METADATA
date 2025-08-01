@@ -1,0 +1,80 @@
+Metadata-Version: 2.3
+Name: when-exactly
+Version: 0.0.7
+Summary: Expressive and intuitive date and time library
+Author: Nico Bako
+Author-email: Nico Bako <>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.13
+Project-URL: Documentation, https://when-exactly.nicobako.me
+Project-URL: Homepage, https://github.com/nicobako/when-exactly
+Project-URL: Issues, https://github.com/nicobako/when-exactly/issues
+Description-Content-Type: text/markdown
+
+# When Exactly
+
+An expressive datetime library for Python.
+
+*When-Exactly* is still a work-in-progress.
+
+Check out the documentation at [when-exactly.nicobako.me](https://when-exactly.nicobako.me).
+
+## Development
+
+### Setup
+
+```bash
+# windows - git-bash
+py -3.13 -m venv .venv
+source .venv/Scripts/activate
+
+# linux
+python3.13 -m venv .venv
+source .venv/bin/activate
+
+# both
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+pip install -e .
+pre-commit install
+```
+
+### Creating requirements
+
+```
+pip install \
+  pytest \
+  pytest-cov \
+  mkdocs \
+  mkdocstrings[python] \
+  pre-commit \
+  build \
+  twine \
+
+pip freeze > requirements.txt
+```
+
+### Testing
+
+```bash
+pytest .
+```
+
+### Documentation
+
+```bash
+# live-preview
+mkdocs serve
+
+# deploy
+mkdocs gh-deploy
+```
+
+## Build
+
+```bash
+python -m build
+python -m twine upload dist/*
+```
