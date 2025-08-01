@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vivi-redis-entraid"
+version = "1.0.0"
+authors = [
+  { name="Kinetic Solutions Group.", email="mgarcia@ksgai.com" },
+]
+description = "This is a fork of the original repo redis-py-entraid with support for azure-identity~=1.21.0"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "redis==6.2.0",
+  "PyJWT~=2.9.0",
+  "msal~=1.31.0",
+  "azure-identity~=1.21.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["redis_entraid"]
+exclude = ["tests", "examples", ".github"]
