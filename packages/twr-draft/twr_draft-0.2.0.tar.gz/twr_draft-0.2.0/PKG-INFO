@@ -1,0 +1,268 @@
+Metadata-Version: 2.4
+Name: twr-draft
+Version: 0.2.0
+Summary: 一个功能完整的草稿管理MCP服务器，支持创建、读取、更新、删除和搜索草稿。专为单次对话设计，使用内存存储。
+Project-URL: Homepage, https://github.com/yourusername/draft-mcp
+Project-URL: Repository, https://github.com/yourusername/draft-mcp
+Project-URL: Issues, https://github.com/yourusername/draft-mcp/issues
+Author-email: TTTTWR <2116528714@qq.com>
+Keywords: draft,mcp,notes,text-editor
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Requires-Dist: fastmcp>=2.10.6
+Description-Content-Type: text/markdown
+
+# TWR Draft MCP Server
+
+一个功能完整的草稿管理MCP服务器，支持创建、读取、更新、删除和搜索草稿。**专为单次对话设计，使用内存存储，无需文件系统。**
+
+## 功能特性
+
+- ✅ 创建新草稿
+- ✅ 读取草稿内容
+- ✅ 更新草稿内容
+- ✅ 删除草稿
+- ✅ 列出所有草稿
+- ✅ 搜索草稿（按名称、内容、分类和标签）
+- ✅ 获取草稿详细信息（字符数、单词数、行数等）
+- ✅ 草稿分类管理
+- ✅ 标签系统
+- ✅ 按分类和标签筛选草稿
+- ✅ 创建和更新时间记录
+- ✅ 内存存储（无需文件系统）
+- ✅ 错误处理和用户友好的错误信息
+- ✅ 内存管理功能（清空、计数）
+- ✅ 专为单次对话优化
+
+## 安装
+
+### 使用 uv（推荐）
+
+```bash
+# 克隆仓库
+git clone https://github.com/yourusername/twr-draft.git
+cd twr-draft
+
+# 安装依赖
+uv sync
+
+# 安装到系统
+uv pip install -e .
+```
+
+### 使用 pip
+
+```bash
+pip install -e .
+```
+
+## 使用方法
+
+### 作为MCP服务器
+
+在您的MCP客户端配置中添加：
+
+```json
+{
+  "mcpServers": {
+    "twr-draft": {
+      "command": "twr-draft-server",
+      "args": []
+    }
+  }
+}
+```
+
+### 可用的工具
+
+#### 1. new_draft
+创建新草稿
+
+**参数：**
+- `draft_name` (str): 草稿名称
+- `draft_content` (str): 草稿内容
+- `category` (str, 可选): 草稿分类，默认为"未分类"
+- `tags` (str, 可选): 标签，用逗号分隔
+
+**示例：**
+```python
+new_draft("我的想法", "这是一个关于项目的新想法...", "项目", "想法,计划")
+```
+
+#### 2. get_draft
+获取草稿内容
+
+**参数：**
+- `draft_name` (str): 草稿名称
+
+**示例：**
+```python
+get_draft("我的想法")
+```
+
+#### 3. update_draft
+更新草稿内容
+
+**参数：**
+- `draft_name` (str): 草稿名称
+- `draft_content` (str): 新的草稿内容
+- `category` (str, 可选): 新的分类
+- `tags` (str, 可选): 新的标签，用逗号分隔
+
+**示例：**
+```python
+update_draft("我的想法", "更新后的想法内容...", "重要项目", "想法,计划,重要")
+```
+
+#### 4. delete_draft
+删除草稿
+
+**参数：**
+- `draft_name` (str): 草稿名称
+
+**示例：**
+```python
+delete_draft("我的想法")
+```
+
+#### 5. list_drafts
+列出所有草稿
+
+**示例：**
+```python
+list_drafts()
+```
+
+#### 6. search_drafts
+搜索草稿
+
+**参数：**
+- `keyword` (str): 搜索关键词
+
+**示例：**
+```python
+search_drafts("项目")
+```
+
+#### 7. get_draft_info
+获取草稿详细信息
+
+**参数：**
+- `draft_name` (str): 草稿名称
+
+**示例：**
+```python
+get_draft_info("我的想法")
+```
+
+#### 8. list_categories
+列出所有分类
+
+**示例：**
+```python
+list_categories()
+```
+
+#### 9. list_tags
+列出所有标签
+
+**示例：**
+```python
+list_tags()
+```
+
+#### 10. get_drafts_by_category
+按分类获取草稿
+
+**参数：**
+- `category` (str): 分类名称
+
+**示例：**
+```python
+get_drafts_by_category("项目")
+```
+
+#### 11. get_drafts_by_tag
+按标签获取草稿
+
+**参数：**
+- `tag` (str): 标签名称
+
+**示例：**
+```python
+get_drafts_by_tag("想法")
+```
+
+#### 12. clear_all_drafts
+清空所有草稿
+
+**示例：**
+```python
+clear_all_drafts()
+```
+
+#### 13. get_draft_count
+获取草稿总数
+
+**示例：**
+```python
+get_draft_count()
+```
+
+## 数据存储
+
+草稿数据存储在内存中，无需文件系统：
+
+- **存储方式**: 内存存储
+- **生命周期**: 单次对话期间
+- **优势**: 快速访问，无需文件I/O
+- **特点**: 对话结束后自动清理
+
+**注意**: 由于使用内存存储，草稿数据在对话结束后不会持久保存。这确保了数据的临时性和隐私性。
+
+## 开发
+
+### 运行测试
+
+```bash
+# 直接运行服务器
+python -m draft_server.draft
+```
+
+### 项目结构
+
+```
+twr-draft/
+├── pyproject.toml          # 项目配置
+├── README.md              # 项目说明
+├── src/
+│   └── draft_server/
+│       ├── __init__.py    # 包初始化
+│       └── draft.py       # 主要实现
+└── uv.lock                # 依赖锁定文件
+```
+
+## 许可证
+
+MIT License
+
+## 贡献
+
+欢迎提交Issue和Pull Request！
+
+## 更新日志
+
+### v0.2.0
+- 改为内存存储，专为单次对话优化
+- 添加内存管理功能（清空、计数）
+- 移除文件系统依赖
+
+### v0.1.0
+- 初始版本
+- 基本的草稿CRUD操作
+- 搜索和列表功能
+- 文件系统存储 
