@@ -1,0 +1,295 @@
+# ----------------------------------------------------------------------------#
+
+image: python:3.13
+
+# ----------------------------------------------------------------------------#
+
+stages:
+  - test
+  - lint
+  - tox
+  - release
+
+# ----------------------------------------------------------------------------#
+
+variables:
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
+# ----------------------------------------------------------------------------#
+
+workflow:
+  auto_cancel:
+    on_job_failure: all
+  rules:
+    # Run merge request pipelines only (not branch pipelines)
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+    # Run branch pipelines only for main branch
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: always
+
+# ----------------------------------------------------------------------------#
+
+include:
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+
+# ----------------------------------------------------------------------------#
+# SBOM:
+# ----------------------------------------------------------------------------#
+
+dependency-setup:
+  stage: test
+  script:
+    - make install
+    - make sbom
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - when: on_success
+  artifacts:
+    when: on_success
+    paths: ["**/pipdeptree.json"]
+    access: developer
+
+# ----------------------------------------------------------------------------#
+# Linting tests:
+# ----------------------------------------------------------------------------#
+
+commitlint:
+  stage: lint
+  image: node:latest
+  script:
+    - npm install -g @commitlint/cli @commitlint/config-angular
+    # get a copy of main
+    - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    # ensure that the angular commit msg type is followed
+    - git log --pretty=format:%s $CI_MERGE_REQUEST_DIFF_BASE_SHA..$CI_COMMIT_SHA | commitlint --config .commitlintrc
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - when: always
+
+# ----------------------------------------------------------------------------#
+
+renovate-config-validator:
+  stage: lint
+  image: node:23
+  script:
+    - npm install -g renovate
+    - renovate-config-validator
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - renovate.json
+      when: always
+  allow_failure: true
+
+# ----------------------------------------------------------------------------#
+
+flake8:
+  stage: lint
+  interruptible: true
+  script:
+    - make install
+    - |
+      git fetch origin $CI_DEFAULT_BRANCH
+      changed=$(git diff --name-only origin/$CI_DEFAULT_BRANCH...HEAD -- '*.py' || true)
+      if [ -n "$changed" ]; then
+        echo "$changed" | xargs -r venv/bin/flake8 --exclude venv
+      else
+        echo "No Python files changed."
+      fi
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "*.py"
+        - "**/*.py"
+      when: always
+  allow_failure: true
+
+# ----------------------------------------------------------------------------#
+
+isort:
+  stage: lint
+  interruptible: true
+  script:
+    - make install
+    - |
+      git fetch origin $CI_DEFAULT_BRANCH
+      changed=$(git diff --name-only origin/$CI_DEFAULT_BRANCH...HEAD -- '*.py' || true)
+      if [ -n "$changed" ]; then
+        echo "$changed" | xargs venv/bin/isort --check-only --diff --profile black
+      else
+        echo "No Python files changed."
+      fi
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "*.py"
+        - "**/*.py"
+      when: always
+  allow_failure: true
+
+# ----------------------------------------------------------------------------#
+
+black:
+  stage: lint
+  interruptible: true
+  script:
+    - make install
+    - |
+      git fetch origin $CI_DEFAULT_BRANCH
+      changed=$(git diff --name-only origin/$CI_DEFAULT_BRANCH...HEAD -- '*.py' || true)
+      if [ -n "$changed" ]; then
+        echo "$changed" | xargs venv/bin/black -S --line-length=79 --check --diff
+      else
+        echo "No Python files changed."
+      fi
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "*.py"
+        - "**/*.py"
+      when: always
+  allow_failure: true
+
+# ----------------------------------------------------------------------------#
+
+markdownlint:
+  stage: lint
+  image: node:23
+  interruptible: true
+  script:
+    - apt-get update && apt-get install -y git
+    - git fetch origin $CI_DEFAULT_BRANCH
+    - npm install -g markdownlint-cli
+    - markdownlint $(git diff --name-only origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME...HEAD -- '*.md' || true)
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "*.md"
+        - "**/*.md"
+      when: always
+  allow_failure: true
+
+# ----------------------------------------------------------------------------#
+# Security tests:
+# ----------------------------------------------------------------------------#
+
+sast:
+  stage: test
+  interruptible: true
+  script:
+    - []
+
+# ----------------------------------------------------------------------------#
+
+coverage:
+  stage: test
+  interruptible: true
+  script:
+    - make install
+    - make cover
+  rules:
+    - when: always
+  allow_failure: true
+  coverage: '/TOTAL.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+
+# ----------------------------------------------------------------------------#
+
+pyenv:
+  stage: tox
+  variables:
+    PYENV_ROOT: "$HOME/.pyenv"
+    PYTHON_VERSIONS: 3.10 3.11 3.12 3.13
+  before_script:
+    - apt-get install curl
+    - export PYENV_ROOT="$HOME/.pyenv"
+    - export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+    - curl -fsSL https://pyenv.run | bash
+    - eval "$($PYENV_ROOT/bin/pyenv init --path)"
+    - eval "$($PYENV_ROOT/bin/pyenv init -)"
+    - for v in $PYTHON_VERSIONS; do pyenv install -s "$v"; done
+    - pyenv global $PYTHON_VERSIONS
+    - echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+    - make install
+  script:
+    - make test
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - "*.py"
+        - "**/*.py"
+      when: always
+
+# -----------------------------------------------------------------------------
+# GitLab & Pypi release using python-semantic-release
+# -----------------------------------------------------------------------------
+
+release:
+  variables:
+    GIT_DEPTH: 0
+    GIT_STRATEGY: "clone"
+    TWINE_USERNAME: __token__
+    TWINE_PASSWORD: $PYPI_TOKEN
+  stage: release
+  script:
+    # ensure we don't have a detatched head in the pipeline
+    # and that there is no untracked files in the dir
+    # remove previous build files as we will overwrite if there's a new version:
+    - git stash -u && git checkout main && git fetch --all
+
+    # install release deps
+    - python -m venv venv
+    - source venv/bin/activate
+    - venv/bin/pip install -q .
+    - venv/bin/pip install -q ".[test,build,release]"
+
+    # publish a new release (only if the commit msg matches)
+    - venv/bin/semantic-release version && venv/bin/semantic-release publish
+
+    # Check if there are files in the /dist folder
+    # this only will occur if semantic-release wants to publish a new version:
+    - if [ -z "$(ls -A dist)" ]; then
+        echo "No version to publish";
+        exit 0;
+      else
+        echo "Publishing new version";
+        venv/bin/twine upload --config-file .pypirc --repository pypi --verbose dist/*;
+        export TWINE_USERNAME="gitlab-ci-token" && export TWINE_PASSWORD="$CI_JOB_TOKEN";
+        venv/bin/twine upload --config-file .pypirc --repository gitlab --verbose dist/*;
+      fi
+
+  rules:
+    # skip the job if it's triggered by a release commit
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\): bump version/'
+      when: never
+    # only run on main branch
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
