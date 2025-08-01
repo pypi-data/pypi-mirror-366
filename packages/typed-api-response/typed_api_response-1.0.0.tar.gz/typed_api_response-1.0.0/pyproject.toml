@@ -1,0 +1,47 @@
+[project]
+name = "typed-api-response"
+version = "1.0.0"
+description = "Type-safe, extensible, strictly validated API response system for Python apps"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Michael Pearce", email = "firstflush@protonmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+  "pydantic>=2.0.0"
+]
+
+keywords = ["api", "response", "wrapper", "pydantic", "typescript", "typed", "validation", "http", "fastapi", "django", "ninja"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Typing :: Typed",
+  "Framework :: FastAPI",
+  "Framework :: Django",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "mypy>=1.0",
+  "build",
+  "twine"
+]
+
+[project.urls]
+Homepage = "https://github.com/firstflush/typed-api-response"
+Repository = "https://github.com/firstflush/typed-api-response"
+Issues = "https://github.com/firstflush/typed-api-response/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["typed_api_response"]
