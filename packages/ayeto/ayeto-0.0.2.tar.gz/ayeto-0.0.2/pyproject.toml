@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ayeto"
+version = "0.0.2"
+description = "AYETO API Client"
+authors = [
+    { name="AYETO team", email="info@ayeto.ai" }
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+dependencies = [
+    "pydantic>=2.11.7",
+    "requests>=2.32.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1",
+]
+
+[project.urls]
+Homepage = "https://ayeto.ai"
+Source = "https://github.com/robodrone-dev/ayeto-python"
+Tracker = "https://github.com/robodrone-dev/ayeto-python/issues"
