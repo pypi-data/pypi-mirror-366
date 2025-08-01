@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: mfgwhitebox
+Version: 0.0.2
+Summary: A package to convert between Excel and XML files.
+Home-page: https://github.com/hedaima/excel-xml-converter
+Author: liumao0917
+Author-email: liumao0917@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: openpyxl
+Requires-Dist: lxml
+
+# Excel-XML Converter
+
+A simple command-line tool to convert between Excel (.xlsx) and XML files based on a specific data structure.
+
+## Installation
+
+```bash
+pip install mfgwhitebox
+```
+
+## Usage
+
+### Excel to XML
+
+```bash
+mfgwhitebox input.xlsx output.xml
+```
+
+### XML to Excel
+
+```bash_
+mfgwhitebox input.xml output.xlsx
+```
+
+
