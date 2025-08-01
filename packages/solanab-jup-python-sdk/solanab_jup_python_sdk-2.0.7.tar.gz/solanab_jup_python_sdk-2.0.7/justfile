@@ -1,0 +1,107 @@
+# Jupiter Python SDK 测试运行器
+# 使用: just <命令>
+
+# 默认命令 - 显示帮助
+default:
+    @just --list
+
+# 运行单元测试
+test-unit:
+    @echo "=== 运行单元测试 ==="
+    uv run pytest tests -v
+
+# 运行所有测试
+test-all:
+    @echo "=== 运行所有测试 ==="
+    uv run pytest tests -v
+
+# 运行测试并生成覆盖率报告
+test-coverage:
+    @echo "=== 运行测试并生成覆盖率报告 ==="
+    uv run pytest tests --cov=jup_python_sdk --cov-report=html --cov-report=term
+    @echo "覆盖率报告已生成到 htmlcov/index.html"
+
+# 快速测试（只运行快速的单元测试）
+test-quick:
+    @echo "=== 运行快速测试 ==="
+    uv run pytest tests -v -m "not slow"
+
+# 运行特定测试文件
+test-file FILE:
+    @echo "=== 运行测试文件: {{FILE}} ==="
+    uv run pytest {{FILE}} -v
+
+# 运行特定测试函数
+test-func FUNC:
+    @echo "=== 运行测试函数: {{FUNC}} ==="
+    uv run pytest -k {{FUNC}} -v
+
+# 运行 linter
+lint:
+    @echo "=== 运行代码检查 ==="
+    uv run ruff check .
+    uv run pyright .
+
+# 格式化代码
+format:
+    @echo "=== 格式化代码 ==="
+    uv run ruff format jup_python_sdk tests
+    uv run ruff check --fix jup_python_sdk tests
+
+# 检查代码格式
+format-check:
+    @echo "=== 检查代码格式 ==="
+    uv run ruff format --check jup_python_sdk tests
+    uv run ruff check jup_python_sdk tests
+
+# 清理临时文件
+clean:
+    @echo "=== 清理临时文件 ==="
+    find . -type d -name "__pycache__" -exec rm -rf {} +
+    find . -type f -name "*.pyc" -delete
+    find . -type f -name "*.pyo" -delete
+    find . -type d -name ".pytest_cache" -exec rm -rf {} +
+    find . -type d -name ".ruff_cache" -exec rm -rf {} +
+    find . -type d -name ".pyright" -exec rm -rf {} +
+    find . -type d -name ".mypy_cache" -exec rm -rf {} +
+    rm -rf htmlcov/
+    rm -rf .coverage
+
+# 安装开发依赖
+install:
+    @echo "=== 安装开发依赖 ==="
+    uv sync --all-extras
+
+# 运行示例
+example NAME:
+    @echo "=== 运行示例: {{NAME}} ==="
+    uv run python examples/{{NAME}}.py
+
+# 完整的 CI 检查（格式化、lint、测试）
+ci:
+    @echo "=== 运行完整 CI 检查 ==="
+    just format-check
+    just lint
+    just test-all
+
+# 快速提交（跳过 pre-commit）
+commit MSG:
+    @echo "=== 快速提交 ==="
+    git add -A
+    git commit --no-verify -m "{{MSG}}"
+
+# 格式化后提交
+commit-format MSG:
+    @echo "=== 格式化并提交 ==="
+    just format
+    git add -A
+    git commit --no-verify -m "{{MSG}}"
+
+# 别名 - 更短的命令
+alias t := test-unit
+alias ta := test-all
+alias tc := test-coverage
+alias l := lint
+alias f := format
+alias c := commit
+alias cf := commit-format
