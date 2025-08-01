@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: deceptionlogic-ai
+Version: 0.1.0
+Summary: Deception Logic AI Interface with Deception Logic MCP
+Home-page: https://deceptionlogic.com
+Download-URL: https://github.com/deceptionlogic/mcp-cli
+Author: Deception Logic, Inc.
+Author-email: info@deceptionlogic.com
+License: MIT
+Requires-Dist: anthropic<1.0.0,>=0.60.0
+Requires-Dist: fastmcp<3.0.0,>=2.10.6
+Requires-Dist: openai<2.0.0,>=1.98.0
+Requires-Dist: typer<1.0.0,>=0.16.0
+Requires-Dist: google-genai<2.0.0,>=1.25.0
+Requires-Dist: prompt_toolkit<4.0.0,>=3.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+Deception Logic AI
+==================
+
+A command-line interface for interacting with Deception Logic's MCP Server.
+
+Features
+--------
+
+- Simple and intuitive CLI interface
+- Full support for MCP client operations
+- Chat feature with LLM of your choice
+- Customizable configuration options for API keys and UI
+
+Installation
+------------
+
+You can install deceptionlogic-ai using pip:
+
+.. code-block:: bash
+
+    pip install deceptionlogic-ai
+
+Usage
+-----
+
+To see available commands, run:
+
+.. code-block:: bash
+
+    deceptionlogic-ai --help
+
+Example:
+
+.. code-block:: bash
+
+    deceptionlogic-ai chat --client openai --model gpt-4
+
+License
+-------
+
+This project is licensed under the MIT License.
