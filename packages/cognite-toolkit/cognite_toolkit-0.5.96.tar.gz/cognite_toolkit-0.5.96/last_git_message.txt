@@ -1,0 +1,25 @@
+[CDF-25385] 😁 Use upsert instead of delete - create  (#1810)
+
+# Description
+
+We added support for the CRUD operations for WorkflowTrigger resources
+in Toolkit before there was an upsert endpoint. As a workaround, we used
+list + delete + create. This PR takes advantage of the new upsert
+endpoint instead of the workaround.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- When deploying a workflow trigger, Toolkit no longer deletes and
+recreates it. Instead, the trigger is updated.
+
+## templates
+
+No changes.
