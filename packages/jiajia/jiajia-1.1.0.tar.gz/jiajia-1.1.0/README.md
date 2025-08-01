@@ -1,0 +1,313 @@
+# JiaJia - RSA-AES 混合加密框架
+
+一个轻量级的加密解密框架，提供RSA非对称加密、AES对称加密、HMAC签名验证等功能。可以直接在其他项目中import使用。
+
+## 功能特性
+
+- 🔐 **RSA非对称加密**: 支持2048位和4096位密钥
+- 🔑 **AES对称加密**: 支持GCM和CBC模式
+- ✍️ **HMAC签名验证**: 确保数据完整性和真实性
+- 🗂️ **会话管理**: 支持会话创建、存储和失效
+- ⚡ **异步支持**: 全异步API设计
+- 🛡️ **安全配置**: 灵活的安全参数配置
+- 📦 **便捷函数**: 提供简单易用的便捷函数
+- 🔄 **缓存支持**: 支持内存和Redis缓存后端
+
+## 安装
+
+```bash
+pip install jiajia
+```
+
+## 快速开始
+
+### 基本使用
+
+```python
+import asyncio
+from jiajia import key_exchange, encrypt_data, decrypt_data, set_config, SecurityConfig
+
+async def main():
+    # 1. 设置配置
+    config = SecurityConfig(
+        rsa_key_size=2048,
+        aes_mode="GCM",
+        session_expire_time=3600
+    )
+    set_config(config)
+    
+    # 2. 密钥交换（建立安全会话）
+    exchange_result = await key_exchange("client_app", "1.0.0")
+    session_id = exchange_result["session_id"]
+    
+    # 3. 加密数据
+    sensitive_data = {"user_id": "12345", "email": "user@example.com"}
+    encrypt_result = await encrypt_data(sensitive_data, session_id)
+    
+    # 4. 解密数据
+    decrypt_payload = encrypt_result.copy()
+    decrypt_payload["session_id"] = session_id
+    decrypt_result = await decrypt_data(decrypt_payload)
+    
+    print(f"解密结果: {decrypt_result['data']}")
+
+asyncio.run(main())
+```
+
+### 高级使用
+
+```python
+import asyncio
+from jiajia import EncryptionAPI, SecurityConfig
+
+async def advanced_example():
+    # 创建自定义配置
+    config = SecurityConfig(
+        rsa_key_size=4096,
+        aes_mode="GCM",
+        session_expire_time=7200,
+        max_timestamp_diff=600
+    )
+    
+    # 创建API实例
+    api = EncryptionAPI(config)
+    
+    # 密钥交换
+    exchange_result = await api.key_exchange("advanced_client", "2.0.0")
+    session_id = exchange_result["session_id"]
+    
+    # 加密数据
+    data = {"message": "Hello, World!", "timestamp": 1234567890}
+    encrypt_result = await api.encrypt_data(data, session_id)
+    
+    # 解密数据
+    decrypt_payload = encrypt_result.copy()
+    decrypt_payload["session_id"] = session_id
+    decrypt_result = await api.decrypt_data(decrypt_payload)
+    
+    # 健康检查
+    health_result = await api.health_check()
+    
+    # 获取安全配置
+    config_result = await api.get_security_config()
+
+asyncio.run(advanced_example())
+```
+
+## API 参考
+
+### 核心类
+
+#### `SecurityConfig`
+
+安全配置类，用于设置加密参数。
+
+```python
+config = SecurityConfig(
+    rsa_key_size=2048,        # RSA密钥大小
+    aes_mode="GCM",           # AES模式 (GCM/CBC)
+    session_expire_time=3600,  # 会话过期时间（秒）
+    max_timestamp_diff=300,    # 时间戳容差（秒）
+    cache_backend="memory"     # 缓存后端 (memory/redis)
+)
+```
+
+#### `EncryptionAPI`
+
+主要的加密API类。
+
+```python
+api = EncryptionAPI(config)
+
+# 密钥交换
+result = await api.key_exchange(client_id, client_version)
+
+# 加密数据
+result = await api.encrypt_data(data, session_id)
+
+# 解密数据
+result = await api.decrypt_data(payload)
+
+# 会话管理
+result = await api.get_session_info(session_id)
+result = await api.invalidate_session(session_id)
+
+# 系统状态
+result = await api.health_check()
+result = await api.get_security_config()
+```
+
+#### `EncryptionCore`
+
+加密核心类，提供底层加密功能。
+
+```python
+core = EncryptionCore(config)
+
+# RSA操作
+private_key, public_key = core.generate_rsa_keypair()
+encrypted = core.rsa_encrypt(public_key, data)
+decrypted = core.rsa_decrypt(private_key, encrypted)
+
+# AES操作
+aes_key = core.generate_aes_key()
+iv, ciphertext, tag = core.aes_encrypt(aes_key, data)
+decrypted = core.aes_decrypt(aes_key, iv, ciphertext, tag)
+
+# HMAC操作
+hmac_key = core.generate_hmac_key()
+signature = core.hmac_sign(hmac_key, data)
+is_valid = core.hmac_verify(hmac_key, data, signature)
+```
+
+#### `SessionManager`
+
+会话管理类，处理会话的创建、存储和验证。
+
+```python
+session_manager = SessionManager(config)
+
+# 会话操作
+session_info = await session_manager.create_session(client_id, version)
+await session_manager.store_keys(session_id, private_key, hmac_key)
+await session_manager.store_aes_key(session_id, aes_key)
+session_info = await session_manager.get_session_info(session_id)
+await session_manager.invalidate_session(session_id)
+is_valid = await session_manager.is_session_valid(session_id)
+```
+
+### 便捷函数
+
+框架提供了便捷函数，简化常见操作：
+
+```python
+from jiajia import (
+    key_exchange,
+    encrypt_data,
+    decrypt_data,
+    get_session_info,
+    invalidate_session,
+    health_check,
+    set_config,
+    get_api
+)
+
+# 设置全局配置
+set_config(config)
+
+# 获取全局API实例
+api = get_api()
+
+# 使用便捷函数
+result = await key_exchange("client", "1.0.0")
+result = await encrypt_data(data, session_id)
+result = await decrypt_data(payload)
+result = await get_session_info(session_id)
+result = await invalidate_session(session_id)
+result = await health_check()
+```
+
+## 配置选项
+
+### 环境变量
+
+可以通过环境变量配置框架：
+
+```bash
+export RSA_KEY_SIZE=4096
+export AES_MODE=GCM
+export SESSION_EXPIRE_TIME=7200
+export MAX_TIMESTAMP_DIFF=600
+export CACHE_BACKEND=memory
+export LOG_LEVEL=INFO
+export ENABLE_LOGGING=true
+```
+
+### 配置参数
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `rsa_key_size` | 2048 | RSA密钥大小（位） |
+| `aes_mode` | "GCM" | AES加密模式 |
+| `aes_key_size` | 32 | AES密钥大小（字节） |
+| `session_expire_time` | 3600 | 会话过期时间（秒） |
+| `max_timestamp_diff` | 300 | 时间戳容差（秒） |
+| `cache_backend` | "memory" | 缓存后端类型 |
+| `redis_url` | None | Redis连接URL |
+| `log_level` | "INFO" | 日志级别 |
+| `enable_logging` | True | 是否启用日志 |
+
+## 安全特性
+
+- **混合加密**: 结合RSA和AES的优势
+- **HMAC签名**: 确保数据完整性和真实性
+- **时间戳验证**: 防止重放攻击
+- **会话管理**: 安全的会话生命周期管理
+- **密钥轮换**: 支持动态密钥生成和存储
+
+## 性能特性
+
+- **异步设计**: 全异步API，支持高并发
+- **缓存支持**: 内存和Redis缓存后端
+- **批量操作**: 支持批量数据处理
+- **轻量级**: 最小化依赖，快速启动
+
+## 错误处理
+
+框架提供了完善的错误处理机制：
+
+```python
+try:
+    result = await encrypt_data(data, session_id)
+    if result["success"]:
+        # 处理成功结果
+        pass
+    else:
+        # 处理错误
+        print(f"错误: {result['error']}")
+except Exception as e:
+    # 处理异常
+    print(f"异常: {e}")
+```
+
+## 测试
+
+运行测试确保功能正常：
+
+```bash
+python -c "
+import asyncio
+from jiajia import key_exchange, encrypt_data, decrypt_data, SecurityConfig, set_config
+
+async def test():
+    config = SecurityConfig()
+    set_config(config)
+    
+    # 测试基本功能
+    exchange = await key_exchange('test', '1.0.0')
+    session_id = exchange['session_id']
+    
+    data = {'test': 'data'}
+    encrypted = await encrypt_data(data, session_id)
+    
+    payload = encrypted.copy()
+    payload['session_id'] = session_id
+    decrypted = await decrypt_data(payload)
+    
+    print('测试通过!' if decrypted['data'] == data else '测试失败!')
+
+asyncio.run(test())
+"
+```
+
+## 许可证
+
+MIT License
+
+## 作者
+
+夏云龙
+
+## 版本
+
+1.1.0

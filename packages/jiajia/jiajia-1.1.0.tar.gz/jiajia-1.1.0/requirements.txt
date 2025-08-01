@@ -1,0 +1,5 @@
+# 核心依赖
+cryptography>=3.4.8
+
+# 可选依赖（Redis缓存）
+redis>=4.0.0; sys_platform != "win32" 
