@@ -1,0 +1,246 @@
+from typing import Optional
+
+
+class FowlNest:
+    """
+    A chicken factory is a nest, right?
+
+    Set up mappings for Fowl endpoints on either peer.
+
+    Somewhat like the 'Builder' pattern, nothing will happen until
+    some time after 'dilate()' is called. This method must be called
+    exactly once.
+
+    Unlike the Builder pattern, you can call the other methods either
+    before or after 'dilate()'.
+
+    Fowl is built around the assumption that we are doing classic
+    "server / client" networking -- but between two peers. The
+    important thing that calling code needs to decide is "which peer
+    runs the server" (and thus the other peer runs a client).
+
+    Sometimes this is obvious: for a use-case like screen-sharing, the
+    peer who has a screen to share is "the host". For Git repository
+    sharing, the peer with the bare repository is "the host". In such
+    cases, it's likely you'll want to run the daemon-side software on
+    "the host" -- following this pattern allows multiple
+    "client"-style peers to connect (e.g. multiple peers watching the
+    shared screen, or cloning the hosted Git repository).
+
+    `near_daemon()` is called when _this_ peer wishes to host the
+    "daemon-style" software -- or the other peer could call
+    `far_daemon()` from its side.
+
+    Conversely, `far_daemon()` is called when the _other_ peer should
+    host the "daemon-style" softare -- or that peer could arrange to
+    call `near_daemon()` on its side.
+
+    This amount of "symmetry" can be confusing. Please see the
+    examples: git-withme and term-withme
+    """
+
+    def __init__(self):
+        self._services = dict()
+        self._dilated = None  # DilatedWormhole once we're dilated
+
+    # the "local" vs. "remote" is about which side is listenig. with a
+    # "normal" network service this means that if "we" run the daemon,
+    # then "then" run the listener.  .. maybe better way to express
+    # that?
+    #
+    # maybe "near_daemon()" vs. "far_daemon()"?
+    # (...and do we want/need a control channel to express this to the other side?)
+    # --> is "name" enough, if that's pushed through Fowl?
+    # --> or we smuggle something vague like "config" via the first-contact message?
+    #
+    # run: git-daemon 9999
+    # far_daemon(9999, config={"repository-name", "blammo"})
+    # (peer, runs "git clone git://localhost:9999/{repository-name}")
+    # (incoming subchannel, config={"repository-name", "blammo"})
+    #
+    # i.e. we just echo the "config" back to us?
+    # (but also we can just snoop the ports? and map that way?)
+    #
+    # what if we don't care about the ports, and want the
+    # "appropriate" side to allocate one, and communicate it back
+    # ... do we need a command-like channel then? (nah, we just use
+    # req/rep .. but fowl protocol changes a little)
+
+    #XXX maybe just:
+
+    ## git-withme:
+    # host-side: port = nest..near_daemon()
+    # runs: "git daemon --port {port} ...."
+    # peer: runs a 'fake' listener, that will FORWARD to {port}
+    #
+    # thinking to add to subchannel
+    # ...config={}
+    # now: hard-code those. git-withem says port is 9418, period.
+    #
+    # host-side: hey peer, please listen on {X} and forward back to me on {port}
+    # listen on <free-port>, and forward back to me on <my-free-port>
+    # (host-side never cares about <free-port>)
+    #
+    # ....yeah, give them names
+
+    # Fowl: named fowarding channels ("git-withme:demo-repo"), each
+    # has near and far port numbers -- each Fowl-using "plugin"
+    # controls its namespace, and keeps them unique.
+    # "real" name might be "git-withme:{name}" or something (auto-namespacing of plugins)
+    # maybe names are automatic too?
+
+
+class FowlChannel:
+    name: str  # (must be UNIQUE across all of this Fowl session)
+    endpoint: IStreamClientEndpoint # ????maybe we can do this???
+    listener: IStreamServerEndpoint # ????maybe we can do this???
+
+    def get_listen_port(self) -> int:
+        # figure out the "listener" port, must be tcp, etc
+        return 1234
+
+    my_port: int  # (implied: localhost)
+    their_port: int  # (implied: localhost)
+    #XXX shae: maybe client_port, server_port?
+    # config: dict # maybe? JSON-able
+    # git-withme: {"repository": "nice human name for the repo"}
+    # tty-share: {"x-window-id": "0x1123", "public-url": "https:..."}  (e.g. optional read-only public thing)
+    # sync-withme: ??? "suggested directory name"
+
+#  host: git daemon --port {my_port}
+# guest: git clone git://localhost:{their_port} {config[repository]}
+
+# Q: how does git name local dirs?
+# Q: what does git-withme already do here?
+# Q: is "name" optional, or required? (unique-ness is up to the "plugin")
+#     - git-withme has an obvious one for "repo name"
+#     - tty-share is less obvious, we just want "another one"
+# definitely: want some way to express "I want to listen on 1234" and also "I want to listen on <some open 
+# Q: shae: _does it_ need to know BOTH ports, or just "its" port? + subchannel
+#   -> fake-fowl-listening-side listens on "tcp:1234:interface=localhost"
+#   -> gets connection; opens subchannel; send first msg;
+#    (now, first-msg is "please connect to 'tcp:localhost:5555'")
+#   -> first msg needs to "somehow" identify what far-side port should be connected to
+
+# my side:
+### git daemon --port 5555  (pwd /home/meejah/src/foo)
+# hey, far side, please listen on "something" and connect back to "tcp:localhost:5555"
+# (optional): config={"repo": "foo"}
+# far side:
+### git clone git://localhost:{something}/{repo}
+# opens a connection to localhost:{something}
+# this causes a NEW subchannel to be created
+# msgpack: {connect to 'tcp:localhost:5555'}
+
+
+### git daemon --port 8736  (pwd: /home/meejah/src/quux)
+##   - hey other side, listen <somewhere> and connect back on "tcp:localhost:8736"
+##     with config: {"repo": "quux"}
+##   - connect back on "unix:/tmp/foo"
+##   - connect back to the service named "whatever"
+
+# "name" would then need to be unique across this entire Fowl session
+# name could be "hidden" by default from Git Withme / plugin code
+#
+# !!!! we like this a lot! then we don't 'leak' our local port mapping etc !!!!
+# !!!! we like "some kind of session identifier" too !!!! 
+
+### -> find that issue that maybe mentioned EdgeVPN using "names" for mappings
+# IF YOU ARE about ports, they should be specifiable -- but often you don't! ("any free port" will do)
+# Web stuff is picky about ports!
+# for web-shit, we NEED to be able to say the "most specific" thing, which is:
+#   "you MUST listen on tcp:localhost:4321 to match my 4321 listener
+
+# I still think _ANY_ of these can be optional (even name).
+
+# Git Withme has like:
+class GitRepository:
+    path: str
+    name: "whatever"
+    daemon_port: 5432
+
+# commands:
+# "remote-to-local"
+#   - "name": "unique-asdf"
+#  (optional) - "listen-endpoint": "tcp:4321:interface=localhost"  "unix:/tmp/foo"
+#  - "connect-endpoint": "tcp:localhost:5555"
+# "hey, other peer, please listen on 4321 and connect back to me on 5555"
+#
+# TODO: just make "listen-endpoint" optional? if it's not there it means "listen on any tcp port"
+# TODO: maybe there's another arg instead, giving hints (like "listen on any unix socket, and tell your peer")
+#
+# could add:
+# "hey, I opened a local listener called 'foo' on port 4321"
+
+# one of our "good" examples of composition:
+#   git-withme -> fowl -> magic-wormhole
+#   tty-share -> fowl -> magic-wormhole
+
+# Q/aside: can we git-clone across unix-sockets
+# (can fowl use unix-sockets?)
+# -> nginx can listen on unix
+
+/home/meejah/src/aoc-2025
+   -> "git withme host"
+
+guest:
+   "git withme accept <code>"
+ -> /home/share/..../aoc-2025
+
+    def lookup_channel(self, name: str) -> FowlChannel:
+        return self._channels[name]
+
+    channel = await near_daemon()
+    # git daemon --port {channel.get_listen_port()}
+    proto = await channel.listen_ep.listen(Factory.forProtocol(MyServerStuff))
+
+    async def near_daemon(self, name: Optional[str], config: Optional[dict]=None) -> FowlChannel:
+    #async def near_daemon(self, name: Optional[str]=None) -> FowlChannel:
+        """
+        :param name: something unique inside your 'plugin' e.g. git-withme
+             might use 'the repository name'
+        """
+        # is this return value ... good?
+
+    async def far_deamon(self) -> int:
+        """
+        """
+        # returns .. far port used?
+
+    def add_local(self, name: str, local_port: int, remote_port: Optional[int]=None) -> None:
+        pass
+
+    def add_remote(self, name: str, remote_port: int, local_port: Optional[int]=None) -> None:
+        pass
+
+    def connect_endpoint(self, name: str) -> IStreamClientEndpoint:
+        """
+        returns an endpoint that can be used to initiate a stream for the
+        indicated service-name (these are NOT magic-wormhole
+        subprotocol names .. right? .. those remain 'fowl' or
+        'fowl-commands' here, this is more like "the name of the
+        forwarding port setup")
+        """
+        # can still call this before or after dilate() -- but of
+        # course it will never succeed/fire until some point after
+        # dilate() succeeds.
+        #
+        # this will fail if _we_ didn't call add_remote() with the
+        # same name OR if the far side didn't call add_local() with
+        # the same name
+
+    def dilate(self, wormhole, *args, **kwargs) -> DilatedWormhole:
+        """
+        calls the underlying 'wormhole.dilate' with the passed-through
+        args, and passes through the return API -- after adding
+        anything it needs based on setup...?
+        """
+        # we could even "steal" a ref -- consider this as a "Builder
+        # pattern" object, where "dilate()" is "build()" basically,
+        # and can only be called precisely once ...
+        # ...HOWEVER, you _can_ call .add_local() and .add_remote() either
+        # before or after dilate(), or even both before and after
+        #
+        # i.e. a "gui user clicked 'start git-withme'" means that it
+        # may call a new add_local() or add_remote().
+

@@ -1,0 +1,46 @@
+
+
+@attr.s
+class WormholeMailboxServer:
+    """
+    A locally-running Magic Wormhole mailbox server
+    """
+    reactor = attr.ib()
+    process_transport = attr.ib()
+    url = attr.ib()
+
+    @classmethod
+    @inline_callbacks
+    def create(cls, reactor, request):
+        action = start_task(
+            action_type=u"integration:wormhole-mailbox",
+        )
+        with action.context():
+            args = [
+                sys.executable,
+                "-m",
+                "twisted",
+                "wormhole-mailbox",
+                # note, this tied to "url" below
+                "--port", "tcp:4000:interface=localhost",
+            ]
+            transport = yield run_service(
+                reactor,
+                request,
+                action_fields={
+                    "action_type": "integration:wormhole-mailbox",
+                },
+                magic_text="Starting reactor...",
+                executable=sys.executable,
+                args=args,
+                print_logs=False,  # they're Twisted struct-log JSON stuff
+            )
+            # XXX some sort of cleanup
+            #request.addfinalizer(partial(_cleanup_service_process, transport, protocol.exited, ctx))
+            returnValue(
+                cls(
+                    reactor,
+                    transport,
+                    url="ws://localhost:4000/v1",
+                )
+            )

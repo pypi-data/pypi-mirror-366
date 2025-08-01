@@ -1,0 +1,10 @@
+import pytest
+import pytest_twisted
+
+
+@pytest.fixture(scope='session')
+def reactor():
+    # this is a fixture in case we might want to try different
+    # reactors for some reason.
+    from twisted.internet import reactor as _reactor
+    return _reactor

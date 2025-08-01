@@ -1,0 +1,38 @@
+
+from attrs import define, Factory
+
+
+@define
+class TimeSeries:
+    _data: list[(float, float)] = Factory(list)
+
+    def add_point(self, t, d):
+        """
+        A data-point for time `t` has been received.
+        """
+        self._data.append((t, d))
+
+    def graph(self, start, interval, steps):
+        """
+        Return graph data for time starting at `start` with the given
+        `interval` and number of `steps`.
+
+        This will _always_ return `steps` data-points total -- if
+        there is no data in that range, `0` is used.
+        """
+        print("want", start, interval, steps)
+        print(self._data)
+        return [
+            self._get_data_for(start + (i * interval), start + ((i + 1) * interval))
+            for i in range(steps)
+        ]
+
+    def _get_data_for(self, begin, end):
+        d = 0.0
+        t0, d0 = self._data[0]
+        for t1, d1 in self._data[1:]:
+            if begin >= t0 and end <= t1:
+                d += d1
+            t0 = t1
+            d0 = d1
+        return d
