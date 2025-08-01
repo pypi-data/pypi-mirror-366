@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/anas-shakeel/tuff"
+Source = "https://github.com/anas-shakeel/tuff"
+
+[project]
+name = "tuff"
+version = "0.0.1"
+description = "Reserved placeholder for tuff cli tool."
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Anas Shakeel", email = "srdranas456@gmail.com" }
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: End Users/Desktop",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Utilities"
+]
+dependencies = []
