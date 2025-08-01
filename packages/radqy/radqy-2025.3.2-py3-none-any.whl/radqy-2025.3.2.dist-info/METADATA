@@ -1,0 +1,72 @@
+Metadata-Version: 2.4
+Name: radqy
+Version: 2025.3.2
+Summary: RadQy is a quality assurance and checking tool for quantitative assessment of magnetic resonance imaging (MRI) and computed tomography (CT) data.
+Author-email: Amir Reza Sadri <ars329@case.edu>
+License: BSD 3-Clause Clear License
+Keywords: MRI,CT
+Classifier: Programming Language :: Python :: 3.8
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Requires-Python: <3.12,>=3.8
+Description-Content-Type: text/x-rst
+Requires-Dist: importlib-metadata; python_version < "3.8"
+Requires-Dist: numpy>=1.23.1
+Requires-Dist: medpy>=0.4.0
+Requires-Dist: matplotlib>=3.5.1
+Requires-Dist: pydicom>=2.3.0
+Requires-Dist: pandas>=1.4.2
+Requires-Dist: scipy>=1.8.0
+Requires-Dist: scikit-learn>=1.0.2
+Requires-Dist: scikit-image>=0.19.2
+Requires-Dist: umap-learn>=0.5.3
+Requires-Dist: pyyaml>=6.0.1
+Requires-Dist: requests>=2.32.3
+
+RadQy
+=====
+
+RadQy is a quality assurance and evaluation tool for quantitative assessment of MRI and CT imaging data.
+
+It computes a variety of image quality metrics (IQMs) to assist with downstream image analysis, machine learning, and radiomic studies.
+
+----
+
+Features:
+- Computes over 30 image quality metrics
+- Supports T1w, T2w, and CT modalities
+- UMAP visualization of quality trends
+- CLI for batch processing
+
+----
+
+Installation
+------------
+
+From GitHub (latest version):
+::
+
+    pip install git+https://github.com/viswanath-lab/RadQy.git
+
+From PyPI (stable, may lag behind):
+::
+
+    pip install radqy
+
+----
+
+Usage
+-----
+
+Run from command line:
+
+::
+
+    radqy --modality T1w --input my_scan.nii.gz
+
+----
+
+Citation
+--------
+
+If you use this software, please cite the corresponding paper (coming soon).
