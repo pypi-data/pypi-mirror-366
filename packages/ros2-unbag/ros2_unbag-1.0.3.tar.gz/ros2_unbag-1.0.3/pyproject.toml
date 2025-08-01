@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61", "wheel", "setuptools_scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"
+
+[project]
+name = "ros2_unbag"
+dynamic = [
+  "version",
+  "description",
+  "readme",
+  "license",
+  "authors",
+  "maintainers",
+  "dependencies",
+  "entry-points"
+]
