@@ -1,0 +1,182 @@
+{
+  "timestamp": "2025-07-22T19:48:02.948761",
+  "summary": {
+    "total_tests": 5,
+    "passed_tests": 5,
+    "failed_tests": 0,
+    "success_rate": 100.0
+  },
+  "detailed_results": {
+    "excel_loading": {
+      "status": "success",
+      "products_loaded": 516,
+      "products_saved": 0,
+      "sample_product": {
+        "Код\nмодели": 195385.0,
+        "model_name": "Полотно техническое БЯЗЬ ОТБЕЛЕННАЯ ГОСТ, рулон 1,5х50 м, плотность 140 (±5) г/м2, в пакете, LAIMA, 607520",
+        "Категория": "Хозтовары и посуда",
+        "Единица измерения": "м",
+        "Приоритет \n1 Источники": "Комус",
+        "Приоритет \n2 Источники": "ВсеИнструменты",
+        "Цена позиции\nМП c НДС": "",
+        "Цена позиции\nB2C c НДС": "",
+        "Дельта в процентах": "",
+        "Ссылка на источник": "",
+        "Цена 2 позиции\nB2C c НДС": ""
+      }
+    },
+    "search_products": {
+      "status": "success",
+      "query": "Полотно техническое БЯЗЬ ОТБЕЛЕННАЯ ГОСТ",
+      "results_count": 5,
+      "sample_result": {
+        "status": "success",
+        "query": "Полотно техническое БЯЗЬ ОТБЕЛЕННАЯ ГОСТ",
+        "results": [
+          {
+            "marketplace": "komus.ru",
+            "product_found": true,
+            "price": 1250.5,
+            "currency": "RUB",
+            "availability": "в наличии",
+            "product_url": null,
+            "error_message": null,
+            "search_timestamp": "2025-07-22T19:48:00.681210"
+          },
+          {
+            "marketplace": "vseinstrumenti.ru",
+            "product_found": true,
+            "price": 1180.0,
+            "currency": "RUB",
+            "availability": "неизвестно",
+            "product_url": null,
+            "error_message": null,
+            "search_timestamp": "2025-07-22T19:48:00.683633"
+          },
+          {
+            "marketplace": "ozon.ru",
+            "product_found": true,
+            "price": 1320.75,
+            "currency": "RUB",
+            "availability": "неизвестно",
+            "product_url": null,
+            "error_message": null,
+            "search_timestamp": "2025-07-22T19:48:00.686681"
+          },
+          {
+            "marketplace": "wildberries.ru",
+            "product_found": true,
+            "price": 1095.25,
+            "currency": "RUB",
+            "availability": "неизвестно",
+            "product_url": null,
+            "error_message": null,
+            "search_timestamp": "2025-07-22T19:48:00.690277"
+          },
+          {
+            "marketplace": "officemag.ru",
+            "product_found": true,
+            "price": 1275.0,
+            "currency": "RUB",
+            "availability": "в наличии",
+            "product_url": null,
+            "error_message": null,
+            "search_timestamp": "2025-07-22T19:48:00.692943"
+          }
+        ],
+        "total_found": 5,
+        "search_timestamp": "2025-07-22T19:48:00.694158"
+      }
+    },
+    "get_product_details": {
+      "status": "success",
+      "product_code": 461390.0,
+      "prices_count": 0,
+      "sample_result": {
+        "status": "success",
+        "product": {
+          "code": 461390.0,
+          "model_name": "Прожектор светодиодный 150Вт 6500К черный IP65 280х253х41 12000Лм LPR-023-0-65K-150 ЭРА, Б0052027",
+          "category": "Строительство и ремонт",
+          "unit": "шт",
+          "priority_1_source": "ВсеИнструменты",
+          "priority_2_source": "Чип и Дип"
+        },
+        "prices": [],
+        "price_analysis": {
+          "min_price": null,
+          "max_price": null,
+          "delta_percent": null
+        },
+        "message": "Для данного продукта не найдены цены на маркетплейсах"
+      }
+    },
+    "get_statistics": {
+      "status": "success",
+      "statistics": {
+        "total_products": 491,
+        "products_with_prices": 2,
+        "average_delta_percent": 20.0,
+        "category_breakdown": {
+          "Строительство и ремонт": 338,
+          "Хозтовары и посуда": 120,
+          "Автотовары и запчасти": 11,
+          "Канцелярия и печатная продукция": 5,
+          "ГСМ": 4,
+          "Электроника": 4,
+          "Category A": 1,
+          "Category B": 1,
+          "Бытовая техника": 1,
+          "Изоляционные ленты (изоленты)": 1,
+          "Клей": 1,
+          "Огнетушители": 1,
+          "Растворители": 1,
+          "Техническое моющее средство": 1,
+          "Электрика и свет": 1
+        },
+        "marketplace_coverage": {
+          "komus.ru": 1,
+          "ozon.ru": 1,
+          "vseinstrumenti.ru": 1
+        }
+      },
+      "sample_result": {
+        "status": "success",
+        "statistics": {
+          "total_products": 491,
+          "products_with_prices": 2,
+          "average_delta_percent": 20.0,
+          "category_breakdown": {
+            "Строительство и ремонт": 338,
+            "Хозтовары и посуда": 120,
+            "Автотовары и запчасти": 11,
+            "Канцелярия и печатная продукция": 5,
+            "ГСМ": 4,
+            "Электроника": 4,
+            "Category A": 1,
+            "Category B": 1,
+            "Бытовая техника": 1,
+            "Изоляционные ленты (изоленты)": 1,
+            "Клей": 1,
+            "Огнетушители": 1,
+            "Растворители": 1,
+            "Техническое моющее средство": 1,
+            "Электрика и свет": 1
+          },
+          "marketplace_coverage": {
+            "komus.ru": 1,
+            "ozon.ru": 1,
+            "vseinstrumenti.ru": 1
+          }
+        },
+        "timestamp": "2025-07-22T19:48:00.739651"
+      }
+    },
+    "output_excel": {
+      "status": "success",
+      "output_file": "data\\Таблица на выход (отработанная).xlsx",
+      "records_written": 491,
+      "file_exists": true
+    }
+  }
+}

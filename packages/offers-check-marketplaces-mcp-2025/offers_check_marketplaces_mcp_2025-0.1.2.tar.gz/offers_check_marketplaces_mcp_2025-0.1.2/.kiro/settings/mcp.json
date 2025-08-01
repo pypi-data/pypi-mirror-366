@@ -1,0 +1,44 @@
+{
+  "mcpServers": {
+    "hello-mcp-server": {
+      "command": "uvx",
+      "args": [
+        "--force-reinstall",
+        "--from",
+        "C:\\Users\\dealenx\\dev\\suntaigo\\offers-check-marketplaces-mcp",
+        "hello-mcp-server"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "offers_check_marketplaces-test": {
+      "command": "uvx",
+      "args": [
+        "--force-reinstall",
+        "--from",
+        "C:\\Users\\dealenx\\dev\\suntaigo\\offers-check-marketplaces-mcp",
+        "offers-check-marketplaces"
+      ],
+      "env": {
+        "LICENSE_KEY": "743017d6-221c-4e0a-93ed-e417ae006db2"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "get_statistics"
+      ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "browser_navigate",
+        "browser_type",
+        "browser_click",
+        "browser_close"
+      ]
+    }
+  }
+}

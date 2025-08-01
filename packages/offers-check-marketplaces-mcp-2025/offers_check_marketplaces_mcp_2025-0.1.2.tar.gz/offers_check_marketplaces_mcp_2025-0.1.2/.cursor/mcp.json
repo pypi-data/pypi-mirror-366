@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "offers_check_marketplaces": {
+      "command": "python",
+      "args": [
+        "-m",
+        "offers_check_marketplaces",
+        "--sse",
+        "--host",
+        "localhost",
+        "--port",
+        "8000"
+      ],
+      "env": {
+        "LICENSE_KEY": "743017d6-221c-4e0a-93ed-e417ae006db2"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
