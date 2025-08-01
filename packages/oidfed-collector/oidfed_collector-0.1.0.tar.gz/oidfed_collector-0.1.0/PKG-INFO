@@ -1,0 +1,32 @@
+Metadata-Version: 2.3
+Name: oidfed-collector
+Version: 0.1.0
+Summary: Entity collection endpoint for OpenID Federation
+Author: Diana Gudu
+Author-email: diana.gudu@kit.edu
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: aiohttp (>=3.11.18,<4.0.0)
+Requires-Dist: cachetools (>=6.1.0,<7.0.0)
+Requires-Dist: fastapi (>=0.115.12,<0.116.0)
+Requires-Dist: idpyoidc (>=5.0.0,<6.0.0)
+Requires-Dist: uvicorn (>=0.34.2,<0.35.0)
+Description-Content-Type: text/markdown
+
+# OpenID Federation Entity Collection Service
+
+This project implements the [OpenID Federation Entity Collection specification](https://zachmann.github.io/openid-federation-entity-collection/main.html).
+
+## Running the Service
+
+## License
+
+This project is licensed under the MIT License.
+
+This project includes code from fedservice (https://github.com/SUNET/fedservice), licensed under the Apache License, Version 2.0.
+Modifications were made to adapt it for this project.
+
