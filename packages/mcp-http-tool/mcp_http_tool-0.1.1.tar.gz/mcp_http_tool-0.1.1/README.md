@@ -1,0 +1,50 @@
+# MCP HTTP Tool
+
+[![PyPI version](https://badge.fury.io/py/mcp-http-tool.svg?icon=si%3Apython)](https://badge.fury.io/py/mcp-http-tool)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+An MCP server that provides AI with robust HTTP request capabilities.
+
+## Features
+
+- Supports GET, POST (JSON/form), file upload, custom headers, authentication, error/redirect handling
+- AI-driven tool selection for common HTTP tasks
+- Secure, Pythonic, and easy to use
+
+## Installation
+
+```bash
+pip install mcp-http-tool
+```
+
+> Requires Python 3.10+ and `mcp[cli]`.
+
+## Usage
+
+Add to your MCP-compatible client (e.g., VS Code) configuration:
+```json
+{
+  "mcpServers": {
+    "http-tool": {
+      "command": "mcp-http-tool"
+    }
+  }
+}
+```
+
+## Tool Documentation
+
+### `ai_driven_http_request`
+
+Intelligently performs a web request based on a goal. Selects the correct low-level tool (GET, POST JSON, upload, etc.).
+
+### Specialized tools
+
+- `http_get`: GET request
+- `http_post_json`: POST JSON
+- `http_post_form`: POST form
+- `http_upload_file`: File upload
+
+## License
+
+MIT

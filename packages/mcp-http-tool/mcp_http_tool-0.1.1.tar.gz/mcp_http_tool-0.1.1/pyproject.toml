@@ -1,0 +1,25 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0"]
+
+[project]
+authors = [
+    {name = "mrbeandev", email = "mrbeandev@gmail.com"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp[cli]",
+    "httpx>=0.24.0",
+]
+description = "An MCP server that provides AI with robust HTTP request capabilities."
+name = "mcp-http-tool"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.1.1"
+
+[project.scripts]
+mcp-http-tool = "mcp_http_tool.__main__:run"
