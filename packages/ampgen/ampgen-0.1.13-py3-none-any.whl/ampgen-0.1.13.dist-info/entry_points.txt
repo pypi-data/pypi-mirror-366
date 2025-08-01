@@ -1,0 +1,8 @@
+[console_scripts]
+ampgen-calculate-properties = util.CalProperties:main
+ampgen-classify = model.Discriminator:main
+ampgen-generate = util.unconditional_generation:main
+ampgen-generate-conditional = util.conditional_generation_msa:main
+ampgen-generate-msa = util.unconditional_generation_msa:main
+ampgen-score = model.MICscorer:main
+ampgen-train-discriminator = model.train_discriminator:main
