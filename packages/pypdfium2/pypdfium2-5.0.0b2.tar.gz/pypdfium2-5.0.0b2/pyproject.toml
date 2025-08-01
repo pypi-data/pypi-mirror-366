@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2025 geisserml <geisserml@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR BSD-3-Clause
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools",
+    "packaging",
+    # XXX dependence on wheel is historical, with setuptools >= v70.1.0 this is not needed anymore
+    "wheel !=0.38.0, !=0.38.1",
+    "ctypesgen @ git+https://github.com/pypdfium2-team/ctypesgen@93a785aaa2b8677ed5c9853ce8ebc778e563a4f7",
+]
