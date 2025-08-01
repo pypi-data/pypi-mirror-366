@@ -1,0 +1,450 @@
+{% extends 'devtools/base.html' %}
+
+{% block title %}Development Console - Django DevTools{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate flex items-center">
+                <i data-lucide="terminal" class="h-8 w-8 mr-3 text-blue-600"></i>
+                Development Console
+            </h2>
+            <p class="mt-1 text-sm text-gray-500">
+                Execute Python code or SQL queries with real-time syntax highlighting
+            </p>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+            <div class="inline-flex rounded-md shadow-sm" role="group">
+                <input type="radio" id="pythonType" name="queryType" value="python" class="sr-only" checked>
+                <label for="pythonType" class="query-type-btn relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 cursor-pointer">
+                    <i data-lucide="code" class="h-4 w-4 mr-2"></i>
+                    Python
+                </label>
+                <input type="radio" id="sqlType" name="queryType" value="sql" class="sr-only">
+                <label for="sqlType" class="query-type-btn relative inline-flex items-center px-4 py-2 -ml-px rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 cursor-pointer">
+                    <i data-lucide="database" class="h-4 w-4 mr-2"></i>
+                    SQL
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Editor -->
+    <div class="bg-white shadow rounded-lg">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                <i data-lucide="edit" class="h-5 w-5 mr-2 text-gray-400"></i>
+                <span id="editorTitle">Python Editor</span>
+            </h3>
+            <div class="flex space-x-2">
+                <button type="button" id="executeBtn" 
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <i data-lucide="play" class="h-4 w-4 mr-1"></i>
+                    Execute
+                </button>
+                <button type="button" id="clearBtn" 
+                        class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <i data-lucide="trash-2" class="h-4 w-4 mr-1"></i>
+                    Clear
+                </button>
+            </div>
+        </div>
+        <div class="p-0">
+            <textarea id="codeEditor" 
+                      class="w-full border-0 resize-none focus:ring-0 font-mono text-sm"
+                      rows="12"
+                      placeholder="Type your code here..."></textarea>
+        </div>
+        <div class="px-4 py-2 bg-gray-50 border-t border-gray-200 text-xs text-gray-500">
+            <span class="flex items-center">
+                <i data-lucide="info" class="h-3 w-3 mr-1"></i>
+                Press <kbd class="px-1 py-0.5 bg-gray-200 rounded">Ctrl + Enter</kbd> to execute
+            </span>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div class="bg-white shadow rounded-lg">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                <i data-lucide="monitor" class="h-5 w-5 mr-2 text-gray-400"></i>
+                Results
+                <span id="executionTime" class="hidden ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"></span>
+            </h3>
+        </div>
+        <div class="px-4 py-6">
+            <div id="resultContainer">
+                <div class="text-center py-8 text-gray-500">
+                    <i data-lucide="arrow-up-circle" class="mx-auto h-12 w-12 text-gray-300"></i>
+                    <p class="mt-2 text-sm">Execute code to see results here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Examples -->
+    <div class="bg-white shadow rounded-lg">
+        <div class="px-4 py-3 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                <i data-lucide="lightbulb" class="h-5 w-5 mr-2 text-amber-500"></i>
+                Quick Examples
+            </h3>
+        </div>
+        <div class="p-4">
+            <div id="pythonExamples">
+                <h4 class="text-sm font-medium text-gray-900 mb-3">Python - Django ORM</h4>
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="# List all models&#10;for app in apps.get_app_configs():&#10;    print(f'App: {app.name}')&#10;    for model in app.get_models():&#10;        print(f'  - {model.__name__}: {model.objects.count()} objets')">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">📋</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">List all models</p>
+                                <p class="text-xs text-gray-500">Display all Django models with count</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="# Database information&#10;print(f'Engine: {connection.vendor}')&#10;print(f'Database: {connection.settings_dict.get(&quot;NAME&quot;, &quot;N/A&quot;)}')&#10;print(f'Host: {connection.settings_dict.get(&quot;HOST&quot;, &quot;localhost&quot;)}')">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">🔍</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">Database info</p>
+                                <p class="text-xs text-gray-500">Show database connection details</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="# Django configuration&#10;print('Settings DEBUG:', settings.DEBUG)&#10;print('Timezone:', settings.TIME_ZONE)&#10;print('Language:', settings.LANGUAGE_CODE)&#10;print('Apps installed:', len(settings.INSTALLED_APPS))">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">⚙️</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">Django config</p>
+                                <p class="text-xs text-gray-500">Display Django settings</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="# Simple performance test&#10;import time&#10;start = time.time()&#10;# Your code here&#10;result = 2 + 2&#10;end = time.time()&#10;print(f'Result: {result}')&#10;print(f'Time: {(end-start)*1000:.2f}ms')">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">⏱️</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">Performance test</p>
+                                <p class="text-xs text-gray-500">Measure execution time</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div id="sqlExamples" class="hidden">
+                <h4 class="text-sm font-medium text-gray-900 mb-3">SQL - Direct queries</h4>
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="SHOW TABLES;">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">📋</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">List tables</p>
+                                <p class="text-xs text-gray-500">Show all database tables</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="SELECT table_name, table_rows &#10;FROM information_schema.tables &#10;WHERE table_schema = DATABASE()&#10;ORDER BY table_rows DESC;">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">📊</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">Tables with counts</p>
+                                <p class="text-xs text-gray-500">Show tables with row counts</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="SELECT VERSION() as version, &#10;       DATABASE() as database_name,&#10;       USER() as current_user;">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">🔍</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">Server info</p>
+                                <p class="text-xs text-gray-500">Database server information</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button class="example-btn group text-left p-3 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                            data-code="SHOW PROCESSLIST;">
+                        <div class="flex items-center">
+                            <span class="flex-shrink-0 text-lg">⚡</span>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900 group-hover:text-blue-800">Active processes</p>
+                                <p class="text-xs text-gray-500">Show running database processes</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentQueryType = 'python';
+
+// Handle query types
+document.querySelectorAll('input[name="queryType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        currentQueryType = this.value;
+        updateInterface();
+        updateQueryTypeButtons();
+    });
+});
+
+function updateQueryTypeButtons() {
+    document.querySelectorAll('.query-type-btn').forEach(btn => {
+        const input = document.getElementById(btn.getAttribute('for'));
+        if (input.checked) {
+            btn.classList.remove('bg-white', 'text-gray-700');
+            btn.classList.add('bg-blue-600', 'text-white');
+        } else {
+            btn.classList.remove('bg-blue-600', 'text-white');
+            btn.classList.add('bg-white', 'text-gray-700');
+        }
+    });
+}
+
+function updateInterface() {
+    const editorTitle = document.getElementById('editorTitle');
+    const pythonExamples = document.getElementById('pythonExamples');
+    const sqlExamples = document.getElementById('sqlExamples');
+    const codeEditor = document.getElementById('codeEditor');
+    
+    if (currentQueryType === 'python') {
+        editorTitle.textContent = 'Python Editor';
+        codeEditor.placeholder = 'Type your Python code here...\n\n# Available:\n# - apps: Access to Django applications\n# - connection: Database connection\n# - settings: Django configuration\n# - All models are imported automatically';
+        pythonExamples.classList.remove('hidden');
+        sqlExamples.classList.add('hidden');
+    } else {
+        editorTitle.textContent = 'SQL Editor';
+        codeEditor.placeholder = 'Type your SQL query here...\n\n-- Examples:\n-- SELECT * FROM your_table LIMIT 10;\n-- SHOW TABLES;\n-- DESCRIBE your_table;';
+        pythonExamples.classList.add('hidden');
+        sqlExamples.classList.remove('hidden');
+    }
+}
+
+// Code execution
+document.getElementById('executeBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeEditor').value.trim();
+    
+    if (!code) {
+        alert('Please enter the code to execute');
+        return;
+    }
+    
+    const startTime = Date.now();
+    const btn = this;
+    const playIcon = btn.querySelector('[data-lucide="play"]');
+    
+    btn.disabled = true;
+    playIcon.setAttribute('data-lucide', 'loader');
+    lucide.createIcons();
+    
+    fetch('{% url "devtools:query" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            type: currentQueryType,
+            code: code
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const executionTime = Date.now() - startTime;
+        displayResult(data, executionTime);
+    })
+    .catch(error => {
+        displayResult({
+            success: false,
+            error: 'Connection error: ' + error.message
+        }, Date.now() - startTime);
+    })
+    .finally(() => {
+        btn.disabled = false;
+        playIcon.setAttribute('data-lucide', 'play');
+        lucide.createIcons();
+    });
+});
+
+// Display results
+function displayResult(result, executionTime) {
+    const container = document.getElementById('resultContainer');
+    const timeSpan = document.getElementById('executionTime');
+    
+    timeSpan.textContent = `${executionTime}ms`;
+    timeSpan.classList.remove('hidden');
+    
+    if (result.success) {
+        if (currentQueryType === 'python') {
+            // Python result
+            container.innerHTML = `
+                <div class="rounded-md bg-green-50 p-4 border border-green-200 mb-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i data-lucide="check-circle" class="h-5 w-5 text-green-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-green-800">Execution successful</p>
+                        </div>
+                    </div>
+                </div>
+                ${result.output ? `
+                    <div class="mt-4">
+                        <h4 class="text-sm font-medium text-gray-900 mb-2">Output:</h4>
+                        <pre class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm overflow-x-auto"><code>${escapeHtml(result.output)}</code></pre>
+                    </div>
+                ` : '<p class="text-gray-500 text-sm">No output generated</p>'}
+            `;
+        } else {
+            // SQL result
+            if (result.data && result.data.length > 0) {
+                let tableHtml = `
+                    <div class="rounded-md bg-green-50 p-4 border border-green-200 mb-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="check-circle" class="h-5 w-5 text-green-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-green-800">Query executed successfully</p>
+                                <p class="text-sm text-green-700">${result.row_count} row(s) returned</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 overflow-hidden border border-gray-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                `;
+                
+                result.columns.forEach(col => {
+                    tableHtml += `<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${escapeHtml(col)}</th>`;
+                });
+                
+                tableHtml += '</tr></thead><tbody class="bg-white divide-y divide-gray-200">';
+                
+                result.data.forEach((row, index) => {
+                    tableHtml += `<tr class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">`;
+                    row.forEach(cell => {
+                        const cellValue = cell === null ? '<span class="text-gray-400 italic">NULL</span>' : escapeHtml(String(cell));
+                        tableHtml += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${cellValue}</td>`;
+                    });
+                    tableHtml += '</tr>';
+                });
+                
+                tableHtml += '</tbody></table></div>';
+                container.innerHTML = tableHtml;
+            } else {
+                container.innerHTML = `
+                    <div class="rounded-md bg-green-50 p-4 border border-green-200">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i data-lucide="check-circle" class="h-5 w-5 text-green-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-green-800">Query executed successfully</p>
+                                <p class="text-sm text-green-700">${result.row_count} row(s) affected</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    } else {
+        container.innerHTML = `
+            <div class="rounded-md bg-red-50 p-4 border border-red-200">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Execution Error</h3>
+                        <div class="mt-2">
+                            <pre class="text-sm text-red-700 whitespace-pre-wrap">${escapeHtml(result.error)}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Recreate icons for the new content
+    lucide.createIcons();
+}
+
+// Clear button
+document.getElementById('clearBtn').addEventListener('click', function() {
+    document.getElementById('codeEditor').value = '';
+    document.getElementById('resultContainer').innerHTML = `
+        <div class="text-center py-8 text-gray-500">
+            <i data-lucide="arrow-up-circle" class="mx-auto h-12 w-12 text-gray-300"></i>
+            <p class="mt-2 text-sm">Execute code to see results here</p>
+        </div>
+    `;
+    document.getElementById('executionTime').classList.add('hidden');
+    lucide.createIcons();
+});
+
+// Examples
+document.querySelectorAll('.example-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const code = this.getAttribute('data-code').replace(/&#10;/g, '\n').replace(/&quot;/g, '"');
+        document.getElementById('codeEditor').value = code;
+    });
+});
+
+// Utility function
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// Keyboard shortcut Ctrl+Enter to execute
+document.getElementById('codeEditor').addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('executeBtn').click();
+    }
+});
+
+// Click handlers for query type buttons
+document.querySelectorAll('.query-type-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const input = document.getElementById(this.getAttribute('for'));
+        input.click();
+    });
+});
+
+// Initialization
+document.addEventListener('DOMContentLoaded', function() {
+    updateInterface();
+    updateQueryTypeButtons();
+    lucide.createIcons();
+});
+</script>
+{% endblock %}
