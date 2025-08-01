@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "engine-python"
+version = "1.7.0"
+description = "An intelligent, asynchronous search engine library for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "stone", email = "kissme.cloud@example.com" }
+]
+license = { text = "MIT" }
+keywords = ["search", "async", "engine", "aiohttp", "engine-python", "google"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Framework :: AsyncIO",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+    "aiohttp"
+]
+
+[project.urls]
+Homepage = "https://github.com/kissmeBro/engine-python"
+
+[tool.setuptools]
+packages = ["engine"]
