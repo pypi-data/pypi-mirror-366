@@ -1,0 +1,170 @@
+Metadata-Version: 2.1
+Name: labbench
+Version: 0.44.0
+Summary: The `labbench` module provides API tools to support python scripting for laboratory automation.The goal is to simplify the process of developing an experimental procedure into clear, concise, explainable, and reusable code.
+Project-URL: homepage, https://github.com/usnistgov/labbench
+Project-URL: repository, https://github.com/usnistgov/labbench
+Project-URL: documentation, https://pages.nist.gov/labbench
+Project-URL: changelog, https://github.com/usnistgov/labbench/blob/master/ChangeLog.md
+Author: Shane Allman, Paul Blanchard
+Author-email: Dan Kuester <daniel.kuester@nist.gov>, Yao Ma <yao.ma@nist.gov>
+Maintainer-email: Dan Kuester <daniel.kuester@nist.gov>
+License: # License
+        
+        This software was developed by employees of the National Institute of Standards and Technology (NIST), an agency of the
+        Federal Government. Pursuant to title 17 United States Code Section 105, works of NIST employees are not subject to
+        copyright protection in the United States and are considered to be in the public domain. Permission to freely use, copy,
+        modify, and distribute this software and its documentation without fee is hereby granted, provided that this notice and
+        disclaimer of warranty appears in all copies.
+        
+        THE SOFTWARE IS PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING,
+        BUT NOT LIMITED TO, ANY WARRANTY THAT THE SOFTWARE WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF
+        MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND FREEDOM FROM INFRINGEMENT, AND ANY WARRANTY THAT THE
+        DOCUMENTATION WILL CONFORM TO THE SOFTWARE, OR ANY WARRANTY THAT THE SOFTWARE WILL BE ERROR FREE. IN NO EVENT SHALL
+        NIST BE LIABLE FOR ANY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES,
+        ARISING OUT OF, RESULTING FROM, OR IN ANY WAY CONNECTED WITH THIS SOFTWARE, WHETHER OR NOT BASED UPON WARRANTY,
+        CONTRACT, TORT, OR OTHERWISE, WHETHER OR NOT INJURY WAS SUSTAINED BY PERSONS OR PROPERTY OR OTHERWISE, AND WHETHER
+        OR NOT LOSS WAS SUSTAINED FROM, OR AROSE OUT OF THE RESULTS OF, OR USE OF, THE SOFTWARE OR SERVICES PROVIDED HEREUNDER.
+        
+        Distributions of NIST software should also include copyright and licensing statements of any third-party software
+        that are legally bundled with the code in compliance with the conditions of those licenses.
+        
+        ## Dependency licenses
+        Recently available license information for functional dependencies of this source
+        code is summarized below. These dependencies are not redistributed here and
+        must be installed separately.
+        
+        |Package|License|
+        |-------|-------|
+        |coloredlogs 7.x|[MIT](https://github.com/xolox/python-coloredlogs/blob/master/LICENSE.txt)|
+        |ipywidgets 7.0|[BSD](https://github.com/jupyter-widgets/ipywidgets/blob/master/LICENSE)|
+        |notebook 5.x|[BSD](https://github.com/jupyter/jupyter/blob/master/LICENSE)|
+        |numpy 1.10.x|[BSD](https://docs.scipy.org/doc/numpy-1.10.0/license.html)|
+        |pandas 0.21|[BSD](https://pandas.pydata.org/pandas-docs/stable/overview.html#license)|
+        |pyserial 3.x|[BSD](https://pythonhosted.org/pyserial/appendix.html#license)|
+        |python 3.x (and standard libraries)|[PSF/BeOpen.org](https://docs.python.org/3/license.html)|
+        |pyvisa 1.8|[MIT](https://github.com/pyvisa/pyvisa/blob/master/LICENSE)|
+        |pythonnet|[MIT](https://github.com/pythonnet/pythonnet/blob/master/LICENSE)|
+        |sphinx 1.6.x|[BSD,MIT,PSF/Beopen.org](https://github.com/sphinx-doc/sphinx/blob/master/LICENSE)|
+License-File: LICENSE.md
+Requires-Python: <3.14,>=3.9
+Requires-Dist: click~=8.0
+Requires-Dist: comtypes; sys_platform == 'win32'
+Requires-Dist: dulwich>=0.20
+Requires-Dist: feather-format>=0.4.0
+Requires-Dist: libusb-package; sys_platform == 'win32'
+Requires-Dist: libusb1>=3.1.0
+Requires-Dist: numpy>=1.19
+Requires-Dist: pandas<3,>=1.2.0
+Requires-Dist: pip
+Requires-Dist: psutil>=5.0
+Requires-Dist: pyarrow>=14
+Requires-Dist: pyserial>=3.0
+Requires-Dist: pyvisa-py[gpib-ctypes,psutil,serial,usb]>=0.6
+Requires-Dist: pyvisa-sim>=0.5.1
+Requires-Dist: pyvisa>=1.8
+Requires-Dist: pywin32; sys_platform == 'win32'
+Requires-Dist: ruamel-yaml>=0.17.21
+Requires-Dist: sqlalchemy<2,>=1.4
+Requires-Dist: typing-extensions>=4.8.0
+Requires-Dist: validators>=0.20.0
+Provides-Extra: dev
+Requires-Dist: ast-decompiler; extra == 'dev'
+Requires-Dist: astor>=0.8.1; extra == 'dev'
+Requires-Dist: ipykernel; extra == 'dev'
+Requires-Dist: ipython; extra == 'dev'
+Requires-Dist: pip; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Requires-Dist: twine; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: jupytext>=1.6.0; extra == 'doc'
+Requires-Dist: mypy-extensions>=1.0.0; extra == 'doc'
+Requires-Dist: mypy>=1.7.0; extra == 'doc'
+Requires-Dist: myst-nb>=1.0; extra == 'doc'
+Requires-Dist: pyperf>=2.6.2; extra == 'doc'
+Requires-Dist: sphinx>=7; extra == 'doc'
+Requires-Dist: toml; extra == 'doc'
+Provides-Extra: dotnet
+Requires-Dist: pythonnet; extra == 'dotnet'
+Provides-Extra: jupyter
+Requires-Dist: ipython; extra == 'jupyter'
+Requires-Dist: ipywidgets; extra == 'jupyter'
+Requires-Dist: jupyter; extra == 'jupyter'
+Requires-Dist: notebook; extra == 'jupyter'
+Provides-Extra: pyvicp
+Requires-Dist: pyvicp; extra == 'pyvicp'
+Provides-Extra: pyvisa-py-extras
+Requires-Dist: zeroconf; extra == 'pyvisa-py-extras'
+Description-Content-Type: text/markdown
+
+[![PyPI Latest Release](https://img.shields.io/pypi/v/labbench.svg)](https://pypi.org/project/labbench/)
+[![DOI](https://zenodo.org/badge/DOI/10.18434/M32122.svg)](https://doi.org/10.18434/M32122)
+[![License](https://img.shields.io/badge/license-NIST-brightgreen)](https://github.com/usnistgov/labbench/blob/master/LICENSE.md)
+[![Downloads](https://static.pepy.tech/badge/labbench)](https://pepy.tech/project/labbench)
+[![Last commit](https://img.shields.io/github/last-commit/usnistgov/labbench)](https://pypi.org/project/labbench/)
+[![Test coverage](./doc/reports/coverage.svg)](https://github.com/usnistgov/labbench/)
+
+The `labbench` module provides API tools to support python scripting for laboratory automation.
+The goal is to simplify the process of developing an experimental procedure into clear, concise, explainable, and reusable code.
+These characteristics are necessary to scale up the complexity of large testbeds and experiments.
+
+Features include:
+* Expedited development of python device wrappers, including specialized backends for [pythonnet](https://github.com/pythonnet/pythonnet/wiki), [pyvisa](https://pyvisa.readthedocs.io/), [pyserial](https://pyserial.readthedocs.io/en/latest/), [subprocess](https://docs.python.org/3/library/subprocess.html), [telnetlib](https://docs.python.org/3/library/telnetlib.html)
+* Descriptor-driven development: minimize the distance between programming manuals and python wrappers and apply calibrations transparently
+* Automated logging of simple device parameters into root CSV or sqlite root tables, pointing to relational data and metadata in json and plain-text
+* Simplified multi-threaded concurrency tools for lab applications
+* Container objects for nesting device wrappers and snippets of test procedures
+* Support for running experiments based on tables of test conditions
+
+The source code was developed at NIST to support complex measurement efforts. Examples of these projects include:
+  * [NIST TN 1952: LTE Impacts on GPS](https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.1952.pdf) ([data](https://data.nist.gov/od/id/mds2-2186))
+  * [NIST TN 2069: Characterizing LTE User Equipment Emissions: Factor Screening](https://doi.org/10.6028/NIST.TN.2069)
+  * [NIST TN 2140: AWS-3 LTE Impacts on Aeronautical Mobile Telemetry](https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2140.pdf) ([data](https://data.nist.gov/od/id/mds2-2279))
+  * [NIST TN 2147: Characterizing LTE User Equipment Emissions Under Closed-Loop Power Control](https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2147.pdf)
+  * [Blind Measurement of Receiver System Noise](https://www.nist.gov/publications/blind-measurement-receiver-system-noise) ([data](https://data.nist.gov/pdr/lps/ark:/88434/mds2-2121))
+  * Automated Testbed for Interference Testing in Communications Systems ([code](https://github.com/usnistgov/atic/), data)
+
+## Status
+The project is under ongoing development
+* API changes have slowed, but deprecation warnings are not yet being provided
+    * Suggest pinning labbench dependency to an exact version
+* Parts of the documentation are in need of updates, and others have not yet been written
+
+## Installation
+1. Prerequisites:
+    * python (3.9-3.12)
+    * an installer for python packages ([`pip`](https://pypi.org/project/pip/), `conda`, etc.)
+2. Command-line package install options
+    ```sh
+    # option 1: preferred option in anaconda based distributions
+    conda install conda-forge::labbench
+    ```
+    ```sh
+    # option 2: preferred in other distributions
+    pip install labbench
+    ```
+
+## Resources
+* [Source code](http://github.com/usnistgov/labbench)
+* [Documentation](http://pages.nist.gov/labbench)
+* [PyPI](https://pypi.org/project/labbench/) module page
+* [ssmdevices](https://github.com/usnistgov/ssmdevices): a collection of device wrappers implemented with labbench
+
+## Contributing
+* [Pull requests](https://github.com/usnistgov/labbench/pulls) and [bug reports](https://github.com/usnistgov/labbench/issues) are welcome!
+* [Inline documentation style convention](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings)
+
+## Contributors
+|Name|Contact|
+|---|---|
+|Dan Kuester (maintainer)|<daniel.kuester@nist.gov>|
+|Shane Allman|Formerly with NIST|
+|Paul Blanchard|Formerly with NIST|
+|Yao Ma|<yao.ma@nist.gov>|
+<!-- 
+_<a name="myfootnote1">[1]</a> Certain commercial equipment, instruments, or
+materials are identified in this repository in order to specify the application
+adequately. Such identification is not intended to imply recommendation
+or endorsement by the National Institute of Standards and Technology, nor is it
+intended to imply that the materials or equipment identified are necessarily the
+best available for the purpose._ -->
