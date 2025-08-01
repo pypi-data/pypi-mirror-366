@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ctkmessagebox2"
+version = "0.3.4"
+authors = [
+  { name="Lucas Hoffman", email="hoffmanlucas@gmail.com" },
+]
+description = "The messagebox package for CustomTkinter."
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/hoffmanlucas/ctkmessagebox"
+Issues = "https://github.com/hoffmanlucas/ctkmessagebox/issues"
