@@ -1,0 +1,305 @@
+CHANGES
+=======
+
+14.0.1
+------
+
+* setup.cfg: Replace tabs
+* setup.cfg: Replace dashes with underscores
+* Drop unused test requirements
+* Add note about lower requirement bounds
+* add pyproject.toml to support pip 23.1
+* tox: Remove basepython
+* Run pyupgrade to clean up Python 2 syntaxes
+* Fix outdated tox minversion
+* Declare Python 3.12 support
+
+14.0.0
+------
+
+* Vendor dib-run-parts
+* Drop unnecessary install\_command
+* Revert "Drop direct execution of os\_refresh\_config.py"
+* Drop direct execution of os\_refresh\_config.py
+* Bump hacking
+* Remove unnecessary egg\_info options
+* Ignore .eggs directory
+* Remove logic for psutil < 2.0
+* Remove comment about old pip's behavior
+* Remove support for Python < 3.8
+* Fix python shebang
+
+13.2.0
+------
+
+* Update python job template
+
+13.1.0
+------
+
+* Use py3 as the default runtime for tox
+
+13.0.1
+------
+
+* Add Python3 victoria unit tests
+* Remove tripleo-multinode-container-minimal from layout + fix test
+
+13.0.0
+------
+
+* Replace deprecated UPPER\_CONSTRAINTS\_FILE variable
+* Bump pyflakes
+
+11.0.0
+------
+
+* Cleanup py27 support
+* Use unittest.mock instead of third party mock
+* Stop testing python2.7
+* Switch to Ussuri jobs
+
+10.4.0
+------
+
+* Sync Sphinx requirement
+* Update the constraints url
+* Add Python 3 Train unit tests
+
+10.3.0
+------
+
+* Replace git.openstack.org URLs with opendev.org URLs
+* OpenDev Migration Patch
+
+10.2.0
+------
+
+
+10.1.0
+------
+
+* Drop baremetal job template
+* Change openstack-dev to openstack-discuss
+* Don't quote {posargs} in tox.ini
+* fix tox python3 overrides
+
+10.0.0
+------
+
+* Use templates for cover
+* add python 3.6 unit test job
+* import zuul job settings from project-config
+
+9.1.0
+-----
+
+* Switch to stestr
+
+9.0.0
+-----
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Update links in README
+
+8.3.0
+-----
+
+* Zuul: Remove project name
+
+8.2.0
+-----
+
+* Remove RH1 OVB jobs from configuration
+* Updated from global requirements
+
+8.1.0
+-----
+
+* Remove -U from pip install
+* Avoid tox\_install.sh for constraints support
+* Migrate os-refresh-config to zuul v3 jobs
+* Updated from global requirements
+
+8.0.0
+-----
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+
+7.0.0
+-----
+
+* Updated from global requirements
+* Remove unused Babel requirement
+* Updated from global requirements
+* Updated from global requirements
+
+7.0.0.0b1
+---------
+
+* Fix coverage job
+* Updated from global requirements
+* Update hacking library in test requirement
+* Delete H803 from ignore list
+
+6.0.0
+-----
+
+* Updated from global requirements
+* Adjust test suite for new psutil versions
+* Add Constraints support
+
+6.0.0.0b2
+---------
+
+* Show team and repo badges on README
+* Remove discover from test-requirements
+
+6.0.0.0b1
+---------
+
+* Updated from global requirements
+* Updated from global requirements
+
+5.0.0
+-----
+
+* Implement a --timeout for killing stalled scripts
+* Functional test which executes os-refresh-config
+* Updated from global requirements
+
+5.0.0.0b1
+---------
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Remove argparse from requirements
+* Deprecated tox -downloadcache option removed
+
+0.1.11
+------
+
+* Change ignore-errors to ignore\_errors
+* Updated from global requirements
+* Updated from global requirements
+
+0.1.10
+------
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+
+0.1.9
+-----
+
+* Updated from global requirements
+* Remove bogus path in tox.ini's flake8 exclude
+
+0.1.8
+-----
+
+* Coverage report was't created
+* Updated from global requirements
+
+0.1.7
+-----
+
+* Bump hacking to 0.9.x series
+
+0.1.6
+-----
+
+* Updated from global requirements
+
+0.1.5
+-----
+
+* Use FHS-compliant default base directory
+* Updated from global requirements
+
+0.1.4
+-----
+
+
+0.1.3
+-----
+
+* Add error handler to os-refresh-config
+* Add basic unit tests
+* Updated from global requirements
+
+0.1.2
+-----
+
+* Updated from global requirements
+
+0.1.1
+-----
+
+* Add argparse to requirements.txt
+
+0.1.0
+-----
+
+
+0.0.8
+-----
+
+* Remove tox locale overrides
+* Move migration to run after post-configure
+
+0.0.7
+-----
+
+* Have tox install via setup.py develop
+* Updated from global requirements
+
+0.0.6
+-----
+
+* \`os-refresh-config\` README enhancement
+
+0.0.5
+-----
+
+* Support building wheels (PEP-427)
+
+0.0.4
+-----
+
+* Updated from global requirements
+
+0.0.3
+-----
+
+* Updated from global requirements
+
+0.0.2
+-----
+
+* Update stackforge references to openstack
+* Conform .gitignore with other OpenStack projects
+
+0.0.1
+-----
+
+* Updated to OpenStack standards
+* Add a lockfile
+* Use dib-run-parts
+* Add .gitreview
+* Add tox.ini and fix pep8 problems
+* bump version
+* Add default argument of sys.argv to main()
+* add \_\_init\_\_.py, bump version
+* bump version
+* Add os\_refresh\_config package to setup.py
+* Make more pythonic
+* Adding setup.py to make for an easier installation
+* Initial commit
