@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: eventcounter
+Version: 0.4.4
+Summary: Utility to count events and merge event counts from other EventCounters
+Project-URL: Homepage, https://github.com/Jylpah/eventcounter
+Project-URL: Bug Tracker, https://github.com/Jylpah/eventcounter/issues
+Author-email: Jylpah <jylpah@gmail.com>
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.11
+Requires-Dist: multilevellogger
+Provides-Extra: dev
+Requires-Dist: build>=0.10; extra == 'dev'
+Requires-Dist: deprecated; extra == 'dev'
+Requires-Dist: hatchling>=1.22.4; extra == 'dev'
+Requires-Dist: mypy>=1.8; extra == 'dev'
+Requires-Dist: pip-chill>=1.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.23; extra == 'dev'
+Requires-Dist: pytest-cov>=4.1; extra == 'dev'
+Requires-Dist: pytest-datafiles>=3.0; extra == 'dev'
+Requires-Dist: pytest-timeout>=2.2; extra == 'dev'
+Requires-Dist: pytest>=8.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.9; extra == 'dev'
+Requires-Dist: typer>=0.9.0; extra == 'dev'
+Requires-Dist: types-deprecated; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# EventCounter
+
+`EventCounter` is a Python module to count events and print event statistics. 
+
+## Install
+
+```sh
+pip install eventcounter
+```
+
+## Usage
+
+Count events with `log()` and `print()` counted events.
+
+```python
+from eventcounter import EventCounter
+from random import randint
+
+counter: EventCounter = EventCounter("Numbers")
+
+for _ in range(100):
+    if randint(1, 10) % 2 == 0:
+        counter.log("even number")
+    else:
+        counter.log("odd number")
+
+counter.print()
+```
+#### Output
+
+```bash
+even number   : 53
+odd number    : 47
+```
+
+# Example
+
+Full runnable example below. It can be found in [demos/](demos/) folder. 
+
+```python
+
+```
