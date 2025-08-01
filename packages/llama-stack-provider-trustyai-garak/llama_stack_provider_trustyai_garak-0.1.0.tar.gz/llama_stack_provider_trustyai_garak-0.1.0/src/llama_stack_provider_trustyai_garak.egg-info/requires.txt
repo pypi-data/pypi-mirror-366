@@ -1,0 +1,16 @@
+llama-stack>=0.2.15
+fastapi
+opentelemetry-api
+opentelemetry-exporter-otlp
+aiosqlite
+greenlet
+uvicorn
+ipykernel
+httpx[http2]
+garak==0.12.0
+
+[dev]
+pytest
+pytest-cov
+black
+isort
