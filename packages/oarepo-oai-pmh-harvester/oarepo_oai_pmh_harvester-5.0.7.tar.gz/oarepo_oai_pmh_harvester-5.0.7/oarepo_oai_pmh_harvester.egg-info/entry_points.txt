@@ -1,0 +1,62 @@
+[invenio.oarepo_oaipmh_harvester.oai_harvester.response_handlers]
+administration = oarepo_oaipmh_harvester.administration.harvester.api:response_handlers
+
+[invenio_administration.views]
+oarepo_oai_harvester_list = oarepo_oaipmh_harvester.administration.harvester.views:OaiPmhListView
+oarepo_oaipmh_create = oarepo_oaipmh_harvester.administration.harvester.views:OaiPmhCreateView
+oarepo_oaipmh_harvester_details = oarepo_oaipmh_harvester.administration.harvester.views:OaiPmhDetailView
+oarepo_oaipmh_harvester_edit = oarepo_oaipmh_harvester.administration.harvester.views:OaiPmhEditView
+oarepo_oaipmh_record_details = oarepo_oaipmh_harvester.administration.record.views:RecordDetailView
+oarepo_oaipmh_record_list = oarepo_oaipmh_harvester.administration.record.views:RecordListView
+oarepo_oaipmh_run_details = oarepo_oaipmh_harvester.administration.run.views:RunDetailView
+oarepo_oaipmh_run_list = oarepo_oaipmh_harvester.administration.run.views:RunListView
+
+[invenio_base.api_apps]
+oarepo_oaipmh = oarepo_oaipmh_harvester.ext:OARepoOAIHarvesterExt
+oarepo_oaipmh_harvester.oai_harvester = oarepo_oaipmh_harvester.oai_harvester.ext:Oai_harvesterExt
+
+[invenio_base.api_blueprints]
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.views.records.api:create_api_blueprint
+oarepo-oaipmh-harvester_record = oarepo_oaipmh_harvester.oai_record.views:create_api_blueprint
+oarepo-oaipmh-harvester_run = oarepo_oaipmh_harvester.oai_run.views:create_api_blueprint
+
+[invenio_base.api_finalize_app]
+oarepo_oaipmh_harvester = oarepo_oaipmh_harvester.ext:api_finalize_app
+
+[invenio_base.apps]
+oarepo_oaipmh = oarepo_oaipmh_harvester.ext:OARepoOAIHarvesterExt
+oarepo_oaipmh_harvester.oai_harvester = oarepo_oaipmh_harvester.oai_harvester.ext:Oai_harvesterExt
+
+[invenio_base.blueprints]
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.views.records.app:create_app_blueprint
+
+[invenio_base.finalize_app]
+oarepo_oaipmh_harvester = oarepo_oaipmh_harvester.ext:finalize_app
+
+[invenio_celery.tasks]
+oarepo_harvest = oarepo_oaipmh_harvester.tasks
+
+[invenio_db.alembic]
+oarepo_oaipmh_harvester = oarepo_oaipmh_harvester:alembic
+
+[invenio_db.models]
+oarepo-oaipmh = oarepo_oaipmh_harvester.models
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.records.models
+
+[invenio_i18n.translations]
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester
+oarepo_oaipmh = oarepo_oaipmh_harvester
+
+[invenio_jsonschemas.schemas]
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.records.jsonschemas
+
+[invenio_search.mappings]
+oai-harvest-record = oarepo_oaipmh_harvester.oai_record.mappings
+oai-harvest-run = oarepo_oaipmh_harvester.oai_run.mappings
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.records.mappings
+
+[oarepo.models]
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.models:records.json
+
+[oarepo.ui]
+oarepo-oaipmh-harvester = oarepo_oaipmh_harvester.oai_harvester.models:ui.json
