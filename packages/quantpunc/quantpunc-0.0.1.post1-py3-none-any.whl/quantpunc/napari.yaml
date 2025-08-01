@@ -1,0 +1,13 @@
+name: quantpunc
+display_name: QuantPunc
+visibility: public
+
+categories: [Annotation, Image Processing, Measurement, Registration, Segmentation, Utilities, Visualization]
+contributions:
+  commands:
+    - id: quantpunc.create_puncta_counter
+      python_name: quantpunc.quantpunc_widget:QuantPunc
+      title: Initializes QuantPunc
+  widgets:
+    - command: quantpunc.create_puncta_counter
+      display_name: QuantPunc
