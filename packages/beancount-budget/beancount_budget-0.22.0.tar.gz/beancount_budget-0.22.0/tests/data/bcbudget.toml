@@ -1,0 +1,17 @@
+currencies = ["USD", "VACHR"]
+
+[regexes]
+cash = "^Assets:US:(BofA:Checking|Hoogle:Vacation)"
+credit = "^Liabilities:"
+deductions = "^Expenses:(Taxes|Health):"
+expenses = "^Expenses:"
+income = "^Income:"
+invest = "^Assets:US:ETrade:"
+loans = "^$"
+open = "^Equity:Opening-Balances$"
+transfers = "^$"
+
+[paths]
+beancount = "main.beancount"
+budgets = "budgets"
+quotas = "quotas"

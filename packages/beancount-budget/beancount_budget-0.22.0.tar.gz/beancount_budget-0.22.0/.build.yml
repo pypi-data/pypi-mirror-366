@@ -1,0 +1,16 @@
+image: debian/testing
+packages:
+- twine
+- python3-build
+- python3-venv
+sources:
+- https://git.sr.ht/~goorzhel/beancount-budget
+secrets:
+- 72276f05-1932-45da-9769-4f63a0b63739
+tasks:
+- publish_if_tag: |
+    cd beancount-budget
+    if git describe --exact-match HEAD | grep -qv rc; then
+      python3 -m build
+      twine upload dist/*
+    fi
