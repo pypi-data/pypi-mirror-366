@@ -1,0 +1,24 @@
+#
+# oeks15 grid
+#
+gridtype  = projection
+gridsize  = 170775
+xsize     = 575
+ysize     = 297
+xname     = x
+xlongname = "x coordinate of projection"
+xunits    = "meters"
+yname     = y
+ylongname = "y coordinate of projection"
+yunits    = "meters"
+xfirst    = 111500
+xinc      = 1000
+yfirst    = 275500
+yinc      = 1000
+grid_mapping = lambert_conformal_conic
+grid_mapping_name = lambert_conformal_conic
+standard_parallel = 49.f 46.f
+latitude_of_projection_origin = 47.5f
+longitude_of_central_meridian = 13.33f
+false_easting = 400000.f
+false_northing = 400000.f

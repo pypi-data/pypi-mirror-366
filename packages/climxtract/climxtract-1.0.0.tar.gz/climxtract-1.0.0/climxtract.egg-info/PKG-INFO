@@ -1,0 +1,37 @@
+Metadata-Version: 2.4
+Name: climxtract
+Version: 1.0.0
+Summary: Climxtract
+Home-page: https://github.com/meindlm97/ClimXtract
+Author: Maximilian Meindl
+Author-email: <maximilian.meinndl@univie.ac.at>
+Keywords: python,climate,interpolation,geospatial data,modeling
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Requires-Dist: numpy
+Requires-Dist: xarray
+Requires-Dist: wget
+Requires-Dist: cdsapi
+Requires-Dist: cdo
+Requires-Dist: polytope-client
+Requires-Dist: lxml
+Requires-Dist: conflator
+Requires-Dist: rasterio
+Requires-Dist: cf-units
+Requires-Dist: esgf-pyclient
+Requires-Dist: netcdf4
+Requires-Dist: cfgrib
+Requires-Dist: eccodes
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+ClimXtract: A Python Toolkit for Standardizing High-Resolution Climate Datasets for Austria
