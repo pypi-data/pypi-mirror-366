@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "watsonx-agent-deploy"
+version = "0.1.3"
+description = "Deploy multiple AI agents to watsonx.ai at once"
+readme = "README.md"
+authors = [{name = "Ishan Singh", email = "ishans2404@gmail.com"}]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "ibm-watsonx-ai-cli",
+    "tomlkit>=0.11.0",
+    "click>=8.0.0",
+]
+
+[project.scripts]
+watsonx-deploy = "watsonx_agent_deploy.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ishans2404/watsonx-agent-deploy"
+Issues = "https://github.com/ishans2404/watsonx-agent-deploy/issues"
