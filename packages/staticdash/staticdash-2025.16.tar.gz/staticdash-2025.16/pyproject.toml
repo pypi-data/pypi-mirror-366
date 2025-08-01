@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "staticdash"
+version = "2025.16"
+description = "A lightweight static HTML dashboard generator with Plotly and pandas support."
+authors = [
+    { name = "Brian Day", email = "brian.day1@gmail.com" }
+]
+license = { text = "CC0-1.0" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "plotly",
+    "pandas",
+    "dominate",
+    "reportlab",
+    "kaleido"
+]
+
+[tool.setuptools]
+packages = ["staticdash"]
+
+[tool.setuptools.package-data]
+staticdash = ["assets/css/*.css", "assets/js/*.js"]
+
+[project.urls]
+Homepage = "https://github.com/staticdash/staticdash"
+Repository = "https://github.com/staticdash/staticdash"
