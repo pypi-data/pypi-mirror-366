@@ -1,0 +1,21 @@
+[project]
+name = "utils4plans"
+version = "0.1.6"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Juliet Nwagwu Ume-Ezeoke", email = "jnwagwu@stanford.edu" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "networkx>=3.5",
+    "pytest>=8.4.1",
+    "rich>=14.1.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
+
+# [project.scripts]
+# to-pypi = "uv version --bump dev & source .env & uv build & uv publish "
