@@ -1,0 +1,344 @@
+"""Test authentication cases for the proxy app."""
+
+import pytest
+from fastapi.testclient import TestClient
+from utils import AppFactory
+
+app_factory = AppFactory(
+    oidc_discovery_url="https://example-stac-api.com/.well-known/openid-configuration",
+    default_public=False,
+    public_endpoints={},
+    private_endpoints={},
+)
+
+
+@pytest.mark.parametrize(
+    "path,method",
+    [
+        ("/", "GET"),
+        ("/conformance", "GET"),
+        ("/queryables", "GET"),
+        ("/search", "GET"),
+        ("/search", "POST"),
+        ("/collections", "GET"),
+        ("/collections", "POST"),
+        ("/collections/example-collection", "GET"),
+        ("/collections/example-collection", "PUT"),
+        ("/collections/example-collection", "DELETE"),
+        ("/collections/example-collection/items", "GET"),
+        ("/collections/example-collection/items", "POST"),
+        ("/collections/example-collection/items/example-item", "GET"),
+        ("/collections/example-collection/items/example-item", "PUT"),
+        ("/collections/example-collection/items/example-item", "DELETE"),
+        ("/collections/example-collection/bulk_items", "POST"),
+        ("/api.html", "GET"),
+        ("/api", "GET"),
+    ],
+)
+def test_default_public_false(source_api_server, path, method, token_builder):
+    """Private endpoints permit access with a valid token."""
+    test_app = app_factory(upstream_url=source_api_server)
+    valid_auth_token = token_builder({})
+
+    client = TestClient(test_app)
+    response = client.request(method=method, url=path, headers={})
+    assert response.status_code == 403
+
+    response = client.request(
+        method=method, url=path, headers={"Authorization": f"Bearer {valid_auth_token}"}
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize(
+    "rules,token,permitted",
+    [
+        [
+            [("POST", "collection:create")],
+            {"scope": "collection:create"},
+            True,
+        ],
+        [
+            [("POST", "collection:create")],
+            {"scope": ""},
+            False,
+        ],
+        [
+            [("POST", "collection:create")],
+            {"scope": "openid"},
+            False,
+        ],
+        [
+            [("POST", "collection:create")],
+            {"scope": "openid collection:create"},
+            True,
+        ],
+        [
+            [("POST", "foo collection:create")],
+            {"scope": "openid collection:create foo"},
+            True,
+        ],
+        [
+            [("GET", "collection:read"), ("POST", "collection:create")],
+            {"scope": "openid collection:read"},
+            False,
+        ],
+    ],
+)
+def test_default_public_false_with_scopes(
+    source_api_server, rules, token, permitted, token_builder
+):
+    """Private endpoints permit access with a valid token."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=False,
+        private_endpoints={r"^/collections$": rules},
+    )
+    valid_auth_token = token_builder(token)
+
+    client = TestClient(test_app)
+    response = client.request(
+        method="POST",
+        url="/collections",
+        headers={"Authorization": f"Bearer {valid_auth_token}"},
+    )
+    assert response.status_code == (200 if permitted else 401)
+
+
+@pytest.mark.parametrize(
+    "token_scopes, private_endpoints, path, method, expected_permitted",
+    [
+        pytest.param(
+            "",
+            {r"^/*": [("POST", "collection:create")]},
+            "/collections",
+            "POST",
+            False,
+            id="empty scopes + private endpoint",
+        ),
+        pytest.param(
+            "openid profile collection:createbutnotcreate",
+            {r"^/*": [("POST", "collection:create")]},
+            "/collections",
+            "POST",
+            False,
+            id="invalid scopes + private endpoint",
+        ),
+        pytest.param(
+            "openid profile collection:create somethingelse",
+            {r"^/*": [("POST", "")]},
+            "/collections",
+            "POST",
+            True,
+            id="valid scopes + private endpoint without required scopes",
+        ),
+        pytest.param(
+            "openid",
+            {r"^/collections/.*/items$": [("POST", "collection:create")]},
+            "/collections",
+            "GET",
+            True,
+            id="accessing public endpoint with private endpoint required scopes",
+        ),
+    ],
+)
+def test_scopes(
+    source_api_server,
+    token_builder,
+    token_scopes,
+    private_endpoints,
+    path,
+    method,
+    expected_permitted,
+):
+    """Private endpoints permit access with a valid token."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=True,
+        private_endpoints=private_endpoints,
+    )
+    valid_auth_token = token_builder({"scope": token_scopes})
+    client = TestClient(test_app)
+
+    response = client.request(
+        method=method,
+        url=path,
+        headers={"Authorization": f"Bearer {valid_auth_token}"},
+    )
+    expected_status_code = 200 if expected_permitted else 401
+    assert response.status_code == expected_status_code
+
+
+@pytest.mark.parametrize(
+    "path,default_public,private_endpoints",
+    [
+        ("/", False, {}),
+        ("/collections", False, {}),
+        ("/search", False, {}),
+        ("/collections", True, {r"^/collections$": [("POST", "collection:create")]}),
+        ("/search", True, {r"^/search$": [("POST", "search:write")]}),
+        (
+            "/collections/example-collection/items",
+            True,
+            {r"^/collections/.*/items$": [("POST", "item:create")]},
+        ),
+    ],
+)
+def test_options_bypass_auth(
+    path, default_public, private_endpoints, source_api_server
+):
+    """OPTIONS requests should bypass authentication regardless of endpoint configuration."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=default_public,
+        private_endpoints=private_endpoints,
+    )
+    client = TestClient(test_app)
+    response = client.options(path)
+    assert response.status_code == 200, "OPTIONS request should bypass authentication"
+
+
+@pytest.mark.parametrize(
+    "path,method,default_public,private_endpoints,expected_status",
+    [
+        # Test that non-OPTIONS requests still require auth when endpoints are private
+        ("/collections", "GET", False, {}, 403),
+        ("/collections", "POST", False, {}, 403),
+        ("/search", "GET", False, {}, 403),
+        # Test that OPTIONS requests bypass auth even when endpoints are private
+        ("/collections", "OPTIONS", False, {}, 200),
+        ("/search", "OPTIONS", False, {}, 200),
+        # Test with specific private endpoint configurations
+        (
+            "/collections",
+            "POST",
+            True,
+            {r"^/collections$": [("POST", "collection:create")]},
+            403,
+        ),
+        (
+            "/collections",
+            "OPTIONS",
+            True,
+            {r"^/collections$": [("POST", "collection:create")]},
+            200,
+        ),
+    ],
+)
+def test_options_vs_other_methods_auth_behavior(
+    path, method, default_public, private_endpoints, expected_status, source_api_server
+):
+    """Compare authentication behavior between OPTIONS and other HTTP methods."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=default_public,
+        private_endpoints=private_endpoints,
+    )
+    client = TestClient(test_app)
+    response = client.request(method=method, url=path, headers={})
+    assert response.status_code == expected_status
+
+
+@pytest.mark.parametrize(
+    "path,method,default_public,private_endpoints,expected_status",
+    [
+        # Test that requests with valid auth succeed
+        ("/collections", "GET", False, {}, 200),
+        ("/collections", "POST", False, {}, 200),
+        ("/search", "GET", False, {}, 200),
+        ("/collections", "OPTIONS", False, {}, 200),
+        ("/search", "OPTIONS", False, {}, 200),
+        # Test with specific private endpoint configurations
+        (
+            "/collections",
+            "POST",
+            True,
+            {r"^/collections$": [("POST", "collection:create")]},
+            200,
+        ),
+        (
+            "/collections",
+            "OPTIONS",
+            True,
+            {r"^/collections$": [("POST", "collection:create")]},
+            200,
+        ),
+    ],
+)
+def test_options_vs_other_methods_with_valid_auth(
+    path,
+    method,
+    default_public,
+    private_endpoints,
+    expected_status,
+    source_api_server,
+    token_builder,
+):
+    """Compare authentication behavior between OPTIONS and other HTTP methods with valid auth."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=default_public,
+        private_endpoints=private_endpoints,
+    )
+    valid_auth_token = token_builder({"scope": "collection:create"})
+    client = TestClient(test_app)
+    response = client.request(
+        method=method,
+        url=path,
+        headers={"Authorization": f"Bearer {valid_auth_token}"},
+    )
+    assert response.status_code == expected_status
+
+
+@pytest.mark.parametrize(
+    "invalid_token,expected_status",
+    [
+        ("Bearer invalid-token", 401),
+        (
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            401,
+        ),
+        ("InvalidFormat", 401),
+        ("Bearer", 401),
+        ("", 403),  # No auth header returns 403, not 401
+    ],
+)
+def test_with_invalid_tokens_fails(invalid_token, expected_status, source_api_server):
+    """GET requests should fail with invalid or malformed tokens."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=False,  # All endpoints private
+        private_endpoints={},
+    )
+    client = TestClient(test_app)
+    response = client.get("/collections", headers={"Authorization": invalid_token})
+    assert (
+        response.status_code == expected_status
+    ), f"GET request should fail with token: {invalid_token}"
+
+    response = client.options("/collections", headers={"Authorization": invalid_token})
+    assert (
+        response.status_code == 200
+    ), f"OPTIONS request should succeed with token: {invalid_token}"
+
+
+def test_options_requests_with_cors_headers(source_api_server):
+    """OPTIONS requests should work properly with CORS headers."""
+    test_app = app_factory(
+        upstream_url=source_api_server,
+        default_public=False,  # All endpoints private
+        private_endpoints={},
+    )
+    client = TestClient(test_app)
+
+    # Test OPTIONS request with CORS headers
+    cors_headers = {
+        "Origin": "https://example.com",
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "Content-Type,Authorization",
+    }
+
+    response = client.options("/collections", headers=cors_headers)
+    assert (
+        response.status_code == 200
+    ), "OPTIONS request with CORS headers should succeed"
