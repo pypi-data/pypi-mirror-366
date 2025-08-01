@@ -1,0 +1,373 @@
+=== TRANSCRIPT ===
+Okay, so let me start off by saying
+this. The AI community loves to come up
+with new names for very old ideas. And
+this time the buzzword is context
+engineering.
+Now, this all started off with this
+tweet or post from Toby who is the CEO
+of Shopify. So he says, I really like
+the term context engineering over prompt
+engineering. This is the art of
+providing all the context for the task
+to be plausibly solvable by the LLM. And
+a lot of people agree with him. So
+here's a tweet from Andre Karpathi plus
+one for context engineering. Context
+engineering is the delicate art and
+science of filling the context window
+with just the right information for the
+next step. So I'm going to cover what
+context engineering means and how you
+can manage your context also. Uh but
+here are a couple of other takes. So
+here is anker. He says as the model gets
+more powerful I find myself focusing on
+efforts on context engineering which is
+a task of bringing the right information
+in the right format to the LLM. And
+here's another definition that I covered
+in one of my previous video. So prompt
+engineering was coined as a term for the
+efforts needing to write your task in
+the ideal format for a chatbot. Although
+I don't agree with just the chatbot
+part. Context engineering is the next
+level of this. It is about doing this
+automatically in a dynamic system. I
+personally think prompt engineering
+actually covers all of these ideas.
+Prompt engineering is just not about
+writing a single set of instructions.
+You can dynamically populate that and we
+have been doing this for quite a while.
+But we have yet another term context
+engineering and I think we have been
+seeing this pattern for quite a while.
+So this happened with retrieval
+augmented generation which is in
+essentially information retrieval. We
+have been doing that for decades now.
+Now, here's an interesting article from
+Langchain. I'm going to cover another
+interesting article
+of how long context fail, which I think
+is a lot more relevant because it talks
+about different scenarios in which
+you're just filling up your context with
+irrelevant information and how to
+mitigate those. So, we're going to cover
+that later in the video. This article
+tries to make a case for context
+engineering. Now according to langchain
+context engineerings is building dynamic
+systems to provide the right information
+and tools in the right format such that
+the LLM can plausibly accomplish the
+task and the focus is that context
+engineering is about systems not only
+user instructions. The reason they say
+that the system is dynamic. So based on
+the needs of your agent, you can
+dynamically provide the context and
+change the context and that dynamic
+context is going to come up with the
+right information and it will need the
+right set of tools. Now in order to
+convey the right set of tools and
+information, you need the proper format
+in which you're going to convey those
+instructions and that's what we have
+been doing with prompt engineering. But
+I think the most important part is can
+it plausibly accomplish the task which I
+think is very important. So whenever
+you're building an agentic system or any
+system on top of these LLMs you need to
+look at the underlying model and figure
+out even if you provide the right
+context to this model can the model
+actually accomplish this task. Okay, but
+first let's look at the difference
+between context engineering and prompt
+engineering based on what langchain
+teams thinks they're trying to present
+prompt engineering as a subset of
+context engineering. So here they say
+even if you have all the context how you
+assemble it in the prompt still
+absolutely matters. The difference is
+that you're not architecting your prompt
+to work well with a single set of input
+data, but rather to take a set of
+dynamic data and format it properly.
+So, it's just an extension of prompt
+engineering for dynamically changing
+data and dynamically changing set of
+tools. Now, you're going to see a number
+of different articles coming up on
+context engineering, but the main idea
+is that you want to provide the most
+relevant information to your agent or
+model at the proper time. And if you
+stuff irrelevant information in the
+context of the model, the model
+performance is going to decrease. So,
+let's look at some scenarios in which we
+are providing wrong information to the
+context of the model. I think in order
+to understand the need for context
+engineering, it's very important to
+understand the failure cases that can
+occur in the context window of your
+model. So this article is from Drew who
+is an independent consultant and he
+presents very interesting ideas on why
+we need to look at the context of the
+model even though if you have a long
+context uh LLMs and you just can't stuff
+things into the context of the model and
+pray that the LLM will be able to solve
+all your problems.
+The first one is context poisoning and
+this happens when hallucination or other
+errors make into the context where it is
+repeatedly referenced. Now the term
+itself was coined by the deep mind team
+behind Gemini 2.5 and it's presented in
+the technical report. So they say that
+when playing Pokémon the Gemini agent
+would occasionally hallucinate while
+playing. Now the reason this happens is
+that there's hallucination or
+misinformation towards the goal of the
+agent. So for example, if you have a
+multi-turn conversation and at single
+turn there is hallucination, the model
+hallucinates regarding its goal
+propagate throughout the conversation
+and the model may start focusing on this
+hallucinated goal which is going to
+result in irrational behavior from the
+agent. I think these are very
+interesting ideas especially if you're
+building agents. You definitely want to
+think about some of these. The second
+idea is regarding context distraction.
+Now this happens when context grows so
+long that the model overfocuses on the
+context neglecting what it learned
+during training. So if you're using a
+single agent or maybe even in a multi-
+aent system where you're sharing
+context, the agent is going to take
+certain actions throughout a multi-turn
+conversation.
+It turns out that the agent can be
+distracted by repeated actions and it
+could start focusing on those actions
+rather than trying to come up with novel
+ideas to solve your problem. So for
+example, the Gemini Pro team said in
+this agentic setup, it was observed that
+as the context grew significantly beyond
+100,000 tokens, the agent showed a
+tendency towards favoring repeated
+actions from its vast history rather
+than synthesizing novel plans.
+And you probably have seen this with
+coding agents like cursor. Sometimes
+they get stuck in a error or a bug and
+they are not able to figure out the
+solution and in those kind of situations
+you have to create a new session. Now
+the alarming thing is that this
+distraction ceiling is much lower for
+smaller openw weight models. So for
+example, a data brick study found that
+the model correctness
+began to fall around 32,000 tokens for
+llama 3.1 405b and earlier for smaller
+models. So you need to be aware you
+don't want to have repeated action in
+your context. There are ideas on how to
+clean up other context of your lash
+language models. We're going to touch on
+some of those later in the video. Okay,
+the next one is context confusion. And
+this is when superfluous content
+in the context is used by the model to
+generate lowquality responses. So this
+is critical especially with agents where
+you have a number of different tools
+with tool descriptions. So there are a
+couple of studies in one of them they
+found that every model performs worse
+when provided with more than one tool
+and another study found that design
+scenarios where none of the provided
+functions are relevant we expect the
+model output to be no function call but
+since they are in the context yet all
+the models will occasionally call tools
+that not that aren't relevant at all and
+this is especially worse for smaller
+models. So if you stuff tool
+descriptions in the context and even
+though the user request is not relevant
+to any of the tools at all, smaller
+models will tend to pick up a random
+tool just to try to use it rather than
+actually focusing on the user prompt or
+query. There is also seems to be a limit
+on how many tools you can put in in an
+agent. I personally recommend to limit
+it to 10 to 15. This is based on some of
+the conversations that I have with folks
+in industry. But here they refer to this
+study. They offered llama 3.18 billion
+quantized model 46 tools and it actually
+failed on every single query. Now when
+they reduced it to 19 tools rather than
+46, it it had success in some of the
+calls. The last one is context clash.
+And this happens when you accueure new
+information and tools in your context
+that conflicts with other information in
+the context. Now this is a more
+problematic version of context
+confusion. So the bad the bad context
+here isn't irrelevant. It directly
+conflicts with other information in the
+prompt. And this also actually kind of
+addresses how you prompt different
+models. So you probably have seen
+articles on prompting reasoning models
+is very different from prompting
+non-reasoning models. So for example,
+here's the proposed structure of how you
+are going to prompt uh 03 or 01 type of
+models. So you have your goal return
+format warnings and the context itself.
+The team at Microsoft and I think
+Salesforce did a study which shows the
+difference between providing all the
+context all at once. So you dump
+everything in the beginning of the
+conversation and then providing the same
+context over multiple different turns.
+Now it turns out this multi-turn
+sharded instructions is a bad idea for
+LLMs. And the reason is that you are
+progressively adding more and more
+context in multiple turns where some of
+the information may look like that it
+contradicts the prior information.
+So here they say they shorted prompts
+yielded dramatically worse results with
+an average drop of 39%
+and the team tested with a range of
+models. Now 03 was the worst because it
+dropped from 98% to 64%.
+Okay, so we talked about all the
+problems with filling in the context,
+but now let's look at some of the
+solutions which will ensure that you
+have the right information at the right
+time that you can dynamically feed into
+the context of your agent or LLM. And
+the first one is the good old rag or
+retrieval augmented generation. So this
+is an act of selectively adding relevant
+information to help the LM generate a
+better response.
+Now this can help just beyond search. So
+for example, if you have an agent that
+has access to 50 tools, you can use rank
+based on the user query and a
+description of the tools to selectively
+choose a smaller subset which is
+relevant to the user query and that is
+going to be put into the context of the
+agent. So instead of let's say 50 tools,
+the agent at that step is going to only
+see 10 tools and then it can probably
+generate much better responses based on
+properly using those tools. Now the
+second idea is regarding context
+quarantine and it's an act of isolating
+context in the dedicated threads each
+used separately by one or more LLMs.
+So this is tied to the idea of a multi-
+aent system and this is tied to this
+idea of handoffs in a multi- aent system
+that was proposed by openai. So you will
+build specialized agents with their own
+context rather than a global shared
+context.
+Then they propose context pruning which
+is an act of re removing irrelevant or
+or otherwise unneeded information from
+the context. So if you have built rack
+systems probably reanking is a really
+good example of this that initially you
+retrieve let's say thousand chunks and
+then you have the secondary reanking
+steps which further reduces the context
+that is going to go into the LLM. So
+there's a specialized model called
+provenence that was I think presented
+back in uh January 2025. It seems very
+interesting right? So basically it
+removes the error relevant context by
+looking at the user query and then it
+presents that concise context to the
+model or agent. The next idea of
+managing your context is context
+summarization. So it's the act of
+boiling down and cured context into
+condensed summary. We have seen this
+with chat models. So chat GPT does this
+even uh for some of uh uh rag
+implementation you want to do that that
+so let's say if you're reaching towards
+the end of the context window you want
+to summarize some of the earlier
+conversation that has happened right and
+that way you can preserve most relevant
+information that the LLM is going to
+focus on now interestingly enough going
+back to that Pokemon example so even
+though the Gemini model has a 1 million
+context window or in some cases I think
+they said it could go up to 10 million
+context window seems like it has a
+working memory of 100,000 tokens after
+that you start seeing a context discret
+distractions
+but context summarization is not easy
+because you need to make sure that you
+are summarizing only the relevant
+information otherwise that is going to
+result in context confusion and
+distraction
+and the last idea is to use some sort of
+context offloading mechanism, which is
+an act of storing information outside
+LLM's context, usually via a tool that
+stores and manages data. You could
+potentially create short-term and
+long-term memory systems. Okay, so in
+this video, we looked at context
+engineering, some of the ideas relevant
+to how to manage your context. We'll be
+creating some more content on a
+practical example of context
+engineering. Although personally I still
+think it's just relabeling some of the
+old ideas that we have seen before.
+But do let me know what you think in the
+comment section below. Anyways, I hope
+you found this video useful. Thanks for
+watching and as always, see you in the
+next one.
