@@ -1,0 +1,48 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling", "hatch-vcs"]
+
+[project]
+name = "irv-datapkg"
+dynamic = ["version"]
+authors = [
+    { name = "Tom Russell", email = "tom.russell@ouce.ox.ac.uk" },
+    { name = "Fred Thomas", email = "fred.thomas@eci.ox.ac.uk" }
+]
+description = "Helper package for irv-datapkg workflow"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "geopandas>=0.13",
+    "shapely>=2.0",
+    "pyproj",
+    "GDAL>=3.3",
+    "cdsapi"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/nismod/irv-datapkg"
+"Bug Tracker" = "https://github.com/nismod/irv-datapkg/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "flake8", "hatch"]
+
+[tool.hatch.build]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/irv_datapkg"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/irv_datapkg/_version.py"
+
+[tool.hatch.version]
+source = "vcs"

@@ -1,0 +1,28 @@
+# Snakemake
+.snakemake
+
+# Data
+data
+incoming_data
+zenodo
+*.qgz
+*.bak
+bak.*
+*.zip
+processors.json
+
+# Secrets
+*_TOKEN
+CDSAPI_*
+
+# Python
+__pycache__
+*.py[c,i]
+*.egg-info
+dist
+
+# Mac
+._*
+
+# Hatch-VCS
+_version.py
