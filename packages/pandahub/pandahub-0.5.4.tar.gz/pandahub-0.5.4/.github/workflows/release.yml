@@ -1,0 +1,30 @@
+name: Build and publish to PyPI
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-release-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up variables
+        run: |
+          echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+      - name: Validate release tag
+        run: |
+          if ! [[ "${RELEASE_TAG}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
+            echo "Error: Release tag '${RELEASE_TAG}' is not in the format 'vX.Y.Z'. Please use a valid versioning format."
+            exit 1
+          fi
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
+      - uses: astral-sh/setup-uv@7edac99f961f18b581bbd960d59d049f04c0002f #v6.4.1
+      - run: uv build
+      - run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@81c65b7cd4de9b2570615ce3aad67a41de5b1a13 # v2.11.1
+        with:
+          file_glob: true
+          file: dist/*.whl
+          tag: ${{github.event.release.tag_name}}
