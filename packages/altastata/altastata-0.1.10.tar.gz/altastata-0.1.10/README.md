@@ -1,0 +1,105 @@
+# Altastata Python Package v0.1.9
+
+A powerful Python package for data processing and machine learning integration with Altastata.
+
+## Installation
+
+```bash
+pip install altastata
+```
+
+## Features
+
+- Seamless integration with PyTorch and TensorFlow
+- Advanced data processing capabilities
+- Java integration through Py4J with optimized memory management
+- Support for large-scale data operations
+- Multi-architecture Docker support (AMD64/ARM64)
+- Improved garbage collection and memory optimization
+
+A powerful Python package for data processing and machine learning integration with Altastata.
+
+## Installation
+
+```bash
+pip install altastata
+```
+
+## Features
+
+- Seamless integration with PyTorch and TensorFlow
+- Advanced data processing capabilities
+- Java integration through Py4J
+- Support for large-scale data operations
+
+## Quick Start
+
+```python
+from altastata import AltaStataFunctions, AltaStataPyTorchDataset, AltaStataTensorFlowDataset
+from altastata.altastata_tensorflow_dataset import register_altastata_functions_for_tensorflow
+from altastata.altastata_pytorch_dataset import register_altastata_functions_for_pytorch
+
+# Configuration parameters
+user_properties = """#My Properties
+#Sun Jan 05 12:10:23 EST 2025
+AWSSecretKey=*****
+AWSAccessKeyId=*****
+myuser=bob123
+accounttype=amazon-s3-secure
+................................................................
+region=us-east-1"""
+
+private_key = """-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: DES-EDE3,F26EBECE6DDAEC52
+
+poe21ejZGZQ0GOe+EJjDdJpNvJcq/Yig9aYXY2rCGyxXLGVFeYJFg7z6gMCjIpSd
+................................................................
+wV5BUmp5CEmbeB4r/+BlFttRZBLBXT1sq80YyQIVLumq0Livao9mOg==
+-----END RSA PRIVATE KEY-----"""
+
+# Create an instance of AltaStataFunctions
+altastata_functions = AltaStataFunctions.from_credentials(user_properties, private_key)
+altastata_functions.set_password("my_password")
+
+# Register the altastata functions for PyTorch or TensorFlow as a custom dataset
+register_altastata_functions_for_pytorch(altastata_functions, "bob123_rsa")
+register_altastata_functions_for_tensorflow(altastata_functions, "bob123_rsa")
+
+# For PyTorch application use
+torch_dataset = AltaStataPyTorchDataset(
+    "bob123_rsa",
+    root_dir=root_dir,
+    file_pattern=pattern,
+    transform=transform
+)
+
+# For TensorFlow application use
+tensorflow_dataset = AltaStataTensorFlowDataset(
+    "bob123_rsa",  # Using AltaStata account for testing
+    root_dir=root_dir,
+    file_pattern=pattern,
+    preprocess_fn=preprocess_fn
+)
+```
+
+## Docker Support
+
+The package includes Docker images for both AMD64 and ARM64 architectures:
+
+```bash
+# Pull from GitHub Container Registry
+docker pull ghcr.io/sergevil/altastata/jupyter-datascience:2025a_latest
+
+# Run with Docker Compose
+docker-compose -f docker-compose-ghcr.yml up -d
+```
+
+## Recent Improvements (v0.1.9)
+
+- **Memory Optimization**: Enhanced JVM memory management with G1GC and optimized heap settings
+- **Garbage Collection**: Improved GC performance with reduced pause times
+- **Multi-Architecture Support**: Separate Docker images for AMD64 and ARM64
+- **Build Automation**: Comprehensive build and upload scripts
+
+This project is licensed under the MIT License - see the LICENSE file for details. 
