@@ -1,0 +1,261 @@
+video_exts:
+  ['.avi', '.dat', '.divx', '.flv', '.m4v', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ts', '.vob', '.webm', '.wmv']
+
+file_exts:
+  [
+    '.7z', '.bash', '.bz2', '.c', '.cfg', '.cpp', '.css', '.csv', '.db', '.doc', '.docx', '.env', '.gz',
+    '.htm', '.html', '.ini', '.ipynb', '.java', '.js', '.json', '.log', '.md', '.odp', '.ods', '.odt',
+    '.parquet', '.pdf', '.ppt', '.pptx', '.py', '.r', '.rar', '.rtf', '.sh', '.sql', '.sqlite', '.sqlite3',
+    '.tar', '.tex', '.ts', '.tsv', '.txt', '.xls', '.xlsx', '.xml', '.yaml', '.yml', '.zip'
+  ]
+
+subtitle_exts:
+  ['.ass', '.dks', '.idx', '.mpl', '.pjs', '.psb', '.rt', '.smi', '.srt', '.ssa', '.stl', '.sub', '.vtt']
+
+junk_files:
+  [
+    '.DS_Store', '._*', '__MACOSX', 'Thumbs.db', 'desktop.ini', 'ehthumbs.db', 'System Volume Information',
+    '.directory', '.Trash-*', '.fseventsd', '.Spotlight-V100', '.TemporaryItems', '.AppleDouble',
+    '.AppleDesktop', '.VolumeIcon.icns', 'Icon\r', 'RARBG.txt', 'RARBG_DO_NOT_MIRROR.exe', 'sample.*',
+    'proof.*', 'tvshow.nfo', 'movie.nfo', 'fanart.jpg', 'poster.jpg', 'extrafanart', 'extrathumbs',
+    'Subtitles*', '*.url', '*.nfo', '*.sfv', '*.txt', '*.doc', '*.docx', '*.rtf', '*.jpg', '*.jpeg', '*.png',
+    '.com.apple.timemachine.supported', '.apdisk'
+  ]
+
+# Movie names strip words
+movie_strip_words:
+  # resolutions
+  - 1080p
+  - 720p
+  - 2160p
+  - 480p
+  - 540p
+  - 360p
+  - 4k
+  - 8k
+
+  # sources/formats
+  - hdrip
+  - brrip
+  - dvdrip
+  - dvdrip-axxo
+  - dvdrip-sam
+  - webrip
+  - web-dl
+  - webdl
+  - bluray
+  - blu-ray
+  - br-rip
+  - dvd-rip
+  - hd-rip
+  - hdcam
+  - hdts
+  - telesync
+  - ts
+  - camrip
+  - hdtv
+  - tvrip
+  - r5
+  - dvdscr
+  - scr
+  - workprint
+  - rip
+  - remux
+  - premux
+  - untouched
+  - dvdr
+  - blurayrip
+  - pal
+  - ntsc
+  - vhsrip
+
+  # codecs
+  - xvid
+  - x264
+  - x265
+  - h264
+  - h265
+  - hevc
+
+  # audio
+  - aac
+  - mp3
+  - dts
+  - dts-hd
+  - ma
+  - truehd
+  - flac
+  - dd5
+  - ac3
+  - eng-hindi
+  - 2.0
+  - 5.1
+  - 7.1
+
+  # HDR / color
+  - hdr
+  - hdr10
+  - hdr10+
+  - dolby vision
+  - dv
+  - 10bit
+  - 12bit
+  - hlg
+
+  # groups / release names
+  - yify
+  - yts
+  - rarbg
+  - evo
+  - sparks
+  - axxo
+  - axxon
+  - axon
+  - ettv
+  - ettvnet
+  - eztv
+  - btz
+  - btih
+  - publichd
+  - psa
+  - shaanig
+  - jaybob
+  - joy
+  - klaxxon
+  - galaxy
+  - maxspeed
+  - ntg
+  - cm8
+  - lol
+  - immerse
+  - killers
+  - dimension
+  - ctrlhd
+  - deflate
+  - d-z0n3
+  - t0xic
+  - yesmovies
+  - fgp
+  - fgm
+  - msd
+  - fgt
+  - dr0ne
+  - alliance
+  - bwa
+  - strife
+  - drones
+  - sparks
+  - maxillion
+  - mkvhub
+  - sam
+  - scenehd
+
+  # editions / versions
+  - cd1
+  - cd2
+  - cd3
+  - part1
+  - part2
+  - part3
+  - dvd1
+  - dvd2
+  - dvd3
+  - repack
+  - proper
+  - extended
+  - unrated
+  - remastered
+  - limited
+  - dc
+  - "director's cut"
+  - "special edition"
+  - "collector's edition"
+  - ultimate edition
+  - completo
+  - completa
+  - trilogy
+  - dual audio
+  - multi audio
+  - subbed
+  - dubbed
+  - subs
+  - multisubs
+
+  # platforms / studios
+  - nf
+  - netflix
+  - amzn
+  - amazon
+  - hmax
+  - hbo
+  - hulu
+  - disney
+  - disney+
+  - disneyplus
+  - paramount
+  - paramount+
+  - apple
+  - apple tv
+  - appletv
+  - apple tv+
+  - peacock
+  - starz
+  - showtime
+  - crunchyroll
+  - viu
+  - viki
+  - mbc
+  - bbc
+  - itv
+  - zee5
+  - voot
+  - sonyliv
+  - jio
+  - hotstar
+  - canalplus
+  - canal+
+  - tf1
+  - rai
+  - rtl
+  - wowow
+  - tbs
+  - ntv
+  - mtv
+  - cbs
+  - abc
+  - pbs
+  - fx
+  - syfy
+  - universal
+  - warner
+  - columbia
+  - sony
+  - mgm
+  - lionsgate
+  - united artists
+  - miramax
+  - studio canal
+  - focus features
+  - legendary
+  - dreamworks
+
+  # generic words
+  - movie
+  - film
+  - full
+  - hd
+  - hq
+
+# Movie genres strip words
+genre_strip_words:
+  [
+    'american', 'arabic', 'assamese', 'australian', 'bengali', 'bhojpuri', 'british', 'canadian', 'chinese',
+    'danish', 'dogri', 'english', 'film', 'french', 'german', 'gujarati', 'hindi', 'indian', 'irish','is an',
+    'is a', 'italian', 'japanese', 'kannada', 'kashmiri', 'konkani', 'korean', 'language', 'maithili',
+    'malayalam', 'manipuri', 'marathi', 'movie', 'nepali', 'new zealand', 'norwegian', 'odia', 'punjabi',
+    'russian', 'sanskrit', 'santali', 'spanish', 'swedish', 'tamil', 'telugu', 'urdu'
+  ]
+
+# Movies mover required cols
+mover_data_cols:
+  ['movie_name', 'clean_name', 'genre', 'year', 'path']
