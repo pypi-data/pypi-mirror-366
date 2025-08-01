@@ -1,0 +1,160 @@
+# Create new release and publish Python package to PyPI and GitHub Releases
+# https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+# oh also this is completely untested
+
+name: Build & Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_notes:
+        description: 'Release notes for the new version'
+        required: true
+
+jobs:
+  build-release:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7.1', '3.8.0', '3.9.0', '3.10.0', '3.11.0', '3.12.0', '3.13.0']
+
+    steps:
+    
+    - uses: actions/checkout@v2
+    
+    - name: Extract Python major.minor version
+      id: python-version
+      run: |
+        VERSION="${{ matrix.python-version }}"
+        MAJOR_MINOR=$(echo $VERSION | cut -d. -f1,2)
+        echo "major_minor=$MAJOR_MINOR" >> $GITHUB_OUTPUT
+        echo "python_cmd=python$MAJOR_MINOR" >> $GITHUB_OUTPUT
+        echo "Need Python $MAJOR_MINOR (from $VERSION)"
+    
+    - name: Try standard Python setup first
+      id: standard-setup
+      continue-on-error: true
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install Python from deadsnakes PPA (fallback)
+      if: steps.standard-setup.outcome == 'failure'
+      run: |
+        echo "Standard setup failed, trying deadsnakes PPA..."
+        sudo add-apt-repository ppa:deadsnakes/ppa -y
+        sudo apt-get update
+        
+        PYTHON_CMD="${{ steps.python-version.outputs.python_cmd }}"
+        MAJOR_MINOR="${{ steps.python-version.outputs.major_minor }}"
+        
+        # Install Python and essential packages
+        sudo apt-get install -y \
+          $PYTHON_CMD \
+          $PYTHON_CMD-dev \
+          $PYTHON_CMD-distutils \
+          $PYTHON_CMD-venv
+        
+        # Create a virtual environment to avoid system package conflicts
+        $PYTHON_CMD -m venv /tmp/python-env
+        source /tmp/python-env/bin/activate
+        
+        # The virtual environment comes with a clean pip
+        python -m pip install --upgrade pip setuptools wheel
+        
+        echo "Successfully installed $PYTHON_CMD from deadsnakes with virtual environment"
+    
+    - name: Set Python environment variables
+      run: |
+        if [[ "${{ steps.standard-setup.outcome }}" == "failure" ]]; then
+          # Use deadsnakes installation with virtual environment
+          echo "VIRTUAL_ENV=/tmp/python-env" >> $GITHUB_ENV
+          echo "PATH=/tmp/python-env/bin:$PATH" >> $GITHUB_ENV
+          echo "PYTHON=/tmp/python-env/bin/python" >> $GITHUB_ENV
+          echo "PIP=/tmp/python-env/bin/pip" >> $GITHUB_ENV
+          echo "Using deadsnakes Python with virtual environment"
+        else
+          # Use standard installation
+          echo "PYTHON=python" >> $GITHUB_ENV
+          echo "PIP=python -m pip" >> $GITHUB_ENV
+          echo "Using standard Python setup"
+        fi
+    
+    - name: Install dependencies
+      run: |
+        $PIP install setuptools wheel tomli
+        $PIP install -e "."
+    
+    - name: Build Release
+      run: |
+        $PYTHON setup.py sdist bdist_wheel
+
+
+  load-pkg-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+    
+    - name: Install toml
+      run: pip install toml
+    
+    - name: Get Version from pyproject.toml
+      id: get-version
+      run: |
+        python -c "
+        import toml
+        pyproject = toml.load('pyproject.toml')
+        version = pyproject['project']['version']
+        print(f'version={version}')
+        " >> $GITHUB_OUTPUT
+
+
+  release-pypi:
+    needs: build-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install Twine
+        run: |
+          python -m pip install --upgrade pip
+          pip install twine
+      
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          twine upload dist/*
+
+  release-github:
+    needs: [build-release, load-pkg-version]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.load-pkg-version.outputs.version }}
+          name: Release v${{ needs.load-pkg-version.outputs.version }}
+          body: ${{ github.event.inputs.release_notes }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/*.tar.gz
+            dist/*.whl
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

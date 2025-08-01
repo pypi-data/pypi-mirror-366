@@ -1,0 +1,248 @@
+# This workflow runs tests and checks on pull requests
+# oh also this is completely untested
+name: PR Tests & Quality Checks
+
+on:
+  pull_request:
+    branches: [ master, main ]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  workflow-info:
+    name: Post Workflow Info
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Minimize previous workflow comments and post new info
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const workflowUrl = `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+          const rerunUrl = `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+          
+          // First, minimize previous workflow comments from this bot
+          try {
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            
+            const botComments = comments.data.filter(comment => 
+              comment.user.type === 'Bot' && 
+              (comment.body.includes('🚀 PR Quality Checks') || 
+               comment.body.includes('🧪 Tests & Coverage') ||
+               comment.body.includes('🎨 Black Formatting'))
+            );
+
+            // delete previous comments
+            for (const comment of botComments) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id
+              });
+            }
+
+          } catch (error) {
+            console.log('Could not minimize previous comments:', error.message);
+          }
+          
+          // Now post the new workflow info
+          const comment = `## 🚀 PR Quality Checks Started
+          
+          **Workflow:** [View Details](${workflowUrl})
+          
+          The following checks are running:
+          - 🧪 **Tests & Coverage** - Running test suite and analyzing coverage
+          - 🎨 **Black Formatting** - Checking code formatting compliance
+          
+          <details>
+          <summary>🔄 Rerun Checks</summary>
+          
+          If you need to rerun the checks, you can:
+          1. [Rerun this workflow](${rerunUrl}) (requires write access)
+          2. Push a new commit to trigger checks again
+          3. Close and reopen this PR
+          
+          </details>
+          
+          ---
+          *Results will be posted as separate comments when each check completes.*`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  tests-and-coverage:
+    name: Run Tests and Coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout PR code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python setup.py develop
+        pip install .[dev]
+    
+    - name: Run tests with coverage
+      id: test-coverage
+      run: |
+        echo "## Tests & Coverage Results 🧪📊" >> $GITHUB_STEP_SUMMARY
+        pytest --verbose --cov=textverified --cov-report=xml --cov-report=term 2>&1 | tee test-coverage-output.txt
+        exit_code=${PIPESTATUS[0]}
+        
+        if [ $exit_code -eq 0 ]; then
+          echo "✅ All tests passed!" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Some tests failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Failed Tests:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          grep -A 5 -B 2 "FAILED\|ERROR" test-coverage-output.txt || echo "Check full output for details" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Coverage Report:" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        grep -A 20 "coverage report" test-coverage-output.txt || echo "Coverage report generated" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        
+        exit $exit_code
+    
+    - name: Comment PR with test and coverage results
+      if: always()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          let comment = '## 🧪 Tests & Coverage Results\n\n';
+          
+          try {
+            const output = fs.readFileSync('test-coverage-output.txt', 'utf8');
+            const lines = output.split('\n');
+            
+            // Test results section
+            const testSummary = lines.filter(line => 
+              /\s+failed/i.test(line) ||
+              /\s+error/i.test(line) ||
+              /\s+FAILED/i.test(line) ||
+              /\s+ERROR/i.test(line)
+            )
+            
+            if (testSummary.length > 0) {
+              comment += '### 🧪 Test Results\n```\n' + testSummary.join('\n') + '\n```\n\n';
+            } else {
+              comment += '### 🧪 Test Results\n✅ All tests passed!\n\n';
+            }
+            
+            // Coverage section
+            const coverageStart = lines.findIndex(line => line.includes('coverage: platform'));
+            const coverageLines = lines.slice(coverageStart + 1, lines.length - 1);
+            
+            if (coverageLines.length > 0) {
+              comment += '### 📊 Coverage Report\n```\n' + coverageLines.join('\n') + '\n```\n';
+            } else {
+              comment += '### 📊 Coverage Report\nCoverage report generated. Check artifacts for details.\n';
+            }
+          } catch (error) {
+            comment += 'Could not read test/coverage output.\n';
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  black-formatting:
+    name: Check Black formatting
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout PR code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python setup.py develop
+        pip install .[dev]
+    
+    - name: Check Black formatting
+      id: black-check
+      run: |
+        echo "## Black Formatting Check 🎨" >> $GITHUB_STEP_SUMMARY
+        
+        # Run black in check mode to see if files need formatting
+        if black --check --diff . > black-diff.txt 2>&1; then
+          echo "✅ All files are properly formatted!" >> $GITHUB_STEP_SUMMARY
+          echo "FORMATTING_OK=true" >> $GITHUB_ENV
+        else
+          echo "❌ Some files need formatting" >> $GITHUB_STEP_SUMMARY
+          echo "FORMATTING_OK=false" >> $GITHUB_ENV
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Files that need formatting:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`diff" >> $GITHUB_STEP_SUMMARY
+          head -50 black-diff.txt >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        fi
+      continue-on-error: true
+    
+    - name: Comment PR with formatting results
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          let comment = '## 🎨 Black Formatting Check\n\n';
+          
+          if (process.env.FORMATTING_OK === 'true') {
+            comment += '✅ All files are properly formatted!\n\n';
+          } else {
+            comment += '❌ Some files need formatting. Here are the differences:\n\n';
+            
+            try {
+              const diff = fs.readFileSync('black-diff.txt', 'utf8');
+              if (diff.trim()) {
+                comment += '```diff\n' + diff.substring(0, 3000) + '\n```\n\n';
+                if (diff.length > 3000) {
+                  comment += '*Note: Diff truncated. Run `black .` locally to see all changes.*\n\n';
+                }
+              } else {
+                comment += 'Run `black .` to format your code.\n\n';
+              }
+            } catch (error) {
+              comment += 'Could not read formatting diff.\n\n';
+            }
+            
+            comment += '**To fix:** Run `black .` in your local repository.\n';
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
