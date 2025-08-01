@@ -1,0 +1,17 @@
+ИНСТРУКЦИИ ПО ПУБЛИКАЦИИ ПАКЕТА
+
+1. Для Test PyPI (тестирование):
+   Имя пакета: offers-check-marketplaces-mcp-2025
+   Команда: uvx twine upload --repository testpypi --username __token__ --password pypi-ваш-test-токен dist/*
+   Установка: pip install -i https://test.pypi.org/simple/ offers-check-marketplaces-mcp-2025
+
+2. Для PyPI (продакшн):
+   a) Измените имя в pyproject.toml обратно на: "offers-check-marketplaces"
+   b) Пересоберите: uv build
+   c) Опубликуйте: uvx twine upload --username __token__ --password pypi-ваш-prod-токен dist/*
+   d) Установка: pip install offers-check-marketplaces
+
+ВАЖНО:
+- Используйте разные токены для Test PyPI и PyPI
+- Test PyPI токен начинается с pypi- и создается на test.pypi.org
+- PyPI токен начинается с pypi- и создается на pypi.org
