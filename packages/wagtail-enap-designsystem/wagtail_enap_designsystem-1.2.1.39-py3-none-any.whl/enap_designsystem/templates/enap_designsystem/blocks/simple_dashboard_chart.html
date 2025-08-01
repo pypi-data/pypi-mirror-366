@@ -1,0 +1,45 @@
+<div class="card-chart">
+    <div class="card-header-dash">
+        {{ value.title }}
+    </div>
+    <div class="card-body-dash">
+        {% if value.chart_type == 'card' %}
+            {% for item in value.chart_data %}
+            <h2>{{ item.value }}</h2>
+            <p>{{ item.label }}</p>
+            {% endfor %}
+        {% else %}
+            <canvas id="chart-{{ block.id }}" style="height: 300px;"></canvas>
+        {% endif %}
+    </div>
+</div>
+
+{% if value.chart_type != 'card' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const data = [
+        {% for item in value.chart_data %}
+        { label: "{{ item.label }}", value: {{ item.value }} }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    if (typeof Chart !== 'undefined') {
+        const ctx = document.getElementById('chart-{{ block.id }}').getContext('2d');
+        new Chart(ctx, {
+            type: '{{ value.chart_type }}' === 'donut' ? 'doughnut' : '{{ value.chart_type }}',
+            data: {
+                labels: data.map(d => d.label),
+                datasets: [{
+                    data: data.map(d => d.value),
+                    backgroundColor: ['#1e40af', '#059669', '#3b82f6', '#10b981', '#60a5fa']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+});
+</script>
+{% endif %}
