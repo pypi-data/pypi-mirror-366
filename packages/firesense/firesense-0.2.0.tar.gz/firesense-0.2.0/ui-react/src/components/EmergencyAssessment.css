@@ -1,0 +1,103 @@
+.emergency-card {
+  background: rgba(231, 76, 60, 0.05);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+
+.emergency-header h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.emergency-header i {
+  color: var(--danger-color);
+}
+
+.emergency-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) 0;
+}
+
+.detail-label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.emergency-level.critical {
+  color: var(--critical-color);
+  animation: pulse-critical 1.5s infinite;
+}
+
+.emergency-level.alert {
+  color: var(--danger-color);
+}
+
+.emergency-level.monitor {
+  color: var(--warning-color);
+}
+
+.emergency-level.none {
+  color: var(--success-color);
+}
+
+@keyframes pulse-critical {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.call-911-row {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.call-911-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.call-911-status.warranted {
+  color: var(--critical-color);
+  animation: pulse-911 1s infinite;
+}
+
+.call-911-status.not-warranted {
+  color: var(--success-color);
+}
+
+@keyframes pulse-911 {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+}

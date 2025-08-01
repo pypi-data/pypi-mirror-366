@@ -1,0 +1,169 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# uv
+.uv/
+uv.lock
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.log
+.env
+.env.local
+
+# ============================================================================
+# LARGE FILES & MEDIA - Critical Exclusions
+# ============================================================================
+
+# Video files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.flv
+*.wmv
+*.webm
+*.m4v
+*.3gp
+*.ogv
+
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.svg
+*.webp
+*.ico
+*.raw
+*.heic
+*.heif
+
+# Audio files
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+*.wma
+*.m4a
+
+# Model files and weights (but allow Python model code)
+models/*.bin
+models/*.safetensors
+models/*.pt
+models/*.pth
+models/gemma-3n-e4b/
+!/src/*/models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.pb
+*.onnx
+*.tflite
+*.mlmodel
+*.coreml
+
+# Large data directories
+data/sample_videos/
+data/datasets/
+data/raw/
+data/processed/
+*.hdf5
+*.npy
+*.npz
+*.pickle
+*.pkl
+
+# Fire detection specific
+frames/
+extracted_frames/
+fire_detected/
+analysis_results/
+temp/
+tmp/
+output/
+results/
+my_results/
+batch_output/
+
+# CSV files (analysis results and data exports)
+*.csv
+
+# UI temporary files
+ui/analysis_config.json
+
+# Hugging Face cache
+.cache/huggingface/
+~/.cache/huggingface/
+
+# Torch cache
+.torch/
+
+# ============================================================================
+# ALLOW SPECIFIC PATTERNS (small files for documentation)
+# ============================================================================
+
+# Allow small sample images for documentation
+!docs/images/*.png
+!docs/images/*.jpg
+!README_images/*.png
+!examples/small_*.jpg
+
+# Allow configuration examples
+!config/example_*.json
+!config/template_*.yaml
+
+# Allow test fixtures (small files only)
+!tests/fixtures/*.jpg
+!tests/fixtures/*.mp4

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemma 3N Fire Detection System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-fire"></i>
+                    <h1>Gemma 3N Fire Detection System</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-upload" onclick="uploadVideo()">
+                        <i class="fas fa-upload"></i>
+                        Upload Video
+                    </button>
+                    <button class="btn btn-analyze" onclick="analyzeVideo()" disabled>
+                        <i class="fas fa-search"></i>
+                        Analyze
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Video Player Section -->
+            <section class="video-section">
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <video id="videoPlayer" controls>
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" id="videoOverlay">
+                            <div class="upload-prompt">
+                                <i class="fas fa-video"></i>
+                                <p>Upload a video to start fire detection analysis</p>
+                                <button class="btn btn-primary" onclick="uploadVideo()">
+                                    <i class="fas fa-plus"></i>
+                                    Select Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Video Controls -->
+                    <div class="video-controls">
+                        <div class="controls-row">
+                            <div class="play-controls">
+                                <button class="control-btn" onclick="previousFrame()" title="Previous Frame">
+                                    <i class="fas fa-step-backward"></i>
+                                </button>
+                                <button class="control-btn play-pause" onclick="togglePlayPause()" title="Play/Pause">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="control-btn" onclick="nextFrame()" title="Next Frame">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="timeline-container">
+                                <span class="time-display" id="currentTime">0:00</span>
+                                <div class="timeline-wrapper">
+                                    <input type="range" class="timeline" id="timeline" 
+                                           min="0" max="100" value="0" 
+                                           oninput="seekVideo(this.value)">
+                                    <div class="timeline-progress" id="timelineProgress"></div>
+                                    <div class="fire-markers" id="fireMarkers"></div>
+                                </div>
+                                <span class="time-display" id="totalTime">0:00</span>
+                            </div>
+                            
+                            <div class="additional-controls">
+                                <div class="speed-control">
+                                    <select id="playbackSpeed" onchange="changeSpeed(this.value)">
+                                        <option value="0.25">0.25x</option>
+                                        <option value="0.5">0.5x</option>
+                                        <option value="1" selected>1x</option>
+                                        <option value="1.5">1.5x</option>
+                                        <option value="2">2x</option>
+                                    </select>
+                                </div>
+                                <button class="control-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analysis Panel Section -->
+            <section class="analysis-section">
+                <div class="analysis-container">
+                    <!-- Emergency Alert Panel -->
+                    <div class="alert-panel" id="alertPanel">
+                        <div class="alert-content">
+                            <div class="alert-icon">
+                                <i class="fas fa-fire-extinguisher"></i>
+                            </div>
+                            <div class="alert-info">
+                                <h3>Fire Detection Status</h3>
+                                <p class="alert-status" id="alertStatus">No Analysis Running</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Current Frame Analysis -->
+                    <div class="analysis-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-crosshairs"></i> Current Frame Analysis</h3>
+                            <span class="frame-info" id="frameInfo">Frame 0 / 0</span>
+                        </div>
+                        
+                        <div class="analysis-content">
+                            <!-- Fire Detection Status -->
+                            <div class="status-card">
+                                <div class="status-header">
+                                    <h4>Fire Detection</h4>
+                                    <div class="detection-badge" id="detectionBadge">
+                                        <span class="badge-status">No Fire</span>
+                                    </div>
+                                </div>
+                                <div class="confidence-meter">
+                                    <label>Confidence</label>
+                                    <div class="meter-container">
+                                        <div class="meter-bar">
+                                            <div class="meter-fill" id="confidenceFill" style="width: 0%"></div>
+                                        </div>
+                                        <span class="meter-value" id="confidenceValue">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Emergency Assessment -->
+                            <div class="emergency-card" id="emergencyCard">
+                                <div class="emergency-header">
+                                    <h4><i class="fas fa-exclamation-triangle"></i> Emergency Assessment</h4>
+                                </div>
+                                <div class="emergency-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Fire Type:</span>
+                                        <span class="detail-value" id="fireType">-</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Control Status:</span>
+                                        <span class="detail-value" id="controlStatus">-</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Emergency Level:</span>
+                                        <span class="detail-value emergency-level" id="emergencyLevel">-</span>
+                                    </div>
+                                    <div class="detail-row call-911-row" id="call911Row">
+                                        <span class="detail-label">911 Call Status:</span>
+                                        <div class="call-911-status" id="call911Status">
+                                            <i class="fas fa-phone"></i>
+                                            <span>Not Warranted</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Risk Assessment -->
+                            <div class="risk-card">
+                                <div class="risk-header">
+                                    <h4><i class="fas fa-chart-line"></i> Risk Assessment</h4>
+                                </div>
+                                <div class="risk-details">
+                                    <div class="risk-item">
+                                        <div class="risk-label">
+                                            <i class="fas fa-wind"></i>
+                                            <span>Spread Potential</span>
+                                        </div>
+                                        <div class="risk-level" id="spreadPotential">Low</div>
+                                    </div>
+                                    <div class="risk-item">
+                                        <div class="risk-label">
+                                            <i class="fas fa-tree"></i>
+                                            <span>Vegetation Risk</span>
+                                        </div>
+                                        <div class="risk-description" id="vegetationRisk">-</div>
+                                    </div>
+                                    <div class="risk-item">
+                                        <div class="risk-label">
+                                            <i class="fas fa-location-dot"></i>
+                                            <span>Location</span>
+                                        </div>
+                                        <div class="risk-description" id="fireLocation">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fire Characteristics -->
+                            <div class="characteristics-card">
+                                <div class="characteristics-header">
+                                    <h4><i class="fas fa-info-circle"></i> Fire Characteristics</h4>
+                                </div>
+                                <div class="characteristics-details">
+                                    <div class="char-item">
+                                        <span class="char-label">Size Assessment:</span>
+                                        <span class="char-value" id="sizeAssessment">-</span>
+                                    </div>
+                                    <div class="char-item">
+                                        <span class="char-label">Smoke Behavior:</span>
+                                        <span class="char-value" id="smokeBehavior">-</span>
+                                    </div>
+                                    <div class="char-item">
+                                        <span class="char-label">Flame Characteristics:</span>
+                                        <span class="char-value" id="flameCharacteristics">-</span>
+                                    </div>
+                                    <div class="char-item">
+                                        <span class="char-label">Wind Effect:</span>
+                                        <span class="char-value" id="windEffect">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Timeline -->
+                    <div class="timeline-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-clock"></i> Detection Timeline</h3>
+                            <div class="timeline-stats">
+                                <span class="stat-item">
+                                    <i class="fas fa-fire"></i>
+                                    <span id="fireFrameCount">0</span> fire frames
+                                </span>
+                                <span class="stat-item">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <span id="emergencyFrameCount">0</span> emergency calls
+                                </span>
+                            </div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-chart" id="timelineChart">
+                                <!-- Timeline visualization will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- File Upload Input -->
+        <input type="file" id="fileInput" accept="video/*" style="display: none;" onchange="handleFileUpload(event)">
+        
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h3>Analyzing Video for Fire Detection</h3>
+                <p>Processing frames and generating analysis...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
