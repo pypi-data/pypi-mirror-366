@@ -1,0 +1,5 @@
+- move optree to required dependencies
+- add collate to generic (version which does not convert to pytorch tensors)
+- add axis argument to collate
+- remove Window
+- add past=, future=, crop=, parallel=, collate= to Sensor which implements the Window functionality
