@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: wliafe-mltools
+Version: 1.0.5
+Summary: A machine learning tools library
+Author: wliafe
+Author-email: wliafe <914099435@qq.com>
+License-Expression: Apache-2.0
+License-File: LICENSE
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: matplotlib>=3.7.5
+Requires-Dist: pandas>=2.0.3
+Requires-Dist: tqdm>=4.67.1
+Requires-Python: >=3.8
+Project-URL: Homepage, https://github.com/wliafe/mltools
+Project-URL: Issues, https://github.com/wliafe/mltools/issues
+Description-Content-Type: text/markdown
+
+# mltools
+
+## 介绍
+
+mltools：一个专注于机器学习工具开发的开源项目。
+
+## 安装命令
+
+```bash
+pip install wliafe-mltools
+```
+
+## 使用说明
+
+1. mltools需要python3.8及以上版本。
+2. mltools需要自行安装PyTorch和jupyter。
+3. 样例可以参考example文件夹。
