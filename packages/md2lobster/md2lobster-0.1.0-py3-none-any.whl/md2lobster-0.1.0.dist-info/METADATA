@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: md2lobster
+Version: 0.1.0
+Summary: Read a markdown file to create some lobster traceing
+Project-URL: Homepage, https://codeberg.org/balp/md2lobster
+Project-URL: Issues, https://codeberg.org/balp/md2lobster/issues
+Author-email: Anders Arnholm <Anders@Arnholm.se>
+License-Expression: ISC
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Requires-Dist: markdown-it-py
+Description-Content-Type: text/markdown
+
+# md2lobster
+
+This is a small tool that takes a markdown file
+and produces a lobster tracking file for the markdown
+file.
+
+It takes links to requiremnts and traces those.
+It's intended for free text test reports or manual
+ analysis reports to ensure the lobster tracing is
+in place.
+
+
+---
+[![status-badge](https://ci.codeberg.org/api/badges/14974/status.svg)](https://ci.codeberg.org/repos/14974)
