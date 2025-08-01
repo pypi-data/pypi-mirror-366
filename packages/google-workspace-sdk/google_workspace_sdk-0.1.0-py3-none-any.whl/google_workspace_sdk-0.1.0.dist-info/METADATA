@@ -1,0 +1,122 @@
+Metadata-Version: 2.4
+Name: google-workspace-sdk
+Version: 0.1.0
+Summary: SDK for connecting to Google Workspace Simulation Manager
+Project-URL: Homepage, https://github.com/metis-mantis/google-workspace-sdk
+Project-URL: Repository, https://github.com/metis-mantis/google-workspace-sdk
+Author: Metis Team
+License: MIT
+Keywords: google,mcp,sdk,simulation,workspace
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: pydantic>=2.5.0
+Description-Content-Type: text/markdown
+
+# Google Workspace SDK
+
+A lightweight Python SDK for connecting to Google Workspace Simulation Manager instances.
+
+## Installation
+
+```bash
+pip install google-workspace-sdk
+```
+
+Or install from source:
+
+```bash
+git clone <your-repo>
+cd google_workspace_sdk
+pip install -e .
+```
+
+## Quick Start
+
+```python
+import asyncio
+from google_workspace_sdk import WorkspaceClient
+
+async def main():
+    # Connect to your workspace manager
+    client = WorkspaceClient(manager_url="http://3.18.135.213:5001")
+    
+    # Create a workspace with pre-populated data
+    workspace = await client.create_workspace()
+    print(f"Workspace created: {workspace.mcp_url}")
+    
+    # Get MCP client for tool interactions
+    mcp = client.get_mcp_client()
+    
+    # Use MCP tools
+    results = await mcp.search("document")
+    print(f"Found {len(results)} documents")
+    
+    # Create new content
+    doc = await mcp.create_doc("My Document", "# Hello World")
+    print(f"Created document: {doc}")
+    
+    # Clean up
+    await client.delete_workspace()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## MCP Integration
+
+Use the workspace URL directly in your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "google-workspace": {
+      "url": "http://3.18.135.213:3106/mcp/"
+    }
+  }
+}
+```
+
+## Available MCP Tools
+
+- `search` - Search across all workspace content
+- `drive_tree` - Browse folder structure  
+- `get_doc`, `get_sheet`, `get_slides`, `get_file` - Read documents
+- `create_doc`, `create_sheet`, `create_slides` - Create new documents
+- `update_doc`, `update_sheet`, `add_slide` - Modify existing documents
+
+## API Reference
+
+### WorkspaceClient
+
+Main client for managing workspace instances.
+
+#### Methods
+
+- `create_workspace()` - Create a new workspace instance
+- `get_workspace()` - Get current workspace info
+- `delete_workspace()` - Delete the current workspace
+- `get_mcp_client()` - Get MCP client for tool interactions
+
+### MCPClient
+
+Client for interacting with workspace MCP tools.
+
+#### Methods
+
+- `search(query)` - Search workspace content
+- `drive_tree()` - Get folder structure
+- `get_doc(doc_id)` - Read document
+- `create_doc(name, content)` - Create document
+- `get_sheet(sheet_id)` - Read spreadsheet
+- `create_sheet(name, data)` - Create spreadsheet  
+- `get_slides(slides_id)` - Read presentation
+- `create_slides(name, content)` - Create presentation
