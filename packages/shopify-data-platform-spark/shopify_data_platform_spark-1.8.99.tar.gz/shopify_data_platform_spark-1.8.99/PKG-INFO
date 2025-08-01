@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: shopify-data-platform-spark
+Version: 1.8.99
+Summary: python utils for spark
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Provides-Extra: dev
+Requires-Dist: black>=22.0.0; extra == 'dev'
+Requires-Dist: build>=0.10.0; extra == 'dev'
+Requires-Dist: flake8>=4.0.0; extra == 'dev'
+Requires-Dist: hatchling>=1.27.0; extra == 'dev'
+Requires-Dist: mypy>=0.900; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: twine>=4.0.0; extra == 'dev'
