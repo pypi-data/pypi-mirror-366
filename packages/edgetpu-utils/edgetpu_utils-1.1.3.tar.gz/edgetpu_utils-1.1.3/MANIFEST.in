@@ -1,0 +1,6 @@
+include flexbuffers.py
+include edgetpu_utils/partitioner/partition_with_num_ops
+recursive-include platforms *.py
+recursive-include tflite *.py
+recursive-include edgetpu_utils *.py
+recursive-exclude edgetpu_utils/test *
