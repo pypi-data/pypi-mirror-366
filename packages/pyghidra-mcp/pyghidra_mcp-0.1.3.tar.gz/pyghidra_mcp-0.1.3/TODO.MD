@@ -1,0 +1,4 @@
+- [ ] Create unit and integration tests for the MCP server. Perform tests using mcp client after kicking off the server. Test across stdio, sse, and http streaming.
+- [ ] Add a MCP tool "add_comments_to_address" ability to add comments to functions with a summary of the explaination of the function. 
+- [ ] Add a MCP tool "disassemble_function" that will return the dissassemlbed instructions from any function by name
+- [ ] 
