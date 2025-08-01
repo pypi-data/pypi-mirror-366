@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+    from mitmproxy import exceptions, master
+  File "c:\program files\python\lib\site-packages\mitmproxy\master.py", line 7, in <module>
+    from mitmproxy import eventsequence
+  File "c:\program files\python\lib\site-packages\mitmproxy\eventsequence.py", line 7, in <module>
+    from mitmproxy.proxy import layers
+  File "c:\program files\python\lib\site-packages\mitmproxy\proxy\layers\__init__.py", line 2, in <module>
+    from .http import HttpLayer
+  File "c:\program files\python\lib\site-packages\mitmproxy\proxy\layers\http\__init__.py", line 25, in <module>
+    from ._http2 import Http2Client, Http2Server
+  File "c:\program files\python\lib\site-packages\mitmproxy\proxy\layers\http\_http2.py", line 7, in <module>
+    import h2.connection
+  File "c:\program files\python\lib\site-packages\h2\connection.py", line 13, in <module>
+    from hyperframe.frame import (
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 779, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 874, in get_code
+  File "<frozen importlib._bootstrap_external>", line 972, in get_data
+KeyboardInterrupt

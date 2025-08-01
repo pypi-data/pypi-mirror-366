@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "c:\program files\python\lib\runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\program files\python\lib\runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "C:\Program Files\python\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "c:\program files\python\lib\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+    from mitmproxy import exceptions, master
+  File "c:\program files\python\lib\site-packages\mitmproxy\master.py", line 5, in <module>
+    from mitmproxy import addonmanager, hooks
+  File "c:\program files\python\lib\site-packages\mitmproxy\addonmanager.py", line 13, in <module>
+    from . import ctx
+  File "c:\program files\python\lib\site-packages\mitmproxy\ctx.py", line 3, in <module>
+    import mitmproxy.options
+  File "c:\program files\python\lib\site-packages\mitmproxy\options.py", line 3, in <module>
+    from mitmproxy import optmanager
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 779, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 874, in get_code
+  File "<frozen importlib._bootstrap_external>", line 972, in get_data
+KeyboardInterrupt
