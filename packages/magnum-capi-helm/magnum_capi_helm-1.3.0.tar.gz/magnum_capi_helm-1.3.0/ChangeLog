@@ -1,0 +1,105 @@
+CHANGES
+=======
+
+1.3.0
+-----
+
+* Use API LB floating IPs according to template and label
+* Support token based kubeconfig files for the capi management cluster
+* Pin OpenStack release version in Devstack script
+* Implement control plane resize
+
+1.2.1
+-----
+
+* Improve node group deletion unit test
+* Fix deletion of non-default node groups
+* CI: Add linting to releasenotes
+* CI: Stop running py38, add py312
+* Intro docs for Magnum-CAPI-helm
+
+1.2.0
+-----
+
+* typo in release note
+* Helm chart repo changes
+
+1.1.0
+-----
+
+* Improve default min/max node count behaviour when autoscaling is enabled
+* Implement boot\_volume\_size label to override config file
+
+1.0.0
+-----
+
+* Allow autoscaling of non-default node groups
+* Support autoscaling for the default node group
+* Add initial release note
+* Add initial docs
+* Fix cluster deletion on trust creation failure
+* Allow additional load balancer customisation
+* Change allowed\_cidr to expect a comma separated list instead of semicolons
+* Fix typo in upper constraints
+* Use availability zone instead of Region for storage classes
+* Re-use oslo\_utils functionality where possible
+* Disable keystone-auth by default
+* Fix Helm value snippet formatting for Keystone auth webhook
+* Add skip\_install = true to tox formatting jobs
+* Make boolean cluster labels case insensitive
+* Fail on bad formatting
+* add cluster-api janitor to devstack script
+* Remove outdated reference to nova\_client config
+* Add app\_cred\_interface\_type config file option
+* CI: Add cover jobs
+* CI: Add publishing branch tarball
+* Update .gitreview and remove .github, add basic CI
+* Appcred authtype (#49)
+* Sanitise storageclasses (#48)
+* Pin to 2023.2 upper requirements (#46)
+* Move to capi-helm-charts 0.4.0 by default (#45)
+* Allowed cidr list for API load balancer (#44)
+* Add config for k8s-keystone-auth webhook (#34)
+* Retrieve volume types from cinder and use to make storageclasses (#32)
+* Update README.rst os\_distro ubuntu (#31)
+* Update to black<25.0.0 (#43)
+* Update chart default to 0.3.0 (#42)
+* Support etcd on separate block device (#40)
+* change devstack script to use CI versions/values (#39)
+* Query nova client for allowed flavors based on config (#33)
+* Add capi monitor to update health\_status (#26)
+* Refactor k8s temp file cleanup (#37)
+* Clean up temp files created by kubeconfig certficates (#36)
+* fix devstack script to match os\_distro change (#35)
+* Allow customisation of healthcheck. (#23)
+* Add support for Flatcar OS (#22)
+* Test on latest magnum, now its not broken (#29)
+* Move back to os\_distro Ubuntu (#27)
+* Move default helm to 0.1.4 (#28)
+* Refactor create\_cluster tests to share expected values (#24)
+* Apply boot disk values from Magnum config (#20)
+* Improve the README (#18)
+* Rename config option namespace\_suffix to namespace\_prefix (#17)
+* Fix CI by pinning to working Magnum (#19)
+* script changes (#15)
+* Add missing label to cluster secrets (#16)
+* add a development environment (#10)
+* Update the default chart version (#14)
+* Fix incorrect call get\_certificate\_string\_data (#13)
+* Remove limiting roles (#11)
+* Remove dead code (#12)
+* Cluster API: Support basic networking parameters (#9)
+* Cluster API: Implement upgrade to a new template (#8)
+* Implement cluster update and resize (#7)
+* ClusterAPI: implement update\_cluster\_status (#6)
+* ClusterAPI: write secrets into capi mgr k8s
+* Add kubernetes client to add secrets for helm
+* Get appcred and cacert inspired by vexhost driver (#4)
+* Cluster API: use helm client in driver (#3)
+* Add Helm client (#2)
+* Add a stub cluster\_api driver (#1)
+* Update setup.cfg
+* Add automatic black formatting
+* Attempt to add tox tests
+* Attempt to import from openstack cookiecutter
+* Initial commit
