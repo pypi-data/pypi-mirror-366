@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: trackerpkg
+Version: 0.1.1
+Summary: Token and resource usage tracker for OpenAI API calls with optional PostgreSQL logging
+Author-email: Ali Naveed <ali@dynastack.ai>
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: psutil
+Requires-Dist: psycopg2-binary
+Requires-Dist: python-dotenv
+
+# yourpkg
+
+TokenTracker and resource tracking decorators to monitor OpenAI API usage and process resource consumption, with logging to PostgreSQL.
+
+## Installation
+
+```bash
+pip install yourpkg
