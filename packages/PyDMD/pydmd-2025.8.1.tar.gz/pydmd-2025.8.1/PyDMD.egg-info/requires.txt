@@ -1,0 +1,26 @@
+numpy
+scipy>=1.6.0
+matplotlib
+scikit-learn
+xarray
+h5netcdf
+
+[:python_version < "3.12"]
+typing_extensions>=4.7.0
+
+[docs]
+sphinx>=1.4
+sphinx_rtd_theme
+
+[test]
+pytest
+pytest-cov
+pytest-mock
+ezyrb>=v1.2.1.post2205
+
+[tutorial]
+jupyter
+pandas
+ezyrb
+opencv-python
+ffmpeg-python
