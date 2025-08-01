@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mksync"
+version = "0.1.5"
+description = ""
+authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
+requires-python = ">=3.10"
+readme = "README.md"
+license = "MIT"
+keywords = []
+classifiers = []
+dependencies = ["python-adjudicator>=0.5.1,<0.6"]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/NiklasRosenstein/mksync/issues"
+Repository = "https://github.com/NiklasRosenstein/mksync"
+
+[project.scripts]
+mksync = "mksync.__main__:main"
+
+[tool.uv]
+dev-dependencies = ["pytest"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/mksync"]
+
+[tool.hatch.build.targets.wheel]
+include = ["src/mksync"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/mksync" = "mksync"
+
+[tool.slap]
+typed = true
+
+[tool.slap.release]
+pre-commit = "uv run mksync README.md -i && uv run mksync README.md -i && git add README.md && uv lock && git add uv.lock"
