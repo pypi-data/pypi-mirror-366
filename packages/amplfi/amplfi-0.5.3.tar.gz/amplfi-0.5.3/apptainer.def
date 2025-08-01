@@ -1,0 +1,47 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5
+Stage: build
+
+%files
+./amplfi /opt/amplfi/amplfi
+pyproject.toml /opt/amplfi/pyproject.toml
+uv.lock /opt/amplfi/uv.lock
+conda-lock.yml /opt/amplfi/conda-lock.yml
+
+%post
+mkdir -p /cvmfs /hdfs /gpfs /ceph /hadoop
+
+# install git for pip installation from github
+apt-get update
+apt-get install -y --no-install-recommends git
+apt-get clean
+
+# activate micromamba and create environment from lockfile
+/bin/bash /root/.bashrc
+micromamba create -p /env -f /opt/amplfi/conda-lock.yml
+
+cd /opt/amplfi
+micromamba run -p /env python -m pip install uv
+micromamba run -p /env uv export --no-hashes -o /tmp/requirements.txt
+micromamba run -p /env python -m pip install --no-deps -r /tmp/requirements.txt
+micromamba run -p /env python -m pip install --no-deps -e .
+
+# initialize our shell so that we can execute
+# commands in our environment at run time
+micromamba shell init --shell=bash --root-prefix=~/micromamba
+
+
+# set path, and add it to /etc/profile
+# so that it will be set if login shell
+# is invoked
+export PATH=/env/bin:$PATH
+echo export PATH=$PATH >> /etc/profile
+
+%environment
+    export PATH=/env/bin:$PATH
+    
+%runscript
+#!/bin/bash
+eval "$(micromamba shell hook --shell bash)"
+micromamba activate /env
+exec "$@"
