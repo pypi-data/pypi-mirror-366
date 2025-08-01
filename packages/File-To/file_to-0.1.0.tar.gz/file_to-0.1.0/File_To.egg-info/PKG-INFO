@@ -1,0 +1,131 @@
+Metadata-Version: 2.4
+Name: File_To
+Version: 0.1.0
+Summary: A Python module for file and directory operations
+Home-page: 
+Author: WusRainy
+Author-email: 3644365070@qq.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+Dynamic: summary
+
+# **File Manager Module (`moudle`)**
+
+A Python module for easy file and directory operations, including creation, reading, writing, and GUI-based file selection.
+
+---
+
+## **Installation**
+```bash
+pip install moudle
+```
+*(Note: Replace `moudle` with your actual package name when published to PyPI.)*
+
+---
+
+## **Features**
+✅ Create files and directories  
+✅ Read and write files with line-level control  
+✅ Save and close files safely  
+✅ Open file/folder dialogs (GUI)  
+✅ Supports `with` statements for clean resource handling  
+
+---
+
+## **Usage**
+
+### **1. Creating Files & Directories**
+```python
+import moudle
+
+# Create a file (current directory)
+moudle.new.file("test.txt")
+
+# Create a file (custom directory)
+moudle.new.file("data.txt", "C:/Users/Username/Documents")
+
+# Create a directory
+moudle.new.dir("my_folder")
+```
+
+---
+
+### **2. Opening & Editing Files**
+```python
+# Open a file (assign to variable 'file1')
+file = moudle.open("example.txt", "file1")
+
+# Write content (appends to line 1)
+moudle.write("Hello, World!", 1, "file1")
+
+# Save changes
+moudle.save("file1")
+
+# Close the file
+moudle.close("file1")
+
+# Using 'with' statement (auto-closes)
+with moudle.open("example.txt", "file2") as f:
+    moudle.write("New line", 2, "file2")
+    moudle.save("file2")
+```
+
+---
+
+### **3. File & Folder Selection Dialogs**
+```python
+# Open a folder dialog (assign to 'folder1')
+folder = moudle.look.dir("folder1")
+print(f"Selected folder: {folder.file_path}")
+
+# Open a file dialog (assign to 'file3')
+selected_file = moudle.look.file("file3")
+print(f"Selected file: {selected_file.file_path}")
+
+# Using 'with' statement
+with moudle.look.file("file4") as f:
+    print(f"Opened file: {f.file_path}")
+```
+
+---
+
+## **API Reference**
+| Function                                    | Description                                          |
+| ------------------------------------------- | ---------------------------------------------------- |
+| `moudle.new.file(name, dir=None)`           | Creates a new file (`dir` optional)                  |
+| `moudle.new.dir(name, dir=None)`            | Creates a new directory (`dir` optional)             |
+| `moudle.open(filename, var_name, dir=None)` | Opens a file and assigns it to `var_name`            |
+| `moudle.write(content, line, var_name)`     | Writes `content` to `line` in file `var_name`        |
+| `moudle.save(var_name)`                     | Saves changes to file `var_name`                     |
+| `moudle.close(var_name)`                    | Closes file `var_name`                               |
+| `moudle.look.dir(var_name)`                 | Opens a folder dialog and assigns path to `var_name` |
+| `moudle.look.file(var_name)`                | Opens a file dialog and assigns path to `var_name`   |
+
+---
+
+## **Requirements**
+- Python 3.6+
+- `tkinter` (usually included in Python standard library)
+
+---
+
+## **License**
+MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## **Contributing**
+Feel free to open issues or PRs on [GitHub](https://github.com/your_username/moudle).
+
+---
+
+🚀 **Happy coding!** Let me know if you need any modifications.
