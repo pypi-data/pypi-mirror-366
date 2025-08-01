@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: cynthion
+Version: 0.2.3
+Summary: Python package and utilities for the Great Scott Gadgets Cynthion USB Test Instrument
+Author-email: Great Scott Gadgets <dev@greatscottgadgets.com>
+License: BSD
+Project-URL: Documentation, https://cynthion.readthedocs.io
+Project-URL: Repository, https://github.com/greatscottgadgets/cynthion
+Project-URL: Issues, https://github.com/greatscottgadgets/cynthion/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: English
+Classifier: Environment :: Console
+Classifier: Environment :: Other Environment
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)
+Classifier: Topic :: Security
+Classifier: Topic :: System :: Hardware :: Universal Serial Bus (USB)
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: importlib_resources; python_version < "3.9"
+Requires-Dist: future
+Requires-Dist: libusb1
+Requires-Dist: prompt_toolkit
+Requires-Dist: pyfwup~=0.5
+Requires-Dist: pyserial>=3.5
+Requires-Dist: pyusb
+Requires-Dist: tabulate
+Requires-Dist: tomli
+Requires-Dist: tqdm
+Requires-Dist: pygreat~=2024.0.5
+Requires-Dist: apollo_fpga~=1.1
+Requires-Dist: amaranth~=0.5
+Requires-Dist: luna-usb~=0.2.2
+Requires-Dist: luna-soc~=0.3.2
+Dynamic: license-file
+
+# Cynthion Python Package and Utilities
+
+This software is developed for python3.
+
+## Installing or Updating Software
+
+Unless you are developing software or testing software from git, you can
+install or update Cynthion software with:
+```
+pip3 install --upgrade cynthion
+```
