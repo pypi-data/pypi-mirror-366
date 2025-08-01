@@ -1,0 +1,384 @@
+# Version 2.4.1
+
+# Minor changes
+
+- Added `kurtosis` method for local binary pattern filter.
+
+# Version 2.4.0
+
+# Major changes
+
+- It is now possible to use and process (in-memory) images and masks in a native `mirp` format. It was already 
+  possible to export imaging and masks, e.g. using `extract_images(..., image_export_format="native")` or
+  `extract_features_and_images(..., image_export_format="native"`). Now the resulting images and masks can be used 
+  as input, e.g. `extract_features(image=native_images, masks=native_masks, ...)`, with `native_images` and 
+  `native_masks` being the resulting images and masks, respectively.
+  
+  This allows for external processing of the contents of images and masks, such as performing gamma corrections. The 
+  image and mask contents are retrieved using the `get_voxel_grid` method, and set using the `set_voxel_grid` method.
+  `set_voxel_grid` expects a `numpy.ndarray` of the same shape and type (`float` for images, `bool` for masks) as the 
+  original.
+
+- Parallel processing is now possible using the `joblib` backend in addition to `ray`. This can be specified using the 
+  `parallel_backend` argument. Both libraries are now optional, and not installed automatically using `pip`.
+
+## Fixes
+
+- Setting file types is now case-insensitive.
+- The co-occurrence matrix-based maximum correlation coefficient no longer has complex values. This was already the 
+  case, but the return value could still be of a complex type.
+- Sample names are now more effectively determined based on file name and folder structure.
+- - Computing semi-axes length for flat geometries no longer produces occasional warnings due to machine precision.
+- Computing morphological features for line-like structures no longer results in divisions by zero.
+- Computing morphological features with an empty intensity-mask no longer results in illegal divisions.
+- Computing aggregated texture feature values from underlying NaN values no longer generates warnings.
+- Features that are not computed because they are not IBSI-compliant are now no longer exported together with valid 
+  features.
+- Fixed a warning caused by a division by 0 when computing the coefficient of dispersion.
+
+# Version 2.3.4
+
+## Minor changes
+
+- It is now possible to compute local binary patterns as a filter. 
+- Computation of the co-occurrence matrix-based maximum correlation coefficient now relies less on look-up, at the cost
+  of a larger memory footprint. Computation should be more efficient.
+
+## Fixes
+
+- It is now possible to merge labelled segmentation masks (e.g. 1, 2) using the settings `xml` file. Previously,
+  this would result in an error when attempting to merge the names of the regions of interest.
+- The co-occurrence matrix-based maximum correlation coefficient no longer has complex values. 
+- Directories with sample names without any further underlying directories (no `image_sub_folder` or 
+  `mask_sub_folder`) are now correctly filtered using `sample_name`. 
+
+# Version 2.3.3
+
+## Minor changes
+
+- Added the co-occurrence matrix-based maximum correlation coefficient feature. Since no reference standards for this
+  feature exist, you need to specify `ibsi_compliant = False` to compute it.
+
+## Fixes
+
+- `numpy.trapz` was deprecated and is now replaced by `numpy.trapezoid`.
+
+## Documentation
+
+- The documentation erroneously mentioned that the `by_slice` parameter could take `"largest"` as an option. This 
+  was no longer possible since the introduction of the `mask_select_largest_slice` parameter in version 2.1.0.
+
+# Version 2.3.2
+
+## Minor changes
+
+- Improved checks on absent (missing) image transformation parameters where the user is expected to specify one or 
+  more values. This now provides clear errors.
+- The default value of `bias_field_correction_n_fitting_levels` was changed from `1` to `3`, as 
+  `bias_field_correction_n_fitting_levels=1` yielded only very minor improvements to image quality,
+  i.e. did not noticeably reduce bias fields in MR.
+
+## Fixes
+
+- Background label is now specified as an integer for scikit-image's `measure.label` function.
+
+## Documentation
+ 
+- Several fixes to the documentation were made.
+
+# Version 2.3.1
+
+## Fixes
+
+- SUV values with decay correction `START` are now computed correctly. The previous code, based on the QIBA 
+  vendor-neutral code, computed the SUV values as if decay correction `NONE` was used. 
+- The error message for invalid feature families for filtered images (response maps) now correctly mentions 
+  `response_map_feature_families`.
+- Setting `response_map_feature_families = "all` now correctly excludes morphological features.
+- Trying to compute local intensity features from imaging with high resolution and low image dimensions no 
+  longer causes a hard crash due to memory errors produced by `scipy.ndimage.convolve`. Instead, these errors are 
+  handled gracefully -- local intensity features are not computed, however.
+
+# Version 2.3.0
+
+## Major changes
+
+- The proper ancient feature computation code running in the background of MIRP has been completely refactored. We 
+  moved from a functional backend where all features were computed per feature family to a more flexible 
+  object-oriented approach. Although this change is not visible at the user-end, it offers several new possibilities:
+  - Single features can now be computed. In addition, for some features (e.g. percentile statistics), a flexible 
+    percentile value could be passed.
+  - Creation of feature maps.
+  - Output of features and their metadata to machine-readable formats, instead of just tabular data.
+  
+  **Important**: Though the *name* of features in the tabular exports has not changed, their *ordering* may have. 
+  Avoid using column position when processing or analysing feature data.
+
+- Apparent diffusion coefficient (ADC) maps, diffusion contrast-enhanced (DCE) MRI and multi-frame DICOM objects in 
+  general are now supported.
+- Planar imaging, i.e. computed radiography, digital X-ray and digital mammography DICOM files are now supported.
+- Python version 3.12 is now supported thanks to recent updates by the maintainers of `ray` and `itk`.
+  This means that `mirp` now supports Python version 3.10 and later.
+  
+## Fixes
+
+- Internal use of `numpy.cross` no longer produces deprecation warnings. 
+
+# Version 2.2.4
+
+## Fixes
+
+- Masks can now be plotted in images without causing an error when using `matplotlib` version 3.9.0 or later.
+
+# Version 2.2.3
+
+## Minor changes
+
+- Tables with feature values now contain extra columns. These columns specify the file name (for non-DICOM input), 
+  the directory path of the image and masks and several DICOM tags for identifying the input.
+
+- MIRP now checks whether there are potential problems between the frames of reference of image and mask files.
+
+## Fixes
+
+- Fixed an error that occurs when attempting to create a deep copy `ImageITKFile` objects.
+
+# Version 2.2.2
+
+## Minor changes
+
+- `show` method of `GenericImage` and subclasses now indicate if a user-provided `slice_id` is out-of-volume and 
+  select the nearest slice instead.
+
+- Naming of branches in the settings `xml` file now matches that of their respective settings classes. `xml` files 
+  with the previous branch names still function.
+
+- Errors encountered during file import and handling are now more descriptive.
+- `extract_mask_labels` and `extract_image_parameters` now export extra information from DICOM metadata, e.g. series 
+  UID.
+
+## Documentation
+
+- Added a new tutorial on applying image filters to images.
+- Added documentation on the feature naming system.
+- Added documentation on the design of MIRP.
+
+## Fixes
+
+- Computing features related to the minimum volume enclosing ellipsoid no longer produces warnings due to the use of 
+  deprecated `numpy.matrix` class.
+
+# Version 2.2.1
+
+## Minor changes
+
+- If mask-related parameters are not provided for computing features or processing of images for deep learning, a 
+  mask is generated that covers the entire image.
+
+- Add fall-back methods for missing installation of the `ray` package for parallel processing. This can happen when 
+  a python version is not supported by the `ray` package. `ray` is now a conditional dependency, until that package 
+  is released for python `3.12`.
+
+- The default export format for `deep_learning_processing` and `deep_learning_processing_generator` is now `dict`, 
+  because the sample name is important for matching against observed outcomes.
+
+- `write_file` arguments of `extract_mask_labels` and `extract_image_parameters` were deprecated as these were 
+  redundant.
+
+## Fixes
+
+- Streamlined importing and reading DICOM files results in faster processing of DICOM-based imaging.
+
+- Fixed an indexing issue when attempting to split masks into bulk and rim sections in a slice-wise fashion.
+
+- Fixed an indexing issue in Rank's method for noise estimation.
+
+- Fixed incorrectly named image parameters file export. Instead of `mask_labels.csv`, image parameters are now 
+  correctly exported to `image_metadata.csv`.
+
+# Version 2.2.0
+
+## Major changes
+
+- Added support for intensity scaling using the `intensity_scaling` parameter. Intensity scaling multiplies 
+  intensities by a scalar value. Intensity scaling occurs after intensity normalisation (if any) and prior to adding 
+  noise (if any). For example, intensity scaling can be used after intensity normalisation to scale intensities to a 
+  different range. `intensity_normalisation = "range"` with `intensity_scaling = 1000.0` maps image intensities to 
+  [1000.0, 0.0] instead of [1.0, 0.0].
+
+- Added support for intensity transformation filters: square root (`"pyradiomics_square_root"`), square 
+  (`"pyradiomics_square"`), logarithm (`"pyradiomics_logarithm"`) and exponential (`"pyradiomics_exponential"`). 
+  These implementations are based on the definitions in the `pyradiomics` 
+  [documentation](https://pyradiomics.readthedocs.io/en/latest/radiomics.html#module-radiomics.imageoperations). 
+  Since these filters do not currently have an IBSI reference standard, these are mostly intended for reproducing 
+  and validating radiomics models based on features extracted from pyradiomics.
+
+- Modules were renamed according to the PEP8 standard. This does not affect the documented public interface, but may 
+  affect external extensions. Public and private parts of the API are now indicated. 
+
+## Minor changes
+
+- Added support for Python version 3.10 using `typing-extensions`.
+- Several changes were made to ensure proper functioning of MIRP with future versions of `pandas`.
+- Some changes were made prevent deprecation warnings in future version of `numpy`.
+
+# Version 2.1.1
+
+## Fixes
+
+- Fixed missing merge changes from version 2.1.0 to the main branch.
+- Fixed reading of `mask_name` from data xml files.
+- `image_name` and `mask_name` configuration parameters are now parsed as single strings if only one value is 
+  specified to match argument-based configuration.
+- Fixed and updated several exception messages.
+- Filter kernel names, specified using `filter_kernels` in xml files, are now correctly parsed as strings instead of 
+  floats.
+
+# Version 2.1.0
+
+## Major changes
+
+- Added support for SEG DICOM files for segmentation.
+
+- Added support for processing RTDOSE files.
+
+- It is now possible to combine and split masks, and to select the largest mask or mask slice, as part of the image
+  processing workflow. Masks can be combines by setting `mask_merge = True`, which merges all available masks for an
+  image into a single mask. This can be useful when, e.g., multiple regions of interest should be assessed as a single
+  (possibly internally disconnected) mask. Masks are split using `mask_split = True`, which separates every disconnected
+  region into its own mask that is assessed separately. This is used for splitting multiple lesions inside a single mask
+  into multiple separate masks. The largest region of interest in each mask is selected by 
+  `mask_select_largest_region = True`. This can be used when, e.g., only the largest lesion of multiple lesions should be
+  assessed. Sometimes, only the largest slice (i.e. the slice containing most of the voxels in a mask) should be
+  assessed. This is done using `mask_select_largest_slice = True`. This also forces `by_slice = True`.
+
+  These mask operations are implemented in the following order: combination -> splitting -> largest region -> 
+  largest slice.
+
+- Masks from an RT-structure file that shares a frame of reference with an image but does not have a one-to-one 
+  mapping to its voxel space can now be processed. This facilitates processing of masks from RT structure sets that 
+  are, e.g., defined on CT images but applied to co-registered PET imaging, or from one MR sequence to another. 
+
+## Fixes
+
+- Providing a mask consisting of boolean values in a numpy array no longer incorrectly throws an error.
+- Configuration parameters from `xml` files are now processed in the same manner as parameters defined as function 
+  arguments. The same default values are now used, independent of the parameter source. This fixes a known issue where
+  outlier-based resegmentation would occur by default using `xml` files, whereas the intended default is that no
+  resegmentation takes place.
+- Masks can now be exported to the file system without throwing an error.
+- DICOM files from frontal or sagittal view data are now correctly processed.
+
+# Version 2.0.1
+
+## Minor changes
+
+- Randomisation in MIRP now uses the generator-based methods in `numpy.random`, replacing the legacy functions.
+  The generator is seeded so that results are reproducible. The seed depends on input image, mask and configuration
+  parameters, if applicable. 
+
+## Fixes
+
+- Numpy arrays can now be used as direct input without throwing a `FileNotFoundError`.
+- Relaxed check on orientation matrix when importing images, preventing errors when the l2-norm is around 1.000 but not
+  to high precision.
+- To prevent high loads through internal multithreading in `numpy` and other libraries when using `ray` for parallel
+  processing, each ray thread is now initialised with environment parameters that prevent multi-threading.
+
+# Version 2.0.0
+
+## Major changes
+
+- MIRP was previously configured using two `xml` files: [`config_data.xml`](mirp/config_data.xml) for configuring
+  directories, data to be read, etc., and [`config_settings.xml`](mirp/config_settings.xml) for configuring experiments.
+  While these two files can still be used, MIRP can now be configured directly, without using these files.
+
+- The main functions of MIRP (`mainFunctions.py`) have all been re-implemented.
+  - `mainFunctions.extract_features` is now `extractFeaturesAndImages.extract_features` (functional form) or
+    `extractFeaturesAndImages.extract_features_generator` (generator). The replacements allow for both writing
+    feature values to a directory and returning them as function output. 
+  - `mainFunctions.extract_images_to_nifti` is now `extractFeaturesAndImages.extract_images` (functional form) or
+     `extractFeaturesAndImages.extract_images_generator` (generator). The replacements allow for both writing 
+     images to a directory (e.g., in NIfTI or numpy format) and returning them as function output.
+  - `mainFunctions.extract_images_for_deep_learning` has been replaced by 
+    `deepLearningPreprocessing.deep_learning_preprocessing` (functional form) and 
+    `deepLearningPreprocessing.deep_learning_preprocessing_generator` (generator).
+  - `mainFunctions.get_file_structure_parameters` and `mainFunctions.parse_file_structure` are deprecated, as the
+    the file import system used in version 2 no longer requires a rigid directory structure.
+  - `mainFunctions.get_roi_labels` is now `extractMaskLabels.extract_mask_labels`.
+  - `mainFunctions.get_image_acquisition_parameters` is now `extractImageParameters.extract_image_parameters`.
+
+- MIRP previously relied on `ImageClass` and `RoiClass` objects. These have been completely replaced by `GenericImage`
+  (and its subclasses, e.g. `CTImage`) and `BaseMask` objects, respectively. New image modalities can be added as
+  subclass of `GenericImage` in the `mirp.images` submodule.
+
+- File import, e.g. from DICOM or NIfTI files, in was previously implemented in an ad-hoc manner, and required a rigid
+  directory structure. Now, file import is implemented using an object-oriented approach, and directory structures 
+  are more flexible. File import of new modalities can be implemented as a relevant subclass of `ImageFile`.
+
+- MIRP uses type hinting, and makes use of the `Self` type hint introduced in Python 3.11. MIRP therefore requires 
+  Python 3.11 or later.
+
+## Minor changes
+- MIRP now uses the `ray` package for parallel processing.
+
+# Version 1.3.0
+
+## Minor changes
+- `SimpleITK` has been removed as a dependency. Handling of non-DICOM imaging is now done through `itk` itself.
+- Rotation - as a perturbation or augmentation operation - is now performed as part of the interpolation process. 
+  Previously, rotation was implemented using `scipy.ndimage.rotate`. This, combined with any translation or 
+  interpolation operation would involve two interpolation steps. Aside from removing a computationally intensive 
+  step, this also prevents unnecessary image degradation through the interpolation process. The new implementation 
+  operates using affine matrix transformations.
+- Discretisation of intensities after filtering (i.e. intensities of response maps) now uses a *fixed bin number* 
+  method with 16 bins by default. Previously, no default was set, which could lead to unintended results. These 
+  parameters can be manually specified using the `response_map_discretisation_method`, 
+  `response_map_discretisation_bin_width`, and `response_map_discretisation_n_bins` arguments; or alternatively 
+  using the `discretisation_method`, `discretisation_bin_width` and `discretisation_n_bins` parameters of the 
+  `img_transform` section of the settings configuration file. 
+
+## Fixes
+
+- Fixed a deprecation warning caused by `slic` of the `scikit-image` module.
+- Fixed incorrect merging of contours of the same region of interest (ROI) in the same slice. Previously, each contour 
+  was converted to a mask individually, and merged with the segmentation mask using `OR` operations. This functions 
+  perfectly for contours that represent separate objects spatially. However, holes in RTSTRUCT objects are not 
+  always represented by a single contour. They can also be represented by a separate contour (of the same region of 
+  interest) that is contained within a larger contour. For those RTSTRUCT objects, holes would disappear. This has 
+  now been fixed by first collecting all contours of a ROI for each slice, prior to converted them to a segmentation 
+  mask.
+
+# Version 1.2.0
+
+## Major changes
+- Updated filter implementations to the current (August 2022) IBSI 2 guidelines.
+- Settings read from the configuration files are now parsed and checked prior to starting computations. This is a 
+  preliminary to command-line configuration of experiments in future versions. Several `xml` tags were renamed or 
+  deprecated. Most renamed tags are soft-deprecated, and support backward compatibility. The following tags will now 
+  throw deprecation warnings:
+  - `new_non_iso_spacing` has been deprecated. Non-isotropic spacing can be set using the existing `new_spacing` 
+    argument.
+  - `glcm_merge_method` has been deprecated and merged into `glcm_spatial_method`.
+  - `glrlm_merge_method` has likewise been deprecated and merged into `glrlm_spatial_method`.
+  - `log_average` has been deprecated. The same effect can be achieved by giving the 
+    `laplacian_of_gaussian_pooling_method` the value `mean`.
+
+## Minor changes
+- It is now possible to compute features for multiple images for the same subject and modality.
+
+## Fixes
+- White-space is properly stripped from the names of regions of interest.
+- Several issues related to one-voxel ROI were resolved.
+- Computing no features or features that do not require discretisation do no longer prompt providing for a 
+  discretisation method.
+- Computing no features from, e.g., the base image no longer generate errors.
+- Fixed an issue where rotated masks were not returned correctly.
+- A number of other fixes were made to improve stability.
+
+# Version 1.1
+
+## Major changes
+- The `extract_images_for_deep_learning` and underlying functions have been reworked.
+- The `deep_learning` section of the settings configuration xml file have been deprecated in favour of function 
+  arguments.
