@@ -1,0 +1,335 @@
+Metadata-Version: 2.4
+Name: a2a-openai-agents
+Version: 0.0.2
+Summary: Integrates the Agent SDK with A2A
+Project-URL: Repository, https://github.com/prassanna-ravishankar/a2a-openai-agents
+Author-email: Prassanna Ravishankar <me@prassanna.io>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Typing :: Typed
+Requires-Python: <4.0,>=3.11
+Requires-Dist: a2a-sdk>=0.1.0
+Requires-Dist: fastapi>=0.104.0
+Requires-Dist: openai-agents>=0.0.13
+Requires-Dist: temporalio>=1.6.0
+Requires-Dist: uvicorn>=0.24.0
+Description-Content-Type: text/markdown
+
+# a2a-openai-agents
+
+[![PyPI version](https://badge.fury.io/py/a2a-openai-agents.svg)](https://pypi.org/project/a2a-openai-agents/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+
+A robust Python library for integrating OpenAI Agents with the A2A (Agent2Agent) Protocol, enabling seamless agent-to-agent communication and multi-agent systems.
+
+## Quick Start
+
+### Installation
+
+```bash
+pip install a2a-openai-agents
+```
+
+### Try the Examples
+
+```bash
+# Start a weather agent
+a2a-agents weather
+
+# Start a math agent with custom skills  
+a2a-agents math --port 8001
+
+# Run multi-agent system demo
+a2a-agents multi-agent
+```
+
+## Key Features
+
+- **Drop-in Integration**: Wrap existing `agents.Agent` instances without modification
+- **Auto-Skill Derivation**: Agent tools automatically become A2A skills
+- **Multi-Agent Systems**: Agents can discover and communicate with each other
+- **Simple & Powerful**: Minimal setup for maximum functionality
+- **Customizable**: Override auto-generated skills with custom implementations
+
+## Usage
+
+### Basic Agent
+
+```python
+from agents import Agent, function_tool
+from a2a_openai_agents import A2AWrapper, run_a2a_wrapper_server
+import random
+
+@function_tool
+def get_weather(city: str) -> str:
+    """Get the weather for a given city."""
+    return f"The weather in {city} is {random.choice(['sunny', 'cloudy', 'rainy'])}."
+
+# Create your OpenAI Agent
+agent = Agent(
+    name="WeatherBot",
+    instructions="You're a helpful weather assistant.",
+    model="gpt-4o-mini", 
+    tools=[get_weather]
+)
+
+# Wrap with A2A capabilities  
+service = A2AWrapper(
+    openai_agent=agent,
+    a2a_description="Weather information service"
+)
+
+# Start the A2A server
+run_a2a_wrapper_server(service, port=8000)
+```
+
+### Custom Skills
+
+```python
+from a2a_openai_agents import A2ASkillConfig
+
+async def calculate_sum(wrapper, params):
+    numbers = params.get("numbers", [])
+    return {"result": sum(numbers), "count": len(numbers)}
+
+# Override auto-generated skills
+service.a2a_skills = [
+    A2ASkillConfig(
+        name="calculate_sum",
+        description="Add a list of numbers",
+        handler=calculate_sum,
+        parameters={
+            "type": "object",
+            "properties": {
+                "numbers": {"type": "array", "items": {"type": "number"}}
+            },
+            "required": ["numbers"]
+        }
+    )
+]
+```
+
+### Multi-Agent Communication
+
+```python
+import httpx
+
+async def call_other_agent(agent_url: str, message: str):
+    """Call another A2A agent."""
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{agent_url}/message",
+            json={"text": message}
+        )
+        return response.json()
+
+# Coordinator agent that uses other agents
+async def coordinate_task(wrapper, params):
+    # Call weather agent
+    weather = await call_other_agent(
+        "http://localhost:8000", 
+        f"What's the weather in {params['city']}?"
+    )
+    
+    # Call math agent  
+    calculation = await call_other_agent(
+        "http://localhost:8001",
+        f"Calculate the sum of {params['numbers']}"
+    )
+    
+    return {
+        "weather": weather,
+        "calculation": calculation,
+        "status": "completed"
+    }
+```
+
+## Examples
+
+### Built-in Examples
+
+The library includes several ready-to-run examples:
+
+| Command | Description | Port |
+|---------|-------------|------|
+| `a2a-agents weather` | Weather information agent | 8000 |
+| `a2a-agents math` | Mathematical calculations | 8001 |
+| `a2a-agents multi-agent` | Multi-agent coordination demo | 9000-9001 |
+
+### Example Files
+
+Check the [`examples/`](examples/) directory:
+
+- **`simple_weather_agent.py`** - Basic weather service with tool integration
+- **`custom_skills_agent.py`** - Custom A2A skills without tools
+- **`working_multi_agent.py`** - Multi-agent system with coordination
+- **`multi_agent_research_team.py`** - Advanced 3-agent research pipeline
+
+## A2A Protocol Integration
+
+### Agent Discovery
+
+Each agent exposes an agent card at `/.well-known/agent.json`:
+
+```bash
+curl http://localhost:8000/.well-known/agent.json
+```
+
+```json
+{
+  "name": "WeatherBot",
+  "description": "Weather information service", 
+  "skills": [
+    {
+      "id": "get_weather",
+      "name": "get_weather",
+      "description": "Get the weather for a given city"
+    }
+  ],
+  "url": "http://localhost:8000"
+}
+```
+
+### Message Format
+
+Agents communicate using the A2A protocol:
+
+```json
+{
+  "id": "unique-request-id",
+  "method": "message/send",
+  "params": {
+    "message": {
+      "messageId": "unique-message-id",
+      "role": "user", 
+      "parts": [
+        {
+          "type": "text",
+          "text": "Your message here"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Architecture
+
+### Composition Over Inheritance
+
+The library uses **composition** - your `agents.Agent` instances remain unchanged while `A2AWrapper` adds A2A capabilities around them.
+
+```python
+# Your agent stays pure
+agent = Agent(name="MyAgent", model="gpt-4o-mini", tools=[...])
+
+# A2A wrapper adds interoperability  
+service = A2AWrapper(openai_agent=agent)
+```
+
+### Automatic Skill Derivation
+
+Tools are automatically converted to A2A skills:
+
+- **Tool name** → **Skill name**
+- **Tool description** → **Skill description** 
+- **Tool parameters** → **Skill JSON schema**
+- **Tool function** → **Skill handler**
+
+### Multi-Agent Patterns
+
+The library supports several multi-agent patterns:
+
+1. **Chain**: Agent A → Agent B → Agent C
+2. **Hub**: Coordinator agent calls multiple specialists  
+3. **Pipeline**: Data flows through processing stages
+4. **Peer-to-Peer**: Agents discover and call each other
+
+## Development
+
+### Setup
+
+```bash
+git clone https://github.com/prassanna-ravishankar/a2a-openai-agents
+cd a2a-openai-agents
+uv sync --all-extras
+```
+
+### Testing
+
+```bash
+# Run tests
+uv run pytest
+
+# Run linting
+uv run ruff check
+uv run ruff format --check
+
+# Test the CLI
+uv run a2a-agents weather
+```
+
+## API Reference
+
+### `A2AWrapper`
+
+Main class for wrapping agents with A2A capabilities.
+
+```python
+A2AWrapper(
+    openai_agent: Agent,                           # Your Agent instance
+    a2a_name: str | None = None,                   # Defaults to agent.name
+    a2a_description: str | None = None,            # Service description
+    a2a_version: str = "1.0.0",                   # Version string
+    a2a_id: str | None = None,                    # Unique identifier
+    a2a_skills: list[A2ASkillConfig] | None = None # Custom skills
+)
+```
+
+### `A2ASkillConfig`
+
+Configuration for custom A2A skills.
+
+```python
+A2ASkillConfig(
+    name: str,                                     # Skill name
+    description: str,                              # Human description
+    handler: Callable[..., Awaitable[dict]],      # Async handler function
+    parameters: dict[str, Any] | None = None      # JSON Schema
+)
+```
+
+### `run_a2a_wrapper_server`
+
+Start the A2A HTTP server.
+
+```python
+run_a2a_wrapper_server(
+    wrapper_instance: A2AWrapper,
+    port: int = 8000,
+    host: str = "0.0.0.0"
+)
+```
+
+## Contributing
+
+Contributions are welcome! Please check out our [development guide](development.md) for setup instructions and coding standards.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Links
+
+- **PyPI Package**: https://pypi.org/project/a2a-openai-agents/
+- **Source Code**: https://github.com/prassanna-ravishankar/a2a-openai-agents
+- **A2A Protocol**: https://a2a-documentation-url
+- **OpenAI Agents SDK**: https://github.com/openai/agents-sdk
