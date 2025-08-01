@@ -1,0 +1,16 @@
+django-cms>=4.1
+djangocms-versioning>=2
+
+[dev]
+black
+coverage
+flake8
+isort
+pytest
+pytest-django
+tox
+
+[test]
+coverage
+pytest
+pytest-django
