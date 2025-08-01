@@ -1,0 +1,9 @@
+[console_scripts]
+mist_analyze = mist.scripts.analyze_entrypoint:analyze_entry
+mist_convert_dataset = mist.scripts.conversion_entrypoint:conversion_entry
+mist_evaluate = mist.scripts.evaluation_entrypoint:evaluation_entry
+mist_postprocess = mist.scripts.postprocess_entrypoint:postprocess_entry
+mist_predict = mist.scripts.inference_entrypoint:inference_entry
+mist_preprocess = mist.scripts.preprocess_entrypoint:preprocess_entry
+mist_run_all = mist.scripts.run_all_entrypoint:run_all_entry
+mist_train = mist.scripts.train_entrypoint:train_entry
