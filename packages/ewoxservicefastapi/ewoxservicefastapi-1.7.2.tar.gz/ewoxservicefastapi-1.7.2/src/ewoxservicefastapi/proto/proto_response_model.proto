@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package mypackage;
+
+message ProtoResponseModel {
+    int32 code = 1;
+    string message = 2;
+    string data = 3;
+    repeated string classes = 4;
+}
