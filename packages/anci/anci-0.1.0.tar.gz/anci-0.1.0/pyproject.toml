@@ -1,0 +1,14 @@
+[project]
+name = "anci"
+version = "0.1.0"
+description = "anci: annotated command-line interfaces"
+readme = "README.md"
+authors = [
+    { name = "Tom Ouellette", email = "touellette112@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
