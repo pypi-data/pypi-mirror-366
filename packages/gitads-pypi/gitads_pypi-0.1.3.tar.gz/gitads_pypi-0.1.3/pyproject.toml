@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gitads-pypi"
+version = "0.1.3"
+description = "A simple Hello World PyPI package"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+    {name = "Salman Qureshi", email = "salman@cosmicstack.org"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/yourusername/gitads-pypi"
+Repository = "https://github.com/yourusername/gitads-pypi"
+Issues = "https://github.com/yourusername/gitads-pypi/issues"
+
+[project.scripts]
+gitads-hello = "gitads_pypi.main:main"
