@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} - Settings{% endblock %}
+
+{% block content %}
+  <h2>{% block header %}User: {{ user.username }}{% endblock %}</h2>
+
+  <div class="row">
+    <div class="col-md-5">
+      <form method="post"
+            action="{% url 'users:update_user' %}">{% csrf_token %}
+        {{ form|crispy }}
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    {% if not auth0 %}
+    <div class="col-md-10">
+      <a href="{% url 'account_change_password' %}">
+        Click here to change your password
+      </a>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}

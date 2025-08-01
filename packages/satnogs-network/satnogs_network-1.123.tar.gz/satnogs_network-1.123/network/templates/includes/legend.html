@@ -1,0 +1,33 @@
+<div class="modal fade" id="LegendModal" tabindex="-1" role="dialog" aria-labelledby="LegendModalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="LegendModalTitle"> <i class="bi bi-info-circle" aria-hidden="true"></i> Legend</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>The ID number of each observation is listed below, colored as such:</h5>
+        <p>
+          <span class="badge badge-future" title="This observation is in the future">43</span> Future observation - This observation is scheduled
+        </p>
+        <p>
+          <span class="badge badge-good" title="There is known good data in this observation">12</span> Good observation - Satellite was active in this pass
+        </p>
+        <p>
+          <span class="badge badge-bad" title="No good data in this observation">78</span> Bad observation - Satellite was not active in this pass
+        </p>
+        <p>
+          <span class="badge badge-unknown" title="There is data that needs vetting in this observation">56</span> Unknown observation - There is data that needs vetting in this pass
+        </p>
+        <p>
+          <span class="badge badge-failed" title="This observation failed">93</span> Observation failed - Ground station malfunction in this pass
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

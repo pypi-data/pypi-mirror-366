@@ -1,0 +1,128 @@
+.badge-good,
+.badge-with-signal,
+.badge-online {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.btn-good {
+    @extend .badge-good;
+
+    &:hover {
+        background-color: #449d44;
+        color: white;
+    }
+}
+
+.badge-bad,
+.badge-without-signal,
+.badge-offline {
+    background-color: #d9534f;
+    color: white;
+}
+
+.btn-bad {
+    @extend .badge-bad;
+
+    &:hover {
+        background-color: #c9302c;
+        color: white;
+    }
+}
+
+.badge-failed {
+    background-color: #444;
+    color: white;
+}
+
+.btn-failed {
+    @extend .badge-failed;
+
+    &:hover {
+        background-color: #666;
+        color: white;
+    }
+}
+
+.badge-experimental,
+.badge-testing,
+.badge-unknown {
+    background-color: darkorange;
+    color: white;
+}
+
+.btn-unknown {
+    @extend .badge-unknown;
+
+    &:hover {
+        background-color: orange;
+        color: white;
+    }
+}
+
+.badge-future,
+.badge-info {
+    background-color: #5bc0de;
+    color: white;
+}
+
+.btn-future {
+    @extend .badge-future;
+
+    &:hover {
+        background-color: #4ba0be;
+        color: white;
+    }
+}
+
+.btn-inactive {
+    filter: opacity(45%) saturate(75%);
+}
+
+.loading-field {
+    display: none;
+    text-align: center;
+    color: #666;
+}
+
+#loading {
+    display: none;
+    text-align: center;
+    color: #666;
+
+    .spinner {
+        margin: 50px auto 0;
+    }
+}
+
+.spinner {
+    text-align: center;
+
+    div {
+        width: 10px;
+        height: 10px;
+        background-color: #666;
+        border-radius: 100%;
+        display: inline-block;
+        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+
+    .bounce1 {
+        animation-delay: -0.32s;
+    }
+
+    .bounce2 {
+        animation-delay: -0.16s;
+    }
+
+    @keyframes sk-bouncedelay {
+
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+
+        40% {
+            transform: scale(1);
+        }
+    }
+}

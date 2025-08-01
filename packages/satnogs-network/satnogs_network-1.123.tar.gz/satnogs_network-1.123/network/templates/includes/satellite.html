@@ -1,0 +1,89 @@
+{% load tags %}
+<div class="modal fade" id="SatelliteModal" data-db_url="{% satnogs_db_url %}"  tabindex="-1" role="dialog" aria-labelledby="SatelliteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header align-items-center justify-content-between">
+        <h3 class="modal-title" id="SatelliteModalTitle"></h3>
+        <div>
+          {% if can_schedule %}
+            <a class="btn btn-sm btn-primary" href="/observations/new/" id="new-obs-link">
+              <span class="bi bi-plus" aria-hidden="true"></span> New Observation
+            </a>
+          {% endif %}
+          <a class="btn btn-sm btn-outline-dark" href="#" target="_blank" id="db-link">
+            <span class="bi bi-box-arrow-up-right" aria-hidden="true"></span> SatNOGS DB
+          </a>
+        </div>
+      </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="row no-gutters align-items-center">
+              <div class="col- mx-auto">
+                <img class="satellite-img-full" alt="satellite image">
+              </div>
+              <div class="col- mx-auto">
+                <div class="card-body">
+                  <div class="card-title satellite-title"></div>
+                  <div class="satellite-names"></div>
+                  <hr/>
+                  <table class="table table-sm table-borderless">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="badge badge-secondary">NORAD ID</span>
+                        </td>
+                        <td>
+                          <span id="satellite-norad" class="front-data"></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="badge badge-secondary">Satellite ID</span>
+                        </td>
+                        <td>
+                          <span class="front-data satellite-id"></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="badge badge-secondary">Success Rate</span>
+                        </td>
+                        <td>
+                          <span class="front-data satellite-success-rate"></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span class="badge badge-secondary">Observations</span>
+                        </td>
+                        <td>
+                          <a class="btn btn-sm btn-outline-dark satellite-total-obs" href="/observations/" id="old-obs-link"
+                             role="button" data-toggle="tooltip" data-placement="bottom" title="View all"></a>
+                          <a class="btn btn-sm btn-success satellite-good" href="/observations" id="good-sat-obs"
+                               role="button" data-toggle="tooltip" data-placement="bottom" title="Successful observations"></a>
+                          <a class="btn btn-sm btn-warning satellite-unknown" href="/observations" id="unknown-sat-obs"
+                             role="button" data-toggle="tooltip" data-placement="bottom" title="Unknown observations"></a>
+                          <a class="btn btn-sm btn-bad satellite-bad" href="/observations" id="bad-sat-obs"
+                             role="button" data-toggle="tooltip" data-placement="bottom" title="Bad observations"></a>
+                          <a class="btn btn-sm btn-info satellite-future" href="/observations" id="future-sat-obs"
+                             role="button" data-toggle="tooltip" data-placement="bottom" title="Future observations"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body" id="transmitters">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

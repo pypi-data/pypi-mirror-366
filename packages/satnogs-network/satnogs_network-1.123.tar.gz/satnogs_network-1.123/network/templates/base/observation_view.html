@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} - Observation {{ observation.id }}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'lib/jquery.json-viewer/json-viewer/jquery.json-viewer.css' %}">
+{% endblock css %}
+
+{% block content %}
+    {% include "includes/observation_detail.html" with observation=observation from_vetting=False %}
+{% endblock content %}
+
+{% block javascript %}
+  <script src="{% static 'lib/wavesurfer.js/dist/wavesurfer.min.js' %}"></script>
+  <script src="{% static 'lib/wavesurfer.js/dist/plugin/wavesurfer.spectrogram.min.js' %}"></script>
+  <script src="{% static 'lib/moment/min/moment.min.js' %}"></script>
+  <script src="{% static 'lib/jquery.json-viewer/json-viewer/jquery.json-viewer.js' %}"></script>
+  <script src="{% static 'lib/satellite.js/dist/satellite.min.js' %}"></script>
+  <script src="{% static 'lib/kaitai-struct/KaitaiStream.js' %}"></script>
+  <script src="{% static 'js/utc.js' %}"></script>
+  <script src="{% static 'js/polar_svg.js' %}"></script>
+  <script src="{% static 'js/observation_view.js' %}"></script>
+  <script src="{% static 'js/satellite.js' %}"></script>
+  <script src="{% static 'js/ax25monitor.js' %}"></script>
+{% endblock javascript %}
