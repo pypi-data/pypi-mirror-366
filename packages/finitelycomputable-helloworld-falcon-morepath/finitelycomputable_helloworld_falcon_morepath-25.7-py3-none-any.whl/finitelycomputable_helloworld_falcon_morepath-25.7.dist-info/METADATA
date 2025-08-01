@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: finitelycomputable-helloworld-falcon-morepath
+Version: 25.7
+Summary: hello_world in Falcon from an implementation in Morepath
+Author-email: Samuel Newbold <sam@rwsh.org>
+License-Expression: AGPL-3.0-only
+Project-URL: Documentation, https://github.com/thrasymache/microsites
+Project-URL: Source, https://github.com/thrasymache/microsites
+Project-URL: Gitlab, https://gitlab.com/thrasymache/microsites
+Project-URL: sourcehut, https://git.sr.ht/~thrasymache/finitelycomputable-microsites
+Project-URL: NotABug, https://notabug.org/thrasymache/finitelycomputable-microsites
+Project-URL: Homepage, https://www.finitelycomputable.net/morepath/hello_world
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+Requires-Dist: falcon~=4.0
+Provides-Extra: helloworld-flask
+Requires-Dist: finitelycomputable-helloworld-morepath-flask~=25.7; extra == "helloworld-flask"
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-env; extra == "tests"
+Requires-Dist: finitelycomputable-tests; extra == "tests"
+Provides-Extra: waitress
+Requires-Dist: waitress~=3.0; extra == "waitress"
+Provides-Extra: helloworld-cherrypy
+Requires-Dist: finitelycomputable-helloworld-morepath-cherrypy~=25.7; extra == "helloworld-cherrypy"
+Provides-Extra: cherrypy
+Requires-Dist: cherrypy~=18.10; extra == "cherrypy"
+Provides-Extra: cheroot
+Requires-Dist: cheroot~=10.0; extra == "cheroot"
+Provides-Extra: bjoern
+Requires-Dist: bjoern~=3.0; extra == "bjoern"
+Provides-Extra: helloworld-quart
+Requires-Dist: finitelycomputable-helloworld-morepath-quart~=25.7; extra == "helloworld-quart"
+Provides-Extra: helloworld
+Requires-Dist: finitelycomputable-helloworld-morepath~=25.7; extra == "helloworld"
+Provides-Extra: gunicorn
+Requires-Dist: gunicorn~=23.0; extra == "gunicorn"
+
+==========================
+HelloWorld-Falcon-Morepath
+==========================
+
+This application adapts the hello_world endpoint provided in
+finitelycomputable.helloworld_morepath to be provided in
+finitelycomputable.helloworld_falcon using the Falcon framework.
