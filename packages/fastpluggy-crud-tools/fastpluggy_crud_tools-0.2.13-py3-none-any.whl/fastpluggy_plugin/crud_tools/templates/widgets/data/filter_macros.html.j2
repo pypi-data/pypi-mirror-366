@@ -1,0 +1,40 @@
+{# filter_macros.html.j2 #}
+
+{% macro render_text_filter( filter_data, request) %}
+    <input type="text"
+           class="form-control form-control-sm"
+           name="{{ filter_data['field_name'] }}"
+           placeholder="{{ filter_data['placeholder'] }}"
+           value="{{ request.query_params.get(filter_data['field_name'], '') }}">
+{% endmacro %}
+
+{% macro render_number_filter( filter_data, request) %}
+    <input type="number"
+           class="form-control form-control-sm"
+           name="{{ filter_data['field_name'] }}"
+           placeholder="{{ filter_data['placeholder'] }}"
+           value="{{ request.query_params.get(filter_data['field_name'], '') }}">
+{% endmacro %}
+
+{% macro render_boolean_filter(filter_data, request) %}
+    <select class="form-control form-control-sm"
+            name="{{ filter_data['field_name'] }}">
+        <option value="" {% if not request.query_params.get(filter_data['field_name']) %}selected{% endif %}>Any</option>
+        <option value="true" {% if request.query_params.get(filter_data['field_name']) == 'true' %}selected{% endif %}>Yes</option>
+        <option value="false" {% if request.query_params.get(filter_data['field_name']) == 'false' %}selected{% endif %}>No</option>
+    </select>
+{% endmacro %}
+
+{% macro render_filter(field_name, filter_data, request) %}
+    <div class="header-filter">
+        {% if filter_data['type'] == 'text' %}
+            {{ render_text_filter( filter_data, request) }}
+        {% elif filter_data['type'] == 'number' %}
+            {{ render_number_filter( filter_data,request) }}
+        {% elif filter_data['type'] == 'boolean' %}
+            {{ render_boolean_filter( filter_data,request) }}
+        {% else %}
+            {{ render_text_filter( filter_data, request) }}
+        {% endif %}
+    </div>
+{% endmacro %}
