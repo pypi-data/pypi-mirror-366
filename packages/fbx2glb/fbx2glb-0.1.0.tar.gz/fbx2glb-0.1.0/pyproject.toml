@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fbx2glb"
+version = "0.1.0"
+authors = [
+  { name="Ge Yang", email="ge.ike.yang@gmail.com" },
+]
+description = "Convert FBX files to GLB format for web-based 3D applications"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "numpy>=1.20.0",
+]
+
+[project.optional-dependencies]
+fbxsdk = [
+    # FBX SDK is typically installed separately
+]
+blender = [
+    # Blender API dependencies if using Blender Python
+]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "isort>=5.10.0",
+    "mypy>=0.940",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/vuer-ai/fbx2glb"
+"Bug Tracker" = "https://github.com/vuer-ai/fbx2glb/issues"
+
+[project.scripts]
+fbx2glb = "fbx2glb.cli:main"
+fbx2glb-batch = "fbx2glb.batch:main"
+fbx2glb-component = "fbx2glb.component:main"
+
+[tool.setuptools]
+
+[tool.setuptools.packages.find]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
+target-version = ["py37"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
