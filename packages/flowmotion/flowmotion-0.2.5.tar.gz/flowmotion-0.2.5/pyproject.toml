@@ -1,0 +1,18 @@
+[project]
+name = "flowmotion"
+version = "0.2.5"
+description = "A Manim-based animation library for visualizing data structures and algorithms."
+authors = [{ name = "Mohammad Senan Ali" }]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "manim>=0.19.0"
+]
+license ="MIT"
+
+[build-system]
+requires = ["setuptools>=80.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["flowmotion*"]
