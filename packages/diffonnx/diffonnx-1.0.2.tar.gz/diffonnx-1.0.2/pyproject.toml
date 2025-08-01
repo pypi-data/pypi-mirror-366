@@ -1,0 +1,62 @@
+[project]
+name = "diffonnx"
+version = "1.0.2"
+description = "Diff your ONNXs"
+readme = "README.md"
+authors = [{ name = "yuxuan-z", email = "yuxuan-z19@qq.com" }]
+requires-python = ">=3.10"
+dependencies = [
+    "colorama>=0.4.6",
+    "grakel",
+    "numpy>=2.1.2",
+    "onnx>=1.18.0",
+    "onnxruntime>=1.22.1",
+    "onnxscript>=0.3.2",
+    "tabulate>=0.9.0",
+]
+
+[project.optional-dependencies]
+gpu = ["onnxruntime-gpu[cuda,cudnn]>=1.22.0"]
+torch-cpu = ["torch>=2.5.0"]
+torch-cu124 = ["torch>=2.5.0", "onnxruntime-gpu[cuda,cudnn]>=1.22.0"]
+
+[project.scripts]
+diffonnx = "diffonnx.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+exclude = [".git*", "test", "uv.lock", "assets"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/diffonnx"]
+exclude = ["**/__pycache__", "*.pyc", "*.pyo", "*.pyd"]
+
+[tool.uv]
+conflicts = [[{ extra = "torch-cpu" }, { extra = "torch-cu124" }]]
+
+[tool.uv.sources]
+grakel = { git = "https://github.com/yuxuan-z19/GraKeL", branch = "zyx-dev" }
+torch = [
+    { index = "torch-cpu", extra = "torch-cpu" },
+    { index = "torch-cu124", extra = "torch-cu124" },
+]
+
+[[tool.uv.index]]
+name = "torch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "torch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.isort]
+profile = "black"
+
+[dependency-groups]
+test = ["pytest>=8.4.1", "pytest-xdist"]
+local = ["black", "isort", "pre-commit"]
