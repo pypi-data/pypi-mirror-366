@@ -1,0 +1,96 @@
+{
+  "type": "AssayedFusion",
+  "structure": [
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_152263.3",
+      "strand": -1,
+      "exonStart": 1,
+      "exonStartOffset": 0,
+      "exonEnd": 8,
+      "exonEndOffset": 0,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:12012",
+            "code": "HGNC:12012",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "TPM3"
+      },
+      "elementGenomicStart": {
+        "id": "ga4gh:SL.Q8vkGp7_xR9vI0PQ7g1IvUUeQ4JlJG8l",
+        "type": "SequenceLocation",
+        "digest": "Q8vkGp7_xR9vI0PQ7g1IvUUeQ4JlJG8l",
+        "sequenceReference": {
+          "id": "refseq:NC_000001.11",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"
+        },
+        "end": 154192135
+      },
+      "elementGenomicEnd": {
+        "id": "ga4gh:SL.Lnne0bSsgjzmNkKsNnXg98FeJSrDJuLb",
+        "type": "SequenceLocation",
+        "digest": "Lnne0bSsgjzmNkKsNnXg98FeJSrDJuLb",
+        "sequenceReference": {
+          "id": "refseq:NC_000001.11",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"
+        },
+        "start": 154170399
+      }
+    },
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_002609.3",
+      "strand": -1,
+      "exonStart": 11,
+      "exonStartOffset": 0,
+      "exonEnd": 22,
+      "exonEndOffset": 0,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:8804",
+            "code": "HGNC:804",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "PDGFRB"
+      },
+      "elementGenomicStart": {
+        "id": "ga4gh:SL.U4E8XJR2ue1PL0-GA_AlfwqhR1qbY7Ma",
+        "type": "SequenceLocation",
+        "digest": "U4E8XJR2ue1PL0-GA_AlfwqhR1qbY7Ma",
+        "sequenceReference": {
+          "id": "refseq:NC_000005.10",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.aUiQCzCPZ2d0csHbMSbh2NzInhonSXwI"
+        },
+        "end": 150126614
+      },
+      "elementGenomicEnd": {
+        "id": "ga4gh:SL.YJ7cXnaG52dPiu7uR60yUneqHaKHEkLP",
+        "type": "SequenceLocation",
+        "digest": "YJ7cXnaG52dPiu7uR60yUneqHaKHEkLP",
+        "sequenceReference": {
+          "id": "refseq:NC_000005.10",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.aUiQCzCPZ2d0csHbMSbh2NzInhonSXwI"
+        },
+        "start": 150117617
+      }
+    }
+  ],
+  "causativeEvent": {
+    "type": "CausativeEvent",
+    "eventType": "rearrangement"
+  },
+  "assay": {
+    "type": "Assay",
+    "assayName": "RT-PCR",
+    "assayId": "obi:OBI_0000552",
+    "methodUri": "pmid:24034314",
+    "fusionDetection": "observed"
+  }
+}

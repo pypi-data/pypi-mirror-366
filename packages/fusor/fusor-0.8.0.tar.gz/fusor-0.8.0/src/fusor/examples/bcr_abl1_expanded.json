@@ -1,0 +1,653 @@
+{
+  "type": "CategoricalFusion",
+  "structure": [
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_004327.3",
+      "strand": 1,
+      "exonEnd": 2,
+      "exonEndOffset": 182,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:1014",
+            "code": "HGNC:1014",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "BCR",
+        "extensions": [
+          {
+            "name": "aliases",
+            "value": [
+              "PHL",
+              "LOC729775",
+              "ALL",
+              "BCR1",
+              "D22S11",
+              "D22S662",
+              "CML"
+            ]
+          },
+          {
+            "name": "symbol_status",
+            "value": "approved"
+          },
+          {
+            "name": "approved_name",
+            "value": "BCR activator of RhoGEF and GTPase"
+          },
+          {
+            "name": "previous_symbols",
+            "value": [
+              "LOC729775",
+              "D22S11",
+              "BCR1"
+            ]
+          },
+          {
+            "name": "strand",
+            "value": "+"
+          },
+          {
+            "name": "ensembl_locations",
+            "value": [
+              {
+                "id": "ga4gh:SL.nRleR-PWP_JtykSp4FOKwtk8FwbS3FGf",
+                "type": "SequenceLocation",
+                "digest": "nRleR-PWP_JtykSp4FOKwtk8FwbS3FGf",
+                "sequenceReference": {
+                  "type": "SequenceReference",
+                  "refgetAccession": "SQ.7B7SHsmchAR0dFcDCuSFjJAo7tX87krQ"
+                },
+                "start": 23179703,
+                "end": 23318037
+              }
+            ]
+          },
+          {
+            "name": "ncbi_locations",
+            "value": [
+              {
+                "id": "ga4gh:SL.v6aTJWz90DhcPh81_tcfgvYbYWRs3-db",
+                "type": "SequenceLocation",
+                "digest": "v6aTJWz90DhcPh81_tcfgvYbYWRs3-db",
+                "sequenceReference": {
+                  "type": "SequenceReference",
+                  "refgetAccession": "SQ.7B7SHsmchAR0dFcDCuSFjJAo7tX87krQ"
+                },
+                "start": 23180508,
+                "end": 23318037
+              }
+            ]
+          },
+          {
+            "name": "hgnc_locus_type",
+            "value": "gene with protein product"
+          },
+          {
+            "name": "ncbi_gene_type",
+            "value": "protein-coding"
+          },
+          {
+            "name": "ensembl_biotype",
+            "value": "protein_coding"
+          }
+        ],
+        "mappings": [
+          {
+            "coding": {
+              "system": "ensembl",
+              "code": "ENSG00000186716"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ncbigene",
+              "code": "613"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ucsc",
+              "code": "uc002zww.4"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ccds",
+              "code": "CCDS13806"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ccds",
+              "code": "CCDS13807"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "pubmed",
+              "code": "1657398"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "iuphar",
+              "code": "2755"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "orphanet",
+              "code": "119016"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "refseq",
+              "code": "NM_004327"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "pubmed",
+              "code": "18070886"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "cosmic",
+              "code": "BCR"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "omim",
+              "code": "151410"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "vega",
+              "code": "OTTHUMG00000150655"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "uniprot",
+              "code": "P11274"
+            },
+            "relation": "relatedMatch"
+          }
+        ]
+      },
+      "elementGenomicEnd": {
+        "id": "ga4gh:SL.pnPf51mTZVzI1teagtWwA4RY7ptcmbbt",
+        "type": "SequenceLocation",
+        "digest": "pnPf51mTZVzI1teagtWwA4RY7ptcmbbt",
+        "sequenceReference": {
+          "id": "refseq:NC_000022.11",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.7B7SHsmchAR0dFcDCuSFjJAo7tX87krQ"
+        },
+        "end": 23254162
+      }
+    },
+    {
+      "type": "LinkerSequenceElement",
+      "linkerSequence": {
+        "id": "fusor.sequence:ACTAAAGCG",
+        "type": "LiteralSequenceExpression",
+        "sequence": "ACTAAAGCG"
+      }
+    },
+    {
+      "type": "TranscriptSegmentElement",
+      "transcript": "refseq:NM_005157.5",
+      "strand": 1,
+      "exonStart": 2,
+      "exonStartOffset": -173,
+      "gene": {
+        "primaryCoding": {
+            "id": "hgnc:76",
+            "code": "HGNC:76",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "ABL1",
+        "extensions": [
+          {
+            "name": "aliases",
+            "value": [
+              "BCR-ABL",
+              "c-ABL1",
+              "bcr/abl",
+              "LOC116063",
+              "LOC112779",
+              "p150",
+              "JTK7",
+              "ABL",
+              "c-ABL",
+              "v-abl",
+              "CHDSKM"
+            ]
+          },
+          {
+            "name": "symbol_status",
+            "value": "approved"
+          },
+          {
+            "name": "approved_name",
+            "value": "ABL proto-oncogene 1, non-receptor tyrosine kinase"
+          },
+          {
+            "name": "previous_symbols",
+            "value": [
+              "LOC112779",
+              "LOC116063",
+              "ABL"
+            ]
+          },
+          {
+            "name": "strand",
+            "value": "+"
+          },
+          {
+            "name": "ensembl_locations",
+            "value": [
+              {
+                "id": "ga4gh:SL.LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "type": "SequenceLocation",
+                "digest": "LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "sequenceReference": {
+                  "type": "SequenceReference",
+                  "refgetAccession": "SQ.KEO-4XBcm1cxeo_DIQ8_ofqGUkp4iZhI"
+                },
+                "start": 130713042,
+                "end": 130887675
+              }
+            ]
+          },
+          {
+            "name": "ncbi_locations",
+            "value": [
+              {
+                "id": "ga4gh:SL.LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "type": "SequenceLocation",
+                "digest": "LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "sequenceReference": {
+                  "type": "SequenceReference",
+                  "refgetAccession": "SQ.KEO-4XBcm1cxeo_DIQ8_ofqGUkp4iZhI"
+                },
+                "start": 130713042,
+                "end": 130887675
+              }
+            ]
+          },
+          {
+            "name": "hgnc_locus_type",
+            "value": "gene with protein product"
+          },
+          {
+            "name": "ncbi_gene_type",
+            "value": "protein-coding"
+          },
+          {
+            "name": "ensembl_biotype",
+            "value": "protein_coding"
+          }
+        ],
+        "mappings": [
+          {
+            "coding": {
+              "system": "ensembl",
+              "code": "ENSG00000097007"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ncbigene",
+              "code": "25"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "cosmic",
+              "code": "ABL1"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "vega",
+              "code": "OTTHUMG00000020813"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "iuphar",
+              "code": "1923"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "pubmed",
+              "code": "1857987"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "uniprot",
+              "code": "P00519"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ena.embl",
+              "code": "M14752"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ccds",
+              "code": "CCDS35165"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "orphanet",
+              "code": "117691"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "pubmed",
+              "code": "12626632"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ucsc",
+              "code": "uc004bzv.4"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ccds",
+              "code": "CCDS35166"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "refseq",
+              "code": "NM_007313"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "omim",
+              "code": "189980"
+            },
+            "relation": "relatedMatch"
+          }
+        ]
+      },
+      "elementGenomicStart": {
+        "id": "ga4gh:SL.eL43aHf8T0t_0WIsQE5PeWQH1V3_ZKEC",
+        "type": "SequenceLocation",
+        "digest": "eL43aHf8T0t_0WIsQE5PeWQH1V3_ZKEC",
+        "sequenceReference": {
+          "id": "refseq:NC_000009.12",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.KEO-4XBcm1cxeo_DIQ8_ofqGUkp4iZhI"
+        },
+        "start": 130853890
+      }
+    }
+  ],
+  "readingFramePreserved": true,
+  "criticalFunctionalDomains": [
+    {
+      "type": "FunctionalDomain",
+      "status": "preserved",
+      "associatedGene": {
+        "primaryCoding": {
+            "id": "hgnc:76",
+            "code": "HGNC:76",
+            "system": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/"
+        },
+        "conceptType": "Gene",
+        "name": "ABL1",
+        "extensions": [
+          {
+            "name": "aliases",
+            "value": [
+              "BCR-ABL",
+              "c-ABL1",
+              "bcr/abl",
+              "LOC116063",
+              "LOC112779",
+              "p150",
+              "JTK7",
+              "ABL",
+              "c-ABL",
+              "v-abl",
+              "CHDSKM"
+            ]
+          },
+          {
+            "name": "symbol_status",
+            "value": "approved"
+          },
+          {
+            "name": "approved_name",
+            "value": "ABL proto-oncogene 1, non-receptor tyrosine kinase"
+          },
+          {
+            "name": "previous_symbols",
+            "value": [
+              "LOC112779",
+              "LOC116063",
+              "ABL"
+            ]
+          },
+          {
+            "name": "strand",
+            "value": "+"
+          },
+          {
+            "name": "ensembl_locations",
+            "value": [
+              {
+                "id": "ga4gh:SL.LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "type": "SequenceLocation",
+                "digest": "LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "sequenceReference": {
+                  "type": "SequenceReference",
+                  "refgetAccession": "SQ.KEO-4XBcm1cxeo_DIQ8_ofqGUkp4iZhI"
+                },
+                "start": 130713042,
+                "end": 130887675
+              }
+            ]
+          },
+          {
+            "name": "ncbi_locations",
+            "value": [
+              {
+                "id": "ga4gh:SL.LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "type": "SequenceLocation",
+                "digest": "LXhnhuUvUttSXuPOZYRY6ZrBgbgm2vRH",
+                "sequenceReference": {
+                  "type": "SequenceReference",
+                  "refgetAccession": "SQ.KEO-4XBcm1cxeo_DIQ8_ofqGUkp4iZhI"
+                },
+                "start": 130713042,
+                "end": 130887675
+              }
+            ]
+          },
+          {
+            "name": "hgnc_locus_type",
+            "value": "gene with protein product"
+          },
+          {
+            "name": "ncbi_gene_type",
+            "value": "protein-coding"
+          },
+          {
+            "name": "ensembl_biotype",
+            "value": "protein_coding"
+          }
+        ],
+        "mappings": [
+          {
+            "coding": {
+              "system": "ensembl",
+              "code": "ENSG00000097007"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ncbigene",
+              "code": "25"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "cosmic",
+              "code": "ABL1"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "vega",
+              "code": "OTTHUMG00000020813"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "iuphar",
+              "code": "1923"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "pubmed",
+              "code": "1857987"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "uniprot",
+              "code": "P00519"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ena.embl",
+              "code": "M14752"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ccds",
+              "code": "CCDS35165"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "orphanet",
+              "code": "117691"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "pubmed",
+              "code": "12626632"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ucsc",
+              "code": "uc004bzv.4"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "ccds",
+              "code": "CCDS35166"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "refseq",
+              "code": "NM_007313"
+            },
+            "relation": "relatedMatch"
+          },
+          {
+            "coding": {
+              "system": "omim",
+              "code": "189980"
+            },
+            "relation": "relatedMatch"
+          }
+        ]
+      },
+      "id": "interpro:IPR000980",
+      "label": "SH2 domain",
+      "sequenceLocation": {
+        "id": "ga4gh:SL.VQe2sf2aYArPcvjygq38JvFxRuDniE15",
+        "type": "SequenceLocation",
+        "digest": "VQe2sf2aYArPcvjygq38JvFxRuDniE15",
+        "sequenceReference": {
+          "id": "refseq:NP_005148.2",
+          "type": "SequenceReference",
+          "refgetAccession": "SQ.dmFigTG-0fY6I54swb7PoDuxCeT6O3Wg"
+        },
+        "start": 127,
+        "end": 202
+      }
+    }
+  ]
+}
