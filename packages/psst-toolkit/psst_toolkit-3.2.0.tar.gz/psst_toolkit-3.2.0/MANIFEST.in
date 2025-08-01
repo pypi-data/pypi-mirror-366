@@ -1,0 +1,24 @@
+include README_PSST.md
+include PSST_USER_MANUAL.md
+include PSST_QUICK_REFERENCE.md
+include COMPRESSION_RESULTS.md
+include OPENAI_INTEGRATION_GUIDE.md
+include INTEGRATION_SUCCESS_SUMMARY.md
+include ENHANCED_FEATURES.md
+include install_psst.sh
+include setup_openai.sh
+include test_openai_integration.py
+include demo_full_integration.py
+include test_enhanced_features.py
+include psst_token_estimator.py
+include *.json
+include examples/*.txt
+include examples/*.psst
+include psst-learn
+include psst-hybrid
+include psst-openai
+include psst_cost_tracker.py
+recursive-include examples *
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
