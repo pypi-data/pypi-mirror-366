@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: pyseg2
+Version: 1.4.7
+Summary: Standalone package to read/write seg2 files in python
+Author-email: Maximilien Lehujeur <maximilien.lehujeur@univ-eiffel.fr>
+License: GPL3
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Microsoft :: Windows
+Requires-Python: >=3.2
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Dynamic: license-file
+
+# PYSEG2
+
+Read/Write seg2 files in python
+This program is stand alone but it can export obspy streams in seg2 files.
+
+Usage :  
+```
+from pyseg2 import Seg2file
+
+seg2 = Seg2File()
+with open('./input_file.seg2', 'rb') as fid:
+    seg2.load(fid)
+
+seg2.seg2traces = seg2.seg2traces[:2]
+
+with open('output_file.seg2', 'wb') as fil:
+    fil.write(seg2.pack())
+
+seg2re = Seg2File()
+with open('output_file.seg2', 'rb') as fid:
+    seg2re.load(fid)
+
+```
