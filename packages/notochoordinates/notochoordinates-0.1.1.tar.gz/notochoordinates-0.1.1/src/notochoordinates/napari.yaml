@@ -1,0 +1,14 @@
+name: notochoordinates
+display_name: notochoordinates
+# use 'hidden' to remove plugin from napari hub search results
+visibility: public
+# see https://napari.org/stable/plugins/technical_references/manifest.html#fields for valid categories
+categories: ["Annotation"]
+contributions:
+  commands:
+    - id: notochoordinates.make_container_widget
+      python_name: notochoordinates:Notochoords
+      title: Spline your notochord
+  widgets:
+    - command: notochoordinates.make_container_widget
+      display_name: Notochoordinates
