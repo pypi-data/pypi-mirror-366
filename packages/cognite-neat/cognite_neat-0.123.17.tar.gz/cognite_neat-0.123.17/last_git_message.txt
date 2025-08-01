@@ -1,0 +1,24 @@
+Remove unnecessary method and check (#1252)
+
+# Description
+
+Previously we allowed for re-definition of properties (i.e., having
+several definition of the same property in
+`SheetList[ConceptualProperty|PhysicalProperty]`). Sometime ago we added
+more strict validation which does not allow this behavior. However, a
+method and check that looking for the redefinitions, which safeguard
+against it, pertained for ontology exporter. This PR removes them, as
+such edge case cannot longer happen (due to tougher validation at the
+source).
+
+## Bump
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## Changelog
+### Removed
+
+- Remove method and check for properties redefinitions for ontology
+exporter
