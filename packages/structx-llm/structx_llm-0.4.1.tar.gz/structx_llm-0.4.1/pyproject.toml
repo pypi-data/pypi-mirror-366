@@ -1,0 +1,108 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "pip>=21.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "structx-llm"
+version = "0.4.1"
+description = "Structured data extraction from text using LLMs and dynamic model generation"
+authors = [{ name = "blacksuan19", email = "py@blacksuan19.dev" }]
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: AsyncIO",
+    "Framework :: Pydantic",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3",
+    "Topic :: Database",
+    "Topic :: Documentation",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Office/Business",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "instructor",
+    "litellm",
+    "loguru",
+    "omegaconf",
+    "openpyxl>=3.1.5",
+    "pandas",
+    "pydantic",
+    "tabulate>=0.9.0", # required for pandas .to_markdown()
+    "tenacity",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = ["black", "bumpver", "pip-tools", "wheel"]
+pdf = [
+    "pypdf2",                 # PDF text extraction fallback
+    "instructor[multimodal]", # Multimodal PDF processing
+    "weasyprint",             # PDF generation from HTML/markdown
+    "markdown",               # Markdown processing for conversion
+]
+docx = [
+    "python-docx", # Basic DOCX support 
+    "docling",     # Advanced DOCX conversion via docling
+    "markdown",    # Markdown processing
+    "weasyprint",  # PDF generation
+]
+docs = [
+    "pypdf2",                 # PDF text extraction
+    "python-docx",            # DOCX support
+    "instructor[multimodal]", # Multimodal processing
+    "docling",                # Advanced document conversion
+    "weasyprint",             # PDF generation from HTML/markdown
+    "markdown",               # Markdown processing and extensions
+]
+# Legacy support - kept for backward compatibility
+unstructured = ["unstructured[all-docs]"]
+docling = ["docling", "markdown", "weasyprint"]
+advanced = [
+    "pypdf2",
+    "python-docx",
+    "instructor[multimodal]",
+    "docling",
+    "weasyprint",
+    "markdown",
+    "unstructured[all-docs]",
+]
+mkdocs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[markdown]",
+    "mkdocstrings[python]",
+    "mkdocs-git-revision-date-localized-plugin",
+    "mkdocs-material[imaging]",
+    "mkdocs-mermaid2-plugin",
+]
+
+[tool.bumpver]
+current_version = "0.4.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "Bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = true
+
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
+"structx/__init__.py" = ['__version__ = "{version}"']
+"README.md" = ["PyPi-{version}"]
