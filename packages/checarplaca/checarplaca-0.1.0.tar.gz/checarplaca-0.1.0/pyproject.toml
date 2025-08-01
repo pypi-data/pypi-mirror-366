@@ -1,0 +1,24 @@
+[project]
+name = "checarplaca"
+version = "0.1.0"
+description = "Consulta dados de IPVA a partir da placa do veículo."
+authors = [
+    { name = "Daniel", email = "devbatista61@gmail.com" }
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+keywords = ["ipva", "placa", "veiculo", "consulta", "checar"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "requests",
+    "beautifulsoup4"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
