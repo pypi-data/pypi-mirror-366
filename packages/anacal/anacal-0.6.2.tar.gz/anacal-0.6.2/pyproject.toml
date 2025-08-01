@@ -1,0 +1,33 @@
+[build-system]
+requires = [
+    "setuptools>=62",
+    "pybind11>=2.2",
+    "setuptools_scm>=6.2",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "dirty-tag"
+write_to = "python/anacal/__version__.py"
+
+[tool.flake8]
+ignore = [
+    "N801", "N802", "N803", "N806", "N815", "N816", "W503", "W504",
+    "E133", "E203", "E303", "E731", "E226", "E228"
+]
+exclude = [".git", "__pycache__", "docs", "build", "dist"]
+max-line-length = 80
+
+[tool.black]
+line-length = 80
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 80
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "example*.py", "example*.ipynb"]
+testpaths = ["tests", "examples"]
+addopts = "--nbval --nbval-lax --current-env -vv -s"
