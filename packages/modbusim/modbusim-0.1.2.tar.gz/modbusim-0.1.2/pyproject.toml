@@ -1,0 +1,65 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "modbusim"
+version = "0.1.2"
+
+
+[tool.poetry]
+name = "modbusim"
+version = "0.1.2"
+description = "A Modbus RTU/ASCII/TCP device simulator for testing and development"
+authors = ["Tom Sapletta <info@softreck.dev>"]
+readme = "README.md"
+packages = [{include = "modbusim"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pymodbus = "^3.0.0"
+python-dotenv = "^1.0.0"
+pytest = "^7.0.0"
+pytest-cov = "^4.0.0"
+pytest-asyncio = "^0.20.0"
+black = {version = "^23.0.0", optional = true}
+isort = {version = "^5.12.0", optional = true}
+mypy = {version = "^1.0.0", optional = true}
+flake8 = {version = "^6.0.0", optional = true}
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+pytest-cov = "^4.0.0"
+pytest-asyncio = "^0.20.0"
+black = "^23.0.0"
+isort = "^5.12.0"
+mypy = "^1.0.0"
+flake8 = "^6.0.0"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --cov=modbusim --cov-report=term-missing"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.20.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "flake8>=6.0.0"
+]
