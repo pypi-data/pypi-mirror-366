@@ -1,0 +1,47 @@
+[project]
+name = "pydae"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "COPYING"}
+authors = [
+    {name = "Juan Manuel Mauricio", email = "jmmauricio6@gmail.com"}
+]
+maintainers = [
+    {name = "Juan Manuel Mauricio", email = "jmmauricio6@gmail.com"}
+]
+keywords = [
+    "engineering",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy",
+    "scipy",
+    "sympy",
+    "numba",
+    "hjson",
+    "svgwrite",
+    "pandas"
+]
+dynamic = ["version", "description"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests"
+]
+[build-system]
+requires = ["flit_core"]
+build-backend = "flit_core.buildapi"
