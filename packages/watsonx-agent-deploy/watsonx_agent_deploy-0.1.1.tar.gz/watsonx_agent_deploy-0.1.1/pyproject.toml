@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "watsonx-agent-deploy"
+version = "0.1.1"
+description = "Deploy AI agents to WatsonX.ai with ease"
+readme = "README.md"
+authors = [{name = "Your Name", email = "your.email@example.com"}]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "ibm-watsonx-ai-cli",
+    "tomlkit>=0.11.0",
+    "click>=8.0.0",
+]
+
+[project.scripts]
+watsonx-deploy = "watsonx_agent_deploy.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/watsonx-agent-deploy"
+Issues = "https://github.com/yourusername/watsonx-agent-deploy/issues"
