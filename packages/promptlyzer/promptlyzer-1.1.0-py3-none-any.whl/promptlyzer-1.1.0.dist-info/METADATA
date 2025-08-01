@@ -1,0 +1,227 @@
+Metadata-Version: 2.4
+Name: promptlyzer
+Version: 1.1.0
+Summary: Python SDK for Promptlyzer - Manage prompts, run multi-provider LLM inference, track costs
+Home-page: https://promptlyzer.com
+Author: Promptlyzer Team
+Author-email: contact@promptlyzer.com
+Project-URL: Homepage, https://promptlyzer.com
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: requests>=2.31.0
+Requires-Dist: aiohttp>=3.9.0
+Requires-Dist: openai>=1.0.0
+Requires-Dist: anthropic>=0.15.0
+Requires-Dist: nest-asyncio>=1.5.6
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Promptlyzer Python Client
+
+The official Python client for [Promptlyzer](https://promptlyzer.com) - manage and version your prompts, run them across multiple LLM providers.
+
+## Key Features
+
+- **Prompt Management** - Version control with dev/staging/prod environments
+- **Prompt Optimization** - Automatically find the best prompt-model combination  
+- **Multi-Provider Inference** - Single API for OpenAI, Anthropic, and Together AI
+- **Streaming Support** - Real-time responses with token-by-token streaming
+- **Cost Tracking** - Monitor usage, costs, and performance metrics
+- **Caching** - Reduce API calls with intelligent prompt caching
+
+## Installation
+
+```bash
+pip install promptlyzer
+```
+
+## Quick Start
+
+```python
+from promptlyzer import PromptlyzerClient
+
+# Initialize with API key (get yours at promptlyzer.com)
+client = PromptlyzerClient(api_key="pk_live_YOUR_API_KEY")
+
+# Configure LLM provider
+client.configure_inference_provider("openai", "sk-...")
+
+# Use a prompt from Promptlyzer
+response = client.inference.infer(
+    prompt={"project_id": "your-project-id", "prompt_name": "assistant"},
+    model="gpt-4o"
+)
+
+print(response.content)
+```
+
+## Usage
+
+### Prompt Management
+
+```python
+# Get a specific prompt
+prompt = client.get_prompt("project-id", "customer-support")
+print(f"Content: {prompt['content']}")
+
+# Use with variables
+custom_prompt = prompt['content'].format(
+    customer_name="John Doe",
+    issue="billing inquiry"
+)
+
+# List all prompts
+prompts = client.list_prompts("project-id")
+for prompt in prompts["prompts"]:
+    print(f"{prompt['name']}: v{prompt['current_version']}")
+
+# Disable caching for real-time updates
+prompt = client.get_prompt("project-id", "prompt-name", use_cache=False)
+```
+
+### Prompt Optimization
+
+Automatically optimize your prompts across multiple models to find the best performing combination.
+
+```python
+# Basic usage - optimize a system message across models
+result = client.optimization.create(
+    name="Customer Support Bot",
+    dataset="support_queries.json",  # Requires 5+ examples
+    system_message="You are a helpful customer support agent.",
+    models=["gpt-4o", "claude-3.5-sonnet"],
+    project_id="your-project-id"
+)
+
+print(f"Best Model: {result['best_model']}")
+print(f"Accuracy: {result['best_accuracy']:.1%}")
+print(f"Optimized Prompt: {result['best_prompt']}")
+```
+
+#### Dataset Format
+
+```json
+{
+    "data": [
+        {
+            "question": "My package hasn't arrived yet",
+            "answer": "I apologize for the delay. Let me track your package for you."
+        },
+        {
+            "question": "How do I cancel my subscription?",
+            "answer": "I'd be happy to help you cancel. May I ask why you're canceling?"
+        }
+        // ... minimum 5 examples
+    ]
+}
+```
+
+```python
+# Advanced usage with multiple models and configuration
+result = client.optimization.create(
+    name="Advanced Support Bot",
+    dataset="dataset_65abc789",  # Use existing dataset ID
+    system_message="""You are an expert support agent.
+    Be empathetic, professional, and solution-oriented.
+    Always acknowledge concerns before providing solutions.""",
+    models=[
+        {"provider": "openai", "model": "gpt-4o", "temperature": 0.3},
+        {"provider": "anthropic", "model": "claude-3.5-sonnet-20241022"},
+        {"provider": "together", "model": "llama-3.3-70b-turbo"}
+    ],
+    project_id="your-project-id",
+    max_depth=3,
+    max_variations=3,
+    progress_callback=lambda p: print(f"Progress: {p:.1f}%")
+)
+
+# Run in background
+experiment = client.optimization.create(
+    name="Background Optimization",
+    dataset="data.json",
+    system_message="You are a helpful assistant.",
+    models=["gpt-4o"],
+    project_id="your-project-id",
+    wait_for_completion=False
+)
+
+# Check status
+summary = client.optimization.get_summary(experiment['experiment_id'])
+```
+
+### Inference
+
+```python
+# Configure providers
+client.configure_inference_provider("openai", "sk-...")
+client.configure_inference_provider("anthropic", "sk-ant-...")
+
+# Direct text prompt
+response = client.inference.infer(
+    prompt="Explain quantum computing in simple terms",
+    model="gpt-4o"
+)
+
+# Use Promptlyzer prompt
+response = client.inference.infer(
+    prompt={"project_id": "your-project", "prompt_name": "assistant"},
+    model="claude-3-5-sonnet-20241022"
+)
+
+print(response.content)
+print(f"Cost: ${response.metrics.cost:.4f}")
+```
+
+```python
+# Streaming responses
+for chunk in client.inference.infer(
+    prompt="Write a story about a robot",
+    model="gpt-4o",
+    stream=True
+):
+    print(chunk.content, end='', flush=True)
+```
+
+```python
+# Compare models
+for model in ["gpt-4o", "claude-3-5-sonnet-20241022"]:
+    response = client.inference.infer(
+        prompt="What is the capital of France?",
+        model=model
+    )
+    print(f"{model}: {response.content} (${response.metrics.cost:.4f})")
+```
+
+
+## Environment Variables
+
+- `PROMPTLYZER_API_KEY` - Your API key
+- `OPENAI_API_KEY` - For inference features
+- `ANTHROPIC_API_KEY` - For inference features
+- `TOGETHER_API_KEY` - For inference features
+
+## Support
+
+- Email: contact@promptlyzer.com
+
+## License
+
+MIT
