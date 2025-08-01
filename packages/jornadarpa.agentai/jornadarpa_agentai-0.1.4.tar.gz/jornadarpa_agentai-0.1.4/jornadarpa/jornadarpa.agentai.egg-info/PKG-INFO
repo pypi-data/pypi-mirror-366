@@ -1,0 +1,45 @@
+Metadata-Version: 2.4
+Name: jornadarpa.agentai
+Version: 0.1.4
+Summary: Agent AI for RPA using multiple LLM providers
+Author-email: Alex Diogo <alexdiogo@desafiosrpa.com.br>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Provides-Extra: openai
+Requires-Dist: openai>=1.98.0; extra == "openai"
+Provides-Extra: anthropic
+Requires-Dist: anthropic>=0.20.0; extra == "anthropic"
+Provides-Extra: mistral
+Requires-Dist: transformers>=4.40.0; extra == "mistral"
+Requires-Dist: torch; extra == "mistral"
+Provides-Extra: huggingface
+Requires-Dist: transformers>=4.40.0; extra == "huggingface"
+Requires-Dist: torch; extra == "huggingface"
+Provides-Extra: gemini
+Requires-Dist: google-generativeai>=0.3.2; extra == "gemini"
+Provides-Extra: all
+Requires-Dist: openai>=1.0.0; extra == "all"
+Requires-Dist: anthropic>=0.20.0; extra == "all"
+Requires-Dist: transformers>=4.40.0; extra == "all"
+Requires-Dist: torch; extra == "all"
+Requires-Dist: google-generativeai>=0.3.2; extra == "all"
+
+# JornadaRPA.AgentAI
+
+Agent AI abstraction layer for RPA bots using providers like OpenAI, Anthropic.
+
+## Installation
+
+```bash
+pip install JornadaRPA.AgentAI[all]
+```
+
+## Usage
+
+```python
+from JornadaRPA.AgentAI.providers import get_provider
+
+provider = get_provider("openai", api_key="sk-...", model="gpt-4")
+response = provider.run("Hello, world!")
+print(response)
+```

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jornadarpa.agentai"
+version = "0.1.4"
+authors = [
+  { name="Alex Diogo", email="alexdiogo@desafiosrpa.com.br" }
+]
+description = "Agent AI for RPA using multiple LLM providers"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = []
+
+[project.optional-dependencies]
+openai = ["openai>=1.98.0"]
+anthropic = ["anthropic>=0.20.0"]
+mistral = ["transformers>=4.40.0", "torch"]
+huggingface = ["transformers>=4.40.0", "torch"]
+gemini = ["google-generativeai>=0.3.2"]
+
+all = [
+  "openai>=1.0.0",
+  "anthropic>=0.20.0",
+  "transformers>=4.40.0",
+  "torch",
+  "google-generativeai>=0.3.2"
+]
+
+[tool.setuptools.packages.find]
+where = ["jornadarpa"]
