@@ -1,0 +1,1227 @@
+# RSA-AES 混合加密框架
+
+这是一个基于 **RSA + AES + HMAC** 的混合加密框架，提供非对称加密、对称加密、数字签名等功能。**可以直接在其他项目中import使用，无需Docker部署**。
+
+## 🔐 技术栈
+
+- **RSA 2048/4096**: 非对称加密，用于密钥交换
+- **AES 256 (GCM/CBC)**: 对称加密，用于数据加密
+- **HMAC-SHA256**: 数字签名，用于数据完整性验证
+- **Python Cryptography**: 底层加密库
+- **Redis/Memory**: 缓存后端支持
+
+## 🎯 基础使用
+
+### 最简单的使用方式
+
+```python
+# 1. 导入框架
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+# 2. 密钥交换
+result = key_exchange_sync("my_client")
+session_id = result["session_id"]
+
+# 3. 加密数据
+data = {"message": "Hello, World!", "user_id": 123}
+encrypted = encrypt_data_sync(data, session_id)
+
+# 4. 解密数据
+decrypted = decrypt_data_sync(encrypted)
+print(decrypted["data"])  # 输出原始数据
+```
+
+### 完整示例
+
+```python
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+def encrypt_user_data(user_data):
+    """加密用户数据"""
+    # 密钥交换
+    result = key_exchange_sync("user_client")
+    if not result["success"]:
+        raise Exception("密钥交换失败")
+    
+    session_id = result["session_id"]
+    
+    # 加密数据
+    encrypted = encrypt_data_sync(user_data, session_id)
+    if not encrypted["success"]:
+        raise Exception("数据加密失败")
+    
+    return encrypted
+
+def decrypt_user_data(encrypted_data):
+    """解密用户数据"""
+    decrypted = decrypt_data_sync(encrypted_data)
+    if not decrypted["success"]:
+        raise Exception("数据解密失败")
+    
+    return decrypted["data"]
+
+# 使用示例
+user_data = {"user_id": 123, "name": "张三", "email": "zhangsan@example.com"}
+encrypted = encrypt_user_data(user_data)
+decrypted = decrypt_user_data(encrypted)
+print(decrypted)  # 输出原始数据
+```
+
+## 📁 项目结构
+
+```
+rsa-aes-hybrid-crypto-framework/
+├── encryption_framework/            # 🎯 混合加密框架（可直接复制使用）
+│   ├── __init__.py                 # 主入口（import入口）
+│   ├── config.py                   # 配置管理
+│   ├── encryption_core.py          # RSA+AES核心加密功能
+│   ├── session_manager.py          # 会话管理
+│   ├── encryption_api.py           # 统一API接口
+│   ├── utils.py                    # 便捷函数
+│   └── example_usage.py            # 使用示例
+├── requirements.txt                 # 项目依赖
+├── README.md                       # 项目说明（本文件）
+└── .gitignore                      # Git忽略文件
+```
+
+## 🚀 快速开始
+
+### 1. 复制框架到你的项目
+
+```bash
+# 复制整个框架文件夹到你的项目
+cp -r encryption_framework/ your_project/
+# 或者复制整个项目
+cp -r rsa-aes-hybrid-crypto-framework/ your_project/
+```
+
+### 2. 安装依赖
+
+```bash
+pip install cryptography
+# 可选：如果需要Redis缓存
+pip install redis
+```
+
+### 3. 直接import使用
+
+```python
+# 最简单的使用方式
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+# 密钥交换
+result = key_exchange_sync("my_client")
+session_id = result["session_id"]
+
+# 加密数据
+data = {"message": "Hello, World!", "user_id": 123}
+encrypted = encrypt_data_sync(data, session_id)
+
+# 解密数据
+decrypted = decrypt_data_sync(encrypted)
+print(decrypted["data"])  # 输出原始数据
+```
+
+## 🎯 最简单的使用方式
+
+### 方式1：同步函数（最简单）
+
+```python
+from encryption_framework import (
+    key_exchange_sync,
+    encrypt_data_sync, 
+    decrypt_data_sync
+)
+
+# 一键使用，无需配置
+result = key_exchange_sync("client_id")
+session_id = result["session_id"]
+
+# 加密
+data = {"user_id": 123, "message": "Hello"}
+encrypted = encrypt_data_sync(data, session_id)
+
+# 解密
+decrypted = decrypt_data_sync(encrypted)
+print(decrypted["data"])
+```
+
+### 方式2：异步函数
+
+```python
+import asyncio
+from encryption_framework import key_exchange, encrypt_data, decrypt_data
+
+async def main():
+    # 密钥交换
+    result = await key_exchange("client_id", "1.0.0")
+    session_id = result["session_id"]
+    
+    # 加密
+    data = {"message": "Hello, World!"}
+    encrypt_result = await encrypt_data(data, session_id)
+    
+    # 解密
+    decrypt_result = await decrypt_data(encrypt_result)
+    print(decrypt_result["data"])
+
+# 运行
+asyncio.run(main())
+```
+
+### 方式3：API类（高级用法）
+
+```python
+import asyncio
+from encryption_framework import EncryptionAPI, SecurityConfig
+
+async def main():
+    # 创建配置
+    config = SecurityConfig(
+        rsa_key_size=2048,
+        aes_key_size=32,
+        session_expire_time=3600,
+        cache_backend="memory"
+    )
+    
+    # 创建API实例
+    api = EncryptionAPI(config)
+    
+    # 密钥交换
+    result = await api.key_exchange("client_id", "1.0.0")
+    session_id = result["session_id"]
+    
+    # 加密数据
+    data = {"message": "Hello, World!"}
+    encrypt_result = await api.encrypt_data(data, session_id)
+    
+    # 解密数据
+    decrypt_result = await api.decrypt_data(encrypt_result)
+    print(decrypt_result["data"])
+
+# 运行
+asyncio.run(main())
+```
+
+## 🌐 前后端分离使用
+
+### 后端API设置
+
+```python
+# 后端API (FastAPI示例)
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+app = FastAPI()
+
+class EncryptRequest(BaseModel):
+    data: dict
+
+class DecryptRequest(BaseModel):
+    encrypted_data: dict
+
+@app.post("/api/secure/encrypt")
+async def encrypt_data(request: EncryptRequest):
+    try:
+        # 密钥交换
+        result = key_exchange_sync("web_client")
+        session_id = result["session_id"]
+        
+        # 加密数据
+        encrypted = encrypt_data_sync(request.data, session_id)
+        
+        return {
+            "success": True,
+            "encrypted_data": encrypted,
+            "session_id": session_id
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/secure/decrypt")
+async def decrypt_data(request: DecryptRequest):
+    try:
+        # 解密数据
+        decrypted = decrypt_data_sync(request.encrypted_data)
+        
+        return {
+            "success": True,
+            "data": decrypted["data"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+```
+
+### 前端JavaScript使用
+
+#### 1. 基础JavaScript
+
+```javascript
+// 前端加密服务类
+class EncryptionService {
+    constructor(baseUrl = '/api/secure') {
+        this.baseUrl = baseUrl;
+    }
+    
+    // 加密数据
+    async encryptData(data) {
+        try {
+            const response = await fetch(`${this.baseUrl}/encrypt`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            return result;
+        } catch (error) {
+            console.error('加密失败:', error);
+            throw error;
+        }
+    }
+    
+    // 解密数据
+    async decryptData(encryptedData) {
+        try {
+            const response = await fetch(`${this.baseUrl}/decrypt`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ encrypted_data: encryptedData })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            return result;
+        } catch (error) {
+            console.error('解密失败:', error);
+            throw error;
+        }
+    }
+}
+
+// 使用示例
+const encryptionService = new EncryptionService();
+
+// 加密用户数据
+async function encryptUserData() {
+    try {
+        const userData = {
+            user_id: 123,
+            name: "张三",
+            email: "zhangsan@example.com",
+            phone: "13800138000"
+        };
+        
+        const result = await encryptionService.encryptData(userData);
+        console.log('加密成功:', result);
+        return result;
+    } catch (error) {
+        console.error('加密失败:', error);
+    }
+}
+
+// 解密数据
+async function decryptUserData(encryptedData) {
+    try {
+        const result = await encryptionService.decryptData(encryptedData);
+        console.log('解密成功:', result.data);
+        return result.data;
+    } catch (error) {
+        console.error('解密失败:', error);
+    }
+}
+
+// 使用示例
+encryptUserData().then(encrypted => {
+    if (encrypted && encrypted.success) {
+        decryptUserData(encrypted.encrypted_data);
+    }
+});
+```
+
+#### 2. React Hook
+
+```javascript
+// React Hook for 加密服务
+import { useState, useCallback } from 'react';
+
+function useEncryption() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    
+    const encryptData = useCallback(async (data) => {
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+            const response = await fetch('/api/secure/encrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            return result;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+    
+    const decryptData = useCallback(async (encryptedData) => {
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+            const response = await fetch('/api/secure/decrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ encrypted_data: encryptedData })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            return result;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+    
+    return { encryptData, decryptData, isLoading, error };
+}
+
+// React组件使用示例
+function UserProfile() {
+    const { encryptData, decryptData, isLoading, error } = useEncryption();
+    const [userData, setUserData] = useState(null);
+    const [encryptedData, setEncryptedData] = useState(null);
+    
+    const handleEncrypt = async () => {
+        try {
+            const data = {
+                user_id: 123,
+                name: "张三",
+                email: "zhangsan@example.com"
+            };
+            
+            const result = await encryptData(data);
+            setEncryptedData(result.encrypted_data);
+            console.log('数据已加密:', result);
+        } catch (err) {
+            console.error('加密失败:', err);
+        }
+    };
+    
+    const handleDecrypt = async () => {
+        if (!encryptedData) return;
+        
+        try {
+            const result = await decryptData(encryptedData);
+            setUserData(result.data);
+            console.log('数据已解密:', result.data);
+        } catch (err) {
+            console.error('解密失败:', err);
+        }
+    };
+    
+    return (
+        <div>
+            <h2>用户数据加密测试</h2>
+            
+            <button onClick={handleEncrypt} disabled={isLoading}>
+                {isLoading ? '加密中...' : '加密数据'}
+            </button>
+            
+            <button onClick={handleDecrypt} disabled={isLoading || !encryptedData}>
+                {isLoading ? '解密中...' : '解密数据'}
+            </button>
+            
+            {error && <p style={{color: 'red'}}>错误: {error}</p>}
+            
+            {userData && (
+                <div>
+                    <h3>解密结果:</h3>
+                    <pre>{JSON.stringify(userData, null, 2)}</pre>
+                </div>
+            )}
+        </div>
+    );
+}
+```
+
+#### 3. Vue.js 组合式API
+
+```javascript
+// Vue 3 组合式API
+import { ref, reactive } from 'vue';
+
+export function useEncryption() {
+    const isLoading = ref(false);
+    const error = ref(null);
+    
+    const encryptionService = {
+        async encryptData(data) {
+            isLoading.value = true;
+            error.value = null;
+            
+            try {
+                const response = await fetch('/api/secure/encrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                return result;
+            } catch (err) {
+                error.value = err.message;
+                throw err;
+            } finally {
+                isLoading.value = false;
+            }
+        },
+        
+        async decryptData(encryptedData) {
+            isLoading.value = true;
+            error.value = null;
+            
+            try {
+                const response = await fetch('/api/secure/decrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ encrypted_data: encryptedData })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                return result;
+            } catch (err) {
+                error.value = err.message;
+                throw err;
+            } finally {
+                isLoading.value = false;
+            }
+        }
+    };
+    
+    return {
+        encryptionService,
+        isLoading,
+        error
+    };
+}
+
+// Vue组件使用示例
+<template>
+  <div>
+    <h2>数据加密测试</h2>
+    
+    <button @click="handleEncrypt" :disabled="isLoading">
+      {{ isLoading ? '加密中...' : '加密数据' }}
+    </button>
+    
+    <button @click="handleDecrypt" :disabled="isLoading || !encryptedData">
+      {{ isLoading ? '解密中...' : '解密数据' }}
+    </button>
+    
+    <p v-if="error" style="color: red;">错误: {{ error }}</p>
+    
+    <div v-if="userData">
+      <h3>解密结果:</h3>
+      <pre>{{ JSON.stringify(userData, null, 2) }}</pre>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { useEncryption } from './useEncryption';
+
+const { encryptionService, isLoading, error } = useEncryption();
+const userData = ref(null);
+const encryptedData = ref(null);
+
+const handleEncrypt = async () => {
+  try {
+    const data = {
+      user_id: 123,
+      name: "张三",
+      email: "zhangsan@example.com"
+    };
+    
+    const result = await encryptionService.encryptData(data);
+    encryptedData.value = result.encrypted_data;
+    console.log('数据已加密:', result);
+  } catch (err) {
+    console.error('加密失败:', err);
+  }
+};
+
+const handleDecrypt = async () => {
+  if (!encryptedData.value) return;
+  
+  try {
+    const result = await encryptionService.decryptData(encryptedData.value);
+    userData.value = result.data;
+    console.log('数据已解密:', result.data);
+  } catch (err) {
+    console.error('解密失败:', err);
+  }
+};
+</script>
+```
+
+#### 4. TypeScript 类型定义
+
+```typescript
+// TypeScript 类型定义
+interface EncryptRequest {
+  data: Record<string, any>;
+}
+
+interface DecryptRequest {
+  encrypted_data: Record<string, any>;
+}
+
+interface EncryptResponse {
+  success: boolean;
+  encrypted_data: Record<string, any>;
+  session_id: string;
+}
+
+interface DecryptResponse {
+  success: boolean;
+  data: Record<string, any>;
+}
+
+// 加密服务类 (TypeScript)
+class EncryptionService {
+  private baseUrl: string;
+  
+  constructor(baseUrl: string = '/api/secure') {
+    this.baseUrl = baseUrl;
+  }
+  
+  async encryptData(data: Record<string, any>): Promise<EncryptResponse> {
+    try {
+      const response = await fetch(`${this.baseUrl}/encrypt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result: EncryptResponse = await response.json();
+      return result;
+    } catch (error) {
+      console.error('加密失败:', error);
+      throw error;
+    }
+  }
+  
+  async decryptData(encryptedData: Record<string, any>): Promise<DecryptResponse> {
+    try {
+      const response = await fetch(`${this.baseUrl}/decrypt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ encrypted_data: encryptedData })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result: DecryptResponse = await response.json();
+      return result;
+    } catch (error) {
+      console.error('解密失败:', error);
+      throw error;
+    }
+  }
+}
+
+// 使用示例
+const encryptionService = new EncryptionService();
+
+// 加密用户数据
+const userData = {
+  user_id: 123,
+  name: "张三",
+  email: "zhangsan@example.com"
+};
+
+encryptionService.encryptData(userData)
+  .then(result => {
+    console.log('加密成功:', result);
+    return encryptionService.decryptData(result.encrypted_data);
+  })
+  .then(result => {
+    console.log('解密成功:', result.data);
+  })
+  .catch(error => {
+    console.error('操作失败:', error);
+  });
+```
+
+### 移动端使用
+
+#### React Native
+
+```javascript
+// React Native 加密服务
+class EncryptionService {
+  constructor(baseUrl = 'http://your-api-server.com/api/secure') {
+    this.baseUrl = baseUrl;
+  }
+  
+  async encryptData(data) {
+    try {
+      const response = await fetch(`${this.baseUrl}/encrypt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('加密失败:', error);
+      throw error;
+    }
+  }
+  
+  async decryptData(encryptedData) {
+    try {
+      const response = await fetch(`${this.baseUrl}/decrypt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ encrypted_data: encryptedData })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('解密失败:', error);
+      throw error;
+    }
+  }
+}
+
+// 使用示例
+import React, { useState } from 'react';
+import { View, Text, Button, Alert } from 'react-native';
+
+const encryptionService = new EncryptionService();
+
+export default function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const handleEncrypt = async () => {
+    setIsLoading(true);
+    try {
+      const userData = {
+        user_id: 123,
+        name: "张三",
+        device_id: "mobile_device_001"
+      };
+      
+      const result = await encryptionService.encryptData(userData);
+      Alert.alert('成功', '数据已加密');
+      console.log('加密结果:', result);
+    } catch (error) {
+      Alert.alert('错误', '加密失败: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>加密测试</Text>
+      <Button 
+        title={isLoading ? '加密中...' : '加密数据'} 
+        onPress={handleEncrypt}
+        disabled={isLoading}
+      />
+    </View>
+  );
+}
+```
+
+## 📋 函数说明
+
+### 同步函数
+
+| 函数 | 说明 | 参数 | 返回值 |
+|------|------|------|--------|
+| `key_exchange_sync(client_id, version=None)` | 密钥交换 | client_id: 客户端ID | 包含session_id的字典 |
+| `encrypt_data_sync(data, session_id)` | 加密数据 | data: 要加密的数据 | 加密结果字典 |
+| `decrypt_data_sync(encrypted_data)` | 解密数据 | encrypted_data: 加密数据 | 解密结果字典 |
+| `create_session_sync(client_id, version=None)` | 创建会话 | client_id: 客户端ID | 会话信息字典 |
+| `invalidate_session_sync(session_id)` | 使会话失效 | session_id: 会话ID | 操作结果字典 |
+| `get_session_info_sync(session_id)` | 获取会话信息 | session_id: 会话ID | 会话信息字典 |
+| `health_check_sync()` | 健康检查 | 无 | 健康状态字典 |
+
+### 异步函数
+
+| 函数 | 说明 | 参数 | 返回值 |
+|------|------|------|--------|
+| `key_exchange(client_id, version=None)` | 密钥交换 | client_id: 客户端ID | 包含session_id的字典 |
+| `encrypt_data(data, session_id)` | 加密数据 | data: 要加密的数据 | 加密结果字典 |
+| `decrypt_data(encrypted_data)` | 解密数据 | encrypted_data: 加密数据 | 解密结果字典 |
+| `create_session(client_id, version=None)` | 创建会话 | client_id: 客户端ID | 会话信息字典 |
+| `invalidate_session(session_id)` | 使会话失效 | session_id: 会话ID | 操作结果字典 |
+| `get_session_info(session_id)` | 获取会话信息 | session_id: 会话ID | 会话信息字典 |
+| `health_check()` | 健康检查 | 无 | 健康状态字典 |
+
+## 🔧 配置选项
+
+### SecurityConfig 参数
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `rsa_key_size` | int | 2048 | RSA密钥大小 |
+| `aes_key_size` | int | 32 | AES密钥大小（字节） |
+| `aes_mode` | str | "GCM" | AES模式（GCM/CBC） |
+| `session_expire_time` | int | 3600 | 会话过期时间（秒） |
+| `max_timestamp_diff` | int | 300 | 最大时间戳差异（秒） |
+| `cache_backend` | str | "memory" | 缓存后端（memory/redis） |
+| `redis_url` | str | None | Redis连接URL |
+| `log_level` | str | "INFO" | 日志级别 |
+| `enable_logging` | bool | True | 是否启用日志 |
+
+### 环境变量配置
+
+```bash
+export RSA_KEY_SIZE=2048
+export AES_KEY_SIZE=32
+export AES_MODE=GCM
+export SESSION_EXPIRE_TIME=3600
+export MAX_TIMESTAMP_DIFF=300
+export CACHE_BACKEND=memory
+export REDIS_URL=redis://localhost:6379
+export LOG_LEVEL=INFO
+export ENABLE_LOGGING=true
+```
+
+## 🔐 核心功能
+
+### 1. 密钥交换
+
+```python
+# 异步版本
+result = await key_exchange("client_id", "1.0.0")
+
+# 同步版本
+result = key_exchange_sync("client_id", "1.0.0")
+
+# 返回结果
+{
+    "success": True,
+    "session_id": "client_id_1234567890_abc123",
+    "public_key": "-----BEGIN PUBLIC KEY-----...",
+    "hmac_key": "base64_encoded_key",
+    "server_timestamp": 1234567890
+}
+```
+
+### 2. 数据加密
+
+```python
+# 异步版本
+encrypt_result = await encrypt_data(data, session_id)
+
+# 同步版本
+encrypt_result = encrypt_data_sync(data, session_id)
+
+# 返回结果
+{
+    "success": True,
+    "session_id": "session_id",
+    "encrypted_data": "base64_encoded_data",
+    "timestamp": "1234567890",
+    "nonce": "base64_encoded_nonce",
+    "signature": "base64_encoded_signature"
+}
+```
+
+### 3. 数据解密
+
+```python
+# 异步版本
+decrypt_result = await decrypt_data(encrypt_result)
+
+# 同步版本
+decrypt_result = decrypt_data_sync(encrypt_result)
+
+# 返回结果
+{
+    "success": True,
+    "data": {"message": "Hello, World!"},
+    "session_id": "session_id"
+}
+```
+
+### 4. 会话管理
+
+```python
+# 获取会话信息
+session_info = await get_session_info(session_id)
+
+# 使会话失效
+await invalidate_session(session_id)
+
+# 健康检查
+health_result = await health_check()
+```
+
+## 🔒 安全特性
+
+### 1. 混合加密
+- **RSA**: 用于密钥交换，加密AES密钥
+- **AES**: 用于数据加密，支持GCM和CBC模式
+- **HMAC**: 用于数据完整性验证
+
+### 2. 防重放攻击
+- 时间戳验证（5分钟窗口）
+- 随机数（nonce）机制
+- 会话过期机制
+
+### 3. 会话管理
+- 动态会话ID生成
+- 会话过期自动清理
+- 活动时间跟踪
+
+### 4. 缓存支持
+- 内存缓存（默认）
+- Redis缓存（可选）
+
+## 📊 性能特性
+
+### 1. 异步支持
+- 所有API都是异步的
+- 支持高并发处理
+
+### 2. 可配置算法
+- RSA密钥大小可配置（2048/4096）
+- AES模式可配置（GCM/CBC）
+- HMAC算法可配置（SHA256/SHA512）
+
+### 3. 缓存优化
+- 会话信息缓存
+- 密钥缓存
+- 自动过期清理
+
+## 🔧 高级用法
+
+### 1. 自定义配置
+
+```python
+from encryption_framework import EncryptionAPI, SecurityConfig
+
+config = SecurityConfig(
+    rsa_key_size=4096,  # 使用4096位RSA
+    aes_mode="CBC",     # 使用CBC模式
+    session_expire_time=7200,  # 2小时过期
+    cache_backend="redis",     # 使用Redis缓存
+    redis_url="redis://localhost:6379"
+)
+
+api = EncryptionAPI(config)
+```
+
+### 2. Redis缓存
+
+```python
+# 配置Redis缓存
+config = SecurityConfig(
+    cache_backend="redis",
+    redis_url="redis://localhost:6379"
+)
+
+api = EncryptionAPI(config)
+```
+
+### 3. 错误处理
+
+```python
+try:
+    result = encrypt_data_sync(data, session_id)
+    if result["success"]:
+        # 处理成功结果
+        encrypted_data = result["encrypted_data"]
+    else:
+        # 处理错误
+        error_message = result["error"]
+        print(f"加密失败: {error_message}")
+except Exception as e:
+    print(f"发生异常: {e}")
+```
+
+## 📝 使用示例
+
+### 示例1：基本加密解密
+
+```python
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+def encrypt_user_data(user_data):
+    """加密用户数据"""
+    # 密钥交换
+    result = key_exchange_sync("user_client")
+    if not result["success"]:
+        raise Exception("密钥交换失败")
+    
+    session_id = result["session_id"]
+    
+    # 加密数据
+    encrypted = encrypt_data_sync(user_data, session_id)
+    if not encrypted["success"]:
+        raise Exception("数据加密失败")
+    
+    return encrypted
+
+def decrypt_user_data(encrypted_data):
+    """解密用户数据"""
+    decrypted = decrypt_data_sync(encrypted_data)
+    if not decrypted["success"]:
+        raise Exception("数据解密失败")
+    
+    return decrypted["data"]
+
+# 使用示例
+user_data = {"user_id": 123, "name": "张三", "email": "zhangsan@example.com"}
+encrypted = encrypt_user_data(user_data)
+decrypted = decrypt_user_data(encrypted)
+print(decrypted)  # 输出原始数据
+```
+
+### 示例2：在Web应用中使用
+
+```python
+from flask import Flask, request, jsonify
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+app = Flask(__name__)
+
+@app.route('/api/encrypt', methods=['POST'])
+def encrypt_endpoint():
+    try:
+        data = request.json
+        
+        # 密钥交换
+        result = key_exchange_sync("web_client")
+        session_id = result["session_id"]
+        
+        # 加密数据
+        encrypted = encrypt_data_sync(data, session_id)
+        
+        return jsonify({
+            "success": True,
+            "encrypted_data": encrypted,
+            "session_id": session_id
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+@app.route('/api/decrypt', methods=['POST'])
+def decrypt_endpoint():
+    try:
+        encrypted_data = request.json.get("encrypted_data")
+        
+        # 解密数据
+        decrypted = decrypt_data_sync(encrypted_data)
+        
+        return jsonify({
+            "success": True,
+            "data": decrypted["data"]
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+### 示例3：在FastAPI中使用
+
+```python
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from encryption_framework import key_exchange_sync, encrypt_data_sync, decrypt_data_sync
+
+app = FastAPI()
+
+class EncryptRequest(BaseModel):
+    data: dict
+
+class DecryptRequest(BaseModel):
+    encrypted_data: dict
+
+@app.post("/api/encrypt")
+async def encrypt_data(request: EncryptRequest):
+    try:
+        # 密钥交换
+        result = key_exchange_sync("fastapi_client")
+        session_id = result["session_id"]
+        
+        # 加密数据
+        encrypted = encrypt_data_sync(request.data, session_id)
+        
+        return {
+            "success": True,
+            "encrypted_data": encrypted,
+            "session_id": session_id
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/decrypt")
+async def decrypt_data(request: DecryptRequest):
+    try:
+        # 解密数据
+        decrypted = decrypt_data_sync(request.encrypted_data)
+        
+        return {
+            "success": True,
+            "data": decrypted["data"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+```
+
+## 📝 注意事项
+
+1. **依赖要求**: 需要安装 `cryptography` 库
+2. **Python版本**: 支持Python 3.8+
+3. **异步支持**: 所有API都是异步的，需要使用 `async/await`
+4. **会话管理**: 会话会自动过期，需要定期刷新
+5. **密钥安全**: 私钥存储在缓存中，确保缓存安全
+
+## 🐛 故障排除
+
+### 常见问题
+
+1. **ImportError: No module named 'cryptography'**
+   ```bash
+   pip install cryptography
+   ```
+
+2. **Redis连接失败**
+   - 检查Redis服务是否运行
+   - 验证Redis连接URL
+   - 或者使用内存缓存：`cache_backend="memory"`
+
+3. **会话过期**
+   - 增加 `session_expire_time` 值
+   - 定期调用 `key_exchange` 刷新会话
+
+4. **时间戳验证失败**
+   - 检查系统时间是否同步
+   - 增加 `max_timestamp_diff` 值
+
+5. **前端跨域问题**
+   ```python
+   # 后端添加CORS支持
+   from fastapi.middleware.cors import CORSMiddleware
+   
+   app.add_middleware(
+       CORSMiddleware,
+       allow_origins=["*"],  # 生产环境请设置具体域名
+       allow_credentials=True,
+       allow_methods=["*"],
+       allow_headers=["*"],
+   )
+   ```
+
+## 🔧 运行示例
+
+```bash
+# 运行使用示例
+python encryption_framework/example_usage.py
+```
+
+## 📞 技术支持1900098962@qq.com
+
+如果遇到问题，请检查：
+
+1. 是否正确安装了 `cryptography` 库
+2. 是否正确复制了框架文件
+3. 是否正确导入了函数
+4. 系统时间是否同步
+5. 是否有足够的系统资源
+6. 前端API地址是否正确
+7. 网络连接是否正常
+
+## 📄 许可证
+
+本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+
+## 🤝 贡献
+
+欢迎提交Issue和Pull Request！
+
+---
+
+**版本**: 1.0.0  
+**最后更新**: 2025年8月1日  
+**作者**: 夏云龙  
+**许可证**: MIT License

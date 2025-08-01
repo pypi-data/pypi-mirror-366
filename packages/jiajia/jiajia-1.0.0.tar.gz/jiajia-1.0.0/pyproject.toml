@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jiajia"
+dynamic = ["version"]
+description = "RSA-AES混合加密框架，提供非对称加密、对称加密、数字签名等功能"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "夏云龙", email = "1900098962@qq.com"}
+]
+maintainers = [
+    {name = "夏云龙", email = "1900098962@qq.com"}
+]
+keywords = ["encryption", "cryptography", "rsa", "aes", "hmac", "security", "hybrid"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "cryptography>=3.4.8",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio>=0.18.0",
+    "black>=21.0",
+    "flake8>=3.8",
+]
+redis = [
+    "redis>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/xiatian/jiajia"
+Documentation = "https://github.com/xiatian/jiajia/blob/main/README.md"
+Repository = "https://github.com/xiatian/jiajia"
+"Bug Tracker" = "https://github.com/xiatian/jiajia/issues"
+
+[project.scripts]
+rsa-aes-crypto-test = "encryption_framework.test_import:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["encryption_framework*"]
+
+[tool.setuptools.package-data]
+"encryption_framework" = ["*.md", "*.txt"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short" 
