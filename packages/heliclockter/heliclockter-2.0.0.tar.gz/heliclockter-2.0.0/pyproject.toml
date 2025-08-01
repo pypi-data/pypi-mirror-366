@@ -1,0 +1,132 @@
+[build-system]
+requires = ['setuptools', 'setuptools-scm']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'heliclockter'
+description = 'A robust way of dealing with datetimes in python by ensuring all datetimes are timezone aware at runtime.'
+readme = 'README.md'
+requires-python = '>=3.10'
+keywords = ['datetime', 'heliclockter', 'timezone', 'timezones', 'tz', 'tzinfo']
+license = {file = 'LICENSE'}
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'Natural Language :: English',
+    'Operating System :: Unix',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Typing :: Typed'
+]
+dependencies = []
+authors = [{'name' = 'Peter Nilsson', 'email' = 'peter.nilsson@channable.com'}]
+dynamic = ['version']
+
+[project.urls]
+Homepage = 'https://github.com/channable/heliclockter'
+
+[tool.setuptools.dynamic]
+version = {attr = 'heliclockter.__version__'}
+
+[tool.setuptools.package-data]
+heliclockter = ['py.typed']
+
+[project.optional-dependencies]
+all = ['bandit', 'ruff', 'mypy', 'pydantic', 'pylint', 'pytest', 'parameterized', 'toml']
+
+[tool.ruff]
+line-length = 100
+output-format = "full"
+respect-gitignore = false
+show-fixes = true
+exclude = ["venv"]
+
+[tool.ruff.lint]
+select = [
+  "E", # Enable all Pycodestyle error-level messages
+  "F", # Enable all Pyflakes messages
+  "I", # Enable all Isort messages
+  "PGH", # Enable https://github.com/pre-commit/pygrep-hooks, amongst others eval-used
+  "PIE", # Enable https://pypi.org/project/flake8-pie/, amongst others duplicate Enum values
+  "PLE", # Enable all Pylint error-level messages
+  "PLW", # Enable all Pylint warning-level messages
+  "RUF100", # Report unused noqa comments
+  "TCH", # Enable https://pypi.org/project/flake8-type-checking/
+  "UP", # Enable all pyupgrade messages
+  "W", # Enable all Pycodestyle warning-level messages.
+  "T20", # Disallow `print` statements.
+  "TID251", # Disallow banned imports, using flake8-tidy-imports.banned-api.
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+combine-as-imports = true
+
+[tool.pytest.ini_options]
+addopts = [
+    '--junitxml=.junit_report.xml',
+]
+junit_family = 'xunit2'
+
+[tool.mypy]
+mypy_path = './stubs/'
+plugins = ['pydantic.mypy']
+junit_xml = '.junit_report.xml'
+
+# Instead of passing --strict we specify all checks here. Strict mode is subject
+# to change with new versions, so this way can more safely upgrade.
+follow_imports = 'silent'
+disallow_any_generics = true
+check_untyped_defs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = false
+warn_unused_configs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_reexport = true
+show_error_codes = true
+exclude = ['(build)/$', '(venv)/$']
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[tool.pylint]
+[tool.pylint.master]
+jobs = 4
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+    'format', # Because we use black.
+    'design', # Because we do code review.
+    'invalid-name', # Should come up in code review.
+    'missing-docstring', # Should come up in code review.
+    'unsubscriptable-object', # Because it interferes with type annotations.
+    'ungrouped-imports', # Because it gives a false positive if you have both `import a` and `from a import ...`.
+    'not-callable', # Mypy is better at checking this.
+    'undefined-variable', # Mypy is better at checking this.
+    'no-member', # Mypy is better at checking this.
+    'no-name-in-module', # Gives false positives.
+    'invalid-unary-operand-type', # mypy checks this as well, but is better at it.
+    'duplicate-code', # Gives a lot of false positives
+    'typevar-name-incorrect-variance', # Would result in very long type names
+]
+
+[tool.bandit]
+# Allow asserts
+skips = [
+    'B101',
+    'B106',
+    'B108'
+]
+targets = 'heliclockter'
