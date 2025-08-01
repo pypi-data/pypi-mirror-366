@@ -1,0 +1,457 @@
+[2025-07-29 21:29:36,737] INFO: 检查 Chrome 
+[2025-07-29 21:29:36,738] INFO: 检测到已安装 Chrome,版本: 138.0.7204.169
+[2025-07-29 21:29:36,738] INFO: Chrome 已安装，跳过安装。
+[2025-07-29 21:29:36,738] INFO: 尝试连接 RabbitMQ 服务器
+[2025-07-29 21:29:37,742] INFO: 建立 RabbitMQ 连接
+[2025-07-29 21:29:38,758] INFO: Pika version 1.3.2 connecting to ('106.52.213.169', 5672)
+[2025-07-29 21:29:38,786] INFO: Socket connected: <socket.socket fd=592, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.0.67', 55916), raddr=('106.52.213.169', 5672)>
+[2025-07-29 21:29:38,787] INFO: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001AF12A53280>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001AF12A53280> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>).
+[2025-07-29 21:29:38,888] INFO: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001AF12A53280> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>
+[2025-07-29 21:29:38,888] INFO: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001AF12A53280> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>
+[2025-07-29 21:29:38,889] INFO: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001AF12A53280> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>
+[2025-07-29 21:29:38,890] INFO: Created channel=1
+[2025-07-29 21:29:38,941] INFO: 开始心跳
+[2025-07-29 21:29:38,943] INFO: 心跳 ,1753795778943
+[2025-07-29 21:29:38,943] INFO: 心跳 ,1753795778943连接成功，开始消费
+[2025-07-29 21:29:39,954] INFO: 设置 RabbitMQ,并启动消费
+[2025-07-29 21:29:39,954] INFO: 设置 RabbitMQ,并启动消费线程池活跃数：0 ,1753795778943
+[2025-07-29 21:29:41,027] INFO: 开始消费任务
+[2025-07-29 21:29:42,029] INFO: 线程池活跃数：0 ,1753795782029
+[2025-07-29 21:29:43,044] INFO: 提交任务给线程池 ,1753795782029
+[2025-07-29 21:29:43,046] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":54850,\"shop_global_id\":1,\"shop_id\":6}"}
+[2025-07-29 21:29:43,150] INFO: Terminating Chrome process chrome.exe (PID: 2372) that started at 1753763580
+[2025-07-29 21:29:43,278] INFO: Terminating Chrome process chrome.exe (PID: 5064) that started at 1753728251
+[2025-07-29 21:29:43,282] INFO: Terminating Chrome process chrome.exe (PID: 5308) that started at 1753763954
+[2025-07-29 21:29:43,299] INFO: Terminating Chrome process chrome.exe (PID: 6212) that started at 1753764803
+[2025-07-29 21:29:43,371] INFO: Terminating Chrome process chrome.exe (PID: 10672) that started at 1753763324
+[2025-07-29 21:29:43,417] INFO: Terminating Chrome process chrome.exe (PID: 15180) that started at 1753728251
+[2025-07-29 21:29:43,417] INFO: Terminating Chrome process chrome.exe (PID: 15188) that started at 1753762723
+[2025-07-29 21:29:43,424] INFO: Terminating Chrome process chrome.exe (PID: 15812) that started at 1753763909
+[2025-07-29 21:29:43,426] INFO: Terminating Chrome process chrome.exe (PID: 19808) that started at 1753763672
+[2025-07-29 21:29:43,444] INFO: Terminating Chrome process chrome.exe (PID: 22472) that started at 1753763252
+[2025-07-29 21:29:43,444] INFO: Terminating Chrome process chrome.exe (PID: 22608) that started at 1753764796
+[2025-07-29 21:29:43,446] INFO: Terminating Chrome process chrome.exe (PID: 23564) that started at 1753728252
+[2025-07-29 21:29:43,447] INFO: Terminating Chrome process chrome.exe (PID: 23868) that started at 1753728255
+[2025-07-29 21:29:43,450] INFO: Terminating Chrome process chrome.exe (PID: 23992) that started at 1753763252
+[2025-07-29 21:29:43,455] INFO: Terminating Chrome process chrome.exe (PID: 24900) that started at 1753728252
+[2025-07-29 21:29:43,465] INFO: Terminating Chrome process chrome.exe (PID: 26536) that started at 1753728252
+[2025-07-29 21:29:43,466] INFO: Terminating Chrome process chrome.exe (PID: 27324) that started at 1753766237
+[2025-07-29 21:29:43,467] INFO: Terminating Chrome process chrome.exe (PID: 27388) that started at 1753789294
+[2025-07-29 21:29:43,475] INFO: Terminating Chrome process chrome.exe (PID: 30848) that started at 1753728257
+[2025-07-29 21:29:43,478] INFO: Terminating Chrome process chrome.exe (PID: 31032) that started at 1753763246
+[2025-07-29 21:29:43,970] INFO: 心跳 ,1753795783970
+[2025-07-29 21:29:44,048] INFO: 线程池活跃数：1 ,1753795784048
+[2025-07-29 21:29:44,483] INFO: 获取任务 strat
+[2025-07-29 21:29:44,903] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '7495336720217901380', 'site': 'MY'}}, 'time': 1753795785, 'ip': '223.104.84.107'}
+[2025-07-29 21:29:44,986] INFO: 线程池活跃数：1 ,1753795783970
+[2025-07-29 21:29:45,049] INFO: 提交任务给线程池 ,1753795784048
+[2025-07-29 21:29:45,051] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":54859,\"shop_global_id\":4,\"shop_id\":13}"}
+[2025-07-29 21:29:46,043] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 21:29:46,043] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 21:29:46,047] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_37011.log
+[2025-07-29 21:29:46,059] INFO: 线程池活跃数：2 ,1753795786059
+[2025-07-29 21:29:46,392] INFO: 获取任务 strat
+[2025-07-29 21:29:46,473] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651403489769981451', 'site': 'MY'}}, 'time': 1753795786, 'ip': '223.104.84.107'}
+[2025-07-29 21:29:47,074] INFO: 提交任务给线程池 ,1753795786059
+[2025-07-29 21:29:47,076] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":54950,\"shop_global_id\":1,\"shop_id\":4}"}
+[2025-07-29 21:29:47,669] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 21:29:47,670] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 21:29:47,671] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_16815.log
+[2025-07-29 21:29:48,077] INFO: 线程池活跃数：3 ,1753795788077
+[2025-07-29 21:29:48,411] INFO: 获取任务 strat
+[2025-07-29 21:29:48,507] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8648282498511242564', 'site': 'SG'}}, 'time': 1753795788, 'ip': '223.104.84.107'}
+[2025-07-29 21:29:48,999] INFO: 心跳 ,1753795788999
+[2025-07-29 21:29:49,079] INFO: 提交任务给线程池 ,1753795788077
+[2025-07-29 21:29:49,081] INFO: data {"task_job": "command.tiktok.order.service.OrderService@getOrderList", "params": "{\"type_id\":5,\"task_id\":54765,\"shop_global_id\":1,\"shop_id\":4}"}
+[2025-07-29 21:29:49,174] INFO: ✅ mitmdump 启动成功，进程ID: 28012
+[2025-07-29 21:29:49,205] INFO: 日志文件: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_37011.log
+[2025-07-29 21:29:49,237] INFO: ✅ mitmproxy 已启动，本地监听 37011
+[2025-07-29 21:29:49,362] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpeu_zejx5
+[2025-07-29 21:29:49,392] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 21:29:49,751] INFO: HTTP 代理
+[2025-07-29 21:29:49,751] INFO: HTTP 代理root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 21:29:49,751] INFO: proxy_server http://127.0.0.1:37011
+[2025-07-29 21:29:49,752] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 21:29:49,753] INFO: 设置指纹信息
+[2025-07-29 21:29:49,754] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_19097.log
+[2025-07-29 21:29:49,754] INFO: Windows
+[2025-07-29 21:29:49,755] INFO: 获取驱动路径 start
+[2025-07-29 21:29:49,756] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 21:29:50,012] INFO: 线程池活跃数：4 ,1753795788999
+[2025-07-29 21:29:50,092] INFO: 线程池活跃数：4 ,1753795790092
+[2025-07-29 21:29:50,426] INFO: 获取任务 strat
+[2025-07-29 21:29:50,534] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8648282498511242564', 'site': 'SG'}}, 'time': 1753795790, 'ip': '223.104.84.107'}
+[2025-07-29 21:29:50,697] INFO: ✅ mitmdump 启动成功，进程ID: 30548
+[2025-07-29 21:29:50,698] INFO: 日志文件: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_16815.log
+[2025-07-29 21:29:50,699] INFO: ✅ mitmproxy 已启动，本地监听 16815
+[2025-07-29 21:29:50,700] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpr05ozo37
+[2025-07-29 21:29:50,701] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 21:29:50,871] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 21:29:50,904] INFO: Windows driver_path 类型: <class 'str'>, 值: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 21:29:50,939] INFO: 任务用时：7.891313314437866秒
+[2025-07-29 21:29:50,952] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 7.891313314437866, "task_id": 54850}
+[2025-07-29 21:29:50,982] INFO: 完成任务 strat
+[2025-07-29 21:29:51,081] INFO: HTTP 代理
+[2025-07-29 21:29:51,081] INFO: proxy_server http://127.0.0.1:16815
+[2025-07-29 21:29:51,082] INFO: 设置指纹信息
+[2025-07-29 21:29:51,082] INFO: Windows
+[2025-07-29 21:29:51,083] INFO: 获取驱动路径 start
+[2025-07-29 21:29:51,083] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 21:29:51,105] INFO: 提交任务给线程池 ,1753795790092
+[2025-07-29 21:29:51,109] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":54967,\"shop_global_id\":1,\"shop_id\":1}"}
+[2025-07-29 21:29:51,247] INFO: 完成任务 end
+[2025-07-29 21:29:51,833] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 21:29:51,834] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 21:29:51,835] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_14630.log
+[2025-07-29 21:29:52,115] INFO: 线程池活跃数：5 ,1753795792115
+[2025-07-29 21:29:52,169] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 21:29:52,169] INFO: Windows driver_path 类型: <class 'str'>, 值: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 21:29:52,171] INFO: 任务用时：7.120128870010376秒
+[2025-07-29 21:29:52,171] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 7.120128870010376, "task_id": 54859}
+[2025-07-29 21:29:52,171] INFO: 完成任务 strat
+[2025-07-29 21:29:52,303] INFO: 消息处理完成 ,1753795783046
+[2025-07-29 21:29:52,320] INFO: 完成任务 end
+[2025-07-29 21:29:52,497] INFO: 获取任务 strat
+[2025-07-29 21:29:52,584] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8648282509074072900', 'site': 'PH'}}, 'time': 1753795792, 'ip': '223.104.84.107'}
+[2025-07-29 21:29:52,781] INFO: ✅ mitmdump 启动成功，进程ID: 316
+[2025-07-29 21:29:52,781] INFO: 日志文件: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_19097.log
+[2025-07-29 21:29:52,783] INFO: ✅ mitmproxy 已启动，本地监听 19097
+[2025-07-29 21:29:52,784] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmp8e73zlcy
+[2025-07-29 21:29:52,785] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 21:29:53,144] INFO: 线程池忙碌 ,1753795792115
+[2025-07-29 21:29:53,152] INFO: 线程池忙碌 ,1753795792115HTTP 代理
+[2025-07-29 21:29:53,326] INFO: proxy_server http://127.0.0.1:19097
+[2025-07-29 21:29:53,328] INFO: 设置指纹信息
+[2025-07-29 21:29:53,329] INFO: Windows
+[2025-07-29 21:29:53,329] INFO: 获取驱动路径 start
+[2025-07-29 21:29:53,330] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 21:29:53,363] INFO: 消息处理完成 ,1753795785051
+[2025-07-29 21:29:53,592] INFO: 释放 RabbitMQ 资源
+[2025-07-29 21:29:53,656] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 21:29:53,656] INFO: root_dir: 
+[2025-07-29 21:29:53,658] INFO: script_path: mitmdump.py
+[2025-07-29 21:29:53,660] INFO: log_file_path: log\mitm_logs\mitmdump_19046.log
+[2025-07-29 21:29:53,762] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 21:29:53,762] INFO: root_dir: 
+[2025-07-29 21:29:53,764] INFO: Windows driver_path 类型: <class 'str'>, 值: drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 21:29:53,764] INFO: 任务用时：6.687700033187866秒
+[2025-07-29 21:29:53,765] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 6.687700033187866, "task_id": 54950}
+[2025-07-29 21:29:53,765] INFO: 完成任务 strat
+[2025-07-29 21:29:53,868] INFO: 完成任务 end
+[2025-07-29 21:29:54,013] INFO: 线程池活跃数：4 ,1753795794013
+[2025-07-29 21:29:54,855] INFO: ❌ mitmdump 启动失败，错误日志:
+[2025-07-29 21:29:54,897] INFO: ✅ 参数加载成功： {'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'browser_major_version': '137', 'lang': {'browser': 'zh-CN,en-US,zh-HK', 'browser_interface': 'zh-CN', 'header': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-HK;q=0.6'}, 'timezone': 'Asia/Shanghai', 'ip': {'http': {'ip': '47.107.153.102', 'port': 12457, 'account': 'auto', 'password': 'NHbvbCw14H4kmOtd'}}, 'screen_size': {'width': 1920, 'height': 1080}}
+[2025-07-29 21:29:54,897] INFO: 消息处理完成 ,1753795787076
+[2025-07-29 21:29:54,897] INFO: 
+[2025-07-29 21:29:54,899] INFO: ✅ mitmproxy 已启动，本地监听 14630
+[2025-07-29 21:29:54,900] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpyb5fqsdd
+[2025-07-29 21:29:54,901] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 21:29:55,075] INFO: 提交任务给线程池 ,1753795794013
+[2025-07-29 21:29:55,108] INFO: data {"task_job": "command.tiktok.order.service.OrderService@getOrderList", "params": "{\"type_id\":5,\"task_id\":54901,\"shop_global_id\":3,\"shop_id\":8}"}
+[2025-07-29 21:29:55,308] INFO: HTTP 代理
+[2025-07-29 21:29:55,624] INFO: proxy_server http://127.0.0.1:14630
+[2025-07-29 21:29:55,629] INFO: 设置指纹信息
+[2025-07-29 21:29:55,630] INFO: Windows
+[2025-07-29 21:29:55,631] INFO: 获取驱动路径 start
+[2025-07-29 21:29:55,633] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 21:29:55,908] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 21:29:55,908] INFO: root_dir: 
+[2025-07-29 21:29:55,909] INFO: Windows driver_path 类型: <class 'str'>, 值: drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 21:29:55,911] INFO: 任务用时：6.830371141433716秒
+[2025-07-29 21:29:55,912] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 6.830371141433716, "task_id": 54765}
+[2025-07-29 21:29:55,912] INFO: 完成任务 strat
+[2025-07-29 21:29:56,049] INFO: 完成任务 end
+[2025-07-29 21:29:56,082] INFO: 消息处理完成 ,1753795789081
+[2025-07-29 21:29:56,157] INFO: 线程池活跃数：3 ,1753795796157
+[2025-07-29 21:29:56,533] INFO: 获取任务 strat
+[2025-07-29 21:29:56,626] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651369862269536098', 'site': 'MY'}}, 'time': 1753795797, 'ip': '223.104.84.107'}
+[2025-07-29 21:29:56,687] INFO: ❌ mitmdump 启动失败，错误日志:
+[2025-07-29 21:29:56,700] INFO: Traceback (most recent call last):
+[2025-07-29 21:29:56,701] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 192, in _run_module_as_main
+[2025-07-29 21:29:56,704] INFO:     return _run_code(code, main_globals, None,
+[2025-07-29 21:29:56,705] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 85, in _run_code
+[2025-07-29 21:29:56,705] INFO:     exec(code, run_globals)
+[2025-07-29 21:29:56,705] INFO:   File "C:\Users\zhong\AppData\Local\Programs\Python\Python38\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+[2025-07-29 21:29:56,706] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+[2025-07-29 21:29:56,706] INFO:     from mitmproxy import exceptions, master
+[2025-07-29 21:29:56,707] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\master.py", line 7, in <module>
+[2025-07-29 21:29:56,707] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\eventsequence.py", line 5, in <module>
+[2025-07-29 21:29:56,708] INFO:     from mitmproxy import http
+[2025-07-29 21:29:56,708] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\http.py", line 25, in <module>
+[2025-07-29 21:29:56,709] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\websocket.py", line 15, in <module>
+[2025-07-29 21:29:56,709] INFO:     from wsproto.frame_protocol import Opcode
+[2025-07-29 21:29:56,709] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\wsproto\__init__.py", line 9, in <module>
+[2025-07-29 21:29:56,710] INFO:     from .connection import Connection, ConnectionState, ConnectionType
+[2025-07-29 21:29:56,710] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\wsproto\connection.py", line 23, in <module>
+[2025-07-29 21:29:56,711] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\wsproto\utilities.py", line 12, in <module>
+[2025-07-29 21:29:56,711] INFO:     from h11._headers import Headers as H11Headers
+[2025-07-29 21:29:56,712] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\h11\__init__.py", line 9, in <module>
+[2025-07-29 21:29:56,712] INFO:     from h11._connection import Connection, NEED_DATA, PAUSED
+[2025-07-29 21:29:56,713] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\h11\_connection.py", line 5, in <module>
+[2025-07-29 21:29:56,713] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\h11\_events.py", line 218, in <module>
+[2025-07-29 21:29:56,714] INFO:     class Response(_ResponseBase):
+[2025-07-29 21:29:56,714] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 992, in wrap
+[2025-07-29 21:29:56,715] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 934, in _process_class
+[2025-07-29 21:29:56,715] INFO:     _cmp_fn('__eq__', '==',
+[2025-07-29 21:29:56,715] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 575, in _cmp_fn
+[2025-07-29 21:29:56,715] INFO:     return _create_fn(name,
+[2025-07-29 21:29:56,716] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 397, in _create_fn
+[2025-07-29 21:29:56,716] INFO:     exec(txt, globals, locals)
+[2025-07-29 21:29:56,717] INFO:   File "<string>", line 1, in <module>
+[2025-07-29 21:29:56,719] INFO: KeyboardInterrupt
+[2025-07-29 21:29:56,719] INFO: 
+[2025-07-29 21:29:56,720] INFO: ✅ mitmproxy 已启动，本地监听 19046
+[2025-07-29 21:29:56,721] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpcdsvlwgf
+[2025-07-29 21:29:56,721] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 21:29:57,047] INFO: HTTP 代理
+[2025-07-29 21:29:57,047] INFO: proxy_server http://127.0.0.1:19046
+[2025-07-29 21:29:57,050] INFO: 设置指纹信息
+[2025-07-29 21:29:57,051] INFO: Windows
+[2025-07-29 21:29:57,052] INFO: 获取驱动路径 start
+[2025-07-29 21:29:57,052] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 21:29:57,132] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 21:29:57,133] INFO: root_dir: 
+[2025-07-29 21:29:57,134] INFO: script_path: mitmdump.py
+[2025-07-29 21:29:57,135] INFO: log_file_path: log\mitm_logs\mitmdump_10356.log
+[2025-07-29 21:29:57,148] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 21:29:57,148] INFO: root_dir: 
+[2025-07-29 21:29:57,149] INFO: Windows driver_path 类型: <class 'str'>, 值: drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 21:29:57,149] INFO: 任务用时：6.039781093597412秒
+[2025-07-29 21:29:57,149] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 6.039781093597412, "task_id": 54967}
+[2025-07-29 21:29:57,150] INFO: 完成任务 strat
+[2025-07-29 21:29:57,161] INFO: 提交任务给线程池 ,1753795796157
+[2025-07-29 21:29:57,162] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":54973,\"shop_global_id\":3,\"shop_id\":10}"}
+[2025-07-29 21:29:57,318] INFO: 完成任务 end
+[2025-07-29 21:29:57,476] INFO: 消息处理完成 ,1753795791108
+[2025-07-29 21:29:58,172] INFO: 线程池活跃数：3 ,1753795798172
+[2025-07-29 21:29:58,517] ERROR: Exception ignored in: <module 'threading' from 'C:\\Program Files\\python\\lib\\threading.py'>
+[2025-07-29 21:29:58,548] INFO: 获取任务 strat
+[2025-07-29 21:29:58,647] ERROR: Traceback (most recent call last):
+[2025-07-29 21:29:58,653] ERROR:   File "C:\Program Files\python\lib\threading.py", line 1388, in _shutdown
+[2025-07-29 21:29:58,673] ERROR:     lock.acquire()
+[2025-07-29 21:29:58,673] ERROR: KeyboardInterrupt: 
+[2025-07-29 22:12:54,321] INFO: 检查 Chrome 
+[2025-07-29 22:12:54,321] INFO: 检测到已安装 Chrome,版本: 138.0.7204.169
+[2025-07-29 22:12:54,324] INFO: Chrome 已安装，跳过安装。
+[2025-07-29 22:12:54,324] INFO: 尝试连接 RabbitMQ 服务器
+[2025-07-29 22:12:55,332] INFO: 建立 RabbitMQ 连接
+[2025-07-29 22:12:56,338] INFO: Pika version 1.3.2 connecting to ('106.52.213.169', 5672)
+[2025-07-29 22:12:56,381] INFO: Socket connected: <socket.socket fd=1940, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('192.168.0.67', 58794), raddr=('106.52.213.169', 5672)>
+[2025-07-29 22:12:56,382] INFO: Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001CB208533A0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001CB208533A0> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>).
+[2025-07-29 22:12:56,466] INFO: AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001CB208533A0> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>
+[2025-07-29 22:12:56,467] INFO: AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001CB208533A0> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>
+[2025-07-29 22:12:56,468] INFO: Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x000001CB208533A0> params=<ConnectionParameters host=106.52.213.169 port=5672 virtual_host=/ ssl=False>>
+[2025-07-29 22:12:56,469] INFO: Created channel=1
+[2025-07-29 22:12:56,525] INFO: 开始心跳
+[2025-07-29 22:12:56,527] INFO: 连接成功，开始消费
+[2025-07-29 22:12:56,527] INFO: 连接成功，开始消费心跳 ,1753798376526
+[2025-07-29 22:12:57,529] INFO: 设置 RabbitMQ,并启动消费
+[2025-07-29 22:12:57,529] INFO: 设置 RabbitMQ,并启动消费线程池活跃数：0 ,1753798376526
+[2025-07-29 22:12:58,637] INFO: 开始消费任务
+[2025-07-29 22:12:59,647] INFO: 线程池活跃数：0 ,1753798379647
+[2025-07-29 22:13:00,660] INFO: 提交任务给线程池 ,1753798379647
+[2025-07-29 22:13:00,663] INFO: data {"task_job": "command.tiktok.order.service.OrderService@getOrderList", "params": "{\"type_id\":5,\"task_id\":54768,\"shop_global_id\":1,\"shop_id\":6}"}
+[2025-07-29 22:13:00,709] INFO: Terminating Chrome process chrome.exe (PID: 1064) that started at 1753796378
+[2025-07-29 22:13:00,928] INFO: Terminating Chrome process chrome.exe (PID: 5432) that started at 1753796379
+[2025-07-29 22:13:00,952] INFO: Terminating Chrome process chrome.exe (PID: 7544) that started at 1753797748
+[2025-07-29 22:13:01,027] INFO: Terminating Chrome process chrome.exe (PID: 11840) that started at 1753797484
+[2025-07-29 22:13:01,052] INFO: Terminating Chrome process chrome.exe (PID: 13432) that started at 1753796378
+[2025-07-29 22:13:01,059] INFO: Terminating Chrome process chrome.exe (PID: 15668) that started at 1753796378
+[2025-07-29 22:13:01,061] INFO: Terminating Chrome process chrome.exe (PID: 16000) that started at 1753796678
+[2025-07-29 22:13:01,064] INFO: Terminating Chrome process chrome.exe (PID: 16020) that started at 1753796381
+[2025-07-29 22:13:01,067] INFO: Terminating Chrome process chrome.exe (PID: 16612) that started at 1753796378
+[2025-07-29 22:13:01,078] INFO: Terminating Chrome process chrome.exe (PID: 18908) that started at 1753796561
+[2025-07-29 22:13:01,081] INFO: Terminating Chrome process chrome.exe (PID: 21112) that started at 1753796378
+[2025-07-29 22:13:01,086] INFO: Terminating Chrome process chrome.exe (PID: 21660) that started at 1753796378
+[2025-07-29 22:13:01,101] INFO: Terminating Chrome process chrome.exe (PID: 23204) that started at 1753796663
+[2025-07-29 22:13:01,102] INFO: Terminating Chrome process chrome.exe (PID: 24740) that started at 1753796678
+[2025-07-29 22:13:01,109] INFO: Terminating Chrome process chrome.exe (PID: 28784) that started at 1753796564
+[2025-07-29 22:13:01,110] INFO: Terminating Chrome process chrome.exe (PID: 29700) that started at 1753797484
+[2025-07-29 22:13:01,116] INFO: Terminating Chrome process chrome.exe (PID: 29832) that started at 1753796561
+[2025-07-29 22:13:01,534] INFO: 心跳 ,1753798381534
+[2025-07-29 22:13:01,673] INFO: 线程池活跃数：1 ,1753798381673
+[2025-07-29 22:13:02,128] INFO: 获取任务 strat
+[2025-07-29 22:13:02,550] INFO: 线程池活跃数：1 ,1753798381534
+[2025-07-29 22:13:02,662] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '7495336720217901380', 'site': 'MY'}}, 'time': 1753798383, 'ip': '223.104.84.107'}
+[2025-07-29 22:13:02,689] INFO: 提交任务给线程池 ,1753798381673
+[2025-07-29 22:13:02,691] INFO: data {"task_job": "command.tiktok.order.service.OrderService@getOrderReturnList", "params": "{\"type_id\":24,\"task_id\":54783,\"shop_global_id\":3,\"shop_id\":8}"}
+[2025-07-29 22:13:03,704] INFO: 线程池活跃数：2 ,1753798383704
+[2025-07-29 22:13:04,003] INFO: 获取任务 strat
+[2025-07-29 22:13:04,337] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651369862269536098', 'site': 'MY'}}, 'time': 1753798384, 'ip': '223.104.84.107'}
+[2025-07-29 22:13:04,709] INFO: 提交任务给线程池 ,1753798383704
+[2025-07-29 22:13:04,710] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":56127,\"shop_global_id\":4,\"shop_id\":14}"}
+[2025-07-29 22:13:04,805] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 22:13:04,835] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 22:13:04,916] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_28254.log
+[2025-07-29 22:13:05,722] INFO: 线程池活跃数：3 ,1753798385722
+[2025-07-29 22:13:06,054] INFO: 获取任务 strat
+[2025-07-29 22:13:06,225] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651222585325094411', 'site': 'PH'}}, 'time': 1753798386, 'ip': '223.104.84.107'}
+[2025-07-29 22:13:06,559] INFO: 心跳 ,1753798386559
+[2025-07-29 22:13:06,733] INFO: 提交任务给线程池 ,1753798385722
+[2025-07-29 22:13:06,735] INFO: data {"task_job": "command.tiktok.order.service.OrderService@getOrderList", "params": "{\"type_id\":5,\"task_id\":56276,\"shop_global_id\":4,\"shop_id\":16}"}
+[2025-07-29 22:13:07,068] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 22:13:07,071] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 22:13:07,073] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_31859.log
+[2025-07-29 22:13:07,572] INFO: 线程池活跃数：4 ,1753798386559
+[2025-07-29 22:13:07,745] INFO: 线程池活跃数：4 ,1753798387745
+[2025-07-29 22:13:08,044] INFO: ✅ mitmdump 启动成功，进程ID: 17916
+[2025-07-29 22:13:08,044] INFO: 日志文件: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_28254.log
+[2025-07-29 22:13:08,045] INFO: ✅ mitmproxy 已启动，本地监听 28254
+[2025-07-29 22:13:08,047] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpqflxtnj8
+[2025-07-29 22:13:08,048] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 22:13:08,093] INFO: 获取任务 strat
+[2025-07-29 22:13:08,400] INFO: HTTP 代理
+[2025-07-29 22:13:08,401] INFO: proxy_server http://127.0.0.1:28254
+[2025-07-29 22:13:08,402] INFO: 设置指纹信息
+[2025-07-29 22:13:08,402] INFO: Windows
+[2025-07-29 22:13:08,402] INFO: 获取驱动路径 start
+[2025-07-29 22:13:08,403] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 22:13:08,602] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '7496295319872965131', 'site': 'TH'}}, 'time': 1753798388, 'ip': '223.104.84.107'}
+[2025-07-29 22:13:08,704] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 22:13:08,705] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 22:13:08,706] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_55487.log
+[2025-07-29 22:13:08,755] INFO: 提交任务给线程池 ,1753798387745
+[2025-07-29 22:13:08,757] INFO: data {"task_job": "command.tiktok.order.service.OrderService@getOrderReturnList", "params": "{\"type_id\":24,\"task_id\":56781,\"shop_global_id\":4,\"shop_id\":13}"}
+[2025-07-29 22:13:09,470] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 22:13:09,470] INFO: Windows driver_path 类型: <class 'str'>, 值: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 22:13:09,472] INFO: 任务用时：8.809378385543823秒
+[2025-07-29 22:13:09,473] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 8.809378385543823, "task_id": 54768}
+[2025-07-29 22:13:09,473] INFO: 完成任务 strat
+[2025-07-29 22:13:09,661] INFO: 完成任务 end
+[2025-07-29 22:13:09,762] INFO: 线程池活跃数：5 ,1753798389762
+[2025-07-29 22:13:10,094] INFO: ✅ mitmdump 启动成功，进程ID: 27048
+[2025-07-29 22:13:10,094] INFO: 日志文件: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_31859.log
+[2025-07-29 22:13:10,095] INFO: ✅ mitmproxy 已启动，本地监听 31859
+[2025-07-29 22:13:10,096] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpefumejdw
+[2025-07-29 22:13:10,096] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 22:13:10,143] INFO: 获取任务 strat
+[2025-07-29 22:13:10,454] INFO: HTTP 代理
+[2025-07-29 22:13:10,455] INFO: proxy_server http://127.0.0.1:31859
+[2025-07-29 22:13:10,456] INFO: 设置指纹信息
+[2025-07-29 22:13:10,456] INFO: Windows
+[2025-07-29 22:13:10,456] INFO: 获取驱动路径 start
+[2025-07-29 22:13:10,457] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 22:13:10,512] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 22:13:10,704] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto消息处理完成 ,1753798380663
+[2025-07-29 22:13:10,759] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto消息处理完成 ,1753798380663获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651403489769981451', 'site': 'MY'}}, 'time': 1753798391, 'ip': '223.104.84.107'}
+[2025-07-29 22:13:10,771] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto消息处理完成 ,1753798380663获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651403489769981451', 'site': 'MY'}}, 'time': 1753798391, 'ip': '223.104.84.107'}线程池忙碌 ,1753798389762
+[2025-07-29 22:13:11,041] INFO: script_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\mitmdump.py
+[2025-07-29 22:13:11,046] INFO: log_file_path: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\log\mitm_logs\mitmdump_29535.log
+[2025-07-29 22:13:11,545] INFO: 释放 RabbitMQ 资源
+[2025-07-29 22:13:11,578] INFO: 线程池活跃数：5 ,1753798391578
+[2025-07-29 22:13:11,584] INFO: root_dir: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto
+[2025-07-29 22:13:11,584] INFO: Windows driver_path 类型: <class 'str'>, 值: c:\users\zhong\appdata\roaming\python\python38\site-packages\colordove_auto\drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 22:13:11,594] INFO: 任务用时：8.903169870376587秒
+[2025-07-29 22:13:11,595] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 8.903169870376587, "task_id": 54783}
+[2025-07-29 22:13:11,596] INFO: 完成任务 strat
+[2025-07-29 22:13:11,612] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 22:13:11,613] INFO: root_dir: 
+[2025-07-29 22:13:11,613] INFO: script_path: mitmdump.py
+[2025-07-29 22:13:11,614] INFO: log_file_path: log\mitm_logs\mitmdump_52925.log
+[2025-07-29 22:13:11,686] INFO: 完成任务 end
+[2025-07-29 22:13:11,728] INFO: ❌ mitmdump 启动失败，错误日志:
+[2025-07-29 22:13:11,735] INFO: ✅ 参数加载成功： {'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'browser_major_version': '137', 'lang': {'browser': 'zh-CN,en-US,zh-HK', 'browser_interface': 'zh-CN', 'header': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-HK;q=0.6'}, 'timezone': 'Asia/Shanghai', 'ip': {'http': {'ip': '47.112.1.24', 'port': 12457, 'account': 'auto', 'password': 'NHbvbCw14H4kmOtd'}}, 'screen_size': {'width': 1920, 'height': 1080}}
+[2025-07-29 22:13:11,736] INFO: 
+[2025-07-29 22:13:11,737] INFO: ✅ mitmproxy 已启动，本地监听 55487
+[2025-07-29 22:13:11,737] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmp9z67tsz5
+[2025-07-29 22:13:11,738] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 22:13:12,067] INFO: HTTP 代理
+[2025-07-29 22:13:12,067] INFO: proxy_server http://127.0.0.1:55487
+[2025-07-29 22:13:12,068] INFO: 设置指纹信息
+[2025-07-29 22:13:12,069] INFO: Windows
+[2025-07-29 22:13:12,069] INFO: 获取驱动路径 start
+[2025-07-29 22:13:12,070] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 22:13:12,518] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 22:13:12,518] INFO: root_dir: 
+[2025-07-29 22:13:12,519] INFO: Windows driver_path 类型: <class 'str'>, 值: drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 22:13:12,520] INFO: 任务用时：7.810450077056885秒
+[2025-07-29 22:13:12,521] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 7.810450077056885, "task_id": 56127}
+[2025-07-29 22:13:12,522] INFO: 完成任务 strat
+[2025-07-29 22:13:12,594] INFO: 提交任务给线程池 ,1753798391578
+[2025-07-29 22:13:12,597] INFO: data {"task_job": "command.tiktok.product.service.OptimizerService@getOptimizerTitle", "params": "{\"type_id\":7,\"task_id\":56345,\"shop_global_id\":3,\"shop_id\":8}"}
+[2025-07-29 22:13:12,861] INFO: 消息处理完成 ,1753798382691
+[2025-07-29 22:13:13,068] INFO: 完成任务 end
+[2025-07-29 22:13:13,111] INFO: 消息处理完成 ,1753798384710
+[2025-07-29 22:13:13,611] INFO: 线程池活跃数：5 ,1753798393611
+[2025-07-29 22:13:13,953] INFO: 获取任务 strat
+[2025-07-29 22:13:14,078] INFO: ❌ mitmdump 启动失败，错误日志:
+[2025-07-29 22:13:14,091] INFO: Traceback (most recent call last):
+[2025-07-29 22:13:14,092] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 192, in _run_module_as_main
+[2025-07-29 22:13:14,092] INFO:     return _run_code(code, main_globals, None,
+[2025-07-29 22:13:14,092] INFO:   File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 85, in _run_code
+[2025-07-29 22:13:14,093] INFO:     exec(code, run_globals)
+[2025-07-29 22:13:14,093] INFO:   File "C:\Users\zhong\AppData\Local\Programs\Python\Python38\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+[2025-07-29 22:13:14,094] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+[2025-07-29 22:13:14,097] INFO:     from mitmproxy import exceptions, master
+[2025-07-29 22:13:14,098] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\master.py", line 7, in <module>
+[2025-07-29 22:13:14,098] INFO:     from mitmproxy import eventsequence
+[2025-07-29 22:13:14,098] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\eventsequence.py", line 7, in <module>
+[2025-07-29 22:13:14,099] INFO:     from mitmproxy.proxy import layers
+[2025-07-29 22:13:14,099] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\proxy\layers\__init__.py", line 1, in <module>
+[2025-07-29 22:13:14,099] INFO:     from . import modes
+[2025-07-29 22:13:14,100] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\proxy\layers\modes.py", line 7, in <module>
+[2025-07-29 22:13:14,101] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\platform\__init__.py", line 32, in <module>
+[2025-07-29 22:13:14,101] INFO:     from . import windows
+[2025-07-29 22:13:14,101] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\platform\windows.py", line 16, in <module>
+[2025-07-29 22:13:14,102] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\pydivert\__init__.py", line 19, in <module>
+[2025-07-29 22:13:14,102] INFO:     from .packet import Packet
+[2025-07-29 22:13:14,102] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\pydivert\packet\__init__.py", line 20, in <module>
+[2025-07-29 22:13:14,103] INFO:     from pydivert import windivert_dll
+[2025-07-29 22:13:14,103] INFO:   File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\pydivert\windivert_dll\__init__.py", line 29, in <module>
+[2025-07-29 22:13:14,104] INFO:     from .structs import WinDivertAddress
+[2025-07-29 22:13:14,104] INFO:   File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+[2025-07-29 22:13:14,104] INFO:   File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+[2025-07-29 22:13:14,105] INFO:   File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+[2025-07-29 22:13:14,105] INFO:   File "<frozen importlib._bootstrap_external>", line 779, in exec_module
+[2025-07-29 22:13:14,105] INFO:   File "<frozen importlib._bootstrap_external>", line 911, in get_code
+[2025-07-29 22:13:14,106] INFO:   File "<frozen importlib._bootstrap_external>", line 584, in _compile_bytecode
+[2025-07-29 22:13:14,106] INFO: KeyboardInterrupt
+[2025-07-29 22:13:14,107] INFO: 
+[2025-07-29 22:13:14,107] INFO: ✅ mitmproxy 已启动，本地监听 29535
+[2025-07-29 22:13:14,108] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpbxbhasr3
+[2025-07-29 22:13:14,108] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 22:13:14,441] INFO: HTTP 代理
+[2025-07-29 22:13:14,441] INFO: proxy_server http://127.0.0.1:29535
+[2025-07-29 22:13:14,444] INFO: 设置指纹信息
+[2025-07-29 22:13:14,445] INFO: Windows
+[2025-07-29 22:13:14,445] INFO: 获取驱动路径 start
+[2025-07-29 22:13:14,446] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 22:13:14,464] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 22:13:14,465] INFO: root_dir: 
+[2025-07-29 22:13:14,465] INFO: Windows driver_path 类型: <class 'str'>, 值: drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 22:13:14,465] INFO: 任务用时：7.730456352233887秒
+[2025-07-29 22:13:14,465] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 7.730456352233887, "task_id": 56276}
+[2025-07-29 22:13:14,466] INFO: 完成任务 strat
+[2025-07-29 22:13:14,526] INFO: 获取任务 end {'status': 1, 'message': '获取成功', 'data': {'params': {'shop_id': '8651369862269536098', 'site': 'MY'}}, 'time': 1753798394, 'ip': '223.104.84.107'}
+[2025-07-29 22:13:14,586] INFO: 完成任务 end
+[2025-07-29 22:13:14,612] INFO: 消息处理完成 ,1753798386734
+[2025-07-29 22:13:14,614] INFO: 提交任务给线程池 ,1753798393611
+[2025-07-29 22:13:14,615] INFO: data {"task_job": "command.tiktok.product.service.ProductService@getGlobalProductList", "params": "{\"type_id\":2,\"task_id\":54875,\"shop_global_id\":3,\"shop_id\":12}"}
+[2025-07-29 22:13:14,646] INFO: ❌ mitmdump 启动失败，错误日志:
+[2025-07-29 22:13:14,694] INFO: 
+[2025-07-29 22:13:14,740] INFO: ✅ mitmproxy 已启动，本地监听 52925
+[2025-07-29 22:13:14,803] INFO: user_data_dir C:\Users\zhong\AppData\Local\Temp\tmpg112o2xd
+[2025-07-29 22:13:14,818] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行
+[2025-07-29 22:13:14,836] INFO: 检测是否已经有该用户目录对应的 Chrome 在运行未找到 colordove-auto 包的安装路径
+[2025-07-29 22:13:14,959] INFO: root_dir: 
+[2025-07-29 22:13:15,080] INFO: script_path: mitmdump.py
+[2025-07-29 22:13:15,163] INFO: log_file_path: log\mitm_logs\mitmdump_34608.log
+[2025-07-29 22:13:15,297] INFO: HTTP 代理
+[2025-07-29 22:13:15,297] INFO: proxy_server http://127.0.0.1:52925
+[2025-07-29 22:13:15,298] INFO: 设置指纹信息
+[2025-07-29 22:13:15,298] INFO: Windows
+[2025-07-29 22:13:15,299] INFO: 获取驱动路径 start
+[2025-07-29 22:13:15,299] INFO: Chrome Version: 138.0.7204.169
+[2025-07-29 22:13:15,344] INFO: 未找到 colordove-auto 包的安装路径
+[2025-07-29 22:13:15,344] INFO: root_dir: 
+[2025-07-29 22:13:15,345] INFO: Windows driver_path 类型: <class 'str'>, 值: drive/chrome/chromedriver/windows/138.exe
+[2025-07-29 22:13:15,345] INFO: 任务用时：6.588177919387817秒
+[2025-07-29 22:13:15,346] INFO: 任务失败 {"error_code": "99999", "error_msg": "未知异常", "error_response": "'str' object has no attribute 'exists'", "error_file": "c:\\users\\zhong\\appdata\\roaming\\python\\python38\\site-packages\\colordove_auto\\common\\library\\Chrome.py", "error_line": 498, "run_duration": 6.588177919387817, "task_id": 56781}
+[2025-07-29 22:13:15,346] INFO: 完成任务 strat
+[2025-07-29 22:13:15,473] INFO: 完成任务 end
+[2025-07-29 22:13:15,500] INFO: 消息处理完成 ,1753798388757
+[2025-07-29 22:13:15,614] ERROR: Exception ignored in: <module 'threading' from 'C:\\Program Files\\python\\lib\\threading.py'>
+[2025-07-29 22:13:15,614] ERROR: Traceback (most recent call last):
+[2025-07-29 22:13:15,616] ERROR:   File "C:\Program Files\python\lib\threading.py", line 1388, in _shutdown
+[2025-07-29 22:13:15,617] ERROR:     lock.acquire()
+[2025-07-29 22:13:15,617] ERROR: KeyboardInterrupt: 
