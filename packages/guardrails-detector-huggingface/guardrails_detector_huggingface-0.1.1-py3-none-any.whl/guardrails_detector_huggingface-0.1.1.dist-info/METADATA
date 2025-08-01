@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: guardrails-detector-huggingface
+Version: 0.1.1
+Summary: Huggingface detector implementation for guardrails
+Project-URL: Homepage, https://github.com/trustyai-explainability/guardrails-detectors
+Project-URL: Repository, https://github.com/trustyai-explainability/guardrails-detectors.git
+Project-URL: Issues, https://github.com/trustyai-explainability/guardrails-detectors/issues
+Author: TrustyAI team
+Author-email: Mac Misiura <mmisiura@redhat.com>, Rob Geada <rgeada@redhat.com>, Rui Vieira <rcardoso@redhat.com>, Sai Chandra <spandraj@redhat.com>
+License: Apache-2.0
+License-File: LICENSE
+Keywords: AI,Guardrails,Huggingface,LLM,Responsible AI,Transformers,TrustyAI
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Requires-Dist: guardrails-detector-common>=0.1.0
+Requires-Dist: torch>=1.13.0
+Requires-Dist: transformers>=4.50.0
+Provides-Extra: dev
+Requires-Dist: build; extra == 'dev'
+Requires-Dist: pre-commit>=3.8.0; extra == 'dev'
+Requires-Dist: pytest>=8.3.2; extra == 'dev'
+Description-Content-Type: text/markdown
+
+```
+oc apply -f deployment/model_container.yaml
+oc apply -f deployment/servingruntime.yaml
+oc apply -f deployment/isvc.yaml
+```
