@@ -1,0 +1,45 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flexistack"
+version = "0.2.33"
+description = "Simple and easy to use framework"
+readme = "README.md"
+authors = [{ name = "Ioannis D (devcoons)", email = "support@devcoons.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: PyPy",    
+]
+keywords = ["flexistack","autoloader"]
+dependencies = [
+    "psutil>=5.9.8",
+    "pyaes>=1.6.1",
+    "argparse>=1.4.0",
+    "argparse_addons>=0.12.0",
+    "configvault>=0.0.2",
+    "consolio>=0.1.11",
+    "pywin32; os_name == 'nt'",
+]
+
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = ["pip-tools"]
+
+[project.urls]
+Homepage = "https://github.com/devcoons/flexistack"
+Issues = "https://github.com/devcoons/flexistack/issues"
