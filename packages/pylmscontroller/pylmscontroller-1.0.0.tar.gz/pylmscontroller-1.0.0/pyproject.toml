@@ -1,0 +1,14 @@
+[project]
+name = "pylmscontroller"
+version = "1.0.0"
+description = "Python library for Alphanov's LMS Controller"
+authors = [{ name = "mmouchous-ledger", email = "michael.mouchous@ledger.fr" }]
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["pyserial (>=3.5,<4.0)"]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
