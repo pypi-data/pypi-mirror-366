@@ -1,0 +1,93 @@
+Metadata-Version: 2.1
+Name: zone-hub
+Version: 0.1.0.dev4
+Summary: Zone framework for acceptance testing 
+Home-page: http://10.133.122.70/liuhaijiang/zmclient
+Download-URL: https://pypi.org/project/zone-hub
+Author: Stefan Zweig
+Author-email: stefan.zweig@gmail.com
+License: Apache License 2.0
+Project-URL: Source, http://10.133.122.70/liuhaijiang/zmclient
+Keywords: framework automation-test automation-testing atdd bdd
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+Requires-Dist: thrift
+Requires-Dist: PyYAML==6.0.2
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: furo; extra == "dev"
+Requires-Dist: sphinx-autobuild; extra == "dev"
+Requires-Dist: codespell; extra == "dev"
+Requires-Dist: sphinx-copybutton; extra == "dev"
+Requires-Dist: beanbag-docutils>=2.0; extra == "dev"
+Requires-Dist: pygments-csv-lexer; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: furo; extra == "docs"
+Requires-Dist: sphinx-autobuild; extra == "docs"
+Requires-Dist: codespell; extra == "docs"
+Requires-Dist: sphinx-copybutton; extra == "docs"
+Requires-Dist: beanbag-docutils>=2.0; extra == "docs"
+Requires-Dist: pygments-csv-lexer; extra == "docs"
+
+Zone-Hub
+=============
+
+安装方法
+-------------
+
+``pip install zone-hub``
+
+参考用例
+-------------------
+
+.. code:: python
+
+    # import the library
+    from zone import App
+    from zone.dsc import DbPath, CanMessage, CanChannelConfig
+
+    # define the app
+    app = App()
+
+    result = app.connect(["canstack", "canparser"])
+
+    # add db file
+    app.addCanDbFile(r'E:\Shared\WORKS\codebase\xxx.arxml')
+
+    # set channel config
+    config = CanChannelConfig()
+    # set the parameters of the config
+    # ...
+    app.setCanChannelConfig([config])
+
+    # start stack
+    app.start(["canstakck", "canparser"])
+
+    # send can message
+    can_msg = CanMessage(channel=1,
+                         isFd=False,
+                         id=1,
+                         dlc=8,
+                         data=[1, 2, 3, 4, 5, 6, 7, 8],
+                         period=100,
+                         frameName="frame",
+                         times=10)
+    app.sendCanMessage(can_msg)
+
+    # disconnect the can-related components
+    result = app.disconnect(["canstack", "canparser"])
+
+参考文档
+--------------------
+
+参考文档可以在这里找到：`zone-hub.readthedocs.io <https://zone-hub.readthedocs.io/>`__.
