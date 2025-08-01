@@ -1,0 +1,155 @@
+# Copyright (C) 2023 Maxwell G <maxwell@gtmx.me>
+# SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "tomcli"
+dynamic = ["version"]
+description = 'CLI for working with TOML files. Pronounced "tom clee."'
+readme = "README.md"
+requires-python = ">=3.9"
+license.text = "MIT"
+authors = [
+  { name = "Maxwell G", email = "maxwell@gtmx.me" },
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+dependencies = [
+    "click",
+    "importlib_metadata; python_version<'3.11'",
+]
+
+[project.optional-dependencies]
+# User facing
+all = [
+    # Keep in sync with tomlkit extra.
+    # We can't use self-referntial extras in Fedora.
+    "tomlkit",
+    #
+]
+tomli = [
+    "tomli ; python_version<'3.11'",
+    "tomli_w",
+]
+tomlkit = [
+    "tomlkit",
+]
+# Development
+codeqa = [
+    "ruff >= 0.3.0",
+    "reuse",
+]
+formatters = [
+    "black>=24",
+    "isort",
+]
+typing = [
+    "basedpyright",
+    "tomcli[tomli]",
+    "tomcli[tomlkit]",
+    "mkdocs-gen-files",
+    "mypy",
+    "pytest",
+    # Always install tomli
+    "tomli",
+    "typing_extensions",
+    # For checking noxfile.py
+    "nox",
+    "releaserr",
+]
+test = [
+    "pytest",
+]
+dev = [
+    "tomcli[all]",
+    "tomcli[codeqa]",
+    "tomcli[formatters]",
+    "tomcli[test]",
+    "tomcli[typing]",
+    "nox",
+]
+
+[project.urls]
+Homepage = "https://tomcli.gtmx.me"
+Documentation = "https://tomcli.gtmx.me"
+Source = "https://git.sr.ht/~gotmax23/tomcli"
+"Mailing List" = "https://lists.sr.ht/~gotmax23/tomcli"
+Changelog = "https://tomcli.gtmx.me/news/"
+
+[project.scripts]
+"tomcli" = "tomcli.cli.main:APP"
+"tomcli-get" = "tomcli.cli.get:app"
+"tomcli-set" = "tomcli.cli.set:app"
+"tomcli-formatters" = "tomcli.cli.formatters:APP"
+
+[project.entry-points."tomcli.formatters"]
+default = "tomcli.formatters.builtin:default_formatter"
+json = "tomcli.formatters.builtin:json_formatter"
+newline-keys = "tomcli.formatters.builtin:newline_keys_formatter"
+newline-list = "tomcli.formatters.builtin:newline_list_formatter"
+newline-values = "tomcli.formatters.builtin:newline_values_formatter"
+string = "tomcli.formatters.builtin:string_formatter"
+toml = "tomcli.formatters.builtin:toml_formatter"
+
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
+
+[tool.isort]
+profile = "black"
+
+
+[tool.mypy]
+check_untyped_defs = true
+
+[tool.coverage.run]
+omit = [
+    "tests/*.py",
+    "src/tomcli/_peekable.py",
+]
+
+
+[tool.coverage.paths]
+source = [
+    "src",
+    "*/site-packages",
+]
+
+[tool.coverage.report]
+# https://coverage.readthedocs.io/en/latest/excluding.html#advanced-exclusion
+# These should use single quotes in TOML, as they're regular expressions.
+exclude_lines = [
+    'pragma: no cover',
+    'raise NotImplementedError',
+    'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
+    'if t\.TYPE_CHECKING:',
+    '@(abc\.)?abstractmethod',
+    '@overload',
+    'except ImportError:',
+]
+
+[tool.basedpyright]
+typeCheckingMode = "strict"
+reportPrivateUsage = false
+ignore = [
+    "src/tomcli/_peekable.py",
+    # I don't care about strict typing for tests.
+    "tests",
+]
