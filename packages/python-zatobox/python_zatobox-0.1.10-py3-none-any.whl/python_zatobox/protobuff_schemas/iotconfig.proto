@@ -1,0 +1,326 @@
+syntax = "proto3";
+
+
+// Define an enum for parity options
+    // UART_PARITY_DISABLE  = 0x0,  /*!< Disable UART parity*/
+    // UART_PARITY_EVEN     = 0x2,  /*!< Enable UART even parity*/
+    // UART_PARITY_ODD      = 0x3   /*!< Enable UART odd parity*/
+enum Parity {
+    PARITY_None = 0;
+    PARITY_Even = 2;
+    PARITY_Odd = 3;
+    // Add more parity options as needed
+}
+
+enum SeType {
+    sensor_type_unspecified = 0; // Default unspecified value
+    mainmeter = 1;
+    gasmeter = 2;
+    pv = 3;
+    battery = 4;
+    usage = 5;
+    charger = 6;
+    forecast = 7;
+    marketprice = 8;
+}
+
+enum AcType {
+    Switch = 0; // Default unspecified value
+    ProportionalSwitch = 1;
+    ValuePower = 2;
+}
+
+
+
+enum MB_INPUT_TYPE {
+    MB_TYPE_HOLDING = 0; // Default unspecified value
+    MB_TYPE_INPUT = 1;
+    MB_TYPE_COIL = 2;
+    MB_TYPE_DISCRETE = 3;
+}
+
+message ProtocolValue {
+    int32 endianis = 1; //adress endianis
+    int32 adress = 2; // adress
+    string datatype = 3; // data type
+    MB_INPUT_TYPE intputtype  = 4;  // input type
+    int32 divide = 5;  //divide
+    int32 scale = 6; //scale
+    oneof value_type {
+        float value_float = 7; //value
+        string value_id = 8; // if og 
+    }
+}
+
+
+message Actuatorentry {
+    int32 id = 1;
+    AcType type = 2;
+    int32 protocolid= 3;
+    int32  adress = 4; //used for modbus 
+    int32  port = 5; //ethernet
+    string  host = 6; //used for vanubus
+    repeated ProtocolValue protocol = 7;
+}
+
+message Sensorentry {
+    int32 id = 1;
+    bool toCloud = 2;
+    int32 protocolid = 3; //protocol id
+    SeType type = 4;
+    string host = 5;  //host is ip or host name
+    int32 port = 6;  //port for ethernet connection
+    int32 adress = 7; //adress in integer for modbus and other
+    repeated ProtocolValue protocol = 8;
+}
+
+
+//connections
+message ConMBTCP {
+    string host = 2;
+    int32 port = 3;
+    bool master = 4; //is master or slave
+}
+message ConMBRTU {
+    int32 Baud = 2;
+    int32 bytes = 3;
+    Parity parity = 4;
+    int32 stopbits = 5;
+    bool master = 6; //is master or slave
+}
+
+message ConGwAA55RTUUDP {
+    string host = 2;
+    int32 port = 3;
+    bool master = 4; //is master or slave
+}
+message ConGwAA55RTU {
+    int32 Baud = 2;
+    int32 bytes = 3;
+    Parity parity = 4;
+    int32 stopbits = 5;
+    bool master = 6; //is master or slave
+}
+
+
+message ConVB {
+    bool convb = 1;
+}
+message ConP1 {
+    bool conp1 = 1;
+}
+message ConMQTTConnex{
+    bool conMQTTconnex = 1;
+}
+message ConGPIO_SS{
+    bool congpio_ss = 1;
+}
+message ConOCPP{
+    bool conocpp = 1;
+}
+message ConI2C{
+    int32 location = 1;
+}
+
+
+
+message Conn {
+    int32  nr = 1;
+    repeated Sensorentry sensorentry = 2;
+    repeated Actuatorentry actuatorentry = 3;
+    oneof type {
+        ConMBRTU modbus = 4;
+        ConMBTCP modbusTCP = 5;
+        ConVB vanubus = 6;
+        ConP1 p1 = 7;
+        ConGwAA55RTU goodweAA55RTU = 8;
+        ConGwAA55RTUUDP goodweAA55UDP = 9;
+        ConMQTTConnex mqttconnex = 10;
+        ConGPIO_SS gpioSS = 11;
+        ConOCPP ocpp = 12;
+        ConI2C i2c = 13;
+    }
+}
+
+
+message AutoTrigger {
+    int32  sensorid = 1;
+    int32  actuatorid = 2;
+    float triggerlevel = 3;
+    
+}
+
+message AutoSync {
+    int32  sensorid = 1;
+    int32  actuatorid = 2;
+}
+
+message AutoTimer {
+    int32  actuatorid = 1;
+    string time = 2;
+}
+
+message Auto {
+    int32  id = 1;
+    oneof type {
+        AutoTrigger trigger = 2;
+        AutoSync sync = 3;
+        AutoTimer timer = 4;
+    }
+}
+
+message AutoConfig {
+    repeated Auto automation = 2;
+}
+
+message IotConfig {
+    bool master = 1;
+    repeated Conn connection = 2;
+}
+
+message MainConfig {
+    IotConfig iotconfig = 1;
+    AutoConfig autoconfig = 2;
+    
+}
+
+
+message UpdateCA {
+    string cacert = 1;
+}
+message UpdateFM {
+    string firmwareversion = 1;
+}
+
+//message to request feedback
+message FeedBack {
+    bool iotconfig = 1;  //get iotconfig
+    bool monitor = 2;
+    bool all = 3;
+    bool version = 4;
+    bool ip = 5;
+    bool actuatordata = 6;
+    bool sensordata = 7;
+    bool diagnostics = 8;
+}
+//message to request feedback
+message Connex {
+    string message = 1;  
+}
+
+
+message RebootAct {
+    bool reboot = 1;
+}
+message SwitchAct {
+    bool action = 1;
+}
+message Action {
+    int32 id = 1;  
+    int32 connectionnr = 2;  
+    oneof action_type {
+        RebootAct reboot = 3;
+        SwitchAct switch = 4;
+    }
+}
+
+message SetPlantID {
+    bool setplantid = 1;
+    bool setcallback = 2;
+}
+
+//recevied message
+message CallBackMessage{
+    string plantid = 1;
+    string callback = 2;
+    string connectionid = 3;    
+    oneof message_type {
+        MainConfig mainconfig = 4;
+        AutoConfig autoconfig = 5;
+        UpdateCA updateca = 6;
+        UpdateFM updatefm = 7;
+        FeedBack feedback = 8;
+        Connex connex = 9;
+        Action action = 10;
+        SetPlantID setplantid = 11;
+    }
+}
+
+
+//=============================================================================
+// send message
+
+message Diagnostic {
+    float downtime_wifi = 1;
+    float downtime_mqtt = 2;
+    float totaltime = 3;
+    float nrrestarts = 4;
+    float nrmqttdisc = 5;
+    float nrwifidisc = 6;
+
+}
+
+
+
+message SensorDataValue {
+    int32 id = 1;
+    oneof energy_ {
+        float energy = 2;
+    }
+    oneof energyexport_ {
+        float energyexport = 3;
+    }
+    oneof power_ {
+        float power = 4;
+    }
+    oneof soc_ {
+        float soc = 5;
+    }
+
+}
+
+message ActuatorDataValue {
+    int32 id = 1;
+    oneof value {
+        bool switchvalue = 2;
+        int32 intvalue = 3;
+        float floatvalue = 4;
+    }
+}
+
+message ErrorDataValue {
+    string id = 1;
+    int32 fmi = 2;
+}
+
+message DataMessage {
+    string plantid = 1;
+    repeated SensorDataValue sensordatavalue = 2;
+    repeated ActuatorDataValue actuatordatavalue = 3;
+    repeated ErrorDataValue errordatavalue = 4;
+}
+
+
+
+message FeedBackMessage{
+    string state = 1;
+    string plantid = 2;
+    string callback = 3;
+    string connectionid = 4;   
+    string fmversion = 5;
+    string ipadress = 6;
+    repeated SensorDataValue sensordata = 7;
+    repeated ActuatorDataValue actuatordata = 8;
+    Diagnostic diagnostic = 9;  
+}
+
+
+message ConfigMessage {
+    string plantid = 1;
+    string callback = 2;
+    string connectionid = 3;   
+    oneof config_type {
+        MainConfig mainconfig = 6;
+        AutoConfig autoconfig = 7;
+    }
+}
