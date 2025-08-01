@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lillib"
+dynamic = ["version"]
+authors = [
+    {name = "Lilly", email = "ghostoverflow256@gmail.com"},
+]
+description = "A small collection of utility functions"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.6"
+keywords = ["utilities", "formatting", "human-readable"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Topic :: Utilities",
+]
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/GhostDog98/lillib"
+
+[tool.setuptools]
+packages = ["lillib"]
+
+[tool.setuptools.dynamic]
+version = {attr = "lillib.__version__"}
