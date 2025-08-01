@@ -1,0 +1,15 @@
+mcp>=1.2.0
+httpx>=0.24.0
+python-dotenv
+diskcache
+jsonschema
+
+[dev]
+pytest>=7.0.0
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.10.0
+mypy>=1.0.0
+build
+twine
+mcp[cli]>=1.2.0
