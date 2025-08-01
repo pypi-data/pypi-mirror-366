@@ -1,0 +1,35 @@
+Prohibit conversion of conceptual if it is not possible (#1256)
+
+# Description
+
+Improved user-friendliness when attempting to convert conceptual data
+model to physical for cases when that is not possible. Previously python
+traceback was thrown at users:
+
+<img width="1130" height="837" alt="Screenshot 2025-07-24 at 17 38 35"
+src="https://github.com/user-attachments/assets/b2274f98-5c54-4d4d-9347-8c4ae27b3c30"
+/>
+
+now we indicate that conversion is not possible to perform
+<img width="1076" height="587" alt="Screenshot 2025-07-24 at 17 39 00"
+src="https://github.com/user-attachments/assets/d618f87b-3965-4836-b427-4d1b56f91783"
+/>
+
+Risk Review: ‼️ This is stacked 🧗 PR on top of #1251
+
+## Bump
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## Changelog
+### Improved
+
+- Added additional "overall" warning that is indicating wether
+conceptual data model is possible to convert to physical or not, which
+is used as flag to trigger stop on conversion process in `NeatSession`
+
+---------
+
+Co-authored-by: gemini-code-assist[bot] <176961590+gemini-code-assist[bot]@users.noreply.github.com>
