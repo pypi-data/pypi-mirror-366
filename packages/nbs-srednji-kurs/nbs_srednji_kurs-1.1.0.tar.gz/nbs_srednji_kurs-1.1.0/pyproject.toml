@@ -1,0 +1,25 @@
+[project]
+name = "nbs-srednji-kurs"
+version = "1.1.0"
+description = "Get average currency values for Serbia"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Ivan Miletic", email="milemik68@gmail.com" }
+]
+
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "requests>=2.32.4",
+    "rich>=14.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "freezegun>=1.5.3",
+    "pytest>=8.4.1",
+]
+
+[project.scripts]
+nbskurs = "nbs_kurs.cli:main"

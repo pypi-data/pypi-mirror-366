@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: nbs-srednji-kurs
+Version: 1.1.0
+Summary: Get average currency values for Serbia
+Author-email: Ivan Miletic <milemik68@gmail.com>
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: beautifulsoup4>=4.13.4
+Requires-Dist: requests>=2.32.4
+Requires-Dist: rich>=14.1.0
+
+# NBS srednji kurs
+
+## O projektu
+
+Ovo je jednostavni paket koji ima za cilj da prikupi informacije o zvanicnom srednjom kursu u Srbiji.
+
+## Kako koristiti
+
+1. Instalirajte ```nbs-srednji-kurs``` koristeci sledecu komandu:
+    ```shell
+    pip install nbs-srednji-kurs
+    ```
+2. Vidite sve moguce komande:
+    ```shell
+    nbskurs -h
+    ```
+3. Pogledajte stanje zvanicnog srednjeg kursa po NBS (Narodna Banka Srbije):
+    ```shell
+   nbskurs
+    ```
+ 
