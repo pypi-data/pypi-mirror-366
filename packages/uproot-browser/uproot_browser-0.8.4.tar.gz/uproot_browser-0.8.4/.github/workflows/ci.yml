@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+    - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - uses: pre-commit/action@v3.0.1
+    - name: PyLint
+      run: pipx run nox -s pylint
+
+  checks:
+    name: Check Python ${{ matrix.python-version }} on ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+        runs-on: [ubuntu-latest, macos-13, windows-latest]
+        include:
+        - python-version: "3.14t"
+          runs-on: ubuntu-latest
+        - python-version: "3.14"
+          runs-on: macos-latest
+        - python-version: pypy-3.11
+          runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
+
+    - uses: astral-sh/setup-uv@v6
+
+    - name: Install nox
+      run: uv tool install nox
+
+    - name: Test package
+      run: nox -s tests
+
+    - name: Test minimum versions
+      if: matrix.python-version == '3.9' || matrix.python-version == '3.11'
+      run: nox -s minimums
+
+  pass:
+    if: always()
+    needs: [pre-commit, checks]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
