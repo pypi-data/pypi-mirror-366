@@ -1,0 +1,159 @@
+Metadata-Version: 2.4
+Name: tfmate
+Version: 0.2.0
+Summary: Supporting tools for working with terraform code.
+Author-email: Christopher Malek <cmalek@placodermi.org>
+Maintainer-email: Christopher Malek <cmalek@placodermi.org>
+Project-URL: Source, https://github.com/cmalek/tfmate
+Project-URL: Issues, https://github.com/cmalek/tfmate/issues
+Keywords: terraform,aws
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: boto3>=1.39.14
+Requires-Dist: botocore>=1.39.14
+Requires-Dist: click>=8.2.1
+Requires-Dist: packaging>=25.0
+Requires-Dist: pathspec>=0.12.1
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: pydantic-settings>=2.10.1
+Requires-Dist: python-hcl2>=7.3.1
+Requires-Dist: requests>=2.32.4
+Requires-Dist: rich>=14.1.0
+Dynamic: license-file
+
+# tfmate
+
+**Documentation**: <https://tfmate.readthedocs.org>
+
+`tfmate` is a command line interface and Python library for analyzing Terraform configurations and state files. It provides powerful tools for understanding your infrastructure as code, including configuration analysis, AWS service discovery, and state file inspection.
+
+## Features
+
+- **Configuration Analysis**: Analyze Terraform configuration files to understand providers, backends, and version constraints
+- **AWS Service Discovery**: List and filter AWS services from botocore definitions
+- **State File Inspection**: Extract Terraform version and metadata from state files
+- **Multiple Output Formats**: Support for JSON, table, and text output formats
+- **Flexible Configuration**: Customizable through configuration files and environment variables
+
+## Installation
+
+`tfmate` supports Python 3.10+.
+
+To install from PyPI:
+
+```shell
+pip install tfmate
+```
+
+To install using `uv`:
+
+```shell
+    sh -c "$(curl -fsSL https://astral.sh/uv/install)"
+    uv tool install tfmate
+```
+
+Ensure you have `./local/bin` in your `PATH`, since that's where `uv` puts the
+executable.
+
+## Quick Start
+
+```bash
+# Get help
+tfmate --help
+
+# Analyze Terraform configuration
+tfmate analyze config
+
+# List AWS services
+tfmate aws services
+
+# Get Terraform version from state
+tfmate terraform version
+
+# Use JSON output for scripting
+tfmate --output json analyze config
+```
+
+## Usage Examples
+
+### Analyze Terraform Configuration
+
+```bash
+# Analyze current directory
+tfmate analyze config
+
+# Analyze specific directory with detailed info
+tfmate analyze config --directory ./infrastructure --show-providers --show-backend
+
+# Output as JSON for scripting
+tfmate --output json analyze config > config.json
+```
+
+### AWS Service Discovery
+
+```bash
+# List all AWS services
+tfmate aws services
+
+# List only service names
+tfmate aws services --names-only
+
+# Filter services by pattern
+tfmate aws services --filter-name "ec2*" --sort-by name
+```
+
+### State File Operations
+
+```bash
+# Get Terraform version from state
+tfmate terraform version
+
+# Get version from specific directory
+tfmate terraform version --directory ./infrastructure
+
+# Use explicit state file (local only)
+tfmate terraform version --state-file ./terraform.tfstate
+```
+
+## Documentation
+
+For detailed documentation, visit: <https://tfmate.readthedocs.org>
+
+- [Installation Guide](https://tfmate.readthedocs.org/en/latest/overview/installation.html)
+- [Quickstart Guide](https://tfmate.readthedocs.org/en/latest/overview/quickstart.html)
+- [Usage Guide](https://tfmate.readthedocs.org/en/latest/overview/usage.html)
+- [Configuration Guide](https://tfmate.readthedocs.org/en/latest/overview/configuration.html)
+
+## Development
+
+To set up a development environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/caltechads/tfmate.git
+cd tfmate
+
+uv sync
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Run tests
+pytest
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+See LICENSE.txt in this project for the license.
