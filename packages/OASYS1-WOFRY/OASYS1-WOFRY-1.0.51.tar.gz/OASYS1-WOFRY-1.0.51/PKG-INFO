@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: OASYS1-WOFRY
+Version: 1.0.51
+Summary: WOFRY (Wave Optics FRamework in pYthon)
+Home-page: https://github.com/oasys-kit/OASYS-WOFRY
+Download-URL: https://github.com/oasys-kit/OASYS-WOFRY
+Author: Manuel Sanchez del Rio, Luca Rebuffi
+Author-email: lrebuffi@anl.gov
+License: GPLv3
+Keywords: simulator,waveoptics,oasys1
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Environment :: Console
+Classifier: Environment :: Plugins
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Science/Research
+Requires-Dist: oasys1>=1.2.146
+Requires-Dist: syned-gui>=1.0.3
+Requires-Dist: wofryimpl>=1.0.32
+
+# OASYS-WOFRY
+
+WOFRY (Wave Optics FRamework in pYthon) is a package for partially coherent beamline simulations.
+
+This project OASYS-WOFRY contains the widgets for WOFRY available in OASYS https://oasys-kit.github.io/
+
+It makes use of the projects WOFRY https://github.com/oasys-kit/wofry and WOFRYIMPL https://github.com/oasys-kit/wofryimpl
+
+## Reference
+
+"WOFRY: a package for partially coherent beamline simulations in fourth-generation storage rings" by 
+Manuel Sanchez del Rio, Juan Reyes-Herrera, Rafael Celestre, Luca Rebuffi (2024)
+https://doi.org/10.48550/arXiv.2410.01338
