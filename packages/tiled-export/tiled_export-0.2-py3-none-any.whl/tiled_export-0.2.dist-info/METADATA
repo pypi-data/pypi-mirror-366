@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: tiled-export
+Version: 0.2
+Summary: tiled-export
+Author-email: Mark Wolfman <wolfman@anl.gov>
+Project-URL: Homepage, https://github.com/spc-group/tiled-export
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+License-File: AUTHORS.rst
+Requires-Dist: h5py
+Requires-Dist: tiled[client]
+Requires-Dist: tqdm
+Requires-Dist: tabulate
+Requires-Dist: httpx
+Requires-Dist: h2
+Requires-Dist: odfpy
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pytest_httpx; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
+===============================
+tiled-export
+===============================
+
+
+.. image:: https://img.shields.io/pypi/v/tiled-export.svg
+        :target: https://pypi.python.org/pypi/tiled-export
+
+
+tiled-export
+
+Documentation
+-------------
+
+Sphinx-generated documentation for this project can be found here:
+https://spc-group.github.io/tiled-export/
+
+Requirements
+------------
+
+Describe the project requirements (i.e. Python version, packages and how to install them)
+
+Installation
+------------
+
+The following will download the package and load it into the python environment.
+
+.. code-block:: bash
+
+    git clone https://github.com/spc-group/tiled-export
+    pip install -e tiled-export
+
+
+Running the Tests
+-----------------
+::
+
+  $ pip install -e .
+  $ pytest -vv
