@@ -1,0 +1,42 @@
+name: Snyk Scan (Python 3.12)
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: '0 0 * * *'  # daily at midnight
+
+permissions:
+  contents: read
+
+jobs:
+  snyk-scan:
+    permissions:
+      contents: read      # for actions/checkout to fetch code
+      security-events: write  # for uploading SARIF results
+      actions: read       # needed for run status in some actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Snyk Scan using Python 3.12 Docker image
+        run: |
+          docker run --rm \
+            -e SNYK_TOKEN=${{ secrets.SNYK_TOKEN }} \
+            -e FORCE_COLOR=2 \
+            -e SNYK_INTEGRATION_NAME=GITHUB_ACTIONS \
+            -e SNYK_INTEGRATION_VERSION=python-3.12 \
+            -v "${{ github.workspace }}:/app" \
+            snyk/snyk:python-3.12 \
+            snyk test --all-projects --sarif-file-output=snyk.sarif --policy-path=.snyk --severity-threshold=high
+
+
+
+      - name: Upload SARIF results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: snyk.sarif
