@@ -1,0 +1,18 @@
+numpy
+
+[:python_version < "3.12"]
+importlib-metadata
+
+[dev]
+sample_20250731_generated_repo[release,static-code-qa,test]
+
+[release]
+build
+twine
+
+[static-code-qa]
+pre-commit
+
+[test]
+pytest
+pytest-cov
