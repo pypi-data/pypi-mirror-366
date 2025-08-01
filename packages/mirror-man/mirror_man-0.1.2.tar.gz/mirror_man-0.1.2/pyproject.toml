@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mirror-man"
+dynamic = ["version"]
+description = "A CLI tool to manage mirror sources for various Linux distributions."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = ["typer>=0.9.0"]
+
+[tool.setuptools.dynamic]
+version = {attr = "mirror_man.version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mirror_man*"]
+namespaces = false
+
+[project.urls]
+Homepage = "https://github.com/hiyongliz/mirror-man"
+Repository = "https://github.com/hiyongliz/mirror-man.git"
+
+[project.scripts]
+mirror-man = "mirror_man.cli:app"
