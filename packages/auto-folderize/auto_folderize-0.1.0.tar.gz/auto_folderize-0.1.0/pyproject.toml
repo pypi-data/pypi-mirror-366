@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "auto-folderize"  # Must be unique on PyPI
+version = "0.1.0"
+description = "A simple Python library to organize files into folders by file type"
+readme = "README.md"
+authors = [
+    { name="Sourav Sandilya", email="souravsandilya89882@gmail.com" }
+]
+requires-python = ">=3.6"
+dependencies = []
