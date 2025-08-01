@@ -1,0 +1,36 @@
+[project]
+name = "cacts"
+description = "A framework for configurable unit testing of a cmake-based project"
+authors = [
+  {name = "Luca Bertagna", email = "lbertag@sandia.gov"},
+  {name = "James Foucar",  email = "jgfouca@sandia.gov"},
+  {name = "Naser Mahfouz", email = "naser.mahfouz@pnnl.gov"}
+]
+maintainers = [
+  {name = "Luca Bertagna", email = "lbertag@sandia.gov"},
+  {name = "James Foucar",  email = "jgfouca@sandia.gov"},
+  {name = "Naser Mahfouz", email = "naser.mahfouz@pnnl.gov"}
+]
+requires-python = ">=3.6"
+dependencies = [
+    "psutil",
+    "pyyaml",
+]
+
+dynamic = ["version"]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+[project.scripts]
+cacts = "cacts:main"
+get-mach-env = "cacts:get_mach_env"
+
+[tool.hatch.version]
+path = "cacts/version.py"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

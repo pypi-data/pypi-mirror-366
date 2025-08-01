@@ -1,0 +1,102 @@
+# Configuration file for CACTS (TPB)
+#
+# There are three main sections: project, machines build_types
+#   - project: contains basic info on the project
+#   - machines: contains a list of machines on which testing is allowed
+#   - build_types: contains a list of build types that can be built
+#
+# The machines and build_types sections CAN contain an entry "defaults", which
+# defines some defaults for all machines. Other entries will OVERWRITE anything
+# that is set in the default entry (if any). It is recommended to keep the default
+# entry, since it can be used to list ALL possible settings, for documentation purposes.
+#
+# Upon parsing the yaml file, CACTS will create one Project, one Machine, and one or
+# more BuildType objects. These objects will contain members with *the same* name as the
+# configs in the yaml file. Notice the settings names are hard-coded, so you can't add
+# a new setting and hope that it gets set in the object.
+#
+# The objects settings CAN be used in the yaml file to programmatically set options.
+# For instance, a build type can use properties of the project/machine to set a cmake var.
+# The syntax is ${<obj>.<prop>}, where <obj> is 'project', 'machine', or 'build', and
+# and <prop> must be a valid attribute of the corresponding object (see the
+# corresponding py files for valid options). If you use
+# the ${..} syntax, we recommend that you wrap the entry in quotes, to avoid any
+# surprise with YAML parsers.
+#
+# For the machines and configurations sections, CACTS also parses for a 'default' entry,
+# which can be used to set "common" config options.
+#
+# Below, we show an example for the eamxx project, with a couple of machines
+# NOTE: entries "blah: null" will make pyyaml add a dict entry None for key "blah"
+#       You do not need to set all the params in your default (or derived) machs/builds.
+#       Here, we list them all so you can see what options you can set in the yaml file
+
+project:
+    name: EAMxx
+    baseline_gen_label: baseline_gen
+    baseline_summary_file: baseline_list
+    cmake_settings:
+        # The following settings are OPTIONAL, but can help reduce the amount of stuff that
+        # needs to be built/run, depending on whether -g/-b flags are used
+        baselines_on:
+            # These settings are used when -b <DIR> flag is passed
+            SCREAM_ENABLE_BASELINE_TESTS: ON
+        baselines_off:
+            # These settings are used when -b <DIR> flag is NOT passed
+            SCREAM_ENABLE_BASELINE_TESTS: OFF
+        baselines_only:
+            # These settings are used when -g flags is passed
+            SCREAM_ONLY_GENERATE_BASELINES: ON
+    cdash:
+        drop_site: my.cdash.org
+        drop_location: submit.php?project=E3SM
+        build_prefix: scream_unit_tests_  # Optional. Final value of is this plus ${build.name}
+        curl_disable_ssl: True
+    # CACTS will also set project.root_dir at runtime, so you can actually use
+    # ${project.root_dir} in the machines/configurations sections
+
+machines:
+    # CACTS will also set an entry machine.name, where the value of name matches the yaml map section name
+    default:
+        cxx_compiler: mpicxx
+        c_compiler: mpicc
+        ftn_compiler: mpifort
+        mach_file: "${project.root_dir}/cmake/machine-files/${machine.name}.cmake"
+        gpu_arch: null
+        batch: null
+        num_bld_res: null
+        num_run_res: null
+        baselines_dir: null
+        valg_supp_file: null
+        node_regex: null
+        
+    mappy:
+        env_setup:
+            - 'module load sems-cmake/3.27.9 sems-git/2.42.0 sems-gcc/11.4.0 sems-openmpi-no-cuda/4.1.6 sems-netcdf-c/4.9.2 sems-netcdf-cxx/4.2 sems-netcdf-fortran/4.6.1 sems-parallel-netcdf/1.12.3 sems-openblas'
+            - 'export GATOR_INITIAL_MB=4000MB'
+        baselines_dir: "/sems-data-store/ACME/baselines/scream/master-baselines"
+        node_regex: mappy
+
+configurations:
+    # CACTS will also set an entry build.name, where the value of name matches the yaml map section name
+    default:
+        longname: null # If not set, will default to build.name
+        description: null
+        uses_baselines: False
+        on_by_default: False
+        cmake_args:
+            SCREAM_BASELINES_DIR: "${machine.baselines_dir}/${build.longname}"
+    dbg:
+        longname: full_debug
+        description: "debug build with double precision"
+        cmake_args:
+            CMAKE_BUILD_TYPE: Debug
+            EKAT_DEFAULT_BFB: True
+            Kokkos_ENABLE_DEBUG_BOUNDS_CHECK: True
+    sp:
+        longname: full_sp_debug
+        description: "debug build with single precision"
+        cmake_args:
+            CMAKE_BUILD_TYPE: Debug
+            EKAT_DEFAULT_BFB: True
+            SCREAM_DOUBLE_PRECISION: False
