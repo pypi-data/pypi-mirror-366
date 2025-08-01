@@ -1,0 +1,615 @@
+CHANGES
+=======
+
+14.0.1
+------
+
+* setup.cfg: Replace tabs
+* Switch to messaging v2 API
+* Replace deprecated getdefaultlocale
+* Remove unused test dependencies
+* Add note about lower requirement bounds
+* add pyproject.toml to support pip 23.1
+* tox: Remove basepython
+* Run pyupgrade to clean up Python 2 syntaxes
+* Declare Python 3.12 support
+* Replace extras.safe\_hasattr
+* Drop old excludes
+
+14.0.0
+------
+
+* Display coverage report
+* Drop direct execution of collect.py
+* Bump hacking
+* Remove unnecessary setup\_hook
+* Ignore .eggs directory
+* coveragerc: Remove non-existent path
+* secret\_access\_key should be secret
+* Remove old directory from exclude
+* Remove workaround for Python 2
+* Remove unused MANIFEST.in
+* Remove support for Python < 3.8
+
+13.2.0
+------
+
+* Update python job template
+
+13.1.0
+------
+
+* Drop six
+* Drop unused requirements
+* Use py3 as the default runtime for tox
+* setup.cfg: Replace dashes with underscores
+
+13.0.1
+------
+
+* Bump hacking
+
+13.0.0
+------
+
+* Replace deprecated UPPER\_CONSTRAINTS\_FILE variable
+* Bump pyflakes
+
+11.0.1
+------
+
+* Use unittest.mock instead of mock
+* Drop python version constraints for sphinx
+* Add tls proxy support for Zaqar
+* Stop testing python2.7
+
+11.0.0
+------
+
+* Switch to Ussuri jobs
+
+10.5.0
+------
+
+* Sync Sphinx requirement
+* Update the constraints url
+* Fix config file documentation
+
+10.4.0
+------
+
+* Add Python 3 Train unit tests
+* Replace git.openstack.org URLs with opendev.org URLs
+* OpenDev Migration Patch
+
+10.3.0
+------
+
+* Replace openstack.org git:// URLs with https://
+* Change python3.5 job to python3.7 job on Stein+
+
+10.2.0
+------
+
+
+10.1.0
+------
+
+* Drop baremetal job template
+* Change openstack-dev to openstack-discuss
+* Don't quote {posargs} in tox.ini
+
+10.0.0
+------
+
+* Don't ignore SIGPIPE
+* Use templates for cover
+* add python 3.6 unit test job
+* import zuul job settings from project-config
+
+9.2.0
+-----
+
+
+9.1.0
+-----
+
+* Add region support
+* Switch to stestr
+* fix tox python3 overrides
+
+9.0.0
+-----
+
+* uncap eventlet
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Update links in README
+
+8.3.0
+-----
+
+* Zuul: Remove project name
+
+8.2.0
+-----
+
+* Remove RH1 OVB jobs from configuration
+* Updated from global requirements
+* Updated from global requirements
+* Lower local collector log level
+
+8.1.0
+-----
+
+* Remove -U from pip install
+* Avoid tox\_install.sh for constraints support
+* Updated from global requirements
+* Migrate os-collect-config to zuul v3 jobs
+
+8.0.0
+-----
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+
+7.1.0
+-----
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+
+7.0.0
+-----
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Don't fail on non-valid json in cache files
+* Use universal\_newlines with subprocess.check\_output
+
+7.0.0.0b1
+---------
+
+* Add splay option to offset polling intervals
+* Updated from global requirements
+* Updated from global requirements
+* Allow setting minimum polling interval for collect
+* Update to a newer hacking library
+* Delete H803 from ignore list
+* Use pop for checking messages with websocket
+* Add Constraints support
+
+6.0.0
+-----
+
+* Updated from global requirements
+
+6.0.0.0b2
+---------
+
+* Add support for Zaqar websockets
+* Show team and repo badges on README
+* Remove discover from test-requirements
+
+6.0.0.0b1
+---------
+
+* Updated from global requirements
+* Updated from global requirements
+* ec2 collector attempt config-drive before metadata server
+* Treat ec2 collector data as immutable
+* Use TEST-NET-1 for unit tests, not 127.0.0.1
+* Open os-collect-config for Ocata
+
+5.0.0
+-----
+
+* Revert "Treat ec2 collector data as immutable"
+* Treat ec2 collector data as immutable
+* Only re-exec on config change or HUP
+
+5.0.0.0b3
+---------
+
+* Set a timeout for all data fetches using requests
+* Updated from global requirements
+
+5.0.0.0b1
+---------
+
+* Updated from global requirements
+* Updated from global requirements
+* Updated from global requirements
+* Deprecated tox -downloadcache option removed
+* Switch to oslo.log again
+* Revert "Switch to oslo.log"
+* Switch to oslo.log
+
+0.1.37
+------
+
+* Remove argparse from requirements
+* Replace assertEqual(None, \*) with assertIsNone in tests
+* Updated from global requirements
+* shorter sleeps if metadata changes are detected
+
+0.1.36
+------
+
+* Change ignore-errors to ignore\_errors
+* Updated from global requirements
+* Add support for zaqar transport
+* Refactor merging out of cfn collector
+* Updated from global requirements
+
+0.1.35
+------
+
+* Log with info instead of warn when collector not configured
+* Drop use of 'oslo' namespace package
+
+0.1.34
+------
+
+* Updated from global requirements
+* Use non-versioned auth\_url for keystone
+* Updated from global requirements
+
+0.1.33
+------
+
+* Updated from global requirements
+
+0.1.32
+------
+
+* Updated from global requirements
+
+0.1.31
+------
+
+* Add ca\_certificate option for SSL'd api
+* Updated from global requirements
+
+0.1.30
+------
+
+* Updated from global requirements
+* Bump hacking to 0.9.x series
+* Updated from global requirements
+* Enable local collector by default
+* Handle missing local collector directory
+* Collector which does a simple HTTP GET
+
+0.1.29
+------
+
+* Updated from global requirements
+* Updated from global requirements
+* Exit with error status on failed command
+* Fix py3k popen and locale test fails
+* Add unit test for heat\_local
+* Modify gitignore to ignore cover
+
+0.1.28
+------
+
+* Updated from global requirements
+* Using keystone discover to find V3 auth\_url
+* Add support for Python 3
+* Sync log from oslo
+
+0.1.27
+------
+
+* Allow using non-default collectors
+* Updated from global requirements
+
+0.1.26
+------
+
+* Add a local data collector
+
+0.1.25
+------
+
+* Do not log unconfigured collector as warning
+
+0.1.24
+------
+
+* Revert "Make heat the default collection method"
+* Make heat the default collection method
+* Cache auth\_ref from keystoneclient
+* Add dogpile cache to keystone abstraction layer
+
+0.1.23
+------
+
+* Split keystone away from heat collector
+
+0.1.22
+------
+
+* Updated from global requirements
+
+0.1.21
+------
+
+* Fix coverage report generation with tox
+
+0.1.20
+------
+
+* Use json equality rather than raw text
+
+0.1.19
+------
+
+* Only top-level some deployment configs
+
+0.1.18
+------
+
+* Updated from global requirements
+
+0.1.17
+------
+
+
+0.1.16
+------
+
+* Add collector for heat API resource metadata
+
+0.1.15
+------
+
+* Commit changes to exploded deployments to cache
+* Test that collect\_all works when nothing changed
+* Cover deployments explosion case better in tests
+* Updated from global requirements
+* Restore 'deployments' key to cfn Metadata
+
+0.1.14
+------
+
+* Updated from global requirements
+* Add diagram to os-collect-config README.rst
+
+0.1.13
+------
+
+* Parse deployments if found in cfn metadata
+* Updated from global requirements
+* Change collector interface to return a list
+
+0.1.12
+------
+
+* Updated from global requirements
+
+0.1.11
+------
+
+* Remove tox locale overrides
+* Updated from global requirements
+
+0.1.10
+------
+
+* Move default cache dir to persistent location
+
+0.1.9
+-----
+
+* Log the value of OS\_CONFIG\_FILES
+
+0.1.8
+-----
+
+* Have tox install via setup.py develop
+* Updated from global requirements
+
+0.1.7
+-----
+
+* Revert "Support building wheels (PEP-427)"
+* Tidy up README.rst, formatting
+* Fix typo error in README.rst
+
+0.1.6
+-----
+
+* Support building wheels (PEP-427)
+* Comply with new hacking requirements
+* Updated from global requirements
+
+0.1.5
+-----
+
+* Reduce default polling interval to 30 seconds
+* Updated from global requirements
+* Updated from global requirements
+
+0.1.4
+-----
+
+* Updated from global requirements
+
+0.1.3
+-----
+
+* Fix the formatting in the README
+* Updated from global requirements
+* Imply --one-time when --force is used
+
+0.1.2
+-----
+
+* Updated from global requirements
+* Replace github references with git.o.o
+* Make --version work properly
+
+0.1.1
+-----
+
+* Add --print option to force printing
+
+0.1.0
+-----
+
+* Update requirements
+* Add a --force option
+* Store list of collected configs in cachedir
+* Add --print-cachedir option
+* Replace tearDown with NestedTempfile Fixture
+* Rerun os-collect-config if config changed
+* Setup loghandlers in o-c-c binary
+* Update stackforge references to openstack
+* Remove travis CI from repo
+
+0.0.1
+-----
+
+* Stop resetting logging on every call to \_\_main\_\_
+* Stop using tearDown
+* Do not cache new data if command fails
+* Document the last file presence
+* Switch to StringStream
+* Rework test\_main to use FakePopen
+* Bump minimum version of fixtures
+* Reverse default order of collectors
+* Ignore H803 checks from flake8
+* Fix a hacking complaint
+* Fix heat hint file reading to work properly
+* Fixing crash during commit when collection failed
+* Re-execute after commands and on SIGHUP
+* Use heat-cfntools path hint for cfn.metadata\_url
+* Run forever if a command is configured
+* Fixes for hacking 0.6
+* Ensure that README file makes it into the tarball
+* Detect invalid collectors
+* Allow changing the collectors that are used
+* Enable heat\_local collector
+* Add heat\_local for locally injected metadata
+* Correct inaccuracies in README.md
+* Correct title in README.md
+* Fix problems exposed by trying against heat-api-cfn
+* Use Ec2Signer from keystoneclient
+* Add handling of a failing source
+* Switch to using isolated collect\_all
+* isolate collect\_all from main
+* Factor out generic call to main
+* Run all collectors
+* Fix bugs and improve test coverage for cfn
+* Cover unconfigured cfn.metadata\_url
+* Actual implementation of CloudFormation
+* Refactor to avoid monkeypatching requests
+* Skeleton implementation of cfn
+* Use a session so only one connection is needed
+* Migrate from httplib2 to requests
+* Ensure full test coverage of cache
+* Rearrange cache to its own module
+* If no command is specified, print collected data as json
+* Fix tests for shell argument
+* Use shell to execute --command
+* Do not commit when creating .orig
+* Detect cache changes properly
+* Fixing missed monkey patch
+* Implement --command as documented in README.md
+* using global CONF object
+* Add CLI options
+* Add cachedir and command options
+* Move ec2 code into its own module
+* Use oslo.config
+* Assert logging
+* Add logging
+* Importing openstack-common using update.py and openstack-common.conf
+* Revert "import openstack.common from oslo-incubator"
+* import openstack.common from oslo-incubator
+* Add explicit os\_collect\_config exceptions
+* Fixes from testing on HP Cloud Instances
+* Add copyright and license headers
+* Fix tests for rename
+* Fix .gitreview file
+* Splitting os-collect-config into its own repo
+* Create os-collect-config entry point
+* Rename to os-apply-config
+* Allow default type's to contain underscores
+* Add a 'netaddress' value type for --key
+* Allow empty strings for raw and default types
+* Add support for default --key values
+* Allow missing tags in templates
+* Read metadata from local heat-cfntools cache
+* Make main() return rather than call sys.exit
+* Remove unnecessary check for writable output dir
+* Adding stackforge .gitreview file
+* Remove env vars we don't use
+* Align to OpenStack Hacking rules
+* Aligned tests with OpenStack standards
+* Migrate to pbr and testr
+* Render complex sub-objects using json.dumps
+* Ensure config files are readable by all
+* Pass all flake8 tests - run in CI too
+* Atomically replace files
+* Adding IRC notifications for travis CI
+* Disable Python 2.6 CI until someone asks for it
+* Make travis-CI python 2.6 jobs work
+* Adding Travis-CI support
+* Pass subhash option to install\_config
+* Test subhash
+* Fix printing stack trace while running tests
+* Allow printing of metadata values with '--key KEY':
+* Add --subhash to use a sub-scope of metadata:
+* Add default value to arguments to main:
+* add --print-templates option
+* Add default templates path
+* Use argparse as optparse is deprecated
+* include template path in missing key error
+* Update README.md
+* correct default cfn-init-data path
+* make readme more serious
+* update readme with s/cornfig/os-config-applier/
+* update code to reflect s/cornfig/os-config-applier/
+* bump version to 0.3
+* log to /var/log, if run as root
+* better error messages
+* add --validate option
+* Update README.md
+* Update README.md
+* Update README.md
+* more helpful error reporting
+* pass json to exec templates on stdin
+* update readme
+* better error messaging
+* proper command-line parsing and help
+* add logging
+* make cornfig module callable as \_\_main\_\_
+* skip setup.py long\_description
+* fix opening "/" bug
+* Update README.md
+* Update README.md
+* Update README.md
+* Update README.md
+* Update README.md
+* Add comments
+* Update README.md
+* Update README.md
+* Update README.md
+* Update README.md
+* Update README.md
+* Update README.md
+* Make the tool usable from CLI
+* Update README.md
+* Update README.md
+* working config tree generation
+* mostly there, no ui yet
+* skeleton python project with tests
+* Initial commit
