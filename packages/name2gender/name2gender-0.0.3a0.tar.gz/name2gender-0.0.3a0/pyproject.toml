@@ -1,0 +1,17 @@
+[project]
+name = "name2gender"
+version = "0.0.3.alpha"
+description = "From names in multiple languages to gender."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "deeplotx>=0.8.7",
+    "name4py>=0.1.4",
+    "gdown",
+    "requests",
+    "click",
+]
+
+[project.scripts]
+name2gender = "name2gender._entry_point:main"
+n2g = "name2gender._entry_point:main"
