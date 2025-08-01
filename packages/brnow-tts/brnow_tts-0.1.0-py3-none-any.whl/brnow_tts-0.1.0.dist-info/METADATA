@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: brnow-tts
+Version: 0.1.0
+Summary: TTS BRNOW ABS-G
+Home-page: 
+Author: BRNOW
+Author-email: suporte@brnow.cloud
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: google-cloud-texttospeech
+
+# BRNOW_TTS
+
+Este pacote fornece uma interface simplificada para uso do TTS via `g-cloud-texttospeech`, encapsulado.
+
+## Instalação
+
+```bash
+pip install brnow_tts
