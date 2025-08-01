@@ -1,0 +1,140 @@
+Metadata-Version: 2.4
+Name: shaheenai
+Version: 0.1.0
+Summary: A flexible, multi-LLM, agent-oriented Python library with self-reflection capabilities
+Author: Hamza - AI Engineer, Python Developer, Machine Learning, Agentic AI, Data Science, Node, Express, Typescript, NextJS
+License: MIT
+Project-URL: Homepage, https://github.com/hamza/shaheenai
+Project-URL: Documentation, https://shaheenai.readthedocs.io
+Project-URL: Repository, https://github.com/hamza/shaheenai
+Project-URL: Bug Tracker, https://github.com/hamza/shaheenai/issues
+Keywords: ai,llm,agents,automation,openai,groq,gemini
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: asyncio-compat>=0.1.0
+Requires-Dist: litellm>=1.0.0
+Requires-Dist: fastapi>=0.100.0
+Requires-Dist: uvicorn>=0.23.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: typing-extensions>=4.0.0
+Provides-Extra: openai
+Requires-Dist: openai>=1.0.0; extra == "openai"
+Provides-Extra: anthropic
+Requires-Dist: anthropic>=0.7.0; extra == "anthropic"
+Provides-Extra: cohere
+Requires-Dist: cohere>=4.0.0; extra == "cohere"
+Provides-Extra: groq
+Requires-Dist: groq>=0.4.0; extra == "groq"
+Provides-Extra: ollama
+Requires-Dist: ollama>=0.1.0; extra == "ollama"
+Provides-Extra: streamlit
+Requires-Dist: streamlit>=1.28.0; extra == "streamlit"
+Provides-Extra: chainlit
+Requires-Dist: chainlit>=1.0.0; extra == "chainlit"
+Provides-Extra: ui
+Requires-Dist: streamlit>=1.28.0; extra == "ui"
+Requires-Dist: chainlit>=1.0.0; extra == "ui"
+Provides-Extra: all
+Requires-Dist: openai>=1.0.0; extra == "all"
+Requires-Dist: anthropic>=0.7.0; extra == "all"
+Requires-Dist: cohere>=4.0.0; extra == "all"
+Requires-Dist: groq>=0.4.0; extra == "all"
+Requires-Dist: ollama>=0.1.0; extra == "all"
+Requires-Dist: streamlit>=1.28.0; extra == "all"
+Requires-Dist: chainlit>=1.0.0; extra == "all"
+Dynamic: license-file
+
+# shaheenai
+
+ShaheenAI is a flexible, multi-LLM, agent-oriented Python library that supports multiple language model providers like OpenAI, Anthropic, Ollama, and Cohere via a plugin/extras architecture. The library offers self-reflection, tool invocation, task chaining, and optional UI integrations using Streamlit and Chainlit.
+
+## Features
+- **Modular Agent Class:** Supports multiple LLMs with self-reflection, tool invocation, and task chaining.
+- **MCP Server Interface:** Optionally integrates tools and external APIs.
+- **Configurable via YAML or Code:** Supports playbooks and programmatic configuration.
+- **Wide LLM Provider Support:** OpenAI, Anthropic, Ollama, Cohere, etc.
+- **Streamlit and Chainlit Support:** Build interactive and conversational UIs for agents.
+
+## Getting Started
+
+### Prerequisites
+- Python 3.10 or higher
+
+### Installation
+To install ShaheenAI, use pip:
+```bash
+pip install shaheenai
+```
+
+### Usage
+Here's a basic example of how to use ShaheenAI to create an agent that utilizes a weather tool:
+
+```python
+from shaheenai.agent import Agent
+from shaheenai.mcp import MCP
+
+# Define and run the MCP server
+mcp = MCP()
+@mcp.tool()
+async def get_weather(location: str) -> str:
+    return "Sunny with 25°C"
+
+if __name__ == "__main__":
+    mcp.run()
+
+# Create an agent
+agent = Agent(instructions="You can use tools when needed", llm="openai", tools=["get_weather"])
+response = agent.start("What's the weather in Lahore today?")
+print(response)
+```
+
+### CLI
+ShaheenAI provides a command-line interface for running agents defined in YAML playbooks or via auto-mode.
+
+Example:
+```bash
+shaheenai run agents.yaml
+```
+
+## Directory Structure
+```
+shaheenai/
+ ├── shaheenai/
+ │    ├── __init__.py
+ │    ├── agent.py
+ │    ├── mcp.py
+ │    ├── llm_providers/
+ │    │     ├── openai.py
+ │    │     ├── cohere.py
+ │    │     └── ...
+ │    ├── tools/
+ │    └── config.py
+ ├── setup.py or pyproject.toml
+ ├── README.md
+ ├── LICENSE  # e.g. MIT
+ └── examples/
+      ├── app.py
+      └── agents.yaml
+```
+
+## Contributing
+Contributions are welcome! Please read the contribution guidelines first.
+
+## License
+This project is licensed under the MIT License.
+
+## Acknowledgments
+Inspired by PraisonAI for its modularity and multi-LLM support.
