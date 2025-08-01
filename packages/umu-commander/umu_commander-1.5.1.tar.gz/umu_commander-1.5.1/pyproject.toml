@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "umu-commander"
+version = "1.5.1"
+authors = [
+  { name="Mpaxlamitsounas", email="worldstudy123@gmail.com" },
+]
+description = "umu-commander is an interactive CLI tool to help you manage umu."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+]
+dependendies =[
+    "tomli-w"
+]
+
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+keywords = ["umu"]
+
+[project.urls]
+Homepage = "https://github.com/Mpaxlamitsounas/umu-commander"
+Issues = "https://github.com/Mpaxlamitsounas/umu-commander/issues"
+
+[project.scripts]
+umu-commander = "umu_commander.main:main"
