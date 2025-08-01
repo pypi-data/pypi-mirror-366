@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lucidx"
+version = "1.0.4"
+authors = [
+    {name = "Alex Butler [Vritra Security Organization]"},
+]
+description = "AI-powered image synthesis engine using Stability AI API"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Artistic Software",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Environment :: Console",
+    "Natural Language :: English",
+]
+keywords = [
+    "ai", "artificial-intelligence", "image-generation", "stability-ai", 
+    "text-to-image", "image-synthesis", "cli", "tool", "python",
+    "machine-learning", "deep-learning", "creative", "art", "digital-art"
+]
+dependencies = [
+    "colorama>=0.4.4",
+    "requests>=2.25.1",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/VritraSecz/LucidX"
+"Bug Tracker" = "https://github.com/VritraSecz/LucidX/issues"
+"Documentation" = "https://github.com/VritraSecz/LucidX#readme"
+"Source Code" = "https://github.com/VritraSecz/LucidX"
+"Telegram" = "https://t.me/LinkCentralX"
+"Website" = "https://vritrasec.com"
+
+[project.scripts]
+lucidx = "lucidx.main:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "twine>=3.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lucidx*"]
+
+[tool.setuptools.package-data]
+lucidx = ["*.txt", "*.md"]
