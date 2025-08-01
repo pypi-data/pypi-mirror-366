@@ -1,0 +1,185 @@
+Metadata-Version: 2.4
+Name: gala
+Version: 1.10.0
+Summary: Galactic dynamics in Python
+Author-email: Adrian Price-Whelan <adrianmpw@gmail.com>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2012-2024 Adrian M. Price-Whelan
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Documentation, https://gala.adrian.pw
+Project-URL: Repository, https://github.com/adrn/gala.git
+Keywords: astronomy,dynamics
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+License-File: AUTHORS.rst
+Requires-Dist: numpy>=1.26.4
+Requires-Dist: scipy>=1.12
+Requires-Dist: astropy>=6.0
+Requires-Dist: pyyaml
+Requires-Dist: cython>=0.29
+Provides-Extra: shared
+Requires-Dist: matplotlib; extra == "shared"
+Requires-Dist: numexpr; extra == "shared"
+Requires-Dist: h5py; extra == "shared"
+Requires-Dist: tqdm; extra == "shared"
+Provides-Extra: test
+Requires-Dist: gala[shared]; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-astropy; extra == "test"
+Provides-Extra: extra
+Requires-Dist: galpy; extra == "extra"
+Requires-Dist: sympy; extra == "extra"
+Requires-Dist: twobody; extra == "extra"
+Requires-Dist: scipy<1.15; extra == "extra"
+Provides-Extra: docs
+Requires-Dist: gala[extra,shared]; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Requires-Dist: ipykernel; extra == "docs"
+Requires-Dist: jupyter-client; extra == "docs"
+Requires-Dist: nbsphinx; extra == "docs"
+Requires-Dist: ipython_genutils; extra == "docs"
+Requires-Dist: pydata_sphinx_theme; extra == "docs"
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinxcontrib-bibtex; extra == "docs"
+Requires-Dist: sphinx-astrorefs; extra == "docs"
+Requires-Dist: sphinx_automodapi; extra == "docs"
+Requires-Dist: sphinx_astropy; extra == "docs"
+Requires-Dist: rtds_action; extra == "docs"
+Requires-Dist: requests; extra == "docs"
+Provides-Extra: tutorials
+Requires-Dist: gala[extra,shared]; extra == "tutorials"
+Requires-Dist: IPython; extra == "tutorials"
+Requires-Dist: nbconvert; extra == "tutorials"
+Requires-Dist: ipython_genutils; extra == "tutorials"
+Requires-Dist: jupyter_client; extra == "tutorials"
+Requires-Dist: ipykernel; extra == "tutorials"
+Requires-Dist: jupytext; extra == "tutorials"
+Requires-Dist: pyia>=1.4; extra == "tutorials"
+Requires-Dist: astroquery; extra == "tutorials"
+Provides-Extra: dev
+Requires-Dist: gala[docs,extra,test,tutorials]; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Dynamic: license-file
+
+|logo|
+
+Gala is a Python package for Galactic and gravitational dynamics.
+
+|Affiliated package| |Coverage Status| |Build status|
+
+Documentation
+-------------
+
+|Documentation Status|
+
+The documentation for ``Gala`` is hosted on `Read the docs
+<http://gala.adrian.pw>`__.
+
+Installation and Dependencies
+-----------------------------
+
+|conda| |PyPI|
+
+The easiest way to get Gala is to install with pip or conda.
+
+The recommended install method is to use ``pip``::
+
+   pip install gala
+
+If you are on Linux or Mac, you can also install ``gala`` with conda using the
+conda-forge channel::
+
+    conda install gala --channel conda-forge
+
+See the `installation
+instructions <http://gala.adrian.pw/en/latest/install.html>`_ in the
+`documentation <http://gala.adrian.pw>`__ for more information.
+
+Attribution
+-----------
+
+|JOSS| |DOI|
+
+If you make use of this code, please cite the `JOSS <http://joss.theoj.org>`_
+paper::
+
+    @article{gala,
+      doi = {10.21105/joss.00388},
+      url = {https://doi.org/10.21105%2Fjoss.00388},
+      year = 2017,
+      month = {oct},
+      publisher = {The Open Journal},
+      volume = {2},
+      number = {18},
+      author = {Adrian M. Price-Whelan},
+      title = {Gala: A Python package for galactic dynamics},
+      journal = {The Journal of Open Source Software}
+    }
+
+Please also cite the Zenodo DOI |DOI| as a software citation - see the
+`documentation
+<http://gala.adrian.pw/en/latest/index.html#citation-and-attribution>`_ for up
+to date citation information.
+
+License
+-------
+
+|License|
+
+Copyright 2013-2024 Adrian Price-Whelan and contributors.
+
+``Gala`` is free software made available under the MIT License. For details see
+the `LICENSE <https://github.com/adrn/gala/blob/main/LICENSE>`_ file.
+
+.. |Coverage Status| image:: https://codecov.io/gh/adrn/gala/branch/main/graph/badge.svg
+   :target: https://codecov.io/gh/adrn/gala
+.. |Build status| image:: https://github.com/adrn/gala/actions/workflows/tests.yml/badge.svg
+   :target: https://github.com/adrn/gala/actions/workflows/tests.yml
+.. |License| image:: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
+   :target: https://github.com/adrn/gala/blob/main/LICENSE
+.. |PyPI| image:: https://badge.fury.io/py/gala.svg
+   :target: https://badge.fury.io/py/gala
+.. |conda| image:: https://anaconda.org/conda-forge/gala/badges/version.svg
+   :target: https://anaconda.org/conda-forge/gala
+.. |Documentation Status| image:: https://readthedocs.org/projects/gala-astro/badge/?version=latest
+   :target: http://gala-astro.readthedocs.io/en/latest/?badge=latest
+.. |Affiliated package| image:: https://img.shields.io/badge/astropy-affiliated%20package-orange.svg
+   :target: http://astropy.org/affiliated
+.. |JOSS| image:: http://joss.theoj.org/papers/10.21105/joss.00388/status.svg
+   :target: http://joss.theoj.org/papers/10.21105/joss.00388
+.. |DOI| image:: https://zenodo.org/badge/17577779.svg
+   :target: https://zenodo.org/badge/latestdoi/17577779
+.. |ASCL| image:: https://img.shields.io/badge/ascl-1707.006-blue.svg?colorB=262255
+   :target: http://ascl.net/1707.006
+.. |logo| image:: https://gala.adrian.pw/en/latest/_static/Gala_Logo_RGB.png
+   :target: https://github.com/adrn/gala
+   :width: 400
+
+Contributors
+------------
+
+See the `AUTHORS.rst <https://github.com/adrn/gala/blob/main/AUTHORS.rst>`_
+file for a complete list of contributors to the project.
