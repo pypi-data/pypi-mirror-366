@@ -1,0 +1,42 @@
+[project]
+name = "pycountry-wrapper"
+dependencies = [
+    "pycountry~=24.6.1",
+]
+version = "1.0.1"
+dynamic = []
+authors = [
+    {name = "Hazel Noack", email = "hazel@webcontact.de"},
+]
+
+description = "This is a wrapper for pycountry, to make said library more usable."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/hazel-noack/pycountry-wrapper"
+Issues = "https://github.com/hazel-noack/pycountry-wrapper/issues"
+
+[project.scripts]
+pycountry-wrapper = "pycountry_wrapper.__main__:cli"
+
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+directory = "dist"
+
+[tool.hatch.build.targets.sdist]
+include = ["pycountry_wrapper/*.py"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pycountry_wrapper"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
