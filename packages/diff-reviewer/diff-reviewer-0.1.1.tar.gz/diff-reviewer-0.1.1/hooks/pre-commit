@@ -1,0 +1,157 @@
+#!/bin/bash
+set +e
+
+# Ensure there are staged changes
+if git diff --cached --quiet; then
+  echo "🟡 No staged changes to review."
+  exit 0
+fi
+
+# Save the diff with context to a temp file
+PATCH_FILE="/tmp/diff_review_patch_$$.patch"
+LOG_FILE="/tmp/diff_reviewer_$$.log"
+
+git diff --cached --unified=3 --diff-filter=ACM > "$PATCH_FILE"
+
+COMMIT_ID=$(git rev-parse --short HEAD 2>/dev/null || date +%Y%m%d%H%M%S)
+
+ABS_LOG_FILE=$(realpath "$LOG_FILE" 2>/dev/null || echo "$LOG_FILE")
+
+echo "📤 Queuing diff review job... (log: $ABS_LOG_FILE)"
+
+# Find binary: first try `which`, fallback to Python config loader
+DIFF_REVIEWER_BIN=$(which diff-reviewer 2>/dev/null || true)
+
+if [[ -z "$DIFF_REVIEWER_BIN" ]]; then
+  echo "🔍 diff-reviewer not found in PATH, trying config..." >> "$LOG_FILE"
+  RAW_CONFIG_PATH="$HOME/.diff_reviewer/config.json"
+  if command -v cygpath &> /dev/null; then
+    CONFIG_PATH=$(cygpath -w "$RAW_CONFIG_PATH")
+  else
+    CONFIG_PATH="$RAW_CONFIG_PATH"
+  fi
+  echo "📝 Config path: $CONFIG_PATH" >> "$LOG_FILE"
+  export CONFIG_PATH
+
+  if [[ -f "$CONFIG_PATH" ]]; then
+    PYTHON_BIN=""
+    # Function to test if a Python binary is real
+    function is_real_python() {
+      "$1" -c "print(42)" 2>/dev/null | grep -q 42
+    }
+
+    # Try python3
+    if command -v python3 >/dev/null 2>&1 && is_real_python "$(command -v python3)"; then
+      PYTHON_BIN=$(command -v python3)
+
+    # Try python
+    elif command -v python >/dev/null 2>&1 && is_real_python "$(command -v python)"; then
+      PYTHON_BIN=$(command -v python)
+
+    else
+      echo "❌ No working Python interpreter found." >> "$LOG_FILE"
+      exit 0
+    fi
+
+    echo "🐍 Using Python binary: $PYTHON_BIN" >> "$LOG_FILE"
+
+    DIFF_REVIEWER_BIN=$(
+  "$PYTHON_BIN" -c "
+import json, os, pathlib
+path = os.environ.get('CONFIG_PATH')
+try:
+    with open(path, 'r', encoding='utf-8') as f:
+        bin_path = json.load(f).get('binary_path', '')
+        print(pathlib.Path(bin_path).resolve().as_posix())
+except Exception as e:
+    with open('$LOG_FILE', 'a', encoding='utf-8') as log:
+        log.write('❌ Python error while reading config:\\n')
+        log.write(str(e) + '\\n')
+    print('')
+" 2>>"$LOG_FILE"
+)
+
+    echo "🐛 Extracted binary path from config: '$DIFF_REVIEWER_BIN'" >> "$LOG_FILE"
+  fi
+fi
+
+# If config returned a Windows path, convert to Unix-style if needed
+if [[ "$OSTYPE" == msys* || "$OSTYPE" == cygwin* || "$OSTYPE" == win32* ]]; then
+  DIFF_REVIEWER_BIN=$(echo "$DIFF_REVIEWER_BIN" | sed 's|\\|/|g' | sed -E 's|([A-Za-z]):|/\L\1|')
+fi
+
+if [[ ! -f "$DIFF_REVIEWER_BIN" ]]; then
+  echo "❌ Could not find 'diff-reviewer' binary at $DIFF_REVIEWER_BIN"
+  echo "💡 Try running: pip install diff-reviewer && diff-reviewer init"
+  exit 0
+fi
+
+OS=$(uname | tr '[:upper:]' '[:lower:]')
+
+# === QUEUE MECHANISM ===
+
+QUEUE_DIR="$HOME/.diff_reviewer/queue"
+mkdir -p "$QUEUE_DIR"
+
+JOB_FILE="$QUEUE_DIR/job_$(date +%s%N).json"
+PATCH_BASE64=$(base64 "$PATCH_FILE" | tr -d '\n')
+
+cat <<EOF > "$JOB_FILE"
+{
+  "patch": "$PATCH_BASE64",
+  "commit_id": "$COMMIT_ID",
+  "log_file": "$LOG_FILE"
+}
+EOF
+
+echo "📦 Queued job: $JOB_FILE" >> "$LOG_FILE"
+
+# === WORKER MECHANISM ===
+
+WORKER_PID_FILE="$QUEUE_DIR/worker.pid"
+
+if [[ -f "$WORKER_PID_FILE" ]]; then
+  existing_pid=$(cat "$WORKER_PID_FILE")
+    if ps -p "$existing_pid" > /dev/null 2>&1; then
+    echo "🕐 Worker already running (PID $existing_pid)" >> "$LOG_FILE"
+      exit 0
+    else
+    echo "⚠️ Found stale worker PID. Removing..." >> "$LOG_FILE"
+    rm -f "$WORKER_PID_FILE"
+    fi
+  fi
+
+# Launch worker in background
+(
+  echo $$ > "$WORKER_PID_FILE"
+
+  while true; do
+    next_job=$(find "$QUEUE_DIR" -name 'job_*.json' | sort | head -n 1)
+
+    if [[ -z "$next_job" ]]; then
+      sleep 2
+      continue
+  fi
+
+    job_data=$(cat "$next_job")
+    PATCH_BASE64=$(echo "$job_data" | grep '"patch"' | cut -d\" -f4)
+    COMMIT_ID=$(echo "$job_data" | grep '"commit_id"' | cut -d\" -f4)
+    LOG_FILE=$(echo "$job_data" | grep '"log_file"' | cut -d\" -f4)
+
+    TMP_PATCH="/tmp/patch_$RANDOM.patch"
+    echo "$PATCH_BASE64" | base64 -d > "$TMP_PATCH"
+
+    echo "🔍 Processing $next_job" >> "$LOG_FILE"
+    "$DIFF_REVIEWER_BIN" diff "$TMP_PATCH" "$COMMIT_ID" >> "$LOG_FILE" 2>&1
+    if [[ "$OS" == "msys" || "$OS" == "win32" || "$OS" == "cygwin" ]]; then
+      nohup "$DIFF_REVIEWER_BIN" diff "$TMP_PATCH" "$COMMIT_ID" >> "$LOG_FILE" 2>&1
+    else
+      "$DIFF_REVIEWER_BIN" diff "$TMP_PATCH" "$COMMIT_ID" >> "$LOG_FILE" 2>&1
+    fi
+
+    rm -f "$TMP_PATCH" "$next_job"
+  done
+) &
+
+# Let Git proceed immediately
+exit 0

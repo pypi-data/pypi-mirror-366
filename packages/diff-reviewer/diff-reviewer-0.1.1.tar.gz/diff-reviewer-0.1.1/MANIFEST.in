@@ -1,0 +1,15 @@
+# Include the pre-commit hook script
+include hooks/pre-commit
+
+# Include model instructions
+recursive-include models *.txt
+
+# Include the setup shell script
+include setup_global_hook.sh
+
+# Include all Python source files
+recursive-include diff_reviewer *.py
+
+# Include README, LICENSE, and other important files
+include README.md
+include LICENSE
