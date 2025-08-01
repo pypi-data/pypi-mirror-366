@@ -1,0 +1,129 @@
+Metadata-Version: 2.3
+Name: autointent
+Version: 0.2.0
+Summary: A tool for automatically configuring a text classification pipeline for intent prediction.
+License: Apache 2.0
+Keywords: nlp,dialog-systems,transformers,auto-ml
+Author: Alexeev Ilya
+Author-email: ilya_alekseev_2016@list.ru
+Maintainer: Alexeev Ilya
+Maintainer-email: ilya_alekseev_2016@list.ru
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Natural Language :: Russian
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Topic :: Utilities
+Classifier: Framework :: Pytest
+Classifier: Framework :: Sphinx
+Classifier: Typing :: Typed
+Provides-Extra: codecarbon
+Provides-Extra: dev
+Provides-Extra: docs
+Provides-Extra: dspy
+Provides-Extra: test
+Provides-Extra: typing
+Provides-Extra: wandb
+Requires-Dist: aiofiles (>=24.1.0,<25.0.0)
+Requires-Dist: aiometer (>=1.0.0,<2.0.0)
+Requires-Dist: appdirs (>=1.4,<2.0)
+Requires-Dist: catboost (>=1.2.8,<2.0.0)
+Requires-Dist: codecarbon (>=3.0.2,<3.1.0) ; extra == "codecarbon"
+Requires-Dist: coverage (>=7.6.1,<8.0.0) ; extra == "test"
+Requires-Dist: datasets (>=3.2.0,<4.0.0)
+Requires-Dist: dspy (>=2.6.5,<3.0.0) ; extra == "dspy"
+Requires-Dist: faiss-cpu (>=1.9.0,<2.0.0)
+Requires-Dist: ipykernel (>=6.29.5,<7.0.0) ; extra == "dev"
+Requires-Dist: ipykernel (>=6.29.5,<7.0.0) ; extra == "docs"
+Requires-Dist: ipywidgets (>=8.1.5,<9.0.0) ; extra == "dev"
+Requires-Dist: joblib-stubs (>=1.4.2.5.20240918,<2.0.0) ; extra == "typing"
+Requires-Dist: jupytext (>=1.16.4,<2.0.0) ; extra == "docs"
+Requires-Dist: mypy (>=1,<2) ; extra == "typing"
+Requires-Dist: nbsphinx (>=0.9.5,<1.0.0) ; extra == "docs"
+Requires-Dist: openai (>=1.59.6,<2.0.0)
+Requires-Dist: optuna (>=4.0.0,<5.0.0)
+Requires-Dist: pandas-stubs (>=2.2.3.250527,<3.0.0) ; extra == "typing"
+Requires-Dist: pathlib (>=1.0.1,<2.0.0)
+Requires-Dist: peft (>=0.10.0,!=0.15.0,!=0.15.1,<1.0.0)
+Requires-Dist: pydantic (>=2.10.5,<3.0.0)
+Requires-Dist: pydata-sphinx-theme (>=0.16.0,<1.0.0) ; extra == "docs"
+Requires-Dist: pynvml (>=8.0.4,<12.0.0) ; extra == "codecarbon"
+Requires-Dist: pytest (>=8.3.2,<9.0.0) ; extra == "test"
+Requires-Dist: pytest-asyncio (>=0.24.0,<1.0.0) ; extra == "test"
+Requires-Dist: pytest-cov (>=5.0.0,<6.0.0) ; extra == "test"
+Requires-Dist: pytest-rerunfailures (>=15.0,<16.0) ; extra == "test"
+Requires-Dist: pytest-xdist (>=3.6.1,<4.0.0) ; extra == "test"
+Requires-Dist: python-dotenv (>=1.0.1,<2.0.0)
+Requires-Dist: ruff (==0.8.4) ; extra == "dev"
+Requires-Dist: scikit-learn (>=1.5,<2.0)
+Requires-Dist: scikit-multilearn (==0.2.0)
+Requires-Dist: sentence-transformers (>=3,<4)
+Requires-Dist: sentencepiece (>=0.2.0,<0.3.0) ; extra == "dev"
+Requires-Dist: sphinx (>=8.1.3,<9.0.0) ; extra == "docs"
+Requires-Dist: sphinx-autoapi (>=3.3.3,<4.0.0) ; extra == "docs"
+Requires-Dist: sphinx-autodoc-typehints (>=2.5.0,<3.0.0) ; extra == "docs"
+Requires-Dist: sphinx-copybutton (>=0.5.2,<1.0.0) ; extra == "docs"
+Requires-Dist: sphinx-llms-txt (>=0.3.0,<0.4.0) ; extra == "docs"
+Requires-Dist: sphinx-multiversion (>=0.2.4,<1.0.0) ; extra == "docs"
+Requires-Dist: sphinx-toolbox (>=4.0.0,<5.0.0) ; extra == "docs"
+Requires-Dist: tach (>=0.11.3,<1.0.0) ; extra == "dev"
+Requires-Dist: tensorboardx (>=2.6.2.2,<3.0.0) ; extra == "docs"
+Requires-Dist: transformers[torch] (>=4.49.0,<5.0.0)
+Requires-Dist: types-aiofiles (>=24.1.0.20250606) ; extra == "typing"
+Requires-Dist: types-pygments (>=2.18.0.20240506,<3.0.0) ; extra == "typing"
+Requires-Dist: types-pyyaml (>=6.0.12.20240917,<7.0.0) ; extra == "typing"
+Requires-Dist: types-setuptools (>=75.2.0.20241019,<76.0.0) ; extra == "typing"
+Requires-Dist: wandb (>=0.19.10,<1.0.0) ; extra == "wandb"
+Requires-Dist: xxhash (>=3.5.0,<4.0.0)
+Project-URL: Documentation, https://deeppavlov.github.io/AutoIntent/
+Project-URL: Homepage, https://deeppavlov.github.io/AutoIntent/
+Project-URL: Repository, https://github.com/deeppavlov/AutoIntent
+Description-Content-Type: text/markdown
+
+# AutoIntent
+
+<img align="left" width="100" height="100" src="logo/square-light.svg#gh-light-mode-only">
+<img align="left" width="100" height="100" src="logo/square-dark.svg#gh-dark-mode-only">
+
+Auto ML for intent classification.
+
+Documentation: [deeppavlov.github.io/AutoIntent](https://deeppavlov.github.io/AutoIntent/).
+
+> The project is under active development.
+
+## Installation
+
+```bash
+pip install autointent
+```
+
+## About
+
+**AutoIntent** is an open source tool for automatic configuration of a text classification pipeline for intent prediction.
+
+The task of intent detection is one of the main subtasks in creating task-oriented dialogue systems, along with scriptwriting and slot filling. AutoIntent project offers users the following:
+
+- A convenient library of methods for intent classification that can be used in a sklearn-like "fit-predict" format.
+- An AutoML approach to creating classifiers, where the only thing needed is to upload a set of labeled data.
+
+Example of building an intent classifier in a couple of lines of code:
+
+```python
+from autointent import Pipeline, Dataset
+
+dataset = Dataset.from_json(path_to_json)
+pipeline = Pipeline.from_preset("light")
+pipeline.fit(dataset)
+pipeline.predict(["show me my latest transactions"])
+```
+
+## Disclaimer
+
+This project is in development phase. Bugs and breaking changes are expected. Contributions and feedback are welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
