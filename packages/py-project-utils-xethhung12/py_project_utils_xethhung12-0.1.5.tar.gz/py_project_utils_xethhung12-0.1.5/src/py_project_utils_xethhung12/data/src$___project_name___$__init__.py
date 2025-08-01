@@ -1,0 +1,1 @@
+from ___project_name___._module_helloworld import hello
