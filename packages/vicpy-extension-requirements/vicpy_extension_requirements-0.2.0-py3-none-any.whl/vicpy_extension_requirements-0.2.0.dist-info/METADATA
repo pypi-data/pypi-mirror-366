@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: vicpy_extension_requirements
+Version: 0.2.0
+Summary: An empty project that contains the requirements for the vicpyx extensions supported by CSI
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Operating System :: Unix
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Topic :: Software Development
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: numpy-stl
+Requires-Dist: plyfile
+Requires-Dist: scipy
+Requires-Dist: vicpyx
+Requires-Dist: vtk
+Requires-Dist: scikit-learn
+Dynamic: license-file
