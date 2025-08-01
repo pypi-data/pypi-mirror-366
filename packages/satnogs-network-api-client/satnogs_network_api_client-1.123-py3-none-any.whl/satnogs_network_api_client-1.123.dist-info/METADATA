@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: satnogs-network-api-client
+Version: 1.123
+Summary: SatNOGS Network API Client
+Home-page: https://gitlab.com/librespacefoundation/satnogs/satnogs-network
+Author: SatNOGS project
+Author-email: dev@satnogs.org
+License: AGPLv3
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Telecommunications Industry
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Communications :: Ham Radio
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+License-File: LICENSE
+Requires-Dist: urllib3~=1.25.0
+Requires-Dist: six~=1.15.0
+Requires-Dist: certifi
+Requires-Dist: python-dateutil~=2.8.0
+Dynamic: license-file
