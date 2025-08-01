@@ -1,0 +1,20 @@
+cysignals!=1.12.0,>=1.11.2
+memory_allocator
+passagemath-environment~=10.6.1.0
+passagemath-categories~=10.6.1.0
+conway-polynomials>=0.8
+
+[:sys_platform == "win32"]
+cysignals<1.12.4
+
+[galdata]
+passagemath-pari-galdata
+
+[seadata-small]
+passagemath-pari-seadata-small
+
+[standard]
+passagemath-pari[galdata,seadata-small]
+
+[test]
+passagemath-repl
