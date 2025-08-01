@@ -1,0 +1,24 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0"]
+
+[project]
+authors = [
+  {name = "mrbeandev", email = "mrbeandev@gmail.com"},
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "mcp[cli]",
+]
+description = "An MCP server that provides AI with direct access to SQLite databases."
+name = "mcp-sqlite-tool"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.1.2"
+
+[project.scripts]
+mcp-sqlite-tool = "mcp_sqlite_tool.__main__:run"
