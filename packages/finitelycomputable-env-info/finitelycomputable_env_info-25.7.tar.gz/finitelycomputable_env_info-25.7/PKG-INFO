@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: finitelycomputable-env-info
+Version: 25.7
+Summary: Common code to implement index and env_info endpoints across frameworks in the microsites of finitelycomputable.net.
+Author-email: Samuel Newbold <sam@rwsh.org>
+License-Expression: AGPL-3.0-only
+Project-URL: Documentation, https://github.com/thrasymache/microsites
+Project-URL: Source, https://github.com/thrasymache/microsites
+Project-URL: Gitlab, https://gitlab.com/thrasymache/microsites
+Project-URL: sourcehut, https://git.sr.ht/~thrasymache/finitelycomputable-microsites
+Project-URL: NotABug, https://notabug.org/thrasymache/finitelycomputable-microsites
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+
+=======================
+FinitelyComputable-Info
+=======================
+
+This distribution provides code to implement the index and info endpoints
+across the frameworks of the microsites of finitelycomputable.net. In contrast
+to the helloworld apps which are written with framework-specific code with
+applications that can run on their own, this is written without
+framework-specific code with each hosting app adding all of the
+framework-specific parts.
