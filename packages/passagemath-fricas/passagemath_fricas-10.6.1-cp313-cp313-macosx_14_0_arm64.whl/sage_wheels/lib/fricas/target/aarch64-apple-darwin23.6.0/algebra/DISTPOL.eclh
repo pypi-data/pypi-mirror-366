@@ -1,0 +1,32 @@
+
+#ifdef ECL_DYNAMIC_VV
+static cl_object *VV;
+#else
+static cl_object VV[VM];
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+static cl_object L529_distpol_eval_dupss_1_(cl_object , cl_object , cl_object );
+static cl_object L530_distpol_integrate_upsds_2_(cl_object , cl_object , cl_object );
+static cl_object L531_distpol_apply_upsdd_3_(cl_object , cl_object , cl_object );
+static cl_object L532_distpol_apply_upsdd_3_0_(cl_object , cl_object );
+static cl_object L533_distributionpolynomialpackage__(cl_object , cl_object , cl_object );
+static cl_object L534_distributionpolynomialpackage_(volatile cl_narg, ...);
+static cl_object Cblock;
+#define VM 30
+#define VMtemp 24
+#define ECL_DEFINE_SETF_FUNCTIONS 
+#ifdef __cplusplus
+}
+#endif
+/*
+ * Exported Lisp functions
+ */
+#define compiler_cfuns_size 6
+static const struct ecl_cfunfixed compiler_cfuns[] = {
+ /*t,m,narg,padding,name=function-location,block=name-location,entry,entry_fixed,file,file_position*/
+{0,0,3,0,ecl_make_fixnum(12),ecl_make_fixnum(0),(cl_objectfn)L529_distpol_eval_dupss_1_,NULL,ECL_NIL,ecl_make_fixnum(0)},
+{0,0,3,0,ecl_make_fixnum(13),ecl_make_fixnum(1),(cl_objectfn)L530_distpol_integrate_upsds_2_,NULL,ECL_NIL,ecl_make_fixnum(1502)},
+{0,0,3,0,ecl_make_fixnum(14),ecl_make_fixnum(2),(cl_objectfn)L531_distpol_apply_upsdd_3_,NULL,ECL_NIL,ecl_make_fixnum(1638)},
