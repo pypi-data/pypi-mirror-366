@@ -1,0 +1,86 @@
+[project]
+name = "sqlite-construct"
+version = "0.1.0"
+description = "SQLite3 database construction components"
+authors = [
+    {email = "ambient@mailbox.org"}
+]
+license = {text = "0BSD"}
+license-files = ["LICEN[CS]E*"]
+readme = "README.md"
+requires-python = ">=3.11"
+
+keywords = [ "sqlite", "database" ]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved",
+    "License :: OSI Approved :: Zero-Clause BSD (0BSD)",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Intended Audience :: Developers",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries",
+]
+
+dependencies = [
+    "packaging (>=25.0,<26.0)",
+    "uritools (>=4.0.3,<5.0.0)"
+]
+
+[project.urls]
+repository = "https://github.com/ambient5/sqlite-construct"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+
+packages = [
+    { include = "sqlite_construct", from = "src" },
+]
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+black = "^24.10.0"
+flake8 = "^7.1.1"
+Flake8-pyproject = "^1.2.3"
+ipython = "^8.32.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+
+[tool.black]
+line-length = 120
+target-version = ['py311', 'py312']
+include = '\.py$'
+
+[tool.isort]
+supported_extensions=["py"]
+line_length = 120
+ignore_comments = true
+honor_noqa = true
+no_inline_sort = true
+profile = "black"  # Requires the 'tool.black' section to be defined first
+
+[tool.flake8]
+ignore = [
+    "D203",  # Blank line required before class docstring
+    "E203",  # Whitespace before ':' (allow black formatting for slices)
+    "W503",  # Line break before binary operator
+] # cover Black's formatting specifics
+extend-exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+]
+per-file-ignores = [
+    "__init__.py:F401" # imported but unused
+]
+max-line-length = 120
+max-complexity = 15

@@ -1,0 +1,150 @@
+# SQLite3 Database Construction Components
+
+------------------------------------------
+
+## TOC
+
+1. [Abstract](#1-abstract)  
+2. [Get Started](#2-get-started)  
+  2.1 [Install the Package](#21-install-the-package)  
+  2.2 [Database Structure Definition Example](#22-database-structure-definition-example)  
+
+
+## 1. Abstract
+
+--------------
+  The package provides Python abstractions for SQLite3 database structural components, like column, table and database. 
+  With these abstractions you can conveniently define desired structure for an SQLite database including all necessary
+constraints and data types. Yet you expected to possess some knowledge of `SQLite DB engine` in general and basic
+familiarity with Python's `sqlite3` module API.
+
+  Components also provide tools to perform basic sanity checks and verification of underlying database physical storage
+consistency against the defined database structure.
+
+[[TOC]](#toc "Table Of Content")
+
+
+## 2. Get Started
+
+-----------------
+
+
+### 2.1 Install the Package
+
+-------------------------------------
+  You install the `sqlite-construct` package like any other regular Python package:
+
+```terminal
+pip install sqlite-construct
+```
+
+[[TOC]](#toc "Table Of Content")
+
+
+### 2.2 Database Structure Definition Example
+
+---------------------------------------------
+
+```python
+from datetime import datetime, timezone
+import sqlite3
+
+from sqlite_construct import (
+    SQLiteDBConnection,
+    SQLiteDBColumnDefinition,
+    SQLiteDBTableDefinition,
+    SQLiteDBDefinition,
+    SQLiteDBTriggerDefinition,
+    SQLiteDBTriggerProgStmtDefinition,
+    DBReference,
+    DB_SCHEME
+)
+
+
+# Define structure of the database
+db_definition = SQLiteDBDefinition(
+    tables=[
+        SQLiteDBTableDefinition(
+            name="product",
+            columns=[
+                SQLiteDBColumnDefinition(name="id", type="INTEGER", constraint="PRIMARY KEY NOT NULL"),
+                SQLiteDBColumnDefinition(name="name", type="TEXT", constraint="NOT NULL"),
+                SQLiteDBColumnDefinition(name="sku_code", type="TEXT", constraint="NOT NULL UNIQUE"),
+                SQLiteDBColumnDefinition(name="timestamp", type="REAL", constraint="NOT NULL"),
+            ],
+        ),
+        SQLiteDBTableDefinition(
+            name="availability",
+            columns=[
+                SQLiteDBColumnDefinition(name="sku_code", type="TEXT", constraint="NOT NULL"),
+                SQLiteDBColumnDefinition(name="store_id", type="INTEGER", constraint="NOT NULL"),
+                SQLiteDBColumnDefinition(name="count", type="INTEGER", constraint="NOT NULL"),
+                SQLiteDBColumnDefinition(name="timestamp", type="REAL", constraint="NOT NULL"),
+            ],
+            constraint=(
+                "PRIMARY KEY (sku_code,store_id),"
+                "FOREIGN KEY(sku_code) REFERENCES product (sku_code)"
+                " ON DELETE RESTRICT ON UPDATE RESTRICT"
+            )
+        )
+    ],
+    triggers=[
+        # Prohibit changing fields of composite PK of the "availability" table even though it'd not violate
+        # uniqueness constraint for PK.
+        SQLiteDBTriggerDefinition(
+            name="before_update_availability",
+            timing="BEFORE",
+            action="UPDATE",
+            table_name="availability",
+            column_names=["sku_code", "store_id"],
+            prog_stmts=[
+                SQLiteDBTriggerProgStmtDefinition(body='SELECT RAISE(FAIL, "Attempt to update immutable field")')
+            ],
+        )
+    ]
+)
+
+
+# Create a DB reference object (optional)
+db_ref=DBReference(scheme=DB_SCHEME.SQLITE3, path="app_db.sqlite3")
+
+# Set up a connection to the database.
+# NOTE. If the DB file does not exist the "sqlite3.connect()" auto-creates an empty DB file.
+db_conn = sqlite3.connect(db_ref.dbname, factory=SQLiteDBConnection)
+# Activate foreign keys support
+db_conn.execute("PRAGMA foreign_keys = ON")
+db_conn.commit()
+db_conn.row_factory = sqlite3.Row
+db_cursor = db_conn.cursor()
+
+# Check the database
+if db_definition.db_is_void(db_cursor=db_cursor):
+    # DB does not hold any schema objects and requires initialization.
+    db_definition.db_init(db_cursor=db_cursor)
+else:
+    # Verify database structure
+    db_definition.db_verify(db_cursor=db_cursor)
+
+# Do some operations on the database
+
+# Prepare data
+sql_template_insert = "INSERT INTO product (name,sku_code,timestamp) VALUES (:name,:sku_code,:timestamp)"
+
+field_values1 = dict(name="product 1", sku_code="sku-code-product1", timestamp=datetime.now(timezone.utc).timestamp())
+field_values2 = dict(name="product 2", sku_code="sku-code-product2", timestamp=datetime.now(timezone.utc).timestamp())
+field_values3 = dict(name="product 3", sku_code="sku-code-product3", timestamp=datetime.now(timezone.utc).timestamp())
+
+# Insert data into the database
+db_cursor.executemany(sql_template_insert, (field_values1, field_values2, field_values3))
+db_conn.commit()
+
+# Fetch data from the database
+db_cursor.execute("SELECT * FROM product")
+for row in db_cursor.fetchall():
+    print(dict(**row))
+
+# Close database
+db_conn.close()
+```
+
+[[TOC]](#toc "Table Of Content")
