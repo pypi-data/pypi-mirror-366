@@ -1,0 +1,698 @@
+Version 0.20250731.0 (Jul 31, 2025)
+	* Some updates to CCC format decoder, to fix bugs in 'type' and
+	  'level' axes, and support for 'YEAR' fields.
+	* Added lake and river surface types (thanks to Pascal Bourgault).
+	* Some compatibility updates for recent numpy versions, to keep the
+	  expected precision for operations.
+	* Avoid use of deprecated "dims" attribute of xarray Datasets.  Thanks
+	  to Pascal Bourgault for the update.
+	* When converting xarray objects back to FSTD format, check for grid
+	  mappings inside the variable's coordinates.  Thanks to Pascal
+	  Bourgault for the update.
+	* Don't automatically exclude 'LA' and 'LO' fields.  They may be
+	  needed in some circumstances, and it's confusing to use the
+	  --keep-LA-LO option vs. keeping them by default.
+	* Allow pathlib Paths in to_fstd().  Thanks to Pascal Bourgault for
+	  the update.
+	* Fixed a typo in the accum mixin, which was only triggered in an
+	  unusual case.
+
+Version 0.20250310.0 (Mar 10, 2025)
+	* Some more compatibility for writing FST files with .to_fstd().
+	* Disable rlon adjustment for yin-yang grids that are combined with a
+	  subgrid axis or stacked together.  The rlon adjustment would be
+	  different for each subgrid, so only one of the two grids was being
+	  adjusted properly (bug).
+	* New --interp-degree argument for controlling interpolation degree
+	  (experimental).
+	* Allow extra keyword arguments to fstd2nc.extra.get_crs, for tweaking
+	  the crs object construction.
+	* Pixi package management (thanks to Sebastien Fortier).
+
+Version 0.20240625.8 (Feb 24, 2025)
+	* Fixed bug is to_fstpy that was causing strange interaction with
+	  dask arrays.
+
+Version 0.20240625.7 (Jan 17, 2025)
+	* Fixed bug in longitude wrapping for 'L' grids.
+	* Fixed writing 'X' and 'O' grids back to FST.
+	* Some fixes for numpy 2.x compatiblity:
+	  - Use np.prod instead np.product (latter is deprecated).
+	  - Cast int32 addresses to int before doing operations.
+	    numpy 1.x would auto upcast to int64 if there would be an
+	    overflow, but numpy 2.x just lets the overflow happen.
+
+Version 0.20240625.6 (Nov 15, 2024)
+	* Fixed bug in reading files created by librmn 20.1-alpha.
+
+Version 0.20240625.5 (Oct 8, 2024)
+	* Fix bug when reading multiple files with masked records, when some
+	  records are repeated across files.
+
+Version 0.20240625.4 (Sep 25, 2024)
+	* Fix bug when there's a mixture of 0mb and other pressure levels.
+	  This was triggering some weird behaviour in the 'accum' mixin,
+	  even if the fields weren't accumulated quantities.
+
+Version 0.20240625.3 (Sep 23, 2024)
+	* Fix decoding of extended dates, which were off by 1 day.
+	* Fix for auto-detecting accumulation periods when there are some
+	  missing records.
+
+Version 0.20240625.2 (Jul 5, 2024)
+	* Fix missing grid_mapping information for 'A' and 'B' grids.
+
+Version 0.20240625.1 (Jun 26, 2024)
+	* Further fixes for some 'Y' grid files, which were being
+	  misidentified as 2D fields after the updates in the previous version.
+	* Fixed generate case where there is a single lat/lon point in the
+	  file.
+	* Added documentation for string arguments to --filter option.
+
+Version 0.20240625.0 (Jun 25, 2024)
+	* Added quiet=True option for Buffer interface, similar to --quiet
+	  option from command-line.
+	* Added some 'yin' and 'yang' projection metadata to files on a
+	  yin-yang grid.
+	* Fixed data type for north_pole_grid_longitude (double instead of
+	  int64).
+	* Added --decoder option for choosing method of reading the FST files.
+	  (experimental).
+	* Persist last file opened for I/O, which may speed up accessing
+	  multiple records from the same file.
+	* Allow fstdump to take multiple input file arguments.  Previously
+	  this could only be hacked in with globbing patterns surrounded in
+	  quotes.
+	* Fix missing lat/lon coordinates for some 'Y' grid files.
+
+Version 0.20240401.2 (May 22, 2024)
+	* More bug fixes for RSF support.
+	* Fixed auto-detect of legacy FST files in xarray.open_dataset.
+	  This was broken in 0.20240401.1 after adding RSF detection.
+	* Fixed crash when using --interp and --turbo features at the same
+	  time.
+	* Fixed --crop-to-smallest grid not working in some cases.
+	  decodeGrid was sometimes changing ig1/ig2/ig3 identifiers and causing
+	  a failure to find common grids.
+
+Version 0.20240401.1 (May 3, 2024)
+	* Fixed crash when importing fstd2nc.extra without having rpnpy or
+	  librmn in the environment.
+	* Some fixes for RSF support.  Detect more recent variants of header
+	  structures (e.g. for librmn 20.1.0-alpha3 snapshot).
+	* Fixed missing auto-detect for RSF in xarray interface.
+	* Fixed address overflow issue with CCC file interface, which was
+	  giving missing data for larger files.
+
+Version 0.20240401.0 (Apr 3, 2024)
+	* Some support for new RSF file container and fst24 data format.
+	* Fixed bug in fstpy bridge - nk no longer stored in Buffer.
+	* Fixed check for operational dictionary when opdict=True is used in
+	  Python interface.
+	* Added _CRS attribute to xarray interface.
+	* Fixed bug when using dask distributed - the keys were not integers,
+	  but rather numpy integers, which apparently was a problem.
+	* Some support for mask typvar '!@'.
+	* Fix potential bug if used in future librmn release 20.1 - the
+	  call signature for armn_compress now requires an extra 'swap_stream'
+	  argument to control byte swapping of the decoded values.
+
+Version 0.20231105.2 (Feb 19, 2023)
+	* Fixed a bug in open_index() when the index contains pickled data.
+	* Fix some bugs in vertical bounds (when --bounds is used).
+	* Added some more fields to the list of accumulated quantities.
+	* Fix a bug when using .from_fstpy() followed by .to_xarray() on
+	  a single record.
+
+Version 0.20231105.1 (Nov 22, 2023)
+	* Fixed bug in make_index / open_index when storing scalar parameters.
+	* Fixed bug in handling large files with masked fields.  The mask
+	  addresses were stored in 32-bits, causing an overflow in the address.
+
+Version 0.20231105.0 (Nov 8, 2023)
+	* Fixed preferred chunking when creating xarray objects via
+	  open_dataset().
+	* Reduced the memory footprint of Buffer objects, and some small
+	  speedups in the header decoding.
+	* Fixed CCC decoder.  It was broken after a recent refactor, and there
+	  was bug where the min value wasn't being added to the decoded
+	  values.
+	* Added xarray backend for CCC files, so they can be opened with
+	  xr.open_dataset(...,engine='ccc').
+	* Catch some possible runtime issues when fetching data from xarray
+	  interface, such as if the file was removed from disk.  Return
+	  missing values if a problem occurs.
+	* Improved efficiency of --fstd-compat option (less padding used).
+	* Fixed a bug when using --bounds on surface data that has a
+	  'sfc_type' dimension.
+	* Silence some warnings from recent vgrid libraries, when querying for
+	  the existence of certain parameters.
+	* Added an 'accum' axis for accumulated quantities.  Also added an
+	  '--accum-vars' option to explicitly set fields that should be
+	  treated as accumulated.
+	* Explicitly use a spherical globe in the projections returned by
+	  fstd2nc.extra.get_crs().
+	* New helper methods for working with ridiculously large datasets
+	  with xarray.
+	  - fstd2nc.Buffer.make_index() pre-scans the input files and
+	    generates an 'index' file on disk which contains all the variable
+	    structures.
+	  - fstd2nc.Buffer.open_index() reads the above 'index' file and
+	    returns an xarray Dataset representing the FSTD data.  This step
+	    should be *much* faster since the files were already scanned
+	    in the first step.
+
+Version 0.20230908.0 (Sep 8, 2023)
+	* Added north_pole_grid_longitude attribute for rotated grids.
+	* Fixed missing vertical coordinates in series data.
+	* Fixed bug when using --forecast-axis with series data.
+	* Fixed bug with --yin and --yang when there are non-YY fields in the
+	  file.
+	* Improved precision of lat/lon axes for non-rotated 'Z' grids.
+	* Switch to default of fused=False in .to_xarray(), since fusing the
+	  records can give a performance hit for certain access patterns.
+	* Added $CMCCONST to search path for --opdict.
+	* Check if file specified by --metadata-file actually exists, instead
+	  of ignoring the missing file.
+	* Fixed get_crs() for data generated with no_adjust_rlon=True.
+	* Register this as a backend entrypoint for xarray, so now it should
+	  work from xarray.open_dataset().
+	* Fixed interpolation for vector fields like UU, VV.
+	* Added support for RPN extended date range (for years 0-9999).
+	* Registered a .to_fstd() method for xarray.Dataset objects, for some
+	  preliminary testing.
+	* Fixed an array transpose happening in some conditions for
+	  .to_fstpy() and .from_fstpy().
+	* Debian packaging rules provided by Tom Kralidis.
+
+Version 0.20230515.2 (May 30, 2023)
+	* From Python interface, allow interp parameter to accept existing
+	  grid ids as input.
+	* Fixed a crash when converting masked data when some of the mask
+	  records are missing.
+
+Version 0.20230515.1 (May 25, 2023)
+	* Fixed crop_to_smallest_grid option, which was broken in .to_xarray()
+	  after fused records were implemented.
+	* Added doc string in .from_fstpy().
+	* Improved support for mesh grids (grtyp='M').  Removed extra
+	  dimensions from mesh_face_nodes variable that shouldn't be there,
+	  and got rid of warning message about decoding '##' record.
+	* Fixed interp option so it now works in dask clusters.
+	* Better error message when an empty list of files is passed in.
+
+Version 0.20230515.0 (May 15, 2023)
+	* Added vertical bounds information to --bounds option.
+	* Removed "coordinates" from internal encoding of xarray DataArray
+	  objects.  This makes it easier for the user to remove it from the
+	  attributes in xarray to_netcdf routine.
+	* Added CCC file interface to the project (work in progress).
+	* Refactored internal _decode routines to be class methods, which
+	  means the full Buffer object no longer needs to be included in
+	  dask graphs (greatly reducing the size of dask graphs).
+	* Automatically "fuse" records together in xarray interface, which
+	  increases the chunk sizes in the dask graphs (making operations work
+	  more efficiently in dask).
+
+Version 0.20230328.1 (Mar 29, 2023)
+	* Fix compatibility issue with older versions of numpy, triggered
+	  when using gridhacks options.
+
+Version 0.20230328.0 (Mar 28, 2023)
+	* Fix handling of accented characters from vardicts and metadata
+	  files.
+	* Removed 'axis' attribute from 2D lat/lon fields, since they are not
+	  truly axes in that case.
+	* New Python helper function (fstd2nc.extra.get_crs) for getting
+	  projection information from an xarray dataset.
+	* Turned off annoying librmn messages when using this module from
+	  Python.
+	* Some support for creating a new Buffer object by instantiating from
+	  an existing Buffer, allowing more specific filtering options.
+	* Fix filtering for etikets that contain spaces.
+	* Detect and transform netCDF variable names that contain a '/'.
+	  This can happen, for instance if there are multiple typvars and one
+	  of them contains a '/' character.
+	* Some support for complex data (datyp=8) from Python interface.
+	  Note: not supported for writing to netCDF, just xarray interface.
+	* New to_fstd() method to write back to FSTD format instead of netCDF.
+	* Use only "current" definitions for --opdict and --vardict options,
+	  ignore the obsolete ones.
+
+Version 0.20230222.0 (Feb 22, 2023)
+	* Detect newer surface aggregate fields from GEM 5.1 / 5.2 (assign
+	  "sfctype" categories on those fields).
+	* Detect SWE (from CalDAS) as a surface aggregate field as well.
+	* New command-line option --sfc-agg-vars to allow the user to specify
+	  additional fields that should be treated as surface-type fields.
+	* Fix pickling of Buffer objects.
+	* Fix compatibility issue when using .to_xarray() on Python 3.10.
+	* Add support for pathlib.Path objects.
+	* When invoking this module from a Python script, re-route warning and
+	  error messages through the warnings.warn and Exception interfaces
+	  respectively.  This will make it easier for the calling script to
+	  filter the warnings and implement exception handling.
+	* Traduire en (mauvais) français.
+
+Version 0.20221124.1 (Jan 26, 2023)
+	* Allow fstd2nc to be "pip install"ed from an environment that doesn't
+	  yet have numpy installed.  Installation no longer fails with a weird
+	  error message.
+	* Fix buggy behaviour when there's a mask field with values > 1.
+	  E.g., values of "2" sometimes represent partially submerged points.
+	  Now treat such points the same as mask value "1" (keep grid point).
+	* Handle edge case where one of multiple FST input files does not
+	  contain any records.
+	* Fix --exclude option to properly remove leadtime/reftime again. These
+	  stopped being excludable after some recent code updates in previous
+	  release.
+	* Fix various bugs in --fstd-compat option.
+
+Version 0.20221124.0 (Nov 24, 2022)
+	* New .to_xarray_list() method to return list of variables wrapped in
+	  individual Datasets.
+	* New command-line --bounds flag, to output grid cell boundaries.
+	* Remove "leadtime", "reftime", "surface_type", and "station" from
+	  list of coordinates, since some netCDF viewers have trouble with them
+	  being listed in there.
+	* Fix crash in xarray interface when interpolation is enabled.
+
+Version 0.20220829.0 (Aug 29, 2022)
+	* Allow fstd2nc.Buffer objects to be serialized / deserialized.
+	  This allows the objects to be used with the Python multiprocessing
+	  library.  Note: not yet compatible with dask multiprocessing, which
+	  seems to use a different mechanism for serialization?
+	* New keyword args add_px and add_gz for computing pressure or
+	  geopotential height fields in Buffer.to_xarray().  Not available for
+	  command-line usage.
+	* Allow asymmetric cropping with the --crop-to-smallest-grid option,
+	  i.e., when the smaller grid is not centered inside the larger grid.
+	* Fixed an address overflow bug when using the xarray interface on
+	  files larger than 4GB.
+
+Version 0.20220429.0 (Apr 29, 2022)
+	* Improved memory usage of dask wrapper.  Don't pre-load entire block.
+	* Some miscellaneous speedups to dask wrapper and netCDF conversion.
+	* New command-line option --only-diag-level, to select only the near-
+	  surface level data (opposite of --ignore-diag-level).
+	* Fixed --opdict / --vardict parsing for Python 3.9 (it was using a
+	  deprecated xml function).
+	* Moved 'interp' module to 'gridhacks', since it contains other
+	  non-interpolation features now.
+	* Added --yin and --yang options to select one of the two pieces of a
+	  yin-yang grid.
+	* Added --crop-to-smallest-grid option to handle case where there is
+	  a grid that's slightly nested inside of another grid (such as with
+	  GEM output for dynamics vs. permanent bus?).  This option will trim
+	  all the data to the smallest of such grids.
+	* Experimental --turbo option to speed up conversions in the case where
+	  it needs to extract data from many (thousands) of files.
+	* Allow progress bar to be turned on, even if there does not appear to
+	  be a TTY available.  Useful for interactive work within a Jupyter
+	  notebook.
+
+Version 0.20220204.3 (Mar 23, 2022)
+	* Fixed a bug with xarray interface when used with masked fields.
+	  Sometimes it was identifying a directory page as the mask of a field,
+	  with catastrophic consequences.
+
+Version 0.20220204.2 (Mar 3, 2022)
+	* Fixed  a bug with rotated grids.  They were not properly oriented for
+	  the particular case where the rlon values didn't cross the numerical
+	  dateline for the coordinate.
+	* Added --quiet option to suppress messages from the converter.
+
+Version 0.20220204.1 (Feb 14, 2022)
+	* Fixed regression where some data records were being identified as
+	  (unused) coordinate records, causing them to be omitted from the
+	  netCDF file.
+	* Metadata can now be applied based on forced-renamed variable names.
+	  E.g., can have sections [SSH_vgrid0] and [SSH_vgrid3] in the metadata
+	  file to control the attributes separately for each vertical
+	  coordinate type of an SSH variable.
+	* Fixed the handling of strings in --filter option.  It should now work
+	  with normal (not byte) strings without any padding.
+	* Also added 'np' shortcut to filters to allow numpy functions to be
+	  used in the filter criteria (such as np.isin).
+
+Version 0.20220204.0 (Feb 4, 2022)
+	* New 'fstdump' command for displaying the structure of an FSTD file
+	  in the same layout as would go into netCDF.
+	* Some support for 'M' and '#' grids.
+	* Improved startup time for the converter by avoiding imports of large
+	  packages like pandas, xarray and dask unless actually needed.
+	* Removed pydap interface (no known use case, extra work to maintain).
+	* Much better threading performance for xarray/dask interface.
+	* Fixed 'interp' argument when used from Python interface.
+	* Internally, changed Buffer._headers to be a dictionary instead of a
+	  structured array.  No impacted expected for user-facing functions.
+	* Fixed a crash in vcoord mixin when encountering a degenerate '0 hy'
+	  level.
+	* Also, removed the above-mentioned '0 hy' coordinate from the output
+	  file (treat as 2D field).
+	* Improved the speed of querying multiple FSTD files by using multi-
+	  processing.
+	* Added new --serial option to disable the aforementioned multi-
+	  processing.
+	* Added proper depth coordinate for WSOL and ISOL surface fields, with
+	  new option --soil-depths to override the default values.
+	* Added support for missing values encoded using the datyp+64 flag.
+
+Version 0.20211202.0 (Dec 3, 2021)
+	* Changed the earth_radius grid attribute from 6371229 to 6370997, to
+	  be consistent with librmn.
+	* Modified the pressure parameterization to be defined in units of hPa,
+	  for consistency with the surface pressure (P0) field.
+	* Added 'formula' attribute to all vertical coordinates.  Note that
+	  this attribute is not part of the CF standard.
+	* Added support for more vertical coordinates (1002, 5100, 5999, 21001,
+	  21002).
+	* Support for SLEVE coordinates (and corresponding C coefficients).
+	* New command-line options --momentum-levels (--mlev) and
+	  --vertical-velocity-levels (--wlev) to subset the data on those
+	  levels.
+	* In metadata files, allow an attribute to be explicitly *removed*
+	  from a variable by omitting a value after the '=' delimiter.
+	  Useful for turning off attributes that were automagically added
+	  somewhere else in the code.
+	* Use 32-bit precision for integer values from the metadata files.
+	* Fix bug in from_fstpy, which was causing a crash if the resulting
+	  dask arrays were sliced.
+	* Also updated from_fstpy to handle fstpy dask arrays constructed from
+	  compound operations.
+	* Fix bug in to_fstpy - deleted records were being included in the
+	  final table by mistake.  This would cause problems if those records
+	  were ever accessed.
+	* Allow variable names that already start with an underscore.  Do not
+	  prepend a second underscore to them.
+	* Bug fix in detecting direct grids with 1D lat/lon coordinates.
+	* Buf fix in extracting lat/lon fields for some trajectory data.
+
+Version 0.20211013.2 (Nov 5, 2021)
+	* Handle case where series of points have the degenerate (length 1)
+	  dimension of ni,nj transposed between the data and lat/lon fields.
+	* Fix crash when decoding a polar stereographic projection when the
+	  pole is outside the domain.
+	* Fix decoding of INFO record for MLDPn (should be interpreted as text).
+
+Version 0.20211013.1 (Oct 28, 2021)
+	* Various bug fixes for from_fstpy and to_fstpy methods.
+	* Fix duplicate grid_mappings when converting data from GEM LAM grids.
+	* Check for vertical velocity diagnostic level in addition to usual
+	  momentum / thermodynamic diagnostic levels.
+
+Version 0.20211013.0 (Oct 13, 2021)
+	* The --exclude option now works on attribute names.
+	* Add axis="X" and axis="Y" attributes for all projection types.
+	* More compatibility updates for Python 3.
+	* Add "grid_mapping" metadata to degenerate file (when no data records).
+	* Axis and coordinate attributes can now be controlled with the
+	  metadata-file structure.
+	* New functions .to_fstpy() and .from_fstpy() for interoperability with
+	  fstpy package.
+	* Fix warning message with 'O' grids.
+	* More user-friendly suffixes when splitting variables across different
+	  coordinate types (e.g. model_levels/diag_level and
+	  depth_levels/bottom_level).
+	* Better error handling for malformed / unsupported vertical !! records.
+
+Version 0.20210305.1 (Jul 8, 2021)
+	* Detect when multiple '!!' records have identical coordinate systems.
+	  Allow unstrict matching to one of these records if there are no exact
+	  ig1/ig2/ig3 matches available.
+	* Fix filesize for netCDF4 header when using compatibility mode.
+
+Version 0.20210305.0 (Mar 5, 2021)
+	* Added "101010101" to list of known dummy dates, to avoid a crash in
+	  HRDLPS file conversion.
+	* Added "TRAF" to the list of known surface fields, so it gets
+	  annotated with the appropriate surface types.
+	* Renamed "sea_ice" to "lake_ice_or_sea_ice" in the list of surface
+	  types, which is a more accurate description for the model data.
+	* Removed the "units" attribute for unitless level types.  This was
+	  originally added for COARDS compatibility, but is causing issues with
+	  some netCDF utilities like Iris.
+	* When using --vardict or --opdict, put the definition string in an
+	  attribute named "definition_opdict" instead of "description".
+	  Suggested by Daniel Deacu.
+	* Fix a bug in metadata files which give units of "1" - it was getting
+	  encoded as a numeral 1 instead of a string, causing grief with some
+	  netCDF tools.
+
+Version 0.20210205.0 (Feb 5, 2021)
+	* Fix a bug when a fill value was trying to be applied to integer data.
+	* Fix a bug with negative integer values in netCDF3 encoding.
+	* Add support for "META" record from GenPhysX, which now gets converted
+	  to a string type.
+	* New --opdict option to extract useful metadata from the operational
+	  dictionary (on systems where $AFSISIO is available).
+	* New --vardict option for providing a custom CMC-RPN variable
+	  dictionary (in their XML format) to extract metadata from.
+	* Can now override the "Conventions" attribute by passing in a value
+	  with the new --conventions option.
+	* Can now easily disable "Conventions" attribute entirely by using the
+	  new --no-conventions option.
+	* The keys in the metadata file passed in by --metadata-file are now
+	  case sensitive, so can define attributes that use upper-case letters.
+	* Preliminary support for "underwater" levels defined by level type 7.
+	* New --thermodynamic-levels option to select only data on the
+	  thermodynamic levels of a staggered vertical coordinate.
+	* New --no-adjust-rlon option for rotated grids, which disables the
+	  value shift that's usually done to the rlon coordinate when it passes
+	  over the dateline.  Instead, the original (unshifted) coordinate is
+	  used.
+	* Experimental new --fstd-compat option which allows the output file to
+	  be used as both a netCDF and FSTD file (for compatibility with both
+	  sets of tools).
+
+Version 0.20200717.1 (Jul 27, 2020)
+	* Fix a caching bug in dask wrapper.  The cache was being shared among
+	  all Buffer objects, so the wrong record may be returned under some
+	  circumstances.
+
+Version 0.20200717.0 (Jul 17, 2020)
+	* Tweak the handling of metadata records to avoid erroneously treating
+	  data records as metadata (such as when "SV" is actually a 2D field).
+	* Fix stack space for threads (default too small on science network).
+	  Affects the xarray interface, not the command-line invocation.
+	* Metadata files now work better when using --rename argument.  Both
+	  the old and new names are valid section headers for the metadata.
+	* Treat diagnostic-level height (e.g. 1.5m) as a bottom model level
+	  when it appears in conjunction with 3D model levels.  The default
+	  was to split it into a separate variable.  The old behaviour can be
+	  restored by using new argument --split-diag-level.
+
+Version 0.20190903.1 (Dec 16, 2019)
+	* Fixed a crash in recent versions of "progress" module when there are
+	  no records to convert.
+	* Warn if no data was converted.
+	* Add an option to keep the 'LA' and 'LO' records instead of pruning
+	  them as redundant information (e.g. if ^^ and >> are also available).
+	* For special case were ONLY lat/lon information is in the FST file,
+	  produce a netCDF file with the lat/lon fields.  These coordinates
+	  were being stripped out (leaving an empty netCDF file) due to
+	  aggressive pruning.
+
+Version 0.20190903.0 (Sep 3, 2019)
+	* New --compression parameter, to control the compression level for
+	  netCDF4.  Used in conjunction with --zlib parameter.  Thanks to
+	  David Landry for the patch.
+	* Fixed a crash when printing the progress bar in a locale that does
+	  not support unicode.
+
+Version 0.20180821.1 (Dec 31, 2018)
+	* Loosen horizontal coordinate matching criteria for series data.
+	* Blacklist numpy 1.15.3, which had a bug that caused a fatal crash.
+
+Version 0.20180821.0 (Aug 21, 2018)
+	* Fixed the --ignore-typvar option, which was crashing.
+	* Fixed the encoding of depths shallower than 1m.  These were
+	  getting truncated to 0m.
+	* Fixed a bug in handling lists of values in attributes.  This was
+	  causing problems when using --rpnstd-metadata on files with a
+	  "!!" vertical coordinate.
+	* Added two new command-line arguments --diag-as-model-level and
+	  --ignore-diag-level, to deal with diagnostic-level data in the
+	  FSTD file.
+	* Detect mixture of diagnostic / model levels and inform the user
+	  of how to resolve this using the above commands.
+	* Package should now be fully compatible with Python 3.
+	* Added docstring to the fstd2nc.Buffer class.
+
+Version 0.20180706.1 (Aug 3, 2018)
+	* Fixed .to_pygeode() method, which was failing on xarray > 0.10.0.
+	* Added locks to thread-unsafe parts of the code.
+	* Fixed a float64 upcasting that was done on some record parameters
+	  when using pandas routines.
+	* Handle whitespace in list-based command-line arguments, e.g.
+	  --vars="VAR1, VAR2, VAR3".
+	* Fixed a crash when using --rpnstd-metadata on vertical levels.
+
+Version 0.20180706.0 (Jul 6, 2018)
+	* Added 'station' as a coordinate for 'Y' series data.
+	* Some incremental speedups in constructing Buffer objects.
+	* Command-line option to rename variables.
+	* Command-line option to create an 'ensemble' axis over varying
+	  etikets.
+	* Some new features / improvements geared towards using this package
+	  in Python scripts:
+	  * Read FST records in their natural order in the xarray interface.
+	  * Added an optional 'header_dict' parameter to Buffer, to allow it to
+	    remember the headers of files that have been previously scanned.
+	  * Added a to_iris() method to generate an Iris CubeList object.
+	  * Added a to_pygeode() method to generate a PyGeode Dataset object.
+
+Version 0.20180604.0 (Jun 4, 2018)
+	* Re-enabled unlimited time dimension for applicable files.
+	* Renamed zaxis,zeta,eta,sigma axes to just 'level'.
+	* Removed old anciliary_variables stuff for A/B vertical coeficients.
+	* Added formula_terms for vertical coordinates, along with a "pref"
+	  (reference pressure) scalar variable.
+	* Loosened criteria for matching vertical (!!) record when there's only
+	  one vertical record in the file.
+	* Fixed bug when there are multiple reftimes in a file (issue #15).
+	* Added support for time-dependant lat/lon coordinates from LA/LO
+	  records.
+	* New --exclude option to remove variables and degenerate axes from
+	  the netCDF file.
+	* New --profile-momentum-vars and --profile-thermodynamic-vars options
+	  to specify which variables are on which type of level.
+	  Note: only needed for profile data.
+	* New --missing-bottom-profile-level option to work around a bug in
+	  profile data coming from rpnphy output.
+	* Fixed a bug in the times for profile / series data.
+
+Version 0.20180423.0 (Apr 23, 2018)
+	* New --rpnstd-metadata-list to select a subset of RPN metadata
+	  attributes to copy to the netCDF file.
+	* Made --minimal-metadata the default.  The old behaviour (copying all
+	  RPN metadata) can be triggered with a new --rpnstd-metadata option.
+	* Coordinate-related RPN metadata is no longer copied, since the values
+	  are already encoded in the coordinate variable.
+	* Restored support for 'A', 'B', and 'G' grids.
+	* Fixed the repeated longitude in global grids - value is now 360
+	  instead of wrapping back to 0.
+	* Use consistent lat/lon/station coordinates for series data when using
+	  a --filter on the ip3 values.
+	* Unused axes are now pruned from the file.  Mostly affected series
+	  files, which had an extra time axis from the unused datev values.
+	* Vertical axes are now encoded as floats, since that's the precision
+	  of the original ip1 values.  The pandas version of the iterator was
+	  upconverting these to doubles, which would cause different results
+	  depending on whether pandas was installed or not.
+
+Version 0.20180220.0 (Feb 20, 2018)
+	* Improvements to xarray interface to utilize the CF conventions
+	  metadata (such as auxiliary coordinates).
+	* Add station, leadtime, and reftime as auxiliary coordinates in series
+	  files.
+	* Use the date of validity by default.  Old behaviour (date of origin)
+	  can be restored by using --dateo or --forecast-axis options.
+	* Added 'leadtime' and 'reftime' auxiliary coordinates to encode the
+	  forecast information.
+	* Progress bar is enabled by default.  Can be turned off with
+	  --no-progress option.
+	* Added CF metadata for various grid projections (rotated pole, polar
+	  stereographic, lat-lon).
+	* Decode surface types (ice, land, sea, etc.).
+	* Decode depth coordinate for ocean model output.
+	* Fix decoding of masked data in raw binary (X32) format.
+
+Version 0.20171130.1 (Feb 13, 2018)
+	* Fixed unlimited dimension specification for PyDAP interface.
+	* Workaround for bug in numpy 1.14 when using masked structured arrays.
+	* Fix forecast times for series files.
+	* Don't discard LA/LO fields.  They needed in some circumstances such
+	  as trajectory files.
+
+Version 0.20171130.0 (Nov 30, 2017)
+	* Faster scanning of input file headers.
+	* New --progress option to show a progress bar for long conversions.
+	* More speed optimizations for RPN date and IP1 value conversions.
+	* Faster determination of dimensions from the record headers, using
+	  pandas package.
+	* Restructured the package so each feature is in a separate Python
+	  module, for easier development.
+	* Added xarray interface to facilitate custom netCDF conversions from
+	  Python.
+
+Version 0.20171103.0 (Nov 3, 2017)
+	* Faster I/O when converting multiple input files.
+
+Version 0.20170922.0 (Sep 22, 2017)
+	* Support for ''scale_factor'' and ''offset'' attributes in metadata
+	  files, as a rudimentary form of unit conversion.
+	* New --zlib option for compression of netCDF files.
+	* Some speed optimizations for converting to netCDF4:
+	  - Chunk size is set equal to FSTD record size.
+	  - FSTD records are read in order, to better utilize buffering /
+	    read-ahead on the input file(s).
+
+Version 0.20170908.0 (Sep 8, 2017)
+	* ''station_id'' axis for series files.
+	* Allow --squash-forecasts to work on series data (only with one date
+	  of origin).
+	* New --subgrid-axis option for splitting supergrids (e.g. yinyang)
+	  into multiple sub-grids that are aligned on a ''subgrid'' axis.
+	* Experimental [https://github.com/pydap/pydap pydap] plugin for
+	  browsing FSTD files through a web interface.  To test it:
+	  python -m pydap.wsgi.app
+	* Allow directory names and wildcard patterns (surrounded by quotes)
+	  as inputs to the converter.
+	* Speed optimizations for RPN date and IP1 value conversions.
+	* Speed optimizations for data type detection (dtype_fst2numpy).
+	* Speed optimizations for --filter option
+	* Experimental (and undocumented) --quick-scan option to quickly
+	  extract record headers from input files.  Gives a good speed boost
+	  when reading many input files, but relies on some internal structures 
+	  of librmn.
+	* New --msglvl option to control verbosity of librmn messages.
+	  Default is changed to display only warning / error.  Old behaviour
+	  can be restored by using --msglvl=INFORM.
+
+Version 0.20170728 (Jul 28, 2017)
+	* Make ''time'' dimension unlimited in the netCDF file.
+	* New --nc-format parameter to control the type of netCDF file being
+	  created.
+	* Verify input file(s) are RPN files before trying to convert them.
+	* New --force option to overwrite the netCDF file if it already exists.
+	* New --filter option to select records based on some criteria
+	  (e.g. "--filter ip1==24" to select 24-hour forecasts only).
+	* Some decoding of vertical coordinate for series data.
+	* Make sure nomvars are valid netCDF variable names, otherwise prepend
+	  an underscore to them so the netCDF library doesn't complain.
+	* Remove degenerate ni/nj axes from the output file, and remove
+	  degenerate time axes which contain dummy RPN dates.
+	* Support for 'U' grids ("supergrids").
+
+Version 0.20170712.1 (Jul 13, 2017)
+	* Bug fix for station name decoding (series files).
+	* New --metadata-file option for adding arbitrary metadata to the
+	  netCDF file.
+	* Wrap all messages with gettext, to facilitate translation to French.  
+	  Note: no actual translations done yet.
+	* New --minimal-metadata option to strip out FSTD-specific metadata
+	  from the netCDF file (such as kind, datyp, npas, etc.).
+	* Support for multiple input files.
+	* Write the command invocation into a global "history" attribute of
+	  the netCDF file.  Can be disabled by new option --no-history.
+	* When fudging variable names to make them unique in the output file,
+	  use more context-specific modifiers such as etiket, typvar, etc.
+	  instead of an integer counter.
+	* Warn when variable / dimension names have to be modified.
+	* New --ignore-typvar option to allow records with different typvars
+	  to be combined into a single variable.
+	* New --reference-date option to control the reference date of the
+	  time axis.
+
+Version 0.20170427 (Apr 28, 2017)
+	* Check if netCDF output file already exists, and prompt the user
+	  before overwriting.
+	* Check if input file exists before trying to convert it.
+	* Some support for series files.
+	* Some more metadata for identifying horizontal and time dimensions.
+	* Some support for masked data.  Detects records that have an '@' in
+	  their typvar, and looks for a corresponding mask record (typvar='@@').
+	* New --ignore-etiket option to allow records with different etikets
+	  to be combined into a single output variable.
+

@@ -1,0 +1,26 @@
+numpy!=1.15.3,>=1.13.0
+netcdf4
+
+[:sys_platform == "win32"]
+fstd2nc-deps>=0.20200304.0
+
+[array]
+xarray>=0.10.3
+dask
+toolz
+
+[iris]
+iris>=2.0
+xarray>=0.10.3
+dask
+toolz
+
+[manyfiles]
+pandas
+progress
+
+[pygeode]
+pygeode>=1.2.2
+xarray>=0.10.3
+dask
+toolz

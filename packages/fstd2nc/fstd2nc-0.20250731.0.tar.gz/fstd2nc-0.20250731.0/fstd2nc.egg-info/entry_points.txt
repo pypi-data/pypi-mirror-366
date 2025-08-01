@@ -1,0 +1,9 @@
+[console_scripts]
+ccc2nc = cccbuffer.__main__:run
+cccdump = cccbuffer.cccdump:run
+fstd2nc = fstd2nc.__main__:_fstd2nc_cmdline_trapped
+fstdump = fstd2nc.__main__:_fstdump
+
+[xarray.backends]
+ccc = cccbuffer._xarray_hook:CCCBackendEntrypoint
+fstd = fstd2nc._xarray_hook:FSTDBackendEntrypoint
