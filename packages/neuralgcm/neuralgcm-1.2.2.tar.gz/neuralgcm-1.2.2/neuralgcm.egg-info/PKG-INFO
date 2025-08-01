@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: neuralgcm
+Version: 1.2.2
+Summary: Neural General Circulation Models for Weather and Climate
+Author-email: Google LLC <noreply@google.com>
+License-Expression: Apache-2.0
+Project-URL: source, https://github.com/neuralgcm/neuralgcm
+Project-URL: documentation, https://neuralgcm.readthedocs.io
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: dinosaur>=1.3.3
+Requires-Dist: dm-haiku
+Requires-Dist: gin-config
+Requires-Dist: jax
+Requires-Dist: jaxlib
+Requires-Dist: numpy
+Requires-Dist: optax
+Requires-Dist: pandas
+Requires-Dist: xarray
+Provides-Extra: tests
+Requires-Dist: absl-py; extra == "tests"
+Requires-Dist: chex; extra == "tests"
+Requires-Dist: pytest; extra == "tests"
+Provides-Extra: experimental
+Requires-Dist: coordax; extra == "experimental"
+Requires-Dist: einops; extra == "experimental"
+Requires-Dist: etils; extra == "experimental"
+Requires-Dist: fiddle; extra == "experimental"
+Requires-Dist: flax; extra == "experimental"
+Requires-Dist: grain; extra == "experimental"
+Requires-Dist: jax-datetime; extra == "experimental"
+Requires-Dist: jax-solar; extra == "experimental"
+Requires-Dist: orbax; extra == "experimental"
+Requires-Dist: treescope; extra == "experimental"
+Dynamic: license-file
+
+![](https://github.com/neuralgcm/neuralgcm/raw/main/docs/_static/neuralgcm-logo-light.png)
+
+# Neural General Circulation Models for Weather and Climate
+
+NeuralGCM is a Python library for building hybrid ML/physics atmospheric models
+for weather and climate simulation.
+
+- **[Paper](https://arxiv.org/abs/2311.07222)**
+- **[Documentation](https://neuralgcm.readthedocs.io/)**
+- **License**:
+    - Code: [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+    - Trained model weights: [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
+
+To stay up to date on NeuralGCM, **[subscribe to our mailing list](https://groups.google.com/g/neuralgcm-announce)**!
