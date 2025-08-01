@@ -1,0 +1,48 @@
+# pyproject.toml
+
+[build-system]
+requires      = ["wheel", "hatchling"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "mivot-validator"
+dynamic = ["version"]
+description = "Tools for validating VOTable annotated with MIVOT and to generate MIVOT snippets"
+readme = "README.md"
+authors = [{ name = "Laurent Michel", email = "laurent.michel@astro.unistra.fr" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["ivoa", "data model", "votable", "annotation", "mivot"]
+dependencies = [
+    "xmlschema",
+    "xmltodict",
+    "astropy"
+]
+requires-python = ">=3.6"
+
+[tool.hatch.version]
+path = "mivot_validator/version.py"
+
+[project.optional-dependencies]
+dev = ["pip-tools", "pytest"]
+
+[project.urls]
+Homepage = "https://github.com/ivoa/mivot-validator"
+
+[project.scripts]
+mivot-validate = "mivot_validator.launchers.votable_launcher:main"
+mivot-mapping-validate = "mivot_validator.launchers.mivot_launcher:main"
+types-and-roles-validate = "mivot_validator.launchers.typesandroles_launcher:main"
+mivot-instance-validate = "mivot_validator.launchers.instance_checking_launcher:main"
+mivot-snippet-model = "mivot_validator.launchers.model_snippets_launcher:main"
+mivot-snippet-instance = "mivot_validator.launchers.instance_snippet_launcher:main"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
