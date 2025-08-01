@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling >= 1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "e621_content_collector"
+version = "0.3.1"
+authors = [
+  { name="David Urso", email="david@darkroastcreative.co" },
+]
+maintainers = [
+  { name="David Urso", email="david@darkroastcreative.co" },
+]
+description = "A simple tool for gathering content from e621 for local use."
+keywords = ["e621", "downloader", "e621-downloader", "furry"]
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+]
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+  "requests",
+  "typer",
+]
+
+[project.urls]
+Homepage = "https://github.com/darkroastcreative/e621-content-collector"
+Repository = "https://github.com/darkroastcreative/e621-content-collector"
+Issues = "https://github.com/darkroastcreative/e621-content-collector/issues"
+
+[project.scripts]
+e621-collector = "e621_content_collector.cli:tool"
