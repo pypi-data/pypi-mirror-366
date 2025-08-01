@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "itkdb_gtk"
+version = "0.18.0"
+authors = [
+  { name="Carlos Lacasta", email="carlos.lacasta@cern.ch" },
+]
+description = "A collection of Gtk based GUI to access ITkDB."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+  "itkdb>=0.4.0",
+  "numpy",
+  "matplotlib",
+  "openpyxl",
+  "pyserial",
+  "python_dateutil",
+  "requests",
+  "PyGObject"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.gui-scripts]
+itkdb_dashBoard = "itkdb_gtk:dash_board"
+getShipments = "itkdb_gtk:getShipments"
+glueWeight = "itkdb_gtk:glueWeight"
+createShipments = "itkdb_gtk:createShipments"
+uploadTest = "itkdb_gtk:uploadTest"
+uploadMultipleTests = "itkdb_gtk:uploadMultipleTests"
+uploadModuleIV = "itkdb_gtk:uploadModuleIV"
+wirebondTest = "itkdb_gtk:wirebondTest"
+panelVisualInspection = "itkdb_gtk:panelVisualInspection"
+visualInspection = "itkdb_gtk:visualInspection"
+findDBComponent = "itkdb_gtk:findDBComponent"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+itkdb_gtk = ["*.desktop", "*.svg"]
+
+[project.urls]
+"Homepage" = "https://gitlab.cern.ch/atlas-itk/sw/db/itk-pdb-gtk-gui-utils"
+"Bug Tracker" = "https://gitlab.cern.ch/atlas-itk/sw/db/itk-pdb-gtk-gui-utils/-/issues"
