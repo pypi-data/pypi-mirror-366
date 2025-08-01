@@ -1,0 +1,45 @@
+OPENAI_API_KEY = ""
+HF_TOKEN = ""
+SERPAPI_API_KEY = ""
+
+CONFIG_DIR = "~/.config/agentfoundry"
+DATA_DIR = "~/.config/agentfoundry/data"
+REGISTRY_DB = "~/.config/agentfoundry/registry.db"
+TOOLS_DIR = "~/.config/agentfoundry/tools"
+# Optional list of additional directories containing application-provided tools (in addition to built-in and dynamic tool dirs)
+TOOLS_DIRS = []
+CODING_MODEL = "o4-mini-high"
+OPENAI_MODEL = "o4-mini"
+LLM_PROVIDER = "openai"
+
+[CHROMA]
+# URL = ""
+PERSIST_DIR = "~/.config/agentfoundry/chromadb"
+
+[EMBEDDING]
+MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+
+[FAISS]
+INDEX_PATH = "~/.config/agentfoundry/faiss_index"
+
+[FLASK]
+DEBUG = "False"
+PORT = 5000
+
+[LOGGING]
+LEVEL = "INFO"
+
+[MS]
+TENANT_ID = ""
+CLIENT_ID = ""
+CLIENT_SECRET = ""
+
+[OLLAMA]
+HOST = "http://127.0.0.1:11434"
+MODEL = "gemma3:27b"
+
+[ORCHESTRATOR]
+DISCOVERY_QUERY = "LinkedIn API documentation"
+TASK = "search trending topics"
+PROMPT_TEMPLATE = "You are a helpful assistant. You can use the following tools: {{ tools_list }}."
+MAX_WORKERS = "10"
