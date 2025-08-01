@@ -1,0 +1,127 @@
+Metadata-Version: 2.1
+Name: lhcb-rex
+Version: 0.1.2
+Summary: Generalised graph neural network based fast simulation tool for LHCb.
+Author-email: Alex Marshall <alex.marshall@cern.ch>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: alexplot
+Requires-Dist: appdirs>=1.4.4
+Requires-Dist: diffusers>=0.33.1
+Requires-Dist: geomloss>=0.2.6
+Requires-Dist: huggingface-hub>=0.32.4
+Requires-Dist: matplotlib>=3.9.4
+Requires-Dist: pandas>=2.3.1
+Requires-Dist: pip>=25.1.1
+Requires-Dist: psutil>=7.0.0
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: pytest>=8.3.5
+Requires-Dist: pytorch-lightning>=2.3.3
+Requires-Dist: rich>=14.1.0
+Requires-Dist: scikit-learn==1.4.1.post1
+Requires-Dist: tensorboard>=2.20.0
+Requires-Dist: termcolor>=3.1.0
+Requires-Dist: torch==2.0.1
+Requires-Dist: torch-geometric>=2.6.1
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: uproot>=5.5.2
+Requires-Dist: uproot3>=3.14.4
+Requires-Dist: vector==0.8.0
+
+<!-- # ![Rex Banner](./src/lhcb_rex/tools/figures/Rex_banner.png) -->
+# ![Rex Banner](https://github.com/alexmarshallbristol/Rex-image/blob/master/Rex_banner.png?raw=true)
+
+# Rex 
+
+Rex is a
+
+## Table of Contents
+- [About](#about)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+
+## About
+
+```Rex``` is a 
+
+link to wiki
+link to mattermost
+
+[📖 Project Wiki](https://gitlab.cern.ch/your-repo/-/wikis/home) | [💬 Mattermost Chat](https://mattermost.cern.ch/your-channel) | [📬 Developer Email](mailto:alex.marshall@bristol.ac.uk)
+
+
+
+## Installation for development
+
+```shell
+uv sync
+uv run pip install -e .
+```
+
+### Prerequisites  
+- Python 3.9 (organised automatically by ```uv```)
+
+Install with ```uv``` (recomended):
+```shell
+uv add lhcb-rex
+```
+
+Install with ```pip```:
+```shell
+pip install lhcb-rex
+```
+
+
+## Usage
+
+Examples below
+
+<details>
+    <summary>Click to see an example</summary>
+
+```python
+def simulate():
+    print("Running Rex for LHCb!")
+
+simulate()
+```
+
+</details>
+
+
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+---
+
+📬 Have questions? Reach out at [alex.marshall@bristol.ac.uk](mailto:alex.marshall@bristol.ac.uk)
+
+
+
+## Installation for development
+
+```shell
+uv sync
+uv run pip install -e .
+```
+
+
+
+### Notes for me
+
+```/dice/users/am13743/fast_vertex_quality/graveyard```
+```/dice/users/am13743/fast_vertex_quality/checkpoints/```
+
+Relevant tags/checkpoints:
+- ```21_03_2025``` - Plotting for paper draft
+
+
+```shell
+rm -rf dist/
+uv build
+uv publish
+```
