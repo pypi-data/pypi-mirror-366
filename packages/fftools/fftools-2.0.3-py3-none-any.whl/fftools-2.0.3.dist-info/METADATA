@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: fftools
+Version: 2.0.3
+Summary: 44net tools
+Project-URL: Homepage, https://github.com/olofvndrhr/fftools
+Project-URL: History, https://github.com/olofvndrhr/fftools/commits/master
+Project-URL: Tracker, https://github.com/olofvndrhr/fftools/issues
+Project-URL: Source, https://github.com/olofvndrhr/fftools
+Author-email: Ivan Schaller <ivan@schaller.sh>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Requires-Dist: dnspython~=2.7.0
+Requires-Dist: fabric~=3.2.2
+Requires-Dist: httpx~=0.28.1
+Requires-Dist: loguru~=0.7.3
+Requires-Dist: tenacity~=8.2.3
+Requires-Dist: whenever~=0.8.0
+Requires-Dist: yagmail~=0.15.293
+Description-Content-Type: text/markdown
+
+# fftools
+
+Meta
+
+[![Formatter](https://img.shields.io/badge/code%20style-ruff-black)](https://github.com/charliermarsh/ruff)
+[![Linter](https://img.shields.io/badge/linter-ruff-red)](https://github.com/charliermarsh/ruff)
+[![Types](https://img.shields.io/badge/types-mypy-blue)](https://github.com/python/mypy)
+[![Tests](https://img.shields.io/badge/tests-pytest-yellow)](https://github.com/pytest-dev/pytest/)
+[![Coverage](https://img.shields.io/badge/coverage-coveragepy-green)](https://github.com/nedbat/coveragepy)
+[![License](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://snyk.io/learn/what-is-mit-license/)
+[![Compatibility](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
+
+---
+
+## Description
+
+personal library with some useful functions.
+
+## Installing
+
+### With pip ([pypi](https://pypi.org/project/fftools/))
+
+```sh
+python3 -m pip install fftools # download the package from pypi
+```
+
+## Contribution / Bugs
+
+For suggestions for improvement, just open a pull request.
+
+If you encounter any bugs, also just open an issue with a description of the problem.
