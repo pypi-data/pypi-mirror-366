@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: cmk-dev-site
+Version: 0.2.0
+Summary: Easily Install Checkmk
+Project-URL: Repository, https://github.com/Checkmk/cmk-dev-site
+Project-URL: Changelog, https://github.com/Checkmk/cmk-dev-site/blob/release/0.2.0/changelog.md
+License-Expression: GPL-3.0-only
+License-File: LICENSE
+Keywords: checkmk,cmk,monitoring,site
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Build Tools
+Requires-Python: <4.0,>=3.11
+Requires-Dist: checkmk-dev-tools<1,>=0.10.1
+Requires-Dist: requests
+Description-Content-Type: text/markdown
+
+# cmk-dev-site
+
+_Easy Install Checkmk_
+
+Scripts to install bleeding edge Checkmk in development context.
+
+```
+# Download and install latest available daily build of 2.5.0
+cmk-dev-install 2.5 && cmk-dev-site
+
+# Download daily build of today and
+# setup distributed monitoring with one two sites:
+cmk-dev-install 2.5.0-daily && cmk-dev-site -d 1
+```
+
+If you are a regular Checkmk customer you probably don't want to use this,
+as this tools remove sites without warning.
