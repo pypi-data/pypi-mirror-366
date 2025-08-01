@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "noe"
+dynamic = ["version"]
+description = 'A modern EON server component'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Rohit Goswami", email = "rog32@hi.is" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/Rohit Goswami/noe#readme"
+Issues = "https://github.com/Rohit Goswami/noe/issues"
+Source = "https://github.com/Rohit Goswami/noe"
+
+[tool.hatch.version]
+path = "src/noe/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/noe tests}"
+
+[tool.coverage.run]
+source_pkgs = ["noe", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/noe/__about__.py",
+]
+
+[tool.coverage.paths]
+noe = ["src/noe", "*/noe/src/noe"]
+tests = ["tests", "*/noe/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
