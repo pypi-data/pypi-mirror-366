@@ -1,0 +1,214 @@
+Metadata-Version: 2.4
+Name: simple_lan_scanner
+Version: 1.0.1
+Summary: A Python LAN scanning tool that uses nmap to discover devices on the local network
+Author-email: Adam Zalewski <me@yamero.online>
+License: MIT
+Keywords: network,scanner,nmap,lan,monitoring
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: System :: Networking :: Monitoring
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: cli
+Requires-Dist: click>=8.1; extra == "cli"
+Provides-Extra: test
+Requires-Dist: pytest>=7.0; extra == "test"
+Requires-Dist: pytest-mock>=3.10; extra == "test"
+Requires-Dist: pytest-cov>=4.0; extra == "test"
+Dynamic: license-file
+
+# Simple LAN Scanner
+
+[![CI](https://github.com/IBN5100-0/simple-lan-scanner/actions/workflows/tests.yml/badge.svg)](https://github.com/IBN5100-0/simple-lan-scanner/actions/workflows/tests.yml)
+[![PyPI](https://img.shields.io/pypi/v/simple-lan-scanner.svg)](https://pypi.org/project/simple-lan-scanner/)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Requires nmap](https://img.shields.io/badge/requires-nmap-orange.svg)](https://nmap.org/)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen)](docs/DOCUMENTATION.md)
+
+> 🔍 A powerful yet simple network scanner for discovering devices on your local network
+
+<!-- Screenshot placeholder - add actual screenshot here
+<p align="center">
+  <img src="docs/images/screenshot.png" alt="Simple LAN Scanner Demo" />
+</p>
+-->
+
+## ✨ Features
+
+- 🚀 **Fast Network Discovery** - Leverages nmap for efficient ping sweeps
+- 💻 **Dual Interface** - Both CLI and GUI options available
+- 📊 **Device Tracking** - Persistent storage with historical data
+- 🔍 **Smart Filtering** - Search by MAC, IP, hostname, or manufacturer
+- 📁 **Multiple Export Formats** - JSON and CSV support
+- 🎯 **Auto Network Detection** - Intelligently finds your local network
+- 🔔 **Real-time Monitoring** - Continuous scanning with customizable intervals
+- 🎨 **Modern GUI** - Clean, intuitive interface with online/offline status
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# From PyPI (recommended)
+pip install simple-lan-scanner[cli]
+
+# From source
+git clone https://github.com/IBN5100-0/simple-lan-scanner.git
+cd simple-lan-scanner
+pip install -e .[cli]
+```
+
+### Requirements
+
+- Python 3.10+
+- [nmap](https://nmap.org/download.html) installed and in PATH
+
+### Basic Usage
+
+```bash
+# Quick network scan
+lan-scan scan
+
+# Launch GUI
+lan-scan gui
+
+# Monitor network (updates every 30s)
+lan-scan monitor
+
+# Export results
+lan-scan scan -o devices.json
+```
+
+## 📸 Screenshots
+
+### CLI Interface
+```
+MAC Address       | IP Address      | Hostname                  | Manufacturer               | First Seen       | Last Seen
+------------------------------------------------------------------------------------------------------------------------------------------------
+XX:XX:XX:XX:XX:XX | 192.168.1.1     | router.local              | Netgear Inc.               | 2025-01-15 10:30 | 2025-01-15 14:45
+YY:YY:YY:YY:YY:YY | 192.168.1.100   | laptop.local              | Apple Inc.                 | 2025-01-15 10:30 | 2025-01-15 14:45
+```
+- 🟢 Green = Online (seen < 2 minutes ago)
+- ⚪ Default = Offline
+
+### GUI Features
+- Real-time device monitoring
+- Search and filter capabilities
+- Export to JSON/CSV
+- Detailed device information
+- Context menu for quick actions
+
+## 🛠️ Advanced Usage
+
+### CLI Commands
+
+```bash
+# Scan specific network
+lan-scan scan --network 192.168.1.0/24
+
+# Monitor with filters
+lan-scan monitor --online-only --search "apple"
+
+# Custom scan interval
+lan-scan monitor --interval 60 --json devices.json
+```
+
+### Python API
+
+```python
+from simple_scanner import NetworkMonitor
+
+# Initialize scanner
+monitor = NetworkMonitor()
+
+# Scan network
+monitor.scan()
+
+# Get devices
+devices = monitor.devices()
+for device in devices:
+    print(f"{device.mac_address} - {device.ip_address}")
+
+# Export results
+monitor.export_json("scan_results.json")
+```
+
+## 📚 Documentation
+
+- 📖 **[Full Documentation](docs/DOCUMENTATION.md)** - Complete usage guide
+- 💡 **[Examples](examples/)** - Code examples and use cases
+- 🤝 **[Contributing](CONTRIBUTING.md)** - How to contribute
+- 📝 **[Changelog](CHANGELOG.md)** - Version history
+- 🔒 **[Security](https://github.com/IBN5100-0/simple-lan-scanner/security/policy)** - Security policy
+
+## 🏗️ Project Structure
+
+```
+simple-lan-scanner/
+├── src/simple_scanner/    # Core package
+├── tests/                 # Test suite
+├── docs/                  # Documentation
+├── examples/              # Usage examples
+└── .github/               # GitHub configuration
+```
+
+## 🧪 Development
+
+```bash
+# Setup development environment
+git clone https://github.com/IBN5100-0/simple-lan-scanner.git
+cd simple-lan-scanner
+pip install -e .[dev]
+
+# Run tests
+pytest
+
+# Run with coverage
+pytest --cov=simple_scanner
+
+# Format code
+black src/ tests/
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Areas for Contribution
+- IPv6 support
+- Web interface
+- Additional export formats
+- Performance optimizations
+- Documentation improvements
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [nmap](https://nmap.org/) - The foundation of our network scanning
+- [Click](https://click.palletsprojects.com/) - CLI framework
+- [Tkinter](https://docs.python.org/3/library/tkinter.html) - GUI framework
+
+## 🔗 Links
+
+- [PyPI Package](https://pypi.org/project/simple-lan-scanner/)
+- [GitHub Repository](https://github.com/IBN5100-0/simple-lan-scanner)
+- [Issue Tracker](https://github.com/IBN5100-0/simple-lan-scanner/issues)
+- [Discussions](https://github.com/IBN5100-0/simple-lan-scanner/discussions)
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/IBN5100-0">IBN5100-0</a>
+</p>
