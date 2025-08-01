@@ -1,0 +1,41 @@
+Metadata-Version: 2.1
+Name: xdat
+Version: 0.1.276
+Summary: eXtended Data Analysis Toolkit
+Home-page: https://bitbucket.org/hermetric/xdat/
+Author: Ido Carmi
+Author-email: ido@hermetric.com
+License: MIT
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+## What is *xdat*?
+xdat (eXtended Data Analysis Toolkit), is a set of utilities that help streamline data science projects.
+
++ Monkey-patches common packages to add useful functionality
++ Helps with standardization of plots in projects
++ Includes useful tools (like caching)
+
+
+### Warning: this isn't even in "alpha" yet, and will likely have changes that are not backwards-compatible.
+
+## Installation
+
+### Ubuntu 20.04
+```
+> pip install xdat
+```
+
+Optionally, can also install:
+```
+> sudo apt -q -y install libeigen3-dev
+> pip install git+https://github.com/madrury/py-glm.git
+```
+
+
