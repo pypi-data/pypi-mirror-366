@@ -1,0 +1,18 @@
+[project]
+name = "python-byzatic-commons"
+version = "0.1.0"
+description = "A modular Python library with utilities for flattening, file parsing, error handling, and more."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name="Svyatoslav Vlasov", email="s.vlasov.home@icloud.com" }
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/byzatic/PythonByzaticCommons"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
