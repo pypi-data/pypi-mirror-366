@@ -1,0 +1,1 @@
+import{u as r,h as s,i as t}from"./index-BCUdq-Zu.js";function a(){const e=r(),n=s(()=>[t.RESELLER,t.SUPER_ADMIN].includes(e.authUser.role)),o=s(()=>[t.RESELLER,t.SUPER_ADMIN].includes(e.authUser.role));return{canSetRole:n,canAddDomain:o}}export{a as u};
