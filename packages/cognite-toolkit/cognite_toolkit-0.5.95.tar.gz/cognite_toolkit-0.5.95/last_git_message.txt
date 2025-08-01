@@ -1,0 +1,26 @@
+[CDF-25341] 🐛 Fix sanitize sheet title (#1801)
+
+# Description
+
+## User Error
+<img width="1095" height="250" alt="image"
+src="https://github.com/user-attachments/assets/aa1ff1e6-858d-4c40-9689-2f19aeb8f70f"
+/>
+
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- [alpha] When running `cdf profile ... ` with output to a spreadsheet
+file, Toolkit ensures that the spreadsheet title is sanitized.
+
+## templates
+
+No changes.
