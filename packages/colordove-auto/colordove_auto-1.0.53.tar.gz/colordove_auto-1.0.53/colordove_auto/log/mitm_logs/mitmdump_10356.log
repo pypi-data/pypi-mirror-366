@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 192, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\zhong\AppData\Local\Programs\Python\Python38\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\tools\main.py", line 2, in <module>
+    import asyncio
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\asyncio\__init__.py", line 8, in <module>
+    from .base_events import *
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\asyncio\base_events.py", line 34, in <module>
+    import ssl
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\ssl.py", line 98, in <module>
+    import _ssl             # if we can't import it, let the error propagate
+KeyboardInterrupt

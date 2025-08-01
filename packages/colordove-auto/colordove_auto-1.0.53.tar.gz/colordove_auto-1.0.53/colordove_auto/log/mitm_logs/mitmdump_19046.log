@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 192, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\zhong\AppData\Local\Programs\Python\Python38\Scripts\mitmdump.exe\__main__.py", line 4, in <module>
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\tools\main.py", line 8, in <module>
+    from mitmproxy import exceptions, master
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\master.py", line 7, in <module>
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\eventsequence.py", line 5, in <module>
+    from mitmproxy import http
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\http.py", line 25, in <module>
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\mitmproxy\websocket.py", line 15, in <module>
+    from wsproto.frame_protocol import Opcode
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\wsproto\__init__.py", line 9, in <module>
+    from .connection import Connection, ConnectionState, ConnectionType
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\wsproto\connection.py", line 23, in <module>
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\wsproto\utilities.py", line 12, in <module>
+    from h11._headers import Headers as H11Headers
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\h11\__init__.py", line 9, in <module>
+    from h11._connection import Connection, NEED_DATA, PAUSED
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\h11\_connection.py", line 5, in <module>
+  File "C:\Users\zhong\AppData\Roaming\Python\Python38\site-packages\h11\_events.py", line 218, in <module>
+    class Response(_ResponseBase):
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 992, in wrap
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 934, in _process_class
+    _cmp_fn('__eq__', '==',
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 575, in _cmp_fn
+    return _create_fn(name,
+  File "c:\users\zhong\appdata\local\programs\python\python38\lib\dataclasses.py", line 397, in _create_fn
+    exec(txt, globals, locals)
+  File "<string>", line 1, in <module>
+KeyboardInterrupt
