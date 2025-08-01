@@ -1,0 +1,1 @@
+import{_ as t}from"./index-BCUdq-Zu.js";const n={getComponentsInformation(){return t.get("/admin/components/")},getNotifications(){return t.get("/admin/notifications/")},getNewsFeed(){return t.get("/admin/news_feed/")}};export{n as a};
