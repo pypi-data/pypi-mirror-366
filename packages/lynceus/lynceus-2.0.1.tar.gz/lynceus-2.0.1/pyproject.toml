@@ -1,0 +1,73 @@
+[tool.poetry]
+name = "lynceus"
+version = "2.0.1"
+description = "Lynceus is a sophisticated and resilient Python toolbox designed to serve as the foundational core layer of your Python applications. It offers features like configuration file management with inheritance and automatic JSON loading, seamless logger configuration, efficient session management, and unified file handling for both local and remote storage. By providing a plethora of utilities, Lynceus allows developers to skip the mundane setup and focus directly on what truly matters."
+readme = "README.md"
+authors = ["Bertrand BENOIT <contact@bertrand-benoit.net>"]
+license = "GPL-3.0-or-later"
+packages = [
+    { include = "lynceus" },
+]
+include = [
+    "LICENSE", "docs/"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Natural Language :: English"
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://gitlab.com/bertrand-benoit/lynceus/-/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.10.0,<4"
+python-gitlab = "~=6.2"
+PyGithub = "~=2.1"
+pandas = "~=2.2"
+pandas-stubs = "~=2.2"
+pyarrow = "~=21.0"
+fsspec = "~=2025.7"
+s3fs = { version = "~=2025.7", extras = ["boto3"] }
+setuptools = ">=80.9,<81"
+pytest-mock = "^3.14.1"
+
+[tool.poetry.group.dev.dependencies]
+coverage = { version = "~=7.10", extras = ["toml"] }
+pytest = "~=8.4"
+flake8 = "~=7.3"
+pylint = "~=3.3"
+pyupgrade = "~=3.15"
+pip-audit = "~=2.9"
+pycodestyle = "~=2.14"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+data_file = ".coverage/coverage_data_file"
+parallel = true
+source = ["lynceus"]
+omit = ["lynceus/devops/editor/*"]
+
+[tool.coverage.report]
+exclude_also = [
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.4"
+testpaths = [
+    "tests",
+]
