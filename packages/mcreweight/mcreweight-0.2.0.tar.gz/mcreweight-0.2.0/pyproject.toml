@@ -1,0 +1,29 @@
+[project]
+name = "mcreweight"
+version = "0.2.0"
+description = "A package for reweighting MC samples to match data"
+authors = [{ name="Tommaso Fulghesu", email="tommaso.fulghesu@cern.ch" }]
+readme = "README.md"
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "scikit-learn",
+    "optuna",
+    "hep_ml",
+    "seaborn",
+    "awkward-pandas"
+]
+license = { file = "LICENSE" }
+
+[project.scripts]
+run-reweight = "scripts.run_reweighting:main"
+apply-weights = "scripts.apply_weights:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["mult_and_kin_reweight", "utils", "scripts"]
+package-dir = {"" = "."}
