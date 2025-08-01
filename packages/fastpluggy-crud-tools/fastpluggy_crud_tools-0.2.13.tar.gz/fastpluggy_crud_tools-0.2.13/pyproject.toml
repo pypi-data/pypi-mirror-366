@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastpluggy-crud-tools"
+version = "0.2.13"
+description = "CRUD Tools plugin for Fastpluggy"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "FastPluggy Team"}
+]
+dependencies = [
+    "jinja2",
+]
+
+[tool.setuptools]
+packages = ["fastpluggy_plugin.crud_tools"]
+package-dir = { "fastpluggy_plugin.crud_tools" = "src" }
+include-package-data = true
+
+[tool.setuptools.package-data]
+"fastpluggy_plugin.crud_tools" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+
+[project.entry-points."fastpluggy.plugins"]
+crud_tools = "fastpluggy_plugin.crud_tools.plugin:CrudToolsModule"
+
+[tool.fastpluggy]
+category = ['database']
+keywords = ['database', 'orm', 'crud']

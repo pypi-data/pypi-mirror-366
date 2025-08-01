@@ -1,0 +1,49 @@
+/**
+ * Header Filters CSS
+ * 
+ * Styles for table header filters
+ */
+
+/* Header filter container */
+.header-filter {
+    margin-top: 8px;
+    padding: 4px 0;
+    width: 100%;
+}
+
+/* Header filter inputs */
+.header-filter input,
+.header-filter select {
+    width: 100%;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* Header filter inputs focus */
+.header-filter input:focus,
+.header-filter select:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Header filter inputs hover */
+.header-filter input:hover,
+.header-filter select:hover {
+    border-color: #ced4da;
+}
+
+/* Table header with filter */
+th[data-field-name] {
+    min-width: 150px;
+}
+
+/* Active filter indicator */
+.header-filter input:not([value=""]),
+.header-filter select:not([value=""]) {
+    background-color: #e8f4ff;
+    border-color: #80bdff;
+}
