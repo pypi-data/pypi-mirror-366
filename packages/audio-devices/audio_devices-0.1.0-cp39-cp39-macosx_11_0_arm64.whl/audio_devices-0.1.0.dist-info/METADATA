@@ -1,0 +1,150 @@
+Metadata-Version: 2.4
+Name: audio_devices
+Version: 0.1.0
+Summary: Cross-platform audio device enumeration library
+Author-email: nohanaga <your.email@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/nohanaga/audio_devices
+Project-URL: Repository, https://github.com/nohanaga/audio_devices
+Project-URL: Issues, https://github.com/nohanaga/audio_devices/issues
+Project-URL: Documentation, https://github.com/nohanaga/audio_devices#readme
+Keywords: audio,devices,sound,multimedia,cross-platform
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Multimedia :: Sound/Audio
+Classifier: Topic :: System :: Hardware
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# Audio Devices
+
+[![Build Wheels](https://github.com/nohanaga/audio_devices/actions/workflows/build-wheels-cibuildwheel.yml/badge.svg)](https://github.com/nohanaga/audio_devices/actions/workflows/build-wheels-cibuildwheel.yml)
+
+Cross-platform audio device enumeration library for Python.
+
+## Features
+
+- List audio input/output devices with detailed information
+- Filter devices by type (input, output, or all)
+- Cross-platform support (Windows, macOS, Linux)
+- Unified API across all platforms
+- No external dependencies
+
+## Installation
+
+```bash
+# From source
+git clone https://github.com/nohanaga/audio_devices.git
+cd audio_devices
+pip install -e .
+
+# Or install from wheel (download from GitHub Releases)
+pip install audio_devices-0.1.0-cp39-cp39-macosx_10_9_x86_64.whl
+```
+
+## Usage
+
+```python
+import audio_devices
+
+# Basic device listing (name: uid format)
+devices = audio_devices.list_device_uids()
+for device in devices:
+    print(device)
+
+# Detailed device information
+device_details = audio_devices.list_device_details()
+for device in device_details:
+    print(f"Name: {device['name']}")
+    print(f"UID: {device['uid']}")
+    print(f"Type: {device['device_type']}")
+    print(f"Input channels: {device['input_channels']}")
+    print(f"Output channels: {device['output_channels']}")
+    print(f"Manufacturer: {device['manufacturer']}")
+    print()
+
+# Filter devices by type
+input_devices = audio_devices.list_devices_by_type("input")
+output_devices = audio_devices.list_devices_by_type("output")
+all_devices = audio_devices.list_devices_by_type("all")
+
+# Convenience functions
+input_devices = audio_devices.get_input_devices()
+output_devices = audio_devices.get_output_devices()
+all_devices = audio_devices.get_all_devices()
+
+# Print devices in a user-friendly format
+audio_devices.print_devices()
+audio_devices.print_devices_by_type("input")
+
+# Get platform information
+platform_info = audio_devices.get_platform_info()
+print(f"Platform: {platform_info['platform']}")
+print(f"Backend: {platform_info['backend']}")
+
+# Backward compatibility
+devices = audio_devices.list_audio_devices()  # Same as list_device_uids()
+```
+
+## Supported Platforms
+
+- ✅ **macOS**: CoreAudio API
+- ✅ **Windows**: WASAPI (Windows Audio Session API)
+- ⚠️ **Linux**: Coming soon
+
+## API Reference
+
+### Core Functions
+
+- `list_device_uids()` - Returns device names and UIDs in "name: uid" format
+- `list_device_details()` - Returns detailed device information as dictionaries
+- `list_devices_by_type(device_type)` - Filter devices by type ("all", "input", "output")
+
+### Convenience Functions
+
+- `get_input_devices()` - Get input devices only
+- `get_output_devices()` - Get output devices only  
+- `get_all_devices()` - Get all devices
+- `print_devices()` - Print all devices in user-friendly format
+- `print_devices_by_type(device_type)` - Print filtered devices
+- `get_platform_info()` - Get platform and backend information
+
+### Device Information
+
+Each device dictionary contains:
+- `name` - Device name
+- `uid` - Unique device identifier
+- `device_type` - "input", "output", or "both"
+- `input_channels` - Number of input channels
+- `output_channels` - Number of output channels
+- `manufacturer` - Device manufacturer
+
+## Development
+
+```bash
+git clone https://github.com/nohanaga/audio_devices.git
+cd audio_devices
+pip install -e .
+```
+
+## Building Wheels
+
+Wheels are automatically built for multiple platforms using GitHub Actions:
+
+- **Windows**: `win32`, `win_amd64`
+- **macOS**: `macosx_*_x86_64`, `macosx_*_arm64`  
+- **Linux**: `linux_x86_64`
+
+## License
+
+MIT License
