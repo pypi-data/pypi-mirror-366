@@ -1,0 +1,6 @@
+[console_scripts]
+laserstudio=laserstudio.__main__:main
+laserstudio_generate_config=laserstudio.config_generator:main_gui
+laserstudio_generate_config_cli=laserstudio.config_generator:main_cli
+laserstudio_listdevices=laserstudio.instruments.list_serials:list_devices
+
