@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zenofai"
+version = "0.1.1"
+authors = [
+    {name = "Anuj Sadani", email = "anuj.sadani3@gmail.com"}
+]
+description = "The Zen of GenAI, printed on import"
+readme = "readme.md"
+license = "MIT"
+keywords = ["AI", "Python", "Zen", "package"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+requires-python = ">=3.8"
