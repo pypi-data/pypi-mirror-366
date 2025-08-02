@@ -1,0 +1,24 @@
+diff --git a/builds/unix/configure.raw b/builds/unix/configure.raw
+index 7a795cbc0..0acd9ee81 100644
+--- a/builds/unix/configure.raw
++++ b/builds/unix/configure.raw
+@@ -962,8 +962,17 @@ case "$CFLAGS" in
+ esac
+ 
+ # Check for pthreads
+-
+-AX_PTHREAD([have_pthread=yes], [have_pthread=no])
++# AX_PTHREAD([have_pthread=yes], [have_pthread=no])
++# XXX Disable pthread for mingw toolchain on Windows
++# https://github.com/fonttools/ttfautohint-py/pull/12
++have_pthread=no
++case "$host_os" in
++  mingw*)
++    ;;
++  *)
++    AX_PTHREAD([have_pthread=yes], [have_pthread=no])
++    ;;
++esac
+ 
+ # Check for Python and docwriter
+ PYTHON_MIN_VERSION=3.5
