@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include log_hub/templates *
+recursive-include log_hub/static *
+recursive-include log_hub/locale *
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__ 

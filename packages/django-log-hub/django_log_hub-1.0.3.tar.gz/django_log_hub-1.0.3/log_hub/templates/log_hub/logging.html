@@ -1,0 +1,381 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Log Hub - Log Viewer" %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .log-level-info {
+            color: #198754; /* Green */
+        }
+        .log-level-warning {
+            color: #ffc107; /* Yellow */
+        }
+        .log-level-error {
+            color: #dc3545; /* Red */
+        }
+
+        .accordion-button.log-level-info {
+            background-color: #e9f7ef; /* Açık yeşil */
+            color: #155724; /* Yeşil metin */
+        }
+        .accordion-button.log-level-warning {
+            background-color: #fff3cd; /* Açık sarı */
+            color: #856404; /* Kahverengi metin */
+        }
+        .accordion-button.log-level-error {
+            background-color: #f8d7da; /* Açık kırmızı */
+            color: #721c24; /* Kırmızı metin */
+        }
+        
+        .log-message-details {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-line;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .log-message-details br {
+            margin-bottom: 5px;
+        }
+        
+        .error-message {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.1rem;
+            border-left: 5px solid #d63031;
+        }
+        
+        .error-message .error-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .error-message .error-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .error-message .error-details {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .no-logs-message {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .no-logs-message .no-logs-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .no-logs-message .no-logs-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .no-logs-message .no-logs-details {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center my-4">
+            <h1 class="text-center flex-grow-1">{% trans "Log Hub" %} | {% trans "Count" %}: <span class="badge bg-info">{{ log_count }}</span></h1>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if LANGUAGE_CODE == 'tr' %}🇹🇷 Türkçe{% else %}🇺🇸 English{% endif %}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                    <li><a class="dropdown-item" href="{% url 'log_hub:change_language' %}?lang=tr">🇹🇷 Türkçe</a></li>
+                    <li><a class="dropdown-item" href="{% url 'log_hub:change_language' %}?lang=en">🇺🇸 English</a></li>
+                </ul>
+            </div>
+        </div>
+    
+        <!-- Filter Form -->
+        <form method="get" action="" class="p-4 border rounded bg-light shadow-sm mb-3">
+            <div class="row g-3">
+                <!-- Log Dosyası -->
+                <div class="col-md-2">
+                    <label for="logType" class="form-label fw-bold">{% trans "Listed File" %}</label>
+                    <select name="log_type" id="logType" class="form-select">
+                        {% if log_files %}
+                            {% for log_file in log_files %}
+                            <option value="{{ log_file }}" {% if log_file == selected_log_type %}selected{% endif %}>
+                                {{ log_file }}
+                            </option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled>{% trans "No log file found" %}</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <h5>{% trans "File Management" %}</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="logDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% trans "Log Files" %}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="logDropdown">
+                            {% if log_files %}
+                                {% for log_file in log_files %}
+                                <li class="dropdown-item d-flex justify-content-between align-items-center">
+                                    {{ log_file }}
+                                    <div class="ms-3">
+                                        <a href="{% url 'log_hub:download_log' log_file %}" class="btn btn-sm btn-outline-primary me-2">{% trans "Download" %}</a>
+                                        <button class="btn btn-sm btn-outline-danger clear-log-btn" data-log="{{ log_file }}">
+                                            {% trans "Clear" %}
+                                        </button>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="dropdown-item text-muted">{% trans "No log file found" %}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Log Seviyesi -->
+                <div class="col-md-2">
+                    <label for="logLevel" class="form-label fw-bold">{% trans "Log Level" %}</label>
+                    <select name="level" id="logLevel" class="form-select">
+                        <option value="">{% trans "All" %}</option>
+                        <option value="INFO" {% if log_level == "INFO" %}selected{% endif %}>INFO</option>
+                        <option value="WARNING" {% if log_level == "WARNING" %}selected{% endif %}>WARNING</option>
+                        <option value="ERROR" {% if log_level == "ERROR" %}selected{% endif %}>ERROR</option>
+                    </select>
+                </div>
+                <!-- Başlangıç Tarihi -->
+                <div class="col-md-2">
+                    <label for="startDate" class="form-label fw-bold">{% trans "Start Date" %}</label>
+                    <input type="datetime-local" name="start_date" id="startDate" class="form-control" value="{{ start_date }}">
+                </div>
+                <!-- Bitiş Tarihi -->
+                <div class="col-md-2">
+                    <label for="endDate" class="form-label fw-bold">{% trans "End Date" %}</label>
+                    <input type="datetime-local" name="end_date" id="endDate" class="form-control" value="{{ end_date }}">
+                </div>
+                <!-- Limit -->
+                <div class="col-md-1">
+                    <label for="limit" class="form-label fw-bold">{% trans "Limit" %}</label>
+                    <select name="limit" id="limit" class="form-select">
+                        <option value="50" {% if limit == 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if limit == 100 %}selected{% endif %}>100</option>
+                        <option value="250" {% if limit == 250 %}selected{% endif %}>250</option>
+                        <option value="500" {% if limit == 500 %}selected{% endif %}>500</option>
+                        <option value="1000" {% if limit == 1000 %}selected{% endif %}>1000</option>
+                    </select>
+                </div>
+            </div>
+    
+            <div class="row g-3 mt-3">
+                <!-- Ara -->
+                <div class="col-md-4">
+                    <label for="searchQuery" class="form-label fw-bold">{% trans "Search" %}</label>
+                    <input type="text" name="q" id="searchQuery" class="form-control" placeholder="{% trans 'Search' %}" value="{{ search_query }}">
+                </div>
+                <!-- Hariç Tut -->
+                <div class="col-md-4">
+                    <label for="exclude_id" class="form-label fw-bold">{% trans "Exclude" %}</label>
+                    <input type="text" name="exclude" id="exclude_id" class="form-control" placeholder="php,aspx" value="{{ exclude }}">
+                </div>
+                <!-- Status Code -->
+                <div class="col-md-2">
+                    <label for="status_coded" class="form-label fw-bold">{% trans "Status Code" %}</label>
+                    <input type="text" name="status_code" id="status_coded" class="form-control" value="{{ status_code }}">
+                </div>
+                <!-- Submit Button -->
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">{% trans "Filter" %}</button>
+                </div>
+            </div>
+        </form>
+
+        {% if not hata %}
+            <!-- Log Display -->
+            {% if logs %}
+                <div class="accordion" id="logAccordion">
+                    {% for log in logs %}
+                <div class="accordion-item border border-secondary rounded-3 mb-3">
+                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                        <button class="accordion-button collapsed text-dark log-level-{{ log.level|lower }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                            <span class="badge bg-primary me-2">{{ log.level }}</span>
+                            <span class="badge bg-success me-2">{% trans "Status" %}: {{ log.status_code }}</span>
+                            <span class="text-muted"><strong>{% trans "Date" %}:</strong> {{ log.timestamp }}</span> 
+                            <div class="badge text-truncate mt-1 text-muted">
+                                <strong>{% trans "Message" %}:</strong> {{ log.message | truncatechars:75 }}
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#logAccordion">
+                        <div class="accordion-body bg-light">
+                            <!-- Log Details -->
+                            <p><strong>{% trans "Date" %}:</strong> {{ log.timestamp }}</p>
+                            <p><strong>{% trans "Name" %}:</strong> {{ log.name }}</p>
+                            {% if log.request %}
+                            <p><strong>{% trans "Request" %}:</strong> {{ log.request }}</p>
+                            {% endif %}
+                            {% if log.message %}
+                            <p><strong>{% trans "Message" %}:</strong></p>
+                            <div class="log-message-details">{{ log.message|linebreaksbr }}</div>
+                            {% endif %}
+                            {% if log.info %}
+                            <strong>{% trans "Details" %}:</strong>
+                            <ul class="list-group">
+                                {% for line in log.info %}
+                                <li class="list-group-item py-1">{{ line }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-logs-message">
+                    <span class="no-logs-icon">📋</span>
+                    <div class="no-logs-title">{% trans "No Logs Found" %}</div>
+                    <div class="no-logs-details">{% trans "No log records found matching the selected criteria. Try changing the filters." %}</div>
+                </div>
+            {% endif %}
+            {% else %}
+                {% if "Log directory not found" in hata or "No .log files found" in hata %}
+                    <div class="no-logs-message">
+                        <span class="no-logs-icon">📁</span>
+                        <div class="no-logs-title">{% trans "Log Directory Not Found" %}</div>
+                        <div class="no-logs-details">{{ hata }}</div>
+                    </div>
+                {% elif "Selected log file not found" in hata %}
+                    <div class="no-logs-message">
+                        <span class="no-logs-icon">📄</span>
+                        <div class="no-logs-title">{% trans "Log File Not Found" %}</div>
+                        <div class="no-logs-details">{{ hata }}</div>
+                    </div>
+                {% elif "encoding error" in hata %}
+                    <div class="error-message">
+                        <span class="error-icon">⚠️</span>
+                        <div class="error-title">{% trans "File Encoding Error" %}</div>
+                        <div class="error-details">{{ hata }}</div>
+                    </div>
+                {% elif "No permission" in hata %}
+                    <div class="error-message">
+                        <span class="error-icon">🔒</span>
+                        <div class="error-title">{% trans "Access Denied" %}</div>
+                        <div class="error-details">{{ hata }}</div>
+                    </div>
+                {% elif "Invalid date format" in hata %}
+                    <div class="error-message">
+                        <span class="error-icon">📅</span>
+                        <div class="error-title">{% trans "Invalid Date Format" %}</div>
+                        <div class="error-details">{{ hata }}</div>
+                    </div>
+                {% else %}
+                    <div class="error-message">
+                        <span class="error-icon">❌</span>
+                        <div class="error-title">{% trans "An Error Occurred" %}</div>
+                        <div class="error-details">{{ hata }}</div>
+                    </div>
+                {% endif %}
+            {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const clearLogButtons = document.querySelectorAll(".clear-log-btn");
+    
+            clearLogButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const logFileName = this.getAttribute("data-log");
+    
+                    if (!confirm(`{% trans "Are you sure you want to clear the file" %} ${logFileName}?`)) {
+                        return;
+                    }
+    
+                    // Ajax isteği - URL'yi dinamik olarak oluştur
+                    const currentUrl = window.location.pathname;
+                    const baseUrl = currentUrl.split('/').slice(0, -1).join('/'); // Son segmenti çıkar
+                    const clearUrl = `${baseUrl}/clear/${logFileName}/`;
+    
+                    fetch(clearUrl, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCookie("csrftoken"),
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            alert(data.message);
+                            // Sayfayı yenile
+                            window.location.reload();
+                        } else {
+                            alert(`{% trans "Error" %}: ${data.message}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("{% trans 'An error occurred' %}:", error);
+                        alert("{% trans 'An error occurred. Please try again.' %}");
+                    });
+                });
+            });
+    
+            // CSRF Token alma fonksiyonu
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== "") {
+                    const cookies = document.cookie.split(";");
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + "=") {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+    
+    
+</body>
+</html>
