@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: simpleargvs
+Version: 1.1.0
+Summary: A simpler way to use sys.argvs
+Author-email: Bob Robertson <Coderdude123@proton.me>
+License: MIT
+Project-URL: Homepage, https://github.com/Jeff-web-sketch/argvs-lib-for-python/tree/main/argvs
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# argvs 
+
+**argvs** is a lightweight Python library that simplifies sys.argv.
+
+
+## 📦 Installation
+
+```bash
+pip install argvs
+or:
+pip3 install argvs
+
+## Usage
+
+from argvs import *
+ar = argvs()
+ar.add_param_list([
+    ['greet', 1, greet],
+    ['version', 1, show_version],
+    ['bye', 1, say_goodbye]
+])
+
+ar.init_all()
+
+# example shell commands
+```bash
+python bridger.py resize input.jpg output.jpg 200 300
+or:
+python3 bridger.py resize input.jpg output.jpg 200 300# argvs-lib-for-python
+# argvs-lib-for-python
+# argvs-lib-for-python
+# argvs-lib-for-python
+# argvs-lib-for-python
+# argvs-lib-for-python
