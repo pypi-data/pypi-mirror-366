@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fastlane Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-content {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        
+        /* 响应式布局 */
+        @media (max-width: 1400px) {
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-width: 0;
+        }
+        
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+            flex-shrink: 0;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+        
+        
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .connected {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .disconnected {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        
+        .last-update {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+        
+        
+        /* 左右分栏布局 */
+        .overview-container {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+            min-height: 0;
+        }
+        
+        .overview-left,
+        .overview-right {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        /* 表格容器 */
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            min-height: 0;
+        }
+        
+        /* 概览表格样式 */
+        .overview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        .overview-table th {
+            background: #f8f9fa;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        
+        .overview-table td {
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            white-space: nowrap;
+        }
+        
+        .overview-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        /* 状态指示器 */
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-indicator.online {
+            background-color: #27ae60;
+        }
+        
+        .status-indicator.offline {
+            background-color: #e74c3c;
+        }
+        
+        /* 队列名称链接 */
+        .queue-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .queue-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* 数值样式 */
+        .stat-success {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        
+        .stat-failed {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        .stat-running {
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        /* 操作按钮 */
+        .btn {
+            padding: 6px 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.85em;
+        }
+        
+        .view-btn {
+            padding: 4px 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .view-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* 统计模式按钮样式 */
+        .stats-mode-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .stats-mode-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .stats-mode-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Worker ID样式 */
+        .worker-id {
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #2c3e50;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .overview-container {
+                flex-direction: column;
+            }
+            
+            .overview-left,
+            .overview-right {
+                width: 100%;
+                max-height: 400px;
+            }
+            
+            .table-container {
+                max-height: 350px;
+            }
+        }
+        
+        /* 防止header内的container影响布局 */
+        header .container {
+            height: auto;
+            display: block;
+            flex-direction: unset;
+        }
+        
+        /* 统计模式切换按钮样式 */
+        .stats-mode-buttons {
+            display: flex;
+            gap: 0;
+        }
+        
+        .stats-mode-buttons button {
+            padding: 6px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+        
+        .stats-mode-buttons button:first-child {
+            border-radius: 4px 0 0 4px;
+            border-right: none;
+        }
+        
+        .stats-mode-buttons button:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .stats-mode-buttons button:hover {
+            background: #f0f0f0;
+        }
+        
+        .stats-mode-buttons button.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .stats-mode-buttons button.active + button {
+            border-left-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Fastlane Monitor</h1>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <div class="container">
+        <!-- 统计概览 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>活跃队列</h3>
+                <div class="stat-value" id="activeQueues">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>总任务数</h3>
+                <div class="stat-value" id="totalTasks">0</div>
+                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                    成功: <span id="totalSuccess" style="color: #27ae60;">0</span> | 
+                    失败: <span id="totalFailed" style="color: #e74c3c;">0</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>在线Worker</h3>
+                <div class="stat-value" id="onlineWorkers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>总Worker数</h3>
+                <div class="stat-value" id="totalWorkers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>平均处理时间</h3>
+                <div class="stat-value" id="avgProcessingTime">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>执行中任务</h3>
+                <div class="stat-value" id="runningTasks">0</div>
+            </div>
+        </div>
+        
+        <!-- Worker和队列左右分栏展示 -->
+        <div class="overview-container">
+            <!-- 左侧：Worker列表 -->
+            <div class="section overview-left">
+                <div class="section-header">
+                    <h2>Worker概览 <span style="font-size: 0.7em; color: #666; font-weight: normal;">(当前在线)</span></h2>
+                    <div>
+                        <button class="btn btn-sm" onclick="showGlobalWorkerHistory()">历史记录</button>
+                        <span class="last-update" id="workersLastUpdate" style="margin-left: 10px;">更新时间: -</span>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="overview-table" id="workersTable">
+                        <thead>
+                            <tr>
+                                <th>状态</th>
+                                <th>Worker ID</th>
+                                <th>主机</th>
+                                <th>队列</th>
+                                <th>成功</th>
+                                <th>失败</th>
+                                <th>执行中</th>
+                                <th>平均时间</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allWorkersContainer">
+                            <tr>
+                                <td colspan="8" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 右侧：队列列表 -->
+            <div class="section overview-right">
+                <div class="section-header">
+                    <h2>队列概览</h2>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div class="stats-mode-buttons">
+                            <button id="allStatsBtn" class="active">
+                                所有
+                            </button>
+                            <button id="onlineStatsBtn">
+                                在线
+                            </button>
+                        </div>
+                        <span class="last-update" id="lastUpdate">更新时间: -</span>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="overview-table" id="queuesTable">
+                        <thead>
+                            <tr>
+                                <th>队列名称</th>
+                                <th>长度</th>
+                                <th>成功</th>
+                                <th>失败</th>
+                                <th>执行中</th>
+                                <th>平均时间</th>
+                                <th>Workers</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queuesContainer">
+                            <tr>
+                                <td colspan="8" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- 连接状态 -->
+    <div class="connection-status disconnected" id="connectionStatus">
+        未连接
+    </div>
+    
+    <script>
+        let ws = null;
+        let reconnectInterval = null;
+        let allQueues = {};
+        let queueStats = {};
+        let queueWorkerSummary = {};
+        
+        // 从 localStorage 读取用户的选择，默认为显示所有统计
+        let showAllStats = localStorage.getItem('statsMode') !== 'online';
+        
+        // 格式化时间
+        function formatTime(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp);
+            return date.toLocaleString('zh-CN');
+        }
+        
+        // 更新统计信息
+        async function updateStats() {
+            try {
+                // 获取全局统计信息（包含历史）
+                const response = await fetch('/api/global-stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    
+                    document.getElementById('activeQueues').textContent = stats.total_queues || 0;
+                    document.getElementById('totalTasks').textContent = stats.total_count || 0;
+                    document.getElementById('totalSuccess').textContent = stats.total_success_count || 0;
+                    document.getElementById('totalFailed').textContent = stats.total_failed_count || 0;
+                    document.getElementById('onlineWorkers').textContent = stats.online_workers || 0;
+                    document.getElementById('totalWorkers').textContent = stats.total_workers || 0;
+                    document.getElementById('runningTasks').textContent = stats.total_running_tasks || 0;
+                    
+                    // 格式化平均处理时间
+                    const avgTime = stats.avg_processing_time || 0;
+                    let timeDisplay = '-';
+                    if (avgTime > 0) {
+                        if (avgTime < 1) {
+                            timeDisplay = Math.round(avgTime * 1000) + 'ms';
+                        } else if (avgTime < 60) {
+                            timeDisplay = avgTime.toFixed(2) + 's';
+                        } else {
+                            const minutes = Math.floor(avgTime / 60);
+                            const seconds = (avgTime % 60).toFixed(1);
+                            timeDisplay = minutes + 'm' + seconds + 's';
+                        }
+                    }
+                    document.getElementById('avgProcessingTime').textContent = timeDisplay;
+                } else {
+                    // 如果API失败，使用本地计算
+                    const activeQueues = Object.keys(allQueues).length;
+                    const onlineWorkers = Object.values(allQueues).reduce((sum, workers) => {
+                        return sum + workers.filter(w => w.is_alive).length;
+                    }, 0);
+                    const totalWorkers = Object.values(allQueues).reduce((sum, workers) => {
+                        return sum + workers.length;
+                    }, 0);
+                    
+                    document.getElementById('activeQueues').textContent = activeQueues;
+                    document.getElementById('onlineWorkers').textContent = onlineWorkers;
+                    document.getElementById('totalWorkers').textContent = totalWorkers;
+                }
+            } catch (error) {
+                console.error('Failed to update stats:', error);
+            }
+        }
+        
+        // 渲染队列表格
+        function renderQueues() {
+            const container = document.getElementById('queuesContainer');
+            
+            if (Object.keys(allQueues).length === 0) {
+                container.innerHTML = '<tr><td colspan="8" class="empty-state">暂无活跃队列</td></tr>';
+                return;
+            }
+            
+            container.innerHTML = Object.entries(allQueues).map(([queue, workers]) => {
+                const aliveWorkers = workers.filter(w => w.is_alive);
+                const stats = queueStats[queue] || {};
+                const summary = queueWorkerSummary[queue] || {};
+                
+                let successCount, failedCount, totalCount, runningTasks, avgTime;
+                
+                if (showAllStats) {
+                    // 显示所有统计（包含历史）
+                    successCount = summary.total_success_count || 0;
+                    failedCount = summary.total_failed_count || 0;
+                    totalCount = summary.total_count || 0;
+                    runningTasks = summary.total_running_tasks || 0;
+                    avgTime = summary.avg_processing_time || 0;
+                } else {
+                    // 仅显示在线worker的统计
+                    successCount = 0;
+                    failedCount = 0;
+                    totalCount = 0;
+                    runningTasks = 0;
+                    let totalProcessingTime = 0;
+                    let processingTimeCount = 0;
+                    
+                    aliveWorkers.forEach(worker => {
+                        successCount += worker.success_count || 0;
+                        failedCount += worker.failed_count || 0;
+                        totalCount += (worker.success_count || 0) + (worker.failed_count || 0);
+                        runningTasks += worker.running_tasks || 0;
+                        
+                        if (worker.avg_processing_time > 0) {
+                            totalProcessingTime += worker.avg_processing_time;
+                            processingTimeCount++;
+                        }
+                    });
+                    
+                    avgTime = processingTimeCount > 0 ? totalProcessingTime / processingTimeCount : 0;
+                }
+                
+                // 格式化平均处理时间
+                let timeDisplay = '-';
+                if (avgTime > 0) {
+                    if (avgTime < 1) {
+                        timeDisplay = Math.round(avgTime * 1000) + 'ms';
+                    } else if (avgTime < 60) {
+                        timeDisplay = avgTime.toFixed(2) + 's';
+                    } else {
+                        const minutes = Math.floor(avgTime / 60);
+                        const seconds = (avgTime % 60).toFixed(1);
+                        timeDisplay = minutes + 'm' + seconds + 's';
+                    }
+                }
+                
+                return `
+                    <tr>
+                        <td>
+                            <a href="queue.html?name=${encodeURIComponent(queue)}" class="queue-link">${queue}</a>
+                        </td>
+                        <td>${stats.length || 0}</td>
+                        <td class="stat-success">${successCount}</td>
+                        <td class="stat-failed">${failedCount}</td>
+                        <td class="stat-running">${runningTasks}</td>
+                        <td style="color: #8e44ad; font-weight: 600;">${timeDisplay}</td>
+                        <td>
+                            <span class="status-indicator ${aliveWorkers.length > 0 ? 'online' : 'offline'}"></span>
+                            ${aliveWorkers.length}/${workers.length}
+                        </td>
+                        <td>
+                            <a href="queue.html?name=${encodeURIComponent(queue)}" class="view-btn">查看详情</a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // 查看队列详情
+        function viewQueueDetails(queueName) {
+            window.location.href = `queue.html?name=${encodeURIComponent(queueName)}`;
+        }
+        
+        // 渲染所有Worker表格
+        function renderAllWorkers() {
+            const container = document.getElementById('allWorkersContainer');
+            
+            // 收集所有worker并按队列组织
+            const allWorkers = [];
+            const workersByQueue = {};
+            
+            Object.entries(allQueues).forEach(([queue, workers]) => {
+                workersByQueue[queue] = workers;
+                workers.forEach(worker => {
+                    // 为每个worker添加队列信息
+                    const workerWithQueue = {
+                        ...worker,
+                        queue: queue,
+                        worker_stats: queueWorkerSummary[queue] ? {
+                            success_count: worker.success_count || 0,
+                            failed_count: worker.failed_count || 0,
+                            running_tasks: worker.running_tasks || 0,
+                            avg_processing_time: worker.avg_processing_time || 0
+                        } : {},
+                        // 添加队列的汇总信息（包含历史）
+                        queue_summary: queueWorkerSummary[queue] || {}
+                    };
+                    allWorkers.push(workerWithQueue);
+                });
+            });
+            
+            if (allWorkers.length === 0) {
+                container.innerHTML = '<tr><td colspan="8" class="empty-state">暂无Worker</td></tr>';
+                return;
+            }
+            
+            // 按worker ID去重（同一个worker可能处理多个队列）
+            const uniqueWorkers = {};
+            allWorkers.forEach(worker => {
+                const workerId = worker.consumer_id || worker.consumer_name;
+                if (!uniqueWorkers[workerId]) {
+                    uniqueWorkers[workerId] = {
+                        ...worker,
+                        queues: {}
+                    };
+                }
+                // 添加队列统计信息
+                uniqueWorkers[workerId].queues[worker.queue] = {
+                    success_count: worker.success_count || 0,
+                    failed_count: worker.failed_count || 0,
+                    running_tasks: worker.running_tasks || 0,
+                    avg_processing_time: worker.avg_processing_time || 0
+                };
+            });
+            
+            // 转换为表格行
+            container.innerHTML = Object.values(uniqueWorkers)
+                .sort((a, b) => {
+                    // 先按状态排序（在线的在前）
+                    if (a.is_alive !== b.is_alive) {
+                        return b.is_alive - a.is_alive;
+                    }
+                    // 再按ID排序
+                    const idA = a.consumer_id || a.consumer_name || '';
+                    const idB = b.consumer_id || b.consumer_name || '';
+                    return idA.localeCompare(idB);
+                })
+                .map(worker => {
+                    const workerId = worker.consumer_id || worker.consumer_name || 'unknown';
+                    const isOnline = worker.is_alive;
+                    const hostname = worker.host || worker.hostname || 'unknown';
+                    
+                    // 计算总的统计信息
+                    let totalSuccess = 0;
+                    let totalFailed = 0;
+                    let totalRunning = 0;
+                    let avgProcessingTime = 0;
+                    let processingTimeCount = 0;
+                    
+                    Object.values(worker.queues).forEach(queueStats => {
+                        totalSuccess += queueStats.success_count;
+                        totalFailed += queueStats.failed_count;
+                        totalRunning += queueStats.running_tasks;
+                        if (queueStats.avg_processing_time > 0) {
+                            avgProcessingTime += queueStats.avg_processing_time;
+                            processingTimeCount++;
+                        }
+                    });
+                    
+                    // 计算平均处理时间
+                    const finalAvgTime = processingTimeCount > 0 ? avgProcessingTime / processingTimeCount : 0;
+                    
+                    // 格式化处理时间
+                    let timeDisplay = '-';
+                    if (finalAvgTime > 0) {
+                        if (finalAvgTime < 1) {
+                            timeDisplay = Math.round(finalAvgTime * 1000) + 'ms';
+                        } else if (finalAvgTime < 60) {
+                            timeDisplay = finalAvgTime.toFixed(2) + 's';
+                        } else {
+                            const minutes = Math.floor(finalAvgTime / 60);
+                            const seconds = (finalAvgTime % 60).toFixed(1);
+                            timeDisplay = minutes + 'm' + seconds + 's';
+                        }
+                    }
+                    
+                    const queueCount = Object.keys(worker.queues).length;
+                    
+                    // 获取队列信息和汇总统计
+                    const queueNames = Object.keys(worker.queues);
+                    const primaryQueue = queueNames[0] || '-';
+                    const queueDisplay = queueNames.length > 1 ? 
+                        `<span title="${queueNames.join(', ')}">${primaryQueue} (+${queueNames.length - 1})</span>` : 
+                        primaryQueue;
+                    
+                    // 获取主队列的汇总统计（包含历史）
+                    const primaryQueueSummary = worker.queue_summary || {};
+                    const queueTotalTasks = primaryQueueSummary.total_count || 0;
+                    
+                    return `
+                        <tr>
+                            <td>
+                                <span class="status-indicator ${isOnline ? 'online' : 'offline'}" title="${isOnline ? '在线' : '离线'}"></span>
+                            </td>
+                            <td>
+                                <span class="worker-id" title="${workerId}">${workerId}</span>
+                            </td>
+                            <td title="${hostname}">${hostname.length > 20 ? hostname.substring(0, 20) + '...' : hostname}</td>
+                            <td>${queueDisplay}</td>
+                            <td class="stat-success">${totalSuccess}</td>
+                            <td class="stat-failed">${totalFailed}</td>
+                            <td class="stat-running">${totalRunning}</td>
+                            <td style="color: #8e44ad; font-weight: 600;">${timeDisplay}</td>
+                        </tr>
+                    `;
+                }).join('');
+        }
+        
+        // 更新所有数据
+        async function updateData(data) {
+            if (data.workers) {
+                allQueues = data.workers;
+            }
+            
+            if (data.timestamp) {
+                document.getElementById('lastUpdate').textContent = `更新时间: ${formatTime(data.timestamp)}`;
+            }
+            
+            // 获取每个队列的统计信息和worker汇总信息
+            for (const queue of Object.keys(allQueues)) {
+                try {
+                    const [statsResponse, summaryResponse] = await Promise.all([
+                        fetch(`/api/queue/${encodeURIComponent(queue)}/stats`),
+                        fetch(`/api/queue/${encodeURIComponent(queue)}/worker-summary`)
+                    ]);
+                    
+                    if (statsResponse.ok) {
+                        const stats = await statsResponse.json();
+                        queueStats[queue] = stats;
+                    }
+                    
+                    if (summaryResponse.ok) {
+                        const summaryData = await summaryResponse.json();
+                        queueWorkerSummary[queue] = summaryData.summary;
+                    }
+                } catch (error) {
+                    console.error(`Failed to fetch stats for queue ${queue}:`, error);
+                }
+            }
+            
+            renderQueues();
+            renderAllWorkers();
+            updateStats();
+            
+            // 更新workers的最后更新时间
+            if (data.timestamp) {
+                document.getElementById('workersLastUpdate').textContent = `更新时间: ${formatTime(data.timestamp)}`;
+            }
+        }
+        
+        // WebSocket连接
+        function connect() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+            
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                document.getElementById('connectionStatus').className = 'connection-status connected';
+                document.getElementById('connectionStatus').textContent = '已连接';
+                
+                if (reconnectInterval) {
+                    clearInterval(reconnectInterval);
+                    reconnectInterval = null;
+                }
+            };
+            
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    updateData(data);
+                } catch (error) {
+                    console.error('Failed to parse WebSocket data:', error);
+                }
+            };
+            
+            ws.onclose = () => {
+                console.log('WebSocket disconnected');
+                document.getElementById('connectionStatus').className = 'connection-status disconnected';
+                document.getElementById('connectionStatus').textContent = '连接断开';
+                
+                // 自动重连
+                if (!reconnectInterval) {
+                    reconnectInterval = setInterval(() => {
+                        console.log('Attempting to reconnect...');
+                        connect();
+                    }, 5000);
+                }
+            };
+            
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+            };
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 连接WebSocket
+            connect();
+            
+            // 初始加载队列数据
+            fetch('/api/queues')
+                .then(res => res.json())
+                .then(data => {
+                    const queues = data.queues || [];
+                    // 为每个队列获取Worker信息
+                    Promise.all(queues.map(queue => 
+                        fetch(`/api/queue/${encodeURIComponent(queue)}/workers`)
+                            .then(res => res.json())
+                            .then(data => ({ queue, workers: data.workers || [] }))
+                    )).then(results => {
+                        allQueues = {};
+                        results.forEach(({ queue, workers }) => {
+                            allQueues[queue] = workers;
+                        });
+                        updateData({ workers: allQueues, timestamp: new Date().toISOString() });
+                    });
+                });
+            
+            // 添加统计模式切换按钮的事件监听器
+            const allStatsBtn = document.getElementById('allStatsBtn');
+            const onlineStatsBtn = document.getElementById('onlineStatsBtn');
+            
+            if (allStatsBtn && onlineStatsBtn) {
+                // 设置初始状态
+                if (showAllStats) {
+                    allStatsBtn.classList.add('active');
+                    onlineStatsBtn.classList.remove('active');
+                } else {
+                    allStatsBtn.classList.remove('active');
+                    onlineStatsBtn.classList.add('active');
+                }
+                
+                // 点击"所有"按钮
+                allStatsBtn.addEventListener('click', () => {
+                    if (!showAllStats) {
+                        showAllStats = true;
+                        localStorage.setItem('statsMode', 'all');
+                        allStatsBtn.classList.add('active');
+                        onlineStatsBtn.classList.remove('active');
+                        updateData({ workers: allQueues, timestamp: new Date().toISOString() });
+                    }
+                });
+                
+                // 点击"在线"按钮
+                onlineStatsBtn.addEventListener('click', () => {
+                    if (showAllStats) {
+                        showAllStats = false;
+                        localStorage.setItem('statsMode', 'online');
+                        allStatsBtn.classList.remove('active');
+                        onlineStatsBtn.classList.add('active');
+                        updateData({ workers: allQueues, timestamp: new Date().toISOString() });
+                    }
+                });
+            }
+        });
+        
+        // 显示全局Worker历史记录
+        async function showGlobalWorkerHistory() {
+            // 创建模态框
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: white;
+                padding: 30px;
+                border-radius: 8px;
+                max-width: 1200px;
+                max-height: 80vh;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            `;
+            
+            content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">所有Worker下线历史记录</h2>
+                    <button onclick="this.closest('div[style*=fixed]').remove()" style="background: #e74c3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">关闭</button>
+                </div>
+                <div id="historyContent" style="flex: 1; overflow-y: auto;">
+                    <div style="text-align: center; padding: 20px;">加载中...</div>
+                </div>
+            `;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            try {
+                const response = await fetch('/api/workers/offline-history?limit=100');
+                const data = await response.json();
+                const history = data.history || [];
+                
+                const historyContent = document.getElementById('historyContent');
+                
+                if (history.length === 0) {
+                    historyContent.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">暂无下线记录</div>';
+                    return;
+                }
+                
+                // 计算总计
+                let totalSuccess = 0, totalFailed = 0, totalCount = 0;
+                history.forEach(record => {
+                    totalSuccess += record.total_success_count || 0;
+                    totalFailed += record.total_failed_count || 0;
+                    totalCount += record.total_count || 0;
+                });
+                
+                historyContent.innerHTML = `
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px;">
+                        <strong>历史汇总：</strong>
+                        成功: <span style="color: #27ae60;">${totalSuccess}</span> | 
+                        失败: <span style="color: #e74c3c;">${totalFailed}</span> | 
+                        总计: ${totalCount} | 
+                        Workers: ${history.length}
+                    </div>
+                    <table class="overview-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Worker ID</th>
+                                <th>主机名</th>
+                                <th>队列</th>
+                                <th>运行时长</th>
+                                <th>成功</th>
+                                <th>失败</th>
+                                <th>总计</th>
+                                <th>平均耗时</th>
+                                <th>下线时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${history.map(record => {
+                                const queues = record.queues || '-';
+                                const queueList = queues.split(',').filter(q => q);
+                                const queueDisplay = queueList.length > 1 ? 
+                                    `<span title="${queues}">${queueList[0]} (+${queueList.length - 1})</span>` : 
+                                    queues;
+                                    
+                                return `
+                                    <tr>
+                                        <td title="${record.consumer_id}">${record.consumer_id.substring(0, 16)}...</td>
+                                        <td>${record.host}</td>
+                                        <td>${queueDisplay}</td>
+                                        <td>${record.duration_str || '-'}</td>
+                                        <td style="color: #27ae60;">${record.total_success_count || 0}</td>
+                                        <td style="color: #e74c3c;">${record.total_failed_count || 0}</td>
+                                        <td>${record.total_count || 0}</td>
+                                        <td>${record.avg_processing_time ? record.avg_processing_time.toFixed(3) + 's' : '-'}</td>
+                                        <td>${new Date(record.offline_time_str).toLocaleString('zh-CN')}</td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        显示最近 ${history.length} 条记录 | 
+                        <a href="/api/workers/offline-history?limit=1000" target="_blank">导出全部</a>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('historyContent').innerHTML = 
+                    `<div style="text-align: center; padding: 40px; color: #e74c3c;">加载失败: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
