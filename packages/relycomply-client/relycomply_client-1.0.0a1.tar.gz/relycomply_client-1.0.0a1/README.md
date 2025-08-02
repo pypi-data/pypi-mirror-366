@@ -1,0 +1,477 @@
+# RelyComply Python Client and CLI
+
+This package contains the python client and CLI for the RelyComply platform:
+
+> RelyComply empowers banks, insurers, financial services providers, and innovative fintechs with a single, fully integrated KYC and AML platform.
+
+The RelyComply Python Client and CLI provides a comprehensive developer toolkit designed around a configuration-as-code philosophy. Whether you're building automated compliance workflows, integrating with existing data pipelines, or managing complex AML configurations, this package offers multiple levels of abstraction to suit your needs.
+
+The toolkit includes smart GraphQL clients that automatically generate methods from the RelyComply API schema, high-level integration utilities for common tasks like data ingestion and cloud service integration, and a sophisticated command line interface with environment management, configuration synchronization, and workflow automation capabilities.
+
+Built with a developer-first mentality, the toolkit offers flexible configuration management with intelligent precedence handling, Pythonic interfaces that abstract away GraphQL complexity, infrastructure-as-code approaches with version-controlled configuration management, real-time configuration updates and validation, and template-driven dynamic configuration generation for different environments.
+
+This approach enables teams to treat their compliance infrastructure like modern software development - with version control, automated deployment, environment-specific configurations, and repeatable processes.
+
+## Configuration
+
+Configuration for the various clients can be loaded in multiple ways. In the following order of precedence:
+
+* Constructor Arguments
+* Environment Variables
+* AWS Secrets
+* Configuration Files (.rely.toml and variants)
+* Defaults
+
+Configuration can stack, so you can define certain credentials in a config file for example, and override it with an environment variable.
+
+The following credentials can be set:
+
+* token: The API token of the user
+* url: The url of the RelyComply application (default: `https://app.relycomply.com`)
+* impersonate: If user impersonation is available for your user this allows you to make a command on behalf of another user. This should be in format `<organisation_name>:<user_email>`, for example `relycomply:james@relycomply.com`.
+
+**Constructor Arguments**
+
+You can pass credentials when constructing a client as keyword arguments, e.g.
+
+```python
+from relycomply_client import StandardConfiguration
+configuration = StandardConfiguration(token="<token>")
+```
+
+**Environment Variables**
+
+The client will look if there are matching environment variables of the format `RELYCOMPLY_<CREDENTIAL>`, for example: `RELYCOMPLY_TOKEN=<token>`.
+
+**AWS Secrets**
+
+The client can integrate with the AWS Secrets Manager. This is done by setting appropriate environment variables with the naming convention `RELYCOMPLY_<CREDENTIAL>_AWS_SECRET` and the value being the secrets path, for example:
+
+```
+RELYCOMPLY_TOKEN_AWS_SECRET=path/to/my/secret
+```
+
+For more information please consult the [AWS Secrets Manager documentation](https://docs.aws.amazon.com/secretsmanager/).
+
+**Config Files**
+
+Configuration credentials can be set in TOML files that the client will automatically discover. The client searches for configuration files by recursively traversing up from the current working directory through all parent directories, with files in closer directories taking precedence over those in parent directories.
+
+The search order for configuration files is as follows:
+
+**When an environment is specified** (via `RELY_ENVIRONMENT` environment variable or `.rely-environment` file):
+1. `.rely.toml`
+2. `.rely-configuration-{environment}.toml` (e.g., `.rely-configuration-production.toml`)
+3. `.rely-configuration.toml`
+4. `rely-configuration-{environment}.toml` (e.g., `rely-configuration-production.toml`)
+5. `rely-configuration.toml`
+
+**When no environment is specified**:
+1. `.rely.toml`
+2. `.rely-configuration.toml`
+3. `rely-configuration.toml`
+
+**Environment Detection:**
+- Environment can be set via the `RELY_ENVIRONMENT` environment variable
+- Alternatively, create a `.rely-environment` file containing the environment name
+- If no environment is specified, only the base configuration files are searched
+- This can be managed with the `rely environment` command
+
+**Search Behavior:**
+- Files are searched recursively from the current working directory up to the filesystem root
+- The closest file (in the directory hierarchy) takes precedence
+- Multiple files can be found and their configurations will be merged, with closer files overriding values from parent directories
+- Hidden files (prefixed with `.`) are searched before non-hidden files
+
+Example configuration file (any of the above filenames):
+
+```toml
+token="<token>"
+url="https://relycomply.customer.com"
+impersonate="organization:user@example.com"
+```
+
+**Default Configuration**
+
+The following credentials have default values:
+
+```toml
+url="https://app.relycomply.com"
+```
+
+
+
+## RelyComplyGQLClient
+
+A flexible and intelligent GraphQL client for RelyComply. This client will create methods that match the mutations and queries of the RelyComply API, and expose them with familiar calling conventions. It also handles paging as well as simplifying the returned structures.
+
+It can be constructed as below:
+
+```python
+from relycomply_client import RelyComplyGQLClient, StandardConfiguration
+configuration = StandardConfiguration()
+gql_client = RelyComplyGQLClient(configuration)
+
+# Or with specific credentials  
+configuration = StandardConfiguration(token="<token>")
+gql_client = RelyComplyGQLClient(configuration)
+```
+
+Queries can be called with their lowerCase field name and any filter arguments as kwargs, e.g.:
+
+```python
+gql_client.products(nameContain="ZA") # Will return a list of products
+gql_client.products(nameContain="ZA", _iter=True) # Will return a lazy generator
+gql_client.products(name="retailZA", _only=True) # Will return only the first object or None
+```
+
+The client will automatically collapse edge lists into plain lists of objects to make the output easier to work with.
+
+Mutations can be called in a similar way, but arguments will be lifted into the $input variable
+
+```python
+gql_client.createProduct(name="retailZA", label="South African Retail") # Returns the created product
+```
+
+The interface is automatically generated from the GQL schema as well as the CLI support templates. Thus it should always be in sync with the latest features on the platform.
+
+The client also exposes a raw GraphQl call when you need to make a more complex query. No post processing will be done on the results. This is mainly useful because it loads and manages the credentials. For example to query the first 10 products.
+
+```python
+gql_client.graphql(
+    """
+    products(first:$first) {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+    """, 
+    variables=dict(first=10)
+)
+```
+
+## RelyComplyIntegrationClient
+
+The RelyComplyIntegrationClient contains higher level methods that make common integration tasks simpler. It provides simple integration with various cloud services and common data tools like pandas.
+
+```python
+from relycomply_client import RelyComplyIntegrationClient, RelyComplyGQLClient, StandardConfiguration
+
+# First create a GQL client
+configuration = StandardConfiguration()
+gql_client = RelyComplyGQLClient(configuration)
+
+# Then instantiate the integration client with the GQL client
+rc = RelyComplyIntegrationClient(gql_client=gql_client)
+```
+
+A quick overview of a common data integration with the transaction monitoring is shown below:
+
+```python
+# Load a file with pandas
+raw_df = pd.read_csv(file_path)
+
+# Perform some cleaning
+df = clean_raw_df(raw_df)
+
+# Pull in a datafile from a known source. 
+# This will automatically create a signed URL if an S3 path is passed
+raw_data_file = rc.pull_to_datafile(
+    file_path, "raw/" + file_name, wait_for_ready=True
+)
+
+# Upload a dataframe as parquet datafile
+processed_data_file = rc.put_to_datafile(df, "processed/" + file_name)
+
+# Ingest the given files
+
+# Note that the responses from previous calls can be passed as is for the call
+# arguments. Their id's will be automatically extracted.
+data_source_version = rc.ingest_datasource(
+    data_source, data_file=processed_data_file, raw_data_files=[raw_data_file]
+)
+
+# Run a monitor
+rc.run_monitor(monitor_name, source_versions=[data_source_version])
+```
+
+The underlying `RelyComplyGQLClient` can be accessed with `.gql` property.
+
+```python
+rc.gql.createProduct(name="bank_account", label="My Bank Account")
+```
+
+## Command Line Interface (CLI)
+
+The command line interface is an important part of our developer first mentality. It acts as a layer on top of the GraphQL API and makes it substantially easier to for power-users to explore and manipulate RelyComply.
+
+GraphQL is excellent as an API for integration, but can be a lot extra overhead to quickly just see what is happening in the system. Primarily this is because the user has to define the output format they want. This greatly improves the flexibility but certainly is not as easy as just using curl on a rest endpoint. The rely CLI makes it easy to perform the standard queries and mutations on the GraphQL API, without extra effort by the user.
+
+### Environment Management
+
+The `rely environment` command provides tools for managing configuration environments. Environments allow you to maintain separate configurations for different deployment targets (e.g., development, staging, production) while sharing common settings.
+
+**rely environment configuration**
+
+Displays the complete credential loading process and final resolved credentials. This is useful for debugging configuration issues and understanding how your credentials are being loaded and merged.
+
+```bash
+rely environment configuration
+```
+
+The output shows:
+- Each credential loader that was attempted and the configuration layers it produced
+- Final merged credentials (excluding environment-specific settings)
+- Environment configurations displayed separately
+- Any validation errors in your configuration
+
+**rely environment list**
+
+Lists all available environments discovered from your configuration files.
+
+```bash
+rely environment list
+```
+
+This command scans for environment-specific configuration files (e.g., `rely-configuration-production.toml`) and displays them. The currently active environment is highlighted with an asterisk (*).
+
+**rely environment select**
+
+Switches to a specific environment by creating or updating the `.rely-environment` file.
+
+```bash
+rely environment select production
+rely environment select development
+```
+
+**Behavior:**
+- If `RELY_ENVIRONMENT` environment variable is set, this command will warn you that changes have no effect
+- Searches for an existing `.rely-environment` file in the current directory and parent directories
+- If no `.rely-environment` file exists, offers to create one at the git repository root
+- Validates that the selected environment has corresponding configuration files
+- Prompts for confirmation if selecting an environment without known configurations
+
+**Example workflow:**
+```bash
+# List available environments
+rely environment list
+
+# Select production environment
+rely environment select production
+
+# Verify the configuration is correct
+rely environment configuration
+```
+
+### rely cli
+
+The legacy CLI can be accessed with the `rely cli` command. The basic format is to call it with a `type` and an `action`. This will automatically be coerced into the appropriate GraphQL calls. 
+
+Arguments can be passed as keyword arguments of the form `--key=value` additionally a configuration file name can be passed as the final argument. The value can be a json string, which will be parsed correctly for complex arguments. Arguments are merged with the command line arguments taking precedence.
+
+Queries can be performed with the `list` and `retrieve` actions, `retrieve` will return a single item, and `list` will display a table of items.
+
+```bash
+rely cli product list # Will list all the products
+rely cli product list --nameContains="za" # Will list all the products with za in their name
+rely cli product retrieve --id=123 # Will return just the specified product 
+```
+
+Mutations can called by their name, with the action being prepended to the type. The system is intelligent enough that the case of the action and type do not matter.
+
+```bash
+# Will call createProduct
+rely cli product create --name="bank_account" --label="Bank Account" 
+
+# Will update the given product (updateProduct) based on the given ID and the config file (pr_my_product.toml)
+rely cli product update --id=10 pr_my_product.toml
+```
+
+Certain aliases are provided for convenience, e.g. 
+
+```bash
+# This will call addCaseNote
+rely cli case addNote --case=123 --note="This is my note"
+```
+
+The format of the output can be controlled with the `--json`, `--yaml` and `--toml` (default) flags.
+
+### rely sync
+
+The `rely sync` command makes it easy to create and update large sets of configuration in a standard way without having to run the individual update or create commands.
+
+This works by examining the *.toml files in directory (or recursively in directories), and checking an extra piece of metadata that explains the type of the object that it represents (e.g. "Product"), then using the `name` will check if it exists, if it does not it will offer to create it, otherwise it will update it.
+
+The metadata is set as a magic comment at the top of the file, for example a Product definition would look like:
+
+```toml
+#% type = "Product"
+
+name = "retail_account"
+label = "Generic Retail Account"
+description = "For people who need banks"
+```
+
+Note the magic comments start with a "#%" sequence which means they will be ignored by any other tools, but are differentiated from normal comments. The structure of the metadata itself is in TOML format. Currently only the `type` key is supported which should be the Type of the object. In the future this may be extended.
+
+**Template Rendering**
+
+The `rely sync` command supports Jinja2 template rendering for configuration files with the `.toml.jinja` extension. This allows you to create dynamic configuration files that can use variables and logic to generate different configurations based on your environment or setup.
+
+Template files are processed using the Jinja2 template engine with variables made available from your configuration. The variables are sourced from:
+
+1. **Configuration file variables section**: Define variables in any configuration file using a `[variables]` section:
+   ```toml
+   [variables]
+   sanctions_lists = ["un_sc_sanctions", "us_ofac"]
+   environment = "production"
+   ```
+
+2. **Template access**: Variables can be accessed in template files using standard Jinja2 syntax:
+   ```toml
+   #% type = "MultiHitWatchlistScreeningConfig"
+
+   name = "sanctions_screening_{{ environment }}"
+   label = "Sanctions Screening"
+   sources = {{ sanctions_lists | tojson }}
+   threshold = {% if environment == "production" %}0.9{% else %}0.8{% endif %}
+   ```
+
+3. **Rendering process**: When `rely sync` processes `.toml.jinja` files:
+   - The template is rendered using the Jinja2 engine
+   - All variables from the configuration are made available to the template
+   - The rendered output is then processed as a regular TOML file
+   - The same metadata requirements apply (magic comments with type information)
+
+Template rendering allows you to maintain a single template that can generate different configurations for different environments, reuse common values, and apply conditional logic to your configuration files.
+
+Assuming this file were placed in a directory, the following command would be called:
+
+```
+rely sync <directory>
+```
+
+```
+Found the following files with type information
+  - tests/configuration/pr_retail.toml [type = Product]
+
+The following items will be created:
+
+Type     name            path
+-------  --------------  ----------------------------------
+Product  retail_account  tests/configuration/pr_retail.toml
+
+Are you sure you would like to continue (yes/no)?: 
+```
+
+if you respond `yes` then you would further see:
+
+```
+rely Product create tests/configuration/pr_retail.toml
+```
+
+You would then be able to see the created Product on the application.
+
+If you were to run it again and responded `yes` you would see:
+
+```
+Found the following files with type information
+  - tests/configuration/pr_retail.toml [type = Product]
+
+The following items may be updated:
+
+Type     name            path
+-------  --------------  ----------------------------------
+Product  retail_account  tests/configuration/pr_retail.toml
+
+Are you sure you would like to continue (yes/no)?: yes
+rely Product update --id=retail_account tests/configuration/pr_retail.toml
+```
+
+Since the product would be updated instead of created.
+
+The output will show you any errors in your metadata, or alerts about lack of metadata.
+
+A slightly more complex example of configuration files can be found in the `tests/configuration` folder.
+
+You can see additional help and arguments with `rely sync --help`. 
+
+**Caveats and known issues**
+
+The system is currently reasonably simple and there are known cases where things will not work:
+
+- If you rename an object it will create a new object, leaving the old one intact. In the case use the CLI to delete the old object (BUT BE CAREFUL).
+- If you change the type of an object (in the metadata) very strange things will happen. This will not be destructive though. 
+
+The system will be enhanced in the future to more gracefully deal with these cases. 
+
+### rely watch
+
+The `rely watch` command is similar to the `rely sync` command but when given a directory it will watch for file changes in that directory (either additions or updates), and if applicable run `rely sync` on that file. This allows for a live updating experience and is especially useful for editing complex rule sets.
+
+### rely render
+
+The `rely render` command allows you to preview the output of Jinja2 template rendering for debugging purposes. It takes a `.toml.jinja` template file and renders it using your current configuration variables, displaying the resulting TOML output with syntax highlighting.
+
+```bash
+rely render path/to/template.toml.jinja
+```
+
+This is particularly useful for:
+- Debugging template syntax errors
+- Verifying that variables are being substituted correctly
+- Testing template logic before running `rely sync`
+- Understanding how your templates will be rendered in different environments
+
+The command validates that the rendered output is valid TOML and highlights any syntax errors.
+
+### rely turbo
+
+The `rely turbo` command provides a powerful automation framework for executing predefined workflows. It allows you to define a series of steps in a configuration file that are commonly needed to set up and manage RelyComply environments.
+
+Turbo supports the following step types:
+
+- **sync**: Synchronizes configuration files from folders to RelyComply
+- **setup_demo_permissions**: Sets up demo permissions in the system
+- **ingest_lookup_tables**: Ingests lookup tables from Parquet files
+- **ingest_data_sources**: Ingests multiple data sources from Parquet files
+- **run_monitor**: Executes compliance monitors with specified configurations
+- **shell**: Runs arbitrary shell commands
+
+Steps can be tagged for conditional execution, allowing you to run only specific parts of your workflow.
+
+```bash
+# Run all steps
+rely turbo
+
+# Run only steps tagged with "setup"
+rely turbo --tag setup
+
+# Run steps with multiple tags
+rely turbo --tag setup --tag demo
+```
+
+Steps are defined in your `.rely.toml` configuration file and executed in sequence. The turbo command provides detailed output showing the progress of each step.
+
+Example workflow configuration:
+
+```toml
+[[steps]]
+type = "sync"
+folders = ["assessments", "workflows"]
+tags = ["config"]
+
+[[steps]]
+type = "ingest_lookup_tables"
+folders = ["data/lookup_tables"]
+version_tag = "v1.0"
+tags = ["data"]
+
+[[steps]]
+type = "shell"
+command = "echo 'Setup complete!'"
+tags = ["cleanup"]
+```

@@ -1,0 +1,63 @@
+[project]
+name = "relycomply-client"
+description = "A python client for the RelyComply platform"
+authors = [{ name = "James Saunders", email = "james@relycomply.com" }]
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+dynamic = ["version"]
+
+dependencies = [
+    "boto3",
+    "gql>=3.0.0",
+    "littleutils",
+    "pandas",
+    "pyarrow",
+    "Pygments",
+    "PyYAML",
+    "requests-toolbelt",
+    "requests",
+    "tabulate",
+    "termcolor",
+    "toml",
+    "typer",
+    "watchfiles>=0.24.0",
+    "gitpython>=3.1.44",
+    "click==8.1.8",
+    "tomli-w>=1.2.0",
+    "jinja2",
+    "pydantic>=2.0.0",
+]
+
+[project.urls]
+Repository = "https://github.com/relycomply/relycomply/"
+Homepage = "https://www.relycomply.com"
+
+[project.scripts]
+rely = 'relycomply_client.rely:main'
+rely-cli = 'relycomply_client.cli:main'
+rely-sync = 'relycomply_client.sync:main'
+rely-watch = 'relycomply_client.watch:main'
+
+
+[build-system]
+# Dynamic versioning from:
+# https://github.com/ninoseki/uv-dynamic-versioning/
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.uv-dynamic-versioning]
+vcs = "git"
+style = "pep440"
+# bump = "true"
+fallback-version = "0.0.0"
+pattern-prefix = "relycomply-client-"
+
+[tool.hatch.version]
+# Note JSON schemas don't seem to be right for tool.hatch.version.source so
+# this may cause false warnings in IDEs.
+# https://github.com/ninoseki/uv-dynamic-versioning/issues/21
+source = "uv-dynamic-versioning"
+
+[tool.hatch.build.targets.wheel]
+# The source location for the package.
+packages = ["relycomply_client"]
