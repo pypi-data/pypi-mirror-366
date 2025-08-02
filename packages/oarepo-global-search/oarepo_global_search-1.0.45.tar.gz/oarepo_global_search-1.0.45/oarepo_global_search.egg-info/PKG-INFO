@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: oarepo-global-search
+Version: 1.0.45
+Summary: "A model builder plugin for global search"
+Home-page: https://github.com/oarepo/oarepo-global-search
+Author: Alzbeta Pokorna
+Author-email: Alzbeta.Pokorna@cesnet.cz
+License: MIT
+Keywords: invenio relations model builder
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: oarepo-ui
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: black; extra == "tests"
+Requires-Dist: autoflake; extra == "tests"
+Requires-Dist: isort; extra == "tests"
+Requires-Dist: pytest-oarepo; extra == "tests"
+
+# Global search plugin
+
+### Usage
+
+To use the library you need to define the following paths in the config:
+
+```
+GLOBAL_SEARCH_MODELS = [{"model_service": "documents.services.records.service.DocumentsService",
+                         "service_config": "documents.services.records.config.DocumentsServiceConfig",
+                         "ui_resource_config": "ui.documents.DocumentsResourceConfig",
+                         "api_resource_config": "documents.resources.records.config.DocumentsResourceConfig",
+                         }]
+```
+
+
+for example:
+```
+GLOBAL_SEARCH_MODELS = [{"model_service": "path_to_service_class",
+                         "service_config": "path_to_service_config",
+                         "ui_resource_config": "path_to_ui_resource_config",
+                         "api_resource_config": "path_to_api_resource_config",
+                         }]
+```
