@@ -1,0 +1,48 @@
+Metadata-Version: 2.3
+Name: cratonapi
+Version: 0.1.0.22
+Summary: Python support for W-Seis interprocess communication API
+Author: Kirill Natalin
+Author-email: natalin.2000@mail.ru
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: nose2 (>=0.15.1,<0.16.0)
+Requires-Dist: numpy (>=1.26.4,<2.0.0)
+Requires-Dist: pywin32 (>=306,<307) ; sys_platform == "win32"
+Requires-Dist: pywin32-ctypes (>=0.2.2,<0.3.0) ; sys_platform == "win32"
+Description-Content-Type: text/markdown
+
+# CratonAPI
+
+API for transfering data from W-Seis using windows named pipes
+
+# Использование:
+
+
++ Установка зависимостей
+```
+$ pip install poetry
+$ poetry install
+```
+
++ Сборка 
+```
+$ poetry build
+$ 
+```
+
+# Логика версионирования CHANGELOG:
+
+M.N.K.L
+
+M - за глобальный релиз отвечает (выход в прод, закрытие этапа) 
+N - при добавлении нового модуля, либо изменения старых, но без поддержки расчета прошлых версий
+K - при добавлении новых функциональностей в существующих модулях (функции, класс и тд)
+L - при изменении текущего функционала
+
+При изменении номера, все что правее по индексу меняется на ноль.
+Подразумевается что тесты не входят в пулл changelog, но если отдельно заливаются то менять L
+Новые записи вносить вверх файла CHANGELOG

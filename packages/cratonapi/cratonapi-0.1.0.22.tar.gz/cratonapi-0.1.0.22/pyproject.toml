@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "cratonapi"
+version = "0.1.0.22"
+description = "Python support for W-Seis interprocess communication API"
+authors = ["Kirill Natalin <natalin.2000@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.4"
+pywin32 = {version="^306", platform='win32'}
+pywin32-ctypes = {version="^0.2.2", platform='win32'}
+nose2 = "^0.15.1"
+
+[tool.poetry.group.lint.dependencies]
+mypy = "^1.9.0"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+black = "^24.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
