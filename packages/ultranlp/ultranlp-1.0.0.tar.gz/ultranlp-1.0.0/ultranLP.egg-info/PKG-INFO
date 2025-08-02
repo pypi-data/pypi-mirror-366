@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: ultranLP
+Version: 1.0.0
+Summary: Ultra-fast, comprehensive NLP preprocessing library with advanced tokenization
+Home-page: https://github.com/yourusername/ultranLP
+Author: Your Name
+Author-email: your.email@domain.com
+Keywords: nlp,text-processing,tokenization,preprocessing,machine-learning,natural-language-processing
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beautifulsoup4>=4.9.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: benchmark
+Requires-Dist: matplotlib; extra == "benchmark"
+Requires-Dist: pandas; extra == "benchmark"
+Requires-Dist: seaborn; extra == "benchmark"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# UltraNLP - Ultra-Fast NLP Preprocessing Library
+
+🚀 **Ultra-fast, comprehensive NLP preprocessing with advanced tokenization**
+
+## Features
+
+- ⚡ **Ultra-fast tokenization** - Handles $20, 20Rs, emails, hashtags, emojis
+- 🧹 **Comprehensive text cleaning** - HTML, URLs, emojis, normalization
+- 🔤 **Smart spell correction** - With caching and performance optimization
+- 📦 **Batch processing** - Parallel processing for large datasets
+- 🎯 **Production ready** - Memory efficient, thread-safe
+
+## Quick Start
+
