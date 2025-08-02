@@ -1,0 +1,40 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% load i18n %}
+{% load navactive %}
+
+{% block page_title %}{% translate "milindustry" %}{% endblock %}
+
+{% block header_nav_collapse_left %}
+        <li class="nav-item">
+            <a class="nav-link {% navactive request 'milindustry:add_character' %}" href="{% url 'milindustry:add_character' %}">
+		    {% translate 'Add character' %}
+	        </a>
+        </li>
+{% endblock header_nav_collapse_left %}
+
+{% block content %}
+    <div class="col-lg-12">
+        <h1 class="page-header text-center">{% translate "MIL Industry" %}</h1>
+    </div>
+    <div class="container-fluid mt-3 px-0">
+        <div class="card mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link {% navactive request 'milindustry:dashboard' %}" href="{% url 'milindustry:dashboard' %}">
+                                {% translate 'Dashboard' %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% navactive request 'milindustry:jobs_overview' %}" href="{% url 'milindustry:jobs_overview' %}">
+                                {% translate 'Running jobs' %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% block milindustry_content %}{% endblock milindustry_content %}
+        </div>
+    </div>
+{% endblock content %}
