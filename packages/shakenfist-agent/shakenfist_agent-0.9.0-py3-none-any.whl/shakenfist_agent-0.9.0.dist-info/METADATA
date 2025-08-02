@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: shakenfist-agent
+Version: 0.9.0
+Summary: An in-guest agent for instances running on Shaken Fist
+Home-page: https://madebymikal.com/shakenfist
+Author: Michael Still
+Author-email: mikal@stillhq.com
+License: Apache2
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: click (>=8.0.0)
+Requires-Dist: distro
+Requires-Dist: googleapis-common-protos (==1.70.0)
+Requires-Dist: grpcio-status (==1.70.0)
+Requires-Dist: grpcio-tools (==1.70.0)
+Requires-Dist: grpcio (==1.70.0)
+Requires-Dist: linux-utils
+Requires-Dist: oslo.concurrency
+Requires-Dist: protobuf (==5.29.5)
+Requires-Dist: psutil (>5.9.0)
+Requires-Dist: setproctitle
+Requires-Dist: shakenfist-utilities
+Requires-Dist: symbolicmode (>=2.0)
+
+Python side channel agent for Shaken Fist
+=========================================
+
+This is a python side channel in-guest agent for [Shaken Fist](https://github.com/shakenfist/shakenfist).
+
