@@ -1,0 +1,81 @@
+Metadata-Version: 2.4
+Name: PM-JPL
+Version: 1.5.1
+Summary: JPL implementation of the MOD16 evapotranspiration algorithm for high resolution instantaneous remote sensing imagery
+Author-email: Gregory Halverson <gregory.h.halverson@jpl.nasa.gov>, Qiaozhen Mu <qiaozhen@ntsg.umt.edu>, Maosheng Zhao <zhao@ntsg.umt.edu>, "Steven W. Running" <swr@ntsg.umt.edu>, "Claire S. Villanueva-Weeks" <claire.s.villanueva-weeks@jpl.gov>
+Project-URL: Homepage, https://github.com/JPL-Evapotranspiration-Algorithms/PM-JPL
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: carlson-fractional-vegetation-cover
+Requires-Dist: carlson-leaf-area-index
+Requires-Dist: check-distribution
+Requires-Dist: daily-evapotranspiration-upscaling
+Requires-Dist: ECOv002-CMR>=1.0.5
+Requires-Dist: ECOv002-granules>=1.0.3
+Requires-Dist: ECOv003-granules
+Requires-Dist: GEOS5FP>=1.1.1
+Requires-Dist: MCD12C1_2019_v006
+Requires-Dist: meteorology-conversion
+Requires-Dist: NASADEM
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: priestley-taylor
+Requires-Dist: PTJPL>=1.5.1
+Requires-Dist: rasters>=1.4.6
+Requires-Dist: SEBAL-soil-heat-flux
+Requires-Dist: sun-angles>=1.3.0
+Requires-Dist: verma-net-radiation
+Provides-Extra: dev
+Requires-Dist: build; extra == "dev"
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: jupyter; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
+# JPL implementation of the MOD16 evapotranspiration remote sensing model
+
+[![CI](https://github.com/JPL-Evapotranspiration-Algorithms/MOD16-JPL/actions/workflows/ci.yml/badge.svg)](https://github.com/JPL-Evapotranspiration-Algorithms/MOD16-JPL/actions/workflows/ci.yml)
+
+The MODIS Global Evapotranspiration Project (MOD16) is a software package developed by a team of researchers from NASA Jet Propulsion Laboratory and the University of Montana. This software is a Python implementation of the MOD16 evapotranspiration algorithm, designed to process high-resolution instantaneous remote sensing imagery.
+
+Unique features of the software include the ability to process remote sensing data with the MOD16 model and partition latent heat flux into canopy transpiration, interception, and soil evaporation. The MOD16 algorithm has been re-implemented to run on instantaneous high spatial resolution remote sensing imagery instead of 8-day MODIS imagery, making the model more accessible for remote sensing researchers.
+
+The software is written entirely in Python and is intended to be distributed using the pip package manager.
+
+The software was developed as part of a research grant by the NASA Research Opportunities in Space and Earth Sciences (ROSES) program. It was designed for use by the Ecosystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) mission as a precursor for the Surface Biology and Geology (SBG) mission. However, it may also be useful for general remote sensing and GIS projects in Python. This package can be utilized for remote sensing research in Jupyter notebooks and deployed for operations in data processing pipelines. 
+
+The software is being released according to the SPD-41 open-science requirements of NASA-funded ROSES projects.
+
+Gregory H. Halverson (they/them)<br>
+[gregory.h.halverson@jpl.nasa.gov](mailto:gregory.h.halverson@jpl.nasa.gov)<br>
+NASA Jet Propulsion Laboratory 329G
+
+Kanishka Mallick (he/him)<br>
+[kaniska.mallick@gmail.com](mailto:kaniska.mallick@gmail.com)<br>
+Luxembourg Institute of Science and Technology
+
+Claire Villanueva-Weeks (she/her)<br>
+[claire.s.villanueva-weeks@jpl.nasa.gov](mailto:claire.s.villanueva-weeks@jpl.nasa.gov)<br>
+NASA Jet Propulsion Laboratory 329G
+
+## Installation
+
+```
+pip install MOD16-JPL
+```
+
+## Usage
+
+```
+import MOD16_JPL
+```
+
+## References
+
+- Mu, Q., Zhao, M., & Running, S. W. (2011). Improvements to a MODIS global terrestrial evapotranspiration algorithm. *Remote Sensing of Environment*, 115(8), 1781-1800. doi:10.1016/j.rse.2011.02.019
+- Mu, Q., Heinsch, F. A., Zhao, M., & Running, S. W. (2007). Development of a global evapotranspiration algorithm based on MODIS and global meteorology data. *Remote Sensing of Environment*, 111(4), 519-536. doi:10.1016/j.rse.2007.04.015
