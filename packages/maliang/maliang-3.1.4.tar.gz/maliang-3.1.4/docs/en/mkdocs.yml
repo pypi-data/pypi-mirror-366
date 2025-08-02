@@ -1,0 +1,123 @@
+INHERIT: ../../mkdocs.yml
+
+site_url: https://Xiaokang2022.github.io/maliang/en/
+edit_uri: edit/main/docs/en/docs
+site_description: Official website of maliang
+copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022
+docs_dir: docs
+site_dir: ../../site/en/
+
+theme:
+  custom_dir: ../overrides
+  language: en
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/theme-light-dark
+        name: System Mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: green
+      toggle:
+        icon: material/weather-sunny
+        name: Light Mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: yellow
+      toggle:
+        icon: material/weather-night
+        name: Dark Mode
+
+extra:
+  alternate:
+    - name: 简体中文
+      link: ../
+      lang: zh
+    - name: English
+      link: .
+      lang: en
+  status:
+    new: Recently added
+    deprecated: Deprecated
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Xiaokang2022/maliang/
+      name: GitHub
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/maliang/
+      name: PyPI
+    - icon: fontawesome/brands/bilibili
+      link: https://space.bilibili.com/498105668
+      name: Bilibili
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:2951256653@qq.com
+      name: Contact the author
+  consent:
+    actions:
+      - accept
+      - reject
+      - manage
+    title: Cookie Consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.<br/>
+      (You can still modify your cookies settings later in the bottom left
+      corner of the page)
+  analytics:
+    provider: google
+    property: G-9YC5SN4ZFD
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: Helpful
+          data: 1
+          note: Thanks for your feedback!
+        - icon: material/emoticon-neutral-outline
+          name: Just so-so
+          data: 0
+          note: Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: Could be improved
+          data: -1
+          note: Thanks for your feedback!
+
+exclude_docs:
+
+nav:
+  - Home:
+      - Home: index.md
+      - License: LICENSE.md
+      - Changelog: CHANGELOG.md
+      - Contribution Guide: CONTRIBUTING.md
+      - Security Policy: SECURITY.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+      - Sponsor this Project: Sponsor.md
+
+  - Tutorials & Documents:
+      - t&d/index.md
+      - Third-party Extensions: t&d/third-party.md
+
+  - Projects:
+      - projects/index.md
+      - Official Projects:
+          - 1. Intelligent Magic Cube: projects/official/1.md
+          - 2. Chinese Chess: projects/official/2.md
+          - 3. Super Gobang: projects/official/3.md
+          - 4. Todo List: projects/official/4.md
+      - Users Projects:
+          - 1. Login2.0: projects/users/1.md
+          - 2. ArkLauncher: projects/users/2.md
+
+  - Videos:
+      - videos/index.md
+      - 这……这还是 tkinter 吗？给我干哪儿来了这是？？？: videos/pages/6.md
+      - tkt 再度更新：新增播放视频的扩展包！: videos/pages/5.md
+      - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
+      - tkintertools 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md
