@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "botrun-llm-ranking"
+version = "5.8.21"
+description = ""
+authors = ["sebastian-hsu <sebastian.hsu@gmail.com>"]
+readme = "README.md"
+packages = [{include = "llm_ranking"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+streamlit = "^1.40.2"
+litellm = "^1.53.3"
+anthropic = "^0.40.0"
+python-dotenv = "^1.0.1"
+botrun-litellm = "^0.2.2"
+aiohttp = "^3.11.9"
+google-auth = "^2.36.0"
+google-cloud-storage = "^2.18.2"
+google-cloud-core = "^2.4.1"
+botrun-ask-folder = "^4.12.171"
+pypdf2 = "^3.0.1"
+plotly = "^5.24.1"
+numpy = ">=1.22.4,<2"
+trustcall = "^0.0.39"
+langchain-openai = "^0.3.18"
+
+[tool.poetry.group.dev.dependencies]
+build = "^1.2.2"
+twine = "^5.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
