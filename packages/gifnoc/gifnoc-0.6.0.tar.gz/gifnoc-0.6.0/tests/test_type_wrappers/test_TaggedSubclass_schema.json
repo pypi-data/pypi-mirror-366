@@ -1,0 +1,75 @@
+{
+    "oneOf": [
+        {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "x",
+                "y"
+            ],
+            "additionalProperties": false
+        },
+        {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                },
+                "z": {
+                    "type": "number"
+                },
+                "$class": {
+                    "description": "Reference to the class to instantiate",
+                    "const": "Point3D"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z",
+                "$class"
+            ],
+            "additionalProperties": false
+        },
+        {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                },
+                "z": {
+                    "type": "number"
+                },
+                "w": {
+                    "type": "number"
+                },
+                "$class": {
+                    "description": "Reference to the class to instantiate",
+                    "const": "Point4D"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z",
+                "w",
+                "$class"
+            ],
+            "additionalProperties": false
+        }
+    ],
+    "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

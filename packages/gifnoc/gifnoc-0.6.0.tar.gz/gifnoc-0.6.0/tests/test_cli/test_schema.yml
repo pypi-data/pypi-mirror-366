@@ -1,0 +1,74 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+additionalProperties: false
+properties:
+  org:
+    additionalProperties: false
+    properties:
+      machines:
+        description: Machines the organization owns
+        items:
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+            ngpus:
+              type: integer
+            os:
+              type: string
+          required:
+          - name
+          - os
+          - ngpus
+          type: object
+        type: array
+      members:
+        description: Members of the organization
+        items:
+          additionalProperties: false
+          properties:
+            end:
+              description: Date the member stopped working
+              oneOf:
+              - format: date
+                type: string
+              - type: 'null'
+            home:
+              description: Home directory
+              type: string
+            name:
+              description: Member name
+              type: string
+            start:
+              description: Date the member started working
+              format: date
+              type: string
+            username:
+              description: User name
+              type: string
+          required:
+          - name
+          - username
+          - home
+          - start
+          - end
+          type: object
+        type: array
+      name:
+        description: Name of the organization
+        type: string
+      nonprofit:
+        description: Whether the organization is a nonprofit
+        type: boolean
+      passwords:
+        additionalProperties:
+          type: string
+        description: User passwords
+        type: object
+    required:
+    - name
+    - nonprofit
+    - members
+    - machines
+    type: object
+required: []
+type: object

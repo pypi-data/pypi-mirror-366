@@ -1,0 +1,48 @@
+[project]
+name = "gifnoc"
+version = "0.6.0"
+description = "Handle configuration for multiple libraries"
+authors = [
+    { name = "Olivier Breuleux", email = "breuleux@gmail.com" }
+]
+dependencies = [
+    "ovld>=0.5.9,<0.6.0",
+    "serieux>=0.2.0,<0.3.0",
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">= 3.11"
+
+[project.urls]
+Homepage = "https://github.com/breuleux/gifnoc"
+Repository = "https://github.com/breuleux/gifnoc"
+
+[project.scripts]
+gifnoc = "gifnoc.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.3.2",
+    "pytest-cov>=5.0.0",
+    "pytest-regressions>=2.5.0",
+    "pytest-timeout>=2.3.1",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gifnoc"]
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
