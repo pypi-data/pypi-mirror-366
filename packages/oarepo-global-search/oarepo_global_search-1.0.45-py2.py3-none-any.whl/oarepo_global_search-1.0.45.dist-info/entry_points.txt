@@ -1,0 +1,25 @@
+[invenio_assets.webpack]
+oarepo_global_search_i18n = oarepo_global_search.i18n.webpack:theme
+oarepo_global_search_records_ui_theme = oarepo_global_search.ui.oarepo_global_search.webpack:theme
+
+[invenio_base.api_apps]
+oarepo_global_search_api = oarepo_global_search.ext:OARepoGlobalSearch
+
+[invenio_base.api_blueprints]
+oarepo_global_search_api = oarepo_global_search.views.api:create_global_search
+
+[invenio_base.api_finalize_app]
+oarepo_global_search = oarepo_global_search.ext:api_finalize_app
+
+[invenio_base.apps]
+oarepo_global_search = oarepo_global_search.ext:OARepoGlobalSearch
+
+[invenio_base.blueprints]
+oarepo_global_search = oarepo_global_search.views.app:create_app_blueprint
+ui_oarepo_global_search = oarepo_global_search.ui.config:create_blueprint
+
+[invenio_base.finalize_app]
+oarepo_global_search = oarepo_global_search.ext:finalize_app
+
+[invenio_i18n.translations]
+oarepo_global_search_messages = oarepo_global_search.i18n

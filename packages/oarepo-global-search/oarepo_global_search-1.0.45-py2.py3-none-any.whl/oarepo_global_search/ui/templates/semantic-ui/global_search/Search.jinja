@@ -1,0 +1,15 @@
+{#def search_app_config #}
+{%- extends "oarepo_ui/search.html" %}
+{%- set title = _("Search results") %}
+
+{%- block javascript %}
+{{ super() }}
+{{ webpack['oarepo_global_search.js']}}
+{%- endblock javascript %}
+
+
+{%- block page_body %}
+<div class="ui main container">
+  <div data-invenio-search-config='{{ search_app_config | tojson }}'></div>
+</div>
+{%- endblock page_body %}
