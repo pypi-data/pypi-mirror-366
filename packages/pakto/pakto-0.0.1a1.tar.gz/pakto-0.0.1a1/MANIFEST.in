@@ -1,0 +1,64 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include MANIFEST.in
+
+# Include package data
+recursive-include src/pakto *.py
+recursive-include src/pakto *.yml
+recursive-include src/pakto *.yaml
+recursive-include src/pakto *.json
+recursive-include src/pakto *.txt
+
+# Exclude development and build artifacts
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude .git*
+global-exclude *.egg-info
+global-exclude *.bundle
+global-exclude *.lock
+global-exclude .test.env
+global-exclude mise-zot-tasks.toml
+global-exclude .pypirc.*
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .venv
+global-exclude .pytest_cache
+global-exclude .ruff_cache
+global-exclude .tmp
+global-exclude dist
+global-exclude build
+global-exclude *.egg-info
+global-exclude .mise-tasks
+global-exclude .plans
+global-exclude .scratch
+global-exclude *.bundle
+global-exclude *.lock
+global-exclude .test.env
+global-exclude mise-zot-tasks.toml
+global-exclude .pypirc.*
+global-exclude tests
+global-exclude examples
+global-exclude doc 
+
+# Prune entire directories from sdist
+prune tests
+prune examples
+prune doc
+prune output
+prune olddist
+prune __pycache__
+prune __marimo__
+prune .venv
+prune .pytest_cache
+prune .ruff_cache
+prune .tmp
+prune dist
+prune build
+prune .mise-tasks
+prune .plans
+prune .scratch

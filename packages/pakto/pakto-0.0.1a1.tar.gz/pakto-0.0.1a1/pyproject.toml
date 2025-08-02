@@ -1,0 +1,218 @@
+[project]
+name = "pakto"
+version = "0.0.1-alpha.1"
+description = "A CLI tool for bundling and distributing software as OCI artifacts with enterprise-grade security and compliance features"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    { name = "wixregiga", email = "kecyojagi@protonmail.com" }
+]
+maintainers = [
+    { name = "wixregiga", email = "kecyojagi@protonmail.com" }
+]
+keywords = [
+    "oci",
+    "container",
+    "bundle",
+    "artifact",
+    "registry",
+    "distribution",
+    "deployment",
+    "airgapped",
+    "security",
+    "compliance",
+    "sbom",
+    "software-bill-of-materials",
+    "cli",
+    "devops",
+    "containers",
+    "software-distribution",
+    "enterprise",
+    "offline",
+    "templating",
+    "verification"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Software Distribution",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+    "Environment :: Console",
+    "Typing :: Typed",
+]
+requires-python = ">=3.9.5"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "aiohttp>=3.12.7",
+    "aioresponses>=0.7.8",
+    "click==8.1.8",
+    "cryptography>=45.0.4",
+    "cyclonedx-python-lib>=10.3.0",
+    "docker-registry-client>=0.5.2",
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "jsonschema>=4.23.0",
+    "oras==0.2.35",
+    "packaging>=25.0",
+    "pydantic>=2.11.5",
+    "pyyaml>=6.0.2",
+    "repro-tarfile>=0.2.0",
+    "requests>=2.32.3",
+    "rich>=14.0.0",
+    "sigstore>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/wixregiga/pakto"
+Documentation = "https://github.com/wixregiga/pakto#readme"
+Repository = "https://github.com/wixregiga/pakto.git"
+"Bug Tracker" = "https://github.com/wixregiga/pakto/issues"
+"Source Code" = "https://github.com/wixregiga/pakto"
+"Download" = "https://github.com/wixregiga/pakto/releases"
+"Changelog" = "https://github.com/wixregiga/pakto/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "ipdb>=0.13.13",
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.7",
+    "marimo[recommended]>=0.14.6",
+    "nest-asyncio>=1.6.0",
+    "pdbpp>=0.11.6",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=1.0.0",
+]
+test = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=1.0.0",
+    "nest-asyncio>=1.6.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=2.0.0",
+    "myst-parser>=2.0.0",
+]
+
+[project.scripts]
+pakto = "pakto.cli.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pakto"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "tests/**",
+    "examples/**",
+    "doc/**",
+    ".github/**",
+    ".git/**",
+    ".venv/**",
+    "__pycache__/**",
+    "*.pyc",
+    "*.pyo",
+    "*.pyd",
+    ".pytest_cache/**",
+    ".ruff_cache/**",
+    ".tmp/**",
+    "dist/**",
+    "build/**",
+    "*.egg-info/**",
+    ".mise-tasks/**",
+    ".plans/**",
+    ".scratch/**",
+    "*.bundle",
+    "*.lock",
+    ".test.env",
+    "mise-zot-tasks.toml",
+    ".pypirc.*",
+]
+
+[tool.tox]
+requires  = ["tox>=4.22", "tox-uv>=0.5"]
+env_list = ["py39", "py310", "py311", "py312", "py313"]
+skip_missing_interpreters = true
+
+[tool.tox.env_run_base]
+deps     = ["pytest>=8.2"]
+commands = [["pytest", "-v"]]
+
+[tool.ruff]
+preview = true
+fix = true
+unsafe-fixes = true
+indent-width = 4
+include = ["src/**/*.py", "tests/**/*.py"]
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+]
+output-format = "concise"
+
+[tool.ruff.format]
+preview = true
+
+[tool.ruff.lint]
+preview = true
+select = ["A", "E", "B", "G", "I", "N", "F", "S", "C4", "EM", "PT", "ARG", "LOG", "PYI", "T10", "T20", "DTZ", "RET", "RUF", "PLC", "PLE", "PLW", "PTH", "SLF", "SIM", "ASYNC", "PERF"]
+ignore = ["FBT", "PTH", "S101", "E501", "ASYNC230", "ERA001", "PT011", "PTH123", "SIM102", "SLF001", "B024", "RUF036", "N815", "PLC0415", "FURB", "B904", "B023", "G004", "DTZ003","ARG001", "B017", "PLC0206"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = [
+    "-v",
+    "--tb=short",
+    "--disable-warnings"
+]
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+    "reg: marks tests that require a v2 registry with artifact support (zot)",
+]
+
+[tool.coverage.run]
+source = ["src/pakto"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[dependency-groups]
+dev = [
+    "tox-uv>=1.26.1",
+]

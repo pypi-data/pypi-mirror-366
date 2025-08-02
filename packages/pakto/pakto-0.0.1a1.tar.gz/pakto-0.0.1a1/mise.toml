@@ -1,0 +1,120 @@
+[task_config]
+includes = ["mise-zot-tasks.toml"]
+
+[tools]
+uv = "0.7.20"
+ruff = "0.12.3"
+step = "0.28.6"
+python = "3.10"
+
+[env]
+PROJECT_NAME = "{{ config_root | basename }}"
+_.file = '.test.env'
+_.python.venv = { path = ".venv", python = "3.11.13", create = true, uv_create_args = [
+  "--system-site-packages",
+  "--seed",
+] }
+
+PYTHON_VENV_PATH = ".venv"
+PYTHON_VERSION = "3.11.13"
+UV_VIRTUALENV_SYSTEM_SITE_PACKAGES = "true"
+UV_SEED = "true"
+
+
+
+[tasks]
+test-all = "mise task test-py39 && mise task test-py310 && mise task test-py311 && mise task test-py312"
+test-py39 = { run = "mise use python@3.9 && uv venv --python $(mise which python) .venv-3.9 && uv pip install -e . && python -m pytest", description = "Test with Python 3.9" }
+test-py310 = { run = "mise use python@3.10 && uv venv --python $(mise which python) .venv-3.10 && uv pip install -e . && python -m pytest", description = "Test with Python 3.10" }
+test-py311 = { run = "mise use python@3.11 && uv venv --python $(mise which python) .venv-3.11 && uv pip install -e . && python -m pytest", description = "Test with Python 3.11" }
+test-py312 = { run = "mise use python@3.12 && uv venv --python $(mise which python) .venv-3.12 && uv pip install -e . && python -m pytest", description = "Test with Python 3.12" }
+
+
+
+
+[tasks.format]
+description = "Perform all necessary formatting, linting and fixing so we can eliminate all other tasks."
+run = [
+  "uv run ruff format --check .", # Format code
+  "uv run ruff check --fix .",    # Fix all other issues
+  "uv run ruff format --check .", # Format code
+]
+
+[tasks.chownit]
+description = "Change ownership of files"
+run = "sudo chown -R $USER:$USER ."
+
+[tasks.dev]
+description = "Install development dependencies"
+run = "uv sync --dev"
+
+[tasks.clean]
+description = "Clean up build artifacts and caches"
+run = [
+  "/bin/rm -rf .pytest_cache",
+  "/bin/rm -rf .ruff_cache",
+  "/bin/rm -rf htmlcov",
+  "/bin/rm -rf dist",
+  "find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true",
+  "find . -name '*.pyc' -delete",
+]
+
+[tasks.build]
+description = "Build the package"
+run = "uv build"
+
+[tasks.publish-test-pypi]
+description = "Build and publish the package to TestPyPI using uv and twine"
+env = { TWINE_CONFIG_FILE = ".pypirc.test" }
+run = [
+  "/bin/rm -rf dist",
+  "uv build",
+  "uv pip install --upgrade twine",
+  "uv run twine upload --repository testpypi --config-file $TWINE_CONFIG_FILE  dist/*",
+]
+
+[tasks.publish-prod-pypi]
+description = "Build and publish the package to PyPI using uv and twine"
+env = { TWINE_CONFIG_FILE = ".pypirc.prod" }
+run = [
+  "/bin/rm -rf dist",
+  "uv build",
+  "uv pip install --upgrade twine",
+  "uv run twine upload --repository pypi --config-file $TWINE_CONFIG_FILE dist/*",
+]
+
+[tasks.deps-update]
+description = "Update all dependencies"
+run = "uv lock --upgrade"
+
+[tasks.deps-check]
+description = "Check for dependency vulnerabilities (requires safety: uv add --dev safety)"
+run = "uv run safety check"
+
+[tasks.local-pypi]
+description = "Start a local PyPI server with web UI for testing package uploads (Docker)"
+env = { LOCAL_PYPI_PORT = "9090" }
+run = [
+  "mkdir -p .local-pypi/packages",
+  "if [ ! -f .local-pypi/.htpasswd ]; then echo 'admin:admin123' > .local-pypi/.htpasswd; fi",
+  "echo 'Starting local PyPI server at http://localhost:${LOCAL_PYPI_PORT}'",
+  "echo 'Upload packages with: mise run publish-local'",
+  "echo 'Install packages with: pip install --index-url http://localhost:${LOCAL_PYPI_PORT}/simple/ your-package'",
+  "echo 'Username: admin, Password: admin123'",
+  "docker run --rm -p ${LOCAL_PYPI_PORT}:8080 -v $(pwd)/.local-pypi/packages:/data/packages -v $(pwd)/.local-pypi/.htpasswd:/data/.htpasswd pypiserver/pypiserver:latest run -p 8080 -a update -P /data/.htpasswd /data/packages"
+]
+
+
+[tasks.publish-local]
+description = "Build and publish the package to local PyPI server (Docker)"
+env = { LOCAL_PYPI_PORT = "9090", TWINE_CONFIG_FILE = ".local-pypi/.pypirc" }
+run = [
+  "/bin/rm -rf dist",
+  "uv build",
+  "uv pip install --upgrade twine",
+  "uv run twine upload --repository local --config-file $TWINE_CONFIG_FILE dist/*"
+]
+
+[settings]
+experimental = true
+idiomatic_version_file_enable_tools = []

@@ -1,0 +1,107 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Pakto Config",
+    "type": "object",
+    "properties": {
+      "apiVersion": {
+        "type": "string",
+        "enum": ["pakto.warrical.com/v1alpha1"]
+      },
+      "kind": {
+        "type": "string",
+        "enum": ["Config"]
+      },
+      "registry": {
+        "type": "object",
+        "properties": {
+          "default": { "type": "string" },
+          "auth": {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string" },
+              "password": { "type": "string" }
+            },
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "username": { "type": "string" },
+                "password": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "mirrors": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "tls": {
+            "type": "object",
+            "properties": {
+              "ca_file":     { "type": "string" },
+              "skip_verify": { "type": "boolean", "default": false }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "sbom": {
+        "type": "object",
+        "properties": {
+          "enabled": { "type": "boolean", "default": false },
+          "format": { "type": "string", "default": "spdx" }
+        },
+        "additionalProperties": false
+      },
+      "paths": {
+        "type": "object",
+        "properties": {
+          "config_dir": { "type": "string", "default": "/etc/pakto" },
+          "cache_dir": { "type": "string", "default": "/var/lib/pakto/cache" },
+          "data_dir":  { "type": "string", "default": "/var/lib/pakto" },
+          "log_dir":   { "type": "string", "default": "/var/log/pakto" },
+          "keys_dir":   { "type": "string", "default": "/etc/pakto/keys" }
+        },
+        "additionalProperties": false
+      },
+      "build": {
+        "type": "object",
+        "properties": {
+          "workers": { "type": "integer", "minimum": 1, "default": 4 },
+          "offline": { "type": "boolean", "default": false },
+          "cache_prune_on_start": { "type": "boolean", "default": false }
+        },
+        "additionalProperties": false
+      },
+      "security": {
+        "type": "object",
+        "properties": {
+          "verify_signatures": { "type": "boolean", "default": true },
+          "verify_hashes":     { "type": "boolean", "default": true },
+          "attach_sbom":       { "type": "boolean", "default": true },
+          "attach_attest":     { "type": "boolean", "default": true }
+        },
+        "additionalProperties": false
+      },
+      "logging": {
+        "type": "object",
+        "properties": {
+          "level": { "enum": ["trace","debug","info","warn","error"], "default": "info" },
+          "color": { "enum": ["auto","always","never"], "default": "auto" },
+          "file_rotation": {
+            "type": "object",
+            "properties": {
+              "max_size":    { "type": "string", "default": "10GB" },
+              "max_backups": { "type": "integer", "default": 5 },
+              "max_age":     { "type": "integer", "default": 30 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "experimental": { "type": "object" }
+    },
+    "additionalProperties": false
+}
+  
