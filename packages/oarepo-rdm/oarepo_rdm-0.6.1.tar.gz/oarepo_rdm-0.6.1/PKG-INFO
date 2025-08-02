@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: oarepo-rdm
+Version: 0.6.1
+Description-Content-Type: text/markdown
+Requires-Dist: oarepo-global-search
+Provides-Extra: dev
+Requires-Dist: pytest>=7.1.2; extra == "dev"
+Requires-Dist: pytest-oarepo; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: autoflake; extra == "dev"
+Requires-Dist: oarepo-tools; extra == "dev"
+Provides-Extra: tests
+Requires-Dist: pytest>=7.1.2; extra == "tests"
+Requires-Dist: pytest-oarepo; extra == "tests"
+
+# OARepo RDM
+
+A set of runtime patches to enable RDM service to work with different metadata models.
+It replaces `search/search_drafts/scan` methods with oarepo-global-search (might be merged
+here in the future) and for the methods that that take a pid delegates to a specialized
+per-model services.
+
+It also patches the pid context of the `RDMRecord/RDMDraft` so that when a resolve is called
+on the record, an instance of a specialized record is returned.
