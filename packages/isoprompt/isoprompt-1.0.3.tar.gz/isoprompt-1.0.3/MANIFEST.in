@@ -1,0 +1,45 @@
+# Include package files
+include LICENSE
+include README.md
+include CHANGELOG.md
+include pyproject.toml
+include requirements.txt
+include Makefile
+
+# Include documentation
+include docs/*.MD
+include docs/API_REFERENCE.md
+include docs/GETTING_STARTED.md
+include docs/EXAMPLES.md
+
+# Include examples
+include examples/*.py
+include examples/*.md
+include examples/*.json
+
+# Include package data
+include isoprompt/py.typed
+
+# Exclude development and temporary files
+exclude .gitignore
+exclude .pre-commit-config.yaml
+exclude pytest.ini
+exclude tox.ini
+exclude .coverage
+exclude .env
+exclude .env.*
+exclude .vscode
+exclude .idea
+exclude *.swp
+exclude *.swo
+exclude *~
+exclude .DS_Store
+
+# Exclude build artifacts and caches
+prune build
+prune dist
+prune .pytest_cache
+prune .mypy_cache
+prune __pycache__
+prune .tox
+prune *.egg-info 
