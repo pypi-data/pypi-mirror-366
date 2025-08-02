@@ -1,0 +1,101 @@
+Metadata-Version: 2.4
+Name: hpe
+Version: 1.5.0
+Summary: Hamid Py Engine
+Author: Alireza Enhessari
+Author-email: "S.U.P.E" <hamedsheygh3130011@gmail.com>
+License: Custom License
+Project-URL: Homepage, https://github.com/xo-aria/HPE
+Project-URL: Repository, https://github.com/xo-aria/HPE
+Project-URL: Issues, https://github.com/xo-aria/HPE/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Games/Entertainment :: Simulation
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: customtkinter==5.2.2
+Requires-Dist: darkdetect==0.8.0
+Requires-Dist: llvmlite==0.44.0
+Requires-Dist: numba==0.61.2
+Requires-Dist: numpy==2.2.6
+Requires-Dist: packaging==25.0
+Requires-Dist: pillow==11.3.0
+Requires-Dist: pygame==2.6.1
+Requires-Dist: PyOpenGL==3.1.9
+Requires-Dist: pyopengltk==0.0.4
+Requires-Dist: toml==0.10.2
+Requires-Dist: trimesh==4.7.1
+Dynamic: license-file
+Dynamic: requires-python
+
+![Hamid Py Engine](hpe.jpg)
+# Hamid Py Engine ( HPE )
+
+## Installation
+
+### Adding Scripts Path to PATH (Windows)
+
+If you encounter a "command not found" error when running `hpe`, add the following path to your system's PATH:
+
+1. Find your Python Scripts path:
+   ```
+   C:\Users\<YourName>\AppData\Roaming\Python\Python313\Scripts
+   ```
+   (Replace `<YourName>` with your actual username)
+
+2. Add to PATH:
+   - Press Windows + R
+   - Type `sysdm.cpl` and press Enter
+   - Go to the Advanced tab
+   - Click Environment Variables
+   - Under User variables, select Path and click Edit
+   - Click New and paste the path above
+   - Click OK on all windows
+
+3. Close and reopen your terminal
+
+## Usage
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `hpe` or `hpe help` | Show help message |
+| `hpe run` | Execute hpe code |
+| `hpe get` | Copy hpe.py to current directory |
+
+### Examples
+
+1. Show help:
+```bash
+hpe
+```
+
+2. Run hpe code:
+```bash
+hpe run
+```
+
+Output:
+```
+Hello from hpe!
+This is the main hpe code.
+```
+
+3. Copy hpe.py file:
+```bash
+hpe get
+```
+
+Output:
+```
+hpe.py copied to: /current/directory/hpe.py
+```
