@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyspotlightarchiver"
+version = "1.1.2"
+authors = [
+  { name="yell0wsuit" },
+]
+description = "Fetch and download Windows Spotlight images automatically. Lightweight and easy to use."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+  "requests",
+  "babel",
+  "imagededup",
+  "rich",
+]
+
+[project.urls]
+Homepage = "https://github.com/yell0wsuit/pyspotlightarchiver"
+Issues = "https://github.com/yell0wsuit/pyspotlightarchiver/issues"
+
+[tool.hatch.build]
+sources = ["src"]
+
+[project.scripts]
+pyspotlightarchiver = "pyspotlightarchiver.main:main"
