@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "tarandm_analytics"
+version = "1.0.0.dev4"
+description = "Package links analytics in Python with TaranDM software."
+authors = ["Marek Teller <mteller@taran.ai>"]
+readme = "README.md"
+packages = [
+    { include = "tarandm_analytics" }
+]
+
+[[tool.poetry.source]]
+name = "tarandm_utils"
+url = "https://gitlab.tarandm.com/api/v4/projects/29/packages/pypi/simple"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "tarandm_libraries"
+url = "https://gitlab.tarandm.com/api/v4/groups/271/-/packages/pypi/simple"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "tarandm_analytics"
+url = "https://gitlab.tarandm.com/api/v4/groups/208/-/packages/pypi/simple"
+priority = "explicit"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+pep8 = {version = "*", source = "pypi"}
+pandas = {version = "*", source = "pypi"}
+# AttributeError: 'ColumnTransformer' object has no attribute 'n_features_in_' in 1.7.0
+scikit-learn = {version = "<1.7", source = "pypi"}
+requests = {version = "*", source = "pypi"}
+llvmlite = {version = "*", source = "pypi"}
+numba = {version = ">=0.60.0", source = "PyPI"}
+# update to numpy2 blocked by sklearn-pmml
+numpy = {version = "<2", source = "PyPI"}
+shap = {version = "*", source = "pypi"}
+matplotlib = {version = "*", source = "pypi"}
+path = {version = "*", source = "pypi"}
+xgboost = {version = "*", source = "pypi"}
+structlog = {version="*", source = "pypi"}
+pydantic = {version="*", source = "pypi"}
+sklearn_pmml_model = {version="*", source = "pypi"}
+polars = {version = "*", source = "pypi"}
+gitpython = {version = "*", source = "pypi"}
+furl = {version = "*", source = "pypi"}
+python-gitlab = {version = "*", source = "pypi"}
+deepdiff = {version = "*", source = "pypi"}
+ruamel-yaml = {version = "*", source = "pypi"}
+tarandm-analytics-utils = {version = "*", source = "tarandm_analytics"}
+
+
+[tool.poetry.group.dev.dependencies]
+python = ">=3.12"
+tarandm-cheetah = {version = "*", source = "tarandm_libraries"} # Explicitly declared as a dependency since utils requires it, but utils can't detect that it's provided by our registry instead of PyPI.
+tarandm-utils = {version = "*", source = "tarandm_utils"}
+bandit = {version = "*", source = "pypi"}
+flake8 = {version = "*", source = "pypi"}
+mypy = {version = "*", source = "pypi"}
+black = {version = "*", source = "pypi"}
+pytest = {version = "*", source = "pypi"}
+types-requests = {version = "*", source = "PyPI"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.mypy]
+follow_imports = "silent"
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+no_implicit_reexport = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+implicit_reexport = true
