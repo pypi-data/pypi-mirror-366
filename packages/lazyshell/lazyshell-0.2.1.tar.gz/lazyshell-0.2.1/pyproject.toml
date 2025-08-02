@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lazyshell"
+version = "0.2.1"
+authors = [{name = "tmarquart", email="tmarquart@gmail.com"}]
+description = "Lazy optional imports"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
+[tool.setuptools.packages.find]
+where=["src"]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+
+[tool.ruff]
+select = ["E", "F"]
+line-length = 88
+
