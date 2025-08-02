@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: core-mixins
+Version: 2.0.2
+Summary: This project contains common and generic functions, decorators, interfaces and classes...
+Author-email: Alejandro Cora González <alek.cora.glez@gmail.com>
+Maintainer: Alejandro Cora González
+License: MIT
+Project-URL: Homepage, https://gitlab.com/bytecode-solutions/core/core-mixins
+Project-URL: Repository, https://gitlab.com/bytecode-solutions/core/core-mixins
+Project-URL: Documentation, https://core-mixins.readthedocs.io/en/latest/
+Project-URL: Issues, https://gitlab.com/bytecode-solutions/core/core-mixins/-/issues
+Project-URL: Changelog, https://gitlab.com/bytecode-solutions/core/core-mixins/-/blob/master/CHANGELOG.md
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: core-tests>=1.1.0
+Requires-Dist: typing-extensions>=4.8.0; python_version >= "3.8" and python_version < "3.11"
+Requires-Dist: typing-extensions>=4.2.0; python_version >= "3.7" and python_version < "3.8"
+Provides-Extra: docs
+Requires-Dist: pydata-sphinx-theme==0.16.1; extra == "docs"
+Requires-Dist: Sphinx==8.2.3; extra == "docs"
+Provides-Extra: dev
+Requires-Dist: ruff>=0.12.2; extra == "dev"
+Dynamic: license-file
+
+# core-mixins
+_______________________________________________________________________________
+
+This project contains common functions, decorators, and mixin classes 
+as the base for other projects or libraries...
+
+## Execution Environment
+
+### Install libraries
+```shell
+pip install --upgrade pip 
+pip install virtualenv
+```
+
+### Create the Python Virtual Environment.
+```shell
+virtualenv --python={{python-version}} .venv
+virtualenv --python=python3.11 .venv
+```
+
+### Activate the Virtual Environment.
+```shell
+source .venv/bin/activate
+```
+
+### Install required libraries.
+```shell
+pip install .
+```
+
+### Check tests and coverage...
+```shell
+python manager.py run-tests
+python manager.py run-coverage
+```
