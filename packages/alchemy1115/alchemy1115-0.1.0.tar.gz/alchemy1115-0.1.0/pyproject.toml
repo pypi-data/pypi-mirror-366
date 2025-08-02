@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "alchemy1115"
+version = "0.1.0"
+description = "Profile display command line tool"
+authors = [{name = "alchemy-1115"}]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = [
+    "rich>=13.0.0",
+    "typer>=0.9.0"
+]
+keywords = ["profile", "alchemy-1115"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Terminals",
+    "Topic :: Utilities"
+]
+
+[project.urls]
+Homepage = "https://github.com/alchemy-1115/profile_card"
+Issues = "https://github.com/alchemy-1115/profile_card/issues"
+
+[project.scripts]
+alchemy1115 = "alchemy1115.profile:app"
+
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/alchemy1115"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/README.md",
+    "/LICENSE"
+]
