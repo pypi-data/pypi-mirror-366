@@ -1,0 +1,134 @@
+Metadata-Version: 2.4
+Name: geo-db-sdk
+Version: 1.0.0
+Summary: GeoDB Cities API provides comprehensive global city and region data with filtering by name, country, location, and population, supporting multiple languages and offering detailed geographic information including coordinates, elevation, and timezone data.
+Author-email: Muhammad Hamza Shahzad <muhammad.hamza@apimatic.io>
+Project-URL: Documentation, https://docs.apimatic.io/
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: apimatic-core>=0.2.20,~=0.2.0
+Requires-Dist: apimatic-core-interfaces>=0.1.5,~=0.1.0
+Requires-Dist: apimatic-requests-client-adapter>=0.1.6,~=0.1.0
+Provides-Extra: testutils
+Requires-Dist: pytest>=7.2.2; extra == "testutils"
+Dynamic: license-file
+
+
+# Getting Started with GeoDB Cities API
+
+## Introduction
+
+The GeoDB API focuses on getting global city and region data. Easily obtain country, region, and city data for use
+in your apps!
+
+<ul>
+  <li>Filter cities by name prefix, country, location, time-zone, and even minimum population.</li>
+  <li>Sort cities by name, country code, elevation, and population - or any combination of these.</li> 
+  <li>Get all country regions.</li> <li>Get all cities in a given region.</li>
+  <li>
+    Display results in multiple languages.</li> <li>RESTful API adheres to industry best-practices, including
+    HATEOAS-style links to facilitate paging results.
+  </li> 
+  <li>Backed by cloud-based load-balanced infrastructure for resiliency and performance!</li>
+  <li>Data is periodically refreshed from GeoNames and WikiData.</li>
+</ul>
+<p>Notes:
+<ul>
+  <li>
+    Since the database is periodically updated, this may <strong>very rarely</strong> result in certain cities
+    being marked deleted (e.g., duplicates removed). By default, endpoints returning city data will exclude
+    cities marked deleted. However, in the unlikely event that this occurs while your app is paging through a set
+    of affected results - and you care about the paged results suddenly changing underneath - specify 
+    <tt>includeDeleted=SINCE_YESTERDAY</tt> (or <tt>SINCE_LAST_WEEK</tt> if you're really paranoid!).
+  </li>
+</ul>
+<hr/>
+<h3>Useful Resources</h3>
+<ul>
+  <li>
+    SDKs
+    <ul>
+      <li>
+        <a href='https://www.npmjs.com/package/wft-geodb-angular-client'>Angular</a>, 
+        <a href='https://github.com/wirefreethought/geodb-sample-angular-app'>Sample App</a>
+      </li>
+      <li><a href='https://github.com/wirefreethought/geodb-java-client'>Java</a></li>
+      <li><a href='https://www.npmjs.com/package/wft-geodb-js-client'>JavaScript</a></li>
+    </ul>
+    <li><a href='swagger.json'>Swagger Docs</a></li>
+    <li><a href='http://creativecommons.org/licenses/by/3.0/'>Usage License</a></li>
+  </li>      
+</ul>
+
+
+## Install the Package
+
+The package is compatible with Python versions `3.7+`.
+Install the package from PyPi using the following pip command:
+
+```bash
+pip install geo-db-sdk==1.0.0
+```
+
+You can also view the package at:
+https://pypi.python.org/pypi/geo-db-sdk/1.0.0
+
+## Initialize the API Client
+
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/client.md)
+
+The following parameters are configurable for the API Client:
+
+| Parameter | Type | Description |
+|  --- | --- | --- |
+| http_client_instance | `HttpClient` | The Http Client passed from the sdk user for making requests |
+| override_http_client_configuration | `bool` | The value which determines to override properties of the passed Http Client from the sdk user |
+| http_call_back | `HttpCallBack` | The callback value that is invoked before and after an HTTP call is made to an endpoint |
+| timeout | `float` | The value to use for connection timeout. <br> **Default: 60** |
+| max_retries | `int` | The number of times to retry an endpoint call if it fails. <br> **Default: 0** |
+| backoff_factor | `float` | A backoff factor to apply between attempts after the second try. <br> **Default: 2** |
+| retry_statuses | `Array of int` | The http statuses on which retry is to be done. <br> **Default: [408, 413, 429, 500, 502, 503, 504, 521, 522, 524]** |
+| retry_methods | `Array of string` | The http methods on which retry is to be done. <br> **Default: ['GET', 'PUT']** |
+| custom_header_authentication_credentials | [`CustomHeaderAuthenticationCredentials`](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/auth/custom-header-signature.md) | The credential object for Custom Header Signature |
+
+The API client can be initialized as follows:
+
+```python
+from geodbcitiesapi.configuration import Environment
+from geodbcitiesapi.geodbcitiesapi_client import GeodbcitiesapiClient
+from geodbcitiesapi.http.auth.custom_header_authentication import CustomHeaderAuthenticationCredentials
+
+client = GeodbcitiesapiClient(
+    custom_header_authentication_credentials=CustomHeaderAuthenticationCredentials(
+        x_rapidapi_key='x-rapidapi-key'
+    ),
+    environment=Environment.PRODUCTION
+)
+```
+
+## Authorization
+
+This API uses the following authentication schemes.
+
+* [`UserSecurity (Custom Header Signature)`](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/auth/custom-header-signature.md)
+
+## List of APIs
+
+* [Geo](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/controllers/geo.md)
+* [Locale](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/controllers/locale.md)
+
+## SDK Infrastructure
+
+### HTTP
+
+* [HttpResponse](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/http-response.md)
+* [HttpRequest](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/http-request.md)
+
+### Utilities
+
+* [ApiHelper](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/api-helper.md)
+* [HttpDateTime](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/http-date-time.md)
+* [RFC3339DateTime](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/rfc3339-date-time.md)
+* [UnixDateTime](https://www.github.com/MuHamza30/geo-db-python-sdk/tree/1.0.0/doc/unix-date-time.md)
+
