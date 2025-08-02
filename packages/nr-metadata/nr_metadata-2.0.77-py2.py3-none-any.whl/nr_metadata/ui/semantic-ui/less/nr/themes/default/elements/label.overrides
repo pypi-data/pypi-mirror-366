@@ -1,0 +1,19 @@
+.ui.label {
+  &.keyword-subjects {
+    display: inline-flex;
+    align-items: center;
+    text-wrap: nowrap;
+    border: 1px solid @primaryColor;
+    border-radius: 5px;
+    margin-top: 1rem;
+  }
+
+  &.external-subjects {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+    background-color: transparent;
+    a {
+      color: blue;
+    }
+  }
+}

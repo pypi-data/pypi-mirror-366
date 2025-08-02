@@ -1,0 +1,14 @@
+[invenio_assets.webpack]
+nr_components = nr_metadata.ui.webpack:theme
+
+[invenio_base.blueprints]
+nr_metadata = nr_metadata.ui:create_blueprint
+
+[invenio_i18n.translations]
+nr_metadata = nr_metadata
+
+[oarepo.models]
+common = nr_metadata.common.models:records.json
+data = nr_metadata.data.models:records.json
+datacite = nr_metadata.datacite.models:records.json
+documents = nr_metadata.documents.models:records.json
