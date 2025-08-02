@@ -1,0 +1,246 @@
+# Copyright (c) 2022, 2023 NTK, CESNET
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
+NRDocumentMetadata:
+  $id: DocumentMetadata
+  extend: ["nr-common-metadata#CommonMetadata"]
+
+  marshmallow:
+    class: nr_metadata.documents.services.records.schema.NRDocumentMetadataSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.documents.services.records.ui_schema.NRDocumentMetadataUISchema
+
+  properties:
+    languages[]:
+      ^minItems: 1
+      ^required: true
+    thesis:
+      ui:
+        detail: thesis
+        marshmallow:
+          class: nr_metadata.documents.services.records.ui_schema.NRThesisUISchema
+      marshmallow:
+        class: nr_metadata.documents.services.records.schema.NRThesisSchema
+      properties:
+        dateDefended:
+          use: "nr-datatypes#NRDate"
+          label.cs: Datum obhajoby
+          label.en: Date Defended
+        defended:
+          type: boolean
+          label.cs: Obhájeno?
+          label.en: Defended?
+        degreeGrantors[]:
+          ui:
+            detail: nr_degree_grantor
+            marshmallow:
+              class: nr_metadata.documents.services.records.ui_schema.NRDegreeGrantorUISchema
+          marshmallow:
+            class: nr_metadata.documents.services.records.schema.NRDegreeGrantorSchema
+          type: taxonomy
+          vocabulary-type: degree-grantors
+          ^label.cs: Instituce / grantor
+          ^label.en: Degree Grantor
+        studyFields[]:
+          type: keyword
+          ^label.cs: Oblasti studia
+          ^label.en: Study Fields
+    externalLocation:
+      use: "nr-datatypes#NRExternalLocation"
+      # adding label, hint etc. because it is not propagating from nr_datatypes, should be fixed when we switch to new model builder?
+      label.cs: Externí umístění
+      label.en: External Location
+      help.cs: "Vložte URL adresu dalšího umístění dokumentu (př. jiný repozitář, databáze, webová stránka)."
+      help.en: "Provide the URL link for another location of the document (e.g. another repository, database, website)."
+    publishers[]:
+      # volný zápis vydavatele
+      type: fulltext
+      #^uniqueItems: true
+      sample:
+        faker: company
+      ^label.cs: Vydavatel/é
+      ^label.en: Publishers
+      ^help.cs: Uveďte vydavatele. Můžete zapsat i více vydavatelů. Při žádosti o DOI se registruje pouze první vydavatel.
+      ^help.en: Fill in the name of the publisher. You can write more publishers. When assigning DOI, only the first publisher will be registered. 
+
+    dateModified:
+      # The date of the last update to the resource, not metadata
+      #
+      # týká se dokumentu/obsahu, nikoliv metadat!!!
+      # neukazuje se ve vkládacím formuláři. jen při editaci záznamu!
+      use: "nr-datatypes#NRDate"
+      sample:
+        faker: date
+      label.cs: Datum změny dokumentu
+      label.en: Date Modified
+
+DocumentModel:
+  $id: DocumentModel
+  marshmallow:
+    class: nr_metadata.documents.services.records.schema.NRDocumentRecordSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.documents.services.records.ui_schema.NRDocumentRecordUISchema
+      base-classes:
+        - nr_metadata.ui_schema.versions.FillMissingVersionMixin
+        - oarepo_runtime.services.schema.ui.InvenioRDMUISchema
+
+  use: [invenio, rdm]
+
+  record:
+    imports:
+      - import: oarepo_runtime.records.systemfields.SyntheticSystemField
+      - import: oarepo_runtime.records.systemfields.PathSelector
+      - import: oarepo_runtime.records.systemfields.FilteredSelector
+      - import: oarepo_runtime.records.systemfields.MultiSelector
+      - import: oarepo_runtime.records.systemfields.FirstItemSelector
+      - import: nr_metadata.records.synthetic_fields.KeywordsFieldSelector
+    fields:
+      people: |
+        SyntheticSystemField(
+            PathSelector(
+                "metadata.creators.person_or_org", "metadata.contributors.person_or_org"
+            ),
+            filter=lambda x: x.get("type") == "personal",
+            map=lambda x: x.get("name"),
+            key="syntheticFields.people",
+        )
+
+      organizations: |
+        SyntheticSystemField(
+          MultiSelector(
+              FilteredSelector(
+                  PathSelector("metadata.creators.person_or_org", "metadata.contributors.person_or_org"),
+                  filter=lambda x: x["type"] == "personal",
+                  projection="affiliations.title.cs",
+              ),
+              FilteredSelector(
+                  PathSelector("metadata.creators.person_or_org", "metadata.contributors.person_or_org"),
+                  filter=lambda x: x["type"] == "organizational",
+                  projection="name",
+              ),
+          ),
+          key="syntheticFields.organizations",
+        )
+      keywords: |
+        SyntheticSystemField(
+            selector=KeywordsFieldSelector("metadata.subjects.subject"),
+            key="syntheticFields.keywords",
+        )
+      date: |
+        SyntheticSystemField(
+            selector=FirstItemSelector("metadata.dateModified", "metadata.dateIssued"),
+            key="syntheticFields.date",
+        )
+      year: |
+        SyntheticSystemField(
+            selector=FirstItemSelector("metadata.dateIssued", "metadata.thesis.dateDefended"),
+            key="syntheticFields.year",
+            filter=lambda x: len(x) >= 4,
+            map=lambda x: x[:4]
+        )
+      defenseYear: |
+        SyntheticSystemField(
+            selector=PathSelector("metadata.thesis.dateDefended"),
+            key="syntheticFields.defenseYear",
+            filter=lambda x: len(x) >= 4,
+            map=lambda x: x[:4]
+        )
+
+  properties:
+    syntheticFields:
+      properties:
+        people:
+          type: keyword
+          marshmallow:
+            read: false
+            write: false
+          label.cs: Tvůrci
+          label.en: Creators
+        organizations:
+          type: keyword
+          label.cs: Instituce
+          label.en: Institutions
+        keywords:
+          type: object
+          marshmallow:
+            read: false
+            write: false
+            generate: false
+          ui:
+            marshmallow:
+              read: false
+              write: false
+              generate: false
+          label.cs: Klíčová slova
+          label.en: Keywords
+          facets:
+            facet-class: nr_metadata.services.records.facets.KeywordsFacet
+            facet: true
+          properties:
+            cs[]:
+              type: keyword
+              facets:
+                facet: false
+              marshmallow:
+                read: false
+                write: false
+              ui:
+                marshmallow:
+                  read: false
+                  write: false
+            en[]:
+              type: keyword
+              facets:
+                facet: false
+              marshmallow:
+                read: false
+                write: false
+              ui:
+                marshmallow:
+                  read: false
+                  write: false
+        date:
+          type: edtf
+          marshmallow:
+            read: false
+            write: false
+          label.cs: Datum poslední změny
+          label.en: Updated Date
+        year:
+          type: edtf
+          marshmallow:
+            read: false
+            write: false
+          ui:
+            marshmallow:
+              read: false
+              write: false
+          label.cs: Datum vydání
+          label.en: Publication Date
+          facets:
+            facet-class: oarepo_runtime.services.facets.year_histogram.YearAutoHistogramFacet
+        defenseYear:
+          type: edtf
+          marshmallow:
+            read: false
+            write: false
+          ui:
+            marshmallow:
+              read: false
+              write: false
+          label.cs: Rok obhajoby
+          label.en: Defense Year
+          facets:
+            facet-class: oarepo_runtime.services.facets.year_histogram.YearAutoHistogramFacet
+      marshmallow:
+        class: nr_metadata.documents.services.records.schema.NRDocumentSyntheticFieldsSchema
+      ui:
+        marshmallow:
+          class: nr_metadata.documents.services.records.ui_schema.NRDocumentSyntheticFieldsUISchema
+
+    metadata:
+      use: ["nr-documents#DocumentMetadata"]

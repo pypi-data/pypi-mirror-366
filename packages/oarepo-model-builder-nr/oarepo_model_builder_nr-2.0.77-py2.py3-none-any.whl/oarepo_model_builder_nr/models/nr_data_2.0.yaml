@@ -1,0 +1,57 @@
+NRDataMetadata:
+  $id: DataMetadata
+  extend: ['nr-common-metadata#CommonMetadata']
+  marshmallow:
+    class: nr_metadata.data.services.records.schema.NRDataMetadataSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.data.services.records.ui_schema.NRDataMetadataUISchema
+  properties:
+    dateCollected:
+      use: 'nr-datatypes#NRDateOrRange'
+      label.cs: Datum sběru dat
+      label.en: Data Collection Date
+      help.cs: Uveďte časové rozmezí, ve kterém proběhl/probíhal sběr dat. V případě, že se nejedná o rozsah, vyplňte stejné datum do obou částí. Data můžete vybrat i z kalendáře.
+      help.en: Fill in the time period in which the data collection took place/took place. If it is not a range, fill in the same date in both parts. You can also pick dates from the calendar.
+    dateCreated:
+      use: 'nr-datatypes#NRDateOrRange'
+      label.cs: Datum vytvoření datové sady
+      label.en: Dataset Creation Date
+      help.cs: Uveďte časový údaj/rozmezí, ve kterém datová sada vznikla. V případě, že se nejedná o rozsah, vyplňte stejné datum do obou částí. Data můžete vybrat i z kalendáře.
+      help.en: Fill in the time/date range in which the dataset was created. If it is not a range, fill in the same date in both parts. You can also select dates from the calendar.
+    dateValidTo:
+      type: date
+      label.cs: Datum platnosti dat
+      label.en: Date Valid To
+    dateWithdrawn:
+      type: object
+      properties:
+        dateInformation:
+          type: keyword
+        type:
+          type: date
+      label.cs: Datum odstranění dat
+      label.en: Date Withdrawn
+    abstract:
+      required: true
+    publishers[]:
+      #^uniqueItems: true
+      ^minItems: 1
+      type: taxonomy
+      vocabulary-type: institutions
+      keys: [ id, title, props.ror ]
+      ^label.cs: Vydavatel/é
+      ^label.en: Publishers
+
+
+DataModel:
+  $id: DataModel
+  marshmallow:
+    class: nr_metadata.data.services.records.schema.NRDataRecordSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.data.services.records.ui_schema.NRDataRecordUISchema
+  use:  [invenio, rdm]
+  properties:
+    metadata:
+      use: ['nr-data#DataMetadata']

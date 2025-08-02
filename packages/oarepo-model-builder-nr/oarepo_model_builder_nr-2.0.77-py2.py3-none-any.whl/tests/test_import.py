@@ -1,0 +1,20 @@
+def test_import():
+    import test_rec.records.models  # noqa
+    import test_rec.records.api  # noqa
+    import test_rec.records.dumpers.dumper  # noqa
+    import test_rec.records.dumpers.multilingual  # noqa
+    import test_rec.records.dumpers.edtf  # noqa
+    import test_rec.config  # noqa
+    import test_rec.version  # noqa
+    import test_rec.resources.records.config  # noqa
+    import test_rec.resources.records.ui  # noqa
+    import test_rec.resources.records.resource  # noqa
+    import test_rec.proxies  # noqa
+    import test_rec.views.records.api  # noqa
+    import test_rec.views.records.app  # noqa
+    import test_rec.services.records.service  # noqa
+    import test_rec.services.records.config  # noqa
+    import test_rec.services.records.permissions  # noqa
+    import test_rec.services.records.search  # noqa
+    import test_rec.services.records.facets  # noqa
+    import test_rec.ext  # noqa
