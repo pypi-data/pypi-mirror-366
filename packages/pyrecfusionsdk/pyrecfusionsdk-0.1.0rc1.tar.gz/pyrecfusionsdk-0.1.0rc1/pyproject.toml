@@ -1,0 +1,43 @@
+[project]
+name = "pyRecFusionSDK"
+version = "0.1.0-rc1"
+description = "Python wrapper around the RecFusionSDK library"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Patryk Kiepas", email = "kiepas.patryk@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+"numpy >=2.3.2"
+]
+
+[project.optional-dependencies]
+dev = ["pytest >=8.4.1"]
+
+[project.urls]
+Homepage = "https://github.com/quepas/pyRecFusionSDK"
+
+[build-system]
+requires = ["scikit-build-core >=0.11.5", "nanobind >=2.8.0"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+# Protect the configuration against future changes in scikit-build-core
+minimum-version = "0.4"
+
+# Setuptools-style build caching in a local directory
+build-dir = "build/{wheel_tag}"
+
+# Build stable ABI wheels for CPython 3.12+
+wheel.py-api = "cp312"
+
+# [[tool.uv.index]]
+# name = "testpypi"
+# url = "https://test.pypi.org/simple/"
+# publish-url = "https://test.pypi.org/legacy/"
+# explicit = true
+[tool.uv.build-backend]
+source-exclude = ["third-party/"]
