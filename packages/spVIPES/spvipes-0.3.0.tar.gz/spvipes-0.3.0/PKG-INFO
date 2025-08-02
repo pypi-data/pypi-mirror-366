@@ -1,0 +1,276 @@
+Metadata-Version: 2.4
+Name: spVIPES
+Version: 0.3.0
+Summary: Shared-private Variational Inference with Product of Experts and Supervision
+Project-URL: Documentation, https://spVIPES.readthedocs.io/
+Project-URL: Source, https://github.com/nrclaudio/spVIPES
+Project-URL: Home-page, https://github.com/nrclaudio/spVIPES
+Author: Claudio Novella Rausell
+Maintainer-email: Claudio Novella Rausell <c.novella_rausell@lumc.nl>
+License: BSD 3-Clause License
+        
+        Copyright (c) 2023, Claudio Novella Rausell
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        1. Redistributions of source code must retain the above copyright notice, this
+           list of conditions and the following disclaimer.
+        
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        
+        3. Neither the name of the copyright holder nor the names of its
+           contributors may be used to endorse or promote products derived from
+           this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+License-File: LICENSE
+Requires-Python: >=3.9
+Requires-Dist: anndata==0.10.8
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pandas>=1.5.0
+Requires-Dist: scanpy>=1.9.1
+Requires-Dist: scvi-tools==0.20.0
+Requires-Dist: session-info
+Requires-Dist: torch
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: twine>=4.0.2; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: docutils!=0.18.*,!=0.19.*,>=0.8; extra == 'doc'
+Requires-Dist: ipykernel; extra == 'doc'
+Requires-Dist: ipython; extra == 'doc'
+Requires-Dist: myst-nb; extra == 'doc'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'doc'
+Requires-Dist: sphinx-book-theme>=1.0.0; extra == 'doc'
+Requires-Dist: sphinx-copybutton; extra == 'doc'
+Requires-Dist: sphinx>=4; extra == 'doc'
+Requires-Dist: sphinxcontrib-bibtex>=1.0.0; extra == 'doc'
+Requires-Dist: sphinxext-opengraph; extra == 'doc'
+Provides-Extra: test
+Requires-Dist: pytest; extra == 'test'
+Requires-Dist: pytest-cov; extra == 'test'
+Description-Content-Type: text/markdown
+
+<div align="center">
+
+# spVIPES
+
+**Shared-private Variational Inference with Product of Experts and Supervision**
+
+[![Python][badge-python]][link-python]
+[![PyPI][badge-pypi]][link-pypi]
+[![Documentation][badge-docs]][link-docs]
+
+</div>
+
+---
+
+## About
+
+spVIPES enables robust integration of multi-group single-cell datasets through a principled shared-private latent space decomposition. The method leverages a Product of Experts (PoE) framework to learn both shared biological signals common across datasets and private representations capturing group-specific variations.
+
+### Integration Strategies
+
+spVIPES provides three complementary approaches for dataset alignment:
+
+| Method                   | Description                                               | Best Use Case                                       |
+| ------------------------ | --------------------------------------------------------- | --------------------------------------------------- |
+| **Label-based PoE**      | Uses cell type annotations for direct supervision         | High-quality cell type labels available             |
+| **OT Paired PoE**        | Direct cell-to-cell correspondences via optimal transport | Known cellular correspondences (e.g., time series)  |
+| **OT Cluster-based PoE** | Automated cluster matching with transport plans           | Similar cell populations, no direct correspondences |
+
+> **Note:** The method automatically selects the most appropriate strategy based on available annotations and transport information.
+
+## Installation
+
+### Requirements
+
+-   Python 3.9+
+-   PyTorch (GPU support strongly recommended)
+
+### Quick Install
+
+Install the latest stable release from PyPI:
+
+```bash
+pip install spVIPES
+```
+
+For the development version:
+
+```bash
+pip install git+https://github.com/nrclaudio/spVIPES.git@main
+```
+
+### GPU Setup (Recommended)
+
+For optimal performance, ensure CUDA-compatible PyTorch is installed:
+
+```bash
+# Check GPU availability
+nvidia-smi
+
+# Install PyTorch with CUDA support (example for CUDA 11.3)
+pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
+
+# Verify GPU detection
+python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
+```
+
+> See [PyTorch installation guide](https://pytorch.org/get-started/locally/) for version-specific instructions.
+
+## Quick Start
+
+### Basic Workflow
+
+```python
+import spVIPES
+import scanpy as sc
+
+# Load your multi-group dataset
+adata = sc.read_h5ad("data.h5ad")
+
+# Configure integration strategy
+spVIPES.model.setup_anndata(
+    adata,
+    groups_key="dataset",
+    label_key="cell_type",  # Optional: for supervised integration
+)
+
+# Initialize and train model
+model = spVIPES.model(adata)
+model.train(max_epochs=200)
+
+# Extract integrated representations
+latent = model.get_latent_representation()
+adata.obsm["X_spVIPES"] = latent
+```
+
+### Integration Strategies
+
+<details>
+<summary><b>📋 Label-based Integration</b></summary>
+
+Use when high-quality cell type annotations are available:
+
+```python
+spVIPES.model.setup_anndata(
+    adata,
+    groups_key="dataset",
+    label_key="cell_type",
+    batch_key="batch",  # Optional batch correction
+)
+```
+
+</details>
+
+<details>
+<summary><b>🔄 Optimal Transport: Paired Cells</b></summary>
+
+For datasets with known cell-to-cell correspondences:
+
+```python
+# Assumes transport plan stored in adata.uns["transport_plan"]
+spVIPES.model.setup_anndata(
+    adata,
+    groups_key="dataset",
+    transport_plan_key="transport_plan",
+    match_clusters=False,
+)
+```
+
+</details>
+
+<details>
+<summary><b>🧩 Optimal Transport: Cluster Matching</b></summary>
+
+For automatic cluster-based alignment:
+
+```python
+spVIPES.model.setup_anndata(
+    adata,
+    groups_key="dataset",
+    transport_plan_key="transport_plan",
+    match_clusters=True,  # Enables automated cluster matching
+)
+```
+
+</details>
+
+### Advanced Configuration
+
+```python
+# Custom model parameters
+model = spVIPES.model(
+    adata,
+    n_dimensions_shared=25,  # Shared latent dimensions
+    n_dimensions_private=10,  # Private latent dimensions
+    n_hidden=128,  # Hidden layer size
+    dropout_rate=0.1,  # Regularization
+)
+
+# Training with custom settings
+model.train(
+    max_epochs=300, batch_size=512, early_stopping=True, check_val_every_n_epoch=10
+)
+```
+
+## Documentation & Tutorials
+
+📚 **Getting Started**
+
+-   [Basic Tutorial](docs/notebooks/Tutorial.ipynb) — Complete walkthrough of spVIPES functionality
+-   [API Documentation][link-api] — Comprehensive API reference
+
+## Support & Community
+
+💬 **Get Help**
+
+-   [Issue Tracker][issue-tracker] — Report bugs and request features
+
+## Citation
+
+If you use spVIPES in your research, please cite:
+
+```bibtex
+@article{spVIPES2023,
+  title={Integrative learning of disentangled representations},
+  author={C. Novella-Rausell, D.J.M Peters and A. Mahfouz},
+  journal={bioRxiv},
+  year={2023},
+  doi={10.1101/2023.11.07.565957},
+  url={https://www.biorxiv.org/content/10.1101/2023.11.07.565957v1}
+}
+```
+
+**Paper**: [bioRxiv preprint](https://www.biorxiv.org/content/10.1101/2023.11.07.565957v1)
+
+---
+
+<!-- Badge references -->
+
+[badge-tests]: https://img.shields.io/github/actions/workflow/status/nrclaudio/spVIPES/test.yaml?branch=main
+[badge-python]: https://img.shields.io/pypi/pyversions/spVIPES
+[badge-pypi]: https://img.shields.io/pypi/v/spVIPES
+[badge-docs]: https://readthedocs.org/projects/spvipes/badge/?version=latest
+[link-tests]: https://github.com/nrclaudio/spVIPES/actions/workflows/test.yml
+[link-python]: https://pypi.org/project/spVIPES
+[link-pypi]: https://pypi.org/project/spVIPES
+[scverse-discourse]: https://discourse.scverse.org/
+[issue-tracker]: https://github.com/nrclaudio/spVIPES/issues
+[changelog]: https://spVIPES.readthedocs.io/latest/changelog.html
+[link-docs]: https://spvipes.readthedocs.io/en/latest/
+[link-api]: https://spvipes.readthedocs.io/en/latest/api.html
