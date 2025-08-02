@@ -1,0 +1,34 @@
+[project]
+name = "tfrunner"
+version = "0.7.0"
+description = "A cli tool used to make running terraform or opentofu project simpler. Includes secret fetching and remote state management."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "doppler-sdk>=1.3.0",
+    "pydantic>=2.10.6",
+    "pyyaml>=6.0.2",
+    "requests>=2.32.3",
+    "toml>=0.10.2",
+    "typer>=0.15.1",
+]
+
+[project.scripts]
+tfrunner = "tfrunner.main:cli"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.1.0",
+]
+test = [
+    "pytest>=8.3.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "pyproject.toml"
+]
