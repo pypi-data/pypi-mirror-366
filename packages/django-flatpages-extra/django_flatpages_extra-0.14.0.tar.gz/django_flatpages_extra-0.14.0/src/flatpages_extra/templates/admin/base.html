@@ -1,0 +1,9 @@
+{% extends 'admin/base.html' %}
+
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "admin/flatpages_extra/custom.css" %}">
+<link rel="stylesheet" href="{% static "admin/flatpages_extra/pygments.css" %}">
+{% endblock %}
