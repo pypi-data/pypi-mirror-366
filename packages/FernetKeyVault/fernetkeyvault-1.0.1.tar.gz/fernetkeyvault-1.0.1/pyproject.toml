@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FernetKeyVault"
+version = "1.0.1"
+description = "A simple Python SQLite3-based key-value storage vault"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "setuptools>=42.0.0",
+    "cryptography>=36.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.12.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/kvcrajan/FernetKeyVault"
+"Bug Tracker" = "https://github.com/kvcrajan/FernetKeyVault/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+exclude = ["test*"]
