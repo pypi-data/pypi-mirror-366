@@ -1,0 +1,20 @@
+[build-system]
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "harzcoin"
+version = "3.3.1"
+description = "Totally better currency frfr (now it's decentralised!?)"
+readme = "README.md"
+authors = [{ name = "hrsiz", email = "harsizstudio@gmail.com" }]
+license = { text = "MIT" }
+
+dependencies = [
+    "requests",
+    "flit_core>=3.11,<4"
+]
+
+[project.optional-dependencies]
+gui = ["tk"]
+dev = ["pytest", "black"]

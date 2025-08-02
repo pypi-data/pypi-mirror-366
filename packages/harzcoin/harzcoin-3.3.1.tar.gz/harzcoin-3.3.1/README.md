@@ -1,0 +1,87 @@
+# HarzCoin (v3.2.4)💰
+
+HarzCoin is a chill, Python-based decentralized cryptocurrency made for fun, learning, and lowkey flexing. It includes a CLI, desktop GUI (like Bitcoin Core), and even a browser-accessible node interface. You can mine, send, receive, and interact with other HarzCoin nodes over the network.
+
+---
+
+## Features
+
+## Fully decentralized P2P blockchain
+
+* Mine blocks and earn $HARZ coins
+* Tkinter GUI (Bitcoin Core-style)
+* Web GUI (Flask-based)
+* Real-time wallet creation & transactions
+
+---
+
+## ⚡ Installation
+
+```bash
+pip install harzcoin
+```
+
+> Make sure you have Python 3.11+
+
+---
+
+## 🚀 Running It
+
+### CLI Mode
+
+```bash
+python -m harzcoin
+```
+
+### GUI Wallet (like Bitcoin Core)
+
+```bash
+python harzcoin_gui.py
+```
+
+Soon: open [http://localhost:5000](http://localhost:5000)
+
+---
+
+## ⚖️ API (for nerds)
+
+```python
+create_wallet()         # returns Wallet object
+send(id, key, recipient, amount)  # sends HZC to address
+mine(address)           # mines a block
+balance(address)        # returns float
+add_peer(ip)            # connects node to another peer
+```
+
+---
+
+## 🧳 Packaging Help (if you wanna share)
+
+1. Bump the version in `pyproject.toml`
+2. Build the wheel:
+
+   ```bash
+   flit build
+   ```
+3. Upload to PyPI (if you're a real one):
+
+   ```bash
+   flit publish
+   ```
+
+If you get a `raise_for_status()` error, check:
+
+* Internet connection
+* PyPI creds (`.pypirc`)
+* Your token scopes on [https://pypi.org/manage/account/token/](https://pypi.org/manage/account/token/)
+
+---
+
+## 🫡 Credits
+
+Made with love by `harsiz` (ion kno why it's "hrsiz" on my profile but idgaf)
+
+MIT License. Mess with it however you want.
+
+---
+
