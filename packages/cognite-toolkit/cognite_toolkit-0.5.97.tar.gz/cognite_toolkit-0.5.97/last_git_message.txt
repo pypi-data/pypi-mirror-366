@@ -1,0 +1,35 @@
+[CDF-25151] 🧹 cdf purge instances (#1711)
+
+# Description
+
+Stacked on <del>#1769 #1770 #1774 </del>
+
+**Reviewer**: Please forgive me for the slight above limit PR. The core
+of this PR is 230 lines with 200 lines of tests. Then, there are 80
+lines of the CLI interface and some small boiler plate used for setting
+the `alpha` flag we use.
+
+Main motivation for this command is migration. We see that users are
+making mistakes and then they need to clean up.
+
+
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Added
+
+- [alpha] New command `cdf purge instances` that enables you to delete
+all nodes/edges with properties in specified views. This also includes
+unlinking of timeseries if you select the `CogniteTimeSeries` view or
+any extension of it and the timeseries were migrated with the `cdf
+migrate timeseries` command.
+
+## templates
+
+No changes.
