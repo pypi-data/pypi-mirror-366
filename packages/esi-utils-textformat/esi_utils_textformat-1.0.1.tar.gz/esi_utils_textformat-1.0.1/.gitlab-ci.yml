@@ -1,0 +1,13 @@
+image: code.usgs.gov:5001/devops/images/usgs/python:3.12-build
+
+stages:
+  - test
+
+run tests:
+  script:
+    - pip install .
+    - pip install pytest
+    - pytest .
+  stage: test
+  tags:
+    - build
