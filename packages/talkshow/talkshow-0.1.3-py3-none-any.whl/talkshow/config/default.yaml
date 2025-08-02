@@ -1,0 +1,34 @@
+# Default configuration for TalkShow
+
+# Web server settings
+web:
+  host: "127.0.0.1"
+  port: 8000
+  reload: false
+
+# Parser settings
+parser:
+  history_directory: "history"
+  
+# Storage settings
+storage:
+  json:
+    file_path: "data/sessions.json"
+    
+# Summarizer settings
+summarizer:
+  rule:
+    max_question_length: 100
+    max_answer_length: 200
+  llm:
+    enabled: false
+    provider: "moonshot"
+    model: "moonshot-v1-8k"
+    api_base: "https://api.moonshot.cn/v1"
+    api_key: ""
+    max_tokens: 500
+    temperature: 0.7
+
+# Path settings
+paths:
+  output_dir: "data"
