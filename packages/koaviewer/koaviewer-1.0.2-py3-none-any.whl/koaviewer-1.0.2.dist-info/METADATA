@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: koaviewer
+Version: 1.0.2
+Summary: Astronomical image display and interaction.
+Author-email: John Good <jcg@caltech.edu>
+License-Expression: BSD-3-Clause
+Project-URL: Homepage, https://koa.ipac.caltech/edu
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: astropy
+Requires-Dist: pillow
+Requires-Dist: dash
+Requires-Dist: dash_bootstrap_components
+Requires-Dist: dash_ag_grid
+Requires-Dist: MontagePy
+Requires-Dist: mviewer
+Dynamic: license-file
+
+# KOAViewer Plotly/Dash Application
+
+Dash contains a very large number of components for data display and UI configuration.  However, specialized display and interaction components are sometimes needed to fill discipline-specific roles.  All Dash components are written using React, a JavaScript library for building user interfaces, written and maintained by Facebook. 
+
+"mviewer" (also available through PyPI) is a Dash React component, part of an interactive astronomical image viewer written as part of the Montage toolkit (http://montage.ipac.caltech.edu).  mviewer really only handles the display window and functions like zooming and panning.  It is the front-end for Python-based Dash apps which control what data gets displayed. The Dash app also handles the processing of "pick" and "draw box" events from mviewer.
+
+"koaviewer" is one such Dash app.  It reads image and astronomical catalog data from local files and creates an interactive display with two floating data viewers: one for the image data (a single grayscale FITS file or three FITS files as a red/green/blue color composite); and another for atabbed set of the catalogs as data tables.  The image display is an mviewer instance and the table displays are Ag-Grid renderings wrapped by Dash.  
+
+Selecting locations in the image display gets fed to the tables and records in the tables close enough to the location get marked.  Likewise, records selected from the tables get marked on the image.  This is basic dashboard functionality and other displays (like scatter plots, etc.) could be added but are not used in this example.
+
+The Dash app does not itself render the image/overlay graphics that get display.  For that it relies on a Python-callable Montage library.
+All of this is covered in more detail at http://montage.ipac.caltech.edu/docs/mViewer_DASH .
+
+"koaviewer" is pure Python.

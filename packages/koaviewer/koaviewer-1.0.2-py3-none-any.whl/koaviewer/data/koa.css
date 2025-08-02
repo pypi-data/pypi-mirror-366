@@ -1,0 +1,139 @@
+[class*="con"] {
+   padding: 0px;
+   margin: 0px;
+   border: 0px solid black;
+}
+
+[class*="row"] {
+   padding: 0px;
+   margin: 0px;
+   border: 0px solid red;
+}
+
+[class*="col"] {
+   padding: 0px;
+   margin: 0px;
+   border: 0px solid blue;
+}
+
+.controls {
+   background-color: #eaf1f8;
+   padding: 10px;
+   border: 1px solid gray;
+}
+
+/* set the background color of many elements across the grid */
+
+.ag-theme-quartz {
+   background-color: aliceblue !important;
+   --ag-header-background-color: rgb(232, 232, 255) !important;
+   --ag-odd-row-background-color: rgb(210, 231, 244) !important;
+   --ag-row-height: 3px;
+   font-family: sans-serif !important;
+   input[type=text] {
+       background-color: white !important;
+       size: 12px !important;
+       color: black !important;
+   }
+
+   
+
+}
+.ag-theme-quartz-dark {
+   background-color: rgb(40, 69, 95) !important;
+   --ag-odd-row-background-color: #33394e !important;
+   --ag-row-height: 3px;
+   font-family: sans-serif !important;
+   --ag-cell-horizontal-padding:0 !important;
+   --ag-widget-horizontal-spacing:0 !important;
+   
+
+   input[type=text] {
+       background-color: rgb(11, 30, 46) !important;
+       size: 12px !important;
+       color: aliceblue !important;
+   }
+
+}
+.ag-theme-quartz .ag-header-cell-label {
+   font-style: bold !important;
+   
+}
+
+.ag-header-cell-label {
+   align-items: center !important;
+   justify-content: center !important;
+ }
+
+
+.ag-cell {
+   
+   align-items: center !important;
+   justify-content: center !important;
+  
+}
+
+.carousel-caption {
+   position: relative;
+   bottom: auto;
+   top: auto;
+   transform: translateY(0%);
+
+}
+
+.carousel-control-prev, .carousel-control-next {
+   filter: invert(100%) !important;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+   background-image: none !important;
+}
+
+.carousel-control-prev-icon:after,
+.carousel-control-next-icon:after {
+   content: '›'; /* Use a more distinct arrow character */
+   font-size: 5em; /* Increase the size for better visibility */
+   color: white !important; /* Ensure the color applies */
+   display: inline-block;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+.carousel-control-prev-icon:after {
+   content: '‹';
+}
+
+/* Optional: Adjust the position if needed */
+.carousel-control-prev, .carousel-control-next {
+   top: 50%;
+   transform: translateY(-50%);
+}
+
+
+.carousel-caption {
+   text-align: center !important; /* Center align the text */
+   right: 0 !important;
+   left: 0 !important;
+   bottom: 20px !important; /* Adjust the position from the bottom */
+   top: auto !important; /* Ensure the caption is positioned at the bottom */
+}
+
+.modal-content {
+   background-color: rgb(73, 73, 97) !important;
+}
+.modal-title, .modal-footer .btn {
+   color: white !important; /* Ensure text/buttons in header/footer are visible */
+}
+
+/* Ensure the carousel item itself does not have a conflicting background */
+.carousel-item {
+   background-color: transparent !important;
+}
+
+.carousel-caption h3, /* Assuming the header uses <h3>. Adjust the tag as needed */
+.carousel-caption p {
+   color: white !important; /* Ensure text color is white for visibility */
+   text-shadow: 0 0 10px rgba(0,0,0,0.7); /* Optional: Adds a shadow for better readability */
+}
+
