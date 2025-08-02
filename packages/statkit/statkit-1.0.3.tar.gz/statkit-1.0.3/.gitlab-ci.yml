@@ -1,0 +1,51 @@
+.run tests:
+  stage: test
+  image: python:3.12
+  before_script:
+    - pip install -r requirements.txt
+    - pip install coverage mypy
+  script:
+    - cd src
+    - mypy --install-types --non-interactive statkit
+    - coverage run --source statkit -m unittest discover test
+    - coverage report
+    - coverage xml
+  coverage: '/TOTAL.*\s([.\d]+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: src/coverage.xml
+
+run tests 3.10:
+  stage: test
+  extends: ".run tests"
+  needs: []
+  image: python:3.10
+
+run tests 3.11:
+  stage: test
+  extends: ".run tests"
+  needs: []
+  image: python:3.11
+
+run tests 3.12:
+  stage: test
+  extends: ".run tests"
+  needs: []
+  image: python:3.12
+
+pages:
+  image: python:3.12
+  stage: deploy
+  script:
+  - pip install -r requirements.txt
+  - pip3 install pdoc3
+  - mkdir public
+  - pdoc --config latex_math=True --html --output-dir public src/statkit
+  - mv public/statkit/* public/ && rmdir public/statkit/
+  artifacts:
+    paths:
+    - public
+  only:
+  - main
