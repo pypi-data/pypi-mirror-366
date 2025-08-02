@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: plotjs
+Version: 0.0.2
+Summary: Bridge between static matplotlib and interactive storytelling
+Author-email: Joseph Barbier <joseph.barbierdarnal@mail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://y-sunflower.github.io/plotjs/
+Project-URL: Issues, https://github.com/y-sunflower/plotjs/issues
+Project-URL: Documentation, https://y-sunflower.github.io/plotjs/
+Project-URL: Repository, https://github.com/y-sunflower/plotjs
+Keywords: matplotlib,interactive,javascript,web,css,d3,mpld3,plotnine
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jinja2>=3.0.0
+Requires-Dist: matplotlib>=3.10.0
+Requires-Dist: narwhals>=2.0.0
+Dynamic: license-file
+
+# `plotjs`: bridge between static matplotlib and interactive storytelling
+
+`plotjs` is a proof of concept, inspired by [mpld3](https://github.com/mpld3/mpld3), to make matplotlib plots interactive (for the browser) with minimum user inputs.
+
+The goal is also to give users a large customization power.
+
+> Consider that the project is still **very unstable**.
+
+[Online demo](https://y-sunflower.github.io/plotjs/)
+
+<br><br>
+
+## Installation
+
+From PyPI:
+
+```
+pip install plotjs
+```
+
+Latest dev version:
+
+```
+pip install git+https://github.com/y-sunflower/plotjs.git
+```
