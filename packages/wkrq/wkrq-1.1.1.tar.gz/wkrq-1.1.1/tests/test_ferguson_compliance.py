@@ -1,0 +1,383 @@
+"""
+Ferguson (2021) Compliance Tests for wKrQ Implementation.
+
+This module validates our implementation against Ferguson's exact specifications
+from "Tableaux and Restricted Quantification for Systems Related to Weak Kleene Logic."
+
+Key findings from paper analysis:
+1. Ferguson uses weak Kleene truth tables (contagious undefined) ✓
+2. Ferguson uses classical validity (truth preservation) ✓
+3. Classical tautologies ARE valid in Ferguson's system ✓
+4. Four-sign system maps: T↔t, F↔f, M↔m, N↔e ✓
+5. Tableau system is sound and complete (Theorems 1-2) ✓
+
+All tests in this file should PASS to confirm Ferguson compliance.
+"""
+
+from wkrq.api import entails, solve, valid
+from wkrq.formula import Formula
+from wkrq.semantics import FALSE, TRUE, UNDEFINED, WeakKleeneSemantics
+from wkrq.signs import F, M, N, T
+
+
+class TestFergusonTruthTables:
+    """Validate truth tables match Ferguson's Definition 1 exactly."""
+
+    def setup_method(self):
+        """Set up semantic system for testing."""
+        self.semantics = WeakKleeneSemantics()
+
+    def test_conjunction_matches_ferguson_definition_1(self):
+        """Test conjunction truth table matches Ferguson's Definition 1."""
+        conjunction = self.semantics._conjunction_table
+
+        # Ferguson's weak Kleene conjunction - contagious undefined
+        assert conjunction[(TRUE, TRUE)] == TRUE
+        assert conjunction[(TRUE, FALSE)] == FALSE
+        assert conjunction[(FALSE, TRUE)] == FALSE
+        assert conjunction[(FALSE, FALSE)] == FALSE
+
+        # Critical: undefined is contagious (weak Kleene property)
+        assert conjunction[(TRUE, UNDEFINED)] == UNDEFINED
+        assert conjunction[(UNDEFINED, TRUE)] == UNDEFINED
+        assert conjunction[(FALSE, UNDEFINED)] == UNDEFINED
+        assert conjunction[(UNDEFINED, FALSE)] == UNDEFINED
+        assert conjunction[(UNDEFINED, UNDEFINED)] == UNDEFINED
+
+    def test_disjunction_matches_ferguson_definition_1(self):
+        """Test disjunction truth table matches Ferguson's Definition 1."""
+        disjunction = self.semantics._disjunction_table
+
+        # Ferguson's weak Kleene disjunction - contagious undefined
+        assert disjunction[(TRUE, TRUE)] == TRUE
+        assert disjunction[(TRUE, FALSE)] == TRUE
+        assert disjunction[(FALSE, TRUE)] == TRUE
+        assert disjunction[(FALSE, FALSE)] == FALSE
+
+        # Critical: t ∨ e = e (NOT t - this distinguishes weak from strong Kleene)
+        assert disjunction[(TRUE, UNDEFINED)] == UNDEFINED
+        assert disjunction[(UNDEFINED, TRUE)] == UNDEFINED
+        assert disjunction[(FALSE, UNDEFINED)] == UNDEFINED
+        assert disjunction[(UNDEFINED, FALSE)] == UNDEFINED
+        assert disjunction[(UNDEFINED, UNDEFINED)] == UNDEFINED
+
+    def test_negation_matches_ferguson_definition_1(self):
+        """Test negation truth table matches Ferguson's Definition 1."""
+        negation = self.semantics._negation_table
+
+        # Ferguson's weak Kleene negation
+        assert negation[TRUE] == FALSE
+        assert negation[FALSE] == TRUE
+        assert negation[UNDEFINED] == UNDEFINED
+
+
+class TestFergusonValidityDefinition:
+    """Test Ferguson's Definition 6: validity as truth preservation."""
+
+    def test_classical_tautologies_are_valid_ferguson_definition_6(self):
+        """Test that classical tautologies are valid per Ferguson's Definition 6.
+
+        Ferguson Definition 6: "Validity in weak Kleene logic is defined as truth preservation"
+        This means classical tautologies that can never be false ARE valid.
+        """
+        p = Formula.atom("p")
+
+        # Law of Excluded Middle should be valid (cannot be false)
+        excluded_middle = p | ~p
+        assert valid(
+            excluded_middle
+        ), "p ∨ ¬p should be valid (Ferguson's truth preservation)"
+
+        # Self-implication should be valid
+        self_implication = p.implies(p)
+        assert valid(
+            self_implication
+        ), "p → p should be valid (Ferguson's truth preservation)"
+
+        # Double negation elimination should be valid
+        double_negation = ~~p.implies(p)
+        assert valid(
+            double_negation
+        ), "¬¬p → p should be valid (Ferguson's truth preservation)"
+
+    def test_classical_tautologies_unsatisfiable_under_f_sign(self):
+        """Test that classical tautologies are unsatisfiable under F sign.
+
+        This follows from Ferguson's Definition 6 - if a formula is valid (true in all models),
+        then it cannot be false in any model, hence F:φ should be unsatisfiable.
+        """
+        p = Formula.atom("p")
+
+        # F:(p ∨ ¬p) should be unsatisfiable (cannot be false)
+        excluded_middle = p | ~p
+        result = solve(excluded_middle, F)
+        assert (
+            not result.satisfiable
+        ), "F:(p ∨ ¬p) should be unsatisfiable (cannot be false)"
+
+        # F:(p → p) should be unsatisfiable
+        self_implication = p.implies(p)
+        result = solve(self_implication, F)
+        assert (
+            not result.satisfiable
+        ), "F:(p → p) should be unsatisfiable (cannot be false)"
+
+    def test_contradictions_unsatisfiable_under_t_sign(self):
+        """Test that contradictions are unsatisfiable under T sign."""
+        p = Formula.atom("p")
+
+        # T:(p ∧ ¬p) should be unsatisfiable (contradictions cannot be true)
+        contradiction = p & ~p
+        result = solve(contradiction, T)
+        assert (
+            not result.satisfiable
+        ), "T:(p ∧ ¬p) should be unsatisfiable (cannot be true)"
+
+    def test_epistemic_uncertainty_allows_satisfiability(self):
+        """Test that epistemic signs (M, N) allow satisfiability for tautologies/contradictions.
+
+        This reflects Ferguson's practical approach where epistemic uncertainty
+        is possible even about logical truths.
+        """
+        p = Formula.atom("p")
+
+        # M:(p ∨ ¬p) should be satisfiable (epistemic uncertainty about tautology)
+        excluded_middle = p | ~p
+        result = solve(excluded_middle, M)
+        assert (
+            result.satisfiable
+        ), "M:(p ∨ ¬p) should be satisfiable (epistemic uncertainty)"
+
+        # N:(p ∨ ¬p) should be satisfiable (can be undefined)
+        result = solve(excluded_middle, N)
+        assert result.satisfiable, "N:(p ∨ ¬p) should be satisfiable (can be undefined)"
+
+        # M:(p ∧ ¬p) should be satisfiable (epistemic uncertainty about contradiction)
+        contradiction = p & ~p
+        result = solve(contradiction, M)
+        assert (
+            result.satisfiable
+        ), "M:(p ∧ ¬p) should be satisfiable (epistemic uncertainty)"
+
+
+class TestFergusonFourSignSystem:
+    """Test Ferguson's four-sign system from Definition 9."""
+
+    def test_sign_to_truth_value_mapping(self):
+        """Test that our signs map correctly to Ferguson's truth values.
+
+        Based on Ferguson's Definition 9 and Lemma 1:
+        - T sign ↔ t (must be true)
+        - F sign ↔ f (must be false)
+        - M sign ↔ m (meaningful - can be true or false)
+        - N sign ↔ e (must be undefined)
+        """
+        p = Formula.atom("p")
+
+        # All four signs should be satisfiable for atomic formulas
+        for sign in [T, F, M, N]:
+            result = solve(p, sign)
+            assert result.satisfiable, f"{sign}:p should be satisfiable"
+            assert len(result.models) > 0, f"{sign}:p should have models"
+
+    def test_sign_coexistence_ferguson_footnote_3(self):
+        """Test Ferguson's Footnote 3: signs can coexist if they don't contradict truth values.
+
+        "Both m : φ and t : φ may harmoniously appear in an open branch"
+        because m represents potential branching while t represents definite value.
+        """
+        # This is more of a tableau construction detail, but we can test
+        # that M and T signs don't create inherent contradictions
+        p = Formula.atom("p")
+
+        # M:p is satisfiable (can be true or false)
+        result_m = solve(p, M)
+        assert result_m.satisfiable, "M:p should be satisfiable"
+
+        # T:p is satisfiable (must be true)
+        result_t = solve(p, T)
+        assert result_t.satisfiable, "T:p should be satisfiable"
+
+        # These don't contradict each other at the semantic level
+
+
+class TestFergusonRestrictedQuantifiers:
+    """Test Ferguson's restricted quantifier semantics from Definition 3."""
+
+    def test_restricted_existential_basic_semantics(self):
+        """Test restricted existential quantifier semantics."""
+        x = Formula.variable("X")
+        human_x = Formula.predicate("Human", [x])
+        mortal_x = Formula.predicate("Mortal", [x])
+
+        # [∃X Human(X)]Mortal(X) - "some human is mortal"
+        existential_formula = Formula.restricted_exists(x, human_x, mortal_x)
+
+        # Should be satisfiable under all signs (depends on domain)
+        for sign in [T, F, M, N]:
+            result = solve(existential_formula, sign)
+            assert (
+                result.satisfiable
+            ), f"{sign}:[∃X Human(X)]Mortal(X) should be satisfiable"
+
+    def test_restricted_universal_basic_semantics(self):
+        """Test restricted universal quantifier semantics."""
+        x = Formula.variable("X")
+        human_x = Formula.predicate("Human", [x])
+        mortal_x = Formula.predicate("Mortal", [x])
+
+        # [∀X Human(X)]Mortal(X) - "all humans are mortal"
+        universal_formula = Formula.restricted_forall(x, human_x, mortal_x)
+
+        # Should be satisfiable under all signs (depends on domain)
+        for sign in [T, F, M, N]:
+            result = solve(universal_formula, sign)
+            assert (
+                result.satisfiable
+            ), f"{sign}:[∀X Human(X)]Mortal(X) should be satisfiable"
+
+    def test_quantifier_domain_reasoning(self):
+        """Test that restricted quantifiers support domain-specific reasoning."""
+        x = Formula.variable("X")
+        human_x = Formula.predicate("Human", [x])
+        mortal_x = Formula.predicate("Mortal", [x])
+
+        # Standard inference: if all humans are mortal and Socrates is human, then Socrates is mortal
+        all_humans_mortal = Formula.restricted_forall(x, human_x, mortal_x)
+        socrates = Formula.constant("socrates")
+        socrates_human = Formula.predicate("Human", [socrates])
+        socrates_mortal = Formula.predicate("Mortal", [socrates])
+
+        # Test basic entailment
+        premises = [all_humans_mortal, socrates_human]
+        conclusion = socrates_mortal
+
+        # This should be valid (following Ferguson's practical applications)
+        assert entails(
+            premises, conclusion
+        ), "Restricted quantifier inference should work for practical reasoning"
+
+
+class TestFergusonTableauSoundnessCompleteness:
+    """Test Ferguson's Theorems 1-2: soundness and completeness."""
+
+    def test_soundness_theorem_1(self):
+        """Test Ferguson's Theorem 1: If Γ ⊢wKrQ φ then Γ ⊨wK φ.
+
+        Anything our tableau derives should be semantically valid.
+        """
+        p, q = Formula.atoms("p", "q")
+
+        # Modus ponens: p, p → q ⊢ q
+        premises = [p, p.implies(q)]
+        conclusion = q
+
+        # If tableau derives this, it should be semantically valid
+        is_entailed = entails(premises, conclusion)
+        assert is_entailed, "Modus ponens should be valid (soundness test)"
+
+        # Invalid inference should be rejected
+        invalid_premises = [p]
+        invalid_conclusion = q
+
+        is_invalid = entails(invalid_premises, invalid_conclusion)
+        assert not is_invalid, "Invalid inference should be rejected (soundness test)"
+
+    def test_completeness_basic_cases(self):
+        """Test basic cases that should be derivable (completeness indication)."""
+        p = Formula.atom("p")
+
+        # Classical tautologies should be derivable
+        excluded_middle = p | ~p
+        assert valid(excluded_middle), "Classical tautologies should be derivable"
+
+        # Classical contradictions should be unsatisfiable
+        contradiction = p & ~p
+        result = solve(contradiction, T)
+        assert not result.satisfiable, "Contradictions should be unsatisfiable"
+
+
+class TestFergusonModelExtraction:
+    """Test Ferguson's Definition 12: model extraction from open branches."""
+
+    def test_model_extraction_reflects_signs(self):
+        """Test that extracted models reflect the sign semantics.
+
+        Ferguson's Lemma 1: "if v : φ is on B, then IB(φ) = v"
+        This means signs map directly to truth values in extracted models.
+        """
+        p = Formula.atom("p")
+
+        # T:p should produce models where p is true
+        result_t = solve(p, T)
+        assert result_t.satisfiable
+        for model in result_t.models:
+            # Model should assign true to p
+            assert str(model.valuations.get("p", "")).startswith(
+                "t"
+            ), "T:p should produce models where p is true"
+
+        # F:p should produce models where p is false
+        result_f = solve(p, F)
+        assert result_f.satisfiable
+        for model in result_f.models:
+            # Model should assign false to p
+            assert str(model.valuations.get("p", "")).startswith(
+                "f"
+            ), "F:p should produce models where p is false"
+
+        # N:p should produce models where p is undefined
+        result_n = solve(p, N)
+        assert result_n.satisfiable
+        for model in result_n.models:
+            # Model should assign undefined to p
+            assert str(model.valuations.get("p", "")).startswith(
+                "e"
+            ), "N:p should produce models where p is undefined"
+
+
+# Summary test to confirm overall Ferguson compliance
+class TestOverallFergusonCompliance:
+    """High-level tests confirming our implementation matches Ferguson (2021)."""
+
+    def test_ferguson_system_characteristics(self):
+        """Test the key characteristics of Ferguson's hybrid system."""
+        p, q = Formula.atoms("p", "q")
+
+        # 1. Weak Kleene semantics with contagious undefined
+        # 2. Classical validity (truth preservation)
+        # 3. Practical reasoning patterns
+        # 4. Four-sign system for tableau construction
+
+        # Classical reasoning should work
+        modus_ponens_valid = entails([p, p.implies(q)], q)
+        assert modus_ponens_valid, "Classical reasoning should work"
+
+        # Tautologies should be valid
+        tautology_valid = valid(p | ~p)
+        assert tautology_valid, "Classical tautologies should be valid"
+
+        # Epistemic uncertainty should be representable
+        epistemic_satisfiable = solve(p & ~p, M).satisfiable
+        assert epistemic_satisfiable, "Epistemic uncertainty should be representable"
+
+        # Four signs should all be meaningful
+        for sign in [T, F, M, N]:
+            result = solve(p, sign)
+            assert result.satisfiable, "All four signs should be satisfiable"
+
+    def test_ferguson_practical_applications(self):
+        """Test that the system supports Ferguson's intended practical applications."""
+        # Knowledge representation, conversational agents, belief cataloging
+
+        # Should handle incomplete information gracefully
+        x = Formula.variable("X")
+        human_x = Formula.predicate("Human", [x])
+        mortal_x = Formula.predicate("Mortal", [x])
+
+        # Restricted quantification for domain-specific reasoning
+        domain_rule = Formula.restricted_forall(x, human_x, mortal_x)
+
+        # Should be satisfiable under epistemic uncertainty
+        result = solve(domain_rule, M)
+        assert result.satisfiable, "Domain rules should support epistemic uncertainty"
