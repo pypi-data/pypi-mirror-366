@@ -1,0 +1,270 @@
+import json
+from typing import Any, AsyncGenerator, Callable, Optional
+
+import uvicorn
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse, StreamingResponse
+from pydantic import ValidationError
+
+from llmbrick.core.exceptions import LLMBrickException, ValidationException
+from llmbrick.protocols.models.http.conversation import (
+    ConversationSSERequest,
+    ConversationSSEResponse,
+)
+from llmbrick.servers.sse.config import SSEServerConfig
+from llmbrick.utils.logging import logger
+
+
+class SSEServer:
+    def __init__(
+        self,
+        handler: Optional[
+            Callable[[ConversationSSERequest], AsyncGenerator[ConversationSSEResponse, None]]
+        ] = None,
+        config: Optional[SSEServerConfig] = None,
+        # 保持向後相容性的參數
+        chat_completions_path: Optional[str] = None,
+        prefix: Optional[str] = None,
+        # 自定義驗證器
+        custom_validator: Optional[Any] = None,
+    ):
+        # 初始化配置
+        if config is None:
+            config = SSEServerConfig()
+        
+        # 向後相容性：如果提供了舊參數，則覆蓋配置
+        if chat_completions_path is not None:
+            config.chat_completions_path = chat_completions_path
+        if prefix is not None:
+            config.prefix = prefix
+            
+        self.config = config
+        self.custom_validator = custom_validator
+        self.app = FastAPI(
+            title="LLMBrick SSE Server",
+            description="Server-Sent Events API for LLM conversations",
+            debug=self.config.debug_mode
+        )
+
+        # 註冊 LLMBrickException handler
+        @self.app.exception_handler(LLMBrickException)
+        async def llmbrick_exception_handler(
+            _: Any, exc: LLMBrickException
+        ) -> JSONResponse:
+            logger.error(f"LLMBrickException: {exc}")
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "error": "LLMBrick Exception",
+                    "error_code": exc.code.value,
+                    "error_name": exc.code.name,
+                    "message": exc.message,
+                    "details": exc.detail,
+                }
+            )
+
+        # 註冊 ValidationException handler
+        @self.app.exception_handler(ValidationException)
+        async def validation_exception_handler(
+            _: Any, exc: ValidationException
+        ) -> JSONResponse:
+            logger.error(f"ValidationException: {exc}")
+            return JSONResponse(
+                status_code=422,
+                content={
+                    "error": "Validation Exception",
+                    "error_code": exc.code.value,
+                    "error_name": exc.code.name,
+                    "message": exc.message,
+                    "details": exc.detail,
+                }
+            )
+
+        # 處理 prefix 格式，確保開頭有 /，結尾無 /
+        if self.config.prefix and not self.config.prefix.startswith("/"):
+            self.config.prefix = "/" + self.config.prefix
+        if self.config.prefix.endswith("/") and self.config.prefix != "/":
+            self.config.prefix = self.config.prefix[:-1]
+        
+        # 處理 path 格式，確保開頭有 /
+        if not self.config.chat_completions_path.startswith("/"):
+            self.config.chat_completions_path = "/" + self.config.chat_completions_path
+        if handler is not None:
+            self.set_handler(handler)
+
+    @property
+    def fastapi_app(self) -> FastAPI:
+        return self.app
+
+    def set_handler(
+        self, func: Callable[[ConversationSSERequest], AsyncGenerator[ConversationSSEResponse, None]]
+    ) -> None:
+        """
+        直接設定主 handler，handler 必須為 async generator，yield event dict
+        """
+        self._handler = func
+        self.setup_routes()
+
+    def handler(
+        self, func: Callable[[ConversationSSERequest], AsyncGenerator[ConversationSSEResponse, None]]
+    ) -> Callable[[ConversationSSERequest], AsyncGenerator[ConversationSSEResponse, None]]:
+        """
+        Decorator 註冊主 handler，handler 必須為 async generator，yield event dict
+        用法：
+            @server.handler
+            async def my_handler(...): ...
+        """
+        self.set_handler(func)
+        self.setup_routes()
+        return func
+
+    def _validate_event(self, event: Any) -> tuple[bool, str]:
+        """強化型態與內容驗證，回傳(是否有效, 錯誤訊息)"""
+        if not isinstance(event, ConversationSSEResponse):
+            return False, f"Event must be ConversationSSEResponse, got {type(event)}"
+        # 必要欄位檢查
+        if not getattr(event, "id", None):
+            return False, "Event.id is required"
+        if not getattr(event, "type", None):
+            return False, "Event.type is required"
+        if not getattr(event, "progress", None):
+            return False, "Event.progress is required"
+        if event.progress not in ["IN_PROGRESS", "DONE"]:
+            return False, f"Invalid progress value: {event.progress}"
+        return True, ""
+
+    def setup_routes(self) -> None:
+        full_path = self.config.prefix + self.config.chat_completions_path
+
+        @self.app.post(
+            full_path,
+            response_description="SSE response stream",
+            response_model=ConversationSSEResponse,
+            response_model_by_alias=True,
+        )
+        async def chat_completions(request: Request) -> StreamingResponse:
+            # 檢查 Accept header 是否包含 text/event-stream
+            accept_header = request.headers.get("accept", "")
+            if "text/event-stream" not in accept_header:
+                raise HTTPException(
+                    status_code=406,
+                    detail={
+                        "error": "Accept header must include 'text/event-stream' for SSE"
+                    },
+                )
+            try:
+                # 先檢查 body 是否為空
+                raw_body = await request.body()
+                if not raw_body or raw_body.strip() == b"" or raw_body.strip() == b"{}":
+                    raise HTTPException(
+                        status_code=400,
+                        detail={
+                            "error": "Empty request body",
+                            "details": "Request body is empty. Please provide a valid JSON object.",
+                        },
+                    )
+                try:
+                    body_json = await request.json()
+                except Exception as e:
+                    raise HTTPException(
+                        status_code=400,
+                        detail={
+                            "error": "Malformed JSON",
+                            "details": str(e),
+                        },
+                    )
+                try:
+                    req = ConversationSSERequest.model_validate(body_json)
+                except ValidationError as ve:
+                    raise HTTPException(
+                        status_code=422,
+                        detail={
+                            "error": "Invalid request schema",
+                            "details": ve.errors(),
+                            "input": body_json,
+                            "message": "Request body does not conform to ConversationSSERequest schema. See 'details' for field errors.",
+                        },
+                    )
+            except HTTPException:
+                raise
+            except Exception as e:
+                raise HTTPException(
+                    status_code=400,
+                    detail={
+                        "error": "Malformed request",
+                        "details": str(e),
+                    },
+                )
+            if not hasattr(self, "_handler") or self._handler is None:
+                raise HTTPException(
+                    status_code=404, detail={"error": "Handler not set"}
+                )
+
+            from llmbrick.servers.sse.validators import ConversationSSERequestValidator
+            from llmbrick.core.exceptions import ValidationException
+            
+            # 請求日誌
+            if self.config.enable_request_logging:
+                logger.info(f"SSE request received: model={req.model}, session_id={req.session_id}")
+            
+            async def event_stream() -> AsyncGenerator[str, None]:
+                try:
+                    # 業務邏輯驗證
+                    try:
+                        if self.custom_validator:
+                            # 使用自定義驗證器
+                            self.custom_validator.validate(
+                                req,
+                                allowed_models=self.config.allowed_models,
+                                max_message_length=self.config.max_message_length,
+                                max_messages_count=self.config.max_messages_count
+                            )
+                        else:
+                            # 使用預設驗證器
+                            ConversationSSERequestValidator.validate(
+                                req,
+                                allowed_models=self.config.allowed_models,
+                                max_message_length=self.config.max_message_length,
+                                max_messages_count=self.config.max_messages_count
+                            )
+                    except ValidationException as ve:
+                        error_details = str(ve) if self.config.enable_validation_details else "Business validation failed"
+                        yield f"event: error\ndata: {json.dumps({'error': 'Business validation failed', 'details': error_details})}\n\n"
+                        return
+                    
+                    async for event in self._handler(body_json):
+                        valid, err_msg = self._validate_event(event)
+                        if not valid:
+                            error_details = err_msg if self.config.debug_mode else "Server returned invalid event"
+                            yield f"event: error\ndata: {json.dumps({'error': 'Server returned invalid event', 'details': error_details})}\n\n"
+                            break
+                        yield f"event: message\ndata: {event.model_dump_json()}\n\n"
+                except Exception as e:
+                    error_details = str(e) if self.config.debug_mode else "Handler exception occurred"
+                    if self.config.debug_mode:
+                        logger.exception("Handler exception in SSE stream")
+                    yield f"event: error\ndata: {json.dumps({'error': 'Handler exception', 'details': error_details})}\n\n"
+
+            return StreamingResponse(event_stream(), media_type="text/event-stream")
+
+    def run(self, host: Optional[str] = None, port: Optional[int] = None) -> None:
+        """
+        啟動 FastAPI SSE 服務
+        """
+        # 使用配置中的值，如果沒有提供參數的話
+        actual_host = host or self.config.host
+        actual_port = port or self.config.port
+        
+        full_path = self.config.prefix + self.config.chat_completions_path
+        logger.info(
+            f"SSE Server starting at: http://{actual_host}:{actual_port}{full_path}"
+        )
+        logger.info(f"Debug mode: {self.config.debug_mode}")
+        logger.info(f"Allowed models: {self.config.allowed_models}")
+        
+        uvicorn.run(
+            self.app,
+            host=actual_host,
+            port=actual_port,
+            log_level="debug" if self.config.debug_mode else "info"
+        )
