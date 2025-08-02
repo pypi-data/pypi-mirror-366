@@ -1,0 +1,119 @@
+Metadata-Version: 2.4
+Name: yaapp
+Version: 0.0.24
+Summary: Yet Another Python Package - A library bridging FastAPI and CLI interfaces
+Author: yaapp Team
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yaapp-team/yaapp
+Project-URL: Documentation, https://yaapp.readthedocs.io
+Project-URL: Repository, https://github.com/yaapp-team/yaapp
+Project-URL: Issues, https://github.com/yaapp-team/yaapp/issues
+Project-URL: Changelog, https://github.com/yaapp-team/yaapp/blob/main/CHANGELOG.md
+Keywords: cli,web,fastapi,click,bridge
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.100.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: uvicorn[standard]>=0.23.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: requests>=2.32.4
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: docker>=7.1.0
+Requires-Dist: gradio>=4.44.1
+Requires-Dist: nicegui>=2.22.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Provides-Extra: tui
+Requires-Dist: prompt-toolkit>=3.0.0; extra == "tui"
+Requires-Dist: typer>=0.9.0; extra == "tui"
+Requires-Dist: rich>=13.0.0; extra == "tui"
+
+# yaapp - Yet Another App Framework
+
+A powerful Python framework for building CLI and web applications with plugin-based architecture.
+
+## 🚀 Quick Start
+
+### Try the Auth Plugin Demo
+```bash
+# Interactive demo launcher
+./examples/plugins/auth/auth-demo.sh
+
+# Or run directly
+./examples/plugins/auth/quick-start.sh           # Basic operations
+python examples/plugins/auth/workflow.py         # Complete demo (Python)
+./examples/plugins/auth/workflow.sh              # Complete demo (Shell)
+```
+
+### Examples
+- **Auth Plugin**: `examples/plugins/auth/` - Complete authentication & authorization
+- **Storage Plugin**: `examples/plugins/storage/` - Data persistence
+- **Issues Plugin**: `examples/plugins/issues/` - Issue tracking
+
+## 📖 Documentation
+
+- **[Development Guide](docs/development.md)** - How to develop with yaapp
+- **[Design Documentation](docs/design.md)** - Architecture and design decisions
+- **[Testing Guide](docs/testing.md)** - Testing strategies and examples
+
+## 🔧 Installation
+
+```bash
+# Install from source
+pip install -e .
+
+# For CLI support
+pip install click
+
+# For web server support
+pip install fastapi uvicorn
+```
+
+## 📁 Project Structure
+
+```
+yaapp/
+├── src/yaapp/           # Core framework
+├── examples/            # Example applications
+│   └── plugins/         # Plugin examples
+│       ├── auth/        # Authentication & authorization
+│       ├── storage/     # Data persistence
+│       └── issues/      # Issue tracking
+├── tests/               # Test suites
+└── docs/                # Documentation
+```
+
+## 🎯 Features
+
+- **Plugin Architecture**: Modular, extensible design
+- **Auto-Discovery**: Automatic plugin detection and configuration
+- **Dual Interface**: Both CLI and web API from the same code
+- **Type Safety**: Full type hints and validation
+- **Configuration**: JSON/YAML configuration with environment variables
+- **Storage**: Multiple backends (memory, file, SQLite)
+- **Authentication**: Built-in auth and authorization
+- **Testing**: Comprehensive test framework
+
+## 🤝 Contributing
+
+See the development guide in `docs/development.md` for contribution guidelines.
+
+## 📄 License
+
+[Add your license here]
