@@ -1,0 +1,1 @@
+# MCP runner plugin for yaapp
