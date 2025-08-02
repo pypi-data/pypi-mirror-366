@@ -1,0 +1,17 @@
+[project]
+name = "pymongo-aggregate"
+version = "0.0.1"
+authors = [{name="Giorgio Ripani", email="g.ripani93@gmail.com"}, ]
+description = "MongoDB aggregate operations declared for python"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
+license = "MIT"
+license-files = ["LICENSE.txt"]
+
+[project.urls]
+Homepage = "https://github.com/gripani/PyMongoAggregate/tree/main"
+
+[build-system]
+requires = ["setuptools >= 80.9.0"]
+build-backend = "setuptools.build_meta"
