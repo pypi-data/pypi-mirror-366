@@ -1,0 +1,19 @@
+[project]
+name = "pyfault"
+version = "0.1.4"
+description = "Memfault Python exception handler"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["requests>=2.32.4"]
+license-files = ["LICENSE.txt"]
+
+[dependency-groups]
+dev = ["vendorize>=0.3.0"]
+
+[tool.setuptools]
+py-modules = ["pyfault", "_version"]
+packages = ["_vendor"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"_vendor" = ["**/*"]
