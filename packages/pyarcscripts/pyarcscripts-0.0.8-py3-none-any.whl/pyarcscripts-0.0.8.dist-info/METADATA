@@ -1,0 +1,107 @@
+Metadata-Version: 2.1
+Name: pyarcscripts
+Version: 0.0.8
+Summary: Paquetage Python qui stocke toutes les fonctionnalités utiles de pyArc pouvant être utilisé dans tous projets et modules pyArc
+Home-page: https://github.com/inicode_celestin03/pyarcscripts
+Author: INICODE
+Author-email: contact.inicode@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-multipart (>=0.0.5)
+
+# README
+
+**pyarcscripts** est un paquetage Python pour gÃ©rer les configurations, l'internationalisation et les routes dans les applications FastAPI.
+
+## Builder le projet
+
+### Installations prÃ©alables
+
+* **windows** : python -m pip install sdist bdist_wheel
+* **linux** : sudo -H pip3 install sdist bdist_wheel
+
+### Builder le projet
+
+* **windows** : python setup.py sdist bdist_wheel
+* **linux** : sudo py setup.py sdist bdist_wheel
+
+### Deployer le projet sur pip
+
+* **windows** : python -m twine upload dist/*
+* **linux** : sudo twine upload dist/*
+
+## Git
+
+### Cloner le projet
+
+git init && git remote add origin https://[username]@bitbucket.org/[username]/pypyarc.git && git config user.email [email] && git checkout -b [branche] && git pull origin [branche]
+
+### Pousser le projet
+
+git checkout [branche] && git add -A && git fetch && git merge [branche] && git commit -am "[le message commit]" && git push -u origin [branche]
+
+## Tests
+
+* **windows** : cls && python test.py
+* **linux** : clear && python test.py
+
+## Docstring
+
+### Installations prÃ©alables
+
+* **windows** : python -m pip install pdoc3
+* **linux** : sudo -H pip3 install pdoc3
+
+### Au prÃ©alable
+
+Documenter aux prÃ©alables son code.
+
+### Generer une documentation
+
+* **windows** : python -m pdoc [projet]
+* **linux** : sudo pdoc [projet]
+
+### Exemple d'utilisation
+
+```python 
+from fastapi import FastAPI
+from pyarcscripts import init_app, t, cfg, register_routes
+
+app = FastAPI()
+init_app()
+
+# Use translations
+print(t("hello.world"))  # Returns translation for "hello.world"
+
+# Use configurations
+print(cfg("database.url"))  # Returns configuration value for "database.url"
+
+# Register routes
+router = APIRouter()
+register_routes(router, "path/to/routes")
+app.include_router(router)
+```
+
+### Structure recommandÃ©e pour l'application utilisant ce package
+
+```
+arc_project/
+â”œâ”€â”€ config.xml
+â”œâ”€â”€ locales/
+â”‚   â””â”€â”€ fr.json
+â”œâ”€â”€ modules/
+â”‚   â””â”€â”€ votre_module/
+â”‚       â”œâ”€â”€ config.xml
+â”‚       â””â”€â”€ locales/
+â”‚           â””â”€â”€ fr.json
+â””â”€â”€ routes/
+    â””â”€â”€ vos_routes/
+        â””â”€â”€ *.py
+```
+
