@@ -1,0 +1,19 @@
+[project]
+name = "p2pshare-cli"
+version = "0.1.1"
+description = "A CLI tool for peer-to-peer file sharing with QR codes"
+authors = [
+    { name = "zhuosiwaaa", email = "you@example.com" }
+]
+dependencies = [
+    "waitress",
+    "qrcode",
+    "flask",
+    "setuptools",
+    "Werkzeug"
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
