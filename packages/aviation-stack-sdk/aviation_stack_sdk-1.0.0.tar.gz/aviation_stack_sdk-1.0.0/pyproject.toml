@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "aviation-stack-sdk"
+description = "AviationStack API: A comprehensive aviation data API that provides real-time flight tracking, status information, and access to aviation databases including flights, routes, airports, airlines, aircraft types, and schedules. It enables developers to retrieve live flight data and comprehensive aviation information through RESTful endpoints."
+version = "1.0.0"
+readme = "README.md"
+keywords = []
+dependencies = ["apimatic-core~=0.2.0, >= 0.2.20", "apimatic-core-interfaces~=0.1.0, >= 0.1.5", "apimatic-requests-client-adapter~=0.1.0, >= 0.1.6"]
+classifiers = []
+requires-python = ">=3.7"
+[[project.authors]]
+name = "Muhammad Hamza Shahzad"
+email = "muhammad.hamza@apimatic.io"
+
+[project.urls]
+Documentation = "https://docs.apimatic.io/"
+[project.optional-dependencies]
+testutils = ["pytest>=7.2.2"]
+[tool]
+[tool.setuptools]
+[tool.setuptools.packages]
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
