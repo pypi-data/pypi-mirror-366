@@ -1,0 +1,81 @@
+Metadata-Version: 2.4
+Name: dirstat
+Version: 0.1.2
+Summary: A single-file no-dependency Python program (also usable as a library module) to efficiently gather directory statistics.
+Author-email: Sébastien Hocquet <seb@ipamo.net>
+Project-URL: Homepage, https://gitlab.com/ipamo/dirstat
+Project-URL: Bug Tracker, https://gitlab.com/ipamo/dirstat/issues
+Keywords: single,directory,statistics,dirstat,windirstat
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Environment :: Console
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Dynamic: license-file
+
+PyDirStat
+=========
+
+A single-file no-dependency Python program (also usable as a library module) to efficiently gather directory statistics.
+
+
+## Installation
+
+Install from [the Python Package Index](https://pypi.org/project/dirstat/):
+
+```sh
+pip install dirstat
+```
+
+Install from [source repository](https://gitlab.com/ipamo/dirstat) (example on Linux):
+
+```sh
+sudo wget https://gitlab.com/ipamo/dirstat/-/raw/main/dirstat.py -O /opt/dirstat.py
+sudo chmod +x /opt/dirstat.py
+sudo ln -s /opt/dirstat.py /usr/local/bin/dirstat
+```
+
+
+## Usage
+
+Run as an application:
+
+```sh
+dirstat MYDIR
+```
+
+Use as a library:
+
+```py
+from dirstat import DirStatOperation
+
+with DirStatOperation(MYDIR) as op:
+    op.run()
+```
+
+Run the following command to display available options:
+
+```sh
+dirstat --help
+```
+
+
+## Contributing
+
+Pull requests are welcome.
+
+See [contributing guidelines](https://gitlab.com/ipamo/dirstat/-/blob/main/CONTRIBUTING.md) and [roadmap](https://gitlab.com/ipamo/dirstat/-/blob/main/docs/ROADMAP.md).
+
+
+## Legal and credits
+
+This project is licensed under the terms of the [MIT license](https://gitlab.com/ipamo/dirstat/-/raw/main/LICENSE.txt).
+
+It is inspired from the following projects:
+- [WinDirStat](https://windirstat.net/) : Windows only.
+- [QDirStat](https://github.com/shundhammer/qdirstat) : Linux only.
+- Gaël Girodon's [DirStat](https://github.com/GaelGirodon/dirstat) : written in Go.
