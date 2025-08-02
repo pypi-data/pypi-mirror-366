@@ -1,0 +1,20 @@
+[project]
+name = "eucal"
+version = "0.1.5"
+description = "Evaluation & Utilization of Clocked Activity Logs"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.2.1",
+    "pdfplumber >=0.11.7",    
+]
+
+[tool.poetry]
+packages = [{include = "eucal", from = "src"}]
+
+[tool.poetry.scripts]
+eucal = "eucal.__main__:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
