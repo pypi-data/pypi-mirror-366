@@ -1,0 +1,30 @@
+[CDF-25357] ☠ Add kill switch (#1805)
+
+# Description
+
+We use the `WorkerProducerExecutor` to download large amounts of data.
+This PR introduces a kill-switch to enable the user to abort this
+operation.
+
+<img width="727" height="157" alt="image"
+src="https://github.com/user-attachments/assets/1d2949a9-9611-4d6c-8996-27c586c68267"
+/>
+
+
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Added
+
+- [alpha] In the `cdf dump data` methods, the user can now stop the
+downloading of data.
+
+## templates
+
+No changes.
