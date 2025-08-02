@@ -1,0 +1,13 @@
+{
+  "language": "python",
+  "ops": [
+    {"keyword": "def", "type": "function", "args": "name(params):", "body": "block"},
+    {"keyword": "class", "type": "class", "args": "name:", "body": "block"},
+    {"keyword": "if", "type": "branch", "args": "condition:", "body": "block"},
+    {"keyword": "elif", "type": "branch_else", "args": "condition:", "body": "block"},
+    {"keyword": "else", "type": "branch_else", "args": "", "body": "block"},
+    {"keyword": "for", "type": "loop", "args": "var in iterable:", "body": "block"},
+    {"keyword": "while", "type": "loop", "args": "condition:", "body": "block"},
+    {"keyword": "return", "type": "return", "args": "value", "body": null}
+  ]
+}
