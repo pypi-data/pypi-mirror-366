@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+
+# from ltc_client.worker import StandardWorker, DefaultIdLogFilter, HostnameFilter
+from ltc_client.api import Api, NameQuantityPair, Quantity, Unit, Log
+from ltc_client.helpers import Machine, Job, Material, decode
+
+__title__ = "TINARM - Node creation tool for TAE workers"
+__version__ = "0.2.28"
+__author__ = "Martin West, Chris Wallis"
+__license__ = "MIT License"
+__copyright__ = "Copyright 2023 Tin Arm Engineering Ltd."
