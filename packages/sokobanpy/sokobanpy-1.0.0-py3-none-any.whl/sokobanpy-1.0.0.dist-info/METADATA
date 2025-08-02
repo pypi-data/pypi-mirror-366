@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: sokobanpy
+Version: 1.0.0
+Summary: Sokoban in Python.
+Author-email: Quan Lin <jacklinquan@gmail.com>
+Project-URL: Homepage, https://github.com/jacklinquan/sokobanpy
+Keywords: sokoban
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: mkdocs; extra == "dev"
+Requires-Dist: mkdocstrings-python; extra == "dev"
+
+# sokobanpy
+
+Sokoban in Python.
+
+---
+
+## What is Sokoban?
+
+Sokoban is a classic puzzle game
+where the player pushes boxes onto designated goal positions within a warehouse-like environment.
+The game is played on a grid, and each element is represented by a standard character:
+
+- `"#"`: Wall
+- `"@"`: Player (Sokoban)
+- `"$"`: Box
+- `"."`: Goal
+- `"*"`: Box on a goal
+- `"+"`: Player on a goal
+- `" "`: Empty space
+
+### Objective
+Move all boxes (`"$"`) onto the goal positions (`"."`) using the player (`"@"`).
+Boxes can only be pushed (not pulled), and only one box can be pushed at a time.
+The player cannot move through walls or boxes.
+
+### How to play
+Use directional controls to move the player.
+Strategically plan moves to avoid pushing boxes into corners or against walls
+where they can't be retrieved.
+The puzzle is solved when all boxes are on goal tiles (`"*"`).
+
+---
+
+For details, please refer to the [Homepage](https://github.com/jacklinquan/sokobanpy).
