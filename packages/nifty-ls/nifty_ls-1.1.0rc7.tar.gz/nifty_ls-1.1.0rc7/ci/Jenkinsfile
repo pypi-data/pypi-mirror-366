@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+        dockerfile {
+            filename 'ci/Dockerfile'
+            args '--gpus 1'
+            label 'docker && gpu'
+        }
+    }
+    options {
+        timeout(time: 1, unit: 'HOURS')
+    }
+    environment {
+        HOME = "$WORKSPACE"
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'uv sync -v --extra cuda'
+            }
+        }
+        stage('Test') {
+            environment {
+                OMP_NUM_THREADS = "$PARALLEL"
+            }
+            steps {
+                sh 'uv run --extra cuda pytest -v'
+            }
+        }
+    }
+}

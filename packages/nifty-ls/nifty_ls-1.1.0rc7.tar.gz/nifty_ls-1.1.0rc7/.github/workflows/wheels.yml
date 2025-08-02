@@ -1,0 +1,102 @@
+name: Build
+
+# Build, test, and upload wheels for every version tag. Note that PyPI will
+# automatically label versions with modifiers like 1.0.0a1 or 1.0.0rc1 as pre-releases.
+# For a real release, tag the version, check that this action succeeded, then make a
+# GitHub release.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build_wheels:
+    name: Build ${{ matrix.label }} wheels
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: "linux-target-x86_64"
+            os: ubuntu-24.04
+          - label: "macos-target-x86_64"
+            os: macos-13
+          - label: "macos-target-arm64"
+            os: macos-14
+
+    env:
+      # All the MacOS logic is adapted directly from finufft
+      CIBW_ENVIRONMENT_MACOS: >
+        CC=$(brew --prefix llvm)/bin/clang
+        CXX=$(brew --prefix llvm)/bin/clang++
+        CFLAGS="-I$(brew --prefix libomp)/include"
+        LDFLAGS="-L$(brew --prefix libomp)/lib"
+        MACOSX_DEPLOYMENT_TARGET=${{ matrix.os == 'macos-14' && '14' || '13' }}
+      CIBW_CONFIG_SETTINGS: "cmake.verbose=true cmake.define.CMAKE_COMPILE_WARNING_AS_ERROR=ON"
+      CIBW_BUILD_VERBOSITY: 1
+      CIBW_BEFORE_ALL_MACOS: |
+        brew install llvm libomp
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        if: runner.os == 'macOS'  # macos doesn't run in a container and uses external uv
+        with:
+          version: "0.8.4"
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.1.2
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.label }}
+          path: ./wheelhouse/*.whl
+
+      # - name: Setup tmate session
+      #   if: ${{ failure() }}
+      #   uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     limit-access-to-actor: true
+
+  make_sdist:
+    name: Make SDist
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "0.8.4"
+
+    - name: Build SDist
+      run: |
+        uv build --sdist
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: cibw-sdist
+        path: dist/*.tar.gz
+
+  upload_all:
+    needs: [build_wheels, make_sdist]
+    environment: pypi
+
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: cibw-*
+        path: dist
+        merge-multiple: true
+
+    - uses: pypa/gh-action-pypi-publish@release/v1
