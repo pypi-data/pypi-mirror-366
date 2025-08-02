@@ -1,0 +1,168 @@
+Metadata-Version: 2.4
+Name: rdxz2-utill
+Version: 0.1.0
+Summary: Your daily Python utility
+Author-email: Richard Dharmawan <richard.dharmawan@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 Richard Dharmawan
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click
+Requires-Dist: duckdb
+Requires-Dist: humanize
+Requires-Dist: loguru
+Requires-Dist: paramiko
+Requires-Dist: pydantic-settings
+Requires-Dist: pydantic
+Requires-Dist: requests
+Requires-Dist: sshtunnel==0.4.0
+Provides-Extra: google-cloud
+Requires-Dist: google-cloud-bigquery; extra == "google-cloud"
+Requires-Dist: google-cloud-storage; extra == "google-cloud"
+Provides-Extra: postgresql
+Requires-Dist: psycopg; extra == "postgresql"
+Provides-Extra: pdf
+Requires-Dist: PyPDF2; extra == "pdf"
+Dynamic: license-file
+
+# Using this library
+
+Installation
+
+```sh
+pip install utill
+```
+
+Usage syntax
+
+```py
+from utill.__MODULE__ import __OBJECT__
+```
+
+Example
+
+```py
+# Using the string module
+from utill.my_string import generate_random_string
+
+print(generate_random_string(16))
+```
+
+## Initial set up
+
+This package contains CLI command
+
+```sh
+utill conf init
+```
+
+# Additional extensions
+
+Syntax
+
+```sh
+pip install utill[__EXTENSION_NAME__]
+```
+
+Extension list:
+
+- google-cloud
+- postgresql
+- pdf
+
+# Per module usages
+
+## my_bq
+
+Executing a query
+
+```py
+from utill.my_bq import BQ
+
+# Initialize BigQuery client
+bq = BQ()
+
+# Execute a query, returns iterable QueryJob
+job = bq.execute_query('...')
+
+# Convert into list for quick data conversion
+results = list(job)
+
+# Iterate the results
+for row in job:
+    # Do anything with the row
+```
+
+Uploading CSV file into BigQuery table
+
+```py
+from utill.my_bq import BQ, Dtype, LoadStrategy
+
+# Initialize BigQuery client
+bq = BQ()
+
+# Load the data
+filename = '/path/to/file.csv'  # Your local CSV file location
+bq_table_fqn = 'project.dataset.table'  # An FQN (fully qualified name) of a BigQuery table to export
+columns = {
+    'col1': Dtype.INT64,
+    'col2': Dtype.STRING,
+    'col3': Dtype.DATE,
+    ...
+}
+partition_col = 'col3'  # Optional, for performance and cost optimization
+cluster_cols = ['col1']  # Optional, for performance and cost optimization
+load_strategy = LoadStrategy.APPEND  # Optional, default to APPEND
+bq.upload_csv(filename, bq_table_fqn, columns, partition_col, cluster_cols, load_strategy)
+```
+
+Exporting query into CSV
+
+```py
+from utill.my_bq import BQ
+
+# Initialize BigQuery client
+bq = BQ()
+
+query = 'SELECT * FROM `project.dataset.table`'  # The query to export
+filename = '/path/to/file.csv'  # Destination CSV file location
+bq.download_csv(query, filename)
+```
+
+Exporting table into XLSX
+
+```py
+from utill.my_bq import BQ
+
+# Initialize BigQuery client
+bq = BQ()
+
+bq_table_fqn = 'project.dataset.table'  # An FQN (fully qualified name) of a BigQuery table to export
+filename = '/path/to/file.xlsx'  # Destination XLSX file location
+bq.download_xlsx(src_table_fqn, dst_filename)
+```
