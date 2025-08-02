@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: DiSTNet2D
+Version: 0.2.0
+Summary: tensorflow/keras implementation of DiSTNet 2D
+Home-page: https://github.com/jeanollion/distnet2d
+Download-URL: https://github.com/jeanollion/distnet2d/releases/download/v0.1.9/distnet2d-0.1.9.tar.gz
+Author: Jean Ollion
+Author-email: jean.ollion@polytechnique.org
+Keywords: Segmentation,Tracking,Cell,Tensorflow,Keras
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: tensorflow>=2.7.1
+Requires-Dist: edt>=2.0.2
+Requires-Dist: scikit-fmm
+Requires-Dist: numba
+Requires-Dist: dataset_iterator>=0.5.3
+Requires-Dist: elasticdeform>=0.4.7
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# DistNet2D: Leveraging long-range temporal information for efficient segmentation and tracking
+
+This repository contains python code for training the neural network.
+
+[Link to preprint](https://arxiv.org/abs/2310.19641)
+
+[Link to tutorial](https://github.com/jeanollion/bacmman/wiki/DistNet2D)
+
+Jean Ollion, Martin Maliet, Caroline Giuglaris, Elise Vacher, Maxime Deforet
+
+Extracting long tracks and lineages from videomicroscopy requires an extremely low error rate, which is challenging on complex datasets of dense or deforming cells. Leveraging temporal context is key to overcoming this challenge. We propose DistNet2D, a new deep neural network (DNN) architecture for 2D cell segmentation and tracking that leverages both mid- and long-term temporal information. DistNet2D considers seven frames at the input and uses a post-processing procedure that exploits information from the entire video to correct segmentation errors. DistNet2D outperforms two recent methods on two experimental datasets, one containing densely packed bacterial cells and the other containing eukaryotic cells. It is integrated into an ImageJ-based graphical user interface for 2D data visualization, curation, and training. Finally, we demonstrate the performance of DistNet2D on correlating the size and shape of cells with their transport properties over large statistics, for both bacterial and eukaryotic cells.
