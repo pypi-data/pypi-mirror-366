@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: d3s-nagios-plugins
+Version: 1.0.4
+Summary: Collection of various Nagios plugins
+Home-page: https://github.com/d-iii-s/d3s-nagios-plugins
+Author: Vojtech Horky
+Author-email: horky@d3s.mff.cuni.cz
+License: Apache-2.0
+Keywords: Nagios monitoring
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# D3S Nagios Plugins
+
+A collection of various mini-plugins for Nagios.
+
+
+
+## Installation (inside virtualenv)
+
+```shell
+python -m venv env
+. ./env/bin/activate
+pip install -e .
+# Now it is possible to run any of the ./env/bin/nagios_d3s_check_* scripts
+```
+
+
+
+## Available plugins
+
+
+### `check_health`
+
+Only collects basic system status (uptime, free memory, ...), useful only
+for performance data analysis.
+
+
+### `check_memory`
+
+Checks available memory.
+
+
+### `check_os_updates`
+
+Checks that GNU/Linux system is up-to-date.
+
+
+### `check_systemd_service`
+
+Checks that systemd unit is enabled and running.
