@@ -1,0 +1,96 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel>=0.37.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dj_notif"
+version = "0.2.0"
+description = "A comprehensive Django package for managing notifications with automatic dispatching, WebSocket-based real-time delivery, and category-based organization"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Armin Fekri", email = "armiin.fekri1@gmail.com" },
+]
+maintainers = [
+    { name = "Armin Fekri", email = "armiin.fekri1@gmail.com" },
+]
+keywords = [
+    "django", 
+    "notifications", 
+    "websocket", 
+    "real-time", 
+    "channels", 
+    "jwt", 
+    "broadcast", 
+    "rest-api"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Communications",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "django>=5.2",
+    "djangorestframework>=3.15.2",
+    "channels>=4.2.0",
+    "django-channels-jwt>=0.0.3",
+    "channels-redis>=4.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-django>=4.5.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Hexoder/DjangoNotification"
+Documentation = "https://github.com/Hexoder/DjangoNotification#readme"
+Repository = "https://github.com/Hexoder/DjangoNotification"
+Issues = "https://github.com/Hexoder/DjangoNotification/issues"
+Changelog = "https://github.com/Hexoder/DjangoNotification/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dj_notif*"]
+
+[tool.setuptools.package-data]
+dj_notif = ["*.py", "*.md", "LICENSE"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "test_settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "-v --tb=short"
+
