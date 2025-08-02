@@ -1,0 +1,216 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build_wheels:
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          # Linux x86_64
+          - os: ubuntu-22.04
+            arch: x86_64
+            target: linux
+            rust-target: x86_64-unknown-linux-gnu
+            python-version: "3.9"
+          - os: ubuntu-22.04
+            arch: x86_64
+            target: linux
+            rust-target: x86_64-unknown-linux-gnu
+            python-version: "3.10"
+          - os: ubuntu-22.04
+            arch: x86_64
+            target: linux
+            rust-target: x86_64-unknown-linux-gnu
+            python-version: "3.11"
+          - os: ubuntu-22.04
+            arch: x86_64
+            target: linux
+            rust-target: x86_64-unknown-linux-gnu
+            python-version: "3.12"
+          - os: ubuntu-22.04
+            arch: x86_64
+            target: linux
+            rust-target: x86_64-unknown-linux-gnu
+            python-version: "3.13"
+          - os: ubuntu-22.04
+            arch: x86_64
+            target: linux
+            rust-target: x86_64-unknown-linux-gnu
+            python-version: "3.14"
+
+          # macOS x86_64
+          - os: macos-latest
+            arch: x86_64
+            target: macos
+            rust-target: x86_64-apple-darwin
+            python-version: "3.9"
+          - os: macos-latest
+            arch: x86_64
+            target: macos
+            rust-target: x86_64-apple-darwin
+            python-version: "3.10"
+          - os: macos-latest
+            arch: x86_64
+            target: macos
+            rust-target: x86_64-apple-darwin
+            python-version: "3.11"
+          - os: macos-latest
+            arch: x86_64
+            target: macos
+            rust-target: x86_64-apple-darwin
+            python-version: "3.12"
+          - os: macos-latest
+            arch: x86_64
+            target: macos
+            rust-target: x86_64-apple-darwin
+            python-version: "3.13"
+          - os: macos-latest
+            arch: x86_64
+            target: macos
+            rust-target: x86_64-apple-darwin
+            python-version: "3.14"
+
+          # macOS aarch64
+          - os: macos-latest
+            arch: aarch64
+            target: macos
+            rust-target: aarch64-apple-darwin
+            python-version: "3.9"
+          - os: macos-latest
+            arch: aarch64
+            target: macos
+            rust-target: aarch64-apple-darwin
+            python-version: "3.10"
+          - os: macos-latest
+            arch: aarch64
+            target: macos
+            rust-target: aarch64-apple-darwin
+            python-version: "3.11"
+          - os: macos-latest
+            arch: aarch64
+            target: macos
+            rust-target: aarch64-apple-darwin
+            python-version: "3.12"
+          - os: macos-latest
+            arch: aarch64
+            target: macos
+            rust-target: aarch64-apple-darwin
+            python-version: "3.13"
+          - os: macos-latest
+            arch: aarch64
+            target: macos
+            rust-target: aarch64-apple-darwin
+            python-version: "3.14"
+
+          # Windows x86_64
+          - os: windows-latest
+            arch: x86_64
+            target: windows
+            rust-target: x86_64-pc-windows-msvc
+            python-version: "3.9"
+          - os: windows-latest
+            arch: x86_64
+            target: windows
+            rust-target: x86_64-pc-windows-msvc
+            python-version: "3.10"
+          - os: windows-latest
+            arch: x86_64
+            target: windows
+            rust-target: x86_64-pc-windows-msvc
+            python-version: "3.11"
+          - os: windows-latest
+            arch: x86_64
+            target: windows
+            rust-target: x86_64-pc-windows-msvc
+            python-version: "3.12"
+          - os: windows-latest
+            arch: x86_64
+            target: windows
+            rust-target: x86_64-pc-windows-msvc
+            python-version: "3.13"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          architecture: ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
+
+      - name: Build wheels
+        uses: PyO3/maturin-action@v1
+        with:
+          args: --release --out dist --interpreter ${{ matrix.python-version }} --target ${{ matrix.rust-target }}
+          rust-toolchain: stable
+
+      - run: ls -lh dist
+        if: matrix.target != 'windows'
+
+      - run: dir dist
+        if: matrix.target == 'windows'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.target }}-${{ matrix.arch }}-${{ matrix.python-version }}
+          path: dist
+
+  build_sdist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build sdist
+        uses: PyO3/maturin-action@v1
+        with:
+          command: sdist
+          args: --out sdist
+      - name: Upload sdist
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: sdist
+
+  Release:
+    needs: [build_wheels, build_sdist]
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Prepare files
+        run: |
+          mkdir dist
+          cp artifacts/sdist/*.tar.gz dist/
+          cp artifacts/wheels*/*.whl dist/
+          ls -l dist
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: uvx twine upload dist/*
