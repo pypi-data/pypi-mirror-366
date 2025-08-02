@@ -1,0 +1,104 @@
+Metadata-Version: 2.4
+Name: typerhook
+Version: 0.1.0
+Summary: Hooks for typer CLIs.
+Project-URL: Homepage, https://github.com/muhamuhamuha/typerhook
+Project-URL: Documentation, https://github.com/muhamuhamuha/typerhook#readme
+Project-URL: Repository, https://github.com/muhamuhamuha/typerhook.git
+Project-URL: Issues, https://github.com/muhamuhamuha/typerhook/issues
+Author-email: muhamuhamuha <ahmedm357@hotmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: cli,command-line,decorator,parameters,typer
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Requires-Dist: typer>=0.16.0
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: isort; extra == 'dev'
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: pytest>=8.4.1; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# TyperHook
+
+## Overview
+
+Hook decorators to enhance Typer CLIs. Current hooks:
+
+1. defaultparams: adapted from GitHub user Antoine adm271828,
+shares parameters between typer commands
+
+## Installation
+
+```bash
+pip install typerhook
+```
+
+## Quick Start
+
+```python
+import typer
+import typerhook
+from typing import Annotated
+
+app = typer.Typer()
+
+def debug_params(
+    ctx: typer.Context,
+    debug: Annotated[bool, typer.Option(help="Enable debug mode")] = False,
+    verbose: Annotated[bool, typer.Option(help="Verbose output")] = False,
+):
+    ctx.ensure_object(dict)
+    ctx.obj['debug'] = debug
+    ctx.obj['verbose'] = verbose
+
+@app.command()
+@typerhook.defaultparams(debug_params)
+def hello(
+    ctx: typer.Context,
+    name: Annotated[str, typer.Option(help="Name to greet")] = "World"
+):
+    debug_mode = ctx.obj.get('debug', False)
+    typer.echo(f"Hello {name}! Debug mode: {debug}; Verbose mode: {verbose}")
+
+@app.command()
+@typerhook.defaultparams(debug_params)
+def bye(
+    ctx: typer.Context,
+    name: Annotated[str, typer.Option(help="Name to greet")] = "World"
+):
+    debug = ctx.obj.get('debug', False)
+    verbose = ctx.obj.get('verbose', False)
+    typer.echo(f"Goodbye {name}! Debug mode: {debug}; Verbose mode: {verbose}")
+
+if __name__ == "__main__":
+    app()
+```
+
+## API Reference
+
+### `defaultparams(extra: Callable, *, drop: Optional[Sequence[str]]=None)`
+
+Decorator factory that adds extra parameters to a Typer command.
+
+**Parameters:**
+- `extra`: Function containing the extra parameters to inject
+- `drop`: List of parameter names to exclude from the final signature
+
+## License
+
+MIT License - see LICENSE file for details.
