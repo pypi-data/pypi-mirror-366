@@ -1,0 +1,112 @@
+.readthedocs.yaml
+LICENSE.txt
+MANIFEST.in
+README.md
+pyproject.toml
+requirements.txt
+setup.cfg
+setup.py
+tox.ini
+Examples/CRS pitfalls.ipynb
+Examples/Converting API Results into Common Data Formats.ipynb
+Examples/Defining Extents for API Queries.ipynb
+Examples/Filtering Attributes for API Queries.ipynb
+Examples/Interactive Plotting for API Results - Folium.ipynb
+Examples/Plotting API Results - GeoPandas, Matplotlib and Contextily.ipynb
+Examples/Post Processing API Queries.ipynb
+Examples/Quick Start Guide.ipynb
+Examples/Setting up an API key.ipynb
+Examples/Using the NGD Features API.ipynb
+Examples/images/1_homescreen.PNG
+Examples/images/2_sign_up.PNG
+Examples/images/3_datahub_homepage.PNG
+Examples/images/4_new_project.PNG
+Examples/images/5_add_api_to_project.PNG
+Examples/images/6_view_api_key.PNG
+Examples/images/CRS.png
+docs/DownloadsAPI.rst
+docs/Extent.rst
+docs/FeaturesAPI.rst
+docs/LinkedIdentifiersAPI.rst
+docs/NGD.rst
+docs/NamesAPI.rst
+docs/PlacesAPI.rst
+docs/Utilities.rst
+docs/conf.py
+docs/index.rst
+docs/readme_link.rst
+docs/requirements.txt
+docs/media/os-logo.png
+media/os-logo.png
+src/osdatahub/__init__.py
+src/osdatahub/bbox.py
+src/osdatahub/codes.py
+src/osdatahub/errors.py
+src/osdatahub/extent.py
+src/osdatahub/filters.py
+src/osdatahub/grow_list.py
+src/osdatahub/ons_api.py
+src/osdatahub/requests_config.py
+src/osdatahub/requests_wrapper.py
+src/osdatahub/spatial_filter_types.py
+src/osdatahub/utils.py
+src/osdatahub.egg-info/PKG-INFO
+src/osdatahub.egg-info/SOURCES.txt
+src/osdatahub.egg-info/dependency_links.txt
+src/osdatahub.egg-info/requires.txt
+src/osdatahub.egg-info/top_level.txt
+src/osdatahub/DownloadsAPI/__init__.py
+src/osdatahub/DownloadsAPI/data_package.py
+src/osdatahub/DownloadsAPI/downloads_api.py
+src/osdatahub/DownloadsAPI/opendata.py
+src/osdatahub/FeaturesAPI/__init__.py
+src/osdatahub/FeaturesAPI/feature_products.py
+src/osdatahub/FeaturesAPI/features_api.py
+src/osdatahub/LinkedIdentifiersAPI/__init__.py
+src/osdatahub/LinkedIdentifiersAPI/linked_identifier_options.py
+src/osdatahub/LinkedIdentifiersAPI/linked_identifiers_api.py
+src/osdatahub/NGD/__init__.py
+src/osdatahub/NGD/crs.py
+src/osdatahub/NGD/ngd_api.py
+src/osdatahub/NamesAPI/__init__.py
+src/osdatahub/NamesAPI/local_types.py
+src/osdatahub/NamesAPI/names_api.py
+src/osdatahub/PlacesAPI/__init__.py
+src/osdatahub/PlacesAPI/places_api.py
+tests/__init__.py
+tests/run_functions.py
+tests/test_clean_polygon.py
+tests/test_downloads_api.py
+tests/test_extent.py
+tests/test_features_api.py
+tests/test_filters.py
+tests/test_grow_list.py
+tests/test_linked_identifiers_api.py
+tests/test_names_api.py
+tests/test_ngd.py
+tests/test_places_api.py
+tests/test_utils.py
+tests/data/__init__.py
+tests/data/clean_polygon_data.py
+tests/data/downloads_data.py
+tests/data/extent_data.py
+tests/data/features_api_data.py
+tests/data/filters_data.py
+tests/data/linked_identifiers_api_data.py
+tests/data/names_data.py
+tests/data/ngd_crs_data.py
+tests/data/ngd_merge_geojsons_data.py
+tests/data/ngd_query_data.py
+tests/data/places_data.py
+tests/data/utils_data.py
+tests/data/clean_polygon_data/get_uncleaned_polygons.py
+tests/data/clean_polygon_data/API (uncleaned)/sites_multipolygon.geojson
+tests/data/clean_polygon_data/API (uncleaned)/sites_multipolygon2.geojson
+tests/data/clean_polygon_data/API (uncleaned)/sites_multipolygon_with_hole.geojson
+tests/data/clean_polygon_data/API (uncleaned)/sites_polygon.geojson
+tests/data/clean_polygon_data/API (uncleaned)/sites_polygon_with_hole.geojson
+tests/data/clean_polygon_data/QGIS/sites_multipolygon.geojson
+tests/data/clean_polygon_data/QGIS/sites_multipolygon2.geojson
+tests/data/clean_polygon_data/QGIS/sites_multipolygon_with_hole.geojson
+tests/data/clean_polygon_data/QGIS/sites_polygon.geojson
+tests/data/clean_polygon_data/QGIS/sites_polygon_with_hole.geojson
