@@ -1,0 +1,22 @@
+Backends (in Breezy upstream)
+- Support for Mercurial
+- Support for Svn
+
+Upstream changes:
+* pngcrush
+* FSF
+
+Debian
+======
+
+* Submit patches against non-Vcs packages to the BTS?
+* Create cherry-pick merge proposals for bug fixes that are forwarded upstream
+ + especially for stable debian releases
+
+- use debian.deb822.GPGV_DEFAULT_KEYRING in upload-pending-changes.py ?
+
+upload-pending-commits.py:
+ * Improve speed of verifying signatures
+
+- support --mode=merge-directive
+- support --mode=debian-bts

@@ -1,0 +1,122 @@
+[build-system]
+requires = ["setuptools>=61.2", "setuptools-rust"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "silver-platter"
+authors = [{name = "Jelmer Vernooij", email = "jelmer@jelmer.uk"}]
+description = "Large scale VCS change management"
+readme = "README.python.md"
+license = "GPL-3.0-or-later"
+keywords = ["git bzr vcs github gitlab launchpad"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: POSIX",
+    "Topic :: Software Development :: Version Control",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "breezy>=3.3.3",
+    "dulwich>=0.20.23",
+    "jinja2",
+    "pyyaml",
+    "ruamel.yaml",
+]
+version = "0.5.48"
+
+[project.urls]
+Homepage = "https://jelmer.uk/code/silver-platter"
+"Bug Tracker" = "https://github.com/jelmer/silver-platter/issues"
+Repository = "https://github.com/jelmer/silver-platter"
+GitHub = "https://github.com/jelmer/silver-platter"
+
+[project.optional-dependencies]
+debian = [
+    "debmutate>=0.3",
+    "python_debian>=0.1.48",
+    "brz-debian",
+]
+launchpad = ["launchpadlib"]
+detect-gbp-dch = ["lintian-brush"]
+testing = [
+    "testtools",
+    "debmutate>=0.3",
+    "python-debian",
+    "brz-debian",
+]
+dev = [
+    "ruff==0.12.5"
+]
+
+[tool.setuptools.packages.find]
+where = ["py"]
+include = ["silver_platter*"]
+
+[tool.setuptools.package-data]
+silver_platter = ["py.typed"]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = [
+    "ANN",
+    "D",
+    "E",
+    "F",
+    "I",
+    "UP",
+]
+ignore = [
+    "ANN001",
+    "ANN002",
+    "ANN003",
+    "ANN201",
+    "ANN202",
+    "ANN204",
+    "ANN206",
+    "ANN401",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D107",
+    "D300",
+    "D417",
+    "E501",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-third-party = ["debian"]
+known-first-party = ["silver_platter"]
+
+[tool.cibuildwheel]
+environment = {PATH="$HOME/.cargo/bin:$PATH"}
+before-build = "pip install -U setuptools-rust && rustup show"
+# breezyshim embeds python3, which doesn't work with pypy
+skip = "pp* *musllinux*"
+
+[tool.cibuildwheel.linux]
+before-build = "if command -v yum; then yum -y install python3-devel openssl-devel libtdb-devel clang libgpg-error-devel libatomic; fi && if command -v apk; then apk add python3-dev openssl-dev pkgconfig tdb-dev llvm clang gpgme-dev; fi && pip install -U setuptools-rust && curl https://sh.rustup.rs -sSf | sh -s -- --profile=minimal -y && rustup show"
+
+[tool.cibuildwheel.macos]
+before-build = "brew install openssl && rustup target add aarch64-apple-darwin && rustup show"
+
+[tool.cibuildwheel.windows]
+before-build = "vcpkg install openssl"
+environment = {CMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"}
