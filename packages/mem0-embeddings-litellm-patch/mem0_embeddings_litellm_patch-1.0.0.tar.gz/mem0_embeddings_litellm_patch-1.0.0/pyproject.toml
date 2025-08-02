@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mem0-embeddings-litellm-patch"
+version = "1.0.0"
+description = "Almost all known embedding model providers available via litellm patch"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Nocyphr", email = "sgu@nocyphr.com"}
+]
+maintainers = [
+    {name = "Nocyphr", email = "sgu@nocyphr.com"}
+]
+keywords = ["mem0", "litellm", "embeddings", "ai", "memory", "patch"]
+requires-python = ">=3.8"
+dependencies = [
+    "mem0ai>=0.1.0",
+    "litellm>=1.0.0",
+]
+
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+packages = ["mem0"]
