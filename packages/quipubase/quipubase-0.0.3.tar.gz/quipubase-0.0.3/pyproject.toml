@@ -1,0 +1,12 @@
+[project]
+name = "quipubase"
+version = "0.0.3"
+description = "Quipubase Python Client"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic",
+    "httpx",
+    "loguru>=0.7.3",
+    "openai>=1.98.0",
+]
