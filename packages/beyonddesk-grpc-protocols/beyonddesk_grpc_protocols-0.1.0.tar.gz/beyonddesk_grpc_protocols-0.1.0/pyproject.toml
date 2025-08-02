@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "beyonddesk-grpc-protocols"
+dynamic = ["version"]
+authors = [
+    {name = "Maruthi", email = "maruthi@beyonddesk.com"},
+]
+description = "gRPC protocol definitions for BeyondDesk backend services"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+keywords = ["grpc", "protobuf", "beyonddesk", "microservices"]
+
+dependencies = [
+    "grpcio>=1.66.2",
+    "grpcio-tools>=1.66.2",
+    "protobuf>=5.28.2",
+    "googleapis-common-protos>=1.65.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/beyond-desk/beyonddesk-grpc-protocols"
+"Bug Reports" = "https://github.com/beyond-desk/beyonddesk-grpc-protocols/issues"
+"Source" = "https://github.com/beyond-desk/beyonddesk-grpc-protocols"
+
+[tool.setuptools.dynamic]
+version = {attr = "versions.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["beyonddesk_grpc*"]
+
+[tool.setuptools.package-data]
+beyonddesk_grpc = ["**/*.py", "**/*.proto"]
