@@ -1,0 +1,108 @@
+# mbls
+
+A Python toolkit for **Model-Based Local Search** (MBLS) algorithm design, built on top of [Routix](https://pypi.org/project/routix/).
+This library provides a modular framework for orchestrating subroutines, managing experimental runs,
+and integrating mathematical models into heuristic search routines, with a focus on CP-SAT (OR-Tools) integration.
+
+## Core Components
+
+### `CustomCpModel`
+
+A powerful extension of the standard OR-Tools `CpModel`. It simplifies the development of complex models by providing:
+
+- **Automatic Callback Registration**: Automatically attaches callbacks for recording objective values and bounds during the search.
+- **Dynamic Constraint Management**: Easily add or remove constraints between solver calls, which is ideal for iterative approaches like Large Neighborhood Search (LNS).
+- **Simplified Solver Interface**: A streamlined API for configuring and running the CP-SAT solver.
+
+### `CpSubroutineController`
+
+A specialized `SubroutineController` from `routix` for managing CP-SAT subroutines. It orchestrates the entire lifecycle of a model-solving process:
+
+- **Model Lifecycle Management**: Handles the creation, modification, and solving of `CustomCpModel` instances.
+- **Progress Tracking**: Aggregates objective and bound logs from multiple solver runs into a single, coherent history.
+- **Flexible Algorithm Design**: Enables the implementation of sophisticated metaheuristics where a CP-SAT model is solved repeatedly with different parameters or modifications.
+
+## Key Features
+
+- **Automated Progress Tracking**: Built-in, type-safe callbacks automatically record objective values and bounds over time.
+- **Advanced Timeout Control**: Stop the search not just by time limit, but also when there's no improvement for a specified duration.
+- **Comprehensive Solver Reports**: Get detailed reports (`CpsatSolverReport`) after each solve, including status, timings, and progress logs.
+- **Dynamic Model Modification**: Add and remove constraints on the fly, essential for implementing complex repair and destroy methods in LNS.
+- **Visualization Tools**: A `painter` module with tools to plot objective value/bound curves and other time-series data.
+- **Modular and Extensible**: Built on `routix`, allowing you to create complex, multi-stage algorithms with clear and manageable code.
+
+## Installation
+
+```sh
+pip install mbls
+```
+
+- Requires Python 3.11
+- Core dependency: `routix`
+- For CP-SAT features: `ortools`
+
+## Quick Example
+
+Here is a simple example of how to use `CustomCpModel` to build and solve a model.
+
+```python
+from mbls.cpsat import CustomCpModel
+
+# 1. Define a custom model
+class MyModel(CustomCpModel):
+    def __init__(self, n: int):
+        super().__init__()
+        self.x = self.new_int_var(0, n - 1, "x")
+        self.y = self.new_int_var(0, n - 1, "y")
+        self.add(self.x != self.y)
+        self.maximize(self.x + self.y)
+
+# 2. Create an instance and solve it
+model = MyModel(n=10)
+status, elapsed_time, obj_value, obj_bound = model.solve_with_callbacks(
+    computational_time=10.0,
+    num_workers=4,
+)
+
+# 3. Access the results and progress logs
+print(f"Status: {status.name}")
+print(f"Objective Value: {obj_value}")
+print("Objective value records:", model.get_obj_value_records())
+print("Objective bound records:", model.get_obj_bound_records())
+```
+
+For more advanced use cases, like building an LNS-based heuristic, you would typically use a `CpSubroutineController` to manage the solving process.
+
+## Project Structure
+
+```text
+src/mbls/
+├── __init__.py
+├── cpsat/
+│   ├── __init__.py
+│   ├── callbacks/
+│   │   ├── __init__.py
+│   │   ├── base_solution_callback.py
+│   │   ├── by_call_recorder.py
+│   │   ├── by_callback_recorder.py
+│   │   ├── improv_timeout_callback.py
+│   │   ├── improv_timeout_value_recorder.py
+│   │   ├── objective_bound_recorder.py
+│   │   └── objective_value_recorder.py
+│   ├── cp_model_with_fixed_interval.py
+│   ├── cp_model_with_optional_fixed_interval.py
+│   ├── cp_subroutine_controller.py
+│   ├── custom_cp_model.py
+│   ├── obj_value_bound_store.py
+│   ├── solver_report.py
+│   └── status.py
+├── painter/
+│   ├── __init__.py
+│   ├── obj_value_bound_plotter.py
+│   └── time_series_plotter.py
+└── time_stamped_recorder.py
+```
+
+## License
+
+MIT License
