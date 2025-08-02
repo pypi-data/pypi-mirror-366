@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright 2021 GridGain Systems, Inc. and Contributors.
+
+ Licensed under the GridGain Community Edition License (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     https://www.gridgain.com/products/software/community-edition/gridgain-community-edition-license
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="grid.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="dataStorageConfiguration">
+            <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
+                <property name="defaultDataRegionConfiguration">
+                    <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
+                        {% if use_persistence %}
+                        <property name="persistenceEnabled" value="true"/>
+                        {% endif %}
+                    </bean>
+                </property>
+                <property name="dataRegionConfigurations">
+                    <list>
+                        <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
+                            <property name="name" value="SmallDataRegion"/>
+                            <property name="maxSize" value="#{20 * 1024 * 1024}"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+        {% if use_auth %}
+        <property name="authenticationEnabled" value="true"/>
+        {% endif %}
+
+        {% if use_ssl %}
+        <property name="connectorConfiguration"><null/></property>
+        {% endif %}
+
+        <property name="clientConnectorConfiguration">
+            <bean class="org.apache.ignite.configuration.ClientConnectorConfiguration">
+                <property name="host" value="127.0.0.1"/>
+                <property name="port" value="{{ ignite_client_port }}"/>
+                <property name="portRange" value="0"/>
+                <property name="threadPoolSize" value="100"/>
+                {% if use_ssl %}
+                    <property name="sslEnabled" value="true"/>
+                    <property name="useIgniteSslContextFactory" value="false"/>
+                    <property name="sslClientAuth" value="true"/>
+
+                    <property name="sslContextFactory">
+                        <bean class="org.apache.ignite.ssl.SslContextFactory">
+                            <property name="keyStoreFilePath" value="config/ssl/server.jks"/>
+                            <property name="keyStorePassword" value="123456"/>
+                            <property name="trustStoreFilePath" value="config/ssl/trust.jks"/>
+                            <property name="trustStorePassword" value="123456"/>
+                        </bean>
+                    </property>
+                {% endif %}
+            </bean>
+        </property>
+
+        <property name="consistentId" value="srv_{{  ignite_instance_idx  }}"/>
+
+        <property name="localHost" value="127.0.0.1"/>
+
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <property name="localAddress" value="127.0.0.1"/>
+                <property name="localPort" value="48500"/>
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                        <property name="addresses">
+                            <list>
+                                <value>127.0.0.1:48500..48510</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="socketTimeout" value="300"/>
+            </bean>
+        </property>
+
+        <property name="communicationSpi">
+            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
+                <property name="localAddress" value="127.0.0.1"/>
+                <property name="localPort" value="48100"/>
+            </bean>
+        </property>
+
+        <property name="gridLogger">
+            <bean class="org.apache.ignite.logger.log4j2.Log4J2Logger">
+              <constructor-arg type="java.lang.String" value="config/log4j-{{ ignite_instance_idx }}.xml"/>
+            </bean>
+        </property>
+    </bean>
+</beans>
