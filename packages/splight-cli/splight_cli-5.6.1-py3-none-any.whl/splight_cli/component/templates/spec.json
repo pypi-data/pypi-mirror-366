@@ -1,0 +1,85 @@
+{
+    "name": "{{component_name}}",
+    "version": "{{version}}",
+    "splight_cli_version": "{{splight_cli_version}}",
+    "privacy_policy": "private",
+    "tags": [],
+    "component_type": "connector",
+    "custom_types": [
+        {
+            "name": "MyAsset",
+            "fields": [
+                {
+                    "name": "asset",
+                    "type": "Asset",
+                    "required": true
+                },
+                {
+                    "name": "alias",
+                    "type": "str",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "routines": [
+        {
+            "name": "MyRoutine",
+            "max_instances": 1,
+            "create_handler": "handle_MyRoutine_create",
+            "update_handler": "handle_MyRoutine_update",
+            "delete_handler": "handle_MyRoutine_delete",
+            "config": [
+                {
+                    "name": "period",
+                    "type": "int",
+                    "required": true
+                }
+            ],
+            "input": [
+                {
+                    "name": "read",
+                    "value_type": "Number"
+                }
+            ],
+            "output": []
+        }
+    ],
+    "input": [
+        {
+            "name": "period",
+            "type": "int",
+            "required": false,
+            "value": 10
+        },
+        {
+            "name": "min",
+            "type": "int",
+            "required": false,
+            "value": 1
+        },
+        {
+            "name": "max",
+            "type": "int",
+            "required": false,
+            "value": 150
+        }
+    ],
+    "output": [
+        {
+            "name": "Value",
+            "fields": [
+                {
+                    "name": "value",
+                    "type": "int"
+                }
+            ]
+        }
+    ],
+    "endpoints": [
+        {
+            "name": "proxy",
+            "port": 1080
+        }
+    ]
+}
