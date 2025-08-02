@@ -1,0 +1,18 @@
+[console_scripts]
+ai-advanced-chat = ai_helper_agent.enhanced_cli:main
+ai-chat = ai_helper_agent.cli_single:main
+ai-choose = ai_helper_agent.cli_selector:main
+ai-helper = ai_helper_agent.cli_selector:main
+ai-helper-agent = ai_helper_agent.cli_selector:main
+ai-helper-enhanced = ai_helper_agent.enhanced_internet_cli:main
+ai-helper-g4f = ai_helper_agent.enhanced_internet_cli:main
+ai-helper-groq = ai_helper_agent.cli_single:main
+ai-helper-internet-single = ai_helper_agent.cli_internet_single:main
+ai-helper-multi = ai_helper_agent.multi_provider_cli:main
+ai-helper-selector = ai_helper_agent.cli_selector:main
+ai-helper-single = ai_helper_agent.cli_single:main
+ai-select = ai_helper_agent.cli_selector:main
+ai-smart-chat = ai_helper_agent.multi_provider_cli:main
+ai-super-chat = ai_helper_agent.enhanced_internet_cli:main
+ai-web-chat = ai_helper_agent.cli_internet_single:main
+ai_helper_agent = ai_helper_agent.cli_selector:main

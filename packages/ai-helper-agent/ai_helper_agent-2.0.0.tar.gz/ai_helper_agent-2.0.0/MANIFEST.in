@@ -1,0 +1,37 @@
+# Include the README and other important files
+include README.md
+include LICENSE
+include CHANGELOG.md
+include requirements.txt
+
+# Include all Python files in main package
+recursive-include ai_helper_agent *.py
+
+# Exclude unnecessary files for PyPI
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .coverage
+global-exclude .pytest_cache
+
+# Exclude development files
+exclude AI_HELPER_AGENT_UPDATE_SUMMARY.md
+exclude CLI_ISSUES_TRACKER*.md
+exclude CLI_SELECTOR_README.md
+exclude CONTRIBUTING.md
+exclude IMPLEMENTATION_SUMMARY.md
+exclude INTERNET_ACCESS_FEATURE.md
+exclude PYPI_DEPLOYMENT_READY.md
+exclude STREAMING_IMPROVEMENTS.md
+exclude requirements-dev.txt
+exclude config.sample.json
+exclude pyproject.toml
+
+# Exclude test files
+prune tests
+exclude test_*.py
+exclude *_test.py

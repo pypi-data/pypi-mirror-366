@@ -1,0 +1,816 @@
+Metadata-Version: 2.4
+Name: ai-helper-agent
+Version: 2.0.0
+Summary: Interactive AI Helper Agent for code assistance, analysis, and bug fixing with internet access
+Home-page: https://github.com/AIMLDev726/ai-helper-agent
+Author: AIStudent
+Author-email: AIStudent <aistudentlearn4@gmail.com>
+Maintainer: AIMLDev726
+Maintainer-email: AIMLDev726 <aistudentlearn4@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/AIMLDev726/ai-helper-agent
+Project-URL: Documentation, https://github.com/AIMLDev726/ai-helper-agent#readme
+Project-URL: Repository, https://github.com/AIMLDev726/ai-helper-agent
+Project-URL: Bug Tracker, https://github.com/AIMLDev726/ai-helper-agent/issues
+Project-URL: Changelog, https://github.com/AIMLDev726/ai-helper-agent/blob/main/CHANGELOG.md
+Keywords: ai,assistant,code-analysis,bug-fixing,automation
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: langchain-groq>=0.1.0
+Requires-Dist: langchain-anthropic>=0.1.0
+Requires-Dist: langchain-google-genai>=0.1.0
+Requires-Dist: langchain-openai>=0.1.0
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-community>=0.1.0
+Requires-Dist: langchain-core>=0.1.0
+Requires-Dist: structlog>=23.0.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: pathlib2; python_version < "3.4"
+Requires-Dist: faiss-cpu>=1.7.0
+Requires-Dist: chromadb>=0.4.0
+Requires-Dist: cryptography>=3.4.0
+Requires-Dist: sqlalchemy>=1.4.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: beautifulsoup4>=4.9.0
+Requires-Dist: duckduckgo-search>=3.0.0
+Requires-Dist: googlesearch-python>=1.2.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest>=6.0; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: requires-python
+
+# AI Helper Agent
+
+[![PyPI version](https://badge.fury.io/py/ai-helper-agent.svg)](https://badge.fury.io/py/ai-helper-agent)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A comprehensive AI-powered programming assistant with advanced code generation, analysis, debugging, and optimization capabilities. Features **internet access**, **real-time streaming**, **JSON responses**, and support for **84+ AI providers** including Groq, G4F, OpenAI, Anthropic, Google, and Ollama.
+
+## 🎯 Key Features
+
+### 🚀 **Core Capabilities**
+- **Code Generation**: Create complete applications from natural language
+- **Intelligent Analysis**: Advanced code review and optimization suggestions  
+- **Multi-Language Support**: Python, JavaScript, TypeScript, Go, Rust, Java, C++, and more
+- **Cross-Language Translation**: Convert code between programming languages
+- **Advanced Debugging**: Identify and fix bugs with AI assistance
+- **Real-time Streaming**: Character-by-character response streaming
+
+### 🌐 **Internet-Enabled AI Assistant**
+- **Automatic Web Search**: AI decides when internet search is needed
+- **Smart Search Decision**: LLM analyzes queries to determine search necessity
+- **Multiple Search Providers**: DuckDuckGo, Google, and more
+- **Up-to-date Information**: Latest documentation, tutorials, and solutions
+- **Permission Control**: Configure when and how internet access is used
+
+### 🤖 **Multi-Provider Support**
+- **84+ G4F Providers**: Free access to GPT, Claude, Gemini, and more
+- **17 Groq Models**: Including Llama 3.3 70B, Llama 4, Gemma 2, and more
+- **JSON Responses**: Structured output using AsyncGroq
+- **Dynamic Provider Discovery**: Automatically detects available providers
+- **Provider Switching**: Change providers during conversation
+
+### ⚡ **Advanced Features**
+- **Interactive CLI**: Rich terminal interface with syntax highlighting
+- **Conversation History**: Maintained across sessions
+- **Security Controls**: Built-in security manager with access controls
+- **File Operations**: Secure file reading, writing, and modification
+- **Custom Models**: Support for custom model selection per provider
+
+## 📦 Installation
+
+```bash
+# Install from PyPI
+pip install ai-helper-agent
+
+# Or install with all dependencies
+pip install ai-helper-agent[all]
+
+# For development
+pip install -e ".[dev]"
+```
+
+### **⚠️ Important: CLI Entry Points Setup**
+
+If you want to use the CLI entry points (like `ai-helper-enhanced`), you need to:
+
+1. **Install/Reinstall the package**:
+   ```bash
+   pip install -e .
+   ```
+
+2. **On Windows - Add Python Scripts to PATH**:
+   ```powershell
+   # Check if Python Scripts is in PATH
+   echo $Env:PATH
+   
+   # If needed, add Python Scripts directory to PATH
+   $pythonScripts = python -c "import sys; print(sys.prefix + '\\Scripts')"
+   $Env:PATH += ";$pythonScripts"
+   ```
+
+3. **Alternative: Use Direct Module Commands** (Always works):
+   ```bash
+   # These work immediately without PATH setup
+   python -m ai_helper_agent.enhanced_internet_cli
+   python -m ai_helper_agent.cli_internet_single
+   ```
+
+## 🔑 API Keys Setup
+
+### **Step 1: Get API Keys**
+
+#### **Groq (Recommended - Fast & Free)**
+1. Visit [Groq Console](https://console.groq.com/)
+2. Sign up for a free account
+3. Go to API Keys section
+4. Create a new API key
+
+#### **G4F Providers (Free Alternative)**
+- No API key required for most providers
+- Some providers may require authentication
+- 84+ providers available including GPT, Claude, Gemini
+
+#### **Optional: Premium Providers**
+- **OpenAI**: [OpenAI API Keys](https://platform.openai.com/api-keys)
+- **Anthropic**: [Anthropic Console](https://console.anthropic.com/)
+- **Google**: [Google AI Studio](https://makersuite.google.com/app/apikey)
+
+### **Step 2: Set Environment Variables**
+
+#### **Windows (PowerShell)**
+```powershell
+# Groq (Required for best experience)
+$Env:GROQ_API_KEY="your-groq-api-key-here"
+
+# Optional: Other providers
+$Env:OPENAI_API_KEY="your-openai-api-key"
+$Env:ANTHROPIC_API_KEY="your-anthropic-api-key"
+$Env:GOOGLE_API_KEY="your-google-api-key"
+```
+
+#### **Linux/macOS (Bash)**
+```bash
+# Groq (Required for best experience)
+export GROQ_API_KEY="your-groq-api-key-here"
+
+# Optional: Other providers
+export OPENAI_API_KEY="your-openai-api-key"
+export ANTHROPIC_API_KEY="your-anthropic-api-key"
+export GOOGLE_API_KEY="your-google-api-key"
+```
+
+#### **Permanent Setup (Linux/macOS)**
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+echo 'export GROQ_API_KEY="your-groq-api-key-here"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+#### **Permanent Setup (Windows)**
+```powershell
+# Set permanent environment variable
+[Environment]::SetEnvironmentVariable("GROQ_API_KEY", "your-groq-api-key-here", "User")
+```
+
+## 🚀 Quick Start
+
+### **Method 1: CLI Entry Points (Easiest)**
+
+#### **Option 1: Enhanced Multi-Provider CLI (Recommended)**
+```bash
+# Start with 84+ G4F providers + Groq support
+ai-helper-enhanced
+# OR
+ai-helper-g4f
+```
+**Features**: 84+ AI providers, real-time streaming, JSON responses, rich formatting
+
+#### **Option 2: Groq-Only Internet CLI (Fast & Reliable)**
+```bash
+# Start Groq-only CLI with internet access
+ai-helper-internet-single
+```
+**Features**: 17 Groq models, internet search, streaming, JSON responses
+
+### **Method 2: Direct Module Commands**
+
+#### **Option 1: Enhanced Multi-Provider CLI**
+```bash
+# Start with 84+ G4F providers + Groq support
+python -m ai_helper_agent.enhanced_internet_cli
+```
+
+#### **Option 2: Groq-Only Internet CLI**
+```bash
+# Start Groq-only CLI with internet access
+python -m ai_helper_agent.cli_internet_single
+```
+
+### **Classic Options**
+```bash
+# Single provider (Groq only)
+ai-helper-single
+# OR
+python -m ai_helper_agent.cli_single
+
+# Multi-provider (classic)
+ai-helper
+# OR  
+python -m ai_helper_agent.cli_multi_provider
+```
+
+## 📋 Available Commands
+
+### **Method 1: CLI Entry Points (Recommended)**
+
+| Command | Description | Features |
+|---------|-------------|----------|
+| `ai-helper-enhanced` | **Enhanced Multi-Provider CLI** | 84+ G4F providers, 17 Groq models, streaming, JSON |
+| `ai-helper-internet-single` | **Groq-Only Internet CLI** | 17 Groq models, internet access, streaming |
+| `ai-helper-single` | **Single Provider CLI** | Groq only, fast responses |
+| `ai-helper` | **Multi-provider CLI (classic)** | Multiple providers, conversation history |
+| `ai-helper-g4f` | **Enhanced CLI (alias)** | Same as ai-helper-enhanced |
+
+### **Method 2: Direct Module Commands**
+
+| Command | Description | Features |
+|---------|-------------|----------|
+| `python -m ai_helper_agent.enhanced_internet_cli` | **Enhanced Multi-Provider CLI** | 84+ G4F providers, 17 Groq models, streaming, JSON |
+| `python -m ai_helper_agent.cli_internet_single` | **Groq-Only Internet CLI** | 17 Groq models, internet access, streaming |
+| `python -m ai_helper_agent.cli_single` | **Single Provider CLI** | Groq only, fast responses |
+| `python -m ai_helper_agent.cli_multi_provider` | **Multi-provider CLI** | Multiple providers, conversation history |
+
+### **In-Chat Commands**
+
+#### **Enhanced CLI Commands**
+```bash
+# Regular conversation
+> Hello, help me with Python coding
+
+# JSON responses (Groq only)
+> json: List 3 programming languages with their pros and cons
+
+# Provider information
+> info
+
+# Switch providers during chat
+> switch
+
+# Exit
+> quit
+```
+
+#### **Internet CLI Commands**
+```bash
+# Internet search
+> internet search latest Python features
+> internet search best practices for React 2024
+
+# Internet settings
+> internet permission smart    # AI decides when to search
+> internet permission always   # Search for every query
+> internet permission never    # Disable internet
+> internet                     # Show status
+
+# JSON responses
+> json: Analyze the differences between Python and JavaScript
+
+# Help
+> help
+```
+
+## 🎮 Usage Examples
+
+### **Code Generation**
+```bash
+> Create a FastAPI application with user authentication and database integration
+
+🤖 AI Helper: I'll create a comprehensive FastAPI application for you...
+
+```python
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.security import HTTPBearer
+from sqlalchemy import create_engine, Column, Integer, String
+# ... complete implementation follows
+```
+
+### **Internet-Powered Queries**
+```bash
+> What are the new features in Python 3.12?
+
+🔍 Searching the web for current information...
+🤖 AI Helper: Based on the latest information, Python 3.12 includes...
+- Improved error messages with fine-grained locations
+- New f-string debugging features
+- Performance improvements...
+
+References:
+1. [Python 3.12 Release Notes](https://docs.python.org/3.12/whatsnew/3.12.html)
+```
+
+### **JSON Responses**
+```bash
+> json: Compare React, Vue, and Angular frameworks
+
+🔧 Testing JSON response with AsyncGroq...
+🤖 JSON Response:
+{
+  "frameworks": [
+    {
+      "name": "React",
+      "pros": ["Large ecosystem", "Virtual DOM", "JSX syntax"],
+      "cons": ["Steep learning curve", "Frequent updates"],
+      "best_for": "Large applications, SPAs"
+    },
+    // ... detailed comparison
+  ]
+}
+```
+
+### **Multi-Provider Experience**
+```bash
+# Enhanced CLI - Choose from 84+ providers
+🚀 Choose Your AI Provider:
+1. 🚀 Groq - Lightning-fast inference with Llama models
+2. 🌐 G4F - Free access to multiple AI providers (GPT, Claude, Gemini)
+
+> 2
+
+🌐 G4F Provider Options:
+1. 📋 Featured Providers (15 popular providers)  
+2. 📖 All Providers (84+ providers)
+
+> 2
+
+# Shows table with all 84+ available providers
+```
+
+## 🛠️ Advanced Configuration
+
+### **Custom Model Selection**
+
+#### **Groq Models (17 Available)**
+- `llama-3.3-70b-versatile` - Latest Meta model (128K context)
+- `llama-3.1-8b-instant` - Ultra fast responses
+- `llama-3.1-70b-versatile` - Large reasoning model
+- `gemma2-9b-it` - Google's balanced model
+- `meta-llama/llama-4-maverick-17b-128e-instruct` - Latest Llama 4
+- And 12 more models...
+
+#### **G4F Providers (84+ Available)**
+- **Free GPT Access**: OpenaiChat, ChatGpt, GPT4Free
+- **Claude Access**: Anthropic, Claude-3-Sonnet
+- **Gemini Access**: Gemini, GeminiPro
+- **Specialized**: Blackbox, PerplexityAi, You, HuggingChat
+- **And 70+ more providers...**
+
+### **CLI Arguments**
+
+```bash
+# Enhanced CLI
+python -m ai_helper_agent.enhanced_internet_cli
+
+# Single CLI with options
+python -m ai_helper_agent.cli_internet_single --session work --model llama-3.3-70b-versatile --quick
+
+# Available arguments:
+# --session/-s: Session ID for conversation history
+# --workspace/-w: Workspace directory path  
+# --model/-m: Select specific model
+# --quick: Skip startup interface
+```
+
+## 🌐 Internet Access Features
+
+### **Smart Search Integration**
+- **Automatic Detection**: AI analyzes queries to determine when web search is needed
+- **Current Information**: Gets latest documentation, news, and solutions
+- **Citation Support**: Provides references and source links
+- **Multiple Providers**: DuckDuckGo, Google search integration
+
+### **Permission Levels**
+- **Smart** (Default): AI decides when to search automatically
+- **Always**: Search the web for every query  
+- **Ask**: Prompt user before each search
+- **Never**: Disable internet access completely
+
+### **Search Examples**
+```bash
+# Automatically triggers web search
+> "What's the latest version of React?"
+> "How to use the new OpenAI API in 2024?"
+> "Best practices for Docker deployment"
+> "Latest TypeScript features and examples"
+
+# Manual search
+> internet search Python 3.12 new features
+> internet search FastAPI vs Django performance 2024
+```
+
+## 🔧 Troubleshooting
+
+### **Common Issues**
+
+#### **1. No API Key Error**
+```bash
+❌ GROQ_API_KEY not found in environment variables
+```
+**Solution**: Set your Groq API key as shown in the setup section above.
+
+#### **2. Import Errors**
+```bash
+❌ ModuleNotFoundError: No module named 'ai_helper_agent'
+```
+**Solution**: 
+```bash
+pip install ai-helper-agent
+# Or if installed from source:
+pip install -e .
+```
+
+#### **3. Provider Not Working**
+```bash
+❌ Provider not available or requires authentication
+```
+**Solution**: Try switching to a different provider or check if API key is needed.
+
+#### **4. Internet Search Not Working**
+```bash
+⚠️ Warning: Internet access setup failed
+```
+**Solution**: Check internet connection and firewall settings.
+
+### **Performance Tips**
+- Use **Groq** for fastest responses
+- Use **G4F providers** for free access to premium models
+- Enable **streaming** for real-time responses
+- Use **smart search** mode for optimal internet usage
+
+## 🐍 Python API Usage
+
+```python
+from ai_helper_agent import create_agent, InteractiveAgent
+
+# Basic usage
+agent = create_agent()
+response = agent.process_request("Create a REST API with FastAPI")
+
+# Advanced usage with internet
+from ai_helper_agent.cli_internet_single import InternetSingleProviderCLI
+
+cli = InternetSingleProviderCLI()
+cli.setup_user_session()
+response = cli.handle_command("What are the latest AI developments?")
+```
+
+## 🏗️ Development
+
+### **Requirements**
+- Python 3.8+
+- Internet connection for API access
+- API keys for chosen providers
+
+### **Development Setup**
+```bash
+git clone https://github.com/AIMLDev726/ai-helper-agent.git
+cd ai-helper-agent
+pip install -e ".[dev]"
+```
+
+### **Testing**
+```bash
+# Run tests
+pytest tests/
+
+# Test specific CLI
+cd ai-helper-agent
+python -m ai_helper_agent.enhanced_internet_cli
+```
+
+## 📊 Provider Statistics
+
+- **Total G4F Providers**: 84+
+- **Free Providers**: 48
+- **Authentication Required**: 36
+- **Streaming Supported**: 83
+- **Groq Models**: 17
+- **Featured Providers**: 15
+
+## 🎯 Quick Command Reference
+
+### **🚀 Enhanced Multi-Provider CLI (84+ Providers)**
+
+**Method 1: CLI Entry Points** (requires PATH setup)
+```bash
+ai-helper-enhanced        # Primary command
+ai-helper-g4f            # Alternative command  
+```
+
+**Method 2: Direct Module Commands** (always works)
+```bash
+python -m ai_helper_agent.enhanced_internet_cli
+```
+
+### **⚡ Groq-Only Internet CLI (17 Models + Web Search)**
+
+**Method 1: CLI Entry Points**
+```bash
+ai-helper-internet-single    # Primary command
+```
+
+**Method 2: Direct Module Commands**
+```bash
+python -m ai_helper_agent.cli_internet_single
+```
+
+### **🔧 Classic Options**
+
+**Single Provider (Groq Only)**
+```bash
+ai-helper-single            # CLI entry point
+python -m ai_helper_agent.cli_single    # Direct module
+```
+
+**Multi-Provider (Classic)**
+```bash
+ai-helper                   # CLI entry point
+python -m ai_helper_agent.cli_multi_provider    # Direct module
+```
+
+### **💡 Recommendation**
+- **New Users**: Use direct module commands (`python -m ...`) - they always work
+- **Advanced Users**: Set up CLI entry points for shorter commands
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+- **Documentation**: [GitHub Repository](https://github.com/AIMLDev726/ai-helper-agent)
+- **Issues**: [Bug Tracker](https://github.com/AIMLDev726/ai-helper-agent/issues)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md)
+
+## 🙏 Acknowledgments
+
+- Built with [LangChain](https://langchain.com/) framework
+- Powered by [Groq](https://groq.com/) for lightning-fast inference
+- Uses [G4F](https://github.com/xtekky/gpt4free) for free AI provider access
+- Inspired by GitHub Copilot and modern AI coding assistants
+
+---
+
+**🎉 Ready to supercharge your coding workflow with AI? Get started now!**
+
+**Made with ❤️ by AIMLDev726**
+
+```bash
+# Start the multi-provider CLI (default)
+ai-helper
+
+# Use specific provider CLI
+ai-helper-single  # Groq only
+
+# Use internet-enabled CLI (NEW!)
+ai-helper-internet-single  # Groq + Web search
+```
+
+### Python API
+
+```python
+from ai_helper_agent import create_agent
+
+# Create an agent instance
+agent = create_agent()
+
+# Ask for help
+response = agent.process_request("How do I implement a binary search in Python?")
+print(response)
+```
+
+## CLI Commands
+
+The package provides several CLI entry points:
+
+- `ai-helper` - Multi-provider CLI (default, recommended)
+- `ai-helper-multi` - Multi-provider CLI (alias)
+- `ai-helper-single` - Single provider CLI (Groq only)
+- `ai-helper-groq` - Groq-specific CLI (alias)
+- `ai-helper-internet-single` - **NEW!** Internet-enabled single CLI with web search
+
+## Configuration
+
+### API Keys Setup
+
+The agent supports multiple LLM providers. Configure your API keys:
+
+```bash
+# For Groq (recommended for free tier)
+export GROQ_API_KEY="your-groq-api-key"
+
+# For OpenAI
+export OPENAI_API_KEY="your-openai-api-key"
+
+# For Anthropic
+export ANTHROPIC_API_KEY="your-anthropic-api-key"
+
+# For Google
+export GOOGLE_API_KEY="your-google-api-key"
+```
+
+### Provider Selection
+
+In the multi-provider CLI, you can:
+- Choose your preferred provider at startup
+- Switch between providers during conversation
+- Use custom models for each provider
+- Configure default settings
+
+## Examples
+
+### Code Generation
+```
+> Create a Python function to calculate fibonacci numbers
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Optimized version with memoization
+def fibonacci_memo(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fibonacci_memo(n-1, memo) + fibonacci_memo(n-2, memo)
+    return memo[n]
+```
+
+### Code Analysis
+```
+> Analyze this code for potential issues: [paste your code]
+
+Analysis Results:
+- Performance: Consider using list comprehension instead of for loop
+- Security: Input validation needed for user data
+- Best Practices: Add type hints and docstrings
+```
+
+### Bug Fixing
+```
+> Fix the bug in this function: [paste problematic code]
+
+Issue Identified: Index out of range error
+Fixed Code: [corrected version with explanation]
+Explanation: The loop was accessing array[i+1] without checking bounds
+```
+
+## Advanced Usage
+
+### Custom Configuration
+
+```python
+from ai_helper_agent import InteractiveAgent
+from ai_helper_agent.config import config
+
+# Customize configuration
+config.update({
+    'temperature': 0.7,
+    'max_tokens': 2048,
+    'provider': 'groq'
+})
+
+# Create agent with custom settings
+agent = InteractiveAgent()
+```
+
+### File Operations
+
+```python
+from ai_helper_agent import InteractiveAgent
+
+agent = InteractiveAgent()
+
+# Analyze a file
+response = agent.process_request("Analyze the code in myfile.py")
+
+# Get optimization suggestions
+response = agent.process_request("Optimize the performance of myfile.py")
+```
+
+## Internet-Enabled Features
+
+### Using the Internet CLI
+
+```bash
+# Start internet-enabled CLI
+ai-helper-internet-single
+
+# The AI will automatically search when needed
+> "What's the latest version of Python?"
+🔍 Found relevant information online, incorporating into response...
+🤖 AI Helper: The latest version of Python is 3.12.1 (as of December 2023)...
+
+# Manual internet commands
+> "internet search latest React features"
+> "internet permission smart"  # Set smart search mode
+> "internet"  # Show status
+```
+
+### Internet Search Examples
+
+```
+# Current information queries
+> "What are the new features in Django 5.0?"
+> "How to use the latest OpenAI API?"
+> "What's the current best practice for async Python?"
+
+# Documentation and tutorials
+> "Show me examples of using FastAPI with async database"
+> "How to deploy Next.js app to Vercel in 2024?"
+> "Latest TypeScript features and examples"
+
+# Error solutions
+> "How to fix 'ModuleNotFoundError: No module named tensorflow'"
+> "React useEffect dependency array warnings solutions"
+> "Python asyncio event loop error fixes"
+```
+
+### Permission Levels
+
+- **Smart** (Default): AI decides when to search automatically
+- **Always**: Search the web for every query
+- **Ask**: Prompt user before each search
+- **Never**: Disable internet access
+
+## Development
+
+### Requirements
+
+- Python 3.8+
+- Internet connection for API access
+- API keys for chosen providers
+
+### Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Testing
+
+```bash
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest tests/
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- **Documentation**: [GitHub Repository](https://github.com/AIMLDev726/ai-helper-agent)
+- **Issues**: [Bug Tracker](https://github.com/AIMLDev726/ai-helper-agent/issues)
+- **Changelog**: [CHANGELOG.md](https://github.com/AIMLDev726/ai-helper-agent/blob/main/CHANGELOG.md)
+
+## Acknowledgments
+
+- Built with [LangChain](https://langchain.com/) framework
+- Powered by multiple LLM providers
+- Inspired by GitHub Copilot and similar AI coding assistants
+
+---
+
+**Made with ❤️ by AIMLDev726**
