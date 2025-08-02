@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "krenamer"
+version = "1.0.0"
+description = "Korean Windows GUI file renamer tool with drag & drop functionality"
+authors = [{name = "Euiyun Kim", email = "geniuskey@gmail.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: System :: Filesystems",
+    "Topic :: Utilities",
+    "Natural Language :: Korean",
+]
+dependencies = [
+    "tkinterdnd2>=0.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pyinstaller>=5.0",
+    "build",
+    "twine",
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocs-minify-plugin",
+    "pymdown-extensions",
+    "pytest",
+]
+
+[project.scripts]
+krenamer = "krenamer.main:main"
+
+[project.urls]
+Homepage = "https://github.com/geniuskey/krenamer"
+Documentation = "https://geniuskey.github.io/krenamer"
+Repository = "https://github.com/geniuskey/krenamer"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
