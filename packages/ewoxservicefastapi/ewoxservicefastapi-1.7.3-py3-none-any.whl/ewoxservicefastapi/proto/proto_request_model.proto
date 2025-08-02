@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package mypackage;
+
+message ProtoRequestModel {
+    string data = 1;
+    repeated string classes = 2;
+}
