@@ -1,0 +1,874 @@
+NameType:
+  $id: NameType
+  type: keyword
+  enum:
+  - Organizational
+  - Personal
+  label.cs: Typ jména
+  label.en: Name type
+
+NameIdentifier:
+  $id: NameIdentifier
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.NameIdentifierSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.NameIdentifierUISchema
+  label.cs: Identifikátor jména
+  label.en: Name identifier
+  properties:
+    nameIdentifier:
+      type: keyword
+      required: true
+      label.cs: Identifikátor
+      label.en: Identifier
+    nameIdentifierScheme:
+      type: keyword
+      required: true
+      label.cs: Schéma identifikátoru
+      label.en: Identifier scheme
+    schemeURI:
+      type: url
+      label.cs: URI schématu
+      label.en: Scheme URI
+
+AlternateIdentifier:
+  $id: AlternateIdentifier
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.AlternateIdentifierSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.AlternateIdentifierUISchema
+  label.cs: Alternativní identifikátor
+  label.en: Alternate identifier
+  properties:
+    alternateIdentifier:
+      type: keyword
+      required: true
+      label.cs: Identifikátor
+      label.en: Identifier
+    alternateIdentifierType:
+      type: keyword
+      required: true
+      label.cs: Typ identifikátoru
+      label.en: Identifier type
+
+Affiliation:
+  $id: Affiliation
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.AffiliationSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.AffiliationUISchema
+  label.cs: Afiliace
+  label.en: Affiliation
+  properties:
+    name:
+      type: keyword
+      required: true
+      label.cs: Název
+      label.en: Name
+    affiliationIdentifier:
+      type: keyword
+      label.cs: Identifikátor afiliace
+      label.en: Affiliation identifier
+    affiliationIdentifierScheme:
+      type: keyword
+      label.cs: Schéma identifikátoru afiliace
+      label.en: Affiliation identifier scheme
+    schemeURI:
+      type: url
+      label.cs: URI schématu
+      label.en: Scheme URI
+
+Creator:
+  $id: Creator
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.CreatorSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.CreatorUISchema
+  label.cs: Tvůrce
+  label.en: Creator
+  properties:
+    name:
+      type: keyword
+      required: true
+      label.cs: Jméno
+      label.en: Name
+    nameType:
+      "$ref": "datacite-datatypes#NameType"
+    givenName:
+      type: keyword
+      label.cs: Křestní jméno
+      label.en: Given name
+    familyName:
+      type: keyword
+      label.cs: Příjmení
+      label.en: Family name
+    nameIdentifiers[]:
+      "$ref": "datacite-datatypes#NameIdentifier"
+    affiliation[]:
+      "$ref": "datacite-datatypes#Affiliation"
+    lang:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+Contributor:
+  $id: Contributor
+
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.ContributorSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.ContributorUISchema
+
+  use: 'datacite-datatypes#Creator'
+  label.cs: Přispěvatel
+  label.en: Contributor
+
+  properties:
+    contributorType:
+      "$ref": "datacite-datatypes#ContributorType"
+      required: true
+      label.cs: Typ přispěvatele
+      label.en: Contributor type
+
+ContributorType:
+  $id: ContributorType
+  type: keyword
+  enum:
+  - ContactPerson
+  - DataCollector
+  - DataCurator
+  - DataManager
+  - Distributor
+  - Editor
+  - HostingInstitution
+  - Producer
+  - ProjectLeader
+  - ProjectManager
+  - ProjectMember
+  - RegistrationAgency
+  - RegistrationAuthority
+  - RelatedPerson
+  - Researcher
+  - ResearchGroup
+  - RightsHolder
+  - Sponsor
+  - Supervisor
+  - WorkPackageLeader
+  - Other
+
+TitleType:
+  $id: TitleType
+  type: keyword
+  enum:
+  - AlternativeTitle
+  - Subtitle
+  - TranslatedTitle
+  - Other
+
+Title:
+  $id: Title
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.TitleSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.TitleUISchema
+  label.cs: Název
+  label.en: Title
+
+  properties:
+    title:
+      type: fulltext
+      required: true
+      label.cs: Název
+      label.en: Title
+    titleType:
+      "use": "datacite-datatypes#TitleType"
+      label.cs: Typ názvu
+      label.en: Title type
+    lang:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+Longitude:
+  $id: Longitude
+  type: float
+  maximum: 180
+  minimum: -180
+  label.cs: Zeměpisná délka
+  label.en: Longitude
+
+Latitude:
+  $id: Latitude
+  type: float
+  maximum: 90
+  minimum: -90
+  label.cs: Zeměpisná šířka
+  label.en: Latitude
+
+Date:
+  $id: Date
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.DateSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.DateUISchema
+  label.cs: Datum
+  label.en: Date
+  properties:
+    date:
+      type: edtf-time
+      required: true
+      label.cs: Datum
+      label.en: Date
+    dateType:
+      "use": "datacite-datatypes#DateType"
+      required: true
+      label.cs: Typ data
+      label.en: Date type
+    dateInformation:
+      type: keyword
+      label.cs: Informace o datu
+      label.en: Date information
+
+DateType:
+  $id: DateType
+  type: keyword
+  enum:
+  - Accepted
+  - Available
+  - Copyrighted
+  - Collected
+  - Created
+  - Issued
+  - Submitted
+  - Updated
+  - Valid
+  - Withdrawn
+  - Other
+
+ResourceTypeGeneral:
+  $id: ResourceTypeGeneral
+  type: keyword
+  enum:
+  - Audiovisual
+  - Book
+  - BookChapter
+  - Collection
+  - ComputationalNotebook
+  - ConferencePaper
+  - ConferenceProceeding
+  - DataPaper
+  - Dataset
+  - Dissertation
+  - Event
+  - Image
+  - Instrument
+  - InteractiveResource
+  - Journal
+  - JournalArticle
+  - Model
+  - OutputManagementPlan
+  - PeerReview
+  - PhysicalObject
+  - Preprint
+  - Report
+  - Service
+  - Software
+  - Sound
+  - Standard
+  - StudyRegistration
+  - Text
+  - Workflow
+  - Other
+
+ResourceType:
+  $id: ResourceType
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.ResourceTypeSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.ResourceTypeUISchema
+  label.cs: Typ zdroje
+  label.en: Resource type
+  properties:
+    resourceType:
+      type: keyword
+      label.cs: Typ zdroje
+      label.en: Resource type
+    resourceTypeGeneral:
+      "use": "datacite-datatypes#ResourceTypeGeneral"
+      required: true
+      label.cs: Obecný typ zdroje
+      label.en: General resource type
+
+RelatedIdentifierType:
+  $id: RelatedIdentifierType
+  type: keyword
+  enum:
+  - ARK
+  - arXiv
+  - bibcode
+  - DOI
+  - EAN13
+  - EISSN
+  - Handle
+  - IGSN
+  - ISBN
+  - ISSN
+  - ISTC
+  - LISSN
+  - LSID
+  - PMID
+  - PURL
+  - UPC
+  - URL
+  - URN
+  - w3id
+
+RelationType:
+  $id: RelationType
+  type: keyword
+  enum:
+  - IsCitedBy
+  - Cites
+  - IsCollectedBy
+  - Collects
+  - IsSupplementTo
+  - IsSupplementedBy
+  - IsContinuedBy
+  - Continues
+  - IsDescribedBy
+  - Describes
+  - HasMetadata
+  - IsMetadataFor
+  - HasVersion
+  - IsVersionOf
+  - IsNewVersionOf
+  - IsPartOf
+  - IsPreviousVersionOf
+  - IsPublishedIn
+  - HasPart
+  - IsReferencedBy
+  - References
+  - IsDocumentedBy
+  - Documents
+  - IsCompiledBy
+  - Compiles
+  - IsVariantFormOf
+  - IsOriginalFormOf
+  - IsIdenticalTo
+  - IsReviewedBy
+  - Reviews
+  - IsDerivedFrom
+  - IsSourceOf
+  - IsRequiredBy
+  - Requires
+  - IsObsoletedBy
+  - Obsoletes
+
+RelatedObject:
+  $id: RelatedObject
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.RelatedObjectSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.RelatedObjectUISchema
+  label.cs: Související objekt
+  label.en: Related object
+  properties:
+    relationType:
+      "use": "datacite-datatypes#RelationType"
+      required: true
+      label.cs: Typ vztahu
+      label.en: Relation type
+    relatedMetadataScheme:
+      type: keyword
+      label.cs: Schéma metadat
+      label.en: Metadata scheme
+    schemeURI:
+      type: url
+      label.cs: URI schématu
+      label.en: Scheme URI
+    schemeType:
+      type: keyword
+      label.cs: Typ schématu
+      label.en: Scheme type
+    resourceTypeGeneral:
+      "$ref": "datacite-datatypes#ResourceTypeGeneral"
+      label.cs: Obecný typ zdroje
+      label.en: General resource type
+
+RelatedIdentifier:
+  $id: RelatedIdentifier
+  use: "datacite-datatypes#RelatedObject"
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.RelatedIdentifierSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.RelatedIdentifierUISchema
+  label.cs: Související identifikátor
+  label.en: Related identifier
+  properties:
+    relatedIdentifier:
+      type: keyword
+      label.cs: Identifikátor
+      label.en: Identifier
+    relatedIdentifierType:
+      "use": "datacite-datatypes#RelatedIdentifierType"
+      label.cs: Typ identifikátoru
+      label.en: Identifier type
+
+RelatedItemIdentifier:
+  $id: RelatedItemIdentifier
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.RelatedItemIdentifierSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.RelatedItemIdentifierUISchema
+  label.cs: Identifikátor související položky
+  label.en: Related item identifier
+  properties:
+    relatedItemIdentifier:
+      type: keyword
+      required: true
+      label.cs: Identifikátor
+      label.en: Identifier
+    relatedItemIdentifierType:
+      use: "datacite-datatypes#RelatedIdentifierType"
+      required: true
+      label.cs: Typ identifikátoru
+      label.en: Identifier type
+
+RelatedItemTitle:
+    $id: RelatedItemTitle
+    marshmallow:
+      class: nr_metadata.datacite.services.records.schema_datatypes.RelatedItemTitleSchema
+    ui:
+      marshmallow:
+        class: nr_metadata.datacite.services.records.ui_schema_datatypes.RelatedItemTitleUISchema
+    label.cs: Název související položky
+    label.en: Related item title
+    properties:
+      title:
+        type: fulltext
+        required: true
+        label.cs: Název
+        label.en: Title
+      titleType:
+        use: "datacite-datatypes#TitleType"
+        label.cs: Typ názvu
+        label.en: Title type
+      lang:
+        type: keyword
+        label.cs: Jazyk
+        label.en: Language
+
+RelatedItem:
+  $id: RelatedItem
+  use: "datacite-datatypes#RelatedObject"
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.RelatedItemSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.RelatedItemUISchema
+  label.cs: Související položka
+  label.en: Related item
+  properties:
+    relatedItemIdentifier:
+      use: "datacite-datatypes#RelatedItemIdentifier"
+      required: true
+      label.cs: Identifikátor
+      label.en: Identifier
+
+    relatedItemType:
+      use: "datacite-datatypes#ResourceTypeGeneral"
+      required: true
+      label.cs: Typ zdroje
+      label.en: Resource type
+
+    creators[]:
+      use: "datacite-datatypes#Creator"
+      ^label.cs: Autoři
+      ^label.en: Authors
+
+    contributors[]:
+      use: "datacite-datatypes#Contributor"
+      ^label.cs: Přispěvatelé
+      ^label.en: Contributors
+
+    titles[]:
+      use: "datacite-datatypes#RelatedItemTitle"
+      ^required: true
+      ^label.cs: Názvy
+      ^label.en: Titles
+
+    publicationYear:
+      type: keyword
+      label.cs: Rok publikace
+      label.en: Publication year
+
+    volume:
+      type: keyword
+      label.cs: Svazek
+      label.en: Volume
+
+    issue:
+      type: keyword
+      label.cs: Číslo
+      label.en: Issue
+
+    firstPage:
+      type: keyword
+      label.cs: První strana
+      label.en: First page
+
+    lastPage:
+      type: keyword
+      label.cs: Poslední strana
+      label.en: Last page
+
+    edition:
+      type: keyword
+      label.cs: Edice
+      label.en: Edition
+
+    publisher:
+      type: keyword
+      label.cs: Vydavatel
+      label.en: Publisher
+
+    number:
+      type: keyword
+      label.cs: Číslo
+      label.en: Number
+
+    numberType:
+      type: keyword
+      enum:
+        - Article
+        - Chapter
+        - Report
+        - Other
+      label.cs: Typ čísla
+      label.en: Number type
+
+DescriptionType:
+  $id: DescriptionType
+  type: keyword
+  enum:
+  - Abstract
+  - Methods
+  - SeriesInformation
+  - TableOfContents
+  - TechnicalInfo
+  - Other
+
+GeoLocationPoint:
+  $id: GeoLocationPoint
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.GeoLocationPointSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.GeoLocationPointUISchema
+  label.cs: Bod zeměpisné polohy
+  label.en: GeoLocationPoint
+  properties:
+    pointLongitude:
+      "$ref": "datacite-datatypes#Longitude"
+      label.cs: Zeměpisná délka
+      label.en: Longitude
+
+    pointLatitude:
+      "$ref": "datacite-datatypes#Latitude"
+      label.cs: Zeměpisná šířka
+      label.en: Latitude
+
+GeoLocationBox:
+  $id: GeoLocationBox
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.GeoLocationBoxSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.GeoLocationBoxUISchema
+  label.cs: Obdélník zeměpisné polohy
+  label.en: GeoLocationBox
+  properties:
+    westBoundLongitude:
+      use: "datacite-datatypes#Longitude"
+      required: true
+      label.cs: Západní zeměpisná délka
+      label.en: West bound longitude
+
+    eastBoundLongitude:
+      use: "datacite-datatypes#Longitude"
+      required: true
+      label.cs: Východní zeměpisná délka
+      label.en: East bound longitude
+
+    southBoundLatitude:
+      use: "datacite-datatypes#Latitude"
+      required: true
+      label.cs: Jižní zeměpisná šířka
+      label.en: South bound latitude
+
+    northBoundLatitude:
+      use: "datacite-datatypes#Latitude"
+      required: true
+      label.cs: Severní zeměpisná šířka
+      label.en: North bound latitude
+
+GeoLocationPolygon:
+  $id: GeoLocationPolygon
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.GeoLocationPolygonSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.GeoLocationPolygonUISchema
+  label.cs: Polygon zeměpisné polohy
+  label.en: GeoLocationPolygon
+  properties:
+    polygonPoints[]:
+      use: "datacite-datatypes#GeoLocationPoint"
+      ^required: true
+      ^label.cs: Body polygonu
+      ^label.en: Polygon points
+    inPolygonPoint:
+      use: "datacite-datatypes#GeoLocationPoint"
+      label.cs: Bod uvnitř polygonu
+      label.en: In polygon point
+
+
+GeoLocation:
+  $id: GeoLocation
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.GeoLocationSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.GeoLocationUISchema
+  label.cs: Zeměpisná poloha
+  label.en: GeoLocation
+  properties:
+    geoLocationPlace:
+      type: keyword
+      label.cs: Místo zeměpisné polohy
+      label.en: GeoLocation place
+    geoLocationPoint:
+      use: "datacite-datatypes#GeoLocationPoint"
+      label.cs: Bod zeměpisné polohy
+      label.en: GeoLocation point
+    geoLocationBox:
+      use: "datacite-datatypes#GeoLocationBox"
+      label.cs: Obdélník zeměpisné polohy
+      label.en: GeoLocation box
+    geoLocationPolygons[]:
+      use: "datacite-datatypes#GeoLocationPolygon"
+      label.cs: Polygony zeměpisné polohy
+      label.en: GeoLocation polygons
+
+FunderIdentifierType:
+  $id: FunderIdentifierType
+  type: keyword
+  enum:
+  - ISNI
+  - GRID
+  - Crossref Funder ID
+  - ROR
+  - Other
+
+Prefix:
+  $id: Prefix
+  type: keyword
+
+Publisher:
+  $id: Publisher
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.PublisherSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.PublisherUISchema
+  label.cs: Vydavatel
+  label.en: Publisher
+  properties:
+    name:
+      type: keyword
+      required: true
+      label.cs: Název
+      label.en: Name
+    publisherIdentifier:
+      type: keyword
+      label.cs: Identifikátor vydavatele
+      label.en: Publisher identifier
+    publisherIdentifierScheme:
+      type: keyword
+      label.cs: Schéma identifikátoru vydavatele
+      label.en: Publisher identifier scheme
+    schemeURI:
+      type: url
+      label.cs: URI schématu
+      label.en: Scheme URI
+    lang:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+Subject:
+  $id: Subject
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.SubjectSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.SubjectUISchema
+  label.cs: Téma
+  label.en: Subject
+  properties:
+    subject:
+      type: keyword
+      required: true
+      label.cs: Téma
+      label.en: Subject
+    subjectScheme:
+      type: keyword
+      label.cs: Schéma tématu
+      label.en: Subject scheme
+    schemeURI:
+      type: url
+      label.cs: URI schématu
+      label.en: Scheme URI
+    valueURI:
+      type: url
+      label.cs: URI hodnoty
+      label.en: Value URI
+    classificationCode:
+      type: keyword
+      label.cs: Klasifikační kód
+      label.en: Classification code
+    lang:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+Rights:
+  $id: Rights
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.RightsSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.RightsUISchema
+  label.cs: Práva
+  label.en: Rights
+
+  properties:
+    rights:
+      type: keyword
+      label.cs: Práva
+      label.en: Rights
+    rightsURI:
+      type: url
+      label.cs: URI práv
+      label.en: Rights URI
+    rightsIdentifier:
+      type: keyword
+      label.cs: Identifikátor práv
+      label.en: Rights identifier
+    rightsIdentifierScheme:
+      type: keyword
+      label.cs: Schéma identifikátoru práv
+      label.en: Rights identifier scheme
+    schemeURI:
+      type: url
+      label.cs: URI schématu
+      label.en: Scheme URI
+    lang:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+Description:
+  $id: Description
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.DescriptionSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.DescriptionUISchema
+  label.cs: Popis
+  label.en: Description
+  properties:
+    description:
+      type: fulltext
+      required: true
+      label.cs: Popis
+      label.en: Description
+    descriptionType:
+      use: "datacite-datatypes#DescriptionType"
+      required: true
+      label.cs: Typ popisu
+      label.en: Description type
+    lang:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+FundingReference:
+  $id: FundingReference
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.FundingReferenceSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.FundingReferenceUISchema
+  label.cs: Finanční podpora
+  label.en: Funding reference
+  properties:
+    funderName:
+      type: keyword
+      required: true
+      label.cs: Název funderu
+      label.en: Funder name
+    funderIdentifier:
+      type: keyword
+      label.cs: Identifikátor funderu
+      label.en: Funder identifier
+    funderIdentifierType:
+      use: "datacite-datatypes#FunderIdentifierType"
+      label.cs: Typ identifikátoru funderu
+      label.en: Funder identifier type
+    awardNumber:
+      type: keyword
+      label.cs: Číslo ocenění
+      label.en: Award number
+    awardURI:
+      type: url
+      label.cs: URI ocenění
+      label.en: Award URI
+    awardTitle:
+      type: keyword
+      label.cs: Název ocenění
+      label.en: Award title
+
+Container:
+  $id: Container
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema_datatypes.ContainerSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema_datatypes.ContainerUISchema
+  label.cs: Kontejner
+  label.en: Container
+  properties:
+    type:
+      type: keyword
+      label.cs: Typ
+      label.en: Type
+    title:
+      type: keyword
+      label.cs: Název
+      label.en: Title
+    firstPage:
+      type: keyword
+      label.cs: První strana
+      label.en: First page

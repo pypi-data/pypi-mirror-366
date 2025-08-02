@@ -1,0 +1,136 @@
+DataCiteMetadata:
+  $id: DataCiteMetadata
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema.NRDataCiteMetadataSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema.NRDataCiteMetadataUISchema
+
+  properties:
+    doi:
+      type: keyword
+      label.cs: DOI
+      label.en: DOI
+
+    url:
+      type: url
+      label.cs: URL
+      label.en: URL
+
+    resourceType:
+      use: "datacite-datatypes#ResourceType"
+      label.cs: Typ zdroje
+      label.en: Resource type
+
+    creators[]:
+      "use": "datacite-datatypes#Creator"
+      ^label.cs: Autoři
+      ^label.en: Authors
+
+    titles[]:
+      use: "datacite-datatypes#Title"
+      ^label.cs: Názvy
+      ^label.en: Titles
+
+    publisher:
+      use: "datacite-datatypes#Publisher"
+      label.cs: Vydavatel
+      label.en: Publisher
+
+    publicationYear:
+      type: keyword
+      label.cs: Rok publikace
+      label.en: Publication year
+
+    subjects[]:
+      use: "datacite-datatypes#Subject"
+      ^label.cs: Témata
+      ^label.en: Subjects
+
+    contributors[]:
+      use: "datacite-datatypes#Contributor"
+      ^label.cs: Přispěvatelé
+      ^label.en: Contributors
+
+    dates[]:
+      use: "datacite-datatypes#Date"
+      ^label.cs: Data
+      ^label.en: Dates
+
+    language:
+      type: keyword
+      label.cs: Jazyk
+      label.en: Language
+
+    alternateIdentifiers[]:
+      use: "datacite-datatypes#AlternateIdentifier"
+      ^label.cs: Alternativní identifikátory
+      ^label.en: Alternate identifiers
+
+    relatedIdentifiers[]:
+      use: "datacite-datatypes#RelatedIdentifier"
+      ^label.cs: Související identifikátory
+      ^label.en: Related identifiers
+
+    relatedItems[]:
+      use: "datacite-datatypes#RelatedItem"
+      ^label.cs: Související položky
+      ^label.en: Related items
+
+    sizes[]:
+      type: keyword
+      ^label.cs: Velikosti
+      ^label.en: Sizes
+
+    formats[]:
+      type: keyword
+      ^label.cs: Formáty
+      ^label.en: Formats
+
+    version:
+      type: keyword
+      label.cs: Verze
+      label.en: Version
+
+    rightsList[]:
+      use: "datacite-datatypes#Rights"
+      ^label.cs: Práva
+      ^label.en: Rights
+
+    descriptions[]:
+      use: "datacite-datatypes#Description"
+      ^label.cs: Popisy
+      ^label.en: Descriptions
+
+    geoLocations[]:
+      use: "datacite-datatypes#GeoLocation"
+      ^label.cs: Geografické lokace
+      ^label.en: GeoLocations
+
+    fundingReferences[]:
+      use: "datacite-datatypes#FundingReference"
+      ^label.cs: Financování
+      ^label.en: Funding
+
+    schemaVersion:
+      type: keyword
+      label.cs: Verze schématu
+      label.en: Schema version
+
+    container:
+      use: "datacite-datatypes#Container"
+      label.cs: Kontejner
+      label.en: Container
+
+DataCiteModel:
+  $id: DataCiteModel
+  marshmallow:
+    class: nr_metadata.datacite.services.records.schema.DataCiteRecordSchema
+  ui:
+    marshmallow:
+      class: nr_metadata.datacite.services.records.ui_schema.DataCiteRecordUISchema
+  use: [invenio, rdm]
+
+  properties:
+    metadata:
+      use: ["datacite#DataCiteMetadata"]
