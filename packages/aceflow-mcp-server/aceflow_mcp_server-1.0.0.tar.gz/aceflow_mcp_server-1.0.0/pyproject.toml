@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aceflow-mcp-server"
+version = "1.0.0"
+description = "AceFlow MCP Server for AI-driven workflow management"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "AceFlow Team", email = "team@aceflow.dev"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "fastmcp>=0.1.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/aceflow/aceflow-mcp-server"
+Documentation = "https://docs.aceflow.dev/mcp"
+Repository = "https://github.com/aceflow/aceflow-mcp-server.git"
+Issues = "https://github.com/aceflow/aceflow-mcp-server/issues"
+
+[project.scripts]
+aceflow-mcp-server = "aceflow_mcp_server.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["aceflow_mcp_server"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=aceflow_mcp_server --cov-report=html --cov-report=term-missing"
