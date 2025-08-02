@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+#  Parche para poder usar gpio llamando a C desde python
+# esto lo uso solo para el pullup, dado que la otra libretia de gpio no lo tiene
+gcc -fPIC -shared -o gpio_h3.so gpio_h3.c
+sudo cp -v gpio_h3.so /usr/local/lib

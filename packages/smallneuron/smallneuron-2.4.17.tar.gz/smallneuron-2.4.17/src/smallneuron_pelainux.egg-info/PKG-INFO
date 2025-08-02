@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: smallneuron_pelainux
+Version: 0.1.4
+Summary: Small Neuron Workflow
+Author-email: Andres Artigas <andres@artigas.cl>
+Project-URL: Homepage, https://github.com/pypa/sampleproject
+Project-URL: Issues, https://github.com/pypa/sampleproject/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# smallneuron
+Network Programming platform
+
+Requirements
+
+mqtt bridge:
+    sudo pip3 install paho-mqtt
+
+gpio bridge:
+    sudo pip3 install --upgrade OPi.GPIO
+
+
+To use gpio h3: install gpio_h3, run 
+  ./build
+##
+##  Python Package
+# Install tools
+sudo apt install python3-pip python3-venv
+python3 -m pip install build # pip3 install build
+
+
+# Build
+python3 -m build
+python3 -m twine upload --repository testpypi dist/*
+
+# Install
+Installing module
+	sudo python3 -m pip install --upgrade --index-url https://test.pypi.org/simple/ --no-deps smallneuron-pelainux
