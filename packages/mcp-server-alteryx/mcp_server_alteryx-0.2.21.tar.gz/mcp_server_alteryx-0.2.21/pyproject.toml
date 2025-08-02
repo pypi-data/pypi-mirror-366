@@ -1,0 +1,72 @@
+[project]
+name = "mcp-server-alteryx"
+version = "0.2.21"
+description = "Model Context Protocol (MCP) server for Alteryx Server"
+authors = [
+    { name = "Jupiter Bakakeu", email = "jupiter.bakakeu@gmail.com" }
+]
+dependencies = [
+    "requests>=2.28.1",
+    "click>=8.1.7",
+    "certifi>=14.05.14",
+    "six>=1.10",
+    "python_dateutil>=2.5.3",
+    "setuptools>=21.0.0",
+    "urllib3>=1.15.1",
+    "mcp==1.12.1",
+    "anyio>=4.5",
+    "click>=8.1.0",
+    "httpx>=0.27",
+    "xmltodict>=0.12.0",
+    "starlette",
+    "uvicorn"
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["mcp", "alteryx", "alteryx-server", "model-context-protocol"]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+mcp-server-alteryx = "src.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.hatch.build]
+include = [
+    "src/**/*.py",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.ruff]
+select = ["E", "W", "F", "B", "I"]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.0",
+]
