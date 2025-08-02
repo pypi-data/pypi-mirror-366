@@ -1,0 +1,19 @@
+[package]
+name = "fsloader"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = ["cli"]
+cli = []
+gui = []
+
+[[bin]]
+name = "fsloader-cli"
+path = "src/main-cli.rs"
+required-features = ["cli"]
+
+[[bin]]
+name = "fsloader-gui"
+path = "src/main-gui.rs"
+required-features = ["gui"]
