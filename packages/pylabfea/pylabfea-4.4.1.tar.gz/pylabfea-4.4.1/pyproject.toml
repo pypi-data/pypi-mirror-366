@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pylabfea"
+version = '4.4.1'
+description = "Python Laboratory for Finite Element Analysis"
+authors = [
+  { name = "Alexander Hartmaier", email = "alexander.hartmaier@rub.de" },
+  { name = "Ronak Shoghi" },
+  { name = "Jan Schmidt" }
+]
+readme = "README.md"
+requires-python = ">=3"
+license = "GPL-3.0-only"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13"
+]
+dependencies = [
+  "numpy",
+  "matplotlib",
+  "scipy",
+  "scikit-learn",
+  "pytest"
+]
+
+[project.optional-dependencies]
+test = ["pytest>=3"]
+dev = ["pytest-runner", "black", "build", "twine"]
+
+[tool.setuptools]
+packages = ["pylabfea"]
+
+[tool.setuptools.package-dir]
+"" = "src"
