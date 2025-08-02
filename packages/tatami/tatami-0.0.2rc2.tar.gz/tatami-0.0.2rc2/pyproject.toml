@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+test = ["pytest==8.4.1", "coverage==7.9.2", "httpx==0.28.1"]
+
+[tool.hatch.version]
+path = "tatami/__init__.py"
+
+[tool.hatch.build]
+include = [
+  "tatami/data/**"
+]
+
+[project]
+name = "tatami"
+dynamic = ["version"]
+authors = [{ name = "Ibon", email = "ibonescartin@gmail.com" }]
+description = "The clean, modular Python web floorplan"
+dependencies = [
+  "starlette==0.47.2",
+  "uvicorn==0.35.0",
+  "jinja2==3.1.6",
+  "pydantic==2.11.7",
+  "colorama==0.4.6",
+  "pyyaml==6.0.2",
+  "python-dotenv==1.1.1",
+]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Framework :: Pydantic",
+  "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+  "Environment :: Web Environment",
+  "Natural Language :: English",
+]
+license = "LGPL-3.0-only"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/ibonn/tatami"
+Documentation = "https://ibonn.github.io/tatami/"
+Repository = "https://github.com/ibonn/tatami.git"
+
+[project.scripts]
+tatami = "tatami.__main__:main"
