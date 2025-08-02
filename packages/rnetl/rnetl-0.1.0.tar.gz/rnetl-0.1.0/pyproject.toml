@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rnetl"
+version = "0.1.0"
+license = "MIT"
+authors = [
+  { name="Prof. Huaiwei Sun", email="hsun@hust.edu.cn" }
+]
+description = "A package for network logic operations"
+readme = "README_rnetl.md"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+]
+
+requires-python = ">=3.9"
+dependencies = [
+  "numpy>=1.18.0",
+  "pandas>=1.0.0",
+  "matplotlib>=3.0.0",
+  "networkx>=2.4",
+]
