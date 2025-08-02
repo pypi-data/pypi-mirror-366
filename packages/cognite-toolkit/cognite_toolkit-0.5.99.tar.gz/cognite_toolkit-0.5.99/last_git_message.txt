@@ -1,0 +1,34 @@
+[CDF-25387] 🤖 Publish agents issue (#1812)
+
+# Description
+
+Currently there are unofficial properties in the Agents API. These will
+likely be removed/changed, however, we cannot ignore them in a CICD
+setting as the unofficial property `labels` is used to determine whether
+an Agent is shown in the UI or not.
+
+This PR ensures that all unofficial properties are passed from the API
+to the YAML file in `cdf dump agents` and when reading the YAML file and
+deploying it with the `cdf deploy`.
+
+In addition, since we are updating the `cognite-sdk` to the version that
+includes the `AgentsAcl` we have to include this in the builtin modules
+read and read-write all. (We have a tests that ensure that these modules
+are up-to-date with all available ACLs.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- [alpha] Running `cdf dump agents` and `cdf deploy` with agents.
+Unofficial properties from the API are now included.
+
+## templates
+
+No changes.
