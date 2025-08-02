@@ -1,0 +1,338 @@
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = 'planetary-coverage'
+version = "1.2.0"
+description = 'Planetary coverage package'
+license = "BSD 3-Clause License"
+authors = [
+    {name = "Seignovert et al.", email="contact@planetary-coverage.org"},
+]
+readme = 'README.md'
+keywords = ['planetary', 'coverage', 'spice', 'esa', 'juice']
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: BSD License',
+    'Natural Language :: English',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Scientific/Engineering :: Astronomy',
+    'Topic :: Scientific/Engineering :: Atmospheric Science',
+]
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "numpy>=1.26",
+    "matplotlib>=3.10",
+    "spiceypy>=6.0",
+    "pillow>=11",
+    "defusedxml>=0.7.1",
+    "certifi>=2025",
+]
+
+[project.optional-dependencies]
+juice = ["esa-ptr>=1.4"]
+
+[project.urls]
+Documentation = 'https://docs.planetary-coverage.org'
+Repository = 'https://gitlab.esa.int/juice-soc-public/python/planetary-coverage'
+"Bug Tracker" = 'https://gitlab.esa.int/juice-soc-public/python/planetary-coverage/-/issues'
+Changelog = 'https://docs.planetary-coverage.org/latest/CHANGELOG.html'
+
+[project.scripts]
+mk-download = 'planetary_coverage.cli:cli_metakernel_download'
+kernel-download = 'planetary_coverage.cli:cli_kernel_download'
+
+# Poetry linter dependencies
+[tool.poetry.group.linter]
+optional = true
+
+[tool.poetry.group.linter.dependencies]
+ruff = ">=0.12"
+
+# Poetry tests dependencies
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=8.4"
+pytest-cov = ">=6.2"
+
+# Poetry docs dependencies
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+Sphinx = ">=8.2"
+sphinx-copybutton = ">=0.5"
+sphinx-tabs = ">=3.4"
+sphinx-book-theme = ">=1.1"
+sphinx-gallery = ">=0.19"
+myst-nb = ">=1.3"
+jupyterlab = ">=4.4"
+jupytext = ">=1.17"
+pypandoc = ">=1.15"
+sphinxcontrib-svg2pdfconverter = {version = ">=1.3", extras = ["CairoSVG"]}
+sphinx-autobuild = ">=2024.10"
+
+# Poetry deployment dependencies
+[tool.poetry.group.deploy]
+optional = true
+
+[tool.poetry.group.deploy.dependencies]
+bump-my-version = ">=1.2"
+
+# Pytest configuration
+
+[tool.pytest.ini_options]
+minversion = '6.0'
+addopts = '-vv --color=yes --cov=planetary_coverage --cov-report term-missing'
+testpaths = ['tests']
+
+# Pytest coverage configuration
+
+[tool.coverage.run]
+omit = [
+    'tests/*',
+]
+
+[tool.coverage.report]
+fail_under = 100
+exclude_lines = [
+    'def __repr__',
+    'pragma: no cover',
+    'raise NotImplementedError',
+]
+
+# Ruff config
+[tool.ruff]
+line-length = 90
+
+[tool.ruff.format]
+preview = true
+quote-style = "single"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "F",    # Pyflakes
+    "E",    # pycodestyle
+    "W",    # pycodestyle
+    "PL",   # Pylint
+    "I",    # isort
+    "N",    # pep8-naming
+    "C90",  # mccabe
+    "UP",   # pyupgrade
+    "S",    # flake8-bandit
+    "A",    # flake8-builtins
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "COM",  # flake8-commas
+    "C4",   # flake8-comprehensions
+    "T20",  # flake8-print
+    "Q",    # flake8-quotes
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+]
+ignore = [
+    "A005",    # disable shadowing a Python builtin module
+    "COM812",  # disable ruff format warning
+    "S603",    # disable subprocess-without-shell-equals-true (see PyCQA/bandit#333)
+]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+docstring-quotes = "double"
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.pylint]
+max-statements = 100
+max-args = 10
+max-public-methods = 30
+allow-dunder-method-names = ["_ipython_key_completions_", "_repr_html_", "_repr_png_"]
+
+[tool.ruff.lint.per-file-ignores]
+"docs/trim_kernels/*.py" = [
+    "S404",  # suspicious-subprocess-import
+    "S607",  # start-process-with-partial-path
+]
+"examples/*.py" = [
+    "B018",     # useless-expression
+    "PLR2004",  # magic-value-comparison
+]
+"tests/*.py" = [
+    "S101",     # assert
+    "PLR2004",  # magic-value-comparison
+]
+
+# Isort configuration
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+relative-imports-order = "closest-to-furthest"
+section-order = [
+  "future",
+  "standard-library",
+  "numpy",
+  "matplotlib",
+  "spiceypy",
+  "pytest",
+  "third-party",
+  "first-party",
+  "local-folder",
+]
+
+extra-standard-library = ["certifi", "defusedxml"]
+known-first-party = ["planetary_coverage"]
+
+[tool.ruff.lint.isort.sections]
+numpy = ["numpy"]
+matplotlib = ["matplotlib"]
+spiceypy = ["spiceypy"]
+pytest = ["pytest"]
+
+# Bump version
+
+[tool.bumpversion]
+current_version = "1.2.0"
+commit = true
+
+[[tool.bumpversion.files]]
+filename = "src/planetary_coverage/__version__.py"
+
+[[tool.bumpversion.files]]
+filename = "README.md"
+
+[[tool.bumpversion.files]]
+filename = "docs/index.md"
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+
+[[tool.bumpversion.files]]
+filename = "planetary-coverage.bib"
+
+# Bump DOI
+
+[[tool.bumpversion.files]]
+filename = "README.md"
+search = "10\\.60487/[0-9a-z]{{4}}-[0-9a-z]{{4}}"
+replace = "10.60487/{$DOI}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "docs/index.md"
+search = "10\\.60487/[0-9a-z]{{4}}-[0-9a-z]{{4}}"
+replace = "10.60487/{$DOI}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+search = "10\\.60487/[0-9a-z]{{4}}-[0-9a-z]{{4}}"
+replace = "10.60487/{$DOI}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+search = "10\\.60487/[0-9a-z]{{4}}-[0-9a-z]{{4}}"
+replace = "10.60487/{$DOI}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "planetary-coverage.bib"
+search = "10\\.60487/[0-9a-z]{{4}}-[0-9a-z]{{4}}"
+replace = "10.60487/{$DOI}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "CHANGELOG.md"
+search = """
+[new]: https://gitlab.esa.int/juice-soc-public/python/planetary-coverage/-/compare/{current_version}...main
+"""
+replace = """
+[new]: https://gitlab.esa.int/juice-soc-public/python/planetary-coverage/-/compare/{current_version}...main
+
+[![10.60487/{$DOI}](https://data.caltech.edu/badge/DOI/10.60487/{$DOI}.svg)](https://doi.org/10.60487/{$DOI})
+
+"""
+## Bump changelog
+
+[[tool.bumpversion.files]]
+filename = "CHANGELOG.md"
+search = """
+[Unreleased][new]
+-----------------
+[new]: https://gitlab.esa.int/juice-soc-public/python/planetary-coverage/-/compare/{current_version}...main
+"""
+replace = """
+[Unreleased][new]
+-----------------
+[new]: https://gitlab.esa.int/juice-soc-public/python/planetary-coverage/-/compare/{new_version}...main
+
+
+[Release {new_version} - {now:%Y/%m/%d}][{new_version}]
+-----------------------------------
+[{new_version}]: https://gitlab.esa.int/juice-soc-public/python/planetary-coverage/-/releases/{new_version}
+"""
+
+## Bump dates
+
+[[tool.bumpversion.files]]
+filename = "LICENSE.md"
+search = "Copyright \\(c\\) 2020-\\d{{4}}"
+replace = "Copyright (c) 2020-{now:%Y}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "README.md"
+search = "> Seignovert _et al._ \\d{{4}}"
+replace = "> Seignovert _et al._ {now:%Y}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "docs/index.md"
+search = "> Seignovert _et al._ \\d{{4}}"
+replace = "> Seignovert _et al._ {now:%Y}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+search = '"datePublished": "\d{{4}}-\d{{2}}-\d{{2}}"'
+replace = '"datePublished": "{now:%Y-%m-%d}"'
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+search = '"dateModified": "\d{{4}}-\d{{2}}-\d{{2}}"'
+replace = '"dateModified": "{now:%Y-%m-%d}"'
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+search = "date-released: \\d{{4}}-\\d{{2}}-\\d{{2}}"
+replace = "date-released: {now:%Y-%m-%d}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+search = "Seignovert et al. \\d{{4}}"
+replace = "Seignovert et al. {now:%Y}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "planetary-coverage.bib"
+search = "date        = {{\\d{{4}}}},"
+replace = "date        = {{{now:%Y}}},"
+regex = true
