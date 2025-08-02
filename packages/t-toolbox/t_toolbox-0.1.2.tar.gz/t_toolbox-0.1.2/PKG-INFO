@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: t-toolbox
+Version: 0.1.2
+Summary: 
+License: GPL-3.0-or-later
+Author: taitep
+Author-email: taitep@taitep.se
+Requires-Python: >=3.8,<4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: consumable (>=1.1.3,<2.0.0)
+Description-Content-Type: text/markdown
+
+# T-Toolbox
+
+My toolbox for python.
+
+## Freeform
+
+Freeform is a class that can turn any set of arguments into fields.
+
+### Examples
+
+```py
+# Import the Freeform class
+from t_toolbox import Freeform
+
+# Create a Freeform instance with class fields
+my_data = Freeform(name="John", age=30, city="New York")
+
+# Access the class fields
+print("Name:", my_data.name)
+print("Age:", my_data.age)
+print("City:", my_data.city)
+
+```
+
+## Consumable
+
+Bool that resets to false after use.
+
+### Examples
+
+```py
+from consumable import Consumable
+
+consumable = Consumable(True)
+
+if consumable:
+    print("Consumable is true!!")
+
+if consumable:
+    # Will not activate, previous use sets consumable to False!
+    print("Consumable is true again!! Should not happen.")
+```
+
