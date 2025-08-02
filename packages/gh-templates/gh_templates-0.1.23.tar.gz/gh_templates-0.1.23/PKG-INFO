@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: gh-templates
+Version: 0.1.23
+Summary: GitHub Templates CLI tool - unified installer
+Home-page: https://github.com/RafaelJohn9/gh-templates
+Author: Rafael John
+License: Apache-2.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: gh-templates-linux-x64-glibc==0.1.23
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+# gh-templates
+
+GitHub Templates CLI tool for managing and using GitHub repository templates.
+This package automatically installs the correct binary for your platform.
+
+## Usage
+
+```bash
+pip install gh-templates
+gh-templates --help
+```
+
+## Supported Platforms
+
+- Linux (x64, ARM64)
+- macOS (x64, ARM64)  
+- Windows (x64)
+    
