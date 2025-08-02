@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include requirements.txt
+include Cargo.toml
+recursive-include src *.rs
+recursive-include shaheenviz *.py *.pyd *.dll *.so
+include shaheenviz/shaheenviz_rs.pyd
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
