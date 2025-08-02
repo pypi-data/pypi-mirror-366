@@ -1,0 +1,75 @@
+
+        <svg width="200" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="arrowClip-dccd2b">
+              <rect x="0" y="0" width="200" height="50"/>
+            </clipPath>
+            
+          </defs>
+        
+          <style>
+            .arrow-dccd2b {
+              stroke: #10b981;
+              stroke-width: 8;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              fill: none;
+            }
+            
+                .arrow1-dccd2b {
+      animation: flow1-dccd2b 6.67s ease-in-out infinite;
+    }
+    
+    .arrow2-dccd2b {
+      animation: flow2-dccd2b 6.67s ease-in-out infinite;
+    }
+            
+            
+        @keyframes flow1-dccd2b {
+          0% {
+            transform: translateX(100.0px);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-100.0px);
+            opacity: 0;
+          }
+        }
+        
+    
+        @keyframes flow2-dccd2b {
+          0% {
+            transform: translateX(100.0px);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-100.0px);
+            opacity: 0;
+          }
+        }
+        
+          </style>
+        
+          <g clip-path="url(#arrowClip-dccd2b)">
+                <g class="arrow-dccd2b arrow1-dccd2b">
+      <polyline points="125,13 75,25 125,37"/>
+    </g>
+    
+    <g class="arrow-dccd2b arrow2-dccd2b" style="animation-delay: -3.33s;">
+      <polyline points="125,13 75,25 125,37"/>
+    </g>
+          </g>
+        </svg>
+        

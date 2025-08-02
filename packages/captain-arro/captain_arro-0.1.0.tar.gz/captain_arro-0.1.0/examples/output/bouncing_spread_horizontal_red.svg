@@ -1,0 +1,78 @@
+
+        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="arrowClip-068d81">
+              <rect x="0" y="0" width="400" height="200"/>
+            </clipPath>
+          </defs>
+
+          <style>
+            .arrow-068d81 {
+              stroke: red;
+              stroke-width: 8;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              fill: none;
+            }
+
+            .group-left-068d81 {
+              animation: moveLeft-068d81 2.25s ease infinite alternate;
+            }
+
+            .group-right-068d81 {
+              animation: moveRight-068d81 2.25s ease infinite alternate;
+            }
+
+            .group-top-068d81 {
+              animation: moveTop-068d81 2.25s ease infinite alternate;
+            }
+
+            .group-bottom-068d81 {
+              animation: moveBottom-068d81 2.25s ease infinite alternate;
+            }
+
+            
+        @keyframes moveLeft-068d81 {
+          0% { transform: translateX(0px); }
+          100% { transform: translateX(45.0px); }
+        }
+
+        @keyframes moveRight-068d81 {
+          0% { transform: translateX(0px); }
+          100% { transform: translateX(-45.0px); }
+        }
+          </style>
+
+          <g clip-path="url(#arrowClip-068d81)">
+            <g class="arrow-068d81 group-left-068d81">
+      <g style="transform: translate(109px, 100px)">
+        <polyline points="15,-80 -15,0 15,80"/>
+      </g>
+      <g style="transform: translate(79px, 100px)">
+        <polyline points="15,-80 -15,0 15,80"/>
+      </g>
+      <g style="transform: translate(49px, 100px)">
+        <polyline points="15,-80 -15,0 15,80"/>
+      </g>
+      <g style="transform: translate(19px, 100px)">
+        <polyline points="15,-80 -15,0 15,80"/>
+      </g>
+    </g>
+    
+    <g class="arrow-068d81 group-right-068d81">
+      <g style="transform: translate(291px, 100px)">
+        <polyline points="-15,-80 15,0 -15,80"/>
+      </g>
+      <g style="transform: translate(321px, 100px)">
+        <polyline points="-15,-80 15,0 -15,80"/>
+      </g>
+      <g style="transform: translate(351px, 100px)">
+        <polyline points="-15,-80 15,0 -15,80"/>
+      </g>
+      <g style="transform: translate(381px, 100px)">
+        <polyline points="-15,-80 15,0 -15,80"/>
+      </g>
+    </g>
+          </g>
+        </svg>
+        

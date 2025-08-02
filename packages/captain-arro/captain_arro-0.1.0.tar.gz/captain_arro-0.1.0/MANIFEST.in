@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include captain_arro/py.typed
+
+recursive-include examples *.py *.md *.svg
+recursive-include tests *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

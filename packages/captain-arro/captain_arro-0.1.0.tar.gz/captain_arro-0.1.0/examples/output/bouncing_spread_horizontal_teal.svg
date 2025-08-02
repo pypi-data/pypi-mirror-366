@@ -1,0 +1,66 @@
+
+        <svg width="250" height="100" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="arrowClip-89d5da">
+              <rect x="0" y="0" width="250" height="100"/>
+            </clipPath>
+          </defs>
+
+          <style>
+            .arrow-89d5da {
+              stroke: #14b8a6;
+              stroke-width: 10;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              fill: none;
+            }
+
+            .group-left-89d5da {
+              animation: moveLeft-89d5da 1.88s ease-in-out infinite alternate;
+            }
+
+            .group-right-89d5da {
+              animation: moveRight-89d5da 1.88s ease-in-out infinite alternate;
+            }
+
+            .group-top-89d5da {
+              animation: moveTop-89d5da 1.88s ease-in-out infinite alternate;
+            }
+
+            .group-bottom-89d5da {
+              animation: moveBottom-89d5da 1.88s ease-in-out infinite alternate;
+            }
+
+            
+        @keyframes moveLeft-89d5da {
+          0% { transform: translateX(0px); }
+          100% { transform: translateX(28.2px); }
+        }
+
+        @keyframes moveRight-89d5da {
+          0% { transform: translateX(0px); }
+          100% { transform: translateX(-28.2px); }
+        }
+          </style>
+
+          <g clip-path="url(#arrowClip-89d5da)">
+            <g class="arrow-89d5da group-left-89d5da">
+      <g style="transform: translate(72px, 50px)">
+        <polyline points="21,-40 -21,0 21,40"/>
+      </g>
+      <g style="transform: translate(29px, 50px)">
+        <polyline points="21,-40 -21,0 21,40"/>
+      </g>
+    </g>
+    
+    <g class="arrow-89d5da group-right-89d5da">
+      <g style="transform: translate(178px, 50px)">
+        <polyline points="-21,-40 21,0 -21,40"/>
+      </g>
+      <g style="transform: translate(221px, 50px)">
+        <polyline points="-21,-40 21,0 -21,40"/>
+      </g>
+    </g>
+          </g>
+        </svg>
+        
