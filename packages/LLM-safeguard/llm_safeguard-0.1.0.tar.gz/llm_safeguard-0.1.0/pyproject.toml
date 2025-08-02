@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "LLM-safeguard"
+version = "0.1.0"
+description = "Universal middleware for safeguarding AI‑generated content"
+authors = [{ name = "Julius Deane", email = "founder.haail@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = ["content-moderation", "safety", "middleware", "LLM"]
+dependencies = [
+  "fastapi>=0.95.0",
+  "transformers>=4.30.0",
+  "requests>=2.25.0",
+  "torch",
+  "uvicorn[standard]"
+]
+
+[project.optional-dependencies]
+flask = ["flask>=2.0.0"]
+django = ["django>=3.2"]
+streamlit = ["streamlit"]
+dev = ["pytest", "httpx", "black", "isort"]
+
+[tool.setuptools]
+packages = [
+  "safeguarding",
+  "safeguarding.core",
+  "safeguarding.filters",
+  "safeguarding.utils",
+  "safeguarding.middleware",
+  "safeguarding.api",
+  "safeguarding.hooks",
+  "safeguarding.config"
+]
+
+[tool.setuptools.package-data]
+"safeguarding.config" = ["safeguard_config.json"]
