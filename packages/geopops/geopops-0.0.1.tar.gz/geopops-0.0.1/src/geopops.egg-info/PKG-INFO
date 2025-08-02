@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: geopops
+Version: 0.0.1
+Summary: GeoPops testing
+Home-page: https://github.com/ACCIDDA/GeoPops
+Author: Alisa Hamilton
+Author-email: ahamil33@jh.edu
+Project-URL: Bug Tracker, https://github.com/ACCIDDA/GeoPops/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# GeoPops
+**Full documentation and tutorials coming soon!**
+
+GeoPops is a package for generating synthetic populations (people, households, schools, and workplaces) from US Census data for a specified region. GeoPops uses combinatorial optimization (CO) to sample households from Public Use Microdata Samples (PUMS) to match marginal demographic targets from the American Community Survey (ACS) at the Census Block Group (CBG) level. Individuals are then assigned to schools and workplaces based on enrollment data and commute flows. Contact networks for schools and workplaces are generated using stochastic block models to capture assortative mixing patterns. Data downloading and pre-processing use Python, while CO and network generation use Julia to reduce runtime. GeoPops builds on a previous package, [GREASYPOP-CO](https://github.com/CDDEP-DC/GREASYPOP-CO/tree/main), and we are currently implementing the following changes:
+- code compatible with Census data beyond 2019
+- data downloading and processing wrapped in a Python package
+- users can specify the year and region of the population they wish to generate with front-end commands
+- extension to process data compatible with the agent-based modeling software [Starsim](https://starsim.org/)
+## How to use
+By December 2025, you will be able to install GeoPops via [PyPI](https://pypi.org/):
+```
+pip install geopops
+```
+The following Python script processes input data for a 2021 population of Maryland (state fips code 24) with agents who commute to work into and out of Maryland from DC (fips code 11) and northern Virginia (fips code 51). First, you'll need to obtain a Census API key [here](https://api.census.gov/data/key_signup.html).
+```
+import geopops as gps
+gps.download(year=2021, geos=[24], use_pums=[24], commute_states=[24,11,51], census_api_key=[your_key_here])
+gps.process()
+```
+The `gps.download()` class downloads corresponding data into the folders "census", "geo", "pums", and "work". School data needs to be downloaded manually following the instructions in `download_from_nces.txt` in the "school" folder. The `gps.process()` class reads these files and outputs data into the folder "processed". Next, run the following scripts in Julia:
+```
+CO.jl
+synthpop.jl
+export_synthpop.jl
+export_network.jl
+```
+`CO.jl` searches for an optimal combination of samples to match Census data. `synthpop.jl` assigns individuals to schools and workplaces and connects them within these settings using stochastic block modeling. If you want to continue in Julia, the population and contact networks are serialized in the folder "jlse". `export_synthpop.jl` and `export_network.jl` export the population as mtx and csv files into the folder `pop_export`. Then you can process your files to be compatible with the open-source agent-based modeling software Starsim by running the following line in Python:
+```
+gps.starsim()
+```
+This class reads the files in the "pop_export" folder and creates csv files for generating a `People` object and corresponding networks (home, school, workplace) for simulations using Starsim.
+
+Prior to December 2025, you can generate a population by downloading this repository and running the files `data_download.py` and `census.py`, followed by the Julia scripts. First, define year, geos, use_pums, commute_states, and census_api_key in the file `config.json`. For more information on data sources and files within this repository, visit [GREASYPOP-CO](https://github.com/CDDEP-DC/GREASYPOP-CO/tree/main). Full GeoPops documentation and tutorials coming soon!
+
