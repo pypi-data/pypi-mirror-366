@@ -1,0 +1,4 @@
+from .core import Fladoja
+
+__version__ = "0.1.0"
+__all__ = ["Fladoja"]
