@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name            = "asusrouter"
+version         = "1.16.0"
+license         = {text = "Apache-2.0"}
+requires-python = ">=3.11.0"
+readme          = "README.md"
+description     = "API wrapper for communication with ASUSWRT-powered routers using HTTP protocol"
+authors         = [
+    { name="Yevhenii Vaskivskyi", email="yevhenii@vaskivskyi.com" },
+]
+classifiers     = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies    = [
+    "aiohttp >=3.8.1",
+    "urllib3 >=1.26.14",
+    "xmltodict >=0.12.0",
+]
+
+[project.urls]
+"Homepage"      = "https://asusrouter.vaskivskyi.com/"
+"Source Code"   = "https://github.com/Vaskivskyi/asusrouter"
+"Bug Reports"   = "https://github.com/Vaskivskyi/asusrouter/issues"
+
+[tool.setuptools.packages.find]
+include = ["asusrouter*"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pydantic>=2.10.6",
+    "ruff>=0.11.0",
+]
+test = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.25.3",
+    "pytest-cov>=6.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+show_error_codes = true
+exclude = "tests/.*"
+
+[tool.ruff]
+line-length = 79
+select = ["E", "F", "W", "C", "N"]
+target-version = "py311"
