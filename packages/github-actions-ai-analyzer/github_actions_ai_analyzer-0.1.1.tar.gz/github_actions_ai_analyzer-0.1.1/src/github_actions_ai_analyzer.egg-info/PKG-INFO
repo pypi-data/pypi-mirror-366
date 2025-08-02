@@ -1,0 +1,322 @@
+Metadata-Version: 2.4
+Name: github-actions-ai-analyzer
+Version: 0.1.1
+Summary: GitHub Actionsのエラーログを解析し、AIによる改善案生成を支援するライブラリ
+Author-email: Scott LZ <scottlz0310@gmail.com>
+Maintainer-email: Scott LZ <scottlz0310@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/scottlz0310/Github-Actions-AI-Analyzer
+Project-URL: Repository, https://github.com/scottlz0310/Github-Actions-AI-Analyzer
+Project-URL: Documentation, https://github.com/scottlz0310/Github-Actions-AI-Analyzer#readme
+Project-URL: Issues, https://github.com/scottlz0310/Github-Actions-AI-Analyzer/issues
+Keywords: github-actions,ci-cd,error-analysis,ai,automation,logging,debugging,devops
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: System :: Logging
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: requests>=2.28.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: rich>=12.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: regex>=2022.0.0
+Requires-Dist: jinja2>=3.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: isort>=5.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=2.0.0; extra == "dev"
+Dynamic: license-file
+
+# GitHub Actions AI Analyzer
+
+[![PyPI version](https://badge.fury.io/py/github-actions-ai-analyzer.svg)](https://badge.fury.io/py/github-actions-ai-analyzer)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+GitHub Actionsのエラーログを解析し、AIによる改善案生成を支援するライブラリ・ツールです。
+
+## 📖 概要
+
+GitHub Actionsのワークフロー実行で発生するエラーログは、大量のノイズを含み、AIが根本原因を特定するのが困難です。このツールは、エラーログを構造化・最適化し、AIによる効果的な改善案生成を支援します。
+
+### 🎯 解決する課題
+
+- **ログのノイズ除去**: セットアップログ、無関係な警告の除去
+- **エラーの構造化**: 散在するエラー情報の統合と分類
+- **コンテキスト情報の補完**: ワークフロー構成、リポジトリ情報との関連付け
+- **AI向け最適化**: AIが理解しやすい形でのプロンプト生成
+
+## ✨ 主な機能
+
+- **ログ解析エンジン**: GitHub Actionsの生ログを解析し、構造化されたエラー情報を抽出
+- **パターンマッチングシステム**: 既知のエラーパターンとのマッチングによる高速な原因特定
+- **コンテキスト収集システム**: エラーの背景情報を収集し、AI解析の精度向上に寄与
+- **AI プロンプト最適化エンジン**: 構造化されたエラー情報をAIが理解しやすい形式に変換
+- **多言語対応**: Python、JavaScript、Javaのエラーパターンに対応
+- **豊富な出力形式**: テキスト、JSON、YAML形式での結果出力
+
+## 🛠️ 対応言語・フレームワーク
+
+### Python
+- **パッケージマネージャー**: pip, poetry, venv
+- **フレームワーク**: Django, Flask, FastAPI
+- **エラーパターン**: ModuleNotFoundError, ImportError, pip install failures
+
+### JavaScript/Node.js
+- **パッケージマネージャー**: npm, yarn, pnpm
+- **フレームワーク**: React, Vue, Next.js, Express
+- **エラーパターン**: npm install failures, module resolution errors
+
+### Java
+- **ビルドツール**: Maven, Gradle
+- **フレームワーク**: Spring Boot, Jakarta EE
+- **エラーパターン**: Compilation errors, dependency conflicts
+
+## 🚀 インストール
+
+```bash
+# 最新バージョンをインストール
+pip install github-actions-ai-analyzer
+
+# 特定のバージョンをインストール
+pip install github-actions-ai-analyzer==0.1.1
+```
+
+## 📚 使用方法
+
+### 基本的な使用例
+
+```python
+from github_actions_ai_analyzer import GitHubActionsAnalyzer
+from github_actions_ai_analyzer.types import LogLevel
+
+# アナライザーを作成
+analyzer = GitHubActionsAnalyzer()
+
+# ログファイルを解析
+result = analyzer.analyze_log_file(
+    log_file_path="path/to/log.txt",
+    workflow_file_path=".github/workflows/ci.yml",
+    repository_path=".",
+    min_log_level=LogLevel.WARNING
+)
+
+# 結果を表示
+print(result.summary)
+for error in result.error_analyses:
+    print(f"エラー: {error.root_cause}")
+    print(f"重要度: {error.severity}")
+    print(f"影響ステップ: {', '.join(error.affected_steps)}")
+
+# 解決策を表示
+for solution in result.solution_proposals:
+    print(f"解決策: {solution.title}")
+    print(f"信頼度: {solution.confidence:.1%}")
+```
+
+### CLI の使用
+
+```bash
+# 基本的なログファイル解析
+gh-actions-analyzer analyze log.txt
+
+# ワークフローファイルを指定して解析
+gh-actions-analyzer analyze log.txt -w .github/workflows/ci.yml
+
+# リポジトリパスを指定
+gh-actions-analyzer analyze log.txt -r /path/to/repository
+
+# JSON形式で出力
+gh-actions-analyzer analyze log.txt -o json
+
+# 最小ログレベルを指定（error以上のみ）
+gh-actions-analyzer analyze log.txt -l error
+
+# ヘルプを表示
+gh-actions-analyzer --help
+```
+
+### 出力例
+
+```
+GitHub Actions AI Analyzer
+ログファイル: /path/to/log.txt
+
+解析結果:
+解析ID: 12345678-1234-1234-1234-123456789abc
+サマリー: 合計3個のエラーが検出され、2個の解決策が提案されました。
+
+エラー分析数: 3
+エラー 1:
+  ID: error_dep_missing_package_0
+  根本原因: Pythonパッケージが見つからない
+  重要度: error
+  影響ステップ: Install dependencies
+  関連ファイル: *.py
+
+解決策提案数: 2
+解決策 1:
+  タイトル: Missing Packageの解決
+  説明: Pythonパッケージが見つからないを解決するための手順
+  信頼度: 70.0%
+  推定時間: 5-10分
+```
+
+## 🔧 開発
+
+### セットアップ
+
+```bash
+# リポジトリをクローン
+git clone https://github.com/scottlz0310/Github-Actions-AI-Analyzer.git
+cd Github-Actions-AI-Analyzer
+
+# 開発環境をセットアップ
+pip install -e ".[dev]"
+
+# プリコミットフックをインストール
+pre-commit install
+```
+
+### テスト
+
+```bash
+# 全テストを実行
+pytest
+
+# カバレッジ付きでテスト実行
+pytest --cov=src/github_actions_ai_analyzer
+
+# 特定のテストファイルを実行
+pytest tests/unit/test_log_processor.py
+```
+
+### コード品質
+
+```bash
+# コードフォーマット
+black src/ tests/
+
+# インポートソート
+isort src/ tests/
+
+# リンティング
+flake8 src/ tests/
+
+# 型チェック
+mypy src/
+```
+
+### 使用例の実行
+
+```bash
+# 基本的な使用例を実行
+python examples/basic_usage.py
+```
+
+## 📋 エラーパターン
+
+### 依存関係エラー
+- パッケージの不整合
+- バージョン競合
+- インストール失敗
+
+### 権限エラー
+- ファイルアクセス権限
+- 実行権限の問題
+
+### 環境エラー
+- コマンド不足
+- PATH設定の問題
+- バージョン不一致
+
+### ネットワークエラー
+- タイムアウト
+- 接続エラー
+- DNS解決失敗
+
+### 構文エラー
+- YAML構文エラー
+- JSON構文エラー
+- スクリプト構文エラー
+
+## 🤝 貢献
+
+プルリクエストやイシューの報告を歓迎します！
+
+### 貢献の流れ
+
+1. このリポジトリをフォーク
+2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
+
+詳しくは[CONTRIBUTING.md](CONTRIBUTING.md)をご覧ください。
+
+## 📄 ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。詳しくは[LICENSE](LICENSE)ファイルをご覧ください。
+
+## 🙏 謝辞
+
+- [GitHub Actions](https://github.com/features/actions) - CI/CDプラットフォーム
+- [Pydantic](https://pydantic-docs.helpmanual.io/) - データバリデーション
+- [Click](https://click.palletsprojects.com/) - CLIフレームワーク
+- [Rich](https://rich.readthedocs.io/) - ターミナル出力
+
+## 📞 サポート
+
+- **Issues**: [GitHub Issues](https://github.com/scottlz0310/Github-Actions-AI-Analyzer/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/scottlz0310/Github-Actions-AI-Analyzer/discussions)
+- **Email**: scottlz0310@gmail.com
+
+## 📊 プロジェクト状況
+
+### 現在のバージョン
+- **Version**: 0.1.1
+- **Release Date**: 2024-08-02
+- **Python Support**: 3.8+
+
+### テストカバレッジ
+- **Overall Coverage**: 70%
+- **Core Modules**: 
+  - PatternMatcher: 100%
+  - ContextCollector: 92%
+  - Analyzer: 84%
+  - LogProcessor: 67%
+
+### 対応状況
+- ✅ 基本的なログ解析機能
+- ✅ エラーパターンマッチング
+- ✅ CLIインターフェース
+- ✅ 多言語対応（Python, JavaScript, Java）
+- ✅ テストフレームワーク
+- 🔄 AIプロンプト最適化（開発中）
+- 🔄 統合テスト（開発中）
+
+---
+
+⭐ このプロジェクトが役に立ったら、スターを付けてください！ 
