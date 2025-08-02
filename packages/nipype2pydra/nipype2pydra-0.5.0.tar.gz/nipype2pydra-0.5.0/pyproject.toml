@@ -1,0 +1,105 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs", "setuptools", "packaging"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nipype2pydra"
+description = "Tool for converting Nipype tasks and workflows into Pydra syntax"
+readme = "README.rst"
+requires-python = ">=3.7"
+dependencies = [
+    "black",
+    "attrs>=22.1.0",
+    "nipype",
+    "pydra >=1.0a",
+    "PyYAML>=6.0",
+    "fileformats >=0.8",
+    "fileformats-medimage >=0.4",
+    "fileformats-datascience",
+    "requests>=2.31.0",
+    "traits",
+    "tqdm",
+    "toml",
+    "typing_extensions",
+]
+license = { file = "LICENSE" }
+authors = [{ name = "Thomas G. Close", email = "tom.g.close@gmail.com" }]
+maintainers = [{ name = "Thomas G. Close", email = "tom.g.close@gmail.com" }]
+keywords = ["nipype", "data", "pydra", "workflows", "converters"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = ["pre-commit", "codespell", "flake8", "flake8-pyproject"]
+test = [
+    "pytest >=6.2.5",
+    "pytest-env>=0.6.2",
+    "pytest-cov>=2.12.1",
+    "fileformats-medimage-extras",
+    "fileformats-medimage-afni",
+    "niworkflows",
+    # "mriqc",
+    "nipy",
+    "nireports",
+    "nitime",
+    "datalad",
+    # "qsmxt",
+    "nirodents",
+]
+docs = [
+    "packaging",
+    "docutils>=0.10",
+    "mock>1.0",
+    "sphinx >=2.1.2",
+    "sphinx-argparse>=0.2.0",
+    "sphinx-click>=3.1",
+    "furo>=2022.2.14.1",
+    "numpydoc>=0.6.0",
+]
+
+[project.urls]
+repository = "https://github.com/nipype/nipype2pydra"
+
+[project.scripts]
+nipype2pydra = "nipype2pydra.cli:cli"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "nipype2pydra/_version.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+packages = ["nipype2pydra"]
+exclude = ["/tests"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+exclude = "nipype2pydra/_version.py"
+
+[tool.codespell]
+ignore-words = ".codespell-ignorewords"
+
+[tool.flake8]
+doctests = true
+per-file-ignores = ["__init__.py:F401"]
+max-line-length = 88
+select = "C,E,F,W,B,B950"
+extend-ignore = ['E203', 'E501', 'E129', 'W503']
