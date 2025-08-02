@@ -1,0 +1,66 @@
+Metadata-Version: 2.4
+Name: dev-toolbox
+Version: 0.1.21
+Summary: A collection of useful tools for Python developers.
+Project-URL: Documentation, https://github.com/FlavioAmurrioCS/dev-toolbox#readme
+Project-URL: Issues, https://github.com/FlavioAmurrioCS/dev-toolbox/issues
+Project-URL: Source, https://github.com/FlavioAmurrioCS/dev-toolbox
+Author-email: Flavio Amurrio <25621374+FlavioAmurrioCS@users.noreply.github.com>
+License-Expression: MIT
+License-File: LICENSE
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: typing-extensions
+Provides-Extra: tests
+Requires-Dist: httpx; extra == 'tests'
+Requires-Dist: pytest; extra == 'tests'
+Requires-Dist: pytest-asyncio; extra == 'tests'
+Requires-Dist: requests; extra == 'tests'
+Requires-Dist: tomli; (python_version < '3.11') and extra == 'tests'
+Provides-Extra: types
+Requires-Dist: httpx; extra == 'types'
+Requires-Dist: mypy; extra == 'types'
+Requires-Dist: pyrefly; extra == 'types'
+Requires-Dist: pyright[nodejs]; extra == 'types'
+Requires-Dist: pytest; extra == 'types'
+Requires-Dist: pytest-asyncio; extra == 'types'
+Requires-Dist: requests; extra == 'types'
+Requires-Dist: tomli; (python_version < '3.11') and extra == 'types'
+Requires-Dist: ty; extra == 'types'
+Requires-Dist: types-requests; extra == 'types'
+Requires-Dist: typing-extensions; extra == 'types'
+Description-Content-Type: text/markdown
+
+# dev-toolbox
+
+[![PyPI - Version](https://img.shields.io/pypi/v/dev-toolbox.svg)](https://pypi.org/project/dev-toolbox)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/dev-toolbox.svg)](https://pypi.org/project/dev-toolbox)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/FlavioAmurrioCS/dev-toolbox/main.svg)](https://results.pre-commit.ci/latest/github/FlavioAmurrioCS/dev-toolbox/main)
+
+-----
+
+**Table of Contents**
+
+- [dev-toolbox](#dev-toolbox)
+  - [Installation](#installation)
+  - [License](#license)
+
+## Installation
+
+```console
+pip install dev-toolbox
+```
+
+## License
+
+`dev-toolbox` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.

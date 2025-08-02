@@ -1,0 +1,195 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dev-toolbox"
+dynamic = ["version"]
+description = "A collection of useful tools for Python developers."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Flavio Amurrio", email = "25621374+FlavioAmurrioCS@users.noreply.github.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "typing-extensions",
+]
+
+[project.optional-dependencies]
+tests = [
+  "pytest",
+  "tomli ; python_version < '3.11'",
+  "pytest-asyncio",
+  "requests",
+  "httpx",
+]
+types = [
+  "dev-toolbox[tests]",
+  "typing-extensions",
+  "mypy",
+  "pyrefly",
+  "pyright[nodejs]",
+  "ty",
+  "types-requests",
+]
+
+[project.urls]
+Documentation = "https://github.com/FlavioAmurrioCS/dev-toolbox#readme"
+Issues = "https://github.com/FlavioAmurrioCS/dev-toolbox/issues"
+Source = "https://github.com/FlavioAmurrioCS/dev-toolbox"
+
+[project.scripts]
+dev-toolbox = "dev_toolbox.cli:dev_toolbox"
+dev-hierarchy = "dev_toolbox.reflection_tools.class_hierarchy:main"
+dev-tree = "dev_toolbox.cli.tree:main"
+dev-version-bump = "dev_toolbox.cli.version_bump:main"
+dev-ruff-doc = "dev_toolbox.cli.ruff_doc:main"
+dev-html-table = "dev_toolbox.cli.html_table:main"
+dev-schema-to-types = "dev_toolbox.codegen.schema_parser:main"
+
+###############################################################################
+# region: hatch
+###############################################################################
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/dev_toolbox/_version.py"
+
+[tool.hatch.envs.hatch-test]
+extra-dependencies = [
+  "dev-toolbox[tests]",
+]
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+  "dev-toolbox[types]",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/dev_toolbox tests}"
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = [
+  "3.9",
+  "3.10",
+  "3.11",
+  "3.12",
+  "3.13",
+  "3.14",
+]
+###############################################################################
+# endregion: hatch
+###############################################################################
+
+###############################################################################
+# region: uv
+###############################################################################
+[tool.uv.pip]
+index-url = "https://pypi.org/simple"
+###############################################################################
+# endregion: uv
+###############################################################################
+
+###############################################################################
+# region: coverage
+###############################################################################
+[tool.coverage.run]
+source_pkgs = ["dev_toolbox", "tests"]
+branch = true
+parallel = true
+omit = [
+]
+
+[tool.coverage.paths]
+dev_toolbox = ["src/dev_toolbox"]
+tests = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+###############################################################################
+# endregion: coverage
+###############################################################################
+
+###############################################################################
+# region: pyright
+###############################################################################
+[tool.pyright]
+pythonVersion = "3.9"
+###############################################################################
+# endregion: pyright
+###############################################################################
+
+###############################################################################
+# region: mypy
+###############################################################################
+[tool.mypy]
+python_version = "3.9"
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+###############################################################################
+# endregion: mypy
+###############################################################################
+
+###############################################################################
+# region: ruff
+###############################################################################
+[tool.hatch.envs.hatch-static-analysis]
+config-path = "none"
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+  "ALL",
+]
+ignore = [
+  "COM812",  # missing-trailing-comma
+  "D",       # pydocstyle
+  "ERA001",  # commented-out-code
+  "EXE003",  # shebang-missing-python
+  "ISC001",  # single-line-implicit-string-concatenation
+  "PTH",     # flake8-use-pathlib
+  "T20",     # flake8-print
+  "PLC0415", # import-outside-top-level
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+  "S101",
+]
+###############################################################################
+# endregion: ruff
+###############################################################################
