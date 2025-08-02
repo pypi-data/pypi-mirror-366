@@ -1,0 +1,318 @@
+# MkDocs AI Summary Plugin
+
+[![PyPI version](https://badge.fury.io/py/mkdocs-ai-summary-wcowin.svg)](https://badge.fury.io/py/mkdocs-ai-summary-wcowin)
+[![Python Support](https://img.shields.io/pypi/pyversions/mkdocs-ai-summary-wcowin.svg)](https://pypi.org/project/mkdocs-ai-summary-wcowin/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+An intelligent MkDocs plugin that automatically generates AI-powered summaries for your documentation pages using multiple AI services including OpenAI, DeepSeek, Google Gemini, and GLM.
+
+## Features
+
+- 🤖 **Multiple AI Services**: Support for OpenAI, DeepSeek, Google Gemini, and GLM
+- 🚀 **Smart Caching**: Intelligent caching system to reduce API calls and costs
+- 🎯 **Flexible Configuration**: Fine-grained control over which pages get summaries
+- 🌍 **Multi-language Support**: Generate summaries in different languages
+- 🔧 **CI/CD Ready**: Seamless integration with GitHub Actions and other CI/CD systems
+- 📱 **Responsive Design**: Beautiful summary cards that work on all devices
+- ⚡ **Performance Optimized**: Minimal impact on build times with smart caching
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install mkdocs-ai-summary-wcowin
+```
+
+### From Source
+
+```bash
+git clone https://github.com/Wcowin/Mkdocs-AI-Summary-Plus.git
+cd Mkdocs-AI-Summary-Plus
+pip install -e .
+```
+
+## Quick Start
+
+### 1. Configure your MkDocs
+
+Add the plugin to your `mkdocs.yml`:
+
+```yaml
+plugins:
+  - ai-summary:
+      ai_service: "deepseek"  # or "openai", "gemini", "glm"
+      summary_language: "zh"  # or "en"
+      cache_enabled: true
+      cache_expire_days: 30
+      enabled_folders:
+        - "docs"
+      exclude_patterns:
+        - "**/api/**"
+        - "**/reference/**"
+```
+
+### 2. Set up Environment Variables
+
+Create a `.env` file in your project root:
+
+```env
+# Choose one or more AI services
+DEEPSEEK_API_KEY=your_deepseek_api_key
+OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
+GLM_API_KEY=your_glm_api_key
+```
+
+### 3. Build Your Documentation
+
+```bash
+mkdocs build
+```
+
+The plugin will automatically generate AI summaries for your pages and inject them into the content.
+
+## Configuration
+
+### Basic Configuration
+
+```yaml
+plugins:
+  - ai-summary:
+      # AI Service Configuration
+      ai_service: "deepseek"          # Primary AI service
+      fallback_services:               # Fallback services if primary fails
+        - "openai"
+        - "gemini"
+      
+      # Summary Configuration
+      summary_language: "zh"           # Summary language (zh/en)
+      summary_length: "medium"         # Summary length (short/medium/long)
+      
+      # Caching Configuration
+      cache_enabled: true              # Enable caching
+      cache_expire_days: 30            # Cache expiration in days
+      
+      # File Selection
+      enabled_folders:                 # Folders to process
+        - "docs"
+        - "guides"
+      exclude_patterns:                # Patterns to exclude
+        - "**/api/**"
+        - "**/reference/**"
+      exclude_files:                   # Specific files to exclude
+        - "index.md"
+        - "404.md"
+      
+      # Environment Configuration
+      local_enabled: true              # Enable in local development
+      ci_enabled: true                 # Enable in CI/CD
+      ci_cache_only: false             # Only use cache in CI (no new API calls)
+      ci_fallback_summary: true        # Use fallback summary in CI if no cache
+```
+
+### Advanced Configuration
+
+```yaml
+plugins:
+  - ai-summary:
+      # Custom API Endpoints
+      custom_endpoints:
+        deepseek:
+          base_url: "https://api.deepseek.com"
+          model: "deepseek-chat"
+        openai:
+          base_url: "https://api.openai.com/v1"
+          model: "gpt-3.5-turbo"
+      
+      # Content Processing
+      max_content_length: 8000         # Maximum content length for AI processing
+      summary_position: "top"          # Position of summary (top/bottom)
+      
+      # Styling
+      summary_style:
+        theme: "material"               # Summary card theme
+        show_icon: true                 # Show AI service icon
+        show_language: true             # Show summary language
+```
+
+## Environment Variables
+
+### Required API Keys
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DEEPSEEK_API_KEY` | DeepSeek API key | If using DeepSeek |
+| `OPENAI_API_KEY` | OpenAI API key | If using OpenAI |
+| `GEMINI_API_KEY` | Google Gemini API key | If using Gemini |
+| `GLM_API_KEY` | GLM API key | If using GLM |
+
+### Optional Configuration
+
+| Variable | Description | Default |
+|----------|-------------|----------|
+| `AI_SUMMARY_DEBUG` | Enable debug logging | `false` |
+| `AI_SUMMARY_TIMEOUT` | API request timeout (seconds) | `30` |
+| `AI_SUMMARY_MAX_RETRIES` | Maximum API retry attempts | `3` |
+
+## CI/CD Integration
+
+### GitHub Actions
+
+Add your API keys to GitHub Secrets and use them in your workflow:
+
+```yaml
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocs-ai-summary-wcowin
+      
+      - name: Build documentation
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: mkdocs build
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+```
+
+## AI Services
+
+### Supported Services
+
+| Service | Model | Languages | Rate Limits |
+|---------|-------|-----------|-------------|
+| DeepSeek | deepseek-chat | zh, en | High |
+| OpenAI | gpt-3.5-turbo, gpt-4 | zh, en | Medium |
+| Google Gemini | gemini-pro | zh, en | High |
+| GLM | glm-4 | zh, en | Medium |
+
+### Service Selection Strategy
+
+1. **Primary Service**: The main AI service specified in configuration
+2. **Fallback Services**: Used if primary service fails or is unavailable
+3. **Automatic Retry**: Built-in retry mechanism with exponential backoff
+4. **Cost Optimization**: Intelligent service selection based on content length
+
+## Caching System
+
+### How It Works
+
+- **Content Hashing**: Each page's content is hashed to detect changes
+- **Service Configuration**: Cache is invalidated when AI service settings change
+- **Expiration**: Configurable cache expiration (default: 30 days)
+- **CI Optimization**: Special caching behavior for CI/CD environments
+
+### Cache Management
+
+```bash
+# Clear all cache
+rm -rf .ai_cache/
+
+# Clear expired cache (automatic during build)
+# No manual action needed
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### 1. API Key Not Found
+
+```
+Error: No valid API key found for service 'deepseek'
+```
+
+**Solution**: Ensure your API key is set in the `.env` file or environment variables.
+
+#### 2. Rate Limit Exceeded
+
+```
+Warning: Rate limit exceeded for OpenAI, trying fallback service
+```
+
+**Solution**: Configure fallback services or reduce the number of pages being processed.
+
+#### 3. Content Too Long
+
+```
+Warning: Content too long for AI processing, truncating...
+```
+
+**Solution**: Increase `max_content_length` or split large pages into smaller ones.
+
+### Debug Mode
+
+Enable debug logging:
+
+```bash
+export AI_SUMMARY_DEBUG=true
+mkdocs build
+```
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```bash
+git clone https://github.com/Wcowin/Mkdocs-AI-Summary-Plus.git
+cd Mkdocs-AI-Summary-Plus
+pip install -e ".[dev]"
+```
+
+### Running Tests
+
+```bash
+pytest
+```
+
+### Code Quality
+
+```bash
+black .
+flake8 .
+mypy .
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
+
+## Support
+
+- 📖 [Documentation](https://wcowin.work/mkdocs-ai-hooks/)
+- 🐛 [Issue Tracker](https://github.com/Wcowin/Mkdocs-AI-Summary-Plus/issues)
+- 💬 [Discussions](https://github.com/Wcowin/Mkdocs-AI-Summary-Plus/discussions)
+- 📧 [Email Support](mailto:wcowin@qq.com)
+
+## Acknowledgments
+
+- [MkDocs](https://www.mkdocs.org/) - The static site generator this plugin extends
+- [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) - The beautiful theme that inspired our design
+- All the AI service providers for making this plugin possible
