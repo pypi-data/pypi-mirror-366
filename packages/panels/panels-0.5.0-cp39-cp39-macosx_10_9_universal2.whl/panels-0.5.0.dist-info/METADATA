@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: panels
+Version: 0.5.0
+Summary: Semi-analytical models for plates, shells and stiffened panels
+Home-page: https://github.com/saullocastro/panels
+Author: Saullo G. P. Castro, Nathan D'Souza
+Author-email: S.G.P.Castro@tudelft.nl
+License: 3-Clause BSD
+Keywords: Ritz method,semi-analyticalEnergy-based method,structural analysis,structural optimization,static analysis,buckling,vibration,panel flutter,structural dynamics,implicit time integration,explicit time integration
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Education
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: Unix
+Classifier: Operating System :: POSIX :: BSD
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: summary
+
+Github Actions status:
+
+[![Actions Status](https://github.com/saullocastro/panels/workflows/pytest/badge.svg)](https://github.com/saullocastro/panels/actions)
+
+Coverage status:
+
+[![Codecov Status](https://codecov.io/gh/saullocastro/panels/branch/master/graph/badge.svg?token=KD9D8G8D2P)](https://codecov.io/gh/saullocastro/panels)
+
+
+Semi-analytical methods for plates, shells and stiffened panels
+===============================================================
+
+
+Capabilities:
+
+- linear buckling
+- postbuckling
+- Koiter asymptotic initial postbuckling analysis
+- static
+- vibration
+- panel flutter
+
+
+Citing this library
+-------------------
+
+Saullo G. P. Castro, Nathan D'Souza. (2025). Semi-analytical methods for plates, shells and stiffened panels (Version 0.5.0). Zenodo. DOI: https://doi.org/10.5281/zenodo.2541522.
+
+
+Installation
+------------
+
+To get the latest version::
+
+    pip install panels
+
+
+License
+-------
+Distrubuted under the 3-Clause BSD license
+(https://raw.github.com/saullocastro/panels/master/LICENSE).
+
+Contact: S.G.P.Castro@tudelft.nl.
