@@ -1,0 +1,15 @@
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-dev.txt
+include pyproject.toml
+recursive-include copycatm *.py
+recursive-include tests *.py
+# Exclude docs from distribution
+prune docs
+recursive-exclude docs *
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude *.so 
