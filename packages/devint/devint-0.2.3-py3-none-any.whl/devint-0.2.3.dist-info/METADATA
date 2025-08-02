@@ -1,0 +1,28 @@
+Metadata-Version: 2.3
+Name: devint
+Version: 0.2.3
+Summary: Unified API for Device Interface communication with support for RTU, TCP, and REST APIs
+License: Apache-2.0
+Author: Tom Sapletta
+Author-email: info@softreck.dev
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Hardware :: Hardware Drivers
+Requires-Dist: flask (>=2.3.3,<3.0.0)
+Requires-Dist: paho-mqtt (>=2.0.0,<3.0.0)
+Requires-Dist: pyserial (>=3.5,<4.0)
+Requires-Dist: python-dotenv (>=1.0.0,<2.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Description-Content-Type: text/markdown
+
+# devint
+device interfaces &amp;  management
+
