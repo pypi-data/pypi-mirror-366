@@ -1,0 +1,72 @@
+Metadata-Version: 2.4
+Name: deepctl-cmd-update
+Version: 0.1.10
+Summary: Update command for deepctl
+Author-email: Deepgram <devrel@deepgram.com>
+Maintainer-email: Deepgram <devrel@deepgram.com>
+License-Expression: MIT
+Keywords: deepgram,cli,update,self-update
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: deepctl-core>=0.1.10
+Requires-Dist: click>=8.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: rich>=13.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+
+# deepctl-cmd-update
+
+Update command for deepctl CLI - provides self-update functionality.
+
+## Features
+
+- Check for newer versions on PyPI
+- Detect installation method (pip, pipx, uv, system, development)
+- Remember installation method for future updates
+- Provide appropriate update commands
+- Support for various installation scenarios
+
+## Installation
+
+This package is included with deepctl and doesn't need separate installation.
+
+## Usage
+
+Check for updates:
+
+```bash
+deepctl update --check-only
+```
+
+Update deepctl:
+
+```bash
+deepctl update
+```
+
+Force update (even if already up to date):
+
+```bash
+deepctl update --force
+```
+
+Skip confirmation:
+
+```bash
+deepctl update --yes
+```
+
+## Development
+
+This package is part of the deepctl monorepo. See the main repository for development instructions.

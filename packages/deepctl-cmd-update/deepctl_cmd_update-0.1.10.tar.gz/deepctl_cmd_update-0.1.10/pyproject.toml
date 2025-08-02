@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepctl-cmd-update"
+version = "0.1.10"
+description = "Update command for deepctl"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Deepgram", email = "devrel@deepgram.com" }]
+maintainers = [{ name = "Deepgram", email = "devrel@deepgram.com" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["deepgram", "cli", "update", "self-update"]
+requires-python = ">=3.10"
+dependencies = [
+    "deepctl-core>=0.1.10",
+    "click>=8.0.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+]
+
+[project.entry-points."deepctl.commands"]
+update = "deepctl_cmd_update.command:UpdateCommand"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["deepctl_cmd_update*"]
+
+[tool.uv.sources]
+deepctl-core = { workspace = true }
