@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(uv run:*)",
+      "Bash(git add:*)",
+      "Bash(gh run view:*)",
+      "Bash(GOOGLE_CLOUD_PROJECT=asp-starter-dev uv run pytest tests/cicd/test_pipeline_parity.py -v -s --tb=short)",
+      "Bash(set -a)",
+      "Bash(. tests/cicd/.env)",
+      "Bash(set +a)",
+      "Bash(bash:*)",
+      "Bash(ls:*)",
+      "Bash(python -m pytest tests/cli/commands/test_enhance.py::TestEnhanceCommand::test_enhance_with_interactive_base_template_selection -v)"
+    ],
+    "deny": []
+  }
+}
