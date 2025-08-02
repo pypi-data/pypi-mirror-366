@@ -1,0 +1,25 @@
+[project]
+name = "azulene-opal"
+version = "0.1.0"
+description = "A CLI and Python library to interact with Azulene Opal"
+readme = "README.md"
+authors = [{ name = "Azulene Labs", email = "contact@azulenelabs.com" }]
+license = { text = "MIT" }
+dependencies = [
+    "typer",
+    "httpx",
+    "supabase",
+    "rich"
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://www.azulenelabs.com/"
+Repository = "https://github.com/Azulene-Labs/opal-cli"
+
+[project.scripts]
+opal = "opal.main:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
