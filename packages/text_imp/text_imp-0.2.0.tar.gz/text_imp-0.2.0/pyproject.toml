@@ -1,0 +1,49 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "text_imp"
+version = "0.2.0"
+description = "Python bindings for iMessage and Contacts database access"
+authors = [
+    {name = "Adam Gluck", email = "contact@adamgluck.com"},
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["imessage", "contacts", "macos", "database"]
+dependencies = [
+    "polars>=0.20.0",
+    "pyarrow>=14.0.1",
+    "python-dotenv>=1.0.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/text_imp"
+"Bug Tracker" = "https://github.com/yourusername/text_imp/issues"
+"Documentation" = "https://github.com/yourusername/text_imp#readme"
+
+[tool.maturin]
+python-source = "."
+module-name = "text_imp"
+features = ["pyo3/extension-module", "macos"]
+strip = true
+macos-deployment-target = "11.0"
+include = ["text_imp/*.py", "README.md", "LICENSE"]
+sdist-include = ["text_imp/*.py", "README.md", "LICENSE"]
+bindings = "pyo3"
+manifest-path = "Cargo.toml"
+
+[tool.ruff]
+select = ["E", "F", "I", "N", "W"]
+target-version = "py38"
+line-length = 88
+
+[tool.ruff.isort]
+known-first-party = ["text_imp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra -q" 

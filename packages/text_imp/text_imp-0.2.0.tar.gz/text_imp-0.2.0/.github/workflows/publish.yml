@@ -1,0 +1,82 @@
+name: Publish Python Package
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12']
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: x86_64-apple-darwin,aarch64-apple-darwin
+    
+    - name: Cache Rust dependencies
+      uses: Swatinem/rust-cache@v2
+    
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install maturin wheel setuptools pytest
+    
+    - name: Build wheel
+      run: |
+        maturin build --release --target universal2-apple-darwin --strip --features macos --bindings pyo3
+        ls -la target/wheels/
+    
+    - name: Install and test wheel
+      run: |
+        wheel_file=$(ls target/wheels/*.whl)
+        pip install "$wheel_file"
+        python -c 'import text_imp; print("Module location:", text_imp.__file__); print("Available functions:", dir(text_imp))'
+        python -c 'from text_imp import get_messages, get_attachments, get_chats, get_chat_handles, get_handles; print("Successfully imported all functions")'
+    
+    - name: Upload wheel
+      uses: actions/upload-artifact@v4
+      with:
+        path: target/wheels/*.whl
+        name: wheels-py${{ matrix.python-version }}
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download all wheels
+      uses: actions/download-artifact@v4
+      with:
+        pattern: wheels-*
+        path: target/wheels
+        merge-multiple: true
+    
+    - name: Display structure of downloaded files
+      run: ls -R target/wheels
+    
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        packages-dir: target/wheels
+        verbose: true
+        skip-existing: true 
