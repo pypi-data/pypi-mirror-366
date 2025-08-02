@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "catscan-terra"
+version = "2.0.0"
+description = "CatSCAN: Terraform Cloud multi-workspace scanner. Secure observability tool for your organization's workspaces."
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+authors = [
+  { name = "Simon Farrell", email = "simon81farrell@gmail.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+  "requests>=2.28.0",
+  "rich>=13.0",
+  "keyring>=24.0.0",
+]
+keywords = ["terraform", "terraform-cloud", "infrastructure", "scanner", "devops", "cloud"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: System :: Systems Administration",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/cloudsifar/catscan-2.0"
+"Bug Reports" = "https://github.com/cloudsifar/catscan-2.0/issues"
+"Source" = "https://github.com/cloudsifar/catscan-2.0"
+
+[project.scripts]
+catscan = "catscan.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["catscan", "catscan.*"]
