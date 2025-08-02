@@ -1,0 +1,128 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dynetan"
+authors = [
+  { name="Marcelo C. R. Melo", email="melomcr@gmail.com" },
+]
+
+dynamic = ["version"]
+
+description = "A Python implementation for Dynamical Network Analysis."
+readme = {"file" = "README.md", "content-type" = "text/markdown"}
+
+requires-python = ">=3.9"
+dependencies = [
+"MDAnalysis",
+"NumPy",
+"pandas",
+"networkx",
+"numba",
+"h5py",
+"python-louvain",
+"tqdm",
+"colorama",
+"nglview"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://gitlab.com/comp-biochem-csu/dynetan"
+"Bug Tracker" = "https://gitlab.com/comp-biochem-csu/dynetan/-/issues"
+"Documentation" = "https://dynamical-network-analysis.readthedocs.io"
+
+[tool.hatch.version]
+path = "src/dynetan/version.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/docs",
+  "INSTALL.md"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--import-mode=importlib",
+    "--cov=dynetan",
+    "--cov-append",
+    "--cov-report=term-missing",
+    "--cov-report=xml"
+]
+
+# Individual warnings filters are specified as a sequence of fields separated by colons:
+# action:message:category:module:line
+# https://docs.python.org/3/library/warnings.html#describing-warning-filters
+filterwarnings = [
+    "error",  #converts all warnings to errors
+    "ignore:.*numpy.ndarray size changed.*:RuntimeWarning",
+#    "ignore::UserWarning",
+    # note the use of the single quotes below to denote "raw" strings in TOML
+    'ignore:.*np.MachAr.* is deprecated:DeprecationWarning',
+    'ignore::DeprecationWarning:jupyter*',
+    'ignore:.*DCDReader.*independent timesteps.*:DeprecationWarning:MDAnalysis',
+    "ignore::UserWarning:nglview.*"
+]
+
+[tool.mypy]
+mypy_path = "src"
+
+# Start off with these
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true
+warn_unreachable = true
+
+# Getting these passing should be easy
+strict_equality = true
+strict_concatenate = true
+
+# Strongly recommend enabling this one as soon as you can
+check_untyped_defs = false
+
+# These shouldn't be too much additional work, but may be tricky to
+# get passing if you use a lot of untyped libraries
+disallow_subclassing_any = true
+#disallow_untyped_decorators = true
+#disallow_any_generics = true
+
+# These next few are various gradations of forcing use of type annotations
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+
+# This one isn't too hard to get passing, but return on investment is lower
+no_implicit_reexport = true
+
+# This one can be tricky to get passing if you use a lot of untyped libraries
+#warn_return_any = true
+
+show_error_codes = true
+
+
+[[tool.mypy.overrides]]
+module = []
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = [
+    "MDAnalysis.*",
+    "networkx.*",
+    "numba",
+    "community",
+    "tqdm.*",
+    "colorama",
+    "pandas",
+    "h5py"
+]
+ignore_missing_imports = true
