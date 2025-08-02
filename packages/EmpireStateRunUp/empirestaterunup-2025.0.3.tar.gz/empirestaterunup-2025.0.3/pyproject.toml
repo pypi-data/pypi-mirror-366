@@ -1,0 +1,84 @@
+[build-system]
+requires = [
+    "setuptools >= 80.0.0",
+    "wheel",
+    "build>=1.2.1",
+    "pip"
+
+]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+lint = [
+    "ruff==0.12.0",
+    "yamllint==1.28.0"
+]
+dev = [
+    "textual-dev==1.7.0",
+    "twine==6.1.0",
+    "build"
+]
+
+[project]
+name = "EmpireStateRunUp"
+version = "2025.0.3"
+authors = [
+    {name = "Jose Vicente Nunez", email = "kodegeek.com@protonmail.com"},
+]
+description = "Collection of scripts to analyze the results of the Empire State Run Up race"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["running", "race", "empire state", "tower racing"]
+classifiers = [
+    "Environment :: Console",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3.11",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Utilities"
+]
+dependencies = [
+    "pandas==2.2.3",
+    "textual==3.7.1",
+    "textual-serve==1.1.1",
+    "rich==13.9.4",
+    "numpy==1.26.4",
+    "matplotlib==3.10.0",
+    "tomlkit==0.13.2"
+]
+license = {file = "LICENSE"}
+[project.scripts]
+esru_numbers = "empirestaterunup.runners:run_5_number"
+esru_outlier = "empirestaterunup.runners:run_outlier"
+esru_browser = "empirestaterunup.runners:run_browser"
+esru_plot = "empirestaterunup.runners:simple_plot"
+esru_server = "empirestaterunup.server:main"
+
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["test*"]
+
+[tool.setuptools.package-data]
+empirestaterunup = ["*.txt", "*.tcss", "*.json", "*.toml"]
+images = ["*.png", "*.svg"]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+ignore = ["E501"]
+
