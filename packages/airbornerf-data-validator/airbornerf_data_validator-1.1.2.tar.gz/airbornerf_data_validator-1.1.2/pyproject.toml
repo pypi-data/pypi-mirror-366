@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "airbornerf-data-validator"
+version = "1.1.2"
+description = "Tool for verifying compliance with AirborneRF data requirements"
+license = "Proprietary"
+authors = ["Dimetor GmbH <support@airbornerf.com>"]
+readme = "README.md"
+
+packages = [
+    { include = "airbornerf_data_validator" }
+]
+
+include = ["CHANGELOG.md"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "*"
+pandas = "*"
+pyproj = "*"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pylint = "*"
+
+[tool.poetry.scripts]
+airbornerf-data-validator = "airbornerf_data_validator.main:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
