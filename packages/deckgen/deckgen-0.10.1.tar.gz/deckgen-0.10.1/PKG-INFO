@@ -1,0 +1,57 @@
+Metadata-Version: 2.3
+Name: deckgen
+Version: 0.10.1
+Summary: Tool to create anki decks using generative AI
+Author: Manuel Gil
+Author-email: manuelgilsitio@gmail.com
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: genanki (>=0.13.1,<0.14.0)
+Requires-Dist: langchain (>=0.3.26,<0.4.0)
+Requires-Dist: langchain-experimental (>=0.3.4,<0.4.0)
+Requires-Dist: markdown (>=3.8.2,<4.0.0)
+Requires-Dist: pypdf (>=5.9.0,<6.0.0)
+Requires-Dist: python-dotenv (>=1.1.0,<2.0.0)
+Requires-Dist: tqdm (>=4.67.1,<5.0.0)
+Description-Content-Type: text/markdown
+
+# DECKGEN
+
+deckgen is a Python package designed to generate ANKI decks using Generative AI.
+
+## Features
+
+- Automatically generate flashcards for ANKI
+- Leverage generative AI to create questions and answers
+- Easy integration with existing study workflows
+
+## Installation
+
+```bash
+pip install deckgen
+```
+
+## Command Line Interface
+
+```bash
+>> deckgen env --openai-api-key <MY OPENAI API KEY>
+>> deckgen generate --input-file path/to/notes.txt --output mydeck.apkg --name <deck name>
+```
+
+## Requirements
+
+- Python 3.8+
+- OpenAI API key
+
+## Contributing
+
+Contributions are welcome! Please open issues or submit pull requests.
+
+## Disclaimer
+
+deckgen is not affiliated with or endorsed by Anki or OpenAI.
+
+
