@@ -1,0 +1,17 @@
+vivarium_dependencies[numpy,pandas,scipy]
+vivarium_build_utils<3.0.0,>=2.0.1
+
+[dev]
+vivarium_dependencies[pytest]
+vivarium_dependencies[sphinx]
+vivarium_dependencies[interactive]
+vivarium_dependencies[lint]
+
+[docs]
+vivarium_dependencies[sphinx]
+
+[interactive]
+vivarium_dependencies[interactive]
+
+[test]
+vivarium_dependencies[pytest]
