@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: parserclass
+Version: 0.1.0a8
+Summary: Declarative function argument parsing with type hinting.
+Author-email: oeykmiih <joao@kyeo.xyz>
+Project-URL: repository, https://codeberg.org/oeykmiih/py_parserclass
+Keywords: ArgumentParser,cli
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: ==3.11
+Provides-Extra: dev
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
