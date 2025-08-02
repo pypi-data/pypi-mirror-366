@@ -1,0 +1,98 @@
+Metadata-Version: 2.4
+Name: fladoja
+Version: 0.1.1
+Summary: Hybrid web framework (Flask + Django + FastAPI style)
+Home-page: https://github.com/yourusername/fladoja
+Author: Vadim
+Author-email: somerare22@gmail.com
+License: SiteProjectGo
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-dotenv>=1.0.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+<div align="center">
+  <h1>Fladoja Framework</h1>
+  
+  ![Python Version](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10-blue)
+  ![License](https://img.shields.io/badge/license-SiteProjectGo-green)
+  ![PyPI Version](https://img.shields.io/pypi/v/fladoja)
+  ![Downloads](https://img.shields.io/pypi/dm/fladoja)
+
+  <p>Гибридный фреймворк, сочетающий простоту Flask, функциональность Django и скорость FastAPI</p>
+</div>
+
+---
+
+## 📦 Установка
+```bash
+pip install fladoja
+```
+
+## 🚀 Быстрый старт
+```python
+from fladoja import Fladoja
+
+app = Fladoja("MyApp")
+
+@app.site("/")
+def home(params):
+    return app.file_template("index.html", {"title": "Главная"})
+
+app.start(port=8000)
+```
+
+## ✨ Основные возможности
+- 🛠️ Встроенная админ-панель
+- 🚀 Простая маршрутизация через `@app.site()`
+- 📦 Система плагинов `@app.plagen()`
+- 🎨 Поддержка шаблонов с наследованием
+- 🔒 Авторизация через переменные окружения
+
+## 📚 Документация
+Полная документация доступна на [GitHub Wiki](https://github.com/yourusername/fladoja/wiki)
+
+---
+
+## 🔒 Лицензия
+<div align="center">
+  <img src="https://raw.githubusercontent.com/yourusername/fladoja/main/docs/assets/license_logo.png" width="200" alt="SiteProjectGo License">
+  
+  **SiteProjectGo License**  
+  [Полный текст лицензии](LICENSE)
+</div>
+
+### Основные положения:
+- ✅ Разрешено коммерческое использование
+- ✅ Возможность модификации кода
+- ❌ Запрещена перепубликация под другим именем
+- ⚠️ Без гарантий поддержки
+
+---
+
+## 📬 Контакты
+- Email: support@yourproject.com
+- Telegram: [@fladoja_support](https://t.me/fladoja_support)
+- Issues: [GitHub Issues](https://github.com/yourusername/fladoja/issues)
