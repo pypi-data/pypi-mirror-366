@@ -1,0 +1,132 @@
+[project]
+name = "aiopathlib"
+dynamic = []
+description = "Pathlib support for asyncio"
+authors = [
+    { name = "Waket Zheng", email = "waketzheng@gmail.com" },
+]
+readme = "README.md"
+keywords = [
+    "aiopathlib",
+    "asyncpath",
+    "aiopath",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: POSIX",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Framework :: AsyncIO",
+]
+include = [
+    "LICENSE",
+    "README.md",
+]
+dependencies = [
+    "aiofiles >=0.8.0",
+]
+requires-python = ">=3.8"
+version = "0.6.0"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+homepage = "https://github.com/waketzheng/aiopathlib"
+repository = "https://github.com/waketzheng/aiopathlib.git"
+"Bug Tracker" = "https://github.com/waketzheng/aiopathlib/issues"
+
+[tool.pdm.version]
+source = "file"
+path = "aiopathlib/__init__.py"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+extend-select = [
+    "B",
+    "C4",
+    "I",
+    "SIM",
+    "FA",
+    "UP",
+    "RUF100",
+]
+
+[tool.coverage.run]
+source = [
+    "aiopathlib",
+]
+omit = [
+    "*/.cache/*",
+    "/usr/*",
+    "_types.py",
+]
+
+[tool.coverage.report]
+include = [
+    "aiopathlib/*",
+]
+omit = [
+    "*/tests/*",
+    "test_*",
+]
+exclude_lines = [
+    "pragma: no cover",
+    "@overload",
+    "if __name__ == \"__main__\":",
+    "if TYPE_CHECKING:",
+]
+
+[tool.tox]
+legacy_tox_ini = "[gh-actions]\npython =\n    3.8: py38\n    3.9: py39\n    3.10: py310\n    3.11: py311\n    3.12: py312\n    3.13: py313\n\n[tox]\nenvlist = py38, py39, py310, py311, py312, py313\nisolated_build = True\n\n[testenv]\ncommands =\n    pip install --upgrade pip pytest-asyncio coverage\n    pip install -e .\n    coverage run --source aiopathlib -m pytest tests\npassenv = CI\n"
+
+[tool.mypy]
+pretty = true
+python_version = "3.9"
+check_untyped_defs = true
+warn_unused_ignores = true
+disable_error_code = "override"
+
+[tool.bandit]
+exclude_dirs = [
+    "tests",
+    "dist",
+    "scripts",
+    ".venv",
+]
+
+[dependency-groups]
+dev = [
+    "typing-extensions>=4.13.2",
+    "bandit>=1.7.10",
+    "mypy>=1.14.1",
+    "ruff>=0.12.7",
+    "types-aiofiles>=24.1.0.20241221",
+    "fast-dev-cli; python_version >= '3.9'",
+    "twine>=6.1.0",
+    "build>=1.2.2.post1",
+]
+test = [
+    "pytest-asyncio>=0.24.0",
+    "coverage>=7.6.1",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
