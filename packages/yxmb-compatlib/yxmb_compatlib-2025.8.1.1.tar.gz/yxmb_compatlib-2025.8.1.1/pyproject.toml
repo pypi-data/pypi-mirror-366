@@ -1,0 +1,40 @@
+[project]
+name = "yxmb-compatlib"
+version = "2025.8.1.1"
+description = "支持原地升级的宇信慢病兼容库"
+readme = "README.md"
+authors = [
+    { name = "Maple", email = "wjxa20152015@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "ddddocr>=1.5.6",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.1",
+    "pyinstaller>=6.14.2",
+    "selenium>=4.34.2",
+]
+
+[project.scripts]
+yxmb-compatlib = "yxmb_compatlib:main"
+
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+
+[project.entry-points."pyinstaller40"]
+hook-dirs = "yxmb_compatlib._pyinstaller:get_hook_dirs"
+
+[tool.ruff.lint]
+ignore = [
+    "E722", # 不要使用裸 except（except:），应指定异常类型
+    "F541", # f-string 中未使用的表达式
+    "F841", # 局部变量被赋值但未使用
+    # "F401", # 导入但未使用的模块
+    "F811", # 变量或函数重复定义
+    "E731", # 不要把 lambda 表达式赋值给变量，建议用 def
+    "E402", # import 语句不在文件顶部
+]
