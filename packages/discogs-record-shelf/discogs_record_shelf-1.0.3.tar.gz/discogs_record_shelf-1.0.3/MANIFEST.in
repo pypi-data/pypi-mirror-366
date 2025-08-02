@@ -1,0 +1,32 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include requirements.txt
+include pyproject.toml
+include tox.ini
+include .pylintrc
+include Makefile
+include record_shelf/py.typed
+
+# Include example files
+include .env.example
+
+# Exclude development and build files
+exclude .gitignore
+exclude setup.py
+prune tests
+prune .tox
+prune build
+prune dist
+prune *.egg-info
+prune __pycache__
+prune .pytest_cache
+prune .mypy_cache
+prune htmlcov
+prune venv
+prune .venv
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *~
+global-exclude .DS_Store
+
