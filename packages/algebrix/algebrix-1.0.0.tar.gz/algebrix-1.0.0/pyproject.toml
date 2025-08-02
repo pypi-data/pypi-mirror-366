@@ -1,0 +1,18 @@
+[project]
+name = "algebrix"
+version = "1.0.0"
+description = "Linear algebra on Python — вектора, матрицы, разложения"
+authors = [{ name="Vlasov Artyom", email="t0mi.v@yandex.ru" }]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://github.com/Artemiadze/algebrix"
+
+[tool.setuptools]
+packages = ["algebrix", "algebrix.vector", "algebrix.matrix"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
