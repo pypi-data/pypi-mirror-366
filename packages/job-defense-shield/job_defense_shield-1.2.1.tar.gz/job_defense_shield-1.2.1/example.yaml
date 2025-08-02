@@ -1,0 +1,311 @@
+%YAML 1.1
+---
+#####################
+## GLOBAL SETTINGS ##
+#####################
+jobstats-module-path: /usr/local/jobstats/
+jobstats-config-path: /etc/jobstats/
+violation-logs-path:  /usr/local/job_defense_shield/violations/
+email-files-path:     /usr/local/job_defense_shield/email/
+email-domain-name: "@institution.edu"
+sender:   support@institution.edu
+reply-to: support@institution.edu
+greeting-method: getent
+workday-method: file
+holidays-file: /usr/local/job_defense_shield/holidays.txt
+report-emails:
+  - admin1@institution.edu
+  - admin2@institution.edu
+verbose: False
+
+
+#################################################
+## CANCEL JOBS WITH 0% GPU UTILIZATION (ALERT) ##
+#################################################
+cancel-zero-gpu-jobs-1:
+  cluster: stellar
+  partitions:
+    - gpu
+    - llm
+  sampling_period_minutes: 15  # minutes (use same for cron)
+  first_warning_minutes:   60  # minutes
+  second_warning_minutes: 105  # minutes
+  cancel_minutes:         120  # minutes
+  email_file_first_warning:  "cancel_gpu_jobs_warning_1.txt"
+  email_file_second_warning: "cancel_gpu_jobs_warning_2.txt"
+  email_file_cancel:         "cancel_gpu_jobs_scancel_3.txt"
+  jobid_cache_path: /usr/local/job_defense_shield/
+  admin_emails:
+    - admin@institution.edu
+  warnings_to_admin: False
+
+
+#########################################
+## GPU-HOURS AT 0% UTILIZATION (ALERT) ##
+#########################################
+zero-util-gpu-hours-1:
+  cluster: stellar
+  partitions:
+    - gpu
+    - llm
+  min_run_time:              30  # minutes
+  gpu_hours_threshold_user: 100  # gpu-hours
+  gpu_hours_threshold_admin: 24  # gpu-hours
+  email_file: "zero_util_gpu_hours.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+################################
+## LOW GPU EFFICIENCY (ALERT) ##
+################################
+low-gpu-efficiency-1:
+  cluster: stellar
+  partitions:
+    - gpu
+    - llm
+  min_run_time:         30  # minutes
+  eff_thres_pct:        25  # percent
+  eff_target_pct:       50  # percent
+  absolute_thres_hours: 50  # gpu-hours
+  proportion_thres_pct:  2  # percent
+  num_top_users:        10  # count
+  email_file: "low_gpu_efficiency.txt"
+  admin_emails:
+    - admin@institution.edu
+
+low-gpu-efficiency-2:
+  cluster: traverse
+  partitions:
+    - gpu
+  min_run_time:         30  # minutes
+  eff_thres_pct:        25  # percent
+  eff_target_pct:       50  # percent
+  absolute_thres_hours: 50  # gpu-hours
+  proportion_thres_pct:  2  # percent
+  num_top_users:        10  # count
+  email_file: "low_gpu_efficiency.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+#########################################
+## TOO MUCH CPU MEMORY PER GPU (ALERT) ##
+#########################################
+too-much-cpu-mem-per-gpu-1:
+  cluster: della
+  partitions:
+    - gpu
+  min_run_time:            61  # minutes
+  cores_per_node:          48  # count
+  gpus_per_node:            4  # count
+  cpu_mem_per_node:      1000  # GB
+  cpu_mem_per_gpu_target: 240  # GB
+  cpu_mem_per_gpu_limit:  250  # GB
+  mem_eff_thres:          0.8  # [0.0, 1.0]
+  email_file: "too_much_cpu_mem_per_gpu.txt"
+  nodelist:
+    - della-l02g1
+    - della-l02g2
+    - della-l02g3
+    - della-l02g4
+    - della-l02g5
+    - della-l02g6
+    - della-l02g7
+    - della-l02g8
+  admin_emails:
+    - admin@institution.edu
+
+
+####################################
+## TOO MANY CORES PER GPU (ALERT) ##
+####################################
+too-many-cores-per-gpu-1:
+  cluster: stellar
+  partitions:
+    - gpu
+    - llm
+  min_run_time:         61  # minutes
+  cores_per_node:       96  # count
+  gpus_per_node:         8  # count
+  cores_per_gpu_target: 12  # count
+  cores_per_gpu_limit:  18  # count
+  email_file: "too_many_cores_per_gpu.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+#########################################
+## MULTINODE GPU FRAGMENTATION (ALERT) ##
+#########################################
+multinode-gpu-fragmentation-1:
+  cluster: stellar
+  partitions:
+    - gpu
+    - llm
+  gpus_per_node: 8  # count
+  min_run_time: 61  # minutes
+  email_file: "multinode_gpu_fragmentation.txt"
+  admin_emails:
+    - admin@institution.edu
+
+multinode-gpu-fragmentation-2:
+  cluster: traverse
+  partitions:
+    - gpu
+  gpus_per_node: 4  # count
+  min_run_time: 61  # minutes
+  email_file: "multinode_gpu_fragmentation.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+####################################
+## GPU MODEL TOO POWERFUL (ALERT) ##
+####################################
+gpu-model-too-powerful-1:
+  cluster: stellar
+  partitions:
+    - gpu
+  min_run_time:        61  # minutes
+  gpu_hours_threshold: 24  # gpu-hours
+  num_cores_threshold:  2  # count
+  gpu_util_threshold:  15  # percent
+  gpu_mem_threshold:   10  # GB
+  cpu_mem_threshold:   32  # GB
+  gpu_util_target:     50  # percent
+  email_file: "gpu_model_too_powerful.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+#######################################
+## EXCESSIVE RUN TIME LIMITS (ALERT) ##
+#######################################
+excessive-time-gpu-1:
+  cluster: stellar
+  partitions:
+    - gpu
+    - llm
+  min_run_time:             61  # minutes
+  absolute_thres_hours:   1000  # unused gpu-hours
+  overall_ratio_threshold: 0.2  # [0.0, 1.0]
+  mean_ratio_threshold:    0.2  # [0.0, 1.0]
+  median_ratio_threshold:  0.2  # [0.0, 1.0]
+  num_top_users:             5  # count
+  num_jobs_display:         10  # count
+  email_file: "excessive_time.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+##################################
+## ZERO CPU UTILIZATION (ALERT) ##
+##################################
+zero-cpu-utilization-1:
+  cluster: stellar
+  partitions:
+    - cpu
+  min_run_time: 61  # minutes
+  email_file: "zero_cpu_utilization.txt"
+  admin_emails:
+    - admin@institution.edu
+
+zero-cpu-utilization-2:
+  cluster: della
+  partitions:
+    - cpu
+    - physics
+  min_run_time: 61  # minutes
+  email_file: "zero_cpu_utilization.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+###############################
+## EXCESS CPU MEMORY (ALERT) ##
+###############################
+excess-cpu-memory-1:
+  cluster: della
+  partitions:
+    - cpu
+  min_run_time:             30  # minutes
+  tb_hours_threshold:       65  # TB-hours
+  ratio_threshold:        0.35  # [0.0, 1.0]
+  mean_ratio_threshold:   0.35  # [0.0, 1.0]
+  median_ratio_threshold: 0.35  # [0.0, 1.0]
+  num_top_users:            10  # count
+  num_jobs_display:         10  # count
+  email_file: "excess_cpu_memory.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+################################
+## LOW CPU EFFICIENCY (ALERT) ##
+################################
+low-cpu-efficiency-1:
+  cluster: stellar
+  partitions:
+    - cpu
+  min_run_time:         30  # minutes
+  eff_thres_pct:        60  # percent
+  eff_target_pct:       90  # percent
+  proportion_thres_pct:  2  # percent
+  absolute_thres_hours: 50  # cpu-hours
+  num_top_users:        15  # count
+  email_file: "low_cpu_efficiency.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+#########################################
+## MULTINODE CPU FRAGMENTATION (ALERT) ##
+#########################################
+multinode-cpu-fragmentation-1:
+  cluster: della
+  partitions:
+    - cpu
+  min_run_time:    120  # minutes
+  cores_per_node:   32  # count
+  cores_fraction:  0.5  # [0.0, 1.0]
+  mem_per_node:    190  # GB
+  safety_fraction: 0.2  # [0.0, 1.0]
+  email_file: "multinode_cpu_fragmentation.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+###################################################
+## SERIAL CODE ALLOCATING MULTIPLE CORES (ALERT) ##
+###################################################
+serial-allocating-multiple-1:
+  cluster: della
+  partitions:
+    - cpu
+  min_run_time:         61  # minutes
+  cpu_hours_threshold: 100  # cpu-hours
+  lower_ratio:        0.85  # [0.0, 1.0]
+  num_top_users:         5  # count
+  email_file: "serial_allocating_multiple.txt"
+  admin_emails:
+    - admin@institution.edu
+
+
+#######################################
+## EXCESSIVE RUN TIME LIMITS (ALERT) ##
+#######################################
+excessive-time-cpu-1:
+  cluster: della
+  partitions:
+    - cpu
+  min_run_time:             61  # minutes
+  absolute_thres_hours: 100000  # unused cpu-hours
+  overall_ratio_threshold: 0.2  # [0.0, 1.0]
+  mean_ratio_threshold:    0.2  # [0.0, 1.0]
+  median_ratio_threshold:  0.2  # [0.0, 1.0]
+  num_top_users:            10
+  num_jobs_display:         10
+  email_file: "excessive_time.txt"
+  admin_emails:
+    - admin@institution.edu

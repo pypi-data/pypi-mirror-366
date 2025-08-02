@@ -1,0 +1,22 @@
+name: Tests
+on: [workflow_dispatch]
+jobs:
+  tests:
+    name: Check Python 3.7 on Ubuntu
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.7"
+
+      - name: Install package
+        run: pip install pandas pytest pytest-cov
+
+      - name: Test package
+        run: pytest --cov=./ --cov-report=xml
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -1,0 +1,82 @@
+site_name: "Job Defense Shield"
+site_url: https://PrincetonUniversity.github.io/job_defense_shield/
+repo_url: "https://github.com/PrincetonUniversity/job_defense_shield"
+repo_name: PrincetonUniversity/job_defense_shield
+nav:
+  - Overview: index.md
+  - Installation: setup.md
+  - Configuration: configuration.md
+  - Emails: emails.md
+  - Your First Alert:              alert/your_first_alert.md
+  - GPU Alerts:
+    - Cancel 0% GPU Jobs:          alert/cancel_gpu_jobs.md
+    - Zero GPU Utilization:        alert/zero_gpu_util.md
+    - Low GPU Utilization:         alert/low_gpu_util.md
+    - Excess CPU Memory per GPU:   alert/excess_cpu_mem_per_gpu.md
+    - Too Many Cores per GPU:      alert/too_many_cores_per_gpu.md
+    - GPU Model Too Powerful:      alert/gpu_model_too_powerful.md
+    - Multinode GPU Fragmentation: alert/gpu_fragmentation.md
+    - Run Time Limits:             alert/time_limits_gpu.md
+  - CPU Alerts:
+    - CPUs with 0% Utilization:    alert/zero_cpu_util.md
+    - Over-Allocating CPU Memory:  alert/excess_cpu_memory.md
+    - Low CPU Utilization:         alert/low_cpu_util.md
+    - Serial Allocating Multiple:  alert/serial_allocating_multiple.md
+    - Multinode CPU Fragmentation: alert/cpu_fragmentation.md
+    - Run Time Limits:             alert/time_limits.md
+    - New Alert:                   alert/new_alert.md
+  - Reports:
+    - Overview:                    reports/overview.md
+    - Usage Overview:              reports/usage_overview.md
+    - Usage By Slurm Account:      reports/account.md
+    - Jobs with Most CPU-Cores:    reports/most_cores.md
+    - Jobs with Most GPUs:         reports/most_gpus.md
+    - Longest Queued Jobs:         reports/longest_queued.md
+    - Job Counts:                  reports/jobs_overview.md
+  - Nodelist: nodelist.md
+  - Check Mode: extra.md
+  - Contributions: contributions.md
+  - Support: support.md
+  - Publications: publications.md
+theme:
+  name: material
+  features:
+    - navigation.footer
+    #- content.code.copy
+  palette:
+    # light mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Light mode
+      primary: red
+      accent: blue
+    # dark mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+      primary: red
+      accent: deep purple
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  # content tabs
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/PrincetonUniversity/job_defense_shield
+  generator: false
+
+copyright: "&copy;2025 Princeton University. All rights reserved."

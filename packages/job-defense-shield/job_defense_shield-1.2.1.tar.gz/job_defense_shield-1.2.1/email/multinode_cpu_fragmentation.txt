@@ -1,0 +1,34 @@
+<GREETING>
+
+Below are your jobs over the past <DAYS> days which appear to be using more nodes
+than necessary:
+
+<TABLE>
+
+The "Nodes" column shows the number of nodes used to run the job. The
+"Nodes-Needed" column shows the minimum number of nodes needed to run the
+job (these values are calculated based on the number of requested CPU-cores
+while taking into account the CPU memory usage of the job). "Mem-per-Node"
+is the mean CPU memory used per node.
+
+When possible please try to minimize the number of nodes per job by using all
+of the CPU-cores of each node. This will help to maximize the overall job
+throughput of the cluster.
+
+<CLUSTER> (<PARTITIONS>) is composed of nodes with <CPN> CPU-cores and <MPN> GB of CPU memory. If
+your job requires <NUM-CORES> CPU-cores (and you do not have high memory demands) then
+use, for example:
+
+<SBATCH>
+
+If you are unsure about the meanings of --nodes, --ntasks, --ntasks-per-node and
+--cpus-per-task, see our Slurm webpage:
+
+    https://your-institution.edu/KB/slurm
+
+Consider attending an in-person Research Computing help session for assistance:
+
+    https://your-institution.edu/support/help-sessions
+
+Replying to this automated email will open a support ticket with Research
+Computing.

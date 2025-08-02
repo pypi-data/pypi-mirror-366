@@ -1,0 +1,29 @@
+<GREETING>
+
+Below are <CASE> that ran on <CLUSTER> (<PARTITIONS>) in the past <DAYS> days:
+
+<TABLE>
+
+It appears that you are requesting too much CPU memory for your jobs since you
+are only using on average <PERCENT> of the allocated memory (for the <NUM-JOBS> jobs). This
+has resulted in <UNUSED> TB-hours of unused memory which is equivalent to making
+<NUM-WASTED-NODES> nodes unavailable to all users (including yourself) for one week! A TB-hour is
+the allocation of 1 terabyte of memory for 1 hour.
+
+Please request less memory by modifying the --mem-per-cpu or --mem Slurm
+directive. A good target value for Percent-Used is 80% and above. For more
+on allocating CPU memory with Slurm:
+
+    https://your-institution.edu/KB/cpu-memory
+
+You can check the CPU memory utilization of completed and actively running jobs
+by using the "jobstats" command. For example:
+
+<JOBSTATS>
+
+Consider attending an in-person Research Computing help session for assistance:
+
+    https://your-institution.edu/support/help-sessions
+
+Replying to this automated email will open a support ticket with Research
+Computing.
