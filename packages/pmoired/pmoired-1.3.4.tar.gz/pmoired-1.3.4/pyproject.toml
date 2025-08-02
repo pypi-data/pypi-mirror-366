@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pmoired"]
+exclude = ["banner"]
+
+[tool.setuptools.package-data]
+pmoired = ["newVltiHzn_obsDoors.txt",
+           "transir_gravity.pckl",
+           "Model definitions and examples.ipynb",
+           "Rosseland_SATLAS_giants.dat",
+           "Rosseland_SATLAS_dwarfs.dat"]
+
+[tool.setuptools.dynamic]
+version = {attr='pmoired.__version__'}
+
+[project]
+name = "pmoired"
+dynamic = ["version"]
+requires-python = ">=3.8"
+readme = {file="README.md", content-type="text/markdown"}
+license = {file="LICENCE.txt"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+keywords = ["optical interferometry", "visualization", "display", "OIFITS",
+            "data modelling", "astrophysics"]
+description = "Display and fit Optical (spectro-)Interferometric OIFITS data"
+authors = [
+    {name = "Antoine Mérand", email = "amerand@eso.org"},
+]
+
+dependencies = [
+    "scipy >= 1.10.0",
+    "numpy >= 2.0.0",
+    "matplotlib >= 3.8.0",
+    "astropy >= 6.0.0",
+    "astroquery >= 0.4.4",
+    'importlib_resources; python_version < "3.9"'
+]
+
+[project.urls]
+Repository = "https://github.com/amerand/PMOIRED"
+Issues = "https://github.com/amerand/PMOIRED/issues"
+Publications = "https://ui.adsabs.harvard.edu/public-libraries/dz7RG915Swq5yAB1KwmgTA"
