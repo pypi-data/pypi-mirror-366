@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "python-zatobox"
+version = "0.1.11"
+description = ""
+authors = ["woutervanoverberghe <wouter.vanoverberghe@vanutech.be>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+protobuf = "^6.31.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
