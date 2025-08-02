@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "std-py-logger"
+version = "0.0.1"
+authors = [
+  { name="gpastal", email="" },
+]
+description = "A simple colored logger for Python"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/gpastal24/std-py-logger"
+"Bug Tracker" = "https://github.com/gpastal24/std-py-logger/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/std_py_logger"]

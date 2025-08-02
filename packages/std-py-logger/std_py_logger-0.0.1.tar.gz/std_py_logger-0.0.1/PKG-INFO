@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: std-py-logger
+Version: 0.0.1
+Summary: A simple colored logger for Python
+Project-URL: Homepage, https://github.com/gpastal24/std-py-logger
+Project-URL: Bug Tracker, https://github.com/gpastal24/std-py-logger/issues
+Author: gpastal
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# py_logger
+
+A simple colored logger for Python.
+
+## Installation
+
+```bash
+pip install .
+```
+
+## Usage
+
+```python
+from py_logger import get_logger
+
+logger = get_logger(__name__)
+
+logger.debug("This is a debug message.")
+logger.info("This is an info message.")
+logger.warning("This is a warning message.")
+logger.error("This is an error message.")
+logger.critical("This is a critical message.")
+```
+
+```python
+from py_logger import get_logger
+
+logger = get_logger(__name__, log_file=True) # logs to file
+
+logger = get_logger(__name__, log_prints=True) # redirects prints to INFO
+
+
+```
