@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=46.4.0", "wheel>=0.36.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acme_portal_sdk"
+version = "0.0.12"
+description = "SDK to customize behaviour of acme-portal VSCode extension"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.10"
+dependencies = ["python-dotenv"]
+
+[[project.authors]]
+email = "guner.stan@gmail.com"
+
+[project.scripts]
+aps = "acme_portal_sdk._main:main"
+aps-prefect-deploy = "acme_portal_sdk.prefect_deploy:main"
+
+[project.urls]
+homepage = "https://blackwhitehere.github.io/acme-portal-sdk/"
+repository = "https://github.com/blackwhitehere/acme-portal-sdk"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",               # for testing
+    "uv",                   # for venv
+    "mkdocs",               # for documentation
+    "mkdocs-material",      # theme for mkdocs
+    "mkdocstrings[python]", # mkdocs plugin to generate API docs from sources
+    "jupyterlab",           # for jupyter notebooks
+    "isort",                # for import sorting
+    "ruff",                 # for linting
+    "pre-commit",           # for pre-commit hooks
+]
+prefect = ["prefect", "acme_config"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = { find = { where = ["src"] } }
+# https://github.com/astral-sh/uv/issues/9513#issuecomment-2519527822
+license-files = []
+# [tool.setuptools.package-data]
