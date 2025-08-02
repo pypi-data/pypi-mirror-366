@@ -1,0 +1,3 @@
+#algopython library
+
+library used to make serial connection and test commands from python on brain, with motors sensors leds sounds ...
