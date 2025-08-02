@@ -1,0 +1,106 @@
+[build-system]
+requires = ['setuptools >= 64']  # PEP 660
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'pytest-autoprofile'
+description = """\
+`line_profiler.autoprofile`-ing your `pytest` test suite\
+"""
+authors = [
+    {name = 'Terence S.-C. Tsang', email = 't.tsang.sci@gmail.com'},
+]
+
+requires-python = '>= 3.8'
+dependencies = [
+    'exceptiongroup; python_version < "3.11"',
+    # typing.Annotated: python3.9+
+    # typing.ParamSpec: python3.10+
+    # typing.Self: python3.11+
+    # typing.TypeIs: python3.13+
+    'typing-extensions >= 4.10; python_version < "3.13"',
+    # (We need most of the features added in 5.0)
+    'line_profiler >= 5.0',
+    # pytest.StashKey: 7.0+
+    'pytest >= 7.0', 
+    # 'New style' hook wrappers: 1.2+
+    'pluggy >= 1.2',
+]
+dynamic = [
+    'version',
+]
+
+readme = 'README-pypi.md'
+# Note: license expressions (PEP 639) and license files are only
+# supported since `setuptools` v77...
+# but Python 3.8 support was dropped in v76
+# license = 'MIT'
+# license-files = [
+#     'LICENCE.txt',
+# ]
+
+keywords = [
+    'testing',
+    'profiling',
+    'pytest',
+    'line_profiler',
+]
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Topic :: Software Development :: Testing',
+    'Operating System :: OS Independent',
+    'Framework :: Pytest',
+    # Note: license classifiers are deprecated, but we can't do
+    # license expressions in Python 3.8... so just keep using it here
+    'License :: OSI Approved :: MIT License',
+    # Python compatibility window
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+]
+
+[project.urls]
+repository = 'https://gitlab.com/TTsangSC/pytest-autoprofile'
+
+[project.optional-dependencies]
+dev = [
+    'flake8',
+    'mypy',
+    # Note: `pytest-doctestplus` version below will not run with
+    # `pytest` >= 7.0 because it used
+    # `pytest.Config._getconftest_pathlist()` with the wrong signature
+    'pytest-doctestplus >= 0.10.0',
+    # Note: `xdoctest` version below will not run with `pytest` >= 6.1
+    # because it tried to directly construct a `pytest.Node`
+    'xdoctest >= 0.12.0',
+]
+
+[project.entry-points.pytest11]
+pytest_autoprofile = 'pytest_autoprofile.plugin'
+
+[tool.setuptools.dynamic]
+version = {attr = 'pytest_autoprofile.__version__'}
+
+[tool.pytest.ini_options]
+minversion = '7.0'
+addopts = [
+    '--doctest-modules',
+    '--ignore=tests/test-modules-and-tests',
+    '--ignore-glob=.*',  # Ignore `.ci-helper-funcs.py`, etc.
+]
+filterwarnings = [
+    """\
+    ignore:\
+    Adding a function with a __wrapped__ attribute\\.:\
+    UserWarning:\
+    """,
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+files = ['src/pytest_autoprofile/', 'tests/']
+exclude = '^tests/test-modules-and-tests'
