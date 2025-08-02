@@ -1,0 +1,42 @@
+# Repetitive command line creation with your editor of choice
+
+Web: http://thp.io/2016/rpt/
+
+Given a list of file names, this will put the list of files into a text
+file, open that with `$EDITOR` (or `$VISUAL` if `$EDITOR` is not set). After
+the editor returns, any changed names in the text file will cause a
+command (default: `mv`) to be executed with the original and new filename.
+
+This is very useful in carrying out rename operations that are easy to
+specify with your text editor, but hard to specify with wildcards.
+
+If you ever wrote something like this (and -- as seen here -- still got
+shell quoting wrong, because it's tedious), then this tool is for you:
+
+    for f in *.mp3; do; mv "$f" "$(basename $f .mp3)_foo.mp3"; done
+
+Also, you can use different commands instead of `mv`, and add options
+for the input and output parameters (`oggenc <infile> -o <outfile>`):
+
+    rpt -c "oggenc {old} -o {new}" *.wav
+
+If you have a command without `{old}` and `{new}`, `{old} {new}` will be
+appended to the command line (`cp <infile> <outfile>`):
+
+    rpt -c cp *.wav
+
+You can put `{old}` and `{new}` wherever you want, in different order
+and also multiple times (if needed):
+
+    rpt -c "mpg123 -w {new} {old}" *.mp3
+
+To go all-out silly, you can set the `$EDITOR` variable to something
+that will automatically change each input line, for example to make
+a backup file of every `.py` file in the current folder:
+
+    env EDITOR="sed -i -e '/^[^#]/ s/$/.bak/'" rpt -c cp *.py
+
+This will use `sed` as the editor and in-place edit the temporary
+text file created by `rpt` and append `.bak` to all non-comment lines
+(the `/^[^#]/` part) in the input file, and with `cp` as the command
+will call `cp <filename> <filename>.bak` for every input file.
