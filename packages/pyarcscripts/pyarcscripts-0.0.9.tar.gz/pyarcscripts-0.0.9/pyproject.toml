@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyarcscripts"
+version = "0.0.0000009"
+authors = [
+    {name = "INICODE", email = "contact.inicode@gmail.com"},
+]
+description = "Paquetage Python qui stocke toutes les fonctionnalités utiles de pyArc pouvant être utilisé dans tous projets et modules pyArc"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/inicode_celestin03/pyarcscripts"

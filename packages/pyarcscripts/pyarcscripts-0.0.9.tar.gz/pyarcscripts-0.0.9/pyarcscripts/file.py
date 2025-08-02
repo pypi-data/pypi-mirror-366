@@ -1,0 +1,298 @@
+import re
+import os
+import shutil
+import traceback
+from datetime import datetime
+from .string import RandomStr
+import pytz
+from .config import DEBUG, NODEENV
+
+
+def cleanField(value: str, max: int = 15, reverse: bool = False):
+    reverse = reverse if type(reverse) == bool else False
+    max = max if (
+        type(max) == int and
+        max > 0
+    ) else 15
+    res = str(value)
+    if len(res) > max:
+        res = f"...{res[-max:]}" if reverse else f"{res[:max]}..."
+    return res
+def createlogFilename(filename: str, debug: bool = DEBUG, logInterval: int = 15):
+    '''
+    Cette fonction permet de creer un nom de fichier log
+
+        Args:
+            filename (str): nom du fichier
+
+        Returns:
+            'str|None': La reponse de la fonction
+    '''
+    debug = debug if type(debug) == bool else DEBUG
+    logInterval = int(logInterval) if type(logInterval) in (int, float) else 15
+    dateAct = datetime.now(tz=pytz.UTC)
+    minuteSup1 = int(dateAct.strftime('%M'))
+    minuteSup1F = (str((minuteSup1 // logInterval) * logInterval) if minuteSup1 > 9 else ('0{0}'.format(minuteSup1)))
+    sup1 = cleanFilenameWithoutExtension(
+        filename= "{0}{1}".format(
+            dateAct.strftime('%Y%m%d%H%M%S%f%Z'),
+            minuteSup1F,
+        ),
+        debug=debug,
+    )
+    return cleanFilenameWithoutExtension(
+        filename=filename,
+        mapCF=lambda x: "{sup1}_{data}".format(
+            data = x,
+            sup1 = sup1,
+        ),
+        debug=debug,
+    )
+def removeEmptyFiles(directory, extensions = [], debug: bool = DEBUG):
+    '''
+    Cette fonction permet de supprimer tous les fichiers vide d'un repertoire
+
+        Args:
+            directory (str): nom du fichier
+
+        Returns:
+            'bool': La reponse de la fonction
+    '''
+    try:
+        pass
+    except Exception as err:
+        stack = traceback.format_exc()
+    res: bool = False
+    directory = directory if(
+        type(directory) == str and
+        len(directory) > 0
+    ) else None
+    if NODEENV == 'debug':
+        print("[pyarcorm -> file.py] removeEmptyFiles - directory:: ", directory)
+    extensions = list(
+        filter(
+            lambda ext: (
+                type(ext) == str and
+                len(ext) > 0
+            ),
+            extensions,
+        )
+    ) if (
+        type(extensions) in (list, tuple) and
+        len(extensions) > 0
+    ) else []
+    if directory is not None :
+        if NODEENV == 'debug':
+            print("[pyarcorm -> file.py] removeEmptyFiles - os.listdir(directory):: ", os.listdir(directory))
+            print("[pyarcorm -> file.py] removeEmptyFiles - extensions:: ", extensions)
+        i = 0
+        for filename in os.listdir(directory):
+            if(
+                len(
+                    list(
+                        filter(
+                            lambda ext: filename.endswith(ext),
+                            extensions,
+                        )
+                    )
+                ) > 0
+            ):
+                file_path = os.path.join(directory, filename)
+                if os.path.getsize(file_path) == 0:
+                    os.remove(file_path)
+                    res = True
+            i = i + 1
+    return res
+
+def cleanFilenameWithoutExtension(filename: str, mapCF = lambda x: x, premap = lambda x: x, debug: bool = DEBUG):
+    '''
+    Cette fonction permet de creer un nom de fichier
+
+        Args:
+            filename (str): nom du fichier
+            mapCF (def): mapping de la chaîne de caratères
+            premap (def): premapping de la chaîne de caratères
+
+        Returns:
+            'str|None': La reponse de la fonction
+    '''
+    debug = debug if type(debug) == bool else DEBUG
+    if(filename is not None):
+        sep = '_'
+        res = (
+            premap(
+                sep.join(
+                    list(
+                        filter(
+                            lambda x: len(x) > 0,
+                            re.sub(
+                                re.compile(r"[^a-zA-Z0-9_]", re.MULTILINE),
+                                sep,
+                                filename,
+                            ).split(sep),
+                        )
+                    )
+                )
+            ) if callable(premap) else (
+                sep.join(
+                    list(
+                        filter(
+                            lambda x: len(x) > 0,
+                            re.sub(
+                                re.compile(r"[^a-zA-Z0-9_]", re.MULTILINE),
+                                sep,
+                                filename,
+                            ).split(sep),
+                        )
+                    )
+                )
+            )
+        ) if len(filename) > 0 else None
+        res = (
+            mapCF(
+                res
+            ) if callable(mapCF) else res
+        ) if len(filename) > 0 else None
+        return res
+    else:
+        return None
+
+
+def createPath(path, content: str = None, remove: bool = False):
+    '''
+    Cette fonction permet de vérifier si le chemin est un fichier ou un dossier
+
+        Parameters:
+            path (str): nom du fichier
+            content (str): le contenu du fichier
+
+        Returns:
+            bool: La reponse de la fonction
+    '''
+    remove = remove if type(remove) == bool else False
+    res = False
+    # Vérifier si le chemin est un fichier ou un dossier
+    if os.path.basename(path):
+        if remove and os.path.exists(path):
+            if os.path.isfile:
+                os.remove(path)
+            elif os.path.isdir:
+                shutil.rmtree(path)
+        # C'est un fichier
+        directory = os.path.dirname(path)
+        os.makedirs(directory, exist_ok=True)
+        with open(path, 'w') as file:
+            file.write(str(content) if content is not None else '')
+    else:
+        if remove and os.path.exists(path):
+            shutil.rmtree(path)
+        # C'est un dossier
+        os.makedirs(path, exist_ok=True)
+    res = True
+    return res
+def createFile(path, content: str = None, remove: bool = False):
+    '''
+    Cette fonction permet créer un fichier
+
+        Parameters:
+            path (str): nom du fichier
+            content (str): le contenu du fichier
+
+        Returns:
+            bool: La reponse de la fonction
+    '''
+    remove = remove if type(remove) == bool else False
+    res = False
+    if remove and os.path.exists(path):
+        removeFile(path)
+    # C'est un fichier
+    directory = os.path.dirname(path)
+    os.makedirs(directory, exist_ok=True)
+    with open(path, 'w') as file:
+        file.write(str(content) if content is not None else '')
+    res = True
+    return res
+def createFolder(path, remove: bool = False):
+    '''
+    Cette fonction permet créer un dossier
+
+        Parameters:
+            path (str): nom du fichier
+            content (str): le contenu du fichier
+
+        Returns:
+            bool: La reponse de la fonction
+    '''
+    remove = remove if type(remove) == bool else False
+    res = False
+    if remove and os.path.exists(path) == True:
+        removeFolder(path)
+    # C'est un dossier
+    os.makedirs(path, exist_ok=True)
+    res = True
+    return res
+def removeFileAndFolder(path):
+    '''
+    Cette fonction permet supprimer un fichier ou un dossier
+
+        Parameters:
+            path (str): nom du fichier
+
+        Returns:
+            bool: La reponse de la fonction
+    '''
+    res = False
+    if os.path.exists(path) == True:
+        if os.path.isdir:
+            shutil.rmtree(path)
+        elif os.path.isfile:
+            os.remove(path)
+    res = True
+    return res
+def removeFile(path):
+    '''
+    Cette fonction permet supprimer un fichier
+
+        Parameters:
+            path (str): nom du fichier
+
+        Returns:
+            bool: La reponse de la fonction
+    '''
+    res = False
+    if os.path.exists(path) == True and os.path.isfile:
+        os.remove(path)
+    res = True
+    return res
+def removeFolder(path):
+    '''
+    Cette fonction permet supprimer un dossier
+
+        Parameters:
+            path (str): nom du fichier
+
+        Returns:
+            bool: La reponse de la fonction
+    '''
+    res = False
+    if os.path.exists(path) == True and os.path.isdir:
+        shutil.rmtree(path)
+    res = True
+    return res
+def pathsJoin(*paths) -> str:
+    '''
+    Cette fonction permet de joindre plusieurs chemins en un seul
+
+        Parameters:
+            paths (list[str]): tous les chemins à joindre
+
+        Returns:
+            str: La reponse de la fonction
+    '''
+    import os
+    res = os.path.normpath(
+        os.path.join(*paths)
+    )
+    # print("[pyarcgen -> file.py] pathsJoin | paths: ", paths)
+    # print("[pyarcgen -> file.py] pathsJoin | res: ", res)
+    return res
