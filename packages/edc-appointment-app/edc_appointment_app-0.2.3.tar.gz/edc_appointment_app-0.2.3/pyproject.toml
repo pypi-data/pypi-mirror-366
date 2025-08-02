@@ -1,0 +1,153 @@
+[build-system]
+requires = ["uv_build>=0.8.2,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = "src"
+source-exclude = ["bin"]
+namespace = false
+
+[project]
+name = "edc-appointment-app"
+version = "0.2.3"
+description = "Test app of clinicedc/edc projects"
+readme = {file = "README.rst", content-type = "text/x-rst"}
+authors = [
+    { name = "Erik van Widenfelt", email = "ew2789@gmail.com" },
+]
+keywords = [
+    "AppConfig",
+    "Edc",
+    "clinical",
+    "clinicedc",
+    "django",
+    "trials",
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.1",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+requires-python = ">=3.12,<3.14"
+
+[project.urls]
+Homepage = "https://github.com/clinicedc/edc-appointment-app"
+
+[tool.black]
+line-length = 95
+target-version = ["py312"]
+extend-exclude = '''^(.*\/)*\b(migrations)\b($|\/.*$)'''
+
+[tool.isort]
+profile = "black"
+py_version = "312"
+skip = [".tox", ".eggs", "migrations", "_version.py"]
+
+[tool.coverage.run]
+parallel = false
+branch = true
+source = ["edc_appointment_app"]
+
+[tool.coverage.paths]
+source = ["edc_appointment_app"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+omit = ["requirements.txt"]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+]
+
+[dependency-groups]
+lint = [
+    "black>=25.1.0",
+    "deptry>=0.23.0",
+    "flake8>=7.3.0",
+    "isort>=6.0.1",
+    "ruff>=0.12.5",
+]
+
+docs = [
+    "furo>=2025.7.19",
+    "sphinx>=8.2.3",
+    "sphinx-design>=0.6.1",
+    "sphinx-inline-tabs>=2023.4.21",
+]
+
+test = [
+    "coverage>=7.10.1",
+    "tox-uv>=1.26.2",
+    "faker>=37.4.2",
+    "model-bakery>=1.20.5",
+    "time-machine>=2.16.0",
+    "tqdm>=4.67.1",
+    "django-admin-rangefilter>=0.13.3",
+    "django-crypto-fields>=1.0.1",
+    "django-logentry-admin>=1.1.0",
+    "django-multisite2>=2.1.0",
+    "django-pandas>=0.6.7",
+    "django-revision>=1.0.0",
+    "django-simple-history>=3.10.1",
+    "django-webtest>=1.9.13",
+    "edc-action-item>=1.0.3",
+    "edc-appconfig>=1.0.2",
+    "edc-appointment>=1.1.1",
+    "edc-auth>=1.0.2",
+    "edc-consent>=1.0.3",
+    "edc-constants>=1.0.1",
+    "edc-crf>=1.0.1",
+    "edc-dashboard>=1.0.3",
+    "edc-data-manager>=1.0.0",
+    "edc-device>=1.0.1",
+    "edc-document-status>=1.0.0",
+    "edc-export>=1.0.4",
+    "edc-facility>=1.0.2",
+    "edc-fieldsets>=1.0.1",
+    "edc-form-runners>=1.0.0",
+    "edc-form-validators>=1.0.0",
+    "edc-identifier>=1.0.0",
+    "edc-lab>=1.0.5",
+    "edc-label>=1.0.0",
+    "edc-list-data>=1.0.0",
+    "edc-listboard>=1.0.0",
+    "edc-locator>=1.0.2",
+    "edc-ltfu>=1.0.1",
+    "edc-metadata>=1.0.5",
+    "edc-model-admin>=1.0.3",
+    "edc-model-form>=1.0.0",
+    "edc-model-to-dataframe>=1.0.1",
+    "edc-model>=1.0.0",
+    "edc-navbar>=1.0.0",
+    "edc-notification>=1.0.1",
+    "edc-offstudy>=1.0.1",
+    "edc-pdf-reports>=1.0.2",
+    "edc-pdutils>=1.0.2",
+    "edc-pharmacy>=1.2.3",
+    "edc-prn>=1.1.1",
+    "edc-protocol>=1.0.1",
+    "edc-randomization>=1.0.4",
+    "edc-registration>=1.0.1",
+    "edc-reportable>=2.0.2",
+    "edc-review-dashboard>=1.0.2",
+    "edc-screening>=1.1.0",
+    "edc-search>=1.0.1",
+    "edc-sites>=1.1.0",
+    "edc-subject-dashboard>=1.0.1",
+    "edc-test-settings>=1.1.2",
+    "edc-timepoint>=1.0.1",
+    "edc-unblinding>=1.0.2",
+    "edc-view-utils>=1.0.1",
+    "edc-visit-schedule>=4.1.1",
+    "edc-visit-tracking>=1.0.2",
+    "edc-adverse-event>=1.1.2",
+    "adverse-event-app>=0.1.1",
+]
