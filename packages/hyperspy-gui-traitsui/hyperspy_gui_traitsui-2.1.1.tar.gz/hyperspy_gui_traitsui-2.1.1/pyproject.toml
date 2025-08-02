@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyperspy_gui_traitsui"
+description = "traitsui GUI elements for the HyperSpy framework."
+requires-python = ">=3.9"
+readme = "README.md"
+keywords=[
+    "data analysis",
+    "microscopy",
+    "traitsui",
+    "hyperspy",
+    "multi-dimensional",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Scientific/Engineering",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Operating System :: MacOS",
+]
+dependencies = [
+  "hyperspy>=2.3.0",
+  "traits>=6.3", # to match traitsui requirement
+  "traitsui>=7.3",
+]
+dynamic = ["version"]
+
+[project.entry-points."hyperspy.extensions"]
+hyperspy_gui_traitsui = "hyperspy_gui_traitsui"
+
+[project.license]
+file = "LICENSE"
+
+[project.optional-dependencies]
+tests = [
+  "pytest",
+  "pytest-cov",
+  "pytest-rerunfailures",
+  "setuptools-scm",
+]
+dev = [
+  "black",
+  "hyperspy-gui-traitsui[doc]",
+  "hyperspy-gui-traitsui[tests]"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hyperspy/hyperspy_gui_traitsui"
+"Bug Reports" = "https://github.com/hyperspy/hyperspy_gui_traitsui/issues"
+"Source" = "https://github.com/hyperspy/hyperspy_gui_traitsui"
+"Conda-Forge" = "https://anaconda.org/conda-forge/hyperspy-gui-traitsui"
+"Support" = "https://gitter.im/hyperspy/hyperspy"
+
+[tool.coverage.run]
+branch = true
+source = ["hyperspy_gui_traitsui"]
+omit = [
+  "hyperspy_gui_traitsui/tests/*",
+  "hyperspy_gui_traitsui/conftest.py",
+  "prepare_release.py",
+]
+
+[tool.coverage.report]
+precision = 2
+
+[tool.pytest.ini_options]
+#  "-ra",  # Display summary: "all except passes"
+addopts = "-ra"
+minversion = "6.0"
+testpaths = [
+  "hyperspy_gui_traitsui/tests",
+]
+
+[tool.setuptools.packages.find]
+include = ["hyperspy_gui_traitsui*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml"]
+
+[tool.setuptools_scm]
+fallback_version = "2.1.2.dev0"
