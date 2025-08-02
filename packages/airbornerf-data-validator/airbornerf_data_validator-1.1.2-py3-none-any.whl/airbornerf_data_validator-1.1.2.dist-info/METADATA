@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: airbornerf-data-validator
+Version: 1.1.2
+Summary: Tool for verifying compliance with AirborneRF data requirements
+License: Proprietary
+Author: Dimetor GmbH
+Author-email: support@airbornerf.com
+Requires-Python: >=3.10,<4.0
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: click
+Requires-Dist: pandas
+Requires-Dist: pyproj
+Description-Content-Type: text/markdown
+
+# Tool for verifying compliance with AirborneRF data requirements
+
+# Installation
+Consider creating a virtual environment using your favourite tool.
+```bash
+pip install airbornerf-data-validator
+```
+
+# Updating
+To upgrade to the latest version, run:
+```bash
+pip install --upgrade airbornerf-data-validator
+```
+
+# Usage
+```bash
+airbornerf-data-validator --help
+```
+
