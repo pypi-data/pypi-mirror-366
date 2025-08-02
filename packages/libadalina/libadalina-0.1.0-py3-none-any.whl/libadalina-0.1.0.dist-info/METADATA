@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: libadalina
+Version: 0.1.0
+Summary: A library for graph analytics with geographic data
+Author-email: Marco Casazza <d.marcocasazza@gmail.com>, Alberto Ceselli <alberto.ceselli@unimi.it>, Marco Premoli <marco.premoli@unimi.it>
+License-Expression: MIT
+Project-URL: Homepage, https://gitlab.com/amelia_unimi/libadalina
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: ~=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: apache-sedona[spark]==1.7.1
+Requires-Dist: pyspark==3.3.2
+Requires-Dist: pandas==2.2.3
+Requires-Dist: geopandas==1.0.1
+Requires-Dist: networkx==3.4.2
+Requires-Dist: shapely==2.1.1
+Requires-Dist: matplotlib==3.10.3
+Requires-Dist: click==8.2.1
+Requires-Dist: install-jdk==1.1.0
+Provides-Extra: dev
+Requires-Dist: pytest==8.4.1; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Dynamic: license-file
+
+# libadalina
+
+A library for graph processing with geographic data.
+
+## Installation
+
+### From sources
+
+To install from the source code, clone the repository and run the following commands:
+
+```bash
+git clone --recurse-submodules git@gitlab.com:amelia_unimi/libadalina.git
+pip install -e libadalina
+```
+
+To run the examples on provided samples data, you can clone the submodules as well:
+
+```bash
+git clone --recurse-submodules git@gitlab.com:amelia_unimi/libadalina.git
+python libadalina/__main__.py 
+```
+
+If `JAVA_HOME` environment variable is not set a suitable JDK will be downloaded in `$HOME/.jre` and used automatically.
+Not all JRE are supported, so if you encounter issues, you can try the automatically installed version.
+
+## Usage
+
+You can import it in your Python code:
+
+```python
+from libadalina.readers.open_street_map import OpenStreetMapReader
+from libadalina.graph.graph_factory import GraphFactory
+from libadalina.writers.to_geopackage import graph_to_geopackage
+
+# Read data
+reader = OpenStreetMapReader()
+gfd = reader.read('path/to/your/data.csv')
+
+# Create graph
+graph_factory = GraphFactory(gfd)
+graph = graph_factory.name('YourGraphName').build()
+
+# Export graph
+graph_to_geopackage(graph, 'output.gpkg')
+```
+
+## Features
+
+- Read geographic data from OpenStreetMap
+- Build and process graph structures
+- Export graphs to various formats (GeoPackage, CSV, Shapefile)
+- Perform graph operations like shortest path finding
+
+## Requirements
+
+- Python 3.10
+- Dependencies:
+  - apache-sedona[spark]
+  - pyspark
+  - pandas
+  - geopandas
+  - networkx
