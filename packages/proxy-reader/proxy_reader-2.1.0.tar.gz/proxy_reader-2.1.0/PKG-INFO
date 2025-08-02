@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: proxy-reader
+Version: 2.1.0
+Summary: Proxy reader for Python
+Project-URL: Homepage, https://github.com/runetech0/proxy-reader
+Project-URL: github, https://github.com/runetech0/proxy-reader
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp>=3.12.15
+Requires-Dist: aiohttp-socks>=0.10.1
+Requires-Dist: pytest>=8.4.1
+Provides-Extra: test
+Requires-Dist: pytest>=7.0.0; extra == "test"
+Dynamic: license-file
+
+
+
+
+# proxy-reader - A simple but useful bulk proxies reader and checker.
+
+This is useful when you are working with multiple proxies and want to bulk check
+these proxies before using them.
+It has iterators to iterate the proxies for easy reading.
+
+
+## Installation
+
+```
+pip install proxy-reader
+```
+
+## Changelogs
+
+### [v0.3.0]
+*   Add load_list class method to load proxies from list
+*   MAJOR: auto detect the proxies format
+*   Use new logging config to disable logs and prevent proxy_reader.log from creating
+*   Logs can be enabled from user-side
+*   Add option to disable proxies checking from __init__
+
+
+### [v0.2.0] - 2024-10-21
+
+*   Previous unrecorded changes
+
+
+For more info/queries Telegram: [@runetech](https://t.me/runetech)
