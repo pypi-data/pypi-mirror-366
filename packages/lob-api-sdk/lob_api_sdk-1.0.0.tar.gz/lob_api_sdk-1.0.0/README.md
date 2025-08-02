@@ -1,0 +1,147 @@
+
+# Getting Started with Lob API
+
+## Introduction
+
+Lob helps creators extend their applications into the physical world with automated direct mail and address verification APIs.
+
+**Get started in the way that works best for you:**
+
+- Watch our 10-minute video walkthrough showing how to get started with Lob API collections.
+
+<video src="https://youtube.com/embed/JDrxdzqghuQ" width="340"></video>
+
+- Explore our API documentatation: [docs.lob.com](https://docs.lob.com)
+
+- Read through our Getting Started guide below
+
+Need more help? Contact us at [support@lob.com](https://mailto:support@lob.com)
+
+**Getting Started**
+
+[Sign up for a free Lob account](https://dashboard.lob.com/#/register)
+
+Your API keys are located under [Settings](https://dashboard.lob.com/#/settings/account).
+
+You'll use the **SECRET API KEYS** that begin with test_. for your Test API key and live_. for your Live API key.
+
+<img src="https://s3.us-west-2.amazonaws.com/public.lob.com/assets/postman-get-api-keys.png">
+
+
+In order to use the collections in this public workspace, you'll select the Lob API collection and fork it into your personal workspace.
+
+You'll also want to setup environment variables. A short cut is to fork Lob Public Env from Lob's public workspace. You also have the option to create them yourself - see the image below.
+
+Set the **Current Value** for LIVE_API_KEY and TEST_API_KEY to your Lob "live" and "test" API keys and click **Save**.
+
+<img src="https://s3.us-west-2.amazonaws.com/public.lob.com/assets/postman-set-api-keys.png">
+
+
+Make sure **Lob Public Env** is selected in the environment menu.
+
+<img src="https://s3.us-west-2.amazonaws.com/public.lob.com/assets/postman-select-environment.png">
+
+
+Start exploring Lob's API collection
+
+_The Test API key is used for all print & mail related endpoints while the Live API key is used for the address verification endpoint._
+
+## Install the Package
+
+The package is compatible with Python versions `3.7+`.
+Install the package from PyPi using the following pip command:
+
+```bash
+pip install lob-api-sdk==1.0.0
+```
+
+You can also view the package at:
+https://pypi.python.org/pypi/lob-api-sdk/1.0.0
+
+## Test the SDK
+
+You can test the generated SDK and the server with test cases. `unittest` is used as the testing framework and `pytest` is used as the test runner. You can run the tests as follows:
+
+Navigate to the root directory of the SDK and run the following commands
+
+```
+pip install -r test-requirements.txt
+pytest
+```
+
+## Initialize the API Client
+
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/client.md)
+
+The following parameters are configurable for the API Client:
+
+| Parameter | Type | Description |
+|  --- | --- | --- |
+| environment | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
+| http_client_instance | `HttpClient` | The Http Client passed from the sdk user for making requests |
+| override_http_client_configuration | `bool` | The value which determines to override properties of the passed Http Client from the sdk user |
+| http_call_back | `HttpCallBack` | The callback value that is invoked before and after an HTTP call is made to an endpoint |
+| timeout | `float` | The value to use for connection timeout. <br> **Default: 60** |
+| max_retries | `int` | The number of times to retry an endpoint call if it fails. <br> **Default: 0** |
+| backoff_factor | `float` | A backoff factor to apply between attempts after the second try. <br> **Default: 2** |
+| retry_statuses | `Array of int` | The http statuses on which retry is to be done. <br> **Default: [408, 413, 429, 500, 502, 503, 504, 521, 522, 524]** |
+| retry_methods | `Array of string` | The http methods on which retry is to be done. <br> **Default: ['GET', 'PUT']** |
+| basic_auth_credentials | [`BasicAuthCredentials`](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/auth/basic-authentication.md) | The credential object for Basic Authentication |
+
+The API client can be initialized as follows:
+
+```python
+from lobapi.configuration import Environment
+from lobapi.http.auth.basic_auth import BasicAuthCredentials
+from lobapi.lobapi_client import LobapiClient
+
+client = LobapiClient(
+    basic_auth_credentials=BasicAuthCredentials(
+        username='username',
+        password='password'
+    ),
+    environment=Environment.PRODUCTION
+)
+```
+
+## Authorization
+
+This API uses the following authentication schemes.
+
+* [`basic (Basic Authentication)`](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/auth/basic-authentication.md)
+
+## List of APIs
+
+* [Address Verification Intl](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/address-verification-intl.md)
+* [Address Verification US](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/address-verification-us.md)
+* [Bank Accounts](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/bank-accounts.md)
+* [Billing Groups](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/billing-groups.md)
+* [Campaign Creatives](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/campaign-creatives.md)
+* [Campaign Uploads](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/campaign-uploads.md)
+* [Card Orders](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/card-orders.md)
+* [Reverse Geocode](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/reverse-geocode.md)
+* [Self Mailers](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/self-mailers.md)
+* [Template Versions](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/template-versions.md)
+* [Addresses](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/addresses.md)
+* [Campaigns](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/campaigns.md)
+* [Cards](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/cards.md)
+* [Checks](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/checks.md)
+* [Letters](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/letters.md)
+* [Postcards](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/postcards.md)
+* [Templates](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/templates.md)
+* [Zipcode](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/controllers/zipcode.md)
+
+## SDK Infrastructure
+
+### HTTP
+
+* [HttpResponse](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/http-response.md)
+* [HttpRequest](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/http-request.md)
+
+### Utilities
+
+* [ApiHelper](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/api-helper.md)
+* [HttpDateTime](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/http-date-time.md)
+* [RFC3339DateTime](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/rfc3339-date-time.md)
+* [UnixDateTime](https://www.github.com/MuHamza30/lob-api-python-sdk/tree/1.0.0/doc/unix-date-time.md)
+
