@@ -1,0 +1,64 @@
+# =============================================================================
+# Automagik Hive Genie All-in-One Container - Unified Architecture
+# =============================================================================
+#
+# Unified Genie consultation service with:
+# - Internal PostgreSQL database with pgvector extension (localhost:5432)
+# - FastAPI application for wish fulfillment orchestration (port 48886)
+# - Supervisord process management within single container
+# - Complete self-containment - no inter-container dependencies
+# - Eliminates "unhealthy" container issues from separate architecture
+#
+# Usage:
+#   docker-compose -f docker/templates/genie.yml up -d
+#   uvx automagik-hive --genie-serve
+#
+# =============================================================================
+
+services:
+  # Genie All-in-One Container - PostgreSQL + FastAPI Unified
+  genie-all-in-one:
+    build:
+      context: .
+      dockerfile: docker/genie/Dockerfile.unified
+      target: genie-production
+    container_name: hive-genie-unified
+    restart: unless-stopped
+    ports:
+      - "48886:48886"
+    environment:
+      # Unified container configuration
+      - HIVE_SERVICE_MODE=genie  
+      - HIVE_API_PORT=48886
+      - HIVE_GENIE_ENABLED=true
+      - RUNTIME_ENV=prd
+      - HIVE_LOG_LEVEL=info
+      # Performance optimizations
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    volumes:
+      - ./data/postgres-genie:/var/lib/postgresql/data
+      - ./logs/genie:/var/log/hive
+    networks:
+      - genie_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:48886/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+# Genie network configuration (isolated)
+networks:
+  genie_network:
+    driver: bridge
+    name: hive_genie_network
+
+# Genie persistent volumes
+volumes:
+  genie_app_logs:
+    driver: local
+    name: hive_genie_logs
+  genie_app_data:
+    driver: local
+    name: hive_genie_data
