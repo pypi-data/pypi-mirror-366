@@ -1,0 +1,69 @@
+Metadata-Version: 2.3
+Name: deltares_wave_toolbox
+Version: 1.1.1
+Summary: A Python toolbox for wave analysis
+License: GPL-3.0-or-later
+Author: Jan Kramer
+Author-email: jan.kramer@deltares.nl
+Requires-Python: >=3.10
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: matplotlib (>=3.10.0,<4.0.0)
+Requires-Dist: numpy (>=2.2.3,<3.0.0)
+Requires-Dist: scipy (>=1.14.0)
+Project-URL: Documentation, https://deltares-wave-toolbox.readthedocs.io
+Project-URL: Repository, https://github.com/Deltares-research/wave-toolbox
+Description-Content-Type: text/x-rst
+
+=====================
+Deltares Wave Toolbox
+=====================
+
+
+
+
+
+
+A Python toolbox for wave analysis
+
+
+
+Features
+--------
+
+From a time series of water level elevations, the toolbox can calculate:
+
+* the wave spectrum
+* spectral wave parameters such as wave heigth and different wave periods
+* wave height exceedance curves
+* theoretical wave spectra and wave height distributions
+* linear decomposition into incoming and reflected waves (using multiple wave gauges)
+
+How to install the toolbox?
+-----------------------------
+
+The package is available at pip. To install the package run:
+
+`pip install deltares-wave-toolbox`
+
+Where to find information about the Deltares Wave Toolbox?
+----------------------------------------------------------
+
+See the online manual for information about the toolbox. In addition, the examples folder contains scripts with applications of the toolbox and a Jupyter notebook is available in the documentation folder.
+
+
+Credits
+-------
+
+* Jan Kramer <jan.kramer@deltares.nl>
+* Menno de Ridder <menno.deridder@deltares.nl>
+* Ivo van der Werf <ivo.vanderwerf@deltares.nl>
+* Joost den Bieman <joost.denbieman@deltares.nl>
+
