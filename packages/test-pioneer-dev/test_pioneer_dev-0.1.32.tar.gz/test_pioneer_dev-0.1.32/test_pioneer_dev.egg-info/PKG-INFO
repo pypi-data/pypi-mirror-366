@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: test_pioneer_dev
+Version: 0.1.32
+Summary: Test framework for CI/CD
+Author-email: JE-Chen <jechenmailman@gmail.com>
+Project-URL: Homepage, https://github.com/Integration-Automation/TestPioneer
+Project-URL: Code, https://github.com/Integration-Automation/TestPioneer
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Environment :: MacOS X
+Classifier: Environment :: X11 Applications
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: je_web_runner
+Requires-Dist: je_load_density
+Requires-Dist: je_api_testka
+Requires-Dist: je-mail-thunder
+Requires-Dist: automation-file
+Requires-Dist: psutil
+Requires-Dist: pyyaml
+Provides-Extra: gui
+Requires-Dist: je_auto_control; extra == "gui"
+Dynamic: license-file
+
+# TestPioneer
+ 
+* An Automation Framework for CI/CD
+* Supports GUI Automation
+* Supports GUI, Loading, Stress, and API Testing
+* Uses YAML as a Configuration File
+* Provides an Automation IDE
+  * https://github.com/Integration-Automation/AutomationIDE
