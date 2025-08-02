@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: gh-templates
+Version: 0.1.20
+Summary: GitHub Templates CLI tool - unified installer
+License: Apache-2.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.7
+Requires-Dist: gh-templates-linux-x64-glibc==0.1.20; platform_system == "Linux" and platform_machine == "x86_64"
+Requires-Dist: gh-templates-linux-x64-musl==0.1.20; platform_system == "Linux" and platform_machine == "x86_64"
+Requires-Dist: gh-templates-linux-arm64-glibc==0.1.20; platform_system == "Linux" and platform_machine == "aarch64"
+Requires-Dist: gh-templates-win32-x64-msvc==0.1.20; platform_system == "Windows" and platform_machine == "AMD64"
+Requires-Dist: gh-templates-darwin-x64==0.1.20; platform_system == "Darwin" and platform_machine == "x86_64"
+Requires-Dist: gh-templates-darwin-arm64==0.1.20; platform_system == "Darwin" and platform_machine == "arm64"
+Dynamic: classifier
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
