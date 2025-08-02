@@ -1,0 +1,87 @@
+{
+  "@context": "https://kgrid.org/koio/2.1/context",
+  "@id": "KO_Id",
+  "KOIOVersion": "2.1",
+  "@type": "KnowledgeObject",
+  "dc:title": "KO_Title",
+  "dc:identifier": "ark:KO_Identifier",
+  "dc:version": "KO_Version",
+  "dc:date": "KO_CreationDate",
+  "dc:description": "KO_Description",
+  "schema:creator": {
+    "@id": "KO_CreatorWebSite",
+    "@type": "schema:Organization",
+    "schema:name": "KO_CreatorName",
+    "schema:affiliation": "KO_CreatorAffiliation",
+    "schema:email": "KO_CreatorEmail"
+  },
+  "dc:publisher": "KO_Pubmisher",
+  "dc:type": "software",
+  "dc:license": {
+    "@id": "KO_LicenseFile"
+  },
+  "hasService": [
+    {
+      "@type": [
+        "Service",
+        "KO_ServiceType"
+      ],
+      "dependsOn": "KO_KnowlegeId",
+      "implementedBy": {
+        "@id": "KO_ServicePath",
+        "@type": [
+          "Implementation",
+          "KO_ServiceImplementationType"
+        ]
+      }
+    }
+  ],
+  "hasKnowledge": [
+    {
+      "@id": "KO_KnowledgeId",
+      "@type": "Knowledge",
+      "implementedBy": {
+        "@id": "KO_KnowledgeImplementationPath",
+        "@type": [
+          "Implementation",
+          "Function"
+        ]
+      },
+      "dc:source": "KO_KnowLedgeSource",
+      "dc:format": "text/html",
+      "dc:date": "KO_KnowledgeCreationDate",
+      "schema:creator": {
+        "@type": "schema:Organization",
+        "schema:name": "KO_KnwoledgeCreatorName"
+      },
+      "hasTest": [
+        {
+          "@id": "KO_KnowledgeTestId",
+          "@type": "Test",
+          "dc:title": "KO_KnowledgeTestTitle",
+          "dc:description": "KO_KnowledgeTestDescription",
+          "implementedBy": {
+            "@id": "KO_KnowledgeTestImplementationPath",
+            "@type": "Python"
+          }
+        }
+      ],
+      "hasDocumentation": [
+        {
+          "@id": "KO_KnowledgeDocumentationPath",
+          "@type": "InformationArtifact",
+          "dc:title": "KO_KnowledgeDocumentationTitle",
+          "dc:description": "KO_KnowledgeDocumentationDescription"
+        }
+      ]
+    }
+  ],
+  "hasDocumentation": [
+    {
+      "@id": "KO_DocumentationPath",
+      "@type": "InformationArtifact",
+      "dc:title": "KO_DocumentationTitle",
+      "dc:description": "KO_DocumentationDescription"
+    }
+  ]
+}
