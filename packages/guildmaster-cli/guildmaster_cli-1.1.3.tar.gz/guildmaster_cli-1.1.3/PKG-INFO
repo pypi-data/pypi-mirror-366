@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: guildmaster-cli
+Version: 1.1.3
+Summary: A collection of scripts for managing Discord channels and other administrative tasks
+Author-email: Damien Burks <damien@devsecblueprint.com>
+Project-URL: Homepage, https://github.com/devsecblueprint/guildmaster-cli
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fire
+Requires-Dist: discord.py
+Dynamic: license-file
+
+# GuildMaster CLI
+
+🚧 This repository is still in progress, and won't be complete until for a little while. 🚧
+
+command to bump version:
+
+bumpver update --patch
+bumpver update --major
+bumpver update --minor
