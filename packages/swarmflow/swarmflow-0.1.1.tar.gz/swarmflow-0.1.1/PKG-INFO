@@ -1,0 +1,186 @@
+Metadata-Version: 2.4
+Name: swarmflow
+Version: 0.1.1
+Summary: SwarmFlow: A distributed multi-agent orchestration framework
+Home-page: https://github.com/anirame128/swarmflow
+Download-URL: https://github.com/anirame128/swarmflow/archive/refs/tags/v0.1.1.tar.gz
+Author: Anirudh Ramesh
+Author-email: anirudhramesh2021@gmail.com
+Maintainer: Anirudh Ramesh
+Maintainer-email: anirudhramesh2021@gmail.com
+Project-URL: Bug Reports, https://github.com/anirame128/swarmflow/issues
+Project-URL: Source, https://github.com/anirame128/swarmflow
+Project-URL: Documentation, https://github.com/anirame128/swarmflow#readme
+Project-URL: Changelog, https://github.com/anirame128/swarmflow/blob/main/CHANGELOG.md
+Keywords: ai,agents,orchestration,workflow,llm,multi-agent,distributed,observability
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: System :: Distributed Computing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.25.0
+Requires-Dist: opentelemetry-api>=1.20.0
+Requires-Dist: opentelemetry-sdk>=1.20.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# SwarmFlow
+
+A distributed multi-agent orchestration framework for building scalable AI workflows with comprehensive observability.
+
+## 🚀 Features
+
+- **Agent Orchestration**: Create complex workflows with multiple AI agents
+- **Dependency Management**: Define task dependencies with automatic execution ordering
+- **Retry Logic**: Built-in retry mechanisms for resilient agent execution
+- **Observability**: OpenTelemetry integration for tracing and monitoring
+- **Error Handling**: Graceful failure propagation and recovery
+- **Real-time Monitoring**: Send task traces to your monitoring dashboard
+- **Cycle Detection**: Automatic detection of circular dependencies
+- **Production Ready**: Comprehensive error handling and logging
+
+## 📦 Installation
+
+```bash
+pip install swarmflow
+```
+
+## 🎯 Quick Start
+
+```python
+from swarmflow.core.flow import SwarmFlow
+from swarmflow.core.decorator import swarm_task
+
+@swarm_task
+def fetch_data():
+    return "Some data from API"
+
+@swarm_task
+def process_data(data):
+    return f"Processed: {data}"
+
+@swarm_task
+def display_result(result):
+    print(f"Final result: {result}")
+
+# Create workflow
+flow = SwarmFlow()
+flow.add(fetch_data)
+flow.add(process_data).depends_on("process_data", "fetch_data")
+flow.add(display_result).depends_on("display_result", "process_data")
+
+# You can also specify multiple dependencies at once:
+# flow.add(step4).depends_on("step4", "step2", "step3")
+
+# Run workflow
+flow.run()
+```
+
+## 🔧 Advanced Usage
+
+### Multiple Dependencies
+```python
+@swarm_task
+def step1():
+    return "Step 1 completed"
+
+@swarm_task
+def step2():
+    return "Step 2 completed"
+
+@swarm_task
+def step3():
+    return "Step 3 completed"
+
+@swarm_task
+def final_step(step1_result, step2_result, step3_result):
+    return f"Combined: {step1_result}, {step2_result}, {step3_result}"
+
+# Create workflow with multiple dependencies
+flow = SwarmFlow()
+flow.add(step1)
+flow.add(step2)
+flow.add(step3)
+flow.add(final_step).depends_on("final_step", "step1", "step2", "step3")
+```
+
+### Retry Logic
+```python
+@swarm_task(retries=3)
+def unreliable_task():
+    # This task will retry up to 3 times on failure
+    pass
+```
+
+### Real-time Monitoring
+```bash
+export API_URL="https://your-dashboard.com"
+python your_workflow.py
+```
+
+### Observability
+SwarmFlow automatically provides:
+- **Task execution traces** with OpenTelemetry
+- **Performance metrics** (execution time, success rates)
+- **Dependency visualization** and cycle detection
+- **Error tracking** and failure propagation
+
+## 🏗️ Architecture
+
+SwarmFlow is designed for **production multi-agent systems**:
+
+```
+User's Agent Functions → @swarm_task decorator → SwarmFlow Engine → Observability Dashboard
+```
+
+- **Lightweight**: Minimal overhead on your agent functions
+- **Scalable**: Handles complex dependency graphs
+- **Observable**: Real-time monitoring and debugging
+- **Resilient**: Built-in retry logic and error handling
+
+## 📊 Monitoring Dashboard
+
+Get comprehensive insights into your multi-agent workflows:
+- **Real-time execution** monitoring
+- **Performance analytics** and optimization
+- **Error tracking** and debugging
+- **Cost analysis** for LLM usage
+- **Workflow visualization** and dependency graphs
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](https://github.com/anirame128/swarmflow/blob/main/CONTRIBUTING.md).
+
+## 📚 Documentation
+
+For detailed documentation, visit: [https://github.com/anirame128/swarmflow](https://github.com/anirame128/swarmflow)
+
+## 📄 License
+
+MIT License - see [LICENSE](https://github.com/anirame128/swarmflow/blob/main/LICENSE) file for details.
