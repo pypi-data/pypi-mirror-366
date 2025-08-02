@@ -1,0 +1,215 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Pakto Lock File (Next)",
+    "description": "Simplified lock file schema for MVP use cases with all functionality but reduced complexity.",
+    "type": "object",
+    "required": [
+        "apiVersion",
+        "kind",
+        "name",
+        "version",
+        "manifestHash",
+        "artifacts"
+    ],
+    "properties": {
+        "apiVersion": {
+            "type": "string",
+            "description": "Version of the Pakto Lock File API.",
+            "enum": [
+                "pakto.warrical.com/v1alpha1"
+            ]
+        },
+        "kind": {
+            "type": "string",
+            "description": "Type of the configuration object.",
+            "enum": [
+                "LockFile"
+            ]
+        },
+        "name": {
+            "type": "string",
+            "description": "A unique name for the manifest this lock file is based on. This should match the 'name' in the manifest metadata.",
+            "pattern": "^[a-zA-Z0-9._-]+$"
+        },
+        "version": {
+            "type": "string",
+            "description": "Version of the bundle. Optional, defaults to 'latest'.",
+            "default": "latest"
+        },
+        "entrypoint": { 
+            "type": ["object", "null"],
+            "description": "Entrypoint configuration for the manifest. This script will be placed at the root of the imported directory and executed after all artifacts are set to their target locations.",
+            "required": ["script", "mode", "checksum", "size"],
+            "properties": {
+                "script": {
+                    "type": "string",
+                    "description": "Path to the script file to be placed at the root of the imported directory."
+                },
+                "mode": {
+                    "type": "string",
+                    "description": "File mode for the script (e.g., '0755').",
+                    "default": "0755"
+                },
+                "checksum": {
+                    "type": "string",
+                    "description": "SHA256 checksum of the script file content.",
+                    "pattern": "^sha256:[0-9a-fA-F]{64}$"
+                },
+                "size": {
+                    "type": "integer",
+                    "description": "Size of the script file in bytes.",
+                    "minimum": 0
+                },
+                "uid": {
+                    "type": "string",
+                    "description": "Optional User to execute the script as. If not set, runs as the current user."
+                },
+                "gid": {
+                    "type": "string",
+                    "description": "Optional Group to execute the script as. If not set, runs as the current group."
+                }
+            },
+            "additionalProperties": false
+        },
+        "manifestHash": {
+            "type": "string",
+            "description": "SHA256 hash of the fully resolved manifest content (after templating) used to generate this lock file.",
+            "pattern": "^sha256:[0-9a-fA-F]{64}$"
+        },
+
+        "artifacts": {
+            "type": "array",
+            "description": "List of fully resolved artifact definitions.",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "type",
+                    "action",
+                    "origin",
+                    "target",
+                    "checksum",
+                    "size"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "A unique identifier for the artifact.",
+                        "pattern": "^[a-zA-Z0-9._-]+$"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the artifact itself (e.g., 'oci', 'http', 'file').",
+                        "enum": [
+                            "oci",
+                            "http",
+                            "file"
+                        ]
+                    },
+                    "action": {
+                        "type": "string",
+                        "description": "The explicit action to perform for this artifact, inferred from origin and target types.",
+                        "enum": [
+                            "pull",
+                            "push",
+                            "copy_local"
+                        ]
+                    },
+                    "origin": {
+                        "type": "string",
+                        "description": "The fully resolved source path, URL, or reference for the artifact. Accepts any string format."
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "The fully resolved target path, URL, or reference for the artifact. Accepts any string format."
+                    },
+                    "checksum": {
+                        "type": "string",
+                        "description": "The SHA256 checksum of the artifact's content (as stored at its origin).",
+                        "pattern": "^sha256:[0-9a-fA-F]{64}$"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": "The size of the artifact's content in bytes (as stored at its origin).",
+                        "minimum": 0
+                    },
+                    "blob_digest": {
+                        "type": ["string", "null"],
+                        "description": "OCI blob digest when artifact is bundled individually",
+                        "pattern": "^sha256:[0-9a-fA-F]{64}$"
+                    },
+                    "blob_size": {
+                        "type": ["integer", "null"],
+                        "description": "OCI blob size when artifact is bundled individually",
+                        "minimum": 0
+                    },
+                    "unpack": {
+                        "type": "boolean",
+                        "description": "If true, the artifact will be unpacked/extracted during the transfer process.",
+                        "default": false
+                    },
+                    "compression": {
+                        "type": "string",
+                        "description": "Type of compression if 'unpack' is true.",
+                        "enum": [
+                            "gzip",
+                            "bzip2",
+                            "zip"
+                        ]
+                    },
+                    "unpackedPath": {
+                        "type": "string",
+                        "description": "If 'unpack' is true, the relative path within the staging area where the artifact was unpacked.",
+                        "pattern": "^[a-zA-Z0-9._\\-/]+$"
+                    },
+                    "retrievedFrom": {
+                        "type": "string",
+                        "description": "The actual URL/path from which the artifact was retrieved, useful if redirects occurred or for audit.",
+                        "format": "uri"
+                    },
+                    "annotations": {
+                        "type": "object",
+                        "description": "Additional key-value pairs from the original manifest (after templating).",
+                        "additionalProperties": true
+                    },
+                    "originType": {
+                        "type": "string",
+                        "description": "The explicit type of the origin location (e.g., 'oci', 'http', 'file'). Flattened from complex object.",
+                        "enum": [
+                            "oci",
+                            "http",
+                            "file"
+                        ]
+                    },
+                    "targetType": {
+                        "type": "string",
+                        "description": "The explicit type of the target location (e.g., 'file', 'oci'). Flattened from complex object.",
+                        "enum": [
+                            "file",
+                            "oci"
+                        ]
+                    },
+                    "targetPath": {
+                        "type": "string",
+                        "description": "The fully resolved absolute or relative filesystem path where the artifact will be deployed (for 'file' target type)."
+                    },
+                    "targetRegistry": {
+                        "type": "string",
+                        "description": "The OCI registry to push to (for 'oci' target type)."
+                    },
+                    "targetReference": {
+                        "type": "string",
+                        "description": "The full, resolved reference (repository and tag/digest) for the pushed OCI artifact (for 'oci' target type)."
+                    },
+                    "targetMediaType": {
+                        "type": "string",
+                        "description": "The OCI media type for the pushed artifact."
+                    }
+                },
+                "additionalProperties": false
+            },
+            "minItems": 1
+        }
+    },
+    "additionalProperties": false
+}

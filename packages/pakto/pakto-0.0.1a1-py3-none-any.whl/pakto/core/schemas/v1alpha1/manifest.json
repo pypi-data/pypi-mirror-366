@@ -1,0 +1,170 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Pakto Bundle Manifest (Next)",
+    "description": "Simplified manifest schema for MVP use cases with all functionality but reduced complexity.",
+    "type": "object",
+    "required": [
+        "apiVersion",
+        "kind",
+        "metadata",
+        "artifacts"
+    ],
+    "properties": {
+        "apiVersion": {
+            "type": "string",
+            "description": "Version of the Pakto Manifest API.",
+            "enum": [
+                "pakto.warrical.com/v1alpha1"
+            ]
+        },
+        "kind": {
+            "type": "string",
+            "description": "Type of the configuration object.",
+            "enum": [
+                "Manifest"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "description": "Optional metadata for the manifest.",
+            "required": ["name", "version"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "A unique name for this manifest."
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Version of the bundle. Optional, defaults to 'latest'.",
+                    "default": "latest"
+                }
+            },
+            "additionalProperties": true
+        },
+        "variables": {
+            "type": "object",
+            "description": "Optional variables for templating. Keys are variable names, values are variable values.",
+            "additionalProperties": true
+        },
+        "entrypoint": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "description": "Path to the entrypoint script file. This script will be placed at the root of the imported directory and executed after all artifacts are set to their target locations.",
+                    "additionalProperties": false
+                },
+                {
+                    "type": "object",
+                    "description": "Entrypoint configuration for the manifest. This script will be placed at the root of the imported directory and executed after all artifacts are set to their target locations.",
+                    "required": ["script", "mode"],
+                    "properties": {
+                        "script": {
+                            "type": "string",
+                            "description": "Path to the script file to be placed at the root of the imported directory."
+                        },
+                        "mode": {
+                            "type": "string",
+                            "description": "File mode for the script (e.g., '0755').",
+                            "default": "0755"
+                        },
+                        "uid": {
+                            "type": "string",
+                            "description": "Optional User to execute the script as. If not set, runs as the current user."
+                        },
+                        "gid": {
+                            "type": "string",
+                            "description": "Optional Group to execute the script as. If not set, runs as the current group."
+                        }
+        
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "artifacts": {
+            "type": "array",
+            "description": "List of artifact definitions.",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "origin",
+                    "target"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "A unique identifier for the artifact within this manifest.",
+                        "pattern": "^[a-zA-Z0-9._-]+$"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the artifact (e.g., 'oci', 'http', 'file'). Optional in /v1alpha1 schema.",
+                        "enum": [
+                            "oci",
+                            "http",
+                            "file"
+                        ]
+                    },
+                    "origin": {
+                        "type": "string",
+                        "description": "Source path, URL, or reference for the artifact. Accepts any string format."
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Target path, URL, or reference for the artifact. Accepts any string format."
+                    },
+                    "unpack": {
+                        "type": "boolean",
+                        "description": "If true, the artifact will be unpacked/extracted during the transfer process.",
+                        "default": false
+                    },
+                    "compression": {
+                        "type": "string",
+                        "description": "Type of compression if 'unpack' is true.",
+                        "enum": [
+                            "gzip",
+                            "bzip2",
+                            "zip"
+                        ]
+                    },
+                    "checksum": {
+                        "type": "string",
+                        "description": "Expected checksum for verification (e.g., 'sha256:abc123...'). If not provided, it will be calculated and stored in the lock file. Supports sha256 format.",
+                        "pattern": "^sha256:[0-9a-fA-F]{64}$"
+                    },
+                    "annotations": {
+                        "type": "object",
+                        "description": "Additional key-value pairs for metadata or plugin-specific configuration.",
+                        "additionalProperties": true
+                    },
+                    "platform": {
+                        "type": "string",
+                        "description": "Specific platform for multi-arch OCI images (e.g., 'linux/amd64'). OCI-specific property."
+                    },
+                    "headers": {
+                        "type": "object",
+                        "description": "HTTP headers to send with the request (e.g., 'Authorization'). HTTP-specific property.",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "insecure_skip_verify": {
+                        "type": "boolean",
+                        "description": "If true, skip SSL certificate verification (NOT recommended for production). HTTP-specific property.",
+                        "default": false
+                    },
+                    "strip_components": {
+                        "type": "integer",
+                        "description": "Number of leading path segments to strip during copy/unpack. File-specific property.",
+                        "minimum": 0,
+                        "default": 0
+                    }
+                },
+                "additionalProperties": false
+            },
+            "minItems": 1
+        }
+    },
+    "additionalProperties": false
+}
