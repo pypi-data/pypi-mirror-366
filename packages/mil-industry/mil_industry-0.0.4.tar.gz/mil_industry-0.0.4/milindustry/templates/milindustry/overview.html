@@ -1,0 +1,67 @@
+{% extends 'milindustry/base.html' %}
+{% load i18n %}
+{% load humanize %}
+
+{% block milindustry_content %}
+    <div class="panel panel-primary">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped " id="job_overview">
+                        <thead>
+                            <tr>
+                                <th>{% translate 'Activity' %}</th>
+                                <th>{% translate 'Who' %}</th>
+                                <th>{% translate 'Product' %}</th>
+                                <th>{% translate '# of Runs' %}</th>
+                                <th>{% translate 'Start date' %}</th>
+                                <th>{% translate 'Status' %}</th>
+                                <th>{% translate 'Completion date' %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in industry_jobs %}
+                            <tr>
+                                <td style="vertical-align: middle;">{{ job.activity }}</td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        <img src="https://images.evetech.net/characters/{{ job.installer_id }}/portrait?size=32" alt="">
+                                        <span>&nbsp;{{ job.installer_name }}</span>
+                                    </div>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <div>
+                                        {% if job.activity_id == 1 or job.activity_id == 9 or job.activity_id == 11 %}
+                                            <img src="https://images.evetech.net/types/{{ job.product_type_id }}/icon?size=32" alt="">
+                                        {% elif job.activity_id == 3 or job.activity_id == 4 or job.activity_id == 8 %}
+                                            <img src="https://images.evetech.net/types/{{ job.product_type_id }}/bp?size=32" alt="">
+                                        {% else %}
+                                            <img src="https://images.evetech.net/types/{{ job.product_type_id }}/bpc?size=32" alt="">
+                                        {% endif %}
+                                        <span>&nbsp;{{ job.product_name }}</span>
+                                    </div>
+                                </td>
+                                <td style="vertical-align: middle;">{{ job.runs }}</td>
+                                <td style="vertical-align: middle;">{{ job.start_date|date:"Y-m-d - H:i:s" }}</td>
+                                <td style="vertical-align: middle;">{{ job.status }}</td>
+                                <td style="vertical-align: middle;">{{ job.completion_date|date:"Y-m-d - H:i:s" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4">No jobs</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_javascript %}
+{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}
