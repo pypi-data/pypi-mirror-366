@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "strainedsmiles2xyz"
+version = "0.1.0"
+description = "Convert strained SMILES to XYZ coordinates with stereocontrol"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Dennis Svatunek", email = "dennis.svatunek@tuwien.ac.at" }
+]
+requires-python = ">=3.8"
+dependencies = []  # no PyPI dependencies; RDKit installed via conda
+
+[project.urls]
+Homepage = "https://github.com/Svatunek-Lab/strainedSMILES2xyz"
+
+[project.scripts]
+strainedsmiles2xyz = "strainedsmiles2xyz:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
