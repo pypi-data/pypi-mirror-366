@@ -1,0 +1,52 @@
+[project]
+name = "nearc"
+version = "0.10.0"
+description = "Python to WebAssembly compiler for NEAR smart contracts"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "near-abi-py>=1.0.0",
+    "near-sdk-py>=0.7.1",
+    "pathspec>=0.12.1",
+    "python-semantic-release>=9.21.0",
+    "rich>=13.9.4",
+    "rich-click>=1.8.6",
+    "tomli-w>=1.2.0",
+    "types-zstd>=1.5.6.5.20250304",
+    "zstd>=1.5.6.6",
+    "cpython_near_wasm_opt>=0.8.3"
+]
+
+[project.scripts]
+nearc = "nearc:main"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "ruff>=0.9.9",
+    "types-toml>=0.10.8.20240310",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[tool.ruff]
+extend-exclude = ["micropython", "build"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.mypy]
+exclude = ["micropython", "build"]
+
+[tool.semantic_release]
+version_toml = [
+    "pyproject.toml:project.version"
+]
+branch = "main"
+changelog_file = "CHANGELOG.md"
+commit_message = "chore(release): {version} [build]"
+build_command = "uv build"
+allow_zero_version = true
