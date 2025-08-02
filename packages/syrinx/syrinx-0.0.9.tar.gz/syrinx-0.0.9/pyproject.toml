@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "syrinx"
+version = "0.0.9"
+authors = [
+  { name="Jasper van den Bosch"},
+]
+license = "MIT"
+license-files = ["LICENSE", "AUTHORS"]
+description = "Simple static site generator"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "jinja2 >= 3.1",
+    "markdown >= 3.5.1",
+    "pandas",
+]
+
+[project.scripts]
+syrinx = "syrinx.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ilogue/syrinx"
+Issues = "https://github.com/ilogue/syrinx/issues"
+
+[tool.setuptools]
+packages = ["syrinx"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+python_files = "*.py"
