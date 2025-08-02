@@ -1,0 +1,73 @@
+{% extends "share_links/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Webring" %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  <article>
+    <h2>{% translate "Webring" %}</h2>
+
+    <nav class="sameline">
+      {% if previous %}
+        <p>
+          <b><a href="{{ previous.url }}" title="{% translate "by" %} {{ previous.owner_name }} &mdash; {{ previous.description }}"><< {% translate "PREVIOUS" %}</a></b>
+        </p>
+      {% else %}
+        <p>
+          <i>
+            << {% translate "PREVIOUS" %}
+          </i>
+        </p>
+      {% endif %}
+      <p>
+        <b><a href="{{ random.url }}" title="{% translate "by" %} {{ random.owner_name }} &mdash; {{ random.description }}">? {% translate "RANDOM" %} ?</a></b>
+      </p>
+      {% if next %}
+        <p>
+          <b><a href="{{ next.url }}" title="{% translate "by" %} {{ next.owner_name }} &mdash; {{ next.description }}">{% translate "NEXT" %} >></a></b>
+        </p>
+      {% else %}
+        <p>
+          <i>{% translate "NEXT" %} >></i>
+        </p>
+      {% endif %}
+    </nav>
+  </article>
+  <article>
+    {% blocktranslate with nb=webring|length %}
+      <div >
+        <p>
+          You are on the webring listing all instances of share-links that have been added to the file by their respective owners. Each Link takes you to another site. "Previous" and "Next" take you to the "neighboring" instances of this site, and "Random" takes you to a random instance in the list.
+        </p>
+        <p class="opacity">
+          Currently, the webring has <b>{{ nb }}</b> instance{{ nb|pluralize }}.
+        </p>
+      </div>
+    {% endblocktranslate %}
+
+    {% if not previous and not next %}
+      <p ><i>{% translate 'There are no "Previous" & "Next" links in this page because this instance of share-links cannot be found on the webring.json file on the repo.' %}</i></p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <p class="opacity">{% translate "<b>How to add my site?</b><br />If you have an instance running, just add yourself in the <a class='color-link' href='https://gitlab.com/sodimel/share-links/-/blob/main/webring.json'><code>webring.json</code></a> file and submit a merge request (you can also submit your instance in an issue)." %}</p>
+    {% endif %}
+
+    <details >
+      <summary>
+        <i>{% translate "Show all the links in the webring" %}</i>
+      </summary>
+      <ul>
+        {% for website in webring %}
+          <li>
+            <p>
+              <b><a href="{{ website.url }}">{{ website.url }}</a></b> <i>{% translate "by" %} {{ website.owner_name }}</i><br />
+            </p>
+            <p>{{ website.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </details>
+  </article>
+
+{% endblock %}

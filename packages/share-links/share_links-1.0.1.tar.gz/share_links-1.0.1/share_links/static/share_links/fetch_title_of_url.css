@@ -1,0 +1,47 @@
+.button-add-title, .button-add-lang, .button-add-all{
+    display: inline-block;
+    margin-left: 5px;
+    padding: 3px;
+    background: var(--darkened-bg);
+    color: var(--body-quiet-color);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.button-add-title, .button-add-lang{
+    font-size: 1.5em;
+}
+
+@media all and (min-width: 950px) {
+    .button-add-title{
+        margin-right: 5rem;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .button-add-all{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 4rem;
+    }
+}
+
+@media all and (max-width: 370px) {
+    .button-add-all{
+        margin: 3px 0 0 0;
+    }
+}
+
+.form-row.field-online.field-highlight{
+    display: block;
+}
+
+.aligned .form-row > div.fieldBox.field-online, .aligned .form-row > div.fieldBox.field-highlight{
+    display: block;
+}
+
+.field-online input[type="checkbox"], .field-hightlight input[type="checkbox"]{
+    margin-right: 1rem;
+}
