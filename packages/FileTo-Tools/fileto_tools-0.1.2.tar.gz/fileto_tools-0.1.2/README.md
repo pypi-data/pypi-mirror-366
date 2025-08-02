@@ -1,0 +1,110 @@
+# **File Manager Module (`FileTo_Tools`)**
+
+A Python module for easy file and directory operations, including creation, reading, writing, and GUI-based file selection.
+
+---
+
+## **Installation**
+```bash
+pip install FileTo_Tools
+```
+
+---
+
+## **Features**
+✅ Create files and directories  
+✅ Read and write files with line-level control  
+✅ Save and close files safely  
+✅ Open file/folder dialogs (GUI)  
+✅ Supports `with` statements for clean resource handling  
+
+---
+
+## **Usage**
+
+### **1. Creating Files & Directories**
+```python
+import FileTo_Tools
+
+# Create a file (current directory)
+FileTo_Tools.new.file("test.txt")
+
+# Create a file (custom directory)
+FileTo_Tools.new.file("data.txt", "C:/Users/Username/Documents")
+
+# Create a directory
+FileTo_Tools.new.dir("my_folder")
+```
+
+---
+
+### **2. Opening & Editing Files**
+```python
+# Open a file (assign to variable 'file1')
+file = FileTo_Tools.open("example.txt", "file1")
+
+# Write content (appends to line 1)
+FileTo_Tools.write("Hello, World!", 1, "file1")
+
+# Save changes
+FileTo_Tools.save("file1")
+
+# Close the file
+FileTo_Tools.close("file1")
+
+# Using 'with' statement (auto-closes)
+with FileTo_Tools.open("example.txt", "file2") as f:
+    FileTo_Tools.write("New line", 2, "file2")
+    FileTo_Tools.save("file2")
+```
+
+---
+
+### **3. File & Folder Selection Dialogs**
+```python
+# Open a folder dialog (assign to 'folder1')
+folder = FileTo_Tools.look.dir("folder1")
+print(f"Selected folder: {folder.file_path}")
+
+# Open a file dialog (assign to 'file3')
+selected_file = FileTo_Tools.look.file("file3")
+print(f"Selected file: {selected_file.file_path}")
+
+# Using 'with' statement
+with FileTo_Tools.look.file("file4") as f:
+    print(f"Opened file: {f.file_path}")
+```
+
+---
+
+## **API Reference**
+| Function                                    | Description                                          |
+| ------------------------------------------- | ---------------------------------------------------- |
+| `FileTo_Tools.new.file(name, dir=None)`           | Creates a new file (`dir` optional)                  |
+| `FileTo_Tools.new.dir(name, dir=None)`            | Creates a new directory (`dir` optional)             |
+| `FileTo_Tools.open(filename, var_name, dir=None)` | Opens a file and assigns it to `var_name`            |
+| `FileTo_Tools.write(content, line, var_name)`     | Writes `content` to `line` in file `var_name`        |
+| `FileTo_Tools.save(var_name)`                     | Saves changes to file `var_name`                     |
+| `FileTo_Tools.close(var_name)`                    | Closes file `var_name`                               |
+| `FileTo_Tools.look.dir(var_name)`                 | Opens a folder dialog and assigns path to `var_name` |
+| `FileTo_Tools.look.file(var_name)`                | Opens a file dialog and assigns path to `var_name`   |
+
+---
+
+## **Requirements**
+- Python 3.6+
+- `tkinter` (usually included in Python standard library)
+
+---
+
+## **License**
+MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## **Contributing**
+Feel free to open issues or PRs on [GitHub](https://github.com/your_username/FileTo_Tools).
+
+---
+
+🚀 **Happy coding!** Let me know if you need any modifications.
