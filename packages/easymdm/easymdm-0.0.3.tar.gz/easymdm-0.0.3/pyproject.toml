@@ -1,0 +1,24 @@
+[project]
+name = "easymdm"
+version = "0.0.3"
+description = "easymdm is an open source mdm system, usefull for user data consolidation."
+readme = "README.md"
+authors = [
+    { name = "ankit K", email = "ankit48365@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fuzzywuzzy>=0.18.0",
+    "networkx>=3.5",
+    "pandas>=2.3.1",
+    "pyaml>=25.7.0",
+    "python-levenshtein>=0.27.1",
+    "recordlinkage>=0.16",
+]
+
+[project.scripts]
+easymdm = "easymdm.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
