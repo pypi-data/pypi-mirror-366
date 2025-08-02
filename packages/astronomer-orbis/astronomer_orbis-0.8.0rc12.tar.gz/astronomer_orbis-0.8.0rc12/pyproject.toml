@@ -1,0 +1,139 @@
+[project]
+name = "astronomer-orbis"
+version = "0.8.0rc12"
+authors = [
+  { name="Astronomer", email="humans@astronomer.io" },
+  { name="Abhishek Bhakat", email="abhishek.bhakat@astronomer.io" },
+  { name="Indraneel Dongaonkar", email="indraneel.dongaonkar@astronomer.io" },
+  { name="Sudarshan Chaudhari", email="sudarshan.chaudhari@astronomer.io" }
+]
+description = "A tool for generating astronomer software deployment compute reports"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"
+]
+dependencies = [
+    "click==8.2.1",
+    "jinja2==3.1.6",
+    "kaleido==1.0.0",
+    "kubernetes==33.1.0",
+    "pendulum==3.1.0",
+    "pillow==11.3.0",
+    "plotly==6.2.0",
+    "polars==1.31.0",
+    "python-docx==1.2.0",
+    "python-dotenv==1.1.1",
+    "PyYAML==6.0.2",
+    "requests==2.32.4"
+]
+license-files = ["LICENSE"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[project.optional-dependencies]
+dev = [
+    "hatch==1.14.1",
+    "pre-commit==4.2.0",
+    "pytest==8.4.1",
+    "pytest-asyncio==1.0.0",
+    "pytest-cov==6.2.1",
+    "pytest-mock==3.14.1",
+    "ruff==0.12.1",
+]
+
+docs = [
+    "mkdocs==1.6.1",
+    "mkdocs-material==9.6.15",
+    "mkdocstrings==0.29.1",
+    "mkdocstrings-python==1.16.12",
+    "mkdocs-git-revision-date-localized-plugin==1.3.0",
+    "mkdocs-minify-plugin==0.8.0",
+    "mkdocs-redirects==1.2.1",
+    "mkdocs-glightbox==0.4.0",
+    "mkdocs-awesome-pages-plugin==2.9.3",
+    "mkdocs-macros-plugin==1.3.7"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/astronomer/orbis"
+"Bug Tracker" = "https://github.com/astronomer/orbis/issues"
+
+[project.scripts]
+orbis = "orbis.cli:cli"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/orbis"]
+exclude = ["tests"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/orbis/config/prometheus_queries.yaml" = "orbis/config/prometheus_queries.yaml"
+"src/orbis/config/houston_queries.yaml" = "orbis/config/houston_queries.yaml"
+
+[tool.pytest.ini_options]
+addopts = "--cov=orbis"
+testpaths = ["tests"]
+python_files = "test_*.py"
+norecursedirs = ["test_data"]
+
+[tool.ruff]
+line-length = 200
+indent-width = 4
+fix = true
+preview = true
+exclude = [
+    "tests/",
+]
+
+lint.select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",  # isort
+    "W",  # pycodestyle warnings
+    "C90",  # Complexity
+    "C",  # flake8-comprehensions
+    "ISC",  # flake8-implicit-str-concat
+    "T10",  # flake8-debugger
+    "A",  # flake8-builtins
+    "UP",  # pyupgrade
+]
+
+lint.ignore = [
+    "C416",  # Unnecessary list comprehension - rewrite as a generator expression
+    "C408"  # Unnecessary `dict` call - rewrite as a literal
+]
+
+lint.fixable = ["ALL"]
+lint.unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12

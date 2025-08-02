@@ -1,0 +1,401 @@
+scheduler:
+  cpu:
+    file_name: "{namespace}_scheduler_cpu.png"
+    metric: "Scheduler CPU"
+    queries:
+      - >
+        rate(
+          container_cpu_usage_seconds_total{{namespace="{namespace}", container="scheduler"}}[5m]
+        )
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  memory:
+    file_name: "{namespace}_scheduler_memory.png"
+    metric: "Scheduler Memory"
+    queries:
+      - >
+        max by (pod) (
+          container_memory_working_set_bytes{{namespace="{namespace}", container="scheduler"}}
+        ) /(1024 * 1024 *1024)
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+
+total_task_success:
+  file_name: "{namespace}_total_task_success.png"
+  metric: "Total Task Success"
+  include_in:
+    docx: false
+    csv: true
+    json: true
+  queries:
+    - >
+      sum(
+        airflow_ti_successes{{release="{release_name}"}}
+      )
+  aggregators:
+    min: true
+    max: true
+    mean: true
+    median: true
+  table_headers:
+    min: true
+    max: true
+    mean: true
+    median: true
+
+total_task_failure:
+  file_name: "{namespace}_total_task_failure.png"
+  metric: "Total Task Failure"
+  include_in:
+    docx: false
+    csv: true
+    json: true
+  queries:
+    - >
+      sum(
+        airflow_ti_failures{{release="{release_name}"}}
+      )
+  aggregators:
+    min: true
+    max: true
+    mean: true
+    median: true
+  table_headers:
+    min: true
+    max: true
+    mean: true
+    median: true
+
+celery:
+  tasks_trend:
+    file_name: "{namespace}_tasks_trend.png"
+    metric: "Tasks Trend"
+    queries:
+      - >
+        max(
+          round(
+            increase(
+              airflow_ti_successes{{release="{release_name}"}}[1h]
+            )
+          )
+        )
+      - >
+        max(
+          round(
+            increase(
+              airflow_ti_failures{{release="{release_name}"}}[1h]
+            )
+          )
+        )
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  cpu:
+    file_name: "{namespace}_celery_cpu.png"
+    metric: "Celery CPU"
+    queries:
+      - >
+        rate(
+          container_cpu_usage_seconds_total{{namespace="{namespace}", container="worker", pod=~"{release_name}-worker-.*"}}[5m]
+        )
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  memory:
+    file_name: "{namespace}_celery_memory.png"
+    metric: "Celery Memory"
+    queries:
+      - >
+        max by (pod) (
+          container_memory_working_set_bytes{{namespace="{namespace}", container="worker", pod=~"{release_name}-worker-.*"}}
+        ) /(1024 * 1024 *1024)
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  pod_count:
+    file_name: "{namespace}_celery_pod_count.png"
+    metric: "Celery Pod Count"
+    queries:
+      - >
+        count(
+          kube_pod_info{{namespace="{namespace}", pod=~"{release_name}-worker-.*"}}
+        )
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  kpo_cpu:
+    file_name: "{namespace}_kpo_cpu.png"
+    metric: "KPO CPU"
+    queries:
+      - >
+        sum(
+          max by (pod) (
+            rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}",pod!~"{release_name}-.*"}}[5m])
+          )
+          unless
+          (
+            (
+              max by (pod) (rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}[5m])) {cpu_condition}
+            )
+            {bitwise_condition}
+            (
+              max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}) {memory_condition}
+            )
+          )
+        )
+    pod_types:
+      small:
+        cpu_condition: "> 0.25"
+        memory_condition: "> (500 * 1024 * 1024)"
+        bitwise_condition: "or"
+      large:
+        cpu_condition: "<= 0.25"
+        memory_condition: "<= (500 * 1024 * 1024)"
+        bitwise_condition: "and"
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  kpo_memory:
+    file_name: "{namespace}_kpo_memory.png"
+    metric: "KPO Memory"
+    queries:
+      - >
+        sum(
+          max by (pod) (
+            container_memory_working_set_bytes{{container!="",namespace="{namespace}",pod!~"{release_name}-.*"}}
+          ) / (1024 * 1024 * 1024)
+          unless
+          (
+            (
+              max by (pod) (rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}[5m])) {cpu_condition}
+            )
+            {bitwise_condition}
+            (
+              max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}) {memory_condition}
+            )
+          )
+        )
+    pod_types:
+      small:
+        cpu_condition: "> 0.25"
+        memory_condition: "> (500 * 1024 * 1024)"
+        bitwise_condition: "or"
+      large:
+        cpu_condition: "<= 0.25"
+        memory_condition: "<= (500 * 1024 * 1024)"
+        bitwise_condition: "and"
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  kpo_pod_count:
+    file_name: "{namespace}_kpo_pod_count.png"
+    metric: "KPO Pod Count"
+    queries:
+      - >
+        count(
+          max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}",pod!~"{release_name}-.*"}})
+          unless
+          (
+            (
+              max by (pod) (rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}[5m])) {cpu_condition}
+            )
+            {bitwise_condition}
+            (
+              max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}) {memory_condition}
+            )
+          )
+        )
+    pod_types:
+      small:
+        cpu_condition: "> 0.25"
+        memory_condition: "> (500 * 1024 * 1024)"
+        bitwise_condition: "or"
+      large:
+        cpu_condition: "<= 0.25"
+        memory_condition: "<= (500 * 1024 * 1024)"
+        bitwise_condition: "and"
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+
+ke:
+  cpu:
+    file_name: "{namespace}_ke_cpu.png"
+    metric: "KE CPU"
+    queries:
+      - >
+        sum(
+          max by (pod) (
+            rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}",pod!~"{release_name}-.*"}}[5m])
+          )
+          unless
+          (
+            (
+              max by (pod) (rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}[5m])) {cpu_condition}
+            )
+            {bitwise_condition}
+            (
+              max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}) {memory_condition}
+            )
+          )
+        )
+    pod_types:
+      small:
+        cpu_condition: "> 0.25"
+        memory_condition: "> (500 * 1024 * 1024)"
+        bitwise_condition: "or"
+      large:
+        cpu_condition: "<= 0.25"
+        memory_condition: "<= (500 * 1024 * 1024)"
+        bitwise_condition: "and"
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  memory:
+    file_name: "{namespace}_ke_memory.png"
+    metric: "KE Memory"
+    queries:
+      - >
+        sum(
+          max by (pod) (
+            container_memory_working_set_bytes{{container!="",namespace="{namespace}",pod!~"{release_name}-.*"}}
+          ) / (1024 * 1024 * 1024)
+          unless
+          (
+            (
+              max by (pod) (rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}[5m])) {cpu_condition}
+            )
+            {bitwise_condition}
+            (
+              max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}) {memory_condition}
+            )
+          )
+        )
+    pod_types:
+      small:
+        cpu_condition: "> 0.25"
+        memory_condition: "> (500 * 1024 * 1024)"
+        bitwise_condition: "or"
+      large:
+        cpu_condition: "<= 0.25"
+        memory_condition: "<= (500 * 1024 * 1024)"
+        bitwise_condition: "and"
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
+  pod_count:
+    file_name: "{namespace}_ke_pod_count.png"
+    metric: "KE Pod Count"
+    queries:
+      - >
+        count(
+          max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}",pod!~"{release_name}-.*"}})
+          unless
+          (
+            (
+              max by (pod) (rate(container_cpu_usage_seconds_total{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}[5m])) {cpu_condition}
+            )
+            {bitwise_condition}
+            (
+              max by (pod) (container_memory_working_set_bytes{{container!="",namespace="{namespace}", pod!~"{release_name}-.*"}}) {memory_condition}
+            )
+          )
+        )
+    pod_types:
+      small:
+        cpu_condition: "> 0.25"
+        memory_condition: "> (500 * 1024 * 1024)"
+        bitwise_condition: "or"
+      large:
+        cpu_condition: "<= 0.25"
+        memory_condition: "<= (500 * 1024 * 1024)"
+        bitwise_condition: "and"
+    aggregators:
+      min: true
+      max: true
+      mean: true
+      median: true
+    table_headers:
+      min: true
+      max: true
+      mean: true
+      median: true
