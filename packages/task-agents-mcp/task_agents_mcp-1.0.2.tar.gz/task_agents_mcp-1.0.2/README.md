@@ -1,0 +1,495 @@
+# Task-Agents MCP Server
+
+A Model Context Protocol (MCP) server that enables specialized AI agents by delegating tasks to Claude Code CLI with custom configurations. This creates a team of specialized AI assistants accessible through any MCP-compatible client.
+
+## Features
+
+- 🤖 **Multiple Specialized Agents**: Code reviewer, debugger, test runner, documentation writer, and more
+- 🔧 **Easy Configuration**: Simple markdown files define agent behavior
+- 🚀 **Flexible Integration**: Works with Claude Desktop, Claude Code CLI, or any MCP client
+- 📝 **Custom System Prompts**: Each agent has tailored instructions for specific tasks
+- 🛠️ **Tool Restrictions**: Control which tools each agent can access
+- 🎯 **Simple API**: Single tool interface where LLM selects the appropriate agent
+- 📁 **Smart Working Directory**: Agents default to saving files in their configured directory
+
+## Architecture
+
+```
+MCP Client → Task-Agents MCP Server → Claude Code CLI → Response
+```
+
+The server reads agent configurations from markdown files and constructs Claude Code CLI commands:
+```bash
+claude -p "task description" --system-prompt "agent prompt" --model opus --allowedTools Read Write Edit --output-format text
+```
+
+## Installation
+
+### Prerequisites
+
+1. **Python 3.11+** installed
+2. **Claude Code CLI** installed and working:
+   ```bash
+   claude --version
+   ```
+
+### Installation Methods
+
+#### Method 1: PyPI Package with uvx (Recommended)
+
+```bash
+# Install and run with uvx (no installation needed)
+uvx task-agents-mcp
+
+# Or install with pip
+pip install task-agents-mcp
+python -m task_agents_mcp
+```
+
+#### Method 2: Direct Python Execution (For Development)
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/vredrick/task-agents.git
+   cd task-agents
+   ```
+
+2. **Install Python dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run the server directly:**
+   ```bash
+   python server.py
+   ```
+
+
+### Setup Steps
+
+1. **Find your Claude executable path:**
+   ```bash
+   which claude
+   # If using an alias, check the actual path
+   ```
+
+2. **Copy the task-agents folder to your project** (contains agent .md files):
+   ```bash
+   cp -r /Volumes/vredrick2/Claude-Code-Projects/task-agents/task-agents ./
+   ```
+
+## Configuration for Claude Desktop
+
+1. **Open your Claude Desktop configuration file:**
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+   - Linux: `~/.config/Claude/claude_desktop_config.json`
+
+2. **Add the task-agents server to the `mcpServers` section:**
+
+   **Option A: Using uvx (Recommended for Python servers)**
+   ```json
+   {
+     "mcpServers": {
+       "task-agents": {
+         "command": "uvx",
+         "args": ["task-agents-mcp"],
+         "env": {
+           "TASK_AGENTS_PATH": "/path/to/your/task-agents",
+           "CLAUDE_EXECUTABLE_PATH": "/Users/username/.claude/local/claude"
+         }
+       }
+     }
+   }
+   ```
+
+   **Option B: Using Python directly**
+   ```json
+   {
+     "mcpServers": {
+       "task-agents": {
+         "command": "python3.11",
+         "args": ["/Volumes/vredrick2/Claude-Code-Projects/task-agents/server.py"],
+         "env": {
+           "TASK_AGENTS_PATH": "/Volumes/vredrick2/Claude-Code-Projects/task-agents/task-agents",
+           "CLAUDE_EXECUTABLE_PATH": "/Users/vredrick/.claude/local/claude"
+         }
+       }
+     }
+   }
+   ```
+
+   **Important environment variables:**
+   - `TASK_AGENTS_PATH`: Path to your task-agents directory (required for Claude Desktop to find agents)
+   - `CLAUDE_EXECUTABLE_PATH`: Full path to your Claude executable (required for Claude Desktop, not needed for Claude Code CLI)
+
+3. **Restart Claude Desktop** (Quit completely and reopen)
+
+## Configuration for Claude Code CLI
+
+### Option 1: Using MCP Config File  
+
+1. **Using uvx (Recommended):**
+   ```bash
+   claude mcp add task-agents -s project uvx task-agents-mcp
+   ```
+
+2. **Using Python directly:**
+   ```bash
+   # From your project directory where you copied task-agents folder
+   # Note: Claude Code CLI doesn't need CLAUDE_EXECUTABLE_PATH - it finds Claude automatically
+   claude mcp add task-agents -s project python3.11 /Volumes/vredrick2/Claude-Code-Projects/task-agents/server.py
+   ```
+
+3. **Or use the provided `mcp_config.json`:**
+   ```json
+   {
+     "mcpServers": {
+       "task-agents": {
+         "command": "python3.11",
+         "args": ["./server.py"],
+         "env": {}
+       }
+     }
+   }
+   ```
+   Note: Claude Code CLI doesn't need `CLAUDE_EXECUTABLE_PATH` in the environment
+
+2. **Start Claude with the MCP config:**
+   ```bash
+   claude --mcp-config /path/to/task-agents/mcp_config.json
+   ```
+
+### Option 2: Using Environment Variables
+
+1. **Set environment variables:**
+   ```bash
+   export TASK_AGENTS_CONFIG_DIR="/path/to/task-agents/configs"
+   export CLAUDE_EXECUTABLE_PATH="/path/to/claude/executable"
+   ```
+
+2. **Run the server script:**
+   ```bash
+   cd /path/to/task-agents
+   ./run_server.sh
+   ```
+
+3. **In another terminal, connect with Claude:**
+   ```bash
+   claude --mcp-config mcp_config.json
+   ```
+
+## Configuration
+
+### Two Ways to Use Task-Agents
+
+Task-agents supports two deployment modes depending on your workflow:
+
+#### 1. Project-specific mode (Claude Code CLI)
+Perfect for working on specific projects:
+- Drop the `task-agents` folder into your project root directory
+- Start Claude Code from that project directory
+- Agents automatically work in your project context with `cwd: .`
+
+**Example directory structure:**
+```
+my-awesome-project/          # ← Your project root
+├── src/
+├── tests/
+├── package.json
+└── task-agents/             # ← Drop task-agents folder here  
+    ├── code-reviewer.md
+    ├── debugger.md
+    └── ...
+```
+
+**With `cwd: .` in agent configs**, agents will execute in `/path/to/my-awesome-project/` (the project root).
+
+#### 2. Global mode (Claude Desktop or fixed location)
+For system-wide usage across multiple projects:
+- Keep `task-agents` folder in a fixed location (e.g., `~/task-agents`)
+- Set `TASK_AGENTS_PATH` environment variable to point to it
+- Configure individual agent working directories as needed
+
+**Example setup:**
+```bash
+# task-agents folder at fixed location
+~/task-agents/
+├── code-reviewer.md
+├── debugger.md
+└── ...
+
+# Environment variable
+export TASK_AGENTS_PATH="/Users/username/task-agents"
+```
+
+### Working Directory Resolution
+
+The `cwd` field in agent configurations is the **ONLY source** that controls where each agent executes:
+
+#### `cwd: .` (Default - Recommended)
+- **Always resolves to the parent directory of the task-agents folder**
+- **Project-specific mode**: If task-agents is in `/project/task-agents/`, agents run in `/project/`
+- **Global mode**: If TASK_AGENTS_PATH is `/home/user/task-agents`, agents run in `/home/user/`
+- **Perfect for project-specific agents** that need to work within your codebase
+- **Consistent across ALL clients** - Claude Desktop, Claude Code CLI, or any MCP client
+
+#### Absolute paths
+Use when you need agents to work in specific directories:
+```yaml
+cwd: /Users/username/my-specific-project
+cwd: /opt/projects/production-app
+```
+
+#### Environment variables
+For flexible, user-specific paths:
+```yaml
+cwd: ${HOME}/projects/current
+cwd: ${WORKSPACE}/active-project
+```
+
+#### Default File Saving Behavior
+- **Agents are automatically instructed to save files in their working directory**
+- When creating files without an explicit path, agents will use relative paths (e.g., `./file.txt`)
+- This instruction is appended to every agent's system prompt
+- Users can still override by specifying absolute paths
+
+### Agent Configuration Format
+
+Agent configurations are stored as markdown files in the `task-agents` directory. Each file defines an agent with:
+
+- **agent-name**: Display name for the agent (shown to LLM clients)
+- **description**: Brief description of the agent's purpose
+- **tools**: Comma-separated list of Claude Code tools the agent can use
+- **model**: Claude model to use (opus/sonnet/haiku)
+- **cwd**: Working directory where the agent executes (see examples above)
+- **System-prompt**: Detailed instructions for the agent
+
+### Example Agent Configurations
+
+#### Project-specific agent (most common)
+```markdown
+---
+agent-name: Code Reviewer
+description: Expert code review specialist for quality, security, and maintainability analysis
+tools: Read, Search, Glob, Bash, Grep
+model: opus
+cwd: .                          # ← Executes in project root
+---
+
+System-prompt:
+You are a senior code reviewer ensuring high standards of code quality and security.
+When invoked, analyze the current project's codebase for issues and improvements.
+```
+
+#### Global agent for specific directory
+```markdown
+---
+agent-name: Production Monitor
+description: Monitor and analyze production systems
+tools: Read, Bash, Search
+model: sonnet
+cwd: /opt/production/logs      # ← Always works in this directory
+---
+
+System-prompt:
+You monitor production systems and analyze logs for issues.
+Focus on performance metrics and error patterns.
+```
+
+#### User-specific flexible agent
+```markdown
+---
+agent-name: Personal Assistant
+description: General-purpose assistant for personal projects
+tools: Read, Write, Edit, Bash
+model: sonnet
+cwd: ${HOME}/current-project   # ← Uses environment variable
+---
+
+System-prompt:
+You are a helpful assistant for personal development projects.
+Adapt to whatever project context you find yourself in.
+```
+
+
+## Available Agents
+
+- **code-reviewer**: Comprehensive code analysis for quality and security
+- **debugger**: Bug fixing and troubleshooting specialist
+- **test-runner**: Test automation and coverage improvement
+- **documentation-writer**: Technical documentation creation
+- **performance-optimizer**: Performance analysis and optimization
+
+## Usage
+
+Once configured, the task-agents server provides a single tool:
+
+### Available Tool
+
+**`task_agents`** - Delegates tasks to specialized AI agents
+- **Parameters**:
+  - `agent`: The name of the agent to use (e.g., "Code Reviewer", "Debugger")
+  - `prompt`: The task or question for the agent
+
+### In Claude Desktop
+
+After setup, you can use natural language:
+- "Use the Code Reviewer agent to analyze my pull request"
+- "Ask the Debugger agent to fix this error"
+- "Have the Documentation Writer create API docs"
+
+### In Claude Code CLI
+
+```bash
+# Start a session with task-agents
+claude --mcp-config /path/to/task-agents/mcp_config.json
+
+# Then use natural language as above
+```
+
+### How It Works
+
+1. **Claude sees the request** and the `task_agents` tool with available agents
+2. **Claude analyzes your request** and selects the appropriate agent
+3. **Claude calls `task_agents`** with:
+   - `agent`: The selected agent name (e.g., "Code Reviewer", "Debugger")
+   - `prompt`: Your specific task or question
+4. **The server executes** Claude Code CLI with the agent's configuration
+5. **Results are returned** to your Claude session
+
+## Creating Custom Agents
+
+1. Create a new `.md` file in the `task-agents/` directory
+2. Add YAML frontmatter with required fields
+3. Write a detailed system prompt after the frontmatter
+4. The agent will be automatically discovered on server restart
+
+### Required Fields
+
+- `agent-name`: Display name for the agent
+- `description`: What the agent does
+- `tools`: Available Claude Code tools
+- `model`: Which Claude model to use
+- `cwd`: Working directory path
+
+## Environment Variables
+
+- Agent configs support environment variable expansion in the `cwd` field
+- Use `${HOME}`, `${USER}`, etc. in your configurations
+
+## Error Handling
+
+The server includes comprehensive error handling for:
+- Missing or malformed agent configurations
+- Claude CLI execution errors
+- Invalid task descriptions
+- Missing dependencies
+
+## Logging
+
+The server logs:
+- Agent loading and discovery
+- Task delegation decisions
+- Claude CLI command execution
+- Errors and warnings
+
+Set logging level with standard Python logging configuration.
+
+## Development
+
+### Testing
+
+Run the test script to verify all agents are working:
+
+```bash
+python test_server.py
+```
+
+### Adding New Features
+
+1. Extend `AgentConfig` dataclass for new fields
+2. Update `_parse_agent_config` method
+3. Modify agent selection logic if needed
+4. Update documentation
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Claude CLI not found"**
+   - For Claude Desktop: Make sure `CLAUDE_EXECUTABLE_PATH` is set correctly in your config
+   - For Claude Code CLI: This error shouldn't occur as it finds Claude automatically
+   - Find your Claude path with: `which claude`
+   - If it's an alias, find the actual executable path
+
+2. **"No agents are currently configured"**
+   - Verify a `task-agents` directory exists in your project root
+   - Check that `.md` files exist in the task-agents directory
+   - Ensure you're running Claude Code from the project directory
+
+3. **"Error executing Claude CLI"**
+   - Check that the working directory (`cwd`) exists
+   - Verify Claude Code CLI works: `claude --version`
+   - Check agent configuration syntax in `.md` files
+
+4. **Server not appearing in Claude Desktop**
+   - Completely quit Claude Desktop (Cmd+Q on Mac)
+   - Check JSON syntax in claude_desktop_config.json
+   - Verify all paths are absolute paths
+   - Restart Claude Desktop
+
+### Testing Your Setup
+
+1. **Test the server directly:**
+   ```bash
+   cd /path/to/task-agents
+   python3.11 server.py
+   ```
+   You should see: "Loaded X agents" with a list
+
+2. **Test Claude CLI command:**
+   ```bash
+   /path/to/claude --version
+   ```
+
+3. **Test with environment variables:**
+   ```bash
+   export TASK_AGENTS_CONFIG_DIR="/path/to/task-agents/configs"
+   export CLAUDE_EXECUTABLE_PATH="/path/to/claude"
+   ./run_server.sh
+   ```
+
+## Example Usage
+
+### How the LLM Client Interacts
+```
+User: "Review this code for security issues"
+LLM: Sees available agents → Selects "Code Reviewer" → Calls task_agents(agent="Code Reviewer", prompt="Review this code for security issues")
+Server: Executes with Opus model and code review system prompt → Returns comprehensive review
+```
+
+### Another Example
+```
+User: "Fix the null pointer exception in my login function"
+LLM: Analyzes request → Selects "Debugger" → Calls task_agents(agent="Debugger", prompt="Fix the null pointer exception in my login function")
+Server: Executes with Sonnet model and debugging system prompt → Returns fix with explanation
+```
+
+## License
+
+MIT License
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Submit a pull request
+
+## Support
+
+For issues and questions:
+- Check existing issues
+- Create a new issue with reproduction steps
+- Include relevant logs and configurations
