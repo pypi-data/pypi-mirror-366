@@ -1,0 +1,12 @@
+[console_scripts]
+kedro-graphql = kedro_graphql.__main__:main
+
+[kedro.hooks]
+kedro-graphql-logging = kedro_graphql.hooks:logging_hooks
+kedro-graphql-validation = kedro_graphql.hooks:validation_hooks
+
+[kedro.project_commands]
+kedro-graphql = kedro_graphql.commands:commands
+
+[panel.auth]
+pkce = kedro_graphql.ui.auth:PKCELoginHandler
