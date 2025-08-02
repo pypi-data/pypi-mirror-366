@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "liulianmao"
+version = "2.3.1"
+description = "A LLM client for use from the command line or IDE."
+authors = ["快乐的老鼠宝宝 <laoshubaby@protonmail.com>"]
+license = "MIT"
+repository = "https://github.com/LaoshuBaby/liulianmao"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+packages = [{ include = "liulianmao", from = "src" }]
+
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+requests = ">=2.26.0"
+loguru = ">=0.5.3"
+hellologger = "*"
+
+[tool.poetry.extras]
+langchain_support = ["langchain", "langchain_openai"]
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
