@@ -1,0 +1,32 @@
+Source: cubicweb-timesheet
+Section: web
+Priority: optional
+Maintainer: Logilab Packaging Team <contact@logilab.fr>
+Uploaders:
+  Sylvain Thenault <sylvain.thenault@logilab.fr>,
+  Nicolas Chauvat <nicolas.chauvat@logilab.fr>,
+Build-Depends:
+  debhelper (>= 9),
+  python (>=2.7),  
+  dh-python,
+  python-setuptools
+Standards-Version: 3.9.8
+Homepage: http://www.cubicweb.org/project/cubicweb-timesheet
+X-Python-Version: >= 2.7
+
+Package: cubicweb-timesheet
+Architecture: all
+Depends:
+ python-cubicweb (>= 3.24.0),
+ python-six (>= 1.4),
+ cubicweb-calendar (>= 0.7.0),
+ cubicweb-workorder (>= 0.9.0),
+ cubicweb-rqlcontroller (>= 0.3.1),
+ ${python:Depends},
+ ${misc:Depends},
+Description: timesheet component for the CubicWeb framework
+ This CubicWeb component is for tracking resource availability
+ and usage (persons and their daily activities, meeting rooms and their
+ occupancy, etc.)
+ .
+ CubicWeb is a semantic web framework, see http://www.cubicweb.org
