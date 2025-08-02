@@ -1,0 +1,25 @@
+[package]
+name = "pyopenchecks"
+version = "0.2.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/scott-wilson/openchecks/"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "openchecks"
+crate-type = ["cdylib"]
+
+[dependencies]
+
+async-trait = "0.1.88"
+pyo3 = { version = "0.25.1" }
+base_openchecks = { path = "../../", package = "openchecks", features = [
+    "async-tokio-scheduler",
+    "threaded-scheduler",
+] }
+pyo3-async-runtimes = { version = "0.25.0", features = [
+    "attributes",
+    "tokio-runtime",
+] }
+rayon = "1.10.0"
