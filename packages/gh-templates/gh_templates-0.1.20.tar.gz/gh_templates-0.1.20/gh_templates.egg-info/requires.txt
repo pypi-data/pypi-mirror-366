@@ -1,0 +1,16 @@
+
+[:platform_system == "Darwin" and platform_machine == "arm64"]
+gh-templates-darwin-arm64==0.1.20
+
+[:platform_system == "Darwin" and platform_machine == "x86_64"]
+gh-templates-darwin-x64==0.1.20
+
+[:platform_system == "Linux" and platform_machine == "aarch64"]
+gh-templates-linux-arm64-glibc==0.1.20
+
+[:platform_system == "Linux" and platform_machine == "x86_64"]
+gh-templates-linux-x64-glibc==0.1.20
+gh-templates-linux-x64-musl==0.1.20
+
+[:platform_system == "Windows" and platform_machine == "AMD64"]
+gh-templates-win32-x64-msvc==0.1.20
