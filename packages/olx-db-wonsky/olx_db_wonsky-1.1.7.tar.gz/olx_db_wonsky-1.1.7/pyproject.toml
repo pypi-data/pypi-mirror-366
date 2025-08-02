@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "olx-db-wonsky"
+dynamic = ["version"]
+description = "OLX database models and migrations"
+readme = "README.md"
+authors = [
+    {name = "Vladyslav", email = "vladyslav.pidborskyi@gmail.com"},
+]
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "sqlalchemy",
+    "pytz",
+    "python-dotenv",
+    "psycopg2-binary",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/olx-db"
+"Bug Tracker" = "https://github.com/yourusername/olx-db/issues"
+
+[tool.setuptools]
+packages = ["olx_db"]
+
+[tool.setuptools.dynamic]
+version = {attr = "olx_db.version.__version__"}
