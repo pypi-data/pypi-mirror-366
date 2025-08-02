@@ -1,0 +1,79 @@
+Metadata-Version: 2.1
+Name: projectframe
+Version: 1.0.6
+Summary: Python package for multi-dimensional tabular data
+Home-page: https://github.com/kylessmith/projectframe
+License: GPL-2.0-or-later
+Keywords: project,interval,ailist,frame
+Author: Kyle S. Smith
+Author-email: kyle.smith@stjude.org
+Maintainer: Kyle S. Smith
+Maintainer-email: kyle.smith@stjude.org
+Requires-Python: >=3.10
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Cython
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: ailist (>=2.1.7,<3.0.0)
+Requires-Dist: cython (>=3.0.0,<4.0.0)
+Requires-Dist: intervalframe (>=1.1.11,<2.0.0)
+Requires-Dist: linear_segment (>=1.1.2,<2.0.0)
+Requires-Dist: numpy (>=1.23.5,<2.0.0)
+Requires-Dist: pandas (>=2.0.0,<3.0.0)
+Requires-Dist: tabulate (>=0.9.0,<0.10.0)
+Project-URL: Documentation, https://www.biosciencestack.com/static/projectframe/docs/index.html
+Project-URL: Repository, https://github.com/kylessmith/projectframe
+Description-Content-Type: text/markdown
+
+# ProjectFrame for data manipulation
+
+[![Build Status](https://travis-ci.org/kylessmith/intervalframe.svg?branch=master)](https://travis-ci.org/kylessmith/projectframe) [![PyPI version](https://badge.fury.io/py/intervalframe.svg)](https://badge.fury.io/py/projectframe)
+[![Coffee](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee&color=ff69b4)](https://www.buymeacoffee.com/kylessmith)
+
+This is a Python package for easy and efficient manipulation
+of multiple DataFrame-like objects.
+
+
+## Install
+
+If you dont already have numpy and scipy installed, it is best to download
+`Anaconda`, a python distribution that has them included.  
+```
+    https://continuum.io/downloads
+```
+
+Dependencies can be installed by:
+
+```
+    pip install -r requirements.txt
+```
+
+PyPI install, presuming you have all its requirements installed:
+```
+	pip install projectframe
+```
+
+## Usage
+
+```python
+from projectframe import ProjectFrame
+import numpy as np
+
+# Create data
+pf = ProjectFrame()
+```
+
