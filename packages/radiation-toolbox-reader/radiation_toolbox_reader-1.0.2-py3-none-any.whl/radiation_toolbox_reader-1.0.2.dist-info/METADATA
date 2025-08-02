@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: radiation-toolbox-reader
+Version: 1.0.2
+Summary: Radiation Toolbox Reader
+Author-email: Martin Landa <martin.landa@opengeolabs.cz>
+License: GPLv3
+Project-URL: documentation, https://opengeolabs.gitlab.io/radiation-toolbox/radiation-toolbox-reader/
+Project-URL: repository, https://gitlab.com/opengeolabs/radiation-toolbox/radiation-toolbox-reader
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-dateutil
+Requires-Dist: pyproj
+Requires-Dist: gdal>=3.8
+Dynamic: license-file
+
+# Radiation Toolbox Reader
+
+Python package designed for reading data formats used by radiation
+monitoring devices.
+
+Currently supported formats (reading only):
+
+- Safecast LOG
+- ERS
+
+[Documentation](https://opengeolabs.gitlab.io/radiation-toolbox/radiation-toolbox-reader/)
+
+## Requirements
+
+- Python >= 3.9
+- GDAL >= 3.8
+
+## Installation
+
+- [PyPI](https://pypi.org/project/radiation-toolbox-reader/)
+
+## Funding
+
+[SURO](https://www.suro.cz/en), Czech Republic
+
+Developed by [OpenGeoLabs](https://opengeolabs.cz/en/home)
+
+## License
+
+GNU General Public License v3.0 or later
