@@ -1,0 +1,70 @@
+Metadata-Version: 2.4
+Name: continua
+Version: 0.0.1a1
+Summary: Continual Learning Framework for Transformers
+Project-URL: Documentation, https://github.com/ysenarath/continua#readme
+Project-URL: Issues, https://github.com/ysenarath/continua/issues
+Project-URL: Source, https://github.com/ysenarath/continua
+Author-email: Yasas Senarath <12231659+ysenarath@users.noreply.github.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: adapters>=1.0.1
+Requires-Dist: dash-bootstrap-components>=2.0.2
+Requires-Dist: dash>=3.0.4
+Requires-Dist: datasets>=3.1.0
+Requires-Dist: diskcache>=5.6.3
+Requires-Dist: easysubmit[scalene]==0.2.3
+Requires-Dist: flask-login>=0.6.3
+Requires-Dist: flask-migrate>=4.1.0
+Requires-Dist: flask-sqlalchemy>=3.1.1
+Requires-Dist: flask>=3.0.3
+Requires-Dist: hydra-core>=1.3.2
+Requires-Dist: jupyter>=1.1.1
+Requires-Dist: jupyterlab>=4.4.4
+Requires-Dist: matplotlib>=3.7.5
+Requires-Dist: nightjar>=0.0.5
+Requires-Dist: numba
+Requires-Dist: numpy==1.26.4
+Requires-Dist: optuna>=4.3.0
+Requires-Dist: pandas>=2.0.3
+Requires-Dist: plotly>=6.0.1
+Requires-Dist: quadprog>=0.1.13
+Requires-Dist: scikit-learn>=1.3.2
+Requires-Dist: seaborn>=0.13.2
+Requires-Dist: setfit>=1.1.1
+Requires-Dist: textkit-learn>=0.3.9
+Requires-Dist: torch>=2.3.1
+Requires-Dist: transformers>=4.45.2
+Requires-Dist: umap-learn>=0.5.7
+Description-Content-Type: text/markdown
+
+# continua
+
+[![PyPI - Version](https://img.shields.io/pypi/v/continua.svg)](https://pypi.org/project/continua)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/continua.svg)](https://pypi.org/project/continua)
+
+---
+
+## Table of Contents
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+```console
+pip install continua
+```
+
+## License
+
+`continua` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
