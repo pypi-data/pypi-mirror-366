@@ -1,0 +1,41 @@
+[build-system]
+requires = [
+    "setuptools>=62",
+    "setuptools_scm"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "automatic-meter-reader"
+readme = "README.md"
+requires-python = ">=3.10.0"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy",
+    "opencv-python",
+    "meter-digits-recognizer==0.2.3",
+]
+dynamic = ["version"]
+
+[project.urls]
+repository = "https://github.com/ardiloot/automatic-meter-reader"
+
+[project.optional-dependencies]
+dev = [
+    "matplotlib",
+    "flake8",
+    "pytest",
+    "pip-tools",
+    "ipykernel",
+    "ipympl",
+]
+
+[tool.setuptools]
+packages = [
+    "automatic_meter_reader",
+]
+
+[tool.setuptools_scm]

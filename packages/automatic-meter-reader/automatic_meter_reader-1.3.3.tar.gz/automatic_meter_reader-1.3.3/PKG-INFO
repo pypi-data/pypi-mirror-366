@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: automatic-meter-reader
+Version: 1.3.3
+Project-URL: repository, https://github.com/ardiloot/automatic-meter-reader
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10.0
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Requires-Dist: meter-digits-recognizer==0.2.3
+Provides-Extra: dev
+Requires-Dist: matplotlib; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pip-tools; extra == "dev"
+Requires-Dist: ipykernel; extra == "dev"
+Requires-Dist: ipympl; extra == "dev"
+
+TODO
