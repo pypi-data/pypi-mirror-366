@@ -1,0 +1,45 @@
+description = "SDK for python"
+name = "maskllm_py"
+organization = "maskllm"
+version = "0.0.1"
+
+[tool.pylint.MESSAGE_CONTROL]
+disable = """
+    line-too-long,
+    abstract-method,
+    no-member,
+"""
+enable = "useless-suppression"
+
+[tool.pylint.REPORTS]
+reports="no"
+
+[tool.pylint.FORMAT]
+max-line-length="88"
+
+[tool.pylint.BASIC]
+good-names = "_,i,e,setUp,tearDown,maxDiff"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+default_section = "THIRDPARTY"
+known_first_party = []
+known_third_party = ["django", "rest_framework"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.4.0"
+tag_format = "$version"
+version_files = [
+    "pyproject.toml:version",
+    "setup.py:version",
+]
+
+[coverage-threshold]
+line_coverage_min = 100
