@@ -1,0 +1,54 @@
+# Include documentation and metadata files
+include README.md
+include README_DEV.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include SECURITY.md
+include MANIFEST.in
+include pyproject.toml
+include requirements.txt
+include requirements-dev.txt
+
+# Include configuration files
+include gofastapi.toml
+include .gitignore
+
+# Include Go binaries and shared libraries
+recursive-include gofastapi *.so
+recursive-include gofastapi *.dylib
+recursive-include gofastapi *.dll
+recursive-include gofastapi/bin *
+
+# Include templates and static files
+recursive-include gofastapi/templates *
+recursive-include gofastapi/static *
+
+# Include examples
+recursive-include examples *.py
+recursive-include examples *.md
+recursive-include examples *.toml
+recursive-include examples *.yaml
+recursive-include examples *.yml
+
+# Include documentation
+recursive-include docs *.md
+recursive-include docs *.rst
+recursive-include docs *.txt
+
+# Exclude development and build artifacts
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.so.dSYM
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude tests *
+recursive-exclude .github *
+recursive-exclude scripts *
+recursive-exclude dist *
+recursive-exclude build *
+recursive-exclude *.egg-info *
