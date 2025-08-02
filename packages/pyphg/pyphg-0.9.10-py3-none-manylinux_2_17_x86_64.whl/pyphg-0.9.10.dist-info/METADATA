@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: pyphg
+Version: 0.9.10
+Summary: Parallel Hierarchy Grid
+Author: MSCAX
+License: LGPL
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Development Status :: 4 - Beta
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: requires-python
+Dynamic: summary
+
+# Physics Informed Preconditioners
+
+## Introduction
+
+PHG, Parallel Hierarchy Grid.
+
+## Install
+
+``` bash
+$ pip install phg
+```
+
+## Usage
+use the following command to get the help message:
+```bash
+$ python -m phg help
+```
+copy the example out
+```
+$ cp -r path_to_phg/examples .
+```
+then run the example:
+```bash
+$ python simplest.py
+```
+
+
+
+## Compatibility
+- ### OS version
+Now support Linux, Ubuntu/Federa/... will be OK. 
+Windows version will be available later.
+
+- ### PYTHON version
+the python version is >=3.8. 
+
+
+## License
+
+This software is free software distributed under the Lesser General Public 
+License or LGPL, version 3.0 or any later versions. This software distributed 
+in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License 
+along with PHG. If not, see <http://www.gnu.org/licenses/>.
+
