@@ -1,0 +1,18 @@
+prune .github
+prune .circleci
+prune benchmarks
+prune docs
+prune examples
+graft tools
+exclude .coveragerc
+exclude .git-blame-ignore-revs
+include .gitattributes
+include .gitignore
+exclude .pre-commit-config.yaml
+include CHANGES
+include LICENSE
+include environment.yml
+include INSTALL
+recursive-include lib/cartopy *.cpp *.py *.pyx
+recursive-include lib/cartopy *.TXT *.dbf *.jpg *.json *.nc *.png *.shp *.shx *.txt
+include lib/cartopy/data/LICENSE

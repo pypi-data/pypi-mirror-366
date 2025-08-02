@@ -1,0 +1,113 @@
+Installation
+============
+
+Cartopy (as of v0.22+) provides binary wheels for most major operating systems.
+The easiest way to install Cartopy is::
+
+    pip install cartopy
+
+Other binaries
+--------------
+
+Additional pre-built binaries can be found at a variety of sources, including:
+
+* `Conda <https://conda.io/miniconda.html>`_
+* Christoph Gohlke (https://github.com/cgohlke/geospatial-wheels/)
+  maintains unofficial Windows binaries of cartopy.
+* `OSGeo Live <https://live.osgeo.org>`_.
+
+Building from source
+--------------------
+
+Before building Cartopy from source, you need to **first** install the
+required dependencies listed below. Once these are installed, Cartopy can be
+installed using the pip installer::
+
+    pip install cartopy
+
+To instead install the most recent version found on the GitHub main branch,
+use::
+
+    pip install git+https://github.com/SciTools/cartopy.git
+
+Alternatively, you can clone the git repo on your computer and install manually
+using the `setup.py` file::
+
+    git clone https://github.com/SciTools/cartopy.git
+    cd cartopy
+    # Uncomment the following to specify non-standard include and library paths
+    # python setup.py build_ext -I/path/to/include -L/path/to/lib
+    python setup.py install
+
+Required dependencies
+~~~~~~~~~~~~~~~~~~~~~
+
+In order to install Cartopy, or to access its basic functionality, it will be
+necessary to first install the required dependencies listed below.
+These packages can be installed using pip.
+
+We include a conda environment file that contains a list of all the
+dependencies required to build and install cartopy, which can be used to
+install pre-built binaries of all the dependencies on your local system.
+To use it::
+
+    git clone https://github.com/SciTools/cartopy.git
+    cd cartopy
+    conda env create -f environment.yml
+    conda activate cartopy-dev
+    pip install -e .
+
+Further information about the required dependencies can be found here:
+
+**Python** 3.10 or later (https://www.python.org/)
+    Python 2 support was removed in v0.19.
+
+**Matplotlib** 3.6 or later (https://matplotlib.org/)
+    Python package for 2D plotting. Python package required for any
+    graphical capabilities.
+
+**Shapely** 2.0 or later (https://github.com/shapely/shapely)
+    Python package for the manipulation and analysis of planar geometric objects.
+
+**pyshp** 2.3 or later (https://pypi.python.org/pypi/pyshp)
+    Pure Python read/write support for ESRI Shapefile format.
+
+**pyproj** 3.3.1 or later (https://github.com/pyproj4/pyproj/)
+    Python interface to PROJ (cartographic projections and coordinate transformations library).
+
+Optional Dependencies
+~~~~~~~~~~~~~~~~~~~~~
+
+To make the most of Cartopy by enabling additional functionality, you may want
+to install these optional dependencies. They are also included in some of the
+optional groups when installing. For example, use `pip install .[ows]` to install
+the optional OWS libraries.
+
+**Pillow** 9.1 or later (https://python-pillow.org)
+    A popular fork of PythonImagingLibrary.
+
+**pykdtree** 1.2.2 or later (https://github.com/storpipfugl/pykdtree)
+    A fast kd-tree implementation that is used for faster warping
+    of images than SciPy.
+
+**SciPy** 1.9 or later (https://www.scipy.org/)
+    A Python package for scientific computing.
+
+**OWSLib** 0.27 or later (https://pypi.python.org/pypi/OWSLib)
+     A Python package for client programming with the Open Geospatial
+     Consortium (OGC) web service, and which gives access to Cartopy ogc
+     clients.
+
+**Fiona** 1.0 or later (https://github.com/Toblerity/Fiona)
+    A Python package for reading shapefiles that is faster than pyshp.
+
+Testing Dependencies
+~~~~~~~~~~~~~~~~~~~~
+
+These packages are required for the full Cartopy test suite to run.
+
+**pytest** 5.1.2 or later (https://docs.pytest.org/en/latest/)
+    Python package for software testing.
+
+**pytest-mpl** 0.11 or later (https://github.com/matplotlib/pytest-mpl)
+    Pytest plugin to facilitate image comparison for Matplotlib figures
