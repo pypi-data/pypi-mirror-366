@@ -1,0 +1,14 @@
+Metadata-Version: 2.3
+Name: wooting-mouse
+Version: 0.7.0
+Summary: Use Wooting Gamepad as Virtual Mouse
+License: GPL-3.0
+Author: Dick Marinus
+Requires-Python: >=3.13,<4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: d0da[linux] (>0.3.0)
+Requires-Dist: evdev (>=1.6.1,<2.0.0)
+Requires-Dist: hsluv (>=5.0.3,<6.0.0)
+Requires-Dist: pyudev (>=0.24.1,<0.25.0)
