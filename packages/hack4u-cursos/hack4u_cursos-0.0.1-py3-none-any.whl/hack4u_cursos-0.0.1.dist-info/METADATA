@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: hack4u-cursos
+Version: 0.0.1
+Summary: Biblioteca de hack4u para listar y buscar cursos.
+Home-page: https://hack4u.io/
+Author: Inaki Sobera
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-python
+Dynamic: summary
+
+# hack4u-cursos
+
+Un paquete educativo para listar, buscar y analizar cursos de introducción al hacking, Linux y Python.
+
+## 📦 Descripción
+
+`hack4u-cursos` es una librería sencilla en Python que permite trabajar con una lista de cursos predefinidos. Fue creada con fines educativos, ideal para quienes están aprendiendo a crear paquetes en Python o desean explorar una forma práctica de gestionar cursos.
+
+## 🚀 Características
+
+- 📋 Listado de cursos disponibles.
+- 🔍 Búsqueda de cursos por nombre.
+- ⏱ Cálculo de la duración total de todos los cursos.
+- 🔗 Acceso directo a enlaces de los cursos.
+
+## 📚 Cursos incluidos
+
+Actualmente, el paquete incluye los siguientes cursos:
+
+| Curso   | Duración (horas) | Enlace |
+|---------|------------------|--------|
+| Linux   | 15               | [Ver curso](https://hack4u.io/cursos/introduccion-a-linux/11149/) |
+| Python  | 35               | [Ver curso](https://hack4u.io/cursos/python-ofensivo/) |
+| Hacking | 53               | [Ver curso](https://hack4u.io/cursos/introduccion-al-hacking/) |
+
+## 🛠 Instalación
+
+```bash
+pip install hack4u-cursos
+
