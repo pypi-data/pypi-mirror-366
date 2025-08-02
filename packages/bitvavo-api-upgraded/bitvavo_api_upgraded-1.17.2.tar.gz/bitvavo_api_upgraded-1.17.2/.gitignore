@@ -1,0 +1,28 @@
+/*
+
+# dirs
+!.vscode/
+!.github/
+!requirements/
+!scripts/
+!src/
+!tests/
+!docs/
+
+# files
+!.bumpversion.cfg
+!.gitignore
+!.pre-commit-config.yaml
+!.python-version
+!CHANGELOG.md
+!LICENSE.txt
+!pyproject.toml
+!README.md
+!README.pypi.md
+!uv.lock
+!tox.ini
+
+# re-ignore recursively
+__pycache__
+*.egg-info
+*.pyc
