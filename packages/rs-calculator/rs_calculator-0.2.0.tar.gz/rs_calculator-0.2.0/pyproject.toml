@@ -1,0 +1,26 @@
+[project]
+name = "rs_calculator"
+version = "0.2.0"
+description = "A simple calculator library for Python beginners"
+readme = "README.md"
+authors = [
+    { name = "Rasa Dariush", email = "letperhut@gmail.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.6"
+dependencies = [
+    "asteval>=0.9.26"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Education",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/Rasa8877/rs-calculator"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
