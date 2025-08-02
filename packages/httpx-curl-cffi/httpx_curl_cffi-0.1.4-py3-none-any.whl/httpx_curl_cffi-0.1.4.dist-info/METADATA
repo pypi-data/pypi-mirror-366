@@ -1,0 +1,132 @@
+Metadata-Version: 2.4
+Name: httpx-curl-cffi
+Version: 0.1.4
+Summary: httpx transport for curl_cffi (python bindings for curl-impersonate)
+Author-Email: Victor Gavro <vgavro@gmail.com>
+License-Expression: BSD-3-Clause
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: AsyncIO
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Typing :: Typed
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Internet :: WWW/HTTP
+Project-URL: Homepage, https://github.com/vgavro/httpx-curl-cffi
+Project-URL: Repository, https://github.com/vgavro/httpx-curl-cffi
+Requires-Python: >=3.10
+Requires-Dist: curl-cffi>=0.7.0
+Requires-Dist: httpx>=0.21.0
+Requires-Dist: typing-extensions>=4.12.2
+Description-Content-Type: text/markdown
+
+# httpx-curl-cffi
+
+[httpx](https://github.com/encode/httpx) transport for
+[curl_cffi](https://github.com/lexiforest/curl_cffi) -
+python binding for [curl-impersonate fork](https://github.com/lexiforest/curl-impersonate)
+
+Unlike other pure python http clients
+like `httpx` (with **native** transport) or `requests`,
+`curl_cffi` can impersonate browser's TLS/JA3 and HTTP/2 fingerprints.
+
+Browser simulation implemented by low-level customizations
+and usage of native browser TLS libraries
+(`BoringSSL` for Chrome, `nss` for Firefox) -
+which is impossible to achieve with Python's `OpenSSL` binding.
+
+If you are blocked by some website for no obvious reason,
+you can give `curl_cffi` a try.
+
+## Install
+
+```shell
+pip install httpx-curl-cffi
+```
+
+## Usage
+
+```python
+from httpx import Client, AsyncClient
+from httpx_curl_cffi import CurlTransport, AsyncCurlTransport, CurlOpt
+
+client = Client(transport=CurlTransport(impersonate="chrome", default_headers=True))
+client.get("https://tools.scrapfly.io/api/fp/ja3")
+
+async_client = AsyncClient(transport=AsyncCurlTransport(
+  impersonate="chrome",
+  default_headers=True,
+  # required for parallel requests, see curl_cffi issues below
+  curl_options={CurlOpt.FRESH_CONNECT: True}
+))
+```
+
+## Proxy from environment variables
+
+Note that `httpx.Client` and `httpx.AsyncClient`
+disables proxy configuration from environment variables
+on providing `transport` argument even with `trust_env=True` (default),
+to have this configured in the same way as native transport use snippet below:
+
+```python
+import httpx
+from httpx._utils import get_environment_proxies
+from httpx_curl_cffi import CurlTransport  # or AsyncCurlTransport
+
+def transport_factory(proxy: httpx.Proxy | None = None) -> httpx.BaseTransport:
+    return CurlTransport(  # or AsyncCurlTransport
+      proxy=proxy,
+      verify=False,  # and other custom options
+    )
+
+client = httpx.Client(  # or httpx.AsyncClient
+    transport=transport_factory(),
+    mounts={
+        k: transport_factory(httpx.Proxy(url=v)) if v else None
+        for k, v in get_environment_proxies().items()
+    }
+)
+```
+
+## TODO
+
+* `httpx.Request` content completely read in memory before sending,
+  not sure if it's fixable with `curl_cffi` at all
+* `CurlTransport.cert` argument should support in-memory data instead of filenames,
+  `pathlib.Path` (instead of strings in `httpx._types.CertTypes`) is forced
+
+## `curl_cffi` issues
+
+* `httpx.Timeout.pool` is ignored, should be implemented in `curl_cffi`
+* Simultaneous asynchronous requests requires to set
+  `CurlTransport.curl_options={CurlOpt.FRESH_CONNECT: True}`
+  <https://github.com/lexiforest/curl_cffi/issues/302>
+  <https://github.com/lexiforest/curl_cffi/issues/319>
+
+## Known limitations
+
+* `httpx.Timeout.write` is ignored (`libcurl` limitation)
+* `CurlTransport.verify` as `ssl.SSLContext` isn't supported
+  (because `OpenSSL` is not used)
+* `CurlTransport.trust_env` argument is ignored,
+  `libcurl` is always using environment variables for configuration,
+  which is disabled for proxies using `CurlOpt.NOPROXY` setting
+  to make `proxy` argument have complete control on proxy usage,
+  but may have effect in TLS configuration
+  (but may not be used by `curl-impersonate` fork, idk)
+  <https://github.com/lexiforest/curl_cffi/issues/345>
+* `httpx.Response.request.headers` isn't updated with default
+  `curl-impersonate` headers,
+  which can be unexpected on `CurlTransport.default_headers=True`
+  <https://github.com/lexiforest/curl_cffi/issues/368>
+
+* `CurlTransport.cert` argument isn't compatible
+  with (deprecated) `httpx._types.CertTypes` -
+  impossible to pass password as third tuple element,
+  `pathlib.Path` (instead of strings in `httpx._types.CertTypes`) is forced
