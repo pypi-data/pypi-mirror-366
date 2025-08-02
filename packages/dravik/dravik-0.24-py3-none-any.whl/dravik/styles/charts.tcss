@@ -1,0 +1,40 @@
+#charts--header {
+  height: 1;
+  content-align: center middle;
+  background: $panel;
+}
+
+#charts--searchbar-inputs {
+  grid-size: 7 1;
+  margin-bottom: 1;
+  height: auto;
+}
+
+#charts--searchbar-labels {
+  grid-size: 7 1;
+  height: auto;
+  margin-bottom: 1;
+}
+
+#charts--searchbar-labels > Label {
+  padding-left: 1
+}
+
+#charts--container {
+  background: $panel;
+  border: orange;
+}
+
+#charts--historical-balance-plot {
+  height: 80%;
+  padding: 0 1 1 1;
+}
+
+#charts--balance-change-plot {
+  height: 80%;
+  padding: 0 1 0 1;
+}
+
+#charts--searchbar-inputs > ChartsSubmitButton {
+  width: 95%;
+}
