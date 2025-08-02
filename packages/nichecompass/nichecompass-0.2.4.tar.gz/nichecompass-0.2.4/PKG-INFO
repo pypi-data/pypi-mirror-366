@@ -1,0 +1,168 @@
+Metadata-Version: 2.4
+Name: nichecompass
+Version: 0.2.4
+Summary: End-to-end analysis of spatial multi-omics data
+Project-URL: Documentation, https://nichecompass.readthedocs.io/
+Project-URL: Source, https://github.com/Lotfollahi-lab/nichecompass
+Project-URL: Home-page, https://github.com/Lotfollahi-lab/nichecompass
+Author: Sebastian Birk
+Maintainer-email: Sebastian Birk <sebastian.birk@outlook.com>
+License: BSD 3-Clause License
+        
+        Copyright (c) 2024, Sebastian Birk, Carlos Talavera-López, Mohammad Lotfollahi
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        1. Redistributions of source code must retain the above copyright notice, this
+           list of conditions and the following disclaimer.
+        
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        
+        3. Neither the name of the copyright holder nor the names of its
+           contributors may be used to endorse or promote products derived from
+           this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.9
+Requires-Dist: decoupler>=1.4.0
+Requires-Dist: mlflow>=1.28.0
+Requires-Dist: numpy<2
+Requires-Dist: omnipath>=1.0.7
+Requires-Dist: pyreadr>=0.4.6
+Requires-Dist: scanpy<1.10.0,>=1.9.3
+Requires-Dist: torch-geometric>=2.2.0
+Provides-Extra: all
+Requires-Dist: coverage; extra == 'all'
+Requires-Dist: docutils!=0.18.*,!=0.19.*,>=0.8; extra == 'all'
+Requires-Dist: ipykernel; extra == 'all'
+Requires-Dist: ipython; extra == 'all'
+Requires-Dist: jax==0.4.7; extra == 'all'
+Requires-Dist: jaxlib==0.4.7; extra == 'all'
+Requires-Dist: jupyter; extra == 'all'
+Requires-Dist: myst-nb; extra == 'all'
+Requires-Dist: myst-parser; extra == 'all'
+Requires-Dist: pandas; extra == 'all'
+Requires-Dist: pre-commit; extra == 'all'
+Requires-Dist: pynndescent>=0.5.8; extra == 'all'
+Requires-Dist: pytest; extra == 'all'
+Requires-Dist: scglue>=0.3.2; extra == 'all'
+Requires-Dist: scib-metrics>=0.3.3; extra == 'all'
+Requires-Dist: scikit-misc>=0.3.0; extra == 'all'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'all'
+Requires-Dist: sphinx-book-theme>=1.0.0; extra == 'all'
+Requires-Dist: sphinx-copybutton; extra == 'all'
+Requires-Dist: sphinx-design; extra == 'all'
+Requires-Dist: sphinx-hoverxref; extra == 'all'
+Requires-Dist: sphinx-rtd-theme; extra == 'all'
+Requires-Dist: sphinx>=4.1; extra == 'all'
+Requires-Dist: sphinxcontrib-bibtex>=1.0.0; extra == 'all'
+Requires-Dist: sphinxext-opengraph; extra == 'all'
+Requires-Dist: squidpy>=1.2.2; extra == 'all'
+Requires-Dist: twine>=4.0.2; extra == 'all'
+Provides-Extra: benchmarking
+Requires-Dist: jax==0.4.7; extra == 'benchmarking'
+Requires-Dist: jaxlib==0.4.7; extra == 'benchmarking'
+Requires-Dist: pynndescent>=0.5.8; extra == 'benchmarking'
+Requires-Dist: scib-metrics>=0.3.3; extra == 'benchmarking'
+Requires-Dist: scikit-misc>=0.3.0; extra == 'benchmarking'
+Requires-Dist: squidpy>=1.2.2; extra == 'benchmarking'
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: twine>=4.0.2; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: docutils!=0.18.*,!=0.19.*,>=0.8; extra == 'docs'
+Requires-Dist: ipykernel; extra == 'docs'
+Requires-Dist: ipython; extra == 'docs'
+Requires-Dist: myst-nb; extra == 'docs'
+Requires-Dist: myst-parser; extra == 'docs'
+Requires-Dist: pandas; extra == 'docs'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'docs'
+Requires-Dist: sphinx-book-theme>=1.0.0; extra == 'docs'
+Requires-Dist: sphinx-copybutton; extra == 'docs'
+Requires-Dist: sphinx-design; extra == 'docs'
+Requires-Dist: sphinx-hoverxref; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme; extra == 'docs'
+Requires-Dist: sphinx>=4.1; extra == 'docs'
+Requires-Dist: sphinxcontrib-bibtex>=1.0.0; extra == 'docs'
+Requires-Dist: sphinxext-opengraph; extra == 'docs'
+Provides-Extra: docsbuild
+Requires-Dist: docutils!=0.18.*,!=0.19.*,>=0.8; extra == 'docsbuild'
+Requires-Dist: ipykernel; extra == 'docsbuild'
+Requires-Dist: ipython; extra == 'docsbuild'
+Requires-Dist: jax==0.4.7; extra == 'docsbuild'
+Requires-Dist: jaxlib==0.4.7; extra == 'docsbuild'
+Requires-Dist: myst-nb; extra == 'docsbuild'
+Requires-Dist: myst-parser; extra == 'docsbuild'
+Requires-Dist: pandas; extra == 'docsbuild'
+Requires-Dist: pynndescent>=0.5.8; extra == 'docsbuild'
+Requires-Dist: scglue>=0.3.2; extra == 'docsbuild'
+Requires-Dist: scib-metrics>=0.3.3; extra == 'docsbuild'
+Requires-Dist: scikit-misc>=0.3.0; extra == 'docsbuild'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'docsbuild'
+Requires-Dist: sphinx-book-theme>=1.0.0; extra == 'docsbuild'
+Requires-Dist: sphinx-copybutton; extra == 'docsbuild'
+Requires-Dist: sphinx-design; extra == 'docsbuild'
+Requires-Dist: sphinx-hoverxref; extra == 'docsbuild'
+Requires-Dist: sphinx-rtd-theme; extra == 'docsbuild'
+Requires-Dist: sphinx>=4.1; extra == 'docsbuild'
+Requires-Dist: sphinxcontrib-bibtex>=1.0.0; extra == 'docsbuild'
+Requires-Dist: sphinxext-opengraph; extra == 'docsbuild'
+Requires-Dist: squidpy>=1.2.2; extra == 'docsbuild'
+Provides-Extra: multimodal
+Requires-Dist: scglue>=0.3.2; extra == 'multimodal'
+Provides-Extra: tests
+Requires-Dist: coverage; extra == 'tests'
+Requires-Dist: pytest; extra == 'tests'
+Provides-Extra: tutorials
+Requires-Dist: jupyter; extra == 'tutorials'
+Description-Content-Type: text/markdown
+
+<img src="https://github.com/Lotfollahi-lab/nichecompass/blob/main/docs/_static/nichecompass_logo_readme.png" width="800" alt="nichecompass-logo">
+
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://github.com/Lotfollahi-lab/nichecompass/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/Lotfollahi-lab/nichecompass?logo=GitHub&color=yellow)](https://github.com/Lotfollahi-lab/nichecompass/stargazers)
+[![PyPI](https://img.shields.io/pypi/v/nichecompass.svg)](https://pypi.org/project/nichecompass)
+[![PyPIDownloads](https://static.pepy.tech/badge/nichecompass)](https://pepy.tech/project/nichecompass)
+[![Docs](https://readthedocs.org/projects/nichecompass/badge/?version=latest)](https://nichecompass.readthedocs.io/en/stable/?badge=stable)
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
+NicheCompass (**N**iche **I**dentification based on **C**ellular grap**H** **E**mbeddings of **COM**munication **P**rograms **A**ligned across **S**patial **S**amples) is a package for end-to-end analysis of spatial multi-omics data, including spatial atlas building, niche identification & characterization, cell-cell communication inference and spatial reference mapping. It is built on top of [PyG](https://pytorch-geometric.readthedocs.io/en/latest/) and [AnnData](https://anndata.readthedocs.io/en/latest/).
+
+## Resources
+- An installation guide, tutorials and API documentation is available in the [documentation](https://nichecompass.readthedocs.io/).
+- Please use [issues](https://github.com/Lotfollahi-lab/nichecompass/issues) to submit bug reports.
+- If you would like to contribute, check out the [contributing guide](https://nichecompass.readthedocs.io/en/latest/contributing.html).
+- If you find NicheCompass useful for your research, please consider citing the NicheCompass manuscript.
+
+## Reference
+```
+@article{Birk2025,
+  author    = {Birk, S. et al.},
+  title     = {Quantitative characterization of cell niches in spatially resolved omics data},
+  journal   = {Nature Genetics},
+  year      = {2025},
+  doi       = {10.1038/s41588-025-02120-6},
+  url       = {https://doi.org/10.1038/s41588-025-02120-6}
+}
+```
