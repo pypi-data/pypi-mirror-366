@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "ip-stack-sdk"
+description = "IPstack API is a comprehensive IP geolocation service that provides detailed location information for IPv4 and IPv6 addresses, including country, city, coordinates, timezone, currency, and ISP data. The API offers three main endpoints: Standard IP Lookup for single addresses, Bulk IP Lookup for multiple addresses, and Requester IP Lookup to detect the requesting IP address, with support for multiple languages and output formats"
+version = "1.0.0"
+readme = "README.md"
+keywords = []
+dependencies = ["apimatic-core~=0.2.0, >= 0.2.20", "apimatic-core-interfaces~=0.1.0, >= 0.1.5", "apimatic-requests-client-adapter~=0.1.0, >= 0.1.6"]
+classifiers = []
+requires-python = ">=3.7"
+[[project.authors]]
+name = "Muhammad Hamza Shahzad"
+email = "muhammad.hamza@apimatic.io"
+
+[project.urls]
+Documentation = "https://docs.apimatic.io/"
+[project.optional-dependencies]
+testutils = ["pytest>=7.2.2"]
+[tool]
+[tool.setuptools]
+[tool.setuptools.packages]
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
