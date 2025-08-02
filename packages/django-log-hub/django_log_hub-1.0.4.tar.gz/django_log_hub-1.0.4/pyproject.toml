@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-log-hub"
+version = "1.0.4"
+description = "A reusable Django app for managing and viewing application logs"
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["django", "logging", "admin", "logs", "monitoring", "debug"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
+    "Topic :: System :: Logging",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "python-json-logger>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/eneshazr/django-log-hub"
+Documentation = "https://github.com/eneshazr/django-log-hub#readme"
+Repository = "https://github.com/eneshazr/django-log-hub"
+"Bug Tracker" = "https://github.com/eneshazr/django-log-hub/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-django>=4.5",
+    "black>=23.0",
+    "flake8>=6.0",
+    "isort>=5.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["log_hub*"]
+
+[tool.setuptools.package-data]
+"log_hub" = ["templates/log_hub/*.html", "static/log_hub/*", "locale/tr/LC_MESSAGES/*"]
