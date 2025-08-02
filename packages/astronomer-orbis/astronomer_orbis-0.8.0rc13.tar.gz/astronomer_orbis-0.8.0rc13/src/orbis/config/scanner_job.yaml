@@ -1,0 +1,62 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ job_name }}
+  namespace: {{ namespace }}
+  labels:
+    app: support-bundle
+    component: scanner
+  annotations:
+    orbis.io/created-by: "{{ tool_name }}"
+    orbis.io/created-at: "{{ timestamp }}"
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: support-bundle
+        component: scanner
+      annotations:
+        orbis.io/created-by: "{{ tool_name }}"
+        orbis.io/created-at: "{{ timestamp }}"
+    spec:
+      serviceAccountName: {{ sa_name }}
+      initContainers:
+      - name: scanner-init
+        image: {{ image }}
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          {{ scanner_command }}
+        volumeMounts:
+        - name: results-file
+          mountPath: /results
+        resources:
+          limits:
+            memory: "{{ memory }}"
+            cpu: "{{ cpu }}"
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+      containers:
+      - name: main
+        image: {{ image }}
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            echo "Data collection complete. Sleeping for {{ sleep_duration }} seconds"
+            sleep {{ sleep_duration }}
+        volumeMounts:
+        - name: results-file
+          mountPath: /results
+        resources:
+          limits:
+            memory: "200Mi"
+            cpu: "200m"
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+      restartPolicy: Never
+      volumes:
+      - name: results-file
+        emptyDir: {}
