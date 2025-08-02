@@ -1,0 +1,40 @@
+[project]
+name = "gc7"
+version = "0.0.0"  # sera géré automatiquement par semantic-release
+description = "Un module avec plein d'outils utiles pour dev en PyMoX (Python - Mojo - FletX)"
+authors = [
+  { name = "GrCOTE7", email = "GrCOTE7@gmail.com" }
+]
+# readme = {file = "README.md", encoding = "utf-8"}
+readme = "README.md"
+# readme = {file = "README.md", content-type = "text/markdown", encoding = "utf-8"}
+license = "MIT"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  # Ajoute ici tes dépendances, ex:
+  # "requests >=2.0.0"
+]
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.semantic_release]
+version_source = "tag"  # semantic-release lit les tags Git
+upload_to_pypi = true   # active la publication sur PyPI
+build_command = "python -m build"
+changelog_file = "CHANGELOG.md"
+commit_version_number = true
+commit_message = "chore(release): version {version}"
+branch = "main"
+
+[tool.setuptools]
+packages = ["gc7"]  # dossier Python
+
+[tool.setuptools.package-data]
+"gc7" = ["*.txt", "*.json"]  # si tu as des fichiers à inclure
+
