@@ -1,0 +1,66 @@
+Metadata-Version: 2.4
+Name: pyautoencoder
+Version: 1.0.5
+Summary: A Python package offering implementations of state-of-the-art autoencoder architectures in PyTorch.
+Home-page: https://github.com/andrea-pollastro/pyautoencoder
+Author: Andrea Pollastro
+License: MIT
+Keywords: autoencoder,pytorch,deep learning,machine learning,representation learning,dimensionality reduction,generative models
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=2.0.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+![logo](https://raw.githubusercontent.com/andrea-pollastro/pyautoencoder/main/assets/logo_nobackground.png)
+[![PyPI version](https://img.shields.io/pypi/v/pyautoencoder.svg?color=orange&label=pypi)](https://pypi.org/project/pyautoencoder/)
+[![License](https://img.shields.io/github/license/andrea-pollastro/pyautoencoder.svg)](https://opensource.org/licenses/MIT)
+
+## 📦 Installation
+
+```bash
+pip install pyautoencoder
+```
+
+Or install from source:
+```bash
+git clone https://github.com/andrea-pollastro/pyautoencoder.git
+cd pyautoencoder
+pip install -e .
+```
+
+## 🤝 Contributing
+Contributions are welcome — especially new autoencoder variants, training examples, and documentation improvements.
+Please open an issue or pull request to discuss any changes.
+
+## 📝 Citing
+```bibtex
+@misc{pollastro2025pyautoencoder,
+  Author = {Andrea Pollastro},
+  Title = {pyautoencoder},
+  Year = {2025},
+  Publisher = {GitHub},
+  Journal = {GitHub repository},
+  Howpublished = {\url{https://github.com/andrea-pollastro/pyautoencoder}}
+}
+```
+
+## 📄 License
+This project is licensed under the MIT License. See the LICENSE file for details.
