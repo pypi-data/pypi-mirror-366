@@ -1,0 +1,158 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+Types of changes:
+- **Added** for new features.
+- **Changed** for changes in existing functionality.
+- **Deprecated** for soon-to-be removed features.
+- **Removed** for now removed features.
+- **Fixed** for any bug fixes.
+- **Security** in case of vulnerabilities.
+
+## [Unreleased]
+
+## [1.7.1] - 2025-08-02
+
+### Fixed
+
+- [ICSCards parser complains about converting string "12 jul 2025" to a date.](https://github.com/gpaulissen/ofxstatement-dutch/issues/16)
+
+## [1.7.0] - 2025-04-21
+
+### Fixed
+
+- [Change in ING first row entries.](https://github.com/gpaulissen/ofxstatement-dutch/issues/2)
+- [ICScards conversion fails when balance is 0.](https://github.com/gpaulissen/ofxstatement-dutch/issues/7)
+
+## [1.6.2] - 2025-04-21
+
+### Fixed
+
+- [Statement validation error: '>' not supported between instances of 'datetime.date' and 'datetime.datetime'.](https://github.com/gpaulissen/ofxstatement-dutch/issues/12)
+
+## [1.6.1] - 2025-04-21
+
+- [The new ICS PDF file differs from the previous format (March 2025 => April 2025).](https://github.com/gpaulissen/ofxstatement-dutch/issues/10)
+
+## [1.6.0] - 2024-03-16
+
+- [When there are no money transactions there should be no error message about start/end date/balance.](https://github.com/gpaulissen/ofxstatement-dutch/issues/6)
+
+## [1.5.0] - 2024-02-18
+
+### Fixed
+
+- [Memo for deposit in deGIRO CSV has changed from "iDEAL storting" to "iDEAL Deposit".](https://github.com/gpaulissen/ofxstatement-dutch/issues/5)
+- [Issues with release ?](https://github.com/gpaulissen/ofxstatement-dutch/issues/1)
+
+## [1.4.1] - 2022-07-19
+
+### Added
+
+- Added "SHELL = cmd" to Makefile for Windows
+
+### Changed
+
+- Transaction date is now 'Journaaldatum' and not 'Boekingsdatum' for ASN CSV.
+- Enhanced documentation for ASN CSV.
+- The transaction id for ASN CSV is now <'Journaaldatum' in yyyymmdd format>.<'Volgnummer transactie'>
+
+## [1.4.0] - 2022-07-19
+
+### Added
+
+- Reading CSV of the ASN Bank
+
+## [1.3.3] - 2022-01-05
+
+### Changed
+
+- Build and test behaviour reviewed
+
+## [1.3.2] - 2020-08-02
+
+### Removed
+
+- Dependency of pdftotext.
+
+## [1.3.1] - 2020-08-01
+
+### Changed
+
+- Layout of the README improved.
+- Contents of this CHANGELOG for version 1.3.0.
+
+## [1.3.0] - 2020-08-01
+
+### Added:
+
+- Added ability to parse ING balance statements.
+
+### Changed
+
+- Improved installation guide using Miniconda3
+- Improved code quality by using pycodestyle and Python typing module
+
+## [1.2.1] - 2020-05-01
+
+### Changed
+
+- Fixed bug for KNAB converter when counterparty is empty (for
+  interest for example)
+
+## [1.2.0] - 2020-03-30
+
+### Added
+
+- Added converter for:
+  * KNAB Online Bank, The Netherlands, CSV (https://www.knab.nl/).
+
+### Changed
+
+- Enhanced header handling for ING and DEGIRO.
+- Enhanced documentation.
+
+## [1.1.0] - 2020-03-26
+
+### Added
+
+- Added converter for:
+  * DEGIRO trader platform, The Netherlands, CSV (https://www.degiro.nl/).
+- Added reference to the Changelog in the Readme.
+- The Readme mentions test_requirements.txt for installing test modules.
+- More checks concerning the content (dates with start and end
+date exclusive) that may result in a ValidationError exception.
+- Added Makefile for keeping the important operations together.
+
+### Changed
+
+- The generation af a unique OFX id did only return a counter in
+case of duplicates.
+- The Readme mentions now my fork of the ofxstatement instead of
+https://github.com/kedder/ofxstatement.git.
+- The __about__.py file outputs the version number and that is
+used in the Makefile.
+- The Makefile depends now on GNU make for tagging a release.
+- MANIFEST.in now includes the Makefile and CHANGELOG.md.
+- Code refactoring.
+- Changed bank id (BIC) for ING from INGBNL2AXXX to INGBNL2A.
+
+## [1.0.1] - 2020-03-16
+
+### Changed
+
+- Added poppler library to the instructions.
+- Readme enhanced.
+
+## [1.0.0] - 2020-03-15
+
+### Added
+
+- First version to convert:
+  * ICSCards, The Netherlands, PDF (https://icscards.nl/)
+  * ING bank, The Netherlands, CSV (https://www.ing.nl/)
+
