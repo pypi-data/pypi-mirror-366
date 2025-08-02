@@ -1,0 +1,273 @@
+use std::collections::HashMap;
+use std::env::consts::EXE_EXTENSION;
+use std::path::{Path, PathBuf};
+
+use anyhow::{Context, anyhow};
+use tracing::debug;
+
+use crate::hook::InstalledHook;
+use crate::hook::{Hook, InstallInfo};
+use crate::languages::python::uv::Uv;
+use crate::languages::{Error, LanguageImpl};
+use crate::process::Cmd;
+use crate::run::{prepend_path, run_by_batch};
+use crate::store::{Store, ToolBucket};
+
+use crate::languages::python::PythonRequest;
+use crate::languages::version::LanguageRequest;
+
+use crate::process;
+use constants::env_vars::EnvVars;
+
+#[derive(Debug, Copy, Clone)]
+pub(crate) struct Python;
+
+static QUERY_PYTHON_INFO: &str = indoc::indoc! {r#"\
+    import sys
+    print(f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+    print(sys.base_exec_prefix)
+"#};
+
+fn to_uv_python_request(request: &LanguageRequest) -> Option<String> {
+    match request {
+        LanguageRequest::Any => None,
+        LanguageRequest::Python(request) => match request {
+            PythonRequest::Major(major) => Some(format!("{major}")),
+            PythonRequest::MajorMinor(major, minor) => Some(format!("{major}.{minor}")),
+            PythonRequest::MajorMinorPatch(major, minor, patch) => {
+                Some(format!("{major}.{minor}.{patch}"))
+            }
+            PythonRequest::Range(_, raw) => Some(raw.clone()),
+            PythonRequest::Path(path) => Some(path.to_string_lossy().to_string()),
+        },
+        _ => unreachable!(),
+    }
+}
+
+impl LanguageImpl for Python {
+    async fn install(&self, hook: &Hook, store: &Store) -> Result<InstalledHook, Error> {
+        let uv = Uv::install(store).await?;
+
+        let mut info = InstallInfo::new(hook.language, hook.dependencies().to_vec(), store);
+        info.clear_env_path().await?;
+
+        debug!(%hook, target = %info.env_path.display(), "Installing environment");
+
+        let python_request = to_uv_python_request(&hook.language_request);
+
+        // Create venv (auto download Python if needed)
+        Self::create_venv_with_retry(&uv, store, &info, python_request.as_ref())
+            .await
+            .context("Failed to create Python virtual environment")?;
+
+        // Install dependencies
+        if let Some(repo_path) = hook.repo_path() {
+            uv.cmd("uv pip install")
+                .arg("pip")
+                .arg("install")
+                .arg(".")
+                .args(&hook.additional_dependencies)
+                .current_dir(repo_path)
+                .env("VIRTUAL_ENV", &info.env_path)
+                .check(true)
+                .output()
+                .await?;
+        } else if !hook.additional_dependencies.is_empty() {
+            uv.cmd("uv pip install")
+                .arg("pip")
+                .arg("install")
+                .args(&hook.additional_dependencies)
+                .env("VIRTUAL_ENV", &info.env_path)
+                .check(true)
+                .output()
+                .await?;
+        } else {
+            debug!("No dependencies to install");
+        }
+
+        let python = python_exec(&info.env_path);
+        // Get Python version and executable
+        let stdout = Cmd::new(&python, "get Python info")
+            .arg("-I")
+            .arg("-c")
+            .arg(QUERY_PYTHON_INFO)
+            .check(true)
+            .output()
+            .await?
+            .stdout;
+        let stdout = String::from_utf8(stdout).context("Failed to parse Python info output")?;
+        let mut lines = stdout.lines();
+        let version = lines
+            .next()
+            .ok_or_else(|| anyhow!("Failed to get Python version"))?
+            .to_string()
+            .parse()
+            .context("Failed to parse Python version")?;
+        let base_exec_prefix = lines
+            .next()
+            .ok_or_else(|| anyhow!("Failed to get Python base_exec_prefix"))?
+            .to_string();
+        let python_exec = python_exec(&PathBuf::from(base_exec_prefix));
+
+        info.with_language_version(version)
+            .with_toolchain(python_exec);
+
+        Ok(InstalledHook::Installed {
+            hook: hook.clone(),
+            info,
+        })
+    }
+
+    async fn check_health(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    async fn run(
+        &self,
+        hook: &InstalledHook,
+        filenames: &[&String],
+        env_vars: &HashMap<&'static str, String>,
+        _store: &Store,
+    ) -> Result<(i32, Vec<u8>), Error> {
+        let env_dir = hook.env_path().expect("Python must have env path");
+        let cmds = shlex::split(&hook.entry)
+            .ok_or_else(|| anyhow::anyhow!("Failed to parse entry command"))?;
+
+        // Construct PATH with venv bin directory first
+        let new_path = prepend_path(&bin_dir(env_dir)).context("Failed to join PATH")?;
+
+        let run = async move |batch: Vec<String>| {
+            // TODO: combine stdout and stderr
+            let mut output = Cmd::new(&cmds[0], "run python command")
+                .args(&cmds[1..])
+                .env("VIRTUAL_ENV", env_dir)
+                .env("PATH", &new_path)
+                .env_remove("PYTHONHOME")
+                .envs(env_vars)
+                .args(&hook.args)
+                .args(batch)
+                .check(false)
+                .output()
+                .await?;
+
+            output.stdout.extend(output.stderr);
+            let code = output.status.code().unwrap_or(1);
+            anyhow::Ok((code, output.stdout))
+        };
+
+        let results = run_by_batch(hook, filenames, run).await?;
+
+        // Collect results
+        let mut combined_status = 0;
+        let mut combined_output = Vec::new();
+
+        for (code, output) in results {
+            combined_status |= code;
+            combined_output.extend(output);
+        }
+
+        Ok((combined_status, combined_output))
+    }
+}
+
+impl Python {
+    async fn create_venv_with_retry(
+        uv: &Uv,
+        store: &Store,
+        info: &InstallInfo,
+        python_request: Option<&String>,
+    ) -> Result<(), Error> {
+        // Try creating venv without downloads first
+        match Self::create_venv_command(uv, store, info, python_request, false, false)
+            .check(true)
+            .output()
+            .await
+        {
+            Ok(_) => {
+                debug!("Venv created successfully with no downloads");
+                Ok(())
+            }
+            Err(e @ process::Error::Status { .. }) => {
+                // Check if we can retry with downloads
+                if Self::can_retry_with_downloads(&e) {
+                    debug!("Retrying venv creation with managed Python downloads");
+                    Self::create_venv_command(uv, store, info, python_request, true, true)
+                        .check(true)
+                        .output()
+                        .await?;
+                    return Ok(());
+                }
+                // If we can't retry, return the original error
+                Err(e.into())
+            }
+            Err(e) => {
+                debug!("Failed to create venv: {}", e);
+                Err(e.into())
+            }
+        }
+    }
+
+    fn create_venv_command(
+        uv: &Uv,
+        store: &Store,
+        info: &InstallInfo,
+        python_request: Option<&String>,
+        set_install_dir: bool,
+        allow_downloads: bool,
+    ) -> Cmd {
+        let mut cmd = uv.cmd("create venv");
+        cmd.arg("venv")
+            .arg(&info.env_path)
+            .arg("--python-preference")
+            .arg("managed")
+            .arg("--no-project")
+            .arg("--no-config");
+
+        if set_install_dir {
+            cmd.env(
+                EnvVars::UV_PYTHON_INSTALL_DIR,
+                store.tools_path(ToolBucket::Python),
+            );
+        }
+        if allow_downloads {
+            cmd.arg("--allow-python-downloads");
+        } else {
+            cmd.arg("--no-python-downloads");
+        }
+
+        if let Some(python) = python_request {
+            cmd.arg("--python").arg(python);
+        }
+
+        cmd
+    }
+
+    fn can_retry_with_downloads(error: &process::Error) -> bool {
+        let process::Error::Status {
+            error:
+                process::StatusError {
+                    output: Some(output),
+                    ..
+                },
+            ..
+        } = error
+        else {
+            return false;
+        };
+
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        stderr.contains("A managed Python download is available")
+    }
+}
+
+fn bin_dir(venv: &Path) -> PathBuf {
+    if cfg!(windows) {
+        venv.join("Scripts")
+    } else {
+        venv.join("bin")
+    }
+}
+
+fn python_exec(venv: &Path) -> PathBuf {
+    bin_dir(venv).join("python").with_extension(EXE_EXTENSION)
+}
