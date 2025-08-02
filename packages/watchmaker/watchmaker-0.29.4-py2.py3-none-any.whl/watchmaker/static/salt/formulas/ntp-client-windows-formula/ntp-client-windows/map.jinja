@@ -1,0 +1,34 @@
+# Initialize a map of default values
+{% set default = {
+    'server' : 'time.windows.com',
+    'specialpollinterval' : '3600',
+    'flag' : '0x9',
+} %}
+
+# Get the list of ntpservers from pillar
+{%- set ntpservers = salt['pillar.get'](
+    'ntp-client-windows:ntpservers',
+    {}
+) %}
+
+# If there were no ntpservers in pillar, use the default values
+{%- set ntpservers = ntpservers if ntpservers else {
+    default.server : default.flag
+} %}
+
+# Init an empty list to gather ntp server strings
+{%- set server_list = [] %}
+
+# Create a list of ntp server strings
+{%- for server,flag in ntpservers.items() %}
+    {%- set flag = flag if flag else default.flag %}
+    {%- do server_list.append(server ~ ',' ~ flag) %}
+{% endfor %}
+
+# Generate the `time` map used by sls files
+{% set time = {
+    'servers' : server_list | join(' '),
+    'specialpollinterval' : salt['pillar.get'](
+        'ntp-client-windows:specialpollinterval',
+        default.specialpollinterval),
+} %}

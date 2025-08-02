@@ -1,0 +1,63 @@
+trellix-agent:
+
+  lookup:
+
+    #############################################################
+    #
+    # OPTIONAL Windows parameters for the trellix-agent-formula
+    #
+    #############################################################
+
+    # `package` is the name of the package definition for the
+    # trellix agent.
+    #package: trellix-agent
+
+    # `version` is the version of the agent to install. the version
+    # must be available in the package repository.
+    #version: ''
+
+
+    #############################################################
+    #
+    # REQUIRED Linux parameters for the trellix-agent-formula
+    # Uncomment and set all required parameters or the formula
+    # will fail
+    #############################################################
+
+    # URL to the install shell archive
+    #source: https://S3BUCKET.F.Q.D.N/trellix/linux/trellix-agent/dev/install.sh
+
+    # URL to the hash of the shell archive
+    #source_hash: https://S3BUCKET.F.Q.D.N/trellix/linux/trellix-agent/dev/install.sh.SHA512
+
+    #############################################################
+    #
+    # OPTIONAL Linux parameters for the trellix-agent-formula
+    #
+    #############################################################
+
+    # Directory where Trellix SSL keyfiles are stored
+    #keystore_directory: /opt/Trellix/cma/scratch/keystore
+
+    # List of keyfiles to look for
+    #key_files:
+    #  - agentprvkey.bin
+    #  - agentpubkey.bin
+    #  - serverpubkey.bin
+    #  - serverreqseckey.bin
+
+    # List of RPMs to look for
+    #rpms:
+    #  - MFEcma
+    #  - MFErt
+
+    # List of ports to open inbound for remote-management
+    #client_in_ports:
+    #  - 8591
+
+    # List of source CIDRs to allow for the inbound ports
+    #client_in_ports:
+    #  - 0.0.0.0/0
+
+    # Options to pass to installer script
+    # installer_opts: '-i -r'

@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+{%- load_yaml as defaults %}
+
+install_url: 'https://inspector-agent.amazonaws.com/windows/installer/latest/AWSAgentInstall.exe'
+
+{%- endload %}
+
+{#- Define the data map, merging pillar and default values #}
+{%-
+    set data = salt['pillar.get'](
+        'amazon-inspector:lookup',
+        default=defaults,
+        merge=True
+    )   
+%}
