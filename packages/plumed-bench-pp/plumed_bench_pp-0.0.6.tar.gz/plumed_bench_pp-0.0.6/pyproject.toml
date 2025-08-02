@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "plumed-bench-pp"
+dynamic = ["version"]
+description = "A simpe package to rapidly postprocessing the output of plumed benchmarks"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Daniele Rapetti", email = "daniele.rapetti@sissa.it" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = ["matplotlib","pandas","click"]
+
+[project.urls]
+Documentation = "https://github.com/Iximiel/plumed-bench-pp#readme"
+Issues = "https://github.com/Iximiel/plumed-bench-pp/issues"
+Source = "https://github.com/Iximiel/plumed-bench-pp"
+
+[project.scripts]
+plmdbpp = "plumed_bench_pp.cli:plmdbpp"
+
+[tool.hatch.version]
+path = "src/plumed_bench_pp/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+  "pytest"
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/plumed_bench_pp tests}"
+
+[tool.coverage.run]
+source_pkgs = ["plumed_bench_pp", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/plumed_bench_pp/__about__.py",
+  "docs"
+]
+
+[tool.coverage.paths]
+plumed_bench_pp = ["src/plumed_bench_pp", "*/plumed-bench-pp/src/plumed_bench_pp"]
+tests = ["tests", "*/plumed-bench-pp/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+#lint and formatting:
+[tool.ruff]
+# exclude = ["docs/"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/conftest.py" = ["W291"]
+"docs/source/conf.py" = ["INP001","A001"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
