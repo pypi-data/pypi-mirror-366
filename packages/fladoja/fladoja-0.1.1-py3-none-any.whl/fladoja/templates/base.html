@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fladoja Framework{% endblock %}</title>
+    
+    <!-- Встроенные стили -->
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --dark-color: #1b263b;
+            --light-color: #f8f9fa;
+            --danger-color: #ef233c;
+            --success-color: #4cc9f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        main {
+            min-height: calc(100vh - 120px);
+            padding: 2rem 0;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+    
+    <!-- Дополнительные стили из блоков -->
+    {% block styles %}{% endblock %}
+    
+    <!-- Иконка сайта -->
+    <link rel="icon" href="{{ url_for('static', path='favicon.ico') }}">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Fladoja</div>
+                <div class="nav-links">
+                    <a href="/">Главная</a>
+                    <a href="/docs">Документация</a>
+                    <a href="/admin">Админка</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <main>
+        <div class="container">
+            {% block content %}
+            <!-- Содержимое будет подставлено из дочерних шаблонов -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer>
+        <div class="container">
+            <p>&copy; {% now 'Y' %} Fladoja Framework. SiteProjectGo License.</p>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    {% block scripts %}
+    <!-- Базовый скрипт -->
+    <script>
+        console.log('Fladoja Framework initialized');
+    </script>
+    {% endblock %}
+</body>
+</html>

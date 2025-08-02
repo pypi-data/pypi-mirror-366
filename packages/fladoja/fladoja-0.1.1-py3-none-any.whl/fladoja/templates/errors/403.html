@@ -1,0 +1,13 @@
+{% extends "errors/base_error.html" %}
+
+{% block title %}Доступ запрещен{% endblock %}
+
+{% block error_code %}403{% endblock %}
+{% block error_message %}Доступ запрещен{% endblock %}
+
+{% block error_details %}
+<p>У вас недостаточно прав для доступа к <strong>{{ request.path }}</strong>.</p>
+{% if not user.is_authenticated %}
+    <p>Попробуйте <a href="/login?next={{ request.path }}" style="color: var(--error-primary);">войти в систему</a>.</p>
+{% endif %}
+{% endblock %}

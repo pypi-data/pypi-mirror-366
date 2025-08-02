@@ -1,0 +1,20 @@
+{% extends "errors/base_error.html" %}
+
+{% block title %}Страница не найдена{% endblock %}
+
+{% block error_code %}404{% endblock %}
+{% block error_message %}Страница не найдена{% endblock %}
+
+{% block error_details %}
+<p>Запрошенный URL <strong>{{ request.path }}</strong> не существует на этом сервере.</p>
+<p>Проверьте правильность адреса или воспользуйтесь поиском.</p>
+{% endblock %}
+
+{% block error_extra %}
+<div style="margin-top: 2rem;">
+    <form action="/search" method="get" style="max-width: 400px; margin: 0 auto;">
+        <input type="text" name="q" placeholder="Поиск по сайту..." 
+               style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px;">
+    </form>
+</div>
+{% endblock %}
