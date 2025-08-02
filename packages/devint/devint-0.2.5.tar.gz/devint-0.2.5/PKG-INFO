@@ -1,0 +1,101 @@
+Metadata-Version: 2.3
+Name: devint
+Version: 0.2.5
+Summary: Unified Device Interface - A Python library for interacting with various hardware devices and protocols
+License: Apache-2.0
+Author: Tom Sapletta
+Author-email: info@softreck.dev
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Manufacturing
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Home Automation
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development :: Embedded Systems
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Hardware :: Hardware Drivers
+Classifier: Typing :: Typed
+Requires-Dist: flask (>=2.3.3,<3.0.0)
+Requires-Dist: paho-mqtt (>=2.0.0,<3.0.0)
+Requires-Dist: pyserial (>=3.5,<4.0)
+Requires-Dist: python-dotenv (>=1.0.0,<2.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Project-URL: Bug Tracker, https://github.com/pyfunc/devint/issues
+Project-URL: Documentation, https://github.com/pyfunc/devint#readme
+Project-URL: Homepage, https://github.com/pyfunc/devint
+Description-Content-Type: text/markdown
+
+# DevInt - Unified Device Interface
+
+[![PyPI](https://img.shields.io/pypi/v/devint)](https://pypi.org/project/devint/)
+[![Python Version](https://img.shields.io/pypi/pyversions/devint)](https://pypi.org/project/devint/)
+[![License](https://img.shields.io/pypi/l/devint)](https://github.com/softreck/devint/blob/main/LICENSE)
+
+A Python library for interacting with various hardware devices and protocols through a unified interface.
+
+## Features
+
+- **Unified API** for different hardware interfaces (I2C, SPI, GPIO, Serial, etc.)
+- **Device Registry** for easy hardware component management
+- **Web Interface** for remote monitoring and control
+- **Multiple Protocol Support**:
+  - Modbus RTU/TCP
+  - I2C/SMBus
+  - SPI
+  - GPIO
+  - 1-Wire
+  - CAN bus
+  - MQTT
+- **Pre-built Device Support** for common hardware (Raspberry Pi HATs, Waveshare modules, etc.)
+
+## Installation
+
+```bash
+pip install devint
+```
+
+For development:
+
+```bash
+git clone https://github.com/softreck/devint.git
+cd devint
+poetry install
+```
+
+## Quick Start
+
+```python
+from devint import MultiDeviceService
+from devint.registry.raspberry_pi.sense_hat import RaspberrySenseHAT
+
+# Create a service
+service = MultiDeviceService()
+
+# Add a device
+sense_hat = RaspberrySenseHAT("sense_hat_1")
+service.add_device(sense_hat)
+
+# Start the service (includes web interface on port 5000)
+service.start()
+```
+
+## Documentation
+
+For full documentation, please visit [https://github.com/pyfunc/devint](https://github.com/softreck/devint)
+
+## License
+
+Apache 2.0 - See [LICENSE](LICENSE) for more information.
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+
