@@ -1,0 +1,53 @@
+[project]
+name = "jaxonmodels"
+version = "0.2.3"
+description = "JAX models for deep learning"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Artur A. Galstyan", email = "mail@arturgalstyan.dev" }]
+dependencies = [
+    "jax",
+    "equinox",
+    "pydantic",
+    "numpy",
+    "jaxlib",
+    "tqdm",
+    "beartype",
+    "typing_extensions",
+    "loguru",
+    "optax",
+    "jaxonloader",
+    "jaxtyping",
+    "pytest",
+    "ftfy",
+    "regex",
+    "grain",
+]
+[project.optional-dependencies]
+dev = ["pre-commit", "pytest", "mkdocs"]
+examples = ["tensorflow-cpu", "tensorflow_datasets", "clu", "requests"]
+tests = ["torch", "torchvision"]
+
+[tool.uv.sources]
+torch = { index = "pytorch" }
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff.lint]
+fixable = ["I001", "F401"]
+ignore = ["E402", "E721", "E731", "E741", "F722", "F821"]
+select = ["E", "F", "I001"]
+
+
+[tool.pyright]
+reportIncompatibleMethodOverride = true
+reportMissingImports = false
+
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

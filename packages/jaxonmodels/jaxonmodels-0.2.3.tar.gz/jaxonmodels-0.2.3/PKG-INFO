@@ -1,0 +1,88 @@
+Metadata-Version: 2.4
+Name: jaxonmodels
+Version: 0.2.3
+Summary: JAX models for deep learning
+Author-email: "Artur A. Galstyan" <mail@arturgalstyan.dev>
+License: MIT License
+        
+        Copyright (c) 2024 Artur A. Galstyan
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jax
+Requires-Dist: equinox
+Requires-Dist: pydantic
+Requires-Dist: numpy
+Requires-Dist: jaxlib
+Requires-Dist: tqdm
+Requires-Dist: beartype
+Requires-Dist: typing_extensions
+Requires-Dist: loguru
+Requires-Dist: optax
+Requires-Dist: jaxonloader
+Requires-Dist: jaxtyping
+Requires-Dist: pytest
+Requires-Dist: ftfy
+Requires-Dist: regex
+Requires-Dist: grain
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: mkdocs; extra == "dev"
+Provides-Extra: examples
+Requires-Dist: tensorflow-cpu; extra == "examples"
+Requires-Dist: tensorflow_datasets; extra == "examples"
+Requires-Dist: clu; extra == "examples"
+Requires-Dist: requests; extra == "examples"
+Provides-Extra: tests
+Requires-Dist: torch; extra == "tests"
+Requires-Dist: torchvision; extra == "tests"
+Dynamic: license-file
+
+# Jaxonmodels
+
+This library consists of deep learning model implementations in JAX using Equinox as the neural network library.
+
+The goal of this library is to provide simple, yet performant and easy to understand implementations with the aim to give *exactly* the same output as their Pytorch counterparts. As such, great emphasis is placed on making sure that the layers and the models behave accordingly.
+
+Using `statedict2pytree` we can also load the Pytorch model weights into the JAX models.
+
+Some models will have inadvertently repeated code, but this is fine so long as the model remains self contained for the most part.
+
+## Implemented Models
+
+These models have been implemented:
+- [x] AlexNet
+- [x] CLIP
+- [x] EfficientNet
+- [x] ResNet
+- [x] ViT
+- [x] Mamba
+- [x] ConvNext
+- [x] Swin Transformer
+- [ ] Siglip (in progress)
+- [x] VQ-VAE (in progress)
+
+
+## Contributing
+
+If you have a model that you would like to include, then just open up a PR. It should contain your model and ideally a few tests showcasing that the model (and its components) behave like their Pytorch versions.
