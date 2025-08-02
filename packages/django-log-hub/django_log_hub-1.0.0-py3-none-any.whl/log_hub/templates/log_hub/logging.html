@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Hub - Log Viewer</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .log-level-info {
+            color: #198754; /* Green */
+        }
+        .log-level-warning {
+            color: #ffc107; /* Yellow */
+        }
+        .log-level-error {
+            color: #dc3545; /* Red */
+        }
+
+        .accordion-button.log-level-info {
+            background-color: #e9f7ef; /* Açık yeşil */
+            color: #155724; /* Yeşil metin */
+        }
+        .accordion-button.log-level-warning {
+            background-color: #fff3cd; /* Açık sarı */
+            color: #856404; /* Kahverengi metin */
+        }
+        .accordion-button.log-level-error {
+            background-color: #f8d7da; /* Açık kırmızı */
+            color: #721c24; /* Kırmızı metin */
+        }
+        
+        .log-message-details {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-line;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .log-message-details br {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Log Hub | Count: <span class="badge bg-info">{{ log_count }}</span></h1>
+    
+        <!-- Filter Form -->
+        <form method="get" action="" class="p-4 border rounded bg-light shadow-sm mb-3">
+            <div class="row g-3">
+                <!-- Log Dosyası -->
+                <div class="col-md-2">
+                    <label for="logType" class="form-label fw-bold">Listelenen Dosya</label>
+                    <select name="log_type" id="logType" class="form-select">
+                        {% for log_file in log_files %}
+                        <option value="{{ log_file }}" {% if log_file == selected_log_type %}selected{% endif %}>
+                            {{ log_file }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <h5>Dosya Yönetimi</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="logDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Log Dosyaları
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="logDropdown">
+                            {% for log_file in log_files %}
+                            <li class="dropdown-item d-flex justify-content-between align-items-center">
+                                {{ log_file }}
+                                <div class="ms-3">
+                                    <a href="{% url 'log_hub:download_log' log_file %}" class="btn btn-sm btn-outline-primary me-2">İndir</a>
+                                    <button class="btn btn-sm btn-outline-danger clear-log-btn" data-log="{{ log_file }}">
+                                        Temizle
+                                    </button>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Log Seviyesi -->
+                <div class="col-md-2">
+                    <label for="logLevel" class="form-label fw-bold">Log Seviyesi</label>
+                    <select name="level" id="logLevel" class="form-select">
+                        <option value="">Tümü</option>
+                        <option value="INFO" {% if log_level == "INFO" %}selected{% endif %}>INFO</option>
+                        <option value="WARNING" {% if log_level == "WARNING" %}selected{% endif %}>WARNING</option>
+                        <option value="ERROR" {% if log_level == "ERROR" %}selected{% endif %}>ERROR</option>
+                    </select>
+                </div>
+                <!-- Başlangıç Tarihi -->
+                <div class="col-md-2">
+                    <label for="startDate" class="form-label fw-bold">Başlangıç Tarihi</label>
+                    <input type="datetime-local" name="start_date" id="startDate" class="form-control" value="{{ start_date }}">
+                </div>
+                <!-- Bitiş Tarihi -->
+                <div class="col-md-2">
+                    <label for="endDate" class="form-label fw-bold">Bitiş Tarihi</label>
+                    <input type="datetime-local" name="end_date" id="endDate" class="form-control" value="{{ end_date }}">
+                </div>
+                <!-- Limit -->
+                <div class="col-md-1">
+                    <label for="limit" class="form-label fw-bold">Limit</label>
+                    <select name="limit" id="limit" class="form-select">
+                        <option value="50" {% if limit == 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if limit == 100 %}selected{% endif %}>100</option>
+                        <option value="250" {% if limit == 250 %}selected{% endif %}>250</option>
+                        <option value="500" {% if limit == 500 %}selected{% endif %}>500</option>
+                        <option value="1000" {% if limit == 1000 %}selected{% endif %}>1000</option>
+                    </select>
+                </div>
+            </div>
+    
+            <div class="row g-3 mt-3">
+                <!-- Ara -->
+                <div class="col-md-4">
+                    <label for="searchQuery" class="form-label fw-bold">Ara</label>
+                    <input type="text" name="q" id="searchQuery" class="form-control" placeholder="Ara" value="{{ search_query }}">
+                </div>
+                <!-- Hariç Tut -->
+                <div class="col-md-4">
+                    <label for="exclude_id" class="form-label fw-bold">Hariç Tut</label>
+                    <input type="text" name="exclude" id="exclude_id" class="form-control" placeholder="php,aspx" value="{{ exclude }}">
+                </div>
+                <!-- Status Code -->
+                <div class="col-md-2">
+                    <label for="status_coded" class="form-label fw-bold">Status Code</label>
+                    <input type="text" name="status_code" id="status_coded" class="form-control" value="{{ status_code }}">
+                </div>
+                <!-- Submit Button -->
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+                </div>
+            </div>
+        </form>
+
+        {% if not hata %}
+            <!-- Log Display -->
+            <div class="accordion" id="logAccordion">
+                {% for log in logs %}
+                <div class="accordion-item border border-secondary rounded-3 mb-3">
+                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                        <button class="accordion-button collapsed text-dark log-level-{{ log.level|lower }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                            <span class="badge bg-primary me-2">{{ log.level }}</span>
+                            <span class="badge bg-success me-2">Status: {{ log.status_code }}</span>
+                            <span class="text-muted"><strong>Tarih:</strong> {{ log.timestamp }}</span> 
+                            <div class="badge text-truncate mt-1 text-muted">
+                                <strong>Mesaj:</strong> {{ log.message | truncatechars:75 }}
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#logAccordion">
+                        <div class="accordion-body bg-light">
+                            <!-- Log Details -->
+                            <p><strong>Tarih:</strong> {{ log.timestamp }}</p>
+                            <p><strong>Name:</strong> {{ log.name }}</p>
+                            {% if log.request %}
+                            <p><strong>Request:</strong> {{ log.request }}</p>
+                            {% endif %}
+                            {% if log.message %}
+                            <p><strong>Message:</strong></p>
+                            <div class="log-message-details">{{ log.message|linebreaksbr }}</div>
+                            {% endif %}
+                            {% if log.info %}
+                            <strong>Details:</strong>
+                            <ul class="list-group">
+                                {% for line in log.info %}
+                                <li class="list-group-item py-1">{{ line }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                {{hata}}
+            {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const clearLogButtons = document.querySelectorAll(".clear-log-btn");
+    
+            clearLogButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const logFileName = this.getAttribute("data-log");
+    
+                    if (!confirm(`${logFileName} dosyasını temizlemek istediğinizden emin misiniz?`)) {
+                        return;
+                    }
+    
+                    // Ajax isteği - URL'yi dinamik olarak oluştur
+                    const currentUrl = window.location.pathname;
+                    const baseUrl = currentUrl.split('/').slice(0, -1).join('/'); // Son segmenti çıkar
+                    const clearUrl = `${baseUrl}/clear/${logFileName}/`;
+    
+                    fetch(clearUrl, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCookie("csrftoken"),
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            alert(data.message);
+                            // Sayfayı yenile
+                            window.location.reload();
+                        } else {
+                            alert(`Hata: ${data.message}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Bir hata oluştu:", error);
+                        alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+                    });
+                });
+            });
+    
+            // CSRF Token alma fonksiyonu
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== "") {
+                    const cookies = document.cookie.split(";");
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + "=") {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+    
+    
+</body>
+</html> 
