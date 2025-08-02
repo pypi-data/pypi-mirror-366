@@ -1,0 +1,105 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["browser_copilot"]
+
+[project]
+name = "browser-copilot"
+version = "1.2.3"
+authors = [
+    {name = "Browser Copilot Team", email = "smiao-icims@icims.com"},
+]
+description = "AI-powered browser automation copilot for testing"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+keywords = ["automation", "testing", "browser", "ai", "playwright", "llm"]
+homepage = "https://github.com/smiao-icims/browser-copilot"
+repository = "https://github.com/smiao-icims/browser-copilot"
+documentation = "https://github.com/smiao-icims/browser-copilot#readme"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "langchain>=0.2.0",
+    "langgraph>=0.1.0",
+    "mcp>=0.1.0",
+    "langchain-mcp-adapters>=0.1.0",
+    "model-forge-llm>=2.2.2",
+    "pyyaml>=6.0",
+    "markupsafe<3.0", # Pin to avoid jinja2 compatibility issues
+    "jinja2<3.1", # Pin to compatible version
+    "questionary>=2.0.0", # Interactive CLI prompts with arrow navigation
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "isort>=5.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+    "ruff>=0.1.0",
+    "pre-commit>=3.0",
+    "bandit>=1.7.0",
+    "safety>=2.0.0",
+    "twine>=4.0.0",
+]
+dotenv = [
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/smiao-icims/browser-copilot"
+"Bug Reports" = "https://github.com/smiao-icims/browser-copilot/issues"
+Documentation = "https://github.com/smiao-icims/browser-copilot#readme"
+Source = "https://github.com/smiao-icims/browser-copilot"
+
+[project.scripts]
+browser-copilot = "browser_copilot.cli:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]  # Line too long
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+no_implicit_optional = false
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "types-pyyaml>=6.0.12.20250516",
+]
