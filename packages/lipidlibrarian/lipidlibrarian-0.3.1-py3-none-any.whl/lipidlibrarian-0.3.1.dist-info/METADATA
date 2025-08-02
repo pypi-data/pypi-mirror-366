@@ -1,0 +1,111 @@
+Metadata-Version: 2.4
+Name: lipidlibrarian
+Version: 0.3.1
+Summary: A Lipidomics Database Explorer Package
+Author: Konstantinos Mechteridis, Konstantin Pelz
+Author-email: Felix Niedermaier <felix.niedermaier@tum.de>
+License-Expression: AGPL-3.0-or-later
+Project-URL: Bug Reports, https://github.com/lipitum/lipidlibrarian/issues
+Project-URL: Source, https://github.com/lipitum/lipidlibrarian/
+Keywords: lipids,bioinformatics,development
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Topic :: Database :: Front-Ends
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: ~=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: importlib-metadata
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: tables
+Requires-Dist: jsons
+Requires-Dist: json2html
+Requires-Dist: SQLAlchemy
+Requires-Dist: PyMySQL
+Requires-Dist: networkx
+Requires-Dist: obonet
+Requires-Dist: ratelimit
+Requires-Dist: rdkit
+Requires-Dist: func-timeout
+Requires-Dist: sparql-dataframe
+Requires-Dist: pygoslin
+Requires-Dist: linex2
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: rpy2; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Provides-Extra: lint
+Requires-Dist: flake8; extra == "lint"
+Dynamic: license-file
+
+# Lipid Librarian
+
+## Build and Installation Instructions
+
+### Python Virtual Environment
+
+    make install install_optional
+
+### Docker Container (Docker < 25.0.0)
+
+    docker build -t lipidlibrarian -f Containerfile .
+
+### Docker Container (Docker >= 25.0.0)
+
+    docker buildx -t lipidlibrarian -f Containerfile .
+
+### OCI Container for Docker/Podman/Kubernetes
+
+    buildah build -t lipidlibrarian -f Containerfile .
+
+## Run Lipid Librarian
+
+### CLI
+
+In case you installed Lipid Librarian into a 'venv' virtual environment, make sure you activate it before with `source venv/bin/activate`.
+
+    lipidlibrarian "PC(18:1_20:0)" "PE 38:1" "816.6477;0.001;+H+" "Cholesterol" "SLM:000487065"
+    lipidlibrarian path/to/file
+    cat path/to/file | lipidlibrarian
+
+### Docker
+
+    docker run lipidlibrarian "PC(18:1_20:0)" "PE 38:1" "816.6477;0.001;+H+" "Cholesterol" "SLM:000487065"
+
+### Podman
+
+    podman run lipidlibrarian "PC(18:1_20:0)" "PE 38:1" "816.6477;0.001;+H+" "Cholesterol" "SLM:000487065"
+
+### Import Python Package
+
+```python
+from lipidlibrarian.LipidQuery import *
+
+query1 = LipidQuery("PC(18:1_20:0)").query()
+query2 = LipidQuery("PE 38:1").query()
+query3 = LipidQuery("816.6477;0.001;+H+").query()
+query4 = LipidQuery("Cholesterol").query()
+query5 = LipidQuery("SLM:000487065").query()
+
+for lipid in query1:
+    print(repr(lipid))
+
+for lipid in query2:
+    print(format(lipid, 'json'))
+
+for lipid in query3:
+    print(format(lipid, 'html'))
+
+for lipid in query4:
+    print(repr(lipid))
+
+for lipid in query5:
+    print(repr(lipid))
+```
