@@ -1,0 +1,32 @@
+from ajc27_freemocap_blender_addon.blender_ui.operators._add_base_of_support import FREEMOCAP_OT_add_base_of_support
+from ajc27_freemocap_blender_addon.blender_ui.operators._add_com_vertical_projection import \
+    FREEMOCAP_OT_add_com_vertical_projection
+from ajc27_freemocap_blender_addon.blender_ui.operators._add_joint_angles import FREEMOCAP_OT_add_joint_angles
+from ajc27_freemocap_blender_addon.blender_ui.operators._clear_scene import FREEMOCAP_OT_clear_scene
+from ajc27_freemocap_blender_addon.blender_ui.operators._create_video import FREEMOCAP_OT_create_video
+from ajc27_freemocap_blender_addon.blender_ui.operators._load_data import FREEMOCAP_OT_load_data
+from ajc27_freemocap_blender_addon.blender_ui.operators._add_motion_path import FREEMOCAP_OT_add_motion_path
+from ajc27_freemocap_blender_addon.blender_ui.operators._clear_motion_path import FREEMOCAP_OT_clear_motion_path
+from ajc27_freemocap_blender_addon.blender_ui.operators._clear_all_motion_paths import FREEMOCAP_OT_clear_all_motion_paths
+from ajc27_freemocap_blender_addon.blender_ui.operators.animation.retarget._detect_bone_mapping import FREEMOCAP_OT_detect_bone_mapping
+from ajc27_freemocap_blender_addon.blender_ui.operators.animation.retarget._retarget_animation import FREEMOCAP_OT_retarget_animation
+from ajc27_freemocap_blender_addon.blender_ui.operators.animation.set_bone_rotation_limits._set_bone_rotation_limits import FREEMOCAP_OT_set_bone_rotation_limits
+from ajc27_freemocap_blender_addon.blender_ui.operators.animation.limit_markers_range_of_motion._limit_markers_range_of_motion import FREEMOCAP_OT_limit_markers_range_of_motion
+
+
+
+BLENDER_OPERATORS = [  # FREEMOCAP_download_sample_data,
+    FREEMOCAP_OT_clear_scene,
+    FREEMOCAP_OT_load_data,
+    FREEMOCAP_OT_add_com_vertical_projection,
+    FREEMOCAP_OT_add_joint_angles,
+    FREEMOCAP_OT_add_base_of_support,
+    FREEMOCAP_OT_create_video,
+    FREEMOCAP_OT_add_motion_path,
+    FREEMOCAP_OT_clear_motion_path,
+    FREEMOCAP_OT_clear_all_motion_paths,
+    FREEMOCAP_OT_detect_bone_mapping,
+    FREEMOCAP_OT_retarget_animation,
+    FREEMOCAP_OT_set_bone_rotation_limits,
+    FREEMOCAP_OT_limit_markers_range_of_motion
+]
