@@ -1,0 +1,30 @@
+[CDF-25389]  Update workflow version loader (#1813)
+
+# Description
+
+**Context:** Cognite Toolkit has standardized classes for all CDF
+resources for all CRUD operations called loaders. This PR updates the
+loader for Workflow and WorkflowVersion resources.
+
+We added support for the CRUD operations for Workflow/Workflow Version
+resources in Toolkit before there was a retrieve endpoint. As a
+workaround, we used list. This PR takes advantage of the new retrieve
+endpoint instead of the workaround as we have seen user that had trouble
+with existing workflow versions not being detected as existing.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- When deploying `WorkflowVersions`, Toolkit has a more robust way to
+check whether the workflow version already exists.
+
+## templates
+
+No changes.
