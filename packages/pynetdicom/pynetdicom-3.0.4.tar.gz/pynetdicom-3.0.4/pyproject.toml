@@ -1,0 +1,137 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+
+[project]
+authors = [
+    {name = "pynetdicom contributors"},
+]
+classifiers=[
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Science/Research",
+    "Development Status :: 5 - Production/Stable",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Software Development :: Libraries",
+]
+description = "A Python implementation of the DICOM networking protocol"
+keywords = ["dicom", "networking", "pydicom"]
+license = {file = "LICENCE"}
+maintainers = [
+    {name = "scaramallion", email = "scaramallion@users.noreply.github.com"},
+]
+name = "pynetdicom"
+readme = "README.rst"
+version = "3.0.4"
+requires-python = ">=3.10"
+dependencies = ["pydicom >=3, <4"]
+
+[project.urls]
+documentation = "https://pydicom.github.io/pynetdicom"
+homepage = "https://github.com/pydicom/pynetdicom"
+
+[project.optional-dependencies]
+apps = ["sqlalchemy"]
+dev = [
+    "asv >=0.6",
+    "black >=23.1",
+    "codespell >=2.2",
+    "coverage >=7.3",
+    "mypy >= 1.11",
+    "pyfakefs >=5.3",
+    "pytest >=7.4",
+    "pytest-cov >=4.1",
+    "pytest-xdist >= 3.7",
+    "ruff >=0.1",
+    "sqlalchemy >=2.0",
+]
+docs = [
+    "numpydoc >=1.6",
+    "sphinx >=7.2",
+    "sphinx-copybutton >=0.5",
+    "pydata-sphinx-theme >=0.16.1",
+    "sphinxcontrib-jquery >=4.1",
+]
+tests = [
+    "coverage >=7.3",
+    "pyfakefs >=5.3",
+    "pytest >=7.4",
+    "pytest-cov >=4.1",
+    "pytest-xdist >= 3.7",
+    "sqlalchemy >=2.0",
+]
+
+
+[project.scripts]
+echoscp = "pynetdicom.apps.echoscp.echoscp:main"
+echoscu = "pynetdicom.apps.echoscu.echoscu:main"
+findscu = "pynetdicom.apps.findscu.findscu:main"
+getscu = "pynetdicom.apps.getscu.getscu:main"
+movescu = "pynetdicom.apps.movescu.movescu:main"
+qrscp = "pynetdicom.apps.qrscp.qrscp:main"
+storescp = "pynetdicom.apps.storescp.storescp:main"
+storescu = "pynetdicom.apps.storescu.storescu:main"
+
+
+[tool.black]
+exclude = ".venv*|env*|build|/_.*_dict.py$"
+force-exclude = ".venv*|env*|/_.*_dict.py$"
+
+
+[tool.codespell]
+ignore-words-list = "ddress,pres,requestor,requestors"
+skip = "test*.py,docs*,build*,env*"
+
+
+[tool.coverage.run]
+omit = [
+    "pynetdicom/tests/*",
+    "pynetdicom/apps/*",
+    "pydicom/*",
+    "pydicom-main/*",
+]
+
+
+[tool.mypy]
+python_version = "3.10"  # use the minimum supported Python version
+exclude = [
+    "pynetdicom/tests",
+    "pynetdicom/apps",
+    "pynetdicom/benchmarks",
+]
+files = "pynetdicom/"
+show_error_codes = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = false
+ignore_missing_imports = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+
+[tool.ruff]
+include = ["pynetdicom/*.py"]
+
+[tool.ruff.lint]
+exclude = [
+    "pynetdicom/apps/tests/*",
+    "pynetdicom/tests/*",
+    "pynetdicom/benchmarks/*",
+    "build_tools/*",
+    "docs/*",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "serial",
+]
