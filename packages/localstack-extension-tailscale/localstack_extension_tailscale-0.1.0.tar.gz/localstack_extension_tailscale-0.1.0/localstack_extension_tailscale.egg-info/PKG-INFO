@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: localstack-extension-tailscale
+Version: 0.1.0
+Summary: LocalStack/Tailscale integration
+Author-email: Simon Walker <s.r.walker101@gmail.com>
+Requires-Python: >=3.11
+Requires-Dist: localstack>=4.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: testcontainers; extra == "dev"
+Requires-Dist: boto3; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
