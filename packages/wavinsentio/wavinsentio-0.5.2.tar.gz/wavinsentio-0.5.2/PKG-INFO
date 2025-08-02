@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: wavinsentio
+Version: 0.5.2
+Summary: API Wrapper for Wavin Sentio underfloor heating system
+Home-page: https://github.com/djerik/wavinsentio
+Author: Tobias Laursen
+Author-email: djerik@gmail.com
+License: MIT
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# Wavin Sentio
+> API Wrapper for Wavin Sentio underfloor heating system.
+
+Enables you to query status of thermostats and change target temperature
+
+## Usage example
+
+ws = wavinsentio.WavinSentio("username","password")
+
+## Release History
+
+* 0.1.0
+    * The first proper release
+* 0.2.0
+    * Added setTemperature, setProfile and refresh token logic
+* 0.2.1
+    * PyPi push
+* 0.2.2
+    * Cleaned folder structure
+* 0.2.3
+    * Fixed error handling
+* 0.3.0
+    * Added get_location including outdoor temperature
+* 0.4.1
+    * Changed base URL for Wavin Sentio service
+* 0.5.0
+    * Àdded support for new Sentio v18 firmware
+* 0.5.1
+    * Fix StandbyMode and other small fixes
+* 0.5.2
+    * Added outdoor temperature and other small fixes
