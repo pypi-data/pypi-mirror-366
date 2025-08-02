@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel", "babel>2.8"]
+build-backend = "setuptools.build_meta"
+[build_system]
+requires = ["setuptools", "wheel", "babel>2.8"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry.dependencies.deepmerge]
+version = "^1.0.1"
+
+[tool.poetry.dependencies.langcodes]
+version = "^3.3.0"

@@ -1,0 +1,28 @@
+{#def funders, search_link #}
+
+<div class='detail-subfields'>
+    {% for funder in funders %}
+        {% do funder.funder.update({"title": funder.funder.name}) %}
+        {% if funder.funder %}
+            <VocabularyItem
+                vocabulary={funder.funder}
+                search_link={search_link}
+                searchFacet="metadata_funders_funder"
+                vocabulary_type="funders"
+            ></VocabularyItem>
+            <br/>
+        {% endif %}
+        {% if funder.award %}
+            <VocabularyItem
+                vocabulary={funder.award}
+                search_link={search_link}
+                searchFacet="metadata_funders_award"
+                vocabulary_type="awards"
+            ></VocabularyItem>
+            <br/>
+        {% endif %}
+        {% if not loop.last %}
+            <div class="rel-mb-1"></div>
+        {% endif %}
+    {% endfor %}
+</div>
