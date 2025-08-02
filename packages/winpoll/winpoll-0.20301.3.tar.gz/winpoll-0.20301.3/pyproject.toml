@@ -1,0 +1,19 @@
+[project]
+name = "winpoll"
+version = "0.20301.3"
+requires-python = ">= 3.7"
+description = "Implementation of `select.poll` on Microsoft Windows."
+readme = "README.md"
+license = "BSD-3-Clause"
+keywords = ["poll", "select.poll", "WSAPoll", "Windows polyfill", "Windows ponyfill"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Networking",
+]
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
