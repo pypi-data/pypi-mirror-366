@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clip-jax"
+dynamic = ["version"]
+description = "Training of CLIP in JAX"
+readme = "README.md"
+license = "Apache-2.0"
+dependencies = [
+    "flax",
+    "jax",
+    "numpy",
+    "orbax-checkpoint",
+    "transformers",
+    "aqtp",
+    "wandb",
+]
+
+[project.optional-dependencies]
+dev = [
+    "optax",
+    "precondition-opt",
+    "tqdm",
+]
+
+[tool.hatch.version]
+path = "clip_jax/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/clip_jax",
+]
+
+[tool.ruff]
+line-length = 119
+
+[tool.ruff.lint]
+extend-select = ["E501"]
