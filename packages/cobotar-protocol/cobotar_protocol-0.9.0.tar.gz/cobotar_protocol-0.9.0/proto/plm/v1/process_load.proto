@@ -1,0 +1,14 @@
+syntax = "proto3";
+package plm.v1;
+
+option csharp_namespace = "Messages.Plm.V1";
+option go_package = "github.com/cobotar/protocol/messages/plm/v1";
+
+message ProcessLoadMessage {
+  string request_id = 1;
+  string process_id = 2;
+  string location_id = 3; // TODO: What name should this be?
+  bool abort_running_process = 4;
+  // TODO: allocation strategy
+  // TODO: list participating actors?
+}

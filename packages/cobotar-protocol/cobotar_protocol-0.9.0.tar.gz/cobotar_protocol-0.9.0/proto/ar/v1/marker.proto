@@ -1,0 +1,27 @@
+syntax = "proto3";
+package ar.v1;
+
+import "ar/v1/config.proto";
+import "common/v1/agent.proto";
+
+option csharp_namespace = "Messages.AR.V1";
+option go_package = "github.com/cobotar/protocol/messages/ar/v1";
+
+enum MarkerType {
+  MARKER_TYPE_UNSPECIFIED = 0;
+  MARKER_TYPE_QR_CODE = 1;
+}
+
+message MarkerMessage {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string marker_text = 4; // Text on the physical marker (QR-code)
+  MarkerType type = 5;
+  repeated common.v1.Agent agents = 6; // List of agents associated with this marker
+  repeated ar.v1.ARConfigInfoMessage ar_configs = 7; // List of ARConfigs which can be used to retrieve a specific configuration
+  int64 ar_disappear_distance = 8; // Threshold distance in cm when the UI is expected to disable the AR for this marker
+  // string parent_marker_id = 9; // TODO: this could perhaps be used to improve accuracy
+  // geometry.v1.LocalizedPose parent_maker_pose = 10;
+  // TODO: should: fixtures for BoP, tools, parts, and capabilities also be defined here? It should belong to the physical setup and not the AR-config
+}
