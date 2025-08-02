@@ -1,0 +1,155 @@
+[tool.poetry]
+name = "gwcelery"
+version = "2.8.1rc5"
+description = "Low-latency pipeline for annotating IGWN events"
+readme = "README.rst"
+authors = [
+    "Deep Chatterjee <deep.chatterjee@ligo.org>",
+    "Cody Messick <cody.messick@ligo.org>",
+    "Geoffrey Mo <geoffrey.mo@ligo.org>",
+    "Leo Singer <leo.singer@ligo.org>"
+]
+license = "GPL-2.0+"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Physics"
+]
+homepage = "https://git.ligo.org/emfollow/gwcelery"
+repository = "https://git.ligo.org/emfollow/gwcelery"
+documentation = "https://gwcelery.readthedocs.io/"
+include = [
+    "CHANGES.rst",
+    "CONTRIBUTING.rst",
+    "doc",
+    "docs-requirements.txt",
+    "gwcelery/static/*.css",
+    "gwcelery/static/vega/*.html",
+    "gwcelery/templates/*.jinja2",
+    "gwcelery/data/*.sub",
+    "gwcelery/data/first2years/*.xml.gz",
+    "gwcelery/tests/data/*.html",
+    "gwcelery/tests/data/*.json",
+    "gwcelery/tests/data/*.xml",
+    "gwcelery/tests/data/*.xml.gz",
+    "gwcelery/tests/data/llhoft/*/*.gwf",
+    "gwcelery/tests/data/llhoft/*/*/*.gwf",
+    "gwcelery/tests/data/*.pickle",
+    "gwcelery/tests/data/*.hdf5"
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://git.ligo.org/emfollow/gwcelery/issues"
+
+[tool.poetry.dependencies]
+python = "^3.11,<3.13"
+adc-streaming = ">=2.3.0"  # https://github.com/astronomy-commons/adc-streaming/pull/62
+astropy = ">=4.3.1,!=5.3"  # https://github.com/astropy/astropy/issues/11879, https://github.com/gwpy/gwpy/issues/1629
+bilby = "2.5.1"  # https://git.ligo.org/emfollow/gwcelery/-/merge_requests/1617#note_1413167
+bilby_pipe = "1.6.0"  # https://git.ligo.org/lscsoft/bilby_pipe/-/merge_requests/644
+celery = {version = ">=5.1, <5.4", extras = ["redis"]}  # https://git.ligo.org/emfollow/gwcelery/-/issues/804
+click = ">=7"
+comet = "*"
+confluent-kafka = ">=1.9.2"
+flask = ">=2.2"
+flask-caching = "*"
+flower = ">=2.0.1"  # https://git.ligo.org/emfollow/gwcelery/-/issues/688
+gracedb-sdk = ">=0.2.1"  # https://git.ligo.org/emfollow/gwcelery/-/merge_requests/1606
+gwdatafind = ">=1.1.1"
+gwpy = ">=3.0.11"  # https://gitlab.com/gwpy/gwpy/-/merge_requests/1799
+GWSkyNet = ">=2.5.2"  # https://git.ligo.org/manleong.chan/gwskynet/-/merge_requests/3
+healpy = "*"
+hop-client = ">=0.7.0, <0.11.0"  # https://github.com/scimma/hop-client/pull/176 https://git.ligo.org/emfollow/gwcelery/-/issues/942
+hpmoc = ">=1.0.0"
+igwn-alert = ">=0.7.0"  # https://git.ligo.org/computing/igwn-alert/client/-/merge_requests/32
+igwn-auth-utils = ">=1.4.0" # https://git.ligo.org/computing/sccb/-/issues/1805
+igwn-gwalert-schema = "^1.0.0"
+igwn-ligolw = "*"
+igwn-segments = "*"
+imapclient = "*"
+importlib-metadata = { version = "*"}
+ipython = "*"  # Include IPython for a nicer ``gwcelery shell`` experience.
+jinja2 = ">=2.11.2"  # https://github.com/pallets/jinja/issues/1168
+ligo-cgmi = ">=1.0.2"  # https://git.ligo.org/emfollow/em-properties/cgmi/-/issues/7; https://git.ligo.org/emfollow/em-properties/cgmi/-/issues/9
+ligo-followup-advocate = "~1.3.8"  # For compatibility with Aframe events
+ligo-gracedb = ">=2.7.5"  # https://git.ligo.org/lscsoft/gracedb-client/-/issues/28
+ligo-raven = ">=3.2,<4.0"
+"ligo.em-bright" = ">=1.2.1"  # https://git.ligo.org/emfollow/gwcelery/-/issues/816
+"ligo.skymap" = ">=2.4.0"  # https://git.ligo.org/lscsoft/ligo.skymap/-/merge_requests/452
+lscsoft-glue = "*"
+lxml = "*"
+p_astro = ">=1.0.1"  # https://git.ligo.org/lscsoft/p-astro/-/merge_requests/40
+pesummary = ">=1.0.2"  # https://git.ligo.org/computing/sccb/-/issues/1350
+platformdirs = "*"
+pygcn = ">=1.0.1"
+pyxdg = "*"
+rapid-pe = ">=0.1.1,<0.2.0"  # https://git.ligo.org/computing/sccb/-/issues/1352
+rapidpe-rift-pipe = ">=0.7.1,<0.8.0"  # https://git.ligo.org/computing/sccb/-/issues/1791
+redis = "!=4.5.2,!=4.5.3"  # https://git.ligo.org/emfollow/gwcelery/-/issues/556
+RIFT = ">=0.0.15.9"
+scipy = ">=1.11.1"  # https://git.ligo.org/emfollow/gwcelery/-/issues/679
+safe-netrc = "*"
+sentry-sdk = {version = "*", extras = ["flask", "tornado"]}
+service-identity = "*"  # We don't actually use this package, but it silences some annoying warnings from twistd.
+tensorflow = "<=2.16.2"  # FIXME: This is the last release of Tensorflow that distributed macOS x86_64 wheels. Remove this requirement once we drop support for macOS x86_64.
+voeventlib = ">=1.2"
+werkzeug = ">=3.0.1"  # for werkzeug.middleware.proxy_fix.ProxyFix # https://git.ligo.org/emfollow/gwcelery/-/issues/736
+zstandard = "*"  # for task compression
+
+# For docs
+pep517 = {version="*", optional=true}
+sphinx = {version=">=4.0, <=5.3.0", optional=true}  # https://git.ligo.org/andrew.toivonen/gwcelery/-/jobs/2447152
+
+# For tests
+fastavro = {version = "^1.6.1", optional = true}
+pytest-celery = {version="<1.0.0", optional=true} # https://git.ligo.org/emfollow/gwcelery/-/issues/801
+pytest-cov = {version="*", optional=true}
+pytest-flask = {version=">=1.3.0", optional=true}  # https://github.com/pytest-dev/pytest-flask/pull/168
+pytest-socket = {version="*", optional=true}
+ligo-rrt-chat = ">=0.1.5"  # https://git.ligo.org/computing/sccb/-/issues/1562"
+
+[tool.poetry.extras]
+doc = ["pep517", "sphinx"]
+test = ["fastavro", "pytest-celery", "pytest-cov", "pytest-flask", "pytest-socket"]
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "*"  # Include IPython kernel for Jupyter Lab support.
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+
+[tool.poetry.scripts]
+gwcelery = "gwcelery:main"
+gwcelery-condor-submit-helper = "gwcelery.tools.condor_submit_helper:main"
+
+[tool.poetry.plugins."celery.commands"]
+condor = "gwcelery.tools.condor:condor"
+flask = "gwcelery.tools.flask:flask"
+nagios = "gwcelery.tools.nagios:nagios"
+
+[tool.poetry-dynamic-versioning]
+enable = false
+bump = true
+
+[tool.coverage.run]
+source = ["gwcelery"]
+omit = [
+    "gwcelery/tests/*",
+    "gwcelery/conf/development.py",
+    "gwcelery/conf/playground.py",
+    "gwcelery/conf/production.py",
+    "gwcelery/conf/test.py"
+]
+parallel = true
+concurrency = ["thread", "multiprocessing"]
+
+[build-system]
+requires = ["poetry_core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
