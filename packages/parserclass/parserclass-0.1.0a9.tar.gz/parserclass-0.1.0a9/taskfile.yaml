@@ -1,0 +1,27 @@
+version: "3"
+env:
+    OUTPUT: publish
+tasks:
+    test:
+        cmds:
+            - python -m pytest {{.CLI_ARGS}}
+    vendor:
+        cmds:
+            - python -m pyvendor
+    build:
+        cmds:
+            - cd {{.OUTPUT}} && rm "*" --force
+            - python -m build --no-isolation --outdir {{.OUTPUT}}
+    publish:
+        cmds:
+            - python -m twine upload {{.OUTPUT}}/* --verbose --config-file ~/.pypirc
+    dev:
+        cmds:
+            - python -m pip install --break-system-packages --no-build-isolation --editable .
+    install:
+        deps:
+            - build
+        cmds:
+            - pwd
+            - find *.whl | tail -1 | xargs -n 1 -- python -m pip install --break-system-packages --force-reinstall
+        dir: "{{.OUTPUT}}"
