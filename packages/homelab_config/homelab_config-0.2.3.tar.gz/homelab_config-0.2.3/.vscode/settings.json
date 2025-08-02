@@ -1,0 +1,11 @@
+{
+  "python.envFile": "${workspaceFolder}/.env",
+  "code-runner.executorMap": {
+    "python": "uv run --env-file .env python",
+  },
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+}
