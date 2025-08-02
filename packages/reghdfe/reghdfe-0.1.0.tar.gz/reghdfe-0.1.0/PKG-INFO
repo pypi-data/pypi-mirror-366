@@ -1,0 +1,87 @@
+Metadata-Version: 2.4
+Name: reghdfe
+Version: 0.1.0
+Summary: Python implementation of Stata's reghdfe for high-dimensional fixed effects regression
+Author: RegHDFE Contributors
+Maintainer: RegHDFE Contributors
+License: MIT
+Project-URL: Homepage, https://github.com/brycewang-stanford/reghdfe
+Project-URL: Documentation, https://github.com/brycewang-stanford/reghdfe#documentation
+Project-URL: Repository, https://github.com/brycewang-stanford/reghdfe.git
+Project-URL: Bug Tracker, https://github.com/brycewang-stanford/reghdfe/issues
+Keywords: econometrics,fixed-effects,regression,hdfe,panel-data
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: pyhdfe>=0.1.0
+Requires-Dist: tabulate>=0.8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Requires-Dist: pandas-stubs; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=4.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Dynamic: license-file
+
+# RegHDFE
+
+**Note: This package continues to be maintained. Additionally, `reghdfe` functionality is also integrated into [StatsPAI](https://github.com/brycewang-stanford/StatsPAI/) for users who prefer the unified ecosystem.**
+
+---
+
+[![Python Version](https://img.shields.io/pypi/pyversions/reghdfe)](https://pypi.org/project/reghdfe/)
+[![PyPI Version](https://img.shields.io/pypi/v/reghdfe)](https://pypi.org/project/reghdfe/)
+[![License](https://img.shields.io/github/license/brycewang-stanford/pyreghdfe)](LICENSE)
+[![Downloads](https://img.shields.io/pypi/dm/reghdfe)](https://pypi.org/project/reghdfe/)
+
+Python implementation of Stata's reghdfe for high-dimensional fixed effects regression.
+
+##  Installation
+
+```bash
+pip install reghdfe
+```
+
+##  Basic Usage
+
+```python
+from reghdfe import reghdfe
+result = reghdfe(data=df, y='wage', x=['experience'], fe=['firm_id'])
+```
+
+##  Integration Options
+
+This package is **actively maintained** as a standalone library. For users who prefer a unified ecosystem with additional econometric and statistical tools, `reghdfe` functionality is also available through:
+
+- **[StatsPAI](https://github.com/brycewang-stanford/StatsPAI/)** - Stats + Econometrics + ML + AI + LLMs
+
+##  Related Projects
+
+- **[PyStataR](https://github.com/brycewang-stanford/PyStataR)** - Unified Stata-equivalent commands and R functions
+
+##  Documentation
+
+For detailed documentation, examples, and API reference, please visit our [GitHub repository](https://github.com/brycewang-stanford/reghdfe).
+
+---
+
+**This package is actively maintained.** For questions, bug reports, or feature requests, please open an issue on GitHub.
