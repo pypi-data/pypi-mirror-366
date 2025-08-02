@@ -1,0 +1,8 @@
+[invenio_base.apps]
+invenio_sitemap = invenio_sitemap.ext:InvenioSitemap
+
+[invenio_base.blueprints]
+invenio_sitemap = invenio_sitemap.views:blueprint
+
+[invenio_celery.tasks]
+invenio_sitemap = invenio_sitemap.tasks

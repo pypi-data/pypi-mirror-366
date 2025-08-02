@@ -1,0 +1,14 @@
+arrow>=0.17.0
+invenio-base<3.0.0,>=2.1.0
+invenio-cache<3.0.0,>=2.0.0
+invenio-celery<3.0.0,>=2.0.0
+
+[tests]
+check-manifest>=0.49
+invenio-app<3.0.0,>=2.1.0
+invenio-db[postgresql]<3.0.0,>=2.0.0
+invenio-search[opensearch2]<4.0.0,>=3.0.0
+pytest-black-ng>=0.4.0
+pytest-invenio<4.0.0,>=3.2.0
+sphinx>=4.5.0
+xmlschema<4.0.0,>=3.4.0

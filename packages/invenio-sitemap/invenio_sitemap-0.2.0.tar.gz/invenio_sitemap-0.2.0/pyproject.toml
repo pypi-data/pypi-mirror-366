@@ -1,0 +1,118 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [
+    {name = "Northwestern University", email = "DL_FSM_GDS@e.northwestern.edu"}
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    # Constraints
+    "arrow>=0.17.0",
+    "invenio-base>=2.1.0,<3.0.0",
+    "invenio-cache>=2.0.0,<3.0.0",
+    "invenio-celery>=2.0.0,<3.0.0",
+]
+description = "Sitemap indices and Sitemaps for InvenioRDM"
+dynamic = ["version"]
+keywords = ["invenio", "inveniordm", "rdm", "sitemap"]
+license = {file = "LICENSE"}
+name = "invenio-sitemap"
+readme = "README.rst"
+requires-python = ">=3.9"
+urls = {Repository = "https://github.com/inveniosoftware/invenio-sitemap"}
+
+[project.optional-dependencies]
+tests = [
+    "check-manifest>=0.49",
+    "invenio-app>=2.1.0,<3.0.0",
+    "invenio-db[postgresql]>=2.0.0,<3.0.0",
+    "invenio-search[opensearch2]>=3.0.0,<4.0.0",
+    "pytest-black-ng>=0.4.0",
+    "pytest-invenio>=3.2.0,<4.0.0",
+    "sphinx>=4.5.0",
+    "xmlschema>=3.4.0,<4.0.0",
+]
+
+# Entrypoints
+[project.entry-points."invenio_base.apps"]
+invenio_sitemap = "invenio_sitemap.ext:InvenioSitemap"
+
+[project.entry-points."invenio_base.blueprints"]
+invenio_sitemap = "invenio_sitemap.views:blueprint"
+
+[project.entry-points."invenio_celery.tasks"]
+invenio_sitemap = "invenio_sitemap.tasks"
+
+# Tools in alphabetical order
+[tool.babel.compile_catalog]
+directory = "invenio_sitemap/translations/"
+use_fuzzy = true
+
+[tool.babel.extract_messages]
+copyright_holder = "Northwestern University"
+msgid_bugs_address = "DL_FSM_GDS@e.northwestern.edu"
+mapping_file = "babel.ini"
+output_file = "invenio_sitemap/translations/messages.pot"
+add_comments = "NOTE"
+
+[tool.babel.init_catalog]
+input_file = "invenio_sitemap/translations/messages.pot"
+output_dir = "invenio_sitemap/translations/"
+
+[tool.babel.javascript]
+"**.js" = { encoding = "utf-8", extract_messages = ["$_", "jQuery._"] }
+
+[tool.babel.jinja2]
+"**/templates/**.html" = { encoding = "utf-8" }
+
+[tool.babel.python]
+"**.py" = { encoding = "utf-8" }
+
+[tool.babel.update_catalog]
+input_file = "invenio_sitemap/translations/messages.pot"
+output_dir = "invenio_sitemap/translations/"
+
+[tool.check-manifest]
+ignore = [
+    ".*-requirements.txt",
+    "*.bin",
+    "*.gitkeep",
+    ".venv/",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+# D401: ignore 'first line should be in imperative mood'
+add_ignore = ["D401"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+# ATTN: Remove --cov=invenio_sitemap --cov-report=term-missing when using breakpoint()
+addopts = '--black --isort --pydocstyle  --doctest-glob="*.rst" --doctest-modules --cov=invenio_sitemap --cov-report=term-missing'
+testpaths = ["docs", "tests", "invenio_sitemap"]
+
+[tool.setuptools]
+include-package-data = true
+packages = { find = {} }
+zip-safe = false
+
+[tool.setuptools.dynamic]
+version = {attr = "invenio_sitemap.__version__"}
