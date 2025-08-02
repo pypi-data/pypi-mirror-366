@@ -1,0 +1,35 @@
+name: "Validations"
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+
+  # note: changing the job name requires a quality gate reference change in .github/workflows/release.yaml
+  validations:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Bootstrap environment
+        uses: ./.github/actions/bootstrap
+
+      - name: Run static analysis
+        run: make static-analysis
+
+      - name: Run unit tests
+        run: make unit
+
+      - name: Build test
+        run: make build
+
+      - name: Run CLI tests
+        run: make cli

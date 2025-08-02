@@ -1,0 +1,60 @@
+name: "Bootstrap"
+description: "Bootstrap all tools and dependencies"
+inputs:
+  uv-version:
+    description: "UV version to install"
+    required: true
+    default: "0.5.16"
+  cache-key-prefix:
+    description: "Prefix all cache keys with this value"
+    required: true
+    default: "9c833ef7"
+  tools:
+    description: "whether to install tools"
+    default: "true"
+  bootstrap-apt-packages:
+    description: "Space delimited list of tools to install via apt"
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@7edac99f961f18b581bbd960d59d049f04c0002f # v6.4.1
+      with:
+        enable-cache: true
+
+    - name: "Set up Python"
+      uses: actions/setup-python@v5
+      with:
+        python-version-file: "pyproject.toml"
+
+    - name: Restore tool cache
+      if: inputs.tools == 'true'
+      id: tool-cache
+      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      with:
+        path: ${{ github.workspace }}/.tool
+        key: ${{ inputs.cache-key-prefix }}-${{ runner.os }}-tool-${{ hashFiles('.binny.yaml') }}
+
+    - name: Install project tools
+      shell: bash
+      if: inputs.tools == 'true'
+      run: make tools
+
+    - name: Install apt packages
+      if: inputs.bootstrap-apt-packages != ''
+      shell: bash
+      env:
+        APT_PACKAGES: ${{ inputs.bootstrap-apt-packages }}
+      run: |
+        # Convert space-separated string to bash array for safe handling
+        read -ra packages <<< "$APT_PACKAGES"
+        if [ ${#packages[@]} -gt 0 ]; then
+          DEBIAN_FRONTEND=noninteractive sudo apt update && sudo -E apt install -y "${packages[@]}"
+        fi
+
+    - name: Install project + dependencies
+      shell: bash
+      run: uv sync --all-extras --dev
