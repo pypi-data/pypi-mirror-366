@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: kerex
+Version: 1.0.3
+Summary: Keras Extensions for Keras3
+Author-email: Mathies Wedler <mathies.wedler@gmail.com>
+License: GPL-3.0-or-later
+Project-URL: Homepage, https://github.com/MathiesW/KerEx
+Project-URL: Source, https://github.com/MathiesW/KerEx
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: keras
+Requires-Dist: packaging
+Provides-Extra: tensorflow
+Requires-Dist: tensorflow; extra == "tensorflow"
+Provides-Extra: jax
+Requires-Dist: jax; extra == "jax"
+Requires-Dist: jaxlib; extra == "jax"
+Dynamic: license-file
+
+# Keras Extensions
+This package is still in development
