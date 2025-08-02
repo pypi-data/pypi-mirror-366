@@ -1,0 +1,32 @@
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+# https://hatch.pypa.io/1.9/config/build/
+
+# Define the build system
+[build-system]
+requires        = ["hatchling"]
+build-backend   = "hatchling.build"
+
+# Set module metadata
+[project]
+name        = "hashycalls"
+readme      = "Readme.md"
+version     = "2.0.1.post1"
+description = "An Import Address Table obfuscation utility for C/C++ based windows implants"
+authors     = [ 
+    {name="wizardy0ga"} 
+]
+requires-python = ">=3.10"
+
+# Create 'hashycalls' command pointing at main function
+[project.scripts]
+hashycalls = "hashycalls.cli:main"
+
+# Add urls to metadata
+[project.urls]
+Github          = "https://github.com/wizardy0ga/hashycalls"
+Source          = "https://github.com/wizardy0ga/Hashycalls/tree/master/src/hashycalls"
+Documentation   = "https://github.com/wizardy0ga/Hashycalls/tree/master/docs/en"
+
+# Remove 'src' from pathing
+[tool.hatch.build]
+sources = ["src"]
