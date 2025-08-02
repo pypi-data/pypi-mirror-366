@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: pinotify
+Version: 0.0.1
+Summary: A small software for receiving notification of a Raspberry Pi (RPi) pin and optionally run a command everytime.
+Author-email: Koala Yeung <koalay@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yookoala/pinotify
+Project-URL: Issues, https://github.com/yookoala/pinotify/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: Utilities
+Classifier: Environment :: Console
+Classifier: Environment :: No Input/Output (Daemon)
+Requires-Python: >=3.9
+License-File: LICENSE.md
+Requires-Dist: gpiod>=1.6.0
+Dynamic: license-file
