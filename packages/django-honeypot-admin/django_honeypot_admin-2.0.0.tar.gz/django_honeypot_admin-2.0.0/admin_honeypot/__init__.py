@@ -1,0 +1,6 @@
+__author__ = 'Vignesh (Alien501) <cvignesh404@gmail.com>'
+__copyright__ = 'Copyright (c) 2012 Derek Payton, 2025 Vignesh (Alien501)'
+__description__ = 'A fake Django admin login screen to notify admins of attempted unauthorized access. Compatible with latest Django versions.'
+__version__ = '2.0.0'
+__license__ = 'MIT License'
+__original_author__ = 'Derek Payton <derek.payton@gmail.com>'
