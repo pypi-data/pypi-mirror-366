@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: astrapay
+Version: 0.1.0
+Summary: Lightweight Python SDK for M-Pesa STK Push by Astra Softwares
+Home-page: https://github.com/astrasoft/astrapay
+Author: Ishmael Bett
+Author-email: info.astrasoft@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+
+# AstraPay SDK
+
+A lightweight Python SDK for M-Pesa STK Push built by Astra Softwares.
+
+## Installation
+
+```bash
+pip install astrapay
+
+
+
+``bash
+from astrapay import AstraMpesa
+
+client = AstraMpesa(
+    consumer_key="YOUR_KEY",
+    consumer_secret="YOUR_SECRET",
+    shortcode="174379",
+    passkey="YOUR_PASSKEY",
+    callback_url="https://yourdomain.com/callback"
+)
+
+res = client.pay(phone="254712345678", amount=100)
+print(res)
+
+
+
+
+---
+
+### ðŸ”¹ Step 6: `LICENSE` (MIT)
+
+```txt
+MIT License
+
+Copyright (c) 2025 Ishmael Bett
+
+Permission is hereby granted, free of charge, to any person obtaining a copy...
+
