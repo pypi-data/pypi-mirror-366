@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "arfs_gen"
+version = "1.2.1"
+description = "Library to generate toy data for machine learning experiments in the context of all-relevant feature selection."
+authors = ["Lukas Pfannschmidt <lukas@lpfann.me>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/lpfann/arfs_gen"
+keywords = ["data generation", "toy data", "all-relevant feature selection", "machine learning"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.21.0"
+scikit-learn = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+black = "^23.0.0"
+pylint = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
