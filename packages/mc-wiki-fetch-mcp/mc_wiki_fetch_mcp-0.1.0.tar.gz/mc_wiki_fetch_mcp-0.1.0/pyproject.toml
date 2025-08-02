@@ -1,0 +1,41 @@
+[project]
+name = "mc-wiki-fetch-mcp"
+version = "0.1.0"
+description = "A MCP-based Minecraft Wiki backend server providing convenient access to Minecraft Wiki content via stdio"
+readme = "README.md"
+authors = [
+    { name = "rice_awa", email = "riceawa@rice-awa.top" }
+]
+requires-python = ">=3.8"
+dependencies = [
+    "mcp>=1.12.3",
+    "aiohttp>=3.8.0",
+]
+keywords = ["minecraft", "wiki", "mcp", "server", "api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Games/Entertainment",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+]
+
+[project.scripts]
+mc-wiki-fetch-mcp = "mc_wiki_fetch_mcp:main"
+
+[project.urls]
+Homepage = "https://github.com/rice-awa/mc-wiki-fetch-mcp"
+Repository = "https://github.com/rice-awa/mc-wiki-fetch-mcp"
+Issues = "https://github.com/rice-awa/mc-wiki-fetch-mcp/issues"
+Documentation = "https://github.com/rice-awa/mc-wiki-fetch-mcp/blob/main/README.md"
+
+[build-system]
+requires = ["uv_build>=0.8.2,<0.9.0"]
+build-backend = "uv_build"
