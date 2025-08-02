@@ -1,0 +1,75 @@
+[project]
+name = "lipidlibrarian"
+dynamic = ["version"]
+description = "A Lipidomics Database Explorer Package"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+authors = [
+    {name = "Felix Niedermaier", email = "felix.niedermaier@tum.de"},
+    {name = "Konstantinos Mechteridis"},
+    {name = "Konstantin Pelz"}
+]
+requires-python = "~=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Database :: Front-Ends",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+keywords = ["lipids", "bioinformatics", "development"]
+dependencies = [
+    "requests",
+    "importlib-metadata",
+    "numpy",
+    "pandas",
+    "tables",
+    "jsons",
+    "json2html",
+    "SQLAlchemy",
+    "PyMySQL",
+    "networkx",
+    "obonet",
+    "ratelimit",
+    "rdkit",
+    "func-timeout",
+    "sparql-dataframe", # returns SPARQL queries as pandas dataframes
+    "pygoslin",
+    "linex2",
+]
+
+[project.urls]
+"Bug Reports" = "https://github.com/lipitum/lipidlibrarian/issues"
+"Source" = "https://github.com/lipitum/lipidlibrarian/"
+
+[project.optional-dependencies]
+dev = ["pytest", "flake8", "rpy2"]
+test = [
+    "pytest"
+]
+lint = [
+    "flake8"
+]
+
+[tool.flake8]
+max-line-length = 80
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test"
+]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[project.scripts]
+lipidlibrarian = "lipidlibrarian.cli:main"
+sync_alex123_sql_database = "lipidlibrarian.sync_alex123_sql_database:main"
+
+[build-system]
+requires = [ "setuptools >= 77.0.3", "setuptools-scm>=8" ]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
