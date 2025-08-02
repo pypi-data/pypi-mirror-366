@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coesi"
+version = "0.1.0"
+description = "COESI Platform CLI - Command line interface for managing COESI Docker deployments"
+readme = "README.md"
+authors = [
+    {name = "Reza Taheri", email = "taheri.reza94@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+]
+keywords = ["coesi", "docker", "deployment", "cli", "devops"]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "docker>=6.0.0",
+    "pyyaml>=6.0",
+    "rich>=13.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+    "twine>=4.0",
+    "build>=0.10",
+    "types-docker>=6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/rezathriii/coesi-cli"
+Documentation = "https://github.com/rezathriii/coesi-cli#readme"
+Repository = "https://github.com/rezathriii/coesi-cli.git"
+"Bug Reports" = "https://github.com/rezathriii/coesi-cli/issues"
+
+[project.scripts]
+coesi = "src.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--cov=src --cov-report=term-missing"
