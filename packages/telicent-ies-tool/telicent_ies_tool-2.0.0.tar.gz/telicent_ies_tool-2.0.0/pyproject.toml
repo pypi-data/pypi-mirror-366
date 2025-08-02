@@ -1,0 +1,119 @@
+[build-system]
+requires = ["setuptools>=61.2.0", "wheel==0.41.3", "pip-tools==7.3.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "telicent-ies-tool"
+version = "2.0.0"
+authors = [{name = "Telicent Ltd", email = "opensource@telicent.io"}]
+description = "A library for working with the IES data standard"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+readme = "README.md"
+dependencies = [
+    "geohash-tools==0.2.0",
+    "python-geohash==0.8.5",
+    "pyshacl==0.25.0",
+    "requests==2.32.4",
+    "rdflib==6.3.2",
+    "phonenumbers==8.13.35",
+    "pycountry==24.6.1",
+    "validators==0.28.1",
+    "iso4217parse==0.5.1",
+    "shortuuid==1.0.13"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit==3.5.0",
+    "ruff==0.1.5",
+    "types-requests==2.31.0.10",
+    "mypy==1.7.0",
+    "mkdocs==1.5.3",
+    "mkdocs-material==9.5.11",
+    "mkdocstrings==0.24.0",
+    "mkdocstrings_python==1.8.0"
+]
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
+
+[project.urls]
+Repository = "https://github.com/telicent-oss/ies-tool"
+Changelog = "https://github.com/telicent-oss/ies-tool/blob/main/CHANGELOG.md"
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[tool.setuptools.package-data]
+ies_tool = ["*.ttl", "*.shacl"]
+
+[tool.setuptools.packages.find]
+include = ["ies_tool*"]
+namespaces = true
+
+
+[tool.ruff]
+target-version = "py312"
+select = [
+    "B",  # flake8-bugbear
+    "C",  # flake8-comprehensions
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",  # isort
+    "N",  # naming
+    "UP",  # pyupgrade
+    "W",  # pycodestyle warnings
+]
+ignore = [
+    "C901", # too complex
+]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "ies_tool/*.ttl",
+    "module_to_check/*.shacl"
+]
+line-length = 120
+
+# Module or directory that contains the files to check
+src = ["ies_tool"]
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+ignore_errors = true
+modules = ["ies_tool"]
