@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: rohan-pristine-sbert-v1
+Version: 0.1.0
+Summary: Hybrid SBERT embeddings using all-MiniLM-L6-v2 and all-mpnet-base-v2.
+Author: Rohan Kaitake
+Author-email: rohan.kaitake@pristine-code.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: sentence-transformers>=2.2.0
+Requires-Dist: numpy>=1.20.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Rohan Pristine SBERT v1
+
+**rohan-pristine-sbert-v1** is a Python package that combines two powerful Sentence Transformers:
+- `all-MiniLM-L6-v2`
+- `all-mpnet-base-v2`
+
+This hybrid approach produces sentence embeddings by averaging outputs from both models.
+
+## Installation
+
+```bash
+pip install rohan-pristine-sbert-v1
