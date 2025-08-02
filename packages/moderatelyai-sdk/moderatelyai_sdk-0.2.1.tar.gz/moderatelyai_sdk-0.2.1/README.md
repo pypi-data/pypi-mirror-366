@@ -1,0 +1,178 @@
+# Moderately AI Python SDK
+
+The official Python SDK for the Moderately AI platform, providing programmatic access to agents, datasets, pipelines, and team management.
+
+## Features
+
+- **Python 3.8+ Support**: Compatible with Python 3.8 and later versions
+- **Type Safety**: Full type annotations with mypy support
+- **Async/Await**: Built-in support for asynchronous operations
+- **Team-scoped Operations**: Automatic filtering and scoping to your team
+- **Resource Management**: Agents, datasets, pipelines, files, and users
+- **Error Handling**: Comprehensive exception handling for different error scenarios
+- **Rate Limiting**: Built-in rate limit handling and retry logic
+- **Modern Tooling**: Uses PDM for dependency management, Ruff for linting, and pytest for testing
+
+## Installation
+
+```bash
+pip install moderatelyai-sdk
+```
+
+## Quick Start
+
+```python
+import moderatelyai_sdk
+
+# Initialize with environment variables (recommended)
+client = moderatelyai_sdk.ModeratelyAI()  # reads MODERATELY_API_KEY and MODERATELY_TEAM_ID
+
+# Or initialize with explicit parameters
+client = moderatelyai_sdk.ModeratelyAI(
+    team_id="your-team-id",
+    api_key="your-api-key"
+)
+
+# Use the client - all operations are automatically scoped to your team
+users = client.users.list()
+dataset = client.datasets.create(name="My Dataset")
+agents = client.agents.list()
+```
+
+## Usage
+
+### Working with Datasets
+
+```python
+from moderatelyai_sdk import ModeratelyAI
+
+client = ModeratelyAI(team_id="your-team-id", api_key="your-api-key")
+
+# Create a dataset
+dataset = client.datasets.create(
+    name="Customer Data",
+    description="Customer interaction dataset"
+)
+
+# Upload data to the dataset
+version = dataset.upload_data("/path/to/data.csv")
+print(f"Uploaded version {version.version_no} with {version.row_count} rows")
+
+# List all datasets
+datasets = client.datasets.list()
+```
+
+### Working with Agents
+
+```python
+# List all agents in your team
+agents = client.agents.list()
+
+# Create and run an agent execution
+execution = client.agent_executions.create(
+    agent_id="agent_123",
+    input_data={"query": "Process this data"}
+)
+```
+
+### Using Context Manager
+
+```python
+from moderatelyai_sdk import ModeratelyAI
+
+with ModeratelyAI(team_id="your-team-id", api_key="your-api-key") as client:
+    users = client.users.list()
+    print(f"Found {len(users)} users")
+```
+
+### Error Handling
+
+```python
+from moderatelyai_sdk import ModeratelyAI, APIError, AuthenticationError
+
+client = ModeratelyAI(team_id="your-team-id", api_key="your-api-key")
+
+try:
+    dataset = client.datasets.create(name="Test Dataset")
+except AuthenticationError:
+    print("Invalid API key")
+except APIError as e:
+    print(f"API error: {e}")
+    if hasattr(e, 'status_code'):
+        print(f"Status code: {e.status_code}")
+```
+
+## Configuration
+
+The client can be configured with various options:
+
+```python
+client = ModeratelyAI(
+    team_id="your-team-id",
+    api_key="your-api-key",
+    base_url="https://api.moderately.ai",  # Custom API endpoint
+    timeout=30,                            # Request timeout in seconds
+    max_retries=3                          # Maximum retry attempts
+)
+```
+
+## Development
+
+This project uses PDM for dependency management. To set up the development environment:
+
+```bash
+# Install PDM
+pip install pdm
+
+# Install dependencies
+pdm install
+
+# Install pre-commit hooks
+pdm run pre-commit install
+
+# Run tests
+pdm run pytest
+
+# Run linting
+pdm run ruff check .
+pdm run ruff format .
+
+# Type checking
+pdm run mypy src/
+```
+
+## API Reference
+
+### ModeratelyAI
+
+The main client class for interacting with the Moderately AI API.
+
+#### Resource Groups
+
+- `client.users`: Manage users in your team
+- `client.teams`: Manage team settings and information
+- `client.agents`: Manage AI agents
+- `client.agent_executions`: Create and monitor agent executions
+- `client.datasets`: Manage datasets with rich functionality (upload, download, schema management)
+- `client.pipelines`: Manage data pipelines
+- `client.files`: Upload and manage files
+
+### Exceptions
+
+- `ModeratelyAIError`: Base exception class
+- `APIError`: Raised for API-related errors
+- `AuthenticationError`: Raised for authentication failures
+- `ConflictError`: Raised for resource conflicts
+- `NotFoundError`: Raised when resources are not found
+- `RateLimitError`: Raised when rate limits are exceeded
+- `TimeoutError`: Raised for request timeouts
+- `UnprocessableEntityError`: Raised for validation errors
+- `ValidationError`: Raised for input validation errors
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For questions and support, please visit our [GitHub repository](https://github.com/moderately-ai/platform-sdk) or contact us at sdk@moderately.ai.
