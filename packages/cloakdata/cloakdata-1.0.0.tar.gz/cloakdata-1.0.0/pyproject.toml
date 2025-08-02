@@ -1,0 +1,20 @@
+[project]
+name = "cloakdata"
+version = "1.0.0"
+description = "A lightweight library for anonymizing tabular datasets using Polars"
+keywords = ["anonymization", "data privacy", "polars", "etl", "data masking"]
+authors = [
+  { name = "Jeferson Peter" }
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "polars>=1.31.0",
+  "loguru>=0.7.3"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
