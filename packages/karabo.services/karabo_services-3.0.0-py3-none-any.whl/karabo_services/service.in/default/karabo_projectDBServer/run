@@ -1,0 +1,37 @@
+#!/bin/bash
+# This file is part of Karabo.
+#
+# http://www.karabo.eu
+#
+# Copyright (C) European XFEL GmbH Schenefeld. All rights reserved.
+#
+# Karabo is free software: you can redistribute it and/or modify it under
+# the terms of the MPL-2 Mozilla Public License.
+#
+# You should have received a copy of the MPL-2 Public License along with
+# Karabo. If not, see <https://www.mozilla.org/en-US/MPL/2.0/>.
+#
+# Karabo is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.
+# This file is part of the initial configuration of Karabo
+cd $KARABO/var/data
+PROJECT_DB_SERVER=exflst105
+
+exec envdir $KARABO/var/environment karabo-middlelayerserver serverId=karabo/projectDBServer 'deviceClasses=ProjectManager' 'log.level=INFO' \
+init='{"KaraboProjectDB":{"classId":"ProjectManager", "projectDB":{"protocol": "exist_db", "exist_db":{"host": "'$PROJECT_DB_SERVER'", "port": 8080}}}}' 2>&1
+
+# ---------------------------------------------------------------------------
+# SQL Remote database - environment need to be defined in "$KARABO/var/environment/"
+# $KARABO_PROJECT_DB_HOST
+# $KARABO_PROJECT_DB_PORT
+# $KARABO_PROJECT_DB_DBNAME
+#
+# init='{"KaraboProjectDB":{"classId":"ProjectManager", "projectDB":{"protocol": "remote"}}}' 2>&1
+#
+# ---------------------------------------------------------------------------
+# SQLite Local database - file in "$KARABO/var/data/project_db/"
+#
+# $KARABO_PROJECT_DB_DBNAME
+# init='{"KaraboProjectDB":{"classId":"ProjectManager", "projectDB":{"protocol": "local"}}}' 2>&1
+#
