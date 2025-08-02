@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Reporte de Entrenamiento de Modelo</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    processEscapes: true
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+<script defer id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  h2 { margin-top: 1.6em; }
+  h3 { margin-top: 1.2em; }
+
+  /* Sólo para tablas clave‑valor de 2 columnas */
+  .kv-table.table-sm th { width: 32%; }
+
+  /* Confusion‑matrix (DataFrame renderizado por pandas) */
+  .cm-table { width: 100%; }
+  .cm-table th { width: auto !important; }
+  /* 👇 override al inline style de pandas: <thead><tr style="text-align: right;"> */
+  .cm-table thead tr { text-align: center !important; }
+  .cm-table thead th { text-align: center !important; }
+  .cm-table tbody th, .cm-table tbody td { vertical-align: middle; }
+
+  code {
+    background-color: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+
+  /* Fuente estilo “LaTeX-like” */
+  body {
+    font-family: "STIX Two Text","Latin Modern Roman","Computer Modern Serif",
+                 "CMU Serif","Times New Roman",Times,serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  h1,h2,h3,h4,h5 { font-weight: 700; }
+
+  /* Alineación vertical por defecto en tablas pequeñas */
+  table.table-sm th,
+  table.table-sm td {
+    vertical-align: middle;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+  }
+</style>
+
+</head>
+<body class="container my-4">
+
+<h1 class="display-5">Reporte de entrenamiento de modelo</h1>
+<p class="text-muted">{{ exec.end_time }}</p>
+
+<!-- Detalles de ejecución -->
+<h2>Detalles de ejecución</h2>
+<table class="table table-sm kv-table">
+  <tr><th>Algoritmo</th><td>{{ exec.model_name }}</td></tr>
+  <tr><th>ID de ejecución</th><td>{{ exec.run_id }}</td></tr>
+  <tr><th>Duración</th><td>{{ exec.duration }}</td></tr>
+</table>
+
+{% if software_section %}
+<h3>Software</h3>
+<table class="table table-sm kv-table">
+  <tr><th>Versión Torch</th><td>{{ exec.torch_version }}</td></tr>
+  <tr><th>Versión Mlektic</th><td>{{ exec.mlektic_version }}</td></tr>
+  <tr><th>Versión Python</th><td>{{ exec.python_version }}</td></tr>
+</table>
+{% endif %}
+
+{% if hardware_section %}
+<h3>Hardware / Sistema</h3>
+<table class="table table-sm kv-table">
+  <tr><th>Dispositivo</th><td>{{ exec.device }}</td></tr>
+  <tr><th>GPU</th><td>{{ exec.gpu_name }}</td></tr>
+  <tr><th>RAM total</th><td>{{ exec.ram_total }}</td></tr>
+  <tr><th>Host</th><td>{{ exec.host }}</td></tr>
+  <tr><th>Sistema operativo</th><td>{{ exec.os }}</td></tr>
+  <tr><th>Semilla</th><td>{{ exec.seed }}</td></tr>
+</table>
+{% endif %}
+
+<!-- Dataset -->
+<h2>Conjunto de Datos</h2>
+<table class="table table-sm kv-table">
+  <tr><th>Fuente</th><td>{{ dataset.name }}</td></tr>
+  <tr><th>Dimensiones</th><td>{{ dataset.dims }}</td></tr>
+  <tr><th>Variable objetivo</th><td>{{ dataset.target }}</td></tr>
+  <tr><th>Variables de entrada (≤50)</th><td>{{ dataset.features_show }}</td></tr>
+  <tr><th>Partición de datos</th>
+      <td>
+        Entrenamiento: {{ dataset.split.train.n }} ({{ '%.1f'|format(dataset.split.train.pct) }} %) |
+        Validación: {{ dataset.split.val.n }} ({{ '%.1f'|format(dataset.split.val.pct) }} %) |
+        Prueba: {{ dataset.split.test.n }} ({{ '%.1f'|format(dataset.split.test.pct) }} %)
+      </td>
+  </tr>
+  {% if dataset.preprocessing_text %}
+    <tr>
+      <th>Etapas de preprocesamiento</th>
+      <td>{{ dataset.preprocessing_text }}</td>
+    </tr>
+  {% elif dataset.preprocessing_list %}
+    <tr>
+      <th>Etapas de preprocesamiento</th>
+      <td>
+        <ul class="mb-0">
+          {% for step in dataset.preprocessing_list %}
+            <li>{{ step }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+  {% elif dataset.preprocessing_note %}
+    <tr>
+      <th>Etapas de preprocesamiento (nota)</th>
+      <td>{{ dataset.preprocessing_note }}</td>
+    </tr>
+  {% endif %}
+</table>
+
+{% if dataset.classes %}
+<h3>Distribución de clases</h3>
+<table class="table table-sm">
+  <tr><th>Clase</th><th>Frecuencia</th></tr>
+  {% for c,v in dataset.classes.items() %}
+  <tr><td>{{ c }}</td><td>{{ v }}</td></tr>
+  {% endfor %}
+</table>
+{% if figs.class_pie %}
+  <div class="text-center">
+    <img class="img-fluid mx-auto d-block mt-3" style="max-width: 420px"
+         src="data:image/png;base64,{{ figs.class_pie }}">
+  </div>
+{% endif %}
+{% endif %}
+
+<!-- Hiperparámetros -->
+<h2>Hiperparámetros y configuraciones</h2>
+<table class="table table-sm kv-table">
+  {% for k,v in hparams.items() %}
+  <tr><th>{{ k }}</th><td>{{ v|safe }}</td></tr>
+  {% endfor %}
+</table>
+
+<!-- Resultados -->
+{% if results.metrics_table %}
+<h2>Resultados</h2>
+<table class="table table-sm">
+  <tr><th>Métrica</th><th>Entrenamiento</th><th>Validación</th><th>Prueba</th></tr>
+  {% for row in results.metrics_table %}
+  <tr>
+    <td>{{ row.name }}</td>
+    <td>{{ row.train }}</td>
+    <td>{{ row.val }}</td>
+    <td>{{ row.test }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if results.confusion_matrix %}
+<h3>Matriz de confusión</h3>
+{{ results.confusion_matrix | safe }}
+{% endif %}
+
+<!-- Evolución -->
+{% if figs.loss_curve or figs.metric_curve %}
+<h2>Evolución de entrenamiento</h2>
+  {% if figs.loss_curve %}
+  <img class="img-fluid" src="data:image/png;base64,{{ figs.loss_curve }}">
+  {% endif %}
+  {% if figs.metric_curve %}
+  <img class="img-fluid mt-3" src="data:image/png;base64,{{ figs.metric_curve }}">
+  {% endif %}
+{% endif %}
+
+<!-- Parámetros -->
+{% if params_sample %}
+<h3 class="mt-4">Muestreo de parámetros durante entrenamiento</h3>
+<table class="table table-sm">
+  <tr><th>Parámetro</th><th>Inicio</th><th>Mitad</th><th>Final</th></tr>
+  {% for p in params_sample %}
+  <tr>
+    <td>{{ p[0] | safe }}</td>
+    <td>{{ p[1] | safe }}</td>
+    <td>{{ p[2] | safe }}</td>
+    <td>{{ p[3] | safe }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<!-- Ecuación -->
+{% if equation %}
+<h2>Modelo obtenido</h2>
+<div id="eq-box">{{ equation | safe }}</div>
+{% endif %}
+
+<hr>
+<p class="text-center text-muted small">
+  Reporte generado con mlektic: /github.com/DanielDialektico/mlektic
+</p>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise();
+  }
+});
+</script>
+
+</body>
+</html>
