@@ -1,0 +1,70 @@
+name: Quick Tests
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.head_commit.message, 'feat:') || startsWith(github.event.head_commit.message, 'fix:')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          architecture: x64
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/uv
+            .venv
+          key: uv-${{ runner.os }}-x64-3.11-5.0-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
+          restore-keys: |
+            uv-${{ runner.os }}-3.11-5.0-
+            uv-${{ runner.os }}-3.11-
+            uv-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv add django~=5.0
+          uv tool install maturin
+
+      - name: Build Rust extension
+        run: |
+          uv run maturin develop --release
+
+      - name: Run linting
+        run: |
+          uv run ruff check
+          uv run ruff format --check
+
+      - name: Run tests
+        run: |
+          uv run pytest
+
+      - name: Update coverage
+        run: |
+          uv sync
+          uv run pytest --cov --cov-report json
+
+      - name: Update Coverage Badge
+        # GitHub actions: default branch variable
+        # https://stackoverflow.com/questions/64781462/github-actions-default-branch-variable
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: we-cli/coverage-badge-action@main
