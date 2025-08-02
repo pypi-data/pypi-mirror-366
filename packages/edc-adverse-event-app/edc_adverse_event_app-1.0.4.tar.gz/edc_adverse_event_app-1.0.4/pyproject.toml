@@ -1,0 +1,43 @@
+[project]
+name = "edc-adverse-event-app"
+version = "1.0.4"
+description = "Add your description here"
+readme = "README.rst"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+extend-exclude = '''^(.*\/)*\b(migrations)\b($|\/.*$)'''
+
+[tool.isort]
+profile = "black"
+py_version = "312"
+skip = [".tox", ".eggs", "migrations", "_version.py"]
+
+[tool.uv.sources]
+edc-adverse-event-app = { workspace = true }
+
+[dependency-groups]
+lint = [
+    "black>=25.1.0",
+    "deptry>=0.23.0",
+    "flake8>=7.3.0",
+    "isort>=6.0.1",
+    "ruff>=0.12.5",
+]
+
+docs = [
+    "furo>=2025.7.19",
+    "sphinx>=8.2.3",
+    "sphinx-design>=0.6.1",
+    "sphinx-inline-tabs>=2023.4.21",
+]
+dev = [
+    "edc-action-item>=1.0.3",
+    "edc-adverse-event>=1.1.2",
+]
+test = [
+    "edc-adverse-event-app",
+]
