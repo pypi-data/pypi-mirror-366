@@ -1,0 +1,13 @@
+name: ipycanvas-docs
+
+channels:
+  - conda-forge
+
+dependencies:
+  - ipycanvas
+  - yarn
+  # Docs requirements
+  - pydata-sphinx-theme
+  - jupyterlite-sphinx
+  - jupyterlab-night
+  - jupyterlite-xeus>=4.1.2

@@ -1,0 +1,18 @@
+name: ipycanvas-dev
+channels:
+    - conda-forge
+dependencies:
+    - pip
+    - python-build
+    - yarn=3
+    - jupyter-packaging
+    - notebook
+    - jupyterlab=4.2.5
+    - ipywidgets>=7.6,<9
+    - setuptools
+    - wheel
+    - twine
+    - jupytext
+    - black
+    - blacken-docs
+    - tokenize-rt
