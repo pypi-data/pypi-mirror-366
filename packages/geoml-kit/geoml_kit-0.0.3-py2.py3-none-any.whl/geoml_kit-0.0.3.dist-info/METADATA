@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: geoml-kit
+Version: 0.0.3
+Summary: Python Boilerplate contains all the boilerplate you need to create a Python package.
+Author-email: Fariborz Nasr <fariborznasr@gmail.com>
+License: MIT License
+Project-URL: Homepage, https://github.com/Fariborz-Nasr/geoml-kit
+Keywords: geoml-kit
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Provides-Extra: all
+Requires-Dist: geoml-kit[extra]; extra == "all"
+Provides-Extra: extra
+Requires-Dist: pandas; extra == "extra"
+Dynamic: license-file
+
+# geoml-kit
+
+
+[![image](https://img.shields.io/pypi/v/geoml-kit.svg)](https://pypi.python.org/pypi/geoml-kit)
+[![image](https://img.shields.io/conda/vn/conda-forge/geoml-kit.svg)](https://anaconda.org/conda-forge/geoml-kit)
+
+
+**Python Boilerplate contains all the boilerplate you need to create a Python package.**
+
+
+-   Free software: MIT License
+-   Documentation: https://Fariborz-Nasr.github.io/geoml-kit
+
+
+## Features
+
+-   TODO
