@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: colbertfinance
+Version: 0.1.0
+Summary: Librería para descargar precios de cierre diarios desde Yahoo Finance
+Author: Jesús Colbert
+Author-email: tucorreo@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: yfinance
+Requires-Dist: pandas
+Requires-Dist: openpyxl
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# colbertfinance
+
+📈 Librería en Python para descargar precios de cierre diarios de acciones desde Yahoo Finance y exportarlos a Excel.
+
+## Instalación local
+
+```bash
+pip install .
+```
+
+## Uso
+
+```python
+from colbertfinance import descargar_cierres
+
+descargar_cierres(["AAPL", "GOOG"], años=3)
+```
