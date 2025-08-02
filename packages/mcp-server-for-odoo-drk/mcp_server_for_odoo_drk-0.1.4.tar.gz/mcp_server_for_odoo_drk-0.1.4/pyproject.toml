@@ -1,0 +1,39 @@
+# The name of your project as it will appear on PyPI.
+# Use hyphens for this name.
+[project]
+name = "mcp-server-for-odoo-drk"
+version = "0.1.4"
+description = "Odoo MCP Server - Access and manage Odoo data through MCP protocol"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.10.6",
+    "google-genai>=1.27.0",
+    "mcp>=1.12.2",
+    "odoorpc>=0.10.1",
+    "requests>=2.32.4",
+]
+
+# This is the key part - defines how uvx can run your server
+# The left side (the script name) should match the project name.
+# The right side (the entry point) should match your package directory and module name.
+[project.scripts]
+mcp-server-for-odoo-drk = "odoo_mcp_server.server:main"
+
+[tool.hatch.build.targets.wheel]
+# This line tells hatch to package the directory named "odoo_mcp_server".
+# This must be the actual directory name where your code is located.
+# Note the use of an underscore to match a common Python package naming convention.
+packages = ["odoo_mcp_server"]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/mcp-server-for-odoo-drk"
+Repository = "https://github.com/yourusername/mcp-server-for-odoo-drk"
+
+# Optional: Define entry points for different use cases
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "ruff",
+]
