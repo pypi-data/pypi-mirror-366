@@ -1,0 +1,210 @@
+Metadata-Version: 2.4
+Name: pdf2llm
+Version: 0.1.1
+Summary: Extract PDF content optimized for Large Language Model (LLM) consumption
+Project-URL: Homepage, https://github.com/yourusername/pdf2llm
+Project-URL: Bug Reports, https://github.com/yourusername/pdf2llm/issues
+Project-URL: Source, https://github.com/yourusername/pdf2llm
+Author-email: Your Name <your.email@example.com>
+License: MIT
+License-File: LICENSE
+Keywords: document-processing,extraction,llm,markdown,pdf
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup
+Requires-Python: >=3.12
+Requires-Dist: pymupdf4llm>=0.0.27
+Provides-Extra: dev
+Requires-Dist: black>=23.0; extra == 'dev'
+Requires-Dist: pytest>=7.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Provides-Extra: examples
+Requires-Dist: matplotlib>=3.10.5; extra == 'examples'
+Requires-Dist: pillow>=11.3.0; extra == 'examples'
+Requires-Dist: reportlab>=4.4.3; extra == 'examples'
+Description-Content-Type: text/markdown
+
+# pdf2llm - PDF to LLM Context Extractor
+
+Extract content from PDFs in a format optimized for Large Language Model (LLM) consumption.
+
+## Features
+
+- **Multiple formats**: Extract as Markdown (preserves structure) or plain text
+- **Image extraction**: Automatically extracts and saves images with configurable DPI
+- **Table preservation**: Maintains table structure in Markdown format
+- **Page boundaries**: Optional page markers for maintaining document structure
+- **Batch processing**: Process multiple PDFs at once
+- **Organized output**: Clean directory structure for each PDF
+- **Structure analysis**: Analyze PDFs before extraction
+- **Token estimation**: Get token counts for LLM context planning
+
+## Installation
+
+```bash
+# Install from PyPI
+pip install pdf2llm
+# or
+uv pip install pdf2llm
+
+# Or install from source
+git clone https://github.com/yourusername/pdf2llm.git
+cd pdf2llm
+uv sync
+```
+
+## Usage
+
+### Command Line Interface
+
+```bash
+# Basic extraction
+uv run ./pdf2llm document.pdf
+
+# Extract to specific directory
+uv run ./pdf2llm document.pdf -o extracted_docs/
+
+# Batch process multiple PDFs
+uv run ./pdf2llm *.pdf -o zoning_docs/
+
+# Extract as plain text without images
+uv run ./pdf2llm document.pdf --format text --no-images
+
+# Analyze PDF structure only
+uv run ./pdf2llm document.pdf --analyze-only
+
+# High quality image extraction
+uv run ./pdf2llm document.pdf --dpi 300
+
+# Get JSON output for integration
+uv run ./pdf2llm document.pdf --json
+
+# Set token limit warning
+uv run ./pdf2llm document.pdf --token-limit 4000
+```
+
+### Python API
+
+```python
+from pdf_utils import PDFExtractor
+
+# Create extractor
+extractor = PDFExtractor(
+    output_dir=Path("extracted"),
+    image_format="png",
+    dpi=150
+)
+
+# Extract single PDF
+result = extractor.extract(
+    Path("document.pdf"),
+    output_format="markdown"
+)
+
+print(f"Tokens: {result.token_estimate}")
+print(f"Pages: {result.page_count}")
+print(f"Has images: {result.has_images}")
+print(f"Has tables: {result.has_tables}")
+
+# Save to file
+output_path = extractor.save_extraction(result, Path("document.pdf"))
+
+# Batch extraction
+pdf_files = list(Path("pdfs/").glob("*.pdf"))
+results = extractor.batch_extract(pdf_files)
+```
+
+## Output Structure
+
+```
+extracted/
+├── document_name/
+│   ├── content.md         # Extracted content
+│   └── images/           # Extracted images (if any)
+│       ├── page-1-0.png
+│       └── page-2-0.png
+└── another_document/
+    ├── content.md
+    └── images/
+```
+
+## Use Cases
+
+### Zoning Documents Analysis
+```bash
+# Extract all zoning PDFs with high-quality images
+uv run ./pdf2llm zoning_*.pdf -o zoning_analysis/ --dpi 300
+
+# Then in your Python code:
+with open("zoning_analysis/zoning_code_2024/content.md", "r") as f:
+    content = f.read()
+
+# Use with your LLM
+response = llm.chat(
+    messages=[{
+        "role": "system",
+        "content": f"You are analyzing zoning documents. Document: {content}"
+    }, {
+        "role": "user", 
+        "content": "What are the setback requirements for R-1 zones?"
+    }]
+)
+```
+
+### Document Q&A System
+```bash
+# Process all documents
+uv run ./pdf2llm documents/*.pdf -o knowledge_base/
+
+# Check token counts
+uv run ./pdf2llm documents/*.pdf --json | jq '.token_estimate'
+```
+
+### Research Paper Analysis
+```bash
+# Extract with tables and figures
+uv run ./pdf2llm research_paper.pdf --dpi 200
+
+# Extract text only for quick analysis
+uv run ./pdf2llm research_paper.pdf --format text --no-images
+```
+
+## CLI Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-o, --output-dir` | Output directory | `extracted/` |
+| `--format` | Output format (markdown, text, both) | `markdown` |
+| `--no-images` | Skip image extraction | False |
+| `--image-format` | Image format (png, jpg, jpeg) | `png` |
+| `--dpi` | DPI for image extraction | `150` |
+| `--no-page-chunks` | Disable page boundary markers | False |
+| `--analyze-only` | Only analyze structure | False |
+| `--quiet` | Minimal output | False |
+| `--json` | JSON output | False |
+| `--token-limit` | Warn if exceeds limit | None |
+
+## Package Structure
+
+```
+pdf_utils/
+├── core/
+│   └── extractor.py      # Core extraction logic
+├── cli/
+│   └── main.py          # CLI interface
+└── __init__.py         # Package exports
+```
+
+## Requirements
+
+- Python 3.12+
+- uv (for dependency management)
+- Dependencies managed in `pyproject.toml`
+
+## License
+
+MIT License
