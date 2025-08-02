@@ -1,0 +1,23 @@
+{% extends "share_links/link/link.html" %}
+{% load markdownify %}
+
+
+{% block description %}
+  {% if description %}
+    <p class="serif">
+      {% if page_obj or request.GET.search %}
+        {{ description|markdownify|truncatewords_html:20 }}
+      {% else %}
+        {{ description|markdownify }}
+      {% endif %}
+    </p>
+  {% else %}
+    <p class="serif">
+      {% if page_obj or request.GET.search %}
+        {{ link.description|markdownify|truncatewords_html:20 }}
+      {% else %}
+        {{ link.description|markdownify }}
+      {% endif %}
+    </p>
+  {% endif %}
+{% endblock %}

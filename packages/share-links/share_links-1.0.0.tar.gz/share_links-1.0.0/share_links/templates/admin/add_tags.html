@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% translate "Add tags to multiple links" %} {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <h2>{% translate "Add tags to multiple links" %} ({{ links|length }})</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{% translate "Submit" %}">
+  </form>
+{% endblock %}

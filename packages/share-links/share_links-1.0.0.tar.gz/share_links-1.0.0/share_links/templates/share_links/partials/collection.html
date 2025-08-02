@@ -1,0 +1,20 @@
+{% load share_links_templatetags markdownify i18n humanize %}
+
+<article>
+  <h2><a href="{% url "collection" collection.slug %}">{{ collection.name }}</a></h2>
+  <p class="opacity" title="{{ collection.date_added }}">
+    {{ collection.date_added|naturaltime }}</span> &mdash;
+  <i>
+    {{ collection.collectionlink_set.all|length }} {% translate "link" %}{{ collection.collectionlink_set.all|length|pluralize }}
+    {% if collection.added_by %}
+      &mdash; {% translate "Added by" %} <a href="/{{ LANGUAGE_CODE }}/?sort=author&author={{ collection.added_by.username }}">{{ collection.added_by.username }}</a>
+    {% endif %}
+  </i>
+</p>
+</p>
+{% if collection.description %}
+  <p>
+    {{ collection.description|markdownify|truncatewords_html:20 }}
+  </p>
+{% endif %}
+</article>

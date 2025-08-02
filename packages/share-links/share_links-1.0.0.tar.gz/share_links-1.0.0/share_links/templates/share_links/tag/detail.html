@@ -1,0 +1,30 @@
+{% extends "share_links/base.html" %}
+{% load share_links_templatetags markdownify i18n humanize %}
+
+{% block title %}{{ tag.tag }} : {{ block.super }}{% endblock %}
+
+{% block content %}
+  <article>
+    <h2 >{% translate "Tag" %} #{{ tag.tag }}</h2>
+    <div>
+      <p>
+        <span class="opacity">
+          {{ tag.date_added|naturaltime|capfirst }} &mdash; {{ tag|get_links_nb }} {% translate "link" %}{{ tag|get_links_nb|pluralize }}
+        </span>
+      </p>
+      {% if tag.description %}
+        <p>
+          {{ tag.description|markdownify }}
+        </p>
+      {% endif %}
+    </div>
+  </article>
+  {% for link in page_obj %}
+    {% include "share_links/link/link.html" %}
+  {% empty %}
+    <article>{% translate "No link with this tag!" %}</article>
+  {% endfor %}
+{% endblock %}
+
+
+{% include "share_links/partials/pagination.html" %}
