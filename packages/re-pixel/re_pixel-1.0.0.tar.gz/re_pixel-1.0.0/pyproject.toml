@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "re-pixel"
+version = "1.0.0"
+authors = [
+    {name = "Rakshith Kalmadi", email = "rakshithkalmadi@gmail.com"},
+]
+description = "A powerful image compression library with multiple algorithms and formats support"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["image", "compression", "optimization", "jpeg", "png", "webp"]
+dependencies = [
+    "Pillow>=9.0.0",
+    "opencv-python>=4.5.0",
+    "click>=8.0.0",
+    "tqdm>=4.60.0",
+    "numpy>=1.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "twine",
+    "build",
+    "invoke",
+]
+
+[project.urls]
+Homepage = "https://github.com/rakshithkalmadi/re-pixel"
+"Bug Tracker" = "https://github.com/rakshithkalmadi/re-pixel/issues"
+"Source Code" = "https://github.com/rakshithkalmadi/re-pixel"
+
+[project.scripts]
+re-pixel = "repixel.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["repixel*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
