@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tiktok-reup"
+version = "2.0.0"
+description = "A modular Python package for downloading and uploading TikTok videos"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "xuancuong2006"}
+]
+maintainers = [
+    {name = "xuancuong2006"}
+]
+keywords = ["tiktok", "video", "download", "upload", "social media", "automation", "scraping"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Multimedia :: Video",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.31.0",
+    "tqdm>=4.65.0",
+    "colorama>=0.4.6",
+    "yt-dlp>=2023.7.6",
+    "selenium>=4.15.0",
+    "webdriver-manager>=4.0.1",
+    "urllib3>=1.26.0",
+    "certifi>=2023.7.22",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/xuancuong2006/tiktok-reup"
+"Bug Reports" = "https://github.com/xuancuong2006/tiktok-reup/issues"
+"Source" = "https://github.com/xuancuong2006/tiktok-reup"
+"Telegram" = "https://t.me/xuancuong2006"
+
+[project.scripts]
+tiktok-reup = "tiktok_reup.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["tiktok_reup*"]
+
+[tool.setuptools.package-data]
+tiktok_reup = ["*.md", "*.txt"]

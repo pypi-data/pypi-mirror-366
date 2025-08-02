@@ -1,0 +1,19 @@
+# Include README and requirements
+include README.md
+include README_modular.md
+include requirements.txt
+include LICENSE
+
+# Include package data
+recursive-include tiktok_reup *.py
+recursive-include tiktok_reup *.md
+recursive-include tiktok_reup *.txt
+
+# Exclude unnecessary files
+exclude *.pyc
+exclude __pycache__
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+exclude .git*
+exclude .DS_Store
+exclude *.log
