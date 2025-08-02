@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apexbase"
+version = "0.1.0"
+authors = [
+    { name = "Birch Kwok", email = "birchkwok@gmail.com" }
+]
+description = "A lightning-fast, feature-rich embedded database designed for modern Python applications."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+keywords = ["database", "embedded-database", "duckdb", "columnar-storage", "olap", "analytics", "full-text-search"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "duckdb>=0.9.0",
+    "orjson>=3.9.0",
+    "pandas>=2.0.0",
+    "pyarrow>=17.0.0",
+    "polars>=0.20.0",
+    "numpy>=1.24.0",
+    "psutil>=5.9.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/BirchKwok/ApexBase"
+Repository = "https://github.com/BirchKwok/ApexBase"
+"Bug Tracker" = "https://github.com/BirchKwok/ApexBase/issues"
+Documentation = "https://github.com/BirchKwok/ApexBase#readme"
+
+[tool.setuptools]
+packages = ["apexbase"]
