@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: deepctl-cmd-debug
+Version: 0.1.10
+Summary: Debug command group for deepctl
+Author-email: Deepgram <devrel@deepgram.com>
+Maintainer-email: Deepgram <devrel@deepgram.com>
+License-Expression: MIT
+Keywords: deepgram,cli,debug,diagnostics
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: deepctl-core>=0.1.10
+Requires-Dist: click>=8.0.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: pydantic>=2.0.0
+
+# deepctl-cmd-debug
+
+Debug command group for the Deepgram CLI (deepctl).
