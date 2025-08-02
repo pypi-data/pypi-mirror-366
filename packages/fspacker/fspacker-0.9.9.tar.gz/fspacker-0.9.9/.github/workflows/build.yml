@@ -1,0 +1,57 @@
+name: Build Multi-Platform Wheels
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.8", "3.9", "3.10"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          components: rustfmt, clippy
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Create uv virtual environment
+        run: |
+          uv venv .venv
+          source .venv/bin/activate  # Linux/macOS
+          # 或 .venv\Scripts\activate (Windows)
+
+      - name: Install Hatch and dependencies
+        run: |
+          uv pip install hatch
+          uv pip install -r requirements.txt  # 可选：项目依赖
+
+      - name: Build wheels with Hatch
+        run: |
+          hatch build -f wheel
+          ls dist/  # 验证生成文件
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: dist/*.whl
