@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# uv
+.venv/
+uv.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+extracted/
+my_extractions/
+batch_output/
+demo_output/
+zoning_extractions/
+test_extractions/
+extracted_images/
+*.pdf
+*.png
+*.jpg
+*.jpeg
+
+# Test files
+test_document_llm_ready.md
+extracted_content*.md
+extracted_content*.txt
+chart.png
+pattern.png

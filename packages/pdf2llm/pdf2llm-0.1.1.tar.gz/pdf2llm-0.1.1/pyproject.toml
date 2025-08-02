@@ -1,0 +1,62 @@
+[project]
+name = "pdf2llm"
+version = "0.1.1"
+description = "Extract PDF content optimized for Large Language Model (LLM) consumption"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["pdf", "extraction", "llm", "markdown", "document-processing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+]
+dependencies = [
+    "pymupdf4llm>=0.0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+]
+examples = [
+    "matplotlib>=3.10.5",
+    "pillow>=11.3.0",
+    "reportlab>=4.4.3",
+]
+
+[project.scripts]
+pdf2llm = "pdf2llm.cli.main:main"
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/pdf2llm"
+"Bug Reports" = "https://github.com/yourusername/pdf2llm/issues"
+"Source" = "https://github.com/yourusername/pdf2llm"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "pdf2llm/**/*.py",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
