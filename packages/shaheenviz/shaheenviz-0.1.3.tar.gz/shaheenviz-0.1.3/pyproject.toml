@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shaheenviz"
+version = "0.1.3"
+description = "Shaheenviz combines the analytical power of YData Profiling with the stunning visuals of Sweetviz to deliver a unified, automatic EDA solution."
+readme = "README.md"
+license = "MIT"
+keywords = ["eda", "data-analysis", "data-visualization", "ydata-profiling", "sweetviz", "pandas"]
+authors = [
+    {name = "Hamza", email = "certification1290@gmail.com"}
+]
+maintainers = [
+    {name = "Hamza", email = "certification1290@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "pandas>=1.1.0",
+    "numpy>=1.18.0",
+    "matplotlib>=3.3.0",
+    "seaborn>=0.11.0",
+    "sweetviz>=2.1.4",
+    "ydata-profiling>=4.2.0",
+    "scikit-learn>=0.24.0",
+    "plotly>=5.0.0",
+    "tqdm>=4.60.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800"
+]
+pdf = [
+    "pdfkit>=1.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/hamza-0987/shaheenviz"
+Documentation = "https://github.com/hamza-0987/shaheenviz#readme"
+Repository = "https://github.com/hamza-0987/shaheenviz"
+"Bug Tracker" = "https://github.com/hamza-0987/shaheenviz/issues"
+
+[project.scripts]
+shaheenviz = "shaheenviz.cli:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
