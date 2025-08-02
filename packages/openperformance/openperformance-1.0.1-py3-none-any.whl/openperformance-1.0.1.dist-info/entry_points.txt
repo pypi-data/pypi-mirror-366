@@ -1,0 +1,5 @@
+[console_scripts]
+mlperf = mlperf.cli.main:app
+openperf = mlperf.cli.main:app
+openperf-server = mlperf.api.main:start_server
+openperf-worker = mlperf.workers.main:start_worker
