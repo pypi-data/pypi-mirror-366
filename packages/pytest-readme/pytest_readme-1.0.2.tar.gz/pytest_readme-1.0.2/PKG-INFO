@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: pytest-readme
+Version: 1.0.2
+Summary: Test your README.md file
+Home-page: https://github.com/boxed/pytest-readme
+Author: Anders Hovmöller
+Author-email: boxed@killingar.net
+License: MIT
+Keywords: test pytest development
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Testing
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+License-File: LICENSE
+Requires-Dist: pytest
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+pytest-readme
+=============
+
+A pytest plugin to pull out tests from your README.md into pytest automatically. This will make it easy to make sure your readme doesn't contain any errors.
+
+
+Full documentation at https://github.com/boxed/pytest-readme
