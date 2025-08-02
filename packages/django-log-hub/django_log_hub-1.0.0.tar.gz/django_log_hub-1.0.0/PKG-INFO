@@ -1,0 +1,213 @@
+Metadata-Version: 2.4
+Name: django-log-hub
+Version: 1.0.0
+Summary: A reusable Django app for managing and viewing application logs
+Home-page: https://github.com/eneshazr/django-log-hub
+Author: Enes HAZIR
+Author-email: Enes <your-email@example.com>
+Maintainer-email: Enes <your-email@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/eneshazr/django-log-hub
+Project-URL: Documentation, https://github.com/eneshazr/django-log-hub#readme
+Project-URL: Repository, https://github.com/eneshazr/django-log-hub
+Project-URL: Bug Tracker, https://github.com/eneshazr/django-log-hub/issues
+Keywords: django,logging,admin,logs,monitoring,debug
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 3.2
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.1
+Classifier: Framework :: Django :: 4.2
+Classifier: Topic :: System :: Logging
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django<5.0,>=3.2
+Requires-Dist: python-json-logger>=2.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-django>=4.0; extra == "dev"
+Requires-Dist: black>=22.0; extra == "dev"
+Requires-Dist: flake8>=4.0; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Django Log Hub
+
+A reusable Django app for managing and viewing application logs with a beautiful web interface.
+
+## Features
+
+- 📊 **Log Viewer**: View and filter application logs in real-time
+- 🔍 **Advanced Filtering**: Filter by log level, date range, status code, and custom keywords
+- 📁 **File Management**: Download and clear log files
+- 🎨 **Beautiful UI**: Modern Bootstrap-based interface
+- 🔐 **Security**: Admin-only access with proper permissions
+- ⚙️ **Configurable**: Customizable log directory and template paths
+- 📦 **Reusable**: Easy to integrate into any Django project
+
+## Installation
+
+### From PyPI
+
+```bash
+pip install django-log-hub
+```
+
+### From Source
+
+```bash
+git clone https://github.com/eneshazr/django-log-hub.git
+cd django-log-hub
+pip install -e .
+```
+
+## Setup
+
+1. **Add to INSTALLED_APPS** in your Django settings:
+
+```python
+INSTALLED_APPS = [
+    # ... other apps
+    'log_hub',
+]
+```
+
+2. **Configure logging** in your Django settings:
+
+```python
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'json': {
+            '()': 'pythonjsonlogger.jsonlogger.JsonFormatter',
+            'format': '%(levelname)s %(asctime)s %(name)s %(process)d %(thread)d %(message)s %(status_code)s %(taskName)s %(request)s',
+        },
+    },
+    'handlers': {
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'info.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'json',
+        },
+        'file_error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'error.log'),
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'json',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file_info', 'file_error'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+# Create logs directory
+if not os.path.exists(os.path.join(BASE_DIR, 'logs')):
+    os.makedirs(os.path.join(BASE_DIR, 'logs'))
+```
+
+3. **Add URLs** to your main urls.py:
+
+```python
+from django.urls import path, include
+
+urlpatterns = [
+    # ... other URLs
+    path('admin/logs/', include('log_hub.urls')),
+]
+```
+
+4. **Run migrations** (if any):
+
+```bash
+python manage.py migrate
+```
+
+## Configuration
+
+You can customize the app behavior using these settings:
+
+```python
+# Log Hub Configuration
+LOG_HUB_LOG_DIR = os.path.join(BASE_DIR, 'logs')  # Log directory path
+LOG_HUB_TEMPLATE = 'log_hub/logging.html'  # Custom template path
+```
+
+## Usage
+
+### Accessing the Log Hub
+
+Navigate to `/admin/logs/` in your browser. You must be logged in as an admin user to access the logs.
+
+### Features
+
+- **Log File Selection**: Choose which log file to view
+- **Filtering**: Filter logs by:
+  - Log level (INFO, WARNING, ERROR)
+  - Date range
+  - Status code
+  - Search keywords
+  - Exclude keywords
+- **File Management**:
+  - Download log files
+  - Clear log files
+- **Real-time Viewing**: View logs in a beautiful accordion interface
+
+### API Endpoints
+
+- `GET /admin/logs/` - View logs with filtering
+- `GET /admin/logs/download/<filename>/` - Download log file
+- `POST /admin/logs/clear/<filename>/` - Clear log file
+
+## Requirements
+
+- Python 3.8+
+- Django 3.2+
+- python-json-logger 2.0+
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+If you encounter any issues or have questions, please open an issue on GitHub.
+
+## Changelog
+
+### 1.0.0
+- Initial release
+- Log viewing and filtering
+- File management (download/clear)
+- Beautiful Bootstrap UI
+- Admin-only access
