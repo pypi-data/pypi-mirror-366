@@ -1,0 +1,22 @@
+{
+  "name": "ipycanvas-ui-tests",
+  "version": "1.0.0",
+  "description": "ipycanvas UI Tests",
+  "private": true,
+  "scripts": {
+    "start": "jupyter lab --config jupyter_server_config.py",
+    "test": "npx playwright test",
+    "test:update": "npx playwright test --update-snapshots",
+    "test:debug": "PWDEBUG=1 npx playwright test"
+  },
+  "author": "ipycanvas",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@jupyterlab/galata": "^5.0.0",
+    "klaw-sync": "^6.0.0",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.32.0"
+  }
+}
