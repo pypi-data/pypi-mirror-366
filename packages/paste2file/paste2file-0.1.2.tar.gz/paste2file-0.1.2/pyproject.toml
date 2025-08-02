@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paste2file" # Changed name
+version = "0.1.2"
+description = "paste clipboard fast to file"
+
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "keyboard>=0.13.5",
+    "loguru>=0.7.3",
+    "pydantic>=2.11.3",
+    "pyperclip>=1.9.0",
+    "pillow>=10.0.0",
+    "tqdm>=4.67.1",
+    "typer>=0.12.5", # Added typer
+]
+
+[project.scripts]
+paste2file = "paste2file.main:main"
+
+[project.urls]
+Homepage = "https://github.com/fxyzbtc/paste2file" # Replace with your actual URL
+Repository = "https://github.com/fxyzbtc/paste2file" # Replace with your actual URL
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest>=8.3.5",
+]
