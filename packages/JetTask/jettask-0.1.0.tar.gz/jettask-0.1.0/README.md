@@ -1,0 +1,251 @@
+# Jettask
+
+基于asyncio和Redis Stream的高性能分布式任务队列系统，支持异步、线程和进程三种执行模式。
+
+## 特性
+
+- 支持异步(asyncio)、线程(thread)和进程(process)三种执行器
+- 基于Redis Stream实现可靠的消息传递
+- 支持任务路由和批处理
+- 支持任务重试和延迟执行
+- 支持文件变化自动重载
+- 模块化设计，易于扩展
+
+使用示例：
+
+# 测试弹性恢复
+python examples/resilience_test.py worker  # 终端1：启动Worker
+python examples/resilience_test.py test    # 终端2：测试删除队列
+python examples/resilience_test.py monitor # 终端3：监控队列状态
+
+# 队列管理
+python examples/queue_manager.py list              # 列出所有队列
+python examples/queue_manager.py info queue_name   # 查看队列信息
+python examples/queue_manager.py monitor           # 实时监控
+python examples/queue_manager.py delete queue_name # 删除队列
+
+特性：
+
+1. 高可用性 - Worker不会因为队列被删除而崩溃
+2. 自动恢复 - 无需人工干预，自动重建必要的资源
+3. 零消息丢失 - 新消息会在队列重建后正常处理
+4. 完整监控 - 提供工具监控队列状态和健康度
+
+
+
+## 项目结构
+
+```
+jettask/
+├── jettask/
+│   ├── __init__.py
+│   ├── core/                # 核心功能
+│   │   ├── app.py          # 主应用类
+│   │   ├── task.py         # 任务相关类
+│   │   └── event_pool.py   # 事件池管理
+│   ├── executors/          # 执行器
+│   │   ├── base.py         # 执行器基类
+│   │   ├── asyncio.py      # 异步执行器
+│   │   ├── thread.py       # 线程执行器
+│   │   └── process.py      # 进程执行器
+│   ├── utils/              # 工具函数
+│   └── monitoring/         # 监控相关
+├── examples/               # 示例代码
+└── requirements.txt
+```
+
+## 安装
+
+### 从PyPI安装（推荐）
+
+```bash
+pip install jettask
+```
+
+### 从源码安装
+
+```bash
+# 克隆仓库
+git clone https://github.com/yourusername/jettask.git
+cd jettask
+
+# 安装开发版本
+pip install -e .
+
+# 或者构建并安装
+python setup.py install
+```
+
+### 安装额外依赖
+
+```bash
+# 安装开发依赖
+pip install jettask[dev]
+
+# 安装文档依赖
+pip install jettask[docs]
+```
+
+## 快速开始
+
+### 1. 定义任务
+
+```python
+from jettask import Jettask
+
+app = Jettask(redis_url="redis://localhost:6379/0")
+
+# 异步任务
+@app.task(queue="async_queue")
+async def async_task(name: str):
+    print(f"Processing {name} asynchronously")
+    return f"Result: {name}"
+
+# 同步任务
+@app.task(queue="sync_queue")
+def sync_task(name: str):
+    print(f"Processing {name} synchronously")
+    return f"Result: {name}"
+```
+
+### 2. 发送任务
+
+```python
+# 发送单个任务
+task_id = async_task.apply_async(args=("test",))
+
+# 批量发送
+tasks = []
+for i in range(10):
+    task_msg = sync_task.apply_async(
+        kwargs={"name": f"task_{i}"},
+        at_once=False  # 不立即发送
+    )
+    tasks.append(task_msg)
+
+event_ids = app.bulk_write(tasks)
+```
+
+### 3. 启动Worker
+
+```python
+# 异步执行器
+app.start(
+    execute_type="asyncio",
+    queues=["async_queue"],
+    concurrency=4,
+    reload=True
+)
+
+# 线程执行器
+app.start(
+    execute_type="thread",
+    queues=["sync_queue"],
+    concurrency=4
+)
+
+# 进程执行器
+app.start(
+    execute_type="process",
+    queues=["cpu_queue"],
+    concurrency=4
+)
+```
+
+## 高级功能
+
+### 任务路由
+
+```python
+# 使用路由键控制任务执行
+task.apply_async(
+    args=("data",),
+    routing={
+        "routing_key": "important",
+        "agg_key": "batch_1",
+        "max_records": 10,      # 批处理最大记录数
+        "max_wait_time": 5      # 批处理最大等待时间
+    }
+)
+```
+
+### 任务回调
+
+```python
+@app.task(bind=True)
+def task_with_callbacks(request, data):
+    print(f"Task ID: {request.id}")
+    # 任务逻辑
+    return result
+
+# 覆盖生命周期方法
+class CustomTask(Task):
+    def on_before(self, event_id, pedding_count, args, kwargs):
+        # 任务执行前
+        return ExecuteResponse()
+    
+    def on_success(self, event_id, args, kwargs, result):
+        # 任务成功后
+        return ExecuteResponse()
+    
+    def on_end(self, event_id, pedding_count, args, kwargs, result):
+        # 任务结束后
+        return ExecuteResponse()
+```
+
+## 执行器选择指南
+
+### AsyncIO执行器
+- **适用场景**: I/O密集型任务，如网络请求、数据库操作
+- **特点**: 单进程内高并发，内存占用小
+- **支持**: 异步任务（async/await）和同步任务
+
+### Thread执行器
+- **适用场景**: 需要使用同步库的I/O密集型任务
+- **特点**: 真实线程，可以使用阻塞I/O库
+- **限制**: 只支持同步任务，不支持async/await
+
+### Process执行器
+- **适用场景**: CPU密集型任务 + 高并发异步I/O
+- **特点**: 
+  - 多进程并行执行，绕过GIL限制
+  - 每个进程内运行事件循环
+  - 同时支持异步和同步任务
+  - 可配置进程数和每进程协程并发数
+- **优势**: 最全能的执行器，适合混合工作负载
+
+#### Process执行器配置
+
+```python
+app.start(
+    execute_type="process",
+    queues=["task_queue"],
+    concurrency=4,                      # 进程数
+    max_coroutines_per_process=100     # 每进程最大协程数
+)
+```
+
+配置建议：
+- **I/O密集型**: `concurrency=4, max_coroutines_per_process=100`
+- **CPU密集型**: `concurrency=8, max_coroutines_per_process=10`
+- **混合负载**: `concurrency=6, max_coroutines_per_process=50`
+- **内存受限**: `concurrency=2, max_coroutines_per_process=20`
+
+## 运行示例
+
+```bash
+# 启动Redis
+redis-server
+
+# 启动Worker (异步模式)
+python examples/demo.py worker asyncio
+
+# 启动Worker (线程模式)
+python examples/demo.py worker thread
+
+# 启动Worker (进程模式)
+python examples/demo.py worker process
+
+# 发送任务
+python examples/demo.py
+```

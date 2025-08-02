@@ -1,0 +1,2717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>队列详情 - Fastlane Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-layout {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 400px;
+            min-width: 300px;
+            max-width: 800px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .sidebar-resizer {
+            position: absolute;
+            top: 0;
+            right: -3px;
+            width: 6px;
+            height: 100%;
+            cursor: col-resize;
+            background: transparent;
+            z-index: 100;
+        }
+
+        .sidebar-resizer:hover {
+            background: #3498db;
+        }
+
+        .sidebar-resizer.resizing {
+            background: #3498db;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+
+        h1 {
+            font-size: 1.5em;
+            margin: 0;
+            line-height: 30px;
+        }
+
+        .back-link {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+
+        .queue-stats-inline {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.95em;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-divider {
+            color: #ddd;
+        }
+
+        .info-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        /* 可折叠部分样式 */
+        .collapsible .section-header {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .collapsible .section-header:hover {
+            background-color: #f8f9fa;
+        }
+
+        .collapse-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        .collapse-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-bar input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 250px;
+            font-size: 0.95em;
+        }
+
+        .filter-bar select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .status-running {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .status-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .status-error {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .pagination button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .pagination button.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .page-info {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .workers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+
+        .worker-card {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .worker-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .worker-details {
+            line-height: 1.3;
+        }
+
+        .worker-id {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .worker-meta {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .worker-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .worker-alive {
+            background-color: #27ae60;
+        }
+
+        .worker-dead {
+            background-color: #e74c3c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+
+        .task-id {
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #34495e;
+        }
+
+        .truncate {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .action-btn {
+            padding: 4px 12px;
+            border: 1px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .action-btn:disabled {
+            border-color: #ccc;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .action-btn:disabled:hover {
+            background: white;
+            color: #ccc;
+        }
+
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 600px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .result-content {
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        /* 时间选择器样式 */
+        .time-picker-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .time-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .quick-select-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-select-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .quick-select-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .quick-select-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .timeline-container {
+            position: relative;
+            height: 100px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 15px 0;
+            cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .timeline-chart {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80%;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 5px;
+        }
+
+        .timeline-bar {
+            flex: 1;
+            background: #3498db;
+            margin: 0 1px;
+            min-height: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .timeline-bar:hover {
+            opacity: 0.8;
+        }
+
+        .timeline-selection {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: rgba(52, 152, 219, 0.2);
+            border-left: 2px solid #3498db;
+            border-right: 2px solid #3498db;
+            pointer-events: none;
+        }
+
+        .timeline-axis {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 5px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .time-range-display {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .time-range-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .time-range-label {
+            color: #666;
+        }
+
+        .time-range-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .custom-time-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .custom-time-inputs input[type="datetime-local"] {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .apply-time-btn {
+            padding: 6px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .apply-time-btn:hover {
+            background: #2980b9;
+        }
+
+        .refresh-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .refresh-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+            background: white;
+        }
+
+        .last-refresh-time {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .loading-more {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar-section {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 0 20px 20px 20px;
+        }
+
+        .sidebar-section h4 {
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Workers表格样式 */
+        .workers-table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: white;
+            margin-top: 10px;
+        }
+
+        .workers-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .workers-table th {
+            background: #f8f9fa;
+            padding: 8px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .workers-table td {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        .workers-table td:nth-child(2) {
+            max-width: 200px;
+        }
+
+        .workers-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .worker-stat {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+
+        .worker-stat-label {
+            color: #666;
+            margin-right: 5px;
+        }
+
+        .worker-stat-value {
+            font-weight: 600;
+        }
+
+        .worker-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .worker-status.alive {
+            background-color: #27ae60;
+        }
+
+        .worker-status.dead {
+            background-color: #e74c3c;
+        }
+
+        /* 参数显示限制 */
+        .params-cell {
+            max-width: 300px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .params-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
+
+        .params-cell:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 参数详情弹窗 */
+        .params-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .params-modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .params-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .params-close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+
+        .params-close:hover {
+            color: #000;
+        }
+
+        /* 达到限制提示 */
+        .limit-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffebc4;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .limit-warning strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Kibana风格的时间控制 */
+        .kibana-time-controls {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+
+        .time-display {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            min-width: 200px;
+        }
+
+        .time-display:hover {
+            background: #e0e0e0;
+        }
+
+        .time-icon {
+            color: #666;
+        }
+
+        .refresh-button {
+            padding: 6px 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .refresh-button:hover {
+            background: #2980b9;
+        }
+
+        .auto-refresh-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* 队列信息样式 */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9em;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* 统计模式按钮样式 */
+        .stats-mode-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .stats-mode-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .stats-mode-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-layout" style="height: 100vh;">
+        <!-- 侧边栏 -->
+        <div class="sidebar" id="sidebar">
+            <!-- 拖拽调整大小的条 -->
+            <div class="sidebar-resizer" id="sidebarResizer"></div>
+            <!-- 标题和返回 -->
+            <div style="padding: 20px 20px 0; margin-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
+                <h2 style="font-size: 1.2em; margin: 0 0 15px 0; color: #2c3e50;">Fastlane Monitor</h2>
+                <a href="/" class="back-link" style="display: block; text-align: center; margin-bottom: 20px;">←
+                    返回首页</a>
+            </div>
+
+            <!-- 队列信息 -->
+            <div class="sidebar-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 style="margin: 0;">队列信息</h4>
+                    <div style="display: flex;">
+                        <button id="allStatsBtn" class="stats-mode-btn active" style="padding: 4px 10px; font-size: 12px; border: 1px solid #3498db; background: #3498db; color: white; border-radius: 4px 0 0 4px; cursor: pointer; border-right: none;">
+                            所有
+                        </button>
+                        <button id="onlineStatsBtn" class="stats-mode-btn" style="padding: 4px 10px; font-size: 12px; border: 1px solid #3498db; background: white; color: #3498db; border-radius: 0 4px 4px 0; cursor: pointer;">
+                            在线
+                        </button>
+                    </div>
+                </div>
+                <div class="queue-info-details">
+                    <div class="info-row">
+                        <span class="info-label">队列名称:</span>
+                        <span class="info-value" id="sidebarQueueName">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">队列长度:</span>
+                        <span class="info-value" id="sidebarQueueLength">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">消费者组:</span>
+                        <span class="info-value" id="sidebarConsumerGroups">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">在线Workers:</span>
+                        <span class="info-value"><span id="sidebarOnlineWorkers">-</span>/<span
+                                id="sidebarTotalWorkers">-</span></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">成功次数:</span>
+                        <span class="info-value" id="totalSuccessCount">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">失败次数:</span>
+                        <span class="info-value" id="totalFailedCount">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">总计:</span>
+                        <span class="info-value" id="totalTaskCount">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">执行中:</span>
+                        <span class="info-value" id="totalRunningTasks">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">平均处理时间:</span>
+                        <span class="info-value" id="avgProcessingTime">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workers列表 -->
+            <div class="sidebar-section" style="flex: 1; display: flex; flex-direction: column;">
+                <h4>
+                    Workers (<span id="workersSummary">-</span>)
+                    <button class="action-btn" style="float: right; font-size: 12px; padding: 2px 8px;" onclick="showWorkerHistory()">历史记录</button>
+                </h4>
+                <div class="workers-table-container" id="workersContainer" style="flex: 1;">
+                    <div class="loading" style="padding: 20px; text-align: center;">加载中...</div>
+                </div>
+                <div class="info-label" style="margin-top: 10px; text-align: center;">
+                    最后更新: <span id="workersLastUpdate">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="content-area" style="position: relative;">
+            <!-- Kibana风格的时间和刷新控制 -->
+            <div class="kibana-time-controls">
+                <span id="lastRefreshTime" style="color: #666; font-size: 12px; margin-right: 15px;"></span>
+                <div style="width: 1px; height: 24px; background: #ddd; margin-right: 10px;"></div>
+                <div class="time-display" onclick="toggleTimeMenu()" title="点击选择时间范围">
+                    <span class="time-icon">📅</span>
+                    <span id="currentTimeRange">最近1小时</span>
+                    <span style="margin-left: auto;">▼</span>
+                </div>
+                <div style="width: 1px; height: 24px; background: #ddd;"></div>
+                <select id="refreshInterval" onchange="updateRefreshInterval()" class="auto-refresh-select"
+                    title="自动刷新间隔">
+                    <option value="0">🔄 关闭刷新</option>
+                    <option value="5">🔄 5秒</option>
+                    <option value="10">🔄 10秒</option>
+                    <option value="30" selected>🔄 30秒</option>
+                    <option value="60">🔄 1分钟</option>
+                    <option value="300">🔄 5分钟</option>
+                </select>
+                <button class="refresh-button" onclick="refreshData()" title="立即刷新">
+                    <span style="transform: scaleX(-1); display: inline-block;">↻</span>
+                    刷新
+                </button>
+            </div>
+
+            <!-- 时间选择下拉菜单 -->
+            <div id="timeMenu"
+                style="display: none; position: absolute; top: 60px; right: 20px; background: white; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 100; padding: 15px; min-width: 320px;">
+                <div style="font-weight: 600; margin-bottom: 10px; padding: 5px;">快速选择</div>
+                <div class="quick-select-buttons"
+                    style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 15px;">
+                    <button class="quick-select-btn" onclick="selectTimeRange('10m')">最近10分钟</button>
+                    <button class="quick-select-btn" onclick="selectTimeRange('30m')">最近30分钟</button>
+                    <button class="quick-select-btn" onclick="selectTimeRange('1h')">最近1小时</button>
+                    <button class="quick-select-btn" onclick="selectTimeRange('6h')">最近6小时</button>
+                    <button class="quick-select-btn" onclick="selectTimeRange('12h')">最近12小时</button>
+                    <button class="quick-select-btn" onclick="selectTimeRange('1d')">最近1天</button>
+                    <button class="quick-select-btn" onclick="selectTimeRange('7d')">最近7天</button>
+                </div>
+
+                <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                    <div style="font-weight: 600; margin-bottom: 10px;">自定义时间范围</div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label style="min-width: 40px; font-size: 0.9em;">开始:</label>
+                            <input type="datetime-local" id="customStartTime"
+                                style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9em;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label style="min-width: 40px; font-size: 0.9em;">结束:</label>
+                            <input type="datetime-local" id="customEndTime"
+                                style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9em;">
+                        </div>
+                        <button class="apply-time-btn" onclick="applyCustomTime()"
+                            style="align-self: flex-end; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">应用</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时间选择器 -->
+            <div class="time-picker-container" style="margin-top: 60px;">
+                <div class="time-picker-header" style="display: none;">
+                    <h3>时间范围</h3>
+                </div>
+
+                <div class="timeline-container" id="timelineContainer">
+                    <div class="timeline-chart" id="timelineChart"></div>
+                    <div class="timeline-axis" id="timelineAxis"></div>
+                    <div class="timeline-selection" id="timelineSelection" style="display: none;"></div>
+                </div>
+
+                <div class="time-range-display">
+                    <div class="time-range-item">
+                        <span class="time-range-label">开始时间:</span>
+                        <span class="time-range-value" id="selectedStartTime">-</span>
+                    </div>
+                    <div class="time-range-item">
+                        <span class="time-range-label">结束时间:</span>
+                        <span class="time-range-value" id="selectedEndTime">-</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 任务列表 -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>任务列表</h3>
+                    <span class="info-label">总任务数: <span id="totalTasks">-</span></span>
+                </div>
+
+                <div class="controls">
+                    <div class="filter-bar">
+                        <input type="text" id="taskFilter" placeholder="搜索任务ID或状态...">
+                        <select id="statusFilter">
+                            <option value="">所有状态</option>
+                            <option value="pending">待处理</option>
+                            <option value="running">运行中</option>
+                            <option value="success">成功</option>
+                            <option value="error">失败</option>
+                            <option value="未知">未知</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="tasksContainer">
+                    <table id="tasksTable">
+                        <thead>
+                            <tr>
+                                <th>任务ID</th>
+                                <th>参数</th>
+                                <th>消费者</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>完成时间</th>
+                                <th>耗时</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasksBody">
+                            <tr>
+                                <td colspan="8" class="loading">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const queueName = urlParams.get('name') || '';
+
+        let currentStartTime = null;
+        let currentEndTime = null;
+        const pageSize = 100;  // 固定每次加载100条
+        let oldestId = null;
+        let newestId = null;
+        let hasMore = false;
+        let workers = [];
+        let queueStats = null;
+        
+        // 从 localStorage 读取用户的选择，默认为显示所有统计
+        let showAllStats = localStorage.getItem('statsMode') !== 'online';
+
+        // 无限滚动相关变量
+        let allTasks = [];  // 存储所有已加载的任务
+        let isLoadingMore = false;
+        let noMoreData = false;
+
+        // 时间选择器相关变量
+        let timelineData = [];
+        let selectedTimeRange = '1h';
+        let isSelectingTime = false;
+        let selectionStartX = 0;
+        let timelineStartTime = 0;
+        let timelineEndTime = 0;
+
+        // 刷新相关变量
+        let refreshIntervalId = null;
+        let lastRefreshTime = null;
+
+        // UI状态
+        let sectionStates = {
+            workers: false  // 默认折叠
+        };
+
+        // 切换部分的折叠/展开状态
+        function toggleSection(sectionName) {
+            sectionStates[sectionName] = !sectionStates[sectionName];
+            const icon = document.getElementById(`${sectionName}-icon`);
+            const content = document.getElementById(`${sectionName}Container`);
+
+            if (sectionStates[sectionName]) {
+                icon.classList.remove('collapsed');
+                content.classList.remove('collapsed');
+            } else {
+                icon.classList.add('collapsed');
+                content.classList.add('collapsed');
+            }
+        }
+
+        // 格式化时间
+        function formatTime(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp);
+            return date.toLocaleString('zh-CN');
+        }
+
+        // 获取状态样式类
+        function getStatusClass(status) {
+            const statusMap = {
+                'pending': 'status-pending',
+                'running': 'status-running',
+                'success': 'status-success',
+                'error': 'status-error',
+                'failed': 'status-error',
+                '未知': 'status-pending',
+                'unknown': 'status-pending'
+            };
+            return statusMap[status?.toLowerCase()] || 'status-pending';
+        }
+
+        // 解析任务状态
+        function parseTaskStatus(statusStr) {
+            try {
+                return JSON.parse(statusStr);
+            } catch {
+                return { status: statusStr || 'unknown' };
+            }
+        }
+
+        // 复制到剪贴板
+        function copyToClipboard(text, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+
+            // 创建临时文本区域
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+
+            try {
+                textArea.focus();
+                textArea.select();
+
+                // 尝试使用新的 Clipboard API
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        // 显示成功提示
+                        showCopyToast('已复制到剪贴板');
+                    }).catch(() => {
+                        // 降级到旧方法
+                        fallbackCopy();
+                    });
+                } else {
+                    // 使用旧的 execCommand 方法
+                    fallbackCopy();
+                }
+
+                function fallbackCopy() {
+                    try {
+                        document.execCommand('copy');
+                        showCopyToast('已复制到剪贴板');
+                    } catch (err) {
+                        console.error('复制失败:', err);
+                        showCopyToast('复制失败', true);
+                    }
+                }
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // 显示复制提示
+        function showCopyToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                background: ${isError ? '#e74c3c' : '#27ae60'};
+                color: white;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                z-index: 10000;
+                transition: opacity 0.3s ease;
+                font-size: 14px;
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 2000);
+        }
+
+        // 显示通知提示（支持不同类型）
+        function showNotification(message, type = 'info') {
+            const colorMap = {
+                'info': '#3498db',
+                'success': '#27ae60',
+                'warning': '#f39c12',
+                'error': '#e74c3c'
+            };
+
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 70px;
+                right: 20px;
+                padding: 12px 24px;
+                background: ${colorMap[type] || colorMap.info};
+                color: white;
+                border-radius: 4px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                z-index: 10000;
+                transition: all 0.3s ease;
+                font-size: 14px;
+                max-width: 400px;
+                word-wrap: break-word;
+                opacity: 0;
+                transform: translateX(20px);
+            `;
+            document.body.appendChild(toast);
+
+            // 动画进入
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(0)';
+            }, 10);
+
+            // 3秒后消失
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(20px)';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // 加载队列统计信息
+        async function loadQueueStats() {
+            try {
+                const response = await fetch(`/api/queue/${encodeURIComponent(queueName)}/stats`);
+                if (response.ok) {
+                    queueStats = await response.json();
+                    updateQueueInfo();
+                }
+            } catch (error) {
+                console.error('Failed to load queue stats:', error);
+            }
+        }
+
+        // 加载Workers
+        async function loadWorkers() {
+            try {
+                // 并行加载workers信息和汇总统计
+                const [workersResponse, summaryResponse] = await Promise.all([
+                    fetch(`/api/queue/${encodeURIComponent(queueName)}/workers`),
+                    fetch(`/api/queue/${encodeURIComponent(queueName)}/worker-summary`)
+                ]);
+
+                if (workersResponse.ok) {
+                    const data = await workersResponse.json();
+                    workers = data.workers || [];
+                    console.log('Loaded workers:', workers);
+                    renderWorkers();
+                    updateQueueInfo();
+                } else {
+                    console.error('Workers API response not ok:', workersResponse.status);
+                }
+
+                if (summaryResponse.ok) {
+                    const summaryData = await summaryResponse.json();
+                    updateWorkerSummary(summaryData.summary);
+                } else {
+                    console.error('Worker summary API response not ok:', summaryResponse.status);
+                }
+            } catch (error) {
+                console.error('Failed to load workers:', error);
+                const container = document.getElementById('workersContainer');
+                container.innerHTML = '<div class="empty-state" style="text-align: center; padding: 20px; color: #e74c3c;">加载失败: ' + error.message + '</div>';
+            }
+        }
+
+        // 保存完整的汇总数据
+        let fullSummaryData = null;
+        
+        // 更新Worker汇总统计显示
+        function updateWorkerSummary(summary) {
+            // 保存完整数据
+            fullSummaryData = summary;
+            
+            if (showAllStats) {
+                // 显示包含历史的完整统计
+                document.getElementById('totalSuccessCount').textContent = summary.total_success_count || 0;
+                document.getElementById('totalFailedCount').textContent = summary.total_failed_count || 0;
+                document.getElementById('totalTaskCount').textContent = summary.total_count || 0;
+                document.getElementById('totalRunningTasks').textContent = summary.total_running_tasks || 0;
+                
+                // 格式化平均处理时间
+                const avgTime = summary.avg_processing_time || 0;
+                let timeDisplay = '-';
+                if (avgTime > 0) {
+                    if (avgTime < 1) {
+                        timeDisplay = `${Math.round(avgTime * 1000)}ms`;
+                    } else if (avgTime < 60) {
+                        timeDisplay = `${avgTime.toFixed(2)}s`;
+                    } else {
+                        const minutes = Math.floor(avgTime / 60);
+                        const seconds = (avgTime % 60).toFixed(1);
+                        timeDisplay = `${minutes}m${seconds}s`;
+                    }
+                }
+                document.getElementById('avgProcessingTime').textContent = timeDisplay;
+            } else {
+                // 仅显示在线worker的统计
+                updateOnlineWorkersStats();
+            }
+        }
+        
+        // 计算并显示仅在线worker的统计
+        function updateOnlineWorkersStats() {
+            let onlineSuccess = 0;
+            let onlineFailed = 0;
+            let onlineTotal = 0;
+            let onlineRunning = 0;
+            let totalProcessingTime = 0;
+            let processingTimeCount = 0;
+            
+            // 计算在线worker的统计
+            workers.forEach(worker => {
+                if (worker.is_alive) {
+                    onlineSuccess += worker.success_count || 0;
+                    onlineFailed += worker.failed_count || 0;
+                    onlineTotal += (worker.success_count || 0) + (worker.failed_count || 0);
+                    onlineRunning += worker.running_tasks || 0;
+                    
+                    if (worker.avg_processing_time > 0) {
+                        totalProcessingTime += worker.avg_processing_time;
+                        processingTimeCount++;
+                    }
+                }
+            });
+            
+            // 更新显示
+            document.getElementById('totalSuccessCount').textContent = onlineSuccess;
+            document.getElementById('totalFailedCount').textContent = onlineFailed;
+            document.getElementById('totalTaskCount').textContent = onlineTotal;
+            document.getElementById('totalRunningTasks').textContent = onlineRunning;
+            
+            // 计算平均处理时间
+            const avgTime = processingTimeCount > 0 ? totalProcessingTime / processingTimeCount : 0;
+            let timeDisplay = '-';
+            if (avgTime > 0) {
+                if (avgTime < 1) {
+                    timeDisplay = `${Math.round(avgTime * 1000)}ms`;
+                } else if (avgTime < 60) {
+                    timeDisplay = `${avgTime.toFixed(2)}s`;
+                } else {
+                    const minutes = Math.floor(avgTime / 60);
+                    const seconds = (avgTime % 60).toFixed(1);
+                    timeDisplay = `${minutes}m${seconds}s`;
+                }
+            }
+            document.getElementById('avgProcessingTime').textContent = timeDisplay;
+        }
+
+        // 加载任务列表
+        async function loadTasks(startTime = null, endTime = null, append = false) {
+            if (isLoadingMore) return;
+
+            const filter = document.getElementById('taskFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            // 构建查询参数
+            let queryParams = new URLSearchParams({
+                limit: pageSize
+            });
+
+            if (startTime) {
+                queryParams.append('start_time', startTime);
+            }
+            if (endTime) {
+                queryParams.append('end_time', endTime);
+            }
+
+            try {
+                if (!append) {
+                    // 显示加载中状态
+                    document.getElementById('tasksBody').innerHTML =
+                        '<tr><td colspan="8" class="loading">加载中...</td></tr>';
+                }
+
+                isLoadingMore = true;
+                const response = await fetch(
+                    `/api/queue/${encodeURIComponent(queueName)}/tasks?${queryParams}`
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // 更新导航状态
+                    oldestId = data.oldest_id;
+                    newestId = data.newest_id;
+                    hasMore = data.has_more;
+                    noMoreData = data.tasks.length < pageSize;
+
+                    if (!append) {
+                        // 新查询，重置数据
+                        currentStartTime = startTime;
+                        currentEndTime = endTime;
+                        allTasks = data.tasks;
+                    } else {
+                        // 追加数据，去重
+                        const existingIds = new Set(allTasks.map(t => t.event_id));
+                        const newTasks = data.tasks.filter(t => !existingIds.has(t.event_id));
+                        allTasks = allTasks.concat(newTasks);
+
+                        // 检查是否超过1000条限制
+                        if (allTasks.length >= 1000) {
+                            allTasks = allTasks.slice(0, 1000);
+                            noMoreData = true;
+                        }
+                    }
+
+                    // 客户端过滤
+                    let filteredTasks = allTasks;
+                    if (filter || statusFilter) {
+                        filteredTasks = allTasks.filter(task => {
+                            const status = task.parsed_status || parseTaskStatus(task.status);
+                            const matchesFilter = !filter ||
+                                task.event_id.toLowerCase().includes(filter.toLowerCase()) ||
+                                status.status.toLowerCase().includes(filter.toLowerCase());
+                            const matchesStatus = !statusFilter || status.status === statusFilter;
+                            return matchesFilter && matchesStatus;
+                        });
+                    }
+
+                    renderTasks(filteredTasks);
+
+                    // 更新总任务数显示 - 显示过滤后的数量和队列总数
+                    const totalCountDisplay = document.getElementById('totalTasks');
+                    if (data.total_count !== undefined) {
+                        if (filter || statusFilter) {
+                            // 有过滤条件时显示过滤结果/队列总数
+                            totalCountDisplay.textContent = `${filteredTasks.length} / ${data.total_count}`;
+                        } else {
+                            // 无过滤条件时显示已加载/队列总数
+                            totalCountDisplay.textContent = `${allTasks.length} / ${data.total_count}`;
+                        }
+                    } else {
+                        totalCountDisplay.textContent = filteredTasks.length;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load tasks:', error);
+                if (!append) {
+                    document.getElementById('tasksBody').innerHTML =
+                        '<tr><td colspan="8" class="empty-state">加载失败</td></tr>';
+                }
+            } finally {
+                isLoadingMore = false;
+            }
+        }
+
+        // 加载更多任务
+        async function loadMoreTasks() {
+            if (!oldestId || noMoreData || isLoadingMore) return;
+
+            // 使用当前最早的ID作为新的结束时间
+            const endTime = decrementStreamId(oldestId);
+            await loadTasks(null, endTime, true);
+        }
+
+        // 更新队列信息
+        function updateQueueInfo() {
+            // 更新侧边栏信息
+            document.getElementById('sidebarQueueName').textContent = queueName;
+
+            if (queueStats) {
+                document.getElementById('sidebarQueueLength').textContent = queueStats.length || 0;
+                document.getElementById('sidebarConsumerGroups').textContent =
+                    queueStats.consumer_groups ? queueStats.consumer_groups.length : 0;
+            }
+
+            const aliveWorkers = workers.filter(w => w.is_alive);
+            document.getElementById('sidebarOnlineWorkers').textContent = aliveWorkers.length;
+            document.getElementById('sidebarTotalWorkers').textContent = workers.length;
+        }
+
+        // 渲染Workers
+        function renderWorkers() {
+            const container = document.getElementById('workersContainer');
+            document.getElementById('workersLastUpdate').textContent = formatTime(new Date());
+
+            // 更新摘要信息
+            const aliveWorkers = workers.filter(w => w.is_alive);
+            document.getElementById('workersSummary').textContent = `${aliveWorkers.length}/${workers.length} 在线`;
+
+            if (workers.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="text-align: center; padding: 20px; color: #999;">暂无Worker</div>';
+                return;
+            }
+
+            // 创建表格
+            try {
+                container.innerHTML = `
+                    <table class="workers-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;">状态</th>
+                                <th>Worker ID</th>
+                                <th>主机名</th>
+                                <th>心跳</th>
+                                <th>执行中</th>
+                                <th>平均处理时间</th>
+                                <th>成功</th>
+                                <th>失败</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${workers
+                        .sort((a, b) => {
+                            // 首先按状态排序：在线的在前
+                            if (a.is_alive !== b.is_alive) {
+                                return b.is_alive - a.is_alive;
+                            }
+                            // 然后按consumer_name排序，确保顺序稳定
+                            const nameA = a.consumer_name || a.consumer_id || '';
+                            const nameB = b.consumer_name || b.consumer_id || '';
+                            return nameA.localeCompare(nameB);
+                        })
+                        .map(worker => {
+                            // 使用consumer_name而不是consumer_id，这样与任务列表中的消费者名称一致
+                            const consumerName = worker.consumer_name || worker.consumer_id || '-';
+                            const consumerId = worker.consumer_id || '-';
+                            const hostname = worker.host || worker.hostname || '-';
+                            const secondsAgo = worker.seconds_ago || 0;
+                            const runningTasks = worker.running_tasks || 0;
+                            const avgProcessingTime = worker.avg_processing_time || 0;
+                            const successCount = worker.success_count || 0;
+                            const failedCount = worker.failed_count || 0;
+
+                            // 格式化处理时间显示
+                            let processingTimeDisplay = '-';
+                            if (avgProcessingTime > 0) {
+                                if (avgProcessingTime < 1) {
+                                    processingTimeDisplay = `${Math.round(avgProcessingTime * 1000)}ms`;
+                                } else if (avgProcessingTime < 60) {
+                                    processingTimeDisplay = `${avgProcessingTime.toFixed(2)}s`;
+                                } else {
+                                    const minutes = Math.floor(avgProcessingTime / 60);
+                                    const seconds = (avgProcessingTime % 60).toFixed(1);
+                                    processingTimeDisplay = `${minutes}m${seconds}s`;
+                                }
+                            }
+
+                            // 计算显示宽度，根据侧边栏宽度动态调整
+                            const sidebarWidth = parseInt(document.getElementById('sidebar').style.width) || 400;
+                            const maxNameLength = Math.floor((sidebarWidth - 250) / 8); // 估算可显示字符数
+
+                            return `
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <span class="worker-status ${worker.is_alive ? 'alive' : 'dead'}" title="${worker.is_alive ? '在线' : '离线'}"></span>
+                                        </td>
+                                        <td style="font-weight: 600; font-size: 0.9em; position: relative; cursor: pointer;" 
+                                            title="完整名称: ${consumerName}&#10;ID: ${consumerId}&#10;点击复制"
+                                            onclick="copyToClipboard('${consumerName}', event)">
+                                            <span style="display: inline-block; max-width: calc(100% - 20px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                ${consumerName}
+                                            </span>
+                                            <span style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); font-size: 0.8em; color: #999;">📋</span>
+                                        </td>
+                                        <td title="${hostname}">
+                                            ${hostname.length > 15 ? hostname.substring(0, 15) + '...' : hostname}
+                                        </td>
+                                        <td>${secondsAgo}秒前</td>
+                                        <td style="color: #3498db; font-weight: bold;">${runningTasks}</td>
+                                        <td style="color: #8e44ad;">${processingTimeDisplay}</td>
+                                        <td style="color: #27ae60;">${successCount}</td>
+                                        <td style="color: #e74c3c;">${failedCount}</td>
+                                    </tr>
+                                `;
+                        }).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error rendering workers table:', error);
+                container.innerHTML = '<div class="empty-state" style="text-align: center; padding: 20px; color: #e74c3c;">渲染失败: ' + error.message + '</div>';
+            }
+        }
+
+        // 渲染任务列表
+        function renderTasks(tasks) {
+            const tbody = document.getElementById('tasksBody');
+
+            if (tasks.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">暂无任务</td></tr>';
+                return;
+            }
+
+            let html = tasks.map(task => {
+                const status = task.parsed_status || parseTaskStatus(task.status);
+
+                // 从stream数据或状态中获取时间信息
+                let createdAt = status.created_at || status.timestamp;
+
+                // 如果status中没有时间，尝试从trigger_time获取
+                if (!createdAt && task.trigger_time) {
+                    createdAt = new Date(task.trigger_time * 1000).toISOString();
+                }
+
+                // 如果status中没有时间，尝试从stream数据中获取
+                if (!createdAt && task.stream_data) {
+                    createdAt = task.stream_data.timestamp || task.stream_data.created_at;
+                    if (!createdAt && task.stream_data.trigger_time) {
+                        createdAt = new Date(task.stream_data.trigger_time * 1000).toISOString();
+                    }
+                }
+
+                // 如果是消息ID格式（timestamp-sequence），提取时间戳
+                if (!createdAt && task.message_id && task.message_id.includes('-')) {
+                    const timestamp = parseInt(task.message_id.split('-')[0]);
+                    if (!isNaN(timestamp)) {
+                        createdAt = new Date(timestamp).toISOString();
+                    }
+                }
+
+                // 获取参数字符串
+                const params = task.params_str || '无参数';
+                const paramsDisplay = params.length > 50 ? params.substring(0, 50) + '...' : params;
+
+                // 获取消费者名称
+                const consumer = task.consumer || '-';
+
+                // 判断是否可以获取结果（只有成功或失败的任务才有结果）
+                const canGetResult = status.status === 'success' || status.status === 'error' || status.status === 'failed';
+
+                // 获取完成时间和耗时
+                let completedAt = '-';
+                let duration = '-';
+
+                if (status.completed_at) {
+                    completedAt = formatTime(new Date(status.completed_at * 1000).toISOString());
+                }
+
+                if (status.duration !== undefined) {
+                    // 格式化耗时显示
+                    const dur = parseFloat(status.duration);
+                    if (dur < 1) {
+                        duration = `${(dur * 1000).toFixed(0)}ms`;
+                    } else if (dur < 60) {
+                        duration = `${dur.toFixed(2)}s`;
+                    } else if (dur < 3600) {
+                        const minutes = Math.floor(dur / 60);
+                        const seconds = (dur % 60).toFixed(0);
+                        duration = `${minutes}m ${seconds}s`;
+                    } else {
+                        const hours = Math.floor(dur / 3600);
+                        const minutes = Math.floor((dur % 3600) / 60);
+                        duration = `${hours}h ${minutes}m`;
+                    }
+                }
+
+                return `
+                    <tr>
+                        <td><span class="task-id" title="${task.message_id || task.event_id}">${task.event_id}</span></td>
+                        <td class="params-cell" onclick="showParamsDetail('${task.event_id}', \`${params.replace(/`/g, '\\`').replace(/\\/g, '\\\\')}\`)">
+                            <span class="params-text">${paramsDisplay}</span>
+                        </td>
+                        <td>${consumer}</td>
+                        <td><span class="status-badge ${getStatusClass(status.status)}">${status.status}</span></td>
+                        <td>${formatTime(createdAt)}</td>
+                        <td>${completedAt}</td>
+                        <td>${duration}</td>
+                        <td>
+                            <button class="action-btn" onclick="getTaskResult('${task.event_id}')" ${canGetResult ? '' : 'disabled'}>
+                                查看结果
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // 添加加载更多提示
+            if (allTasks.length >= 1000) {
+                html += `
+                    <tr>
+                        <td colspan="8" class="limit-warning">
+                            <strong>已达到最大显示限制（1000条）</strong>
+                            请使用筛选条件缩小查询范围以获得更精确的结果
+                        </td>
+                    </tr>
+                `;
+            } else if (!noMoreData && hasMore) {
+                html += `
+                    <tr id="loadMoreRow">
+                        <td colspan="8" class="loading-more">
+                            <div id="loadingIndicator" style="display: none;">加载中...</div>
+                            <div id="scrollHint">向下滚动加载更多</div>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            tbody.innerHTML = html;
+        }
+
+        // 刷新数据
+        function refreshData() {
+            console.log('Refreshing data...');
+
+            // 更新最后刷新时间
+            lastRefreshTime = new Date();
+            updateLastRefreshTime();
+
+            // 重置无限滚动状态
+            allTasks = [];
+            noMoreData = false;
+
+            // 重新加载所有数据
+            loadWorkers();
+            loadQueueStats();
+            loadTimeline();
+            loadTasks(currentStartTime, currentEndTime);
+        }
+
+        // 更新刷新间隔
+        function updateRefreshInterval() {
+            const intervalSelect = document.getElementById('refreshInterval');
+            const interval = parseInt(intervalSelect.value);
+
+            // 清除现有的定时器
+            if (refreshIntervalId) {
+                clearInterval(refreshIntervalId);
+                refreshIntervalId = null;
+            }
+
+            // 设置新的定时器
+            if (interval > 0) {
+                refreshIntervalId = setInterval(() => {
+                    refreshData();
+                }, interval * 1000);
+                console.log(`Auto refresh enabled: every ${interval} seconds`);
+            } else {
+                console.log('Auto refresh disabled');
+            }
+        }
+
+        // 更新最后刷新时间显示
+        function updateLastRefreshTime() {
+            const element = document.getElementById('lastRefreshTime');
+
+            // 如果元素不存在，直接返回（避免报错）
+            if (!element) {
+                console.warn('lastRefreshTime element not found');
+                return;
+            }
+
+            if (!lastRefreshTime) {
+                element.textContent = '';
+                return;
+            }
+
+            const updateDisplay = () => {
+                // 再次检查元素是否存在
+                if (!element) return;
+
+                const now = new Date();
+                const diff = Math.floor((now - lastRefreshTime) / 1000);
+
+                if (diff < 60) {
+                    element.textContent = `最后刷新: ${diff}秒前`;
+                } else if (diff < 3600) {
+                    const minutes = Math.floor(diff / 60);
+                    element.textContent = `最后刷新: ${minutes}分钟前`;
+                } else {
+                    element.textContent = `最后刷新: ${formatTime(lastRefreshTime.toISOString())}`;
+                }
+            };
+
+            updateDisplay();
+
+            // 每秒更新一次显示
+            if (element.updateTimer) {
+                clearInterval(element.updateTimer);
+            }
+            element.updateTimer = setInterval(updateDisplay, 1000);
+        }
+
+        // 从Redis Stream ID中提取时间戳
+        function extractTimeFromId(streamId) {
+            if (!streamId || !streamId.includes('-')) return null;
+            const timestamp = parseInt(streamId.split('-')[0]);
+            return isNaN(timestamp) ? null : new Date(timestamp).toISOString();
+        }
+
+        // 递减Stream ID（获取前一个可能的ID）
+        function decrementStreamId(id) {
+            const parts = id.split('-');
+            const timestamp = parseInt(parts[0]);
+            // 返回比当前时间戳早1毫秒的ID
+            return `${timestamp - 1}-9999999`;
+        }
+
+        // 初始化无限滚动
+        function initInfiniteScroll() {
+            let scrollThrottle = null;
+            const contentArea = document.querySelector('.content-area'); // 获取实际滚动的元素
+
+            if (!contentArea) {
+                console.error('Content area not found for infinite scroll');
+                return;
+            }
+
+            contentArea.addEventListener('scroll', () => {
+                if (scrollThrottle) return;
+
+                scrollThrottle = setTimeout(() => {
+                    scrollThrottle = null;
+
+                    // 检查是否需要加载更多
+                    const loadMoreRow = document.getElementById('loadMoreRow');
+                    if (!loadMoreRow || isLoadingMore || noMoreData) return;
+
+                    // 检查是否接近底部
+                    const scrollTop = contentArea.scrollTop;
+                    const scrollHeight = contentArea.scrollHeight;
+                    const clientHeight = contentArea.clientHeight;
+
+                    // 当滚动到距离底部100px时触发加载
+                    if (scrollTop + clientHeight >= scrollHeight - 100) {
+                        // 显示加载中状态
+                        const loadingIndicator = document.getElementById('loadingIndicator');
+                        const scrollHint = document.getElementById('scrollHint');
+                        if (loadingIndicator) loadingIndicator.style.display = 'block';
+                        if (scrollHint) scrollHint.style.display = 'none';
+
+                        loadMoreTasks();
+                    }
+                }, 100);
+            });
+        }
+
+
+
+        // 根据选择的时间范围加载时间轴
+        async function loadTimelineForRange(startTime, endTime) {
+            const durationMs = endTime - startTime;
+            const durationStr = getOptimalDuration(durationMs);
+            const interval = getTimelineInterval(durationStr);
+
+            // 转换为Redis Stream ID格式
+            const startId = `${Math.floor(startTime)}-0`;
+            const endId = `${Math.floor(endTime)}-9999999`;
+
+            try {
+                const queryParams = new URLSearchParams({
+                    duration: durationStr,
+                    interval: interval,
+                    start_time: startId,
+                    end_time: endId
+                });
+
+                const response = await fetch(
+                    `/api/queue/${encodeURIComponent(queueName)}/timeline?${queryParams}`
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    timelineData = data.timeline;
+                    timelineStartTime = startTime;
+                    timelineEndTime = endTime;
+                    renderTimeline();
+
+                    // 在控制台显示时间轴数据统计，用于调试
+                    console.log(`Timeline loaded: ${data.total_tasks} total tasks, ${data.message_count} messages processed`);
+                }
+            } catch (error) {
+                console.error('Failed to load timeline for range:', error);
+            }
+        }
+
+        // 根据毫秒数获取最优的持续时间字符串
+        function getOptimalDuration(durationMs) {
+            const seconds = durationMs / 1000;
+            const minutes = seconds / 60;
+            const hours = minutes / 60;
+            const days = hours / 24;
+
+            if (days >= 1) {
+                return Math.ceil(days) + 'd';
+            } else if (hours >= 1) {
+                return Math.ceil(hours) + 'h';
+            } else if (minutes >= 1) {
+                return Math.ceil(minutes) + 'm';
+            } else {
+                return Math.ceil(seconds) + 's';
+            }
+        }
+
+        // 加载时间轴数据
+        async function loadTimeline() {
+            const duration = selectedTimeRange === 'custom' ? '24h' : selectedTimeRange;
+            const interval = getTimelineInterval(duration);
+
+            try {
+                const response = await fetch(
+                    `/api/queue/${encodeURIComponent(queueName)}/timeline?duration=${duration}&interval=${interval}`
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    timelineData = data.timeline;
+                    timelineStartTime = data.start;
+                    timelineEndTime = data.end;
+                    renderTimeline();
+                }
+            } catch (error) {
+                console.error('Failed to load timeline:', error);
+            }
+        }
+
+        // 根据时间范围获取合适的时间间隔
+        function getTimelineInterval(duration) {
+            // 解析持续时间字符串为秒数
+            const parseDuration = (dur) => {
+                const match = dur.match(/^(\d+)([smhd])$/);
+                if (!match) return 3600; // 默认1小时
+
+                const value = parseInt(match[1]);
+                const unit = match[2];
+
+                switch (unit) {
+                    case 's': return value;
+                    case 'm': return value * 60;
+                    case 'h': return value * 3600;
+                    case 'd': return value * 86400;
+                    default: return 3600;
+                }
+            };
+
+            const durationSeconds = parseDuration(duration);
+
+            // 根据持续时间智能选择间隔，目标是显示20-50个数据点
+            if (durationSeconds <= 60) {
+                // 1分钟内：每2秒
+                return '2s';
+            } else if (durationSeconds <= 300) {
+                // 5分钟内：每10秒
+                return '10s';
+            } else if (durationSeconds <= 900) {
+                // 15分钟内：每30秒
+                return '30s';
+            } else if (durationSeconds <= 1800) {
+                // 30分钟内：每1分钟
+                return '1m';
+            } else if (durationSeconds <= 3600) {
+                // 1小时内：每2分钟
+                return '2m';
+            } else if (durationSeconds <= 7200) {
+                // 2小时内：每5分钟
+                return '5m';
+            } else if (durationSeconds <= 21600) {
+                // 6小时内：每10分钟
+                return '10m';
+            } else if (durationSeconds <= 43200) {
+                // 12小时内：每30分钟
+                return '30m';
+            } else if (durationSeconds <= 86400) {
+                // 1天内：每1小时
+                return '1h';
+            } else if (durationSeconds <= 259200) {
+                // 3天内：每3小时
+                return '3h';
+            } else if (durationSeconds <= 604800) {
+                // 1周内：每6小时
+                return '6h';
+            } else if (durationSeconds <= 2592000) {
+                // 1个月内：每1天
+                return '1d';
+            } else {
+                // 更长时间：每7天
+                return '7d';
+            }
+        }
+
+        // 渲染时间轴
+        function renderTimeline() {
+            const chart = document.getElementById('timelineChart');
+            const axis = document.getElementById('timelineAxis');
+
+            if (!timelineData || timelineData.length === 0) {
+                chart.innerHTML = '';
+                axis.innerHTML = '';
+                return;
+            }
+
+            // 找出最大值用于缩放
+            const maxCount = Math.max(...timelineData.map(d => d.count), 1);
+
+            // 渲染柱状图
+            chart.innerHTML = timelineData.map(data => {
+                const height = (data.count / maxCount) * 100;
+                return `<div class="timeline-bar" style="height: ${height}%" title="${data.count} 任务"></div>`;
+            }).join('');
+
+            // 渲染时间轴标签
+            const labelCount = 5;
+            const step = Math.floor(timelineData.length / labelCount);
+            let labels = [];
+
+            for (let i = 0; i < labelCount; i++) {
+                const index = i * step;
+                if (index < timelineData.length) {
+                    const time = new Date(timelineData[index].timestamp);
+                    labels.push(`<span>${formatShortTime(time)}</span>`);
+                }
+            }
+
+            axis.innerHTML = labels.join('');
+        }
+
+        // 格式化短时间显示
+        function formatShortTime(date) {
+            const now = new Date();
+            const diff = now - date;
+
+            if (diff < 3600000) { // 小于1小时
+                return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            } else if (diff < 86400000) { // 小于1天
+                return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+            } else {
+                return date.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+            }
+        }
+
+        // 切换时间菜单
+        function toggleTimeMenu() {
+            const menu = document.getElementById('timeMenu');
+            if (menu.style.display === 'none' || !menu.style.display) {
+                menu.style.display = 'block';
+                // 点击外部关闭菜单
+                setTimeout(() => {
+                    document.addEventListener('click', closeTimeMenu);
+                }, 100);
+            } else {
+                menu.style.display = 'none';
+            }
+        }
+
+        // 关闭时间菜单
+        function closeTimeMenu(e) {
+            const menu = document.getElementById('timeMenu');
+            const timeDisplay = document.querySelector('.time-display');
+            if (!menu.contains(e.target) && !timeDisplay.contains(e.target)) {
+                menu.style.display = 'none';
+                document.removeEventListener('click', closeTimeMenu);
+            }
+        }
+
+        // 选择时间范围
+        function selectTimeRange(range) {
+            // 更新按钮状态
+            document.querySelectorAll('.quick-select-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+
+            selectedTimeRange = range;
+
+            // 更新显示的时间范围
+            const rangeMap = {
+                '10m': '最近10分钟',
+                '30m': '最近30分钟',
+                '1h': '最近1小时',
+                '6h': '最近6小时',
+                '12h': '最近12小时',
+                '1d': '最近1天',
+                '7d': '最近7天',
+                'custom': '自定义'
+            };
+            document.getElementById('currentTimeRange').textContent = rangeMap[range] || range;
+
+            // 自定义时间范围不关闭菜单，其他时间范围关闭菜单
+            if (range !== 'custom') {
+                document.getElementById('timeMenu').style.display = 'none';
+            }
+
+            if (range === 'custom') {
+                // 设置默认时间
+                const now = new Date();
+                const start = new Date(now.getTime() - 3600000); // 1小时前
+                document.getElementById('customEndTime').value = formatDateTimeLocal(now);
+                document.getElementById('customStartTime').value = formatDateTimeLocal(start);
+                return; // 不自动加载，等用户点击应用
+            } else {
+
+                // 计算时间范围
+                const now = Date.now();
+                const duration = parse_time_duration_js(range);
+                const start = now - duration * 1000;
+
+                // 转换为Redis Stream ID格式
+                const startId = `${start}-0`;
+                const endId = '+';
+
+                // 更新显示
+                updateTimeRangeDisplay(new Date(start), new Date(now));
+
+                // 重置无限滚动状态
+                allTasks = [];
+                noMoreData = false;
+
+                // 同时加载数据和时间轴，使用相同的时间范围
+                currentStartTime = startId;
+                currentEndTime = endId;
+
+                // 同时启动任务列表和时间轴加载，确保数据一致性
+                Promise.all([
+                    loadTasks(startId, endId),
+                    loadTimelineForRange(start, now)  // 使用相同的时间范围
+                ]);
+            }
+        }
+
+        // JavaScript版本的时间解析
+        function parse_time_duration_js(duration) {
+            const units = {
+                's': 1,
+                'm': 60,
+                'h': 3600,
+                'd': 86400
+            };
+
+            const match = duration.match(/^(\d+)([smhd])$/);
+            if (match) {
+                const value = parseInt(match[1]);
+                const unit = match[2];
+                return value * units[unit];
+            }
+
+            return parseInt(duration);
+        }
+
+        // 格式化datetime-local输入
+        function formatDateTimeLocal(date) {
+            const pad = (n) => n.toString().padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        }
+
+        // 应用自定义时间
+        function applyCustomTime() {
+            const startInput = document.getElementById('customStartTime').value;
+            const endInput = document.getElementById('customEndTime').value;
+
+            if (!startInput || !endInput) {
+                alert('请选择开始和结束时间');
+                return;
+            }
+
+            const start = new Date(startInput);
+            const end = new Date(endInput);
+
+            if (start >= end) {
+                alert('开始时间必须早于结束时间');
+                return;
+            }
+
+            // 转换为Redis Stream ID格式
+            const startId = `${start.getTime()}-0`;
+            const endId = `${end.getTime()}-9999999`;
+
+            updateTimeRangeDisplay(start, end);
+            updateCustomTimeRangeDisplay(start, end);
+
+            currentStartTime = startId;
+            currentEndTime = endId;
+            loadTasks(startId, endId);
+
+            // 关闭时间菜单
+            document.getElementById('timeMenu').style.display = 'none';
+        }
+
+        // 更新时间范围显示
+        function updateTimeRangeDisplay(start, end) {
+            document.getElementById('selectedStartTime').textContent = formatTime(start.toISOString());
+            document.getElementById('selectedEndTime').textContent = formatTime(end.toISOString());
+        }
+
+        // 更新右上角的时间范围显示
+        function updateCustomTimeRangeDisplay(start, end) {
+            const duration = end.getTime() - start.getTime();
+            let rangeText = '';
+
+            if (duration < 60 * 1000) {
+                // 小于1分钟，显示秒数
+                const seconds = Math.round(duration / 1000);
+                rangeText = `${seconds}秒`;
+            } else if (duration < 60 * 60 * 1000) {
+                // 小于1小时，显示分钟数
+                const minutes = Math.round(duration / (60 * 1000));
+                rangeText = `${minutes}分钟`;
+            } else if (duration < 24 * 60 * 60 * 1000) {
+                // 小于1天，显示小时数
+                const hours = Math.round(duration / (60 * 60 * 1000) * 10) / 10;
+                rangeText = `${hours}小时`;
+            } else {
+                // 显示天数
+                const days = Math.round(duration / (24 * 60 * 60 * 1000) * 10) / 10;
+                rangeText = `${days}天`;
+            }
+
+            // 显示为自定义范围
+            const timeRange = `${start.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' })} ${start.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })} - ${end.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' })} ${end.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })} (${rangeText})`;
+
+            document.getElementById('currentTimeRange').textContent = timeRange;
+            document.getElementById('currentTimeRange').title = `开始: ${formatTime(start.toISOString())}\n结束: ${formatTime(end.toISOString())}\n持续时间: ${rangeText}`;
+
+            // 标记为自定义范围
+            selectedTimeRange = 'custom';
+        }
+
+        // 初始化时间轴交互
+        function initTimelineInteraction() {
+            const container = document.getElementById('timelineContainer');
+            let startX = 0;
+            let isSelecting = false;
+            let startTime = 0;
+
+            container.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return; // 只响应左键
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rect = container.getBoundingClientRect();
+                startX = e.clientX - rect.left;
+                isSelecting = true;
+
+                // 计算对应的时间
+                const ratio = startX / rect.width;
+                startTime = timelineStartTime + (timelineEndTime - timelineStartTime) * ratio;
+
+                const selection = document.getElementById('timelineSelection');
+                selection.style.display = 'block';
+                selection.style.left = startX + 'px';
+                selection.style.width = '0px';
+
+                // 防止文本选择和其他默认行为
+                document.body.style.userSelect = 'none';
+                document.body.style.cursor = 'crosshair';
+            });
+
+            // 使用document级别的事件监听器确保在容器外也能响应
+            document.addEventListener('mousemove', (e) => {
+                if (!isSelecting) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rect = container.getBoundingClientRect();
+                let currentX = e.clientX - rect.left;
+
+                // 限制在容器范围内
+                currentX = Math.max(0, Math.min(rect.width, currentX));
+
+                const width = currentX - startX;
+                const selection = document.getElementById('timelineSelection');
+
+                if (width > 0) {
+                    selection.style.left = startX + 'px';
+                    selection.style.width = width + 'px';
+                } else {
+                    selection.style.left = currentX + 'px';
+                    selection.style.width = Math.abs(width) + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', (e) => {
+                if (!isSelecting) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                isSelecting = false;
+
+                // 恢复默认样式
+                document.body.style.userSelect = '';
+                document.body.style.cursor = '';
+
+                const rect = container.getBoundingClientRect();
+                let endX = e.clientX - rect.left;
+                endX = Math.max(0, Math.min(rect.width, endX));
+
+                if (Math.abs(endX - startX) < 5) {
+                    // 点击而非拖拽
+                    document.getElementById('timelineSelection').style.display = 'none';
+                    return;
+                }
+
+                // 计算选中的时间范围
+                const startRatio = Math.min(startX, endX) / rect.width;
+                const endRatio = Math.max(startX, endX) / rect.width;
+
+                const selectedStart = timelineStartTime + (timelineEndTime - timelineStartTime) * startRatio;
+                const selectedEnd = timelineStartTime + (timelineEndTime - timelineStartTime) * endRatio;
+
+                // 应用选中的时间范围
+                const startId = `${Math.floor(selectedStart)}-0`;
+                const endId = `${Math.floor(selectedEnd)}-9999999`;
+
+                const startDate = new Date(selectedStart);
+                const endDate = new Date(selectedEnd);
+
+                updateTimeRangeDisplay(startDate, endDate);
+                updateCustomTimeRangeDisplay(startDate, endDate);
+
+                currentStartTime = startId;
+                currentEndTime = endId;
+
+                // 根据选择的时间范围重新加载时间轴和任务
+                loadTimelineForRange(selectedStart, selectedEnd);
+                loadTasks(startId, endId);
+
+                // 隐藏选择框
+                setTimeout(() => {
+                    document.getElementById('timelineSelection').style.display = 'none';
+                }, 200);
+            });
+
+            // 处理鼠标离开
+            container.addEventListener('mouseleave', () => {
+                if (isSelecting) {
+                    isSelecting = false;
+                    document.getElementById('timelineSelection').style.display = 'none';
+                }
+            });
+        }
+
+        // 初始化侧边栏拖拽
+        function initSidebarResize() {
+            const sidebar = document.getElementById('sidebar');
+            const resizer = document.getElementById('sidebarResizer');
+            let isResizing = false;
+            let startX = 0;
+            let startWidth = 0;
+
+            // 从localStorage恢复宽度
+            const savedWidth = localStorage.getItem('sidebarWidth');
+            if (savedWidth) {
+                sidebar.style.width = savedWidth + 'px';
+            }
+
+            resizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = sidebar.offsetWidth;
+                resizer.classList.add('resizing');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+
+                const deltaX = e.clientX - startX;
+                const newWidth = Math.max(300, Math.min(800, startWidth + deltaX));
+                sidebar.style.width = newWidth + 'px';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (!isResizing) return;
+
+                isResizing = false;
+                resizer.classList.remove('resizing');
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+
+                // 保存宽度到localStorage
+                localStorage.setItem('sidebarWidth', sidebar.offsetWidth);
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!queueName) {
+                window.location.href = '/';
+                return;
+            }
+
+            // 初始化侧边栏拖拽
+            initSidebarResize();
+            
+            // 初始化统计模式按钮样式
+            const allStatsBtn = document.getElementById('allStatsBtn');
+            const onlineStatsBtn = document.getElementById('onlineStatsBtn');
+            
+            if (!showAllStats) {
+                // 如果用户上次选择的是"仅在线"
+                onlineStatsBtn.style.background = '#3498db';
+                onlineStatsBtn.style.color = 'white';
+                allStatsBtn.style.background = 'white';
+                allStatsBtn.style.color = '#3498db';
+                allStatsBtn.style.borderRight = '1px solid #3498db';
+            }
+
+            // 绑定事件
+            document.getElementById('taskFilter').addEventListener('input', () => {
+                // 重新加载当前时间范围的数据
+                loadTasks(currentStartTime, currentEndTime);
+            });
+
+            document.getElementById('statusFilter').addEventListener('change', () => {
+                // 重新加载当前时间范围的数据
+                loadTasks(currentStartTime, currentEndTime);
+            });
+            
+            // 绑定统计模式按钮 (allStatsBtn 和 onlineStatsBtn 已经在上面初始化了)
+            
+            // 所有记录按钮
+            allStatsBtn.addEventListener('click', () => {
+                if (!showAllStats) {
+                    showAllStats = true;
+                    localStorage.setItem('statsMode', 'all'); // 保存用户选择
+                    
+                    // 更新按钮样式
+                    allStatsBtn.style.background = '#3498db';
+                    allStatsBtn.style.color = 'white';
+                    allStatsBtn.style.borderRight = 'none';
+                    onlineStatsBtn.style.background = 'white';
+                    onlineStatsBtn.style.color = '#3498db';
+                    
+                    // 更新统计显示
+                    if (fullSummaryData) {
+                        updateWorkerSummary(fullSummaryData);
+                    }
+                }
+            });
+            
+            // 仅在线按钮
+            onlineStatsBtn.addEventListener('click', () => {
+                if (showAllStats) {
+                    showAllStats = false;
+                    localStorage.setItem('statsMode', 'online'); // 保存用户选择
+                    
+                    // 更新按钮样式
+                    onlineStatsBtn.style.background = '#3498db';
+                    onlineStatsBtn.style.color = 'white';
+                    allStatsBtn.style.background = 'white';
+                    allStatsBtn.style.color = '#3498db';
+                    allStatsBtn.style.borderRight = '1px solid #3498db';
+                    
+                    // 更新统计显示
+                    if (fullSummaryData) {
+                        updateWorkerSummary(fullSummaryData);
+                    }
+                }
+            });
+
+            // 初始化时间轴交互
+            initTimelineInteraction();
+
+            // 初始化无限滚动
+            initInfiniteScroll();
+
+            // 加载数据
+            loadQueueStats();
+            loadWorkers();
+
+            // 默认选择最近1小时
+            document.querySelector('.quick-select-btn[onclick*="1h"]').click();
+
+            // 默认开启每30秒自动刷新
+            updateRefreshInterval();
+        });
+
+        // 显示参数详情
+        function showParamsDetail(eventId, params) {
+            const modal = document.getElementById('paramsModal');
+            const content = document.getElementById('paramsContent');
+
+            document.getElementById('paramsTaskId').textContent = eventId;
+            content.textContent = params;
+            modal.style.display = 'block';
+        }
+
+        // 关闭参数模态框
+        function closeParamsModal() {
+            document.getElementById('paramsModal').style.display = 'none';
+        }
+        
+        // 显示Worker历史记录
+        async function showWorkerHistory() {
+            const modal = document.getElementById('workerHistoryModal');
+            const content = document.getElementById('workerHistoryContent');
+            modal.style.display = 'flex';
+            
+            try {
+                // 获取该队列的worker历史记录
+                const response = await fetch(`/api/queue/${encodeURIComponent(queueName)}/workers/offline-history?limit=50`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const history = data.history || [];
+                
+                if (history.length === 0) {
+                    content.innerHTML = '<div class="empty-state" style="text-align: center; padding: 40px; color: #999;">暂无下线记录</div>';
+                    return;
+                }
+                
+                // 创建表格显示历史记录
+                content.innerHTML = `
+                    <table class="workers-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Worker ID</th>
+                                <th>主机名</th>
+                                <th>PID</th>
+                                <th>上线时间</th>
+                                <th>下线时间</th>
+                                <th>运行时长</th>
+                                <th>成功</th>
+                                <th>失败</th>
+                                <th>总计</th>
+                                <th>平均耗时</th>
+                                <th>下线原因</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${history.map(record => `
+                                <tr>
+                                    <td title="${record.consumer_id}">${record.consumer_id.substring(0, 16)}...</td>
+                                    <td>${record.host}</td>
+                                    <td>${record.pid}</td>
+                                    <td>${formatTime(record.online_time_str)}</td>
+                                    <td>${formatTime(record.offline_time_str)}</td>
+                                    <td>${record.duration_str || '-'}</td>
+                                    <td class="success">${record.total_success_count || 0}</td>
+                                    <td class="error">${record.total_failed_count || 0}</td>
+                                    <td>${record.total_count || 0}</td>
+                                    <td>${record.avg_processing_time ? record.avg_processing_time.toFixed(3) + 's' : '-'}</td>
+                                    <td><span class="status-badge ${record.shutdown_reason === 'heartbeat_timeout' ? 'error' : 'warning'}">${record.shutdown_reason}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        显示最近 ${history.length} 条记录 | 
+                        <a href="/api/queue/${encodeURIComponent(queueName)}/workers/offline-history?limit=1000" target="_blank">导出全部</a>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to load worker history:', error);
+                content.innerHTML = `<div class="empty-state" style="text-align: center; padding: 40px; color: #e74c3c;">加载失败: ${error.message}</div>`;
+            }
+        }
+        
+        // 关闭Worker历史记录模态框
+        function closeWorkerHistoryModal() {
+            document.getElementById('workerHistoryModal').style.display = 'none';
+        }
+
+        // 获取任务结果
+        async function getTaskResult(eventId) {
+            try {
+                const response = await fetch(`/api/task/${encodeURIComponent(eventId)}/result`);
+                const data = await response.json();
+
+                if (data.result) {
+                    // 有结果，显示模态框
+                    const modal = document.getElementById('resultModal');
+                    const content = document.getElementById('resultContent');
+                    content.textContent = data.result;
+                    modal.classList.add('show');
+                } else {
+                    // 无结果，显示提示消息
+                    showNotification('该任务暂无结果', 'info');
+                }
+            } catch (error) {
+                showNotification('获取结果失败: ' + error.message, 'error');
+            }
+        }
+
+        // 关闭结果模态框
+        function closeResultModal() {
+            document.getElementById('resultModal').classList.remove('show');
+        }
+
+    </script>
+
+    <!-- 结果模态框 -->
+    <div class="result-modal" id="resultModal" onclick="if(event.target === this) closeResultModal()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>任务结果</h3>
+                <button class="modal-close" onclick="closeResultModal()">&times;</button>
+            </div>
+            <div class="result-content" id="resultContent">
+                加载中...
+            </div>
+        </div>
+    </div>
+
+    <!-- 参数详情模态框 -->
+    <div class="params-modal" id="paramsModal" onclick="if(event.target === this) closeParamsModal()">
+        <div class="params-modal-content">
+            <div class="params-modal-header">
+                <h3>任务参数 - <span id="paramsTaskId"></span></h3>
+                <span class="params-close" onclick="closeParamsModal()">&times;</span>
+            </div>
+            <pre id="paramsContent" style="white-space: pre-wrap; word-break: break-word;"></pre>
+        </div>
+    </div>
+    
+    <!-- Worker历史记录模态框 -->
+    <div class="params-modal" id="workerHistoryModal" onclick="if(event.target === this) closeWorkerHistoryModal()">
+        <div class="params-modal-content" style="max-width: 900px;">
+            <div class="params-modal-header">
+                <h3>Worker 下线历史记录</h3>
+                <span class="params-close" onclick="closeWorkerHistoryModal()">&times;</span>
+            </div>
+            <div id="workerHistoryContent" style="max-height: 600px; overflow-y: auto;">
+                <div class="loading" style="padding: 20px; text-align: center;">加载中...</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
