@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: genai_processors
+Version: 1.1.0
+Summary: GenAI Processors Library
+Keywords: 
+Author-email: Google DeepMind <noreply@google.com>
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+License-File: LICENSE
+Requires-Dist: absl-py>=1.0.0
+Requires-Dist: dataclasses-json>=0.6.0
+Requires-Dist: google-genai>=1.16.0
+Requires-Dist: google-api-python-client>=0.6.0
+Requires-Dist: google-cloud-texttospeech>=2.27.0
+Requires-Dist: google-cloud-speech>=2.33.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: jinja2>=3.0.0
+Requires-Dist: opencv-python>=2.0.0
+Requires-Dist: numpy>=2.0.0
+Requires-Dist: pdfrw>=0.4
+Requires-Dist: Pillow>=9.0.0
+Requires-Dist: termcolor>=3.0.0
+Requires-Dist: pypdfium2>=4.30.0
+Requires-Dist: xxhash>=3.0.0
+Requires-Dist: langchain-core>=0.3.68 ; extra == "contrib"
+Requires-Dist: langchain-google-genai>=2.1.7 ; extra == "contrib"
+Requires-Dist: pytest ; extra == "dev"
+Requires-Dist: pytest-xdist ; extra == "dev"
+Requires-Dist: pylint>=2.6.0 ; extra == "dev"
+Requires-Dist: pyink ; extra == "dev"
+Requires-Dist: flake8 ; extra == "dev"
+Project-URL: repository, https://github.com/google-gemini/genai-processors
+Provides-Extra: contrib
+Provides-Extra: dev
+
+# GenAI Processors library
+
+[![PyPI version](https://img.shields.io/pypi/v/genai-processors.svg)](https://pypi.org/project/genai-processors/)
+![Python support](https://img.shields.io/pypi/pyversions/genai-processors)
+[![PyPI - Downloads](https://img.shields.io/pypi/dw/genai-processors)](https://pypistats.org/packages/genai-processors)
+
+
+--------
+**Documentation:** https://github.com/google-gemini/genai-processors
+
+-----
+
+**Build Modular, Asynchronous, and Composable AI Pipelines for Generative AI.**
+
+GenAI Processors is a lightweight Python library that enables efficient,
+parallel content processing.
+
+## Installation
+
+```sh
+pip install genai-processors
+```
+
+## Imports
+
+```python
+from genai_processors import content_api
+from genai_processors import processor
+from genai_processors import streams
+from genai_processors.core import genai_model
+...
+```
