@@ -1,0 +1,40 @@
+---
+forescout-secure-connector:
+  lookup:
+    # REQUIRED pillar keys
+    package:
+      archive:
+        source: https://url/to/forescout/archive.tgz
+        source_hash: source_hash_url_or_value
+
+    # OPTIONAL pillar keys
+    package:
+      # Location where forescout will be installed on the system
+      install_dir: /usr/lib/forescout
+
+      # Command to install the forescout secure connector, after extracting the archive
+      install_cmd: secure_connector/install.sh
+
+      # Command that tests whether to run the forescout install command
+      installed_test: test -d /usr/lib/forescout/daemon
+
+      # Command used in the `clean` state to uninstall the forescout secure connector
+      uninstall_cmd: /usr/lib/forescout/Uninstall.sh
+
+      # Command that tests whether to run the forescout uninstall command
+      uninstall_test: test -x /usr/lib/forescout/Uninstall.sh
+
+      archive:
+        # Directory where the archive will be extracted
+        extract_directory: {{ salt.config.get('cachedir') }}/files/base/forescout-secure-connector/package/archive/forescout
+
+      daemon:
+        # Name of the daemon package required by forescout
+        name: daemon
+
+        # Url to the file that installs the daemon package
+        source: https://url/to/daemon/pkg.rpm
+
+    service:
+      # Name of the forescout secure connector service
+      name: SecureConnector

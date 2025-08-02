@@ -1,0 +1,102 @@
+splunkforwarder:
+
+  lookup:
+
+    ##############################################################
+    # WINDOWS: Required parameters for the splunkforwarder-formula
+    # Uncomment and set the required parameters, or the formula
+    # will fail.
+    ##############################################################
+
+    # deploymentclient.conf contains the information necessary for connecting
+    # to the splunk server.
+    # deploymentclient:client_name is an identifier for the client environment
+    # deploymentclient:target_uri is is the fqdn:port of the splunk collector
+    #deploymentclient:
+      #client_name: splunk-uf-windows-srv
+      #target_uri: 'hostname.domainname:9098'
+
+    ##############################################################
+    # WINDOWS: Optional parameters for the splunkforwarder-formula
+    ##############################################################
+
+    # log-local.cfg contains information on what logs will be forwarded to the
+    # splunk server.
+    #log_local:
+      #contents: |
+          #category.StatusMgr=WARN
+          #category.TcpOutputProc=WARN
+          #category.FilesystemChangeWatcher=ERROR
+
+    # inputs.conf is a map with a `sections` key that contains sections of the
+    # INI-formatted `inputs.conf` file. For syntax and INI sections options,
+    # see http://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf.
+    #inputs:
+      #sections:
+        #'monitor://C:\path\to\app.log': {}
+
+    # `package` is the name of the winrepo package containing the
+    # splunkforwarder
+    #package: splunkforwarder
+
+    # `service` is the name of the splunkforwarder service
+    #service: SplunkForwarder
+
+
+    ##############################################################
+    # LINUX: Required parameters for the splunkforwarder-formula
+    # Uncomment and set the required parameters, or the formula
+    # will fail.
+    ##############################################################
+
+    # package_url is the URL to the splunkforwarder RPM.
+    #package_url: https://path/to/my/splunkforwarder.rpm
+
+    # deploymentclient.conf contains the information necessary for connecting
+    # to the splunk server.
+    # client_name is an identifier for the client system or environment
+    # target_uri is is the fqdn:port of the splunk collector
+    #deploymentclient:
+      #client_name: splunk-uf-linux-srv
+      #target_uri: 'hostname.domainname:9098'
+
+    ##############################################################
+    # LINUX: Optional parameters for the splunkforwarder-formula
+    ##############################################################
+
+    # service_opts can be used to configure non-default service start options
+    #service_opts: --accept-license
+
+    # log-local.cfg contains information on what logs will be forwarded to the
+    # splunk server.
+    #log_local:
+      #contents: |
+          #category.StatusMgr=WARN
+          #category.TcpOutputProc=WARN
+          #category.FilesystemChangeWatcher=ERROR
+
+    # inputs.conf is a map with a `sections` key that contains sections of the
+    # INI-formatted `inputs.conf` file. For syntax and INI sections options,
+    # see http://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf.
+    #inputs:
+      #sections:
+        #'monitor:///path/to/app.log': {}
+
+    # list of ports to open outbound for splunk communication
+    #client_out_ports:
+    #  - 8089
+    #  - 9997
+
+    # `package` is the name of the package installed by the splunkforwarder
+    # RPM
+    #package: splunkforwarder
+
+    # `service` is the name of the splunkforwarder service
+    #service: splunk
+
+    # `user` is an object of attributes used to configure the splunk user
+    #user:
+    #  name: splunk
+    #  fullname: Splunk Server
+    #  home: /opt/splunkforwarder
+    #  shell: /bin/bash

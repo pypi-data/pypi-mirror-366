@@ -1,0 +1,8 @@
+# Force LF normalization for text files
+* text eol=lf
+
+# Use CRLF for .bat files
+*.bat text eol=crlf
+
+# Remove text attribute from xml files
+*.xml -text

@@ -1,0 +1,9 @@
+- name: NewGuestName
+  policy_type: secedit
+  value: '"xGuest"'
+- name: SeDenyRemoteInteractiveLogonRight
+  policy_type: secedit
+  value: '*S-1-5-32-546'
+- name: SeDenyNetworkLogonRight
+  policy_type: secedit
+  value: '*S-1-5-32-546'

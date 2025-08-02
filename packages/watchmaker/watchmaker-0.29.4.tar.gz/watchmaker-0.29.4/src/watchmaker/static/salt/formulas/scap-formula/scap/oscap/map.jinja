@@ -1,0 +1,43 @@
+{%- from 'scap/map.jinja' import scap with context %}
+
+{%- set ds_matcher = salt.grains.filter_by({
+    8: salt.grains.filter_by({
+        'AlmaLinux': 'centos8',
+        'CentOS': 'centos8',
+        'CentOS Stream': 'centos8',
+        'OEL': 'ol8',
+        'RedHat': 'rhel8',
+        'Rocky': 'rl8',
+    }, grain='os'),
+    9: salt.grains.filter_by({
+        'AlmaLinux': 'almalinux9',
+        'CentOS Stream': 'cs9',
+        'OEL': 'ol9',
+        'RedHat': 'rhel9',
+        'Rocky': 'rl9',
+    }, grain='os'),
+    10: salt.grains.filter_by({
+        'AlmaLinux': 'almalinux10',
+        'CentOS Stream': 'cs10',
+        'OEL': 'ol10',
+        'RedHat': 'rhel10',
+        'Rocky': 'rl10',
+    }, grain='os'),
+    2023: salt.grains.filter_by({
+        'Amazon Linux': 'al2023',
+    }, grain='os'),
+}, grain='osmajorrelease')%}
+
+{#- Initialize oscap dictionary with defaults and pillar data #}
+{%- set oscap = {
+    'ds': salt.pillar.get('scap:lookup:oscap:ds') | default('openscap/ssg-' ~ ds_matcher ~ '-ds.xml', true),
+    'profile': salt.pillar.get('scap:lookup:oscap:profile') | default('common', true),
+} %}
+
+{#- Update oscap dictionary with static values #}
+{%- do oscap.update({
+    'ds': scap.content.local_dir ~ '/' ~ oscap.ds,
+    'output_dir': scap.output_dir,
+    'report': scap.output_dir ~ '/oscap-report.' ~ oscap.ds|replace('/','.') ~ '.$(date "+%Y%m%d%H%M").html',
+    'results': scap.output_dir ~ '/oscap-results.' ~ oscap.ds|replace('/','.') ~ '.$(date "+%Y%m%d%H%M").xml'
+}) %}

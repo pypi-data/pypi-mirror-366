@@ -1,0 +1,13 @@
+extends: default
+
+ignore: |
+  forescout-secure-connector/parameters/defaults.yaml
+  pillar.example.yml
+
+rules:
+  line-length: disable
+  document-start: disable
+  truthy:
+    ignore: |
+      .github/workflows/*
+      .travis.yml

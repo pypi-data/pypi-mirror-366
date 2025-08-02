@@ -1,0 +1,18 @@
+click
+importlib_metadata
+importlib_resources
+six
+compatibleversion>=0.1.2
+oschmod>=0.1.3
+
+[:platform_system == "Windows"]
+defusedxml
+pywin32
+
+[:python_version < "3"]
+futures
+
+[:python_version >= "3.6"]
+backoff
+distro
+PyYAML

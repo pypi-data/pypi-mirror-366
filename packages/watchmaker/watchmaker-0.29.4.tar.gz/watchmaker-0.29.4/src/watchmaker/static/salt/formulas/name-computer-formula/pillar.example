@@ -1,0 +1,18 @@
+name-computer:
+
+  lookup:
+    # Optional. If provided, DNS domain will be appended to hostname on Linux
+    # systems. Also used to create DNS record when `nameserver` is also provided.
+    dns_domain: <DNS Domain>
+
+    # Optional. If provided, formula will send a Dynamic DNS update to the nameserver
+    # to create/update both forward and reverse records. Requires `dns_domain`.
+    nameserver: <DNS Name Server>
+
+    # Optional. If provided, formula will skip the Dynamic DNS create/update of the
+    # forward record. Requires `dns_domain` and `nameserver`
+    skip_forward_nsupdate: true
+
+    # Optional. If provided, formula will skip the Dynamic DNS create/update of the
+    # reverse record. Requires `dns_domain` and `nameserver`
+    skip_reverse_nsupdate: true

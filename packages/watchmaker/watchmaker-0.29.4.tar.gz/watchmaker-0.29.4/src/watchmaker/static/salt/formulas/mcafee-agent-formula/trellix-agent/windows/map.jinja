@@ -1,0 +1,16 @@
+{#- Initialize a map of default values #}
+{%- load_yaml as defaults %}
+
+package: 'trellix-agent'
+version: ''
+
+{%- endload %}
+
+{#- Define the trellix map, merging pillar and default values #}
+{%-
+    set trellix = salt['pillar.get'](
+        'trellix-agent:lookup',
+        default=defaults,
+        merge=True
+    )
+%}

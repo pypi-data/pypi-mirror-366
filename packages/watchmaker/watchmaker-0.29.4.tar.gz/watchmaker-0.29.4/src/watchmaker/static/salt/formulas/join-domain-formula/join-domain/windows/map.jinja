@@ -1,0 +1,56 @@
+{#
+    * Get the join-domain settings from pillar and grains.
+    * Create a list of unique admins from values in both pillar and grains.
+    * Merge the grains settings into pillar. This allows local overrides of
+      pillar settings. Admins in pillar will be preserved.
+    * Add local variables back to the join_domain settings so they can be
+      referenced elsewhere.
+#}
+
+{%- set join_domain = salt['pillar.get'](
+    'join-domain:lookup',
+    default={
+      'oupath': '',
+      'ec2config': 'null',
+      'register_primary_connection_address': true,
+      'use_suffix_when_registering': false,
+      'tries': 3
+    },
+    merge=True
+) %}
+{%- set join_domain_grains = salt['grains.get']('join-domain', {}) %}
+
+{%- set admins = [] %}
+{%- for admin in join_domain.get('admin_users', []) +
+    join_domain.get('admin_groups', []) +
+    join_domain_grains.get('admin_users', []) +
+    join_domain_grains.get('admin_groups', [])
+%}
+    {%- if admin not in admins %}
+        {%- do admins.append(admin) %}
+  {%- endif %}
+{%- endfor %}
+
+{%- do join_domain.update(salt['grains.get']('join-domain', {})) %}
+
+{%- set wrapper = {
+    'name' : opts['cachedir'] ~ '\\extfiles\\join-domain\\Invoke-ScriptDeleteTask.ps1',
+    'source' : 'salt://' ~ tpldir ~ '/files/Invoke-ScriptDeleteTask.ps1'
+} %}
+
+{%- set new_member = {
+    'name' : opts['cachedir'] ~ '\\extfiles\\join-domain\\New-LocalGroupMember.ps1',
+    'source' : 'salt://' ~ tpldir ~ '/files/New-LocalGroupMember.ps1'
+} %}
+
+{%- set script = {
+    'name' : opts['cachedir'] ~ '\\extfiles\\join-domain\\JoinDomain.ps1',
+    'source' : 'salt://' ~ tpldir ~ '/files/JoinDomain.ps1'
+} %}
+
+{%- do join_domain.update({
+    'script': script,
+    'admins' : admins,
+    'wrapper' : wrapper,
+    'new_member' : new_member
+}) %}

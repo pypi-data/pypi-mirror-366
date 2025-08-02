@@ -1,0 +1,126 @@
+# Pillar variables used by ash-linux formula.
+#
+# Currently, only rsyslog service is targeted for Pillar-usage
+#
+#################################################################
+## ash-linux:
+##   lookup:
+
+       # Settings used for configuring syslog service
+##     rsyslog:
+##       destination: localhost
+##       transport: udp
+##       log_port: 517
+##       match_criteria: *.*
+##       disable_locallog: no
+##       log_template: RSYSLOG_ForwardFormat
+
+       # Whether to attempt to cac-enable the system
+##     cac-enable: false
+
+       # Where to send automated emails
+##     notifier-email: notifications@my.fully.qualified.domain
+
+       # STIG-handlers to skip
+##     skip-stigs:
+##       - RHEL-07-020160
+##       - RHEL-07-020161
+
+       # Maximum length of time (in days) to patch system within
+##     mustpatch-days: 30
+
+       # Default permission to set on home directories
+##     home-mode: 0700
+
+       # Action auditd will take if it overruns its event-queues
+##     audit-overflow: <0|1|2>
+
+       # Action auditd will take if log-space is running out
+##     audit-space-action: <ignore|syslog|rotate|email|exec|suspend|single|halt>
+
+       # The IP/hostname of a remote node configured to collect
+       # event information from the audispd service
+##     audisp-server: audispdcol.my.fully-qualified.domain
+
+       # Action to take if audispd detects a disk-full condition
+##     audisp-disk-full: <syslog|single|halt>
+
+       # Action to take if audispd is unable to send logs to a
+       # remote collector-host
+##     audisp-net-fail: <syslog|single|halt>
+#
+
+       # Users that should get specific confinements other that 'user_u'
+##     sel_confine:
+##       guest_u:      # Users that should be mapped to the 'guest_u' confinement
+##       root_u:       # Users that should be mapped to the 'root' confinement
+##       staff_u:      # Users that should be mapped to the 'staff_u' confinement
+##       sysadm_u:     # Users that should be mapped to the 'sysadm_u' confinement
+##       system_u:     # Users that should be mapped to the 'system_u' confinement
+##       unconfined_u: # Users that should be mapped to the 'unconfined_u' confinement
+##       null_u:       # Users that should be not be mapped to a confinement
+
+
+       # List of accounts that should be banned from deployed systems
+##     banned-accts
+##       - ftp
+##       - games
+##       - gopher
+
+       # DNS-related information for SaltStack to enforce if not
+       # being received via other means (e.g., DHCP)
+##     dns-info
+##       nameservers
+##         - nameserver1.I.P.addr
+##         - nameserver2.I.P.addr
+
+
+##  Set a localized/custom password on the GRUB boot-loader
+##     grub-user: <ANY_STRING_OTHER_THAN_root>
+##     grub-passwd: <POLICY_COMPLIANT_PASSWORD_STRING>
+
+##  Ensure that the LogLevel parm in sshd_config is set to the
+##  site-mandated value
+##     sshd-loglevel:  <QUIET|FATAL|ERROR|INFO|VERBOSE|DEBUG|DEBUG1|DEBUG2|DEBUG3>
+##  (See man page for valid values and associated output/warnings)
+
+    # If using oscap to harden, which profile to select
+    # If unsure of available profiles, use `oscap info \
+    # "/usr/share/xml/scap/ssg/content/ssg-${OSVERS}-xccdf.xml"`
+    ## scap-profile: 'stig-rhel7-server-gui-upstream'
+    ## scap-profile: 'standard'
+    ## scap-profile: 'pci-dss'
+    ## scap-profile: 'C2S'
+    ## scap-profile: 'common'
+
+    ## scap-cpe:     # Path to scap cpe-dictionary.xml file
+    ## scap-ds:      # Path to scap ds.xml file
+    ## scap-xccdf:   # Path to scap xccdf.xml file
+    ## scap-output:  # Path to directory where scap results will be saved
+
+##     pam_stuff:
+##       faillock_deny_count:    # pam_faillock's "deny" value
+##       faillock_fail_interval: # pam_faillock's "fail_interval" value
+##       faillock_unlock_time:   # pam_faillock's "unlock_time" value
+##       faillock_logging_dir:   # pam_faillock's "dir" value
+##       pwhistory_remember:     # pam_pwhistory's "remember" value
+##       pwhistory_retry:        # pam_pwhistory's "retry" value
+
+
+##     banner-plain: |
+##     login-banners:
+##       /etc/issue: |
+##           This banner-content overrides the standard, STIG-specified, DoD warning banner content that is bundled with the ASH-linux formula. This overridden content is placed into the '/etc/issue' file.
+##
+##           Notes on content-limitations:
+##
+##           * There is, currently, no tested limit to the length of the content deliverable by this content-block.
+##           * This override content may exceed an 80-column (or other) width.
+##           * This content may also be specified as multi-line content.
+##           * Wholly blank lines need not be padded with leading spaces.
+##           * The only current recommendation is to limit content to standad ASCII character-set. Alternate character-sets (i.e., UTF8/UNICODE) have not been tested.
+##
+##           Beyond that, "go nuts".
+##    
+##       gconf:  This banner-content overrides the standard, STIG-specified, DoD warning banner content that is bundled with the ASH-linux formula. Note that GDM's `gconf` utility wants banner text specified as a single line of text with any required linefeeds injected as '\n' literals. Beyond that, this override content is not constrained.\n\nBasically, "go nuts".
+##       

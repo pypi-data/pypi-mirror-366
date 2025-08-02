@@ -1,0 +1,40 @@
+{#- Get the ProgramFilesDir value from the registry #}
+{%-
+    set programfiles = salt['reg.read_value'](
+        'HKEY_LOCAL_MACHINE',
+        'SOFTWARE\Microsoft\Windows\CurrentVersion',
+        'ProgramFilesDir').vdata
+%}
+
+{#- Initialize a map of default values #}
+{%- load_yaml as defaults %}
+
+package: 'splunkforwarder'
+service: 'SplunkForwarder'
+deploymentclient:
+  conf: >-
+    '{{ programfiles }}\SplunkUniversalForwarder\etc\system\local\deploymentclient.conf'
+log_local:
+  contents: |
+      category.StatusMgr=WARN
+      category.TcpOutputProc=WARN
+      category.FilesystemChangeWatcher=ERROR
+  conf: >-
+    '{{ programfiles }}\SplunkUniversalForwarder\etc\log-local.cfg'
+inputs:
+  sections: {{ salt.grains.get('splunkforwarder:inputs:sections') | default({}, true) | yaml }}
+  conf: >-
+    '{{ programfiles }}\SplunkUniversalForwarder\etc\system\local\inputs.conf'
+bin_file: >-
+    {{ programfiles }}\SplunkUniversalForwarder\bin\splunk.exe
+
+{%- endload %}
+
+{#- Define the splunkforwarder map, merging pillar and default values #}
+{%-
+    set splunkforwarder = salt.pillar.get(
+        'splunkforwarder:lookup',
+        default=defaults,
+        merge=True
+    )
+%}

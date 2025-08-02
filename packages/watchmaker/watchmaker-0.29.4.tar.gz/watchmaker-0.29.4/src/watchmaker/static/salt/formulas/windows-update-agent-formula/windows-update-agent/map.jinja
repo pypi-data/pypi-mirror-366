@@ -1,0 +1,77 @@
+# Initialize wua dictionary with default data structure of relevant registry settings
+# Registry key purposes are defined here, https://technet.microsoft.com/en-us/library/Dd939844(v=WS.10).aspx
+# Formula supports all keys under these subkeys:
+# - HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate
+# - HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+
+{%- load_yaml as wua %}
+'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate':
+  AcceptTrustedPublisherCerts:
+    vtype: REG_DWORD
+  DisableWindowsUpdateAccess:
+    vtype : REG_DWORD
+  ElevateNonAdmins:
+    vtype: REG_DWORD
+  TargetGroup:
+    vtype: REG_SZ
+  TargetGroupEnabled:
+    vtype: REG_DWORD
+  WUServer:
+    vtype: REG_SZ
+  WUStatusServer:
+    vtype: REG_SZ
+'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer':
+  DisableWindowsUpdateAccess:
+    vtype: REG_DWORD
+'HKEY_LOCAL_MACHINE\SYSTEM\Internet Communication Management\Internet Communication':
+  NoWindowsUpdate:
+    vtype: REG_DWORD
+'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate':
+  DisableWindowsUpdateAccess:
+    vtype: REG_DWORD
+'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate\AU':
+  AlwaysAutoRebootAtScheduledTime:
+    vtype: REG_DWORD
+  AlwaysAutoRebootAtScheduledTimeMinutes:
+    vtype: REG_DWORD
+  AUOptions:
+    vtype: REG_DWORD
+  AutoInstallMinorUpdates:
+    vtype: REG_DWORD
+  DetectionFrequency:
+    vtype: REG_DWORD
+  DetectionFrequencyEnabled:
+    vtype: REG_DWORD
+  NoAutoRebootWithLoggedOnUsers:
+    vtype: REG_DWORD
+  NoAutoUpdate:
+    vtype: REG_DWORD
+  RebootRelaunchTimeout:
+    vtype: REG_DWORD
+  RebootRelaunchTimeoutEnabled:
+    vtype: REG_DWORD
+  RebootWarningTimeout:
+    vtype: REG_DWORD
+  RebootWarningTimeoutEnabled:
+    vtype: REG_DWORD
+  RescheduleWaitTime:
+    vtype: REG_DWORD
+  RescheduleWaitTimeEnabled:
+    vtype: REG_DWORD
+  ScheduledInstallDay:
+    vtype: REG_DWORD
+  ScheduledInstallTime:
+    vtype: REG_DWORD
+  UseWUServer:
+    vtype: REG_DWORD
+{%- endload %}
+
+# Loop through all keys in windows-update-agent pillar
+# Select the corresponding key in `wua` and update its `vdata` key
+{%- for key,values in salt['pillar.get']('windows-update-agent:lookup:registry', {}).items() %}
+    {%- for vname,vdata in values.items() %}
+        {%- do wua[key][vname].update({
+            'vdata' : vdata
+        }) %}
+    {%- endfor %}
+{%- endfor %}

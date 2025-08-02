@@ -1,0 +1,17 @@
+# Set default values.
+---
+values:
+  package:
+    install_dir: /usr/lib/forescout
+    install_cmd: secure_connector/install.sh
+    installed_test: test -d /usr/lib/forescout/daemon
+    uninstall_cmd: /usr/lib/forescout/Uninstall.sh
+    uninstall_test: test -x /usr/lib/forescout/Uninstall.sh
+    archive:
+      extract_directory: {{ salt.config.get('cachedir') }}/files/base/forescout-secure-connector/package/archive/forescout
+    daemon:
+      name: daemon
+
+  service:
+    name: SecureConnector
+...

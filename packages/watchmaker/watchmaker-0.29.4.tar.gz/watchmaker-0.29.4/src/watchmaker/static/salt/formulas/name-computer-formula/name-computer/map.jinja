@@ -1,0 +1,96 @@
+{% macro get_name(pattern, name, default) -%}
+    {%- if name and salt.match.pcre(pattern, name) -%}
+        {{ name }}
+    {%- elif default and salt.match.pcre(pattern, default) -%}
+        {{ default }}
+    {%- endif -%}
+{%- endmacro %}
+
+{%- set pattern = salt.pillar.get('name-computer:lookup:pattern') |
+    default(salt.grains.get('name-computer:pattern'), true) |
+    default('.*', true)
+%}
+
+{%- set name = get_name(
+    pattern,
+    salt.grains.get('name-computer:computername') | default('', true),
+    salt.pillar.get('name-computer:lookup:computername') | default('', true)
+) %}
+
+{%- set dns_domain = salt.pillar.get('name-computer:lookup:dns_domain') | default('', true) %}
+{%- set nameserver = salt.pillar.get('name-computer:lookup:nameserver') | default('', true) %}
+{%- set skip_forward_nsupdate = salt.pillar.get('name-computer:lookup:skip_forward_nsupdate') | default(false, true) %}
+{%- set skip_reverse_nsupdate = salt.pillar.get('name-computer:lookup:skip_reverse_nsupdate') | default(false, true) %}
+
+{%- set dummy_address = '192.0.0.8' %}
+
+{%- set primary_ip = salt.network.get_route(dummy_address)['source'] %}
+{%- set reverse_ip_address = primary_ip.split('.') | reverse | join('.') %}
+{%- set reverse_ip_zone = primary_ip.split('.')[0:3] | reverse | join('.') %}
+
+{%- load_yaml as salt_states %}
+RedHat:
+  Set Computer Name:
+    network.system:
+      {%- if dns_domain %}
+      - hostname: {{ name }}.{{ dns_domain|lower }}
+      {%- else %}
+      - hostname: {{ name }}
+      {%- endif %}
+      - apply_hostname: True
+      - retain_settings: True
+
+  Update /etc/hosts:
+    host.present:
+      - ip: {{ primary_ip }}
+      - names:
+      {%- if dns_domain %}
+        - {{ name|lower }}.{{ dns_domain|lower }}
+      {%- endif %}
+        - {{ name|lower }}
+
+  {%- if dns_domain and nameserver %}
+  Install dnspython:
+    pip.installed:
+      - name: dnspython
+      - reload_modules: True
+
+    {%- if not skip_forward_nsupdate %}
+  Create DNS forward record:
+    ddns.present:
+      - data: {{ primary_ip }}
+      - name: {{ name }}.{{ dns_domain }}.
+      - nameserver: {{ nameserver }}
+      - rdtype: A
+      - replace: True
+      - require:
+        - pip: Install dnspython
+      - ttl: 7200
+      - zone: {{ dns_domain }}
+    {%- endif %}
+
+    {%- if not skip_reverse_nsupdate %}
+  Create DNS reverse record:
+    ddns.present:
+      - data: {{ name }}.{{ dns_domain }}.
+      - name: {{ reverse_ip_address }}.in-addr.arpa.
+      - nameserver: {{ nameserver }}
+      - rdtype: PTR
+      - replace: True
+      - require:
+        - pip: Install dnspython
+      - ttl: 7200
+      - zone: {{ reverse_ip_zone }}.in-addr.arpa.
+    {%- endif %}
+  {%- endif %}
+
+Windows:
+  Set Computer Name:
+    system.computer_name:
+      - name: {{ name }}
+{%- endload %}
+
+{%- set name_computer = salt['grains.filter_by'](
+    salt_states,
+    grain='os_family'
+) if name else {} %}
