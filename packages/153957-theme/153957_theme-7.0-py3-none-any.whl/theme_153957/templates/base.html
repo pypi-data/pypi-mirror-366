@@ -1,0 +1,96 @@
+{% set source_dir = album.gallery.settings.source.split('/')[-1] %}
+{% set top_album = album.gallery.albums['.'] %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ album.gallery.title }}{% if source_dir != album.title|striptags %} : {{ album.title|striptags }}{% endif %}</title>
+    <meta name="description" content="{{ album.description }}">
+    <meta name="author" content="{{ album.author }}">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ theme.url }}/css/normalize.css">
+    <link rel="stylesheet" href="{{ theme.url }}/css/style.css">
+    {{ settings.head|default('')|safe }}
+  </head>
+  <body>
+    {{ settings.body_prefix|default('')|safe }}
+    <div id="main"{% if not top_album.albums %} class="no_menu"{% endif %}>
+      {% if top_album.albums %}
+        <div id="menu">
+          {% if album.gallery.title %}
+            <p class="title">
+              <a href="{{ album.path_to_root }}">{{ album.gallery.title }}</a>
+            </p>
+          {% endif %}
+          {% with menu_album=top_album, depth=0 %}
+            {% include './menu.html' %}
+          {% endwith %}
+        </div>
+      {% endif %}
+
+      {% if album.medias %}
+        <div id="thumbnails">
+          {% for media in album.medias -%}
+            <a
+              href="#{{ media.dst_filename }}"
+              data-id="{{ media.dst_filename }}"
+            ><img
+              src="{{ media.thumbnail }}"
+              alt="{{ media.title or media.src_filename }}"
+              {% if media.type == "image" %}
+                style="aspect-ratio: auto {{ media.thumb_size.width }} / {{ media.thumb_size.height }};"
+              {% endif %}
+            ></a>
+          {%- endfor %}
+        </div>
+
+        <div id="canvas">
+          {% for media in album.medias %}
+            <div
+              id="{{ media.dst_filename }}"
+            >
+              {% if media.type == "image" -%}
+                {% set media_date = media.exif.dateobj.strftime('%y%m%d %H%M%S') if media.exif and 'dateobj' in media.exif else '(unknown date)' %}
+                <span>{{ media.title or media.src_filename }}    {{ media_date }}</span>
+                <img
+                  src="{{ media.dst_filename }}"
+                  alt=""
+                  style="
+                    aspect-ratio: auto {{ media.size.width }} / {{ media.size.height }};
+                    {% if not settings.thumb_fit %}
+                      background: url('{{ media.thumbnail }}') center/cover no-repeat;
+                    {% endif %}
+                  "
+                  loading="lazy"
+                >
+              {%- elif media.type == "video" %}
+                <span>{{ media.title or media.src_filename }}</span>
+                <video
+                  controls
+                  preload="metadata"
+                  poster="{{ media.thumbnail }}"
+                >
+                  <source src='{{ media.src_filename }}' type='{{ media.mime }}' />
+                </video>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <svg id="fullscreen" viewBox="0 0 32 32">
+          <g fill="currentColor">
+            <polygon points="27 25 23 20 20 23 25 27 20 32 32 32 32 20" />
+            <polygon points="12 0 0 0 0 12 4.6 7.4 9.1 12 12 9.1 7.4 4.6" />
+            <polygon points="12 23 9.2 20 4.6 25 0 20 0 32 12 32 7.4 27" />
+            <polygon points="32 0 20 0 25 4.6 20 9.1 23 12 27 7.4 32 12" />
+          </g>
+        </svg>
+
+      {% endif %}
+    </div>
+    {{ settings.body_suffix|default('')|safe }}
+    <script src="{{ theme.url }}/js/gallery.js"></script>
+  </body>
+</html>
