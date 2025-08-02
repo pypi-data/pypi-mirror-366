@@ -1,0 +1,24 @@
+# python generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# venv
+.venv
+
+# vscode
+.vscode
+
+# development
+.devcontainer/
+.env
+rpc_files/
+
+# tests
+tests/**/*.py
+tests/**/*.pyi
+!tests/**/test_*.py
+.coverage
