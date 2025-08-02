@@ -1,0 +1,17 @@
+Django<6,>5.0
+django-tasks<0.9,>=0.7
+
+[dev]
+ruff==0.11.2
+
+[docs]
+sphinx<9,>=8.2.3
+sphinx-rtd-theme<4.0,>=3.0.2
+myst-parser<5,>=4.0.1
+
+[test]
+dj-database-url<3,>=2.3.0
+psycopg<4,>=3.2.6
+django-modelcluster<7,>=6.4
+django-tasks<1,>=0.6.1
+django-taggit<7,>=6.1.0
