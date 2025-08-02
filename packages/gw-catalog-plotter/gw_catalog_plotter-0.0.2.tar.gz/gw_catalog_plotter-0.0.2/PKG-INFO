@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: gw-catalog-plotter
+Version: 0.0.2
+Summary: Utilities for plotting gravitational wave event catalogues.
+Author-email: Daniel Williams <daniel.williams@ligo.org>
+License-Expression: MIT
+Project-URL: Source code, https://github.com/transientlunatic/catalog-plotter
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Natural Language :: English
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click
+Requires-Dist: matplotlib
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: kentigern>=0.3.0; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Requires-Dist: sphinx-click; extra == "docs"
+Requires-Dist: sphinx-multiversion; extra == "docs"
+Dynamic: license-file
+
+# catalog-plotter
+Utilities for plotting gravitational wave catalogues
