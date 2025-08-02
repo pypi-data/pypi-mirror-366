@@ -1,0 +1,70 @@
+Metadata-Version: 2.4
+Name: hello-world-package-austi
+Version: 0.1.0
+Summary: A simple hello world package
+Home-page: https://github.com/yourusername/hello-world-package
+Author: Your Name
+Author-email: Your Name <your.email@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/hello-world-package
+Project-URL: Bug Reports, https://github.com/yourusername/hello-world-package/issues
+Keywords: hello,world,example
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Hello World Package
+
+A simple Python package that demonstrates how to create and publish a package to PyPI.
+
+## Installation
+
+```bash
+pip install hello-world-package-austi
+```
+
+## Usage
+
+After installation, you can use the package in two ways:
+
+### Command Line Interface
+
+```bash
+hello-world
+```
+
+### Python Module
+
+```python
+from hello_world import greet
+
+# Print hello world
+greet()
+
+# Custom greeting
+greet("Alice")
+```
+
+## Features
+
+- Simple hello world functionality
+- Command line interface
+- Customizable greetings
+
+## License
+
+This project is licensed under the MIT License.
