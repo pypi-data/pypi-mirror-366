@@ -1,0 +1,83 @@
+[project]
+authors = [
+    { name = "Jesse Almanrode", email = "jesse@almanrode.com" },
+]
+requires-python = "<4.0,>3.9"
+dependencies = [
+    "click<9,>=8",
+    "colorama<1.0,>=0.4",
+    "paramiko<4,>=3",
+    "progressbar2<5,>=4",
+    "python-hostlist<2,>=1",
+]
+name = "sshreader"
+version = "6.2.0"
+description = "Multi-threading/processing wrapper for Paramiko"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.license]
+text = "LGPL-3.0-or-later"
+
+[project.urls]
+homepage = "http://sshreader.readthedocs.io/"
+repository = "https://bitbucket.org/isaiah1112/sshreader/"
+
+[project.scripts]
+pydsh = "sshreader.scripts.pydsh:cli"
+
+[tool.pdm.build]
+includes = [
+    "sshreader",
+    "sshreader/scripts",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "B",
+    "UP",
+    "B",
+    "SIM",
+    "I",
+]
+ignore = [
+    "E501",
+    "F401",
+]
+
+[[tool.uv.index]]
+name = "test-pypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[dependency-groups]
+test = [
+    "coverage<8,>=7",
+    "discover<1.0,>=0.4",
+    "ruff<1.0.0,>=0.9.9",
+]
+docs = [
+    "sphinx<8,>=7",
+]
