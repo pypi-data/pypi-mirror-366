@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: mccole
+Version: 0.5.4
+Summary: Simple template for static web sites
+Author-email: Greg Wilson <gvwilson@third-bit.com>, Juanan Pereira <juanan.pereira@ehu.eus>
+Maintainer-email: Greg Wilson <gvwilson@third-bit.com>
+Keywords: static site generator
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: beautifulsoup4>=4.12.3
+Requires-Dist: gitpython>=3.1
+Requires-Dist: html5validator>=0.4.2
+Requires-Dist: jinja2>=3.1.4
+Requires-Dist: markdown>=3.6
+Requires-Dist: prettytable>=3.11
+Requires-Dist: pygithub>=2.4
+Requires-Dist: ruff>=0.6.0
+Requires-Dist: tomli>=2.0.1
+Provides-Extra: dev
+Requires-Dist: build; extra == "dev"
+Requires-Dist: markdown-include; extra == "dev"
+Requires-Dist: mkdocs; extra == "dev"
+Requires-Dist: mkdocstrings[python]; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
+# McCole
+
+A tool for building very simple static websites.
+All of the material is available under an [open license](./LICENSE.md),
+and contributions through our [GitHub repository][repo] are welcome:
+please see [the contributors guide](./CONTRIBUTING.md) for instructions.
+All contributors are required to respect our [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+1.  `pip install mccole` to install.
+2.  `mccole install` to copy the following tools into the current directory:
+    -   `static/page.css`: styling for regular pages
+    -   `static/slides.css`: styling for slides
+    -   `static/slides.js`: JavaScript to make slides interactive
+    -   `templates/page.html`: Jinja template for pages
+    -   `templates/slides.html`: Jinja template for slides
+
+After installation, the following commands will be available:
+
+-   `mccole lint`: internal project check
+-   `mccole render`: Markdown-to-HTML translator
+-   `mccole stats`: site statistics
+
+[repo]: https://github.com/lessonomicon/mccole
