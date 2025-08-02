@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright
+        entry: uv run pyright
+        language: system
+        types: [python]
+        pass_filenames: false
+        args: [claude_code_cost/]
