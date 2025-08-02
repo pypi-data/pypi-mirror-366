@@ -1,0 +1,125 @@
+Metadata-Version: 2.4
+Name: arxiv-export-documents
+Version: 0.1.8
+Summary: Export arxiv papers to pdf formats
+Author-email: Giuseppe Zileni <giuseppe.zileni@gmail.com>
+Project-URL: Homepage, https://gzileni.github.io/arxiv-export-documents
+Project-URL: Repository, https://github.com/gzileni/arxiv-export-documents.git
+Keywords: arxiv,export,papers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: aiohappyeyeballs>=2.6.1
+Requires-Dist: aiohttp>=3.12.15
+Requires-Dist: aiosignal>=1.4.0
+Requires-Dist: annotated-types>=0.7.0
+Requires-Dist: anyio>=4.9.0
+Requires-Dist: attrs>=25.3.0
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: certifi>=2025.7.14
+Requires-Dist: charset-normalizer>=3.4.2
+Requires-Dist: dataclasses-json>=0.6.7
+Requires-Dist: frozenlist>=1.7.0
+Requires-Dist: greenlet>=3.2.3
+Requires-Dist: h11>=0.16.0
+Requires-Dist: httpcore>=1.0.9
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: httpx-sse>=0.4.1
+Requires-Dist: idna>=3.10
+Requires-Dist: jsonpatch>=1.33
+Requires-Dist: jsonpointer>=3.0.0
+Requires-Dist: langchain>=0.3.27
+Requires-Dist: langchain-community>=0.3.27
+Requires-Dist: langchain-core>=0.3.72
+Requires-Dist: langchain-text-splitters>=0.3.9
+Requires-Dist: langsmith>=0.4.8
+Requires-Dist: marshmallow>=3.26.1
+Requires-Dist: multidict>=6.6.3
+Requires-Dist: mypy_extensions>=1.1.0
+Requires-Dist: numpy>=2.3.2
+Requires-Dist: orjson>=3.11.1
+Requires-Dist: packaging>=25.0
+Requires-Dist: propcache>=0.3.2
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: pydantic-settings>=2.10.1
+Requires-Dist: pydantic_core>=2.33.2
+Requires-Dist: pypdf>=5.9.0
+Requires-Dist: pyproject_hooks>=1.2.0
+Requires-Dist: python-dotenv>=1.1.1
+Requires-Dist: PyYAML>=6.0.2
+Requires-Dist: requests>=2.32.4
+Requires-Dist: requests-toolbelt>=1.0.0
+Requires-Dist: sniffio>=1.3.1
+Requires-Dist: SQLAlchemy>=2.0.42
+Requires-Dist: tenacity>=9.1.2
+Requires-Dist: typing-inspect>=0.9.0
+Requires-Dist: typing-inspection>=0.4.1
+Requires-Dist: typing_extensions>=4.14.1
+Requires-Dist: urllib3>=2.5.0
+Requires-Dist: yarl>=1.20.1
+Requires-Dist: zstandard>=0.23.0
+Dynamic: license-file
+
+# Arxix Export
+
+**Arxiv Export** is a Python library that allows you to search, download, and manage scientific articles from [arXiv.org](https://arxiv.org/). It is useful for automating paper downloads and obtaining structured information about articles.
+
+## Installation
+
+```bash
+pip install arxiv-export
+```
+
+## Usage Example
+
+```python
+import asyncio
+from arxiv_export_documents import export_papers
+
+
+async def main():
+    search_query = "quantum computing"
+    download_path = "./arxiv_papers"
+    max_results = 5
+
+    async for paper in export_papers(
+        search=search_query,
+        path_download=download_path,
+        max_results=max_results
+    ):
+        print(f"Downloaded paper: {paper.title}")
+        print(f"Authors: {', '.join(paper.authors)}")
+        print(f"Summary: {paper.summary}")
+        print(f"Link: {paper.link}")
+        print(f"Path: {paper.path}")
+        print(f"Documents: {len(paper.documents)}")
+        print(f"Exists: {paper.is_exist}")
+        print("-" * 80)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## Features
+
+- Search for articles on arXiv using keywords.
+- Automatically download article PDFs.
+- Access metadata such as title, authors, abstract, link, and local path.
+- Manage multiple results with a single command.
+
+## Main Parameters
+
+- `search`: search string (e.g., `"quantum computing"`).
+- `path_download`: path to save the PDFs.
+- `max_results`: maximum number of articles to download.
+
+### Vector Database for LLMs
+
+The `documents` property provides a list of `Document` files intended for ingestion into a vector database. These files are commonly used to supply structured data to language models (LLMs), supporting semantic search and advanced analysis.
+
+## License
+
+This library is distributed under the MIT license.
