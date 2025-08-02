@@ -1,0 +1,42 @@
+{% load share_links_templatetags markdownify humanize i18n %}
+
+<article{% if not link.online %} title="{% translate 'This link is likely not available on the web, it has been replaced by a web archive link.' %}"{% endif %}>
+  <div class="sameline">
+    <h2>{% if not link.online %}<span class="title opacity no_weight right_padding">({% translate "offline" %})</span>{% else %}{{ link.link|show_favicon|safe }}{% endif %} <a href="{% if link.online %}{{ link.link }}{% else %}https://web.archive.org/*/{{ link.link }}{% endif %}">{% if link.title != None and link.title != "" %}{{ link.title }}{% else %}{{ link.link }}{% endif %}</a></h2>
+    <span class="unobtrusive">
+      {% if link.language %}<span class="title" title="{{ link.language|get_translated_language }}">[{{link.language}}]</span>{% endif %}<br />
+      {% with domain_name=link.link|get_domain_name %}
+        (<a href="{% url 'link_index' domain_name %}">{{ domain_name }}</a>)
+      {% endwith %}
+    </span>
+  </div>
+  {% block description %}
+    {% if link.description %}
+      <p class="serif">
+        {% if page_obj or request.GET.search %}
+          {{ link.description|markdownify|truncatewords_html:20 }}
+        {% else %}
+          {{ link.description|markdownify }}
+        {% endif %}
+      </p>
+    {% endif %}
+  {% endblock %}
+  <aside class="sameline">
+    <nav>
+      {% if link.tags.all %}
+        {% for tag in link.tags.all %}<a href="/tag/{{ tag.slug }}">#{{ tag }}</a>{% endfor %}
+      {% endif %}
+    </nav>
+    <p class="unobtrusive">
+      {% translate "Added" %}
+      {% if link.added_by %}
+        {% translate "by" %}
+        <a href="/{{ LANGUAGE_CODE }}/?sort=author&author={{ link.added_by.username }}">{{ link.added_by.username }}</a>,
+      {% endif %}
+      <a href="{% url 'link' link.pk %}" title="{{ link.date_added }}">{{ link.date_added|naturaltime }}</a>
+      {% if link.comments.all.count > 0 %}
+        &mdash; <wbr> ({% blocktrans with comments_nb=link.comments.all.count count comments=link.comments.all.count %}{{ comments_nb }} comment{% plural %}{{ comments_nb }} comments{% endblocktrans %})
+      {% endif  %}
+    </p>
+  </aside>
+</article>
