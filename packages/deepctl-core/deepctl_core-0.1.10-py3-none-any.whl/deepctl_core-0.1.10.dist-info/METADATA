@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: deepctl-core
+Version: 0.1.10
+Summary: Core components for deepctl
+Author-email: Deepgram <devrel@deepgram.com>
+Maintainer-email: Deepgram <devrel@deepgram.com>
+License-Expression: MIT
+Keywords: deepgram,core,auth,config,client
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: click>=8.0.0
+Requires-Dist: deepgram-sdk>=3.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: pyjwt>=2.8.0
+Requires-Dist: keyring>=24.0.0
+Requires-Dist: pyyaml>=6.0.0
+Requires-Dist: platformdirs>=3.0.0
+Requires-Dist: packaging>=21.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+
+# deepctl-core
+
+Core components for deepctl. This package is an internal component of deepctl and is not intended for standalone use.
