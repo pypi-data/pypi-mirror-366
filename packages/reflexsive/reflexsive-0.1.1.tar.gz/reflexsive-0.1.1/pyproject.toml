@@ -1,0 +1,77 @@
+[project]
+name = "reflexsive"
+dynamic = ["version"]
+description = "Method aliasing system with argument remapping and optional stub generation"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [
+    { name = "Dylan Raiff" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.9,<3.13"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License"
+]
+keywords = [
+    "alias", 
+    "aliasing", 
+    "function remapping", 
+    "method remapping", 
+    "decorator", 
+    "python", 
+    "reflex"
+]
+
+[project.urls]
+Homepage = "https://github.com/d-raiff/Reflex"
+Repository = "https://github.com/d-raiff/Reflex"
+Issues = "https://github.com/d-raiff/Reflex/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"reflexsive" = ["*"]
+
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "--strict-markers --tb=short --disable-warnings"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["reflexsive"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.mypy]
+mypy_path = "src"
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+pretty = true
+namespace_packages = true
+explicit_package_bases = true
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "node-and-date"
