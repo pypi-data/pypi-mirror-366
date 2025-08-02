@@ -1,0 +1,96 @@
+[project]
+name = "llmaix"
+version = "0.0.23"
+authors = [
+  { name = "Fabian Wolf", email = "fabian.wolf2@tu-dresden.de" }
+]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+dependencies = [
+  "markitdown[docx, xlsx, xls, pdf]~=0.1.2",
+  "click~=8.2.1",
+  "pymupdf~=1.26.3",
+  "pymupdf4llm==0.0.27",
+  "ocrmypdf~=16.10.4",
+  "openai>=1.98.0",
+  "pytest>=8.4.1",
+  "hatchling~=1.27.0",
+  "filetype>=1.2.0"
+]
+
+[project.urls]
+Homepage = "http://github.com/KatherLab/llmaixlib"
+Documentation = "http://github.com/KatherLab/llmaixlib"
+Issues = "http://github.com/KatherLab/llmaixlib/issues"
+
+[build-system]
+requires = ["hatchling ~= 1.27.0"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+llmaix = "llmaix.cli:main"
+
+[tool.hatch.version]
+path = "src/llmaix/__version__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llmaix"]
+
+[dependency-groups]
+dev = [
+  "ruff>=0.12.7",
+  "ty~=0.0.1a16",
+  "pytest~=8.4.1",
+  "pytest-cov~=6.2.1",
+  "isort~=6.0.1",
+]
+surya = [
+  "surya-ocr~=0.14.7",
+]
+docling = [
+  "docling~=2.43.0",
+  "rapidocr~=3.3.0",
+  "onnxruntime",
+  "rapidocr_onnxruntime"
+]
+
+paddleocr = [
+  "paddleocr>=3.1.0",
+  "paddlepaddle>=3.1.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest~=8.4.1",
+  "pytest-cov~=6.2.1",
+  "ruff~=0.12.7",
+  "ty~=0.0.1a16",
+  "isort~=6.0.1",
+]
+surya = ["surya-ocr~=0.14.7"]
+docling = [
+  "docling~=2.43.0",
+  "rapidocr~=3.3.0",
+  "onnxruntime",
+  "rapidocr_onnxruntime"
+]
+paddleocr = [
+  "paddleocr>=3.1.0",
+  "paddlepaddle>=3.1.0"
+]
+all = ["llmaix[dev,surya,docling,paddleocr]"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+  "error",
+  "ignore::UserWarning",
+  "ignore::DeprecationWarning"
+]
