@@ -1,0 +1,136 @@
+Metadata-Version: 2.4
+Name: candyfloss
+Version: 0.0.2
+Summary: An ergonomic interface over GStreamer
+Author-email: Bob Poekert <bob@poekert.com>
+License-Expression: MIT
+Project-URL: Homepage, https://git.hella.cheap/bob/candyfloss
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Pillow
+Dynamic: license-file
+
+
+# Candyfloss
+
+Candyfloss is an ergonomic interface to GStreamer. It allows users to build and run pipelines to decode and encode video files, extract video frames to use from python code, map python code over video frames, etc. 
+
+## Installation
+
+Candyfloss is installable by running setup.py in the normal way. It is also available on PyPI as [candyfloss](https://pypi.org/project/candyfloss/).
+
+Candyfloss requires that gstreamer is installed. Most desktop linux distros have it installed already. If you aren't on linux or don't have it installed check the GStreamer install docs [here](https://gstreamer.freedesktop.org/documentation/installing/index.html?gi-language=c). In addition to the installation methods mentioned there if you're on macos you can install it with homebrew by running `brew install gstreamer`. 
+
+## Examples
+
+```python
+
+# scale a video file to 300x300
+
+from candyfloss import Pipeline
+from candyfloss.utils import decode_file
+
+with Pipeline() as p:
+
+    inp_file = p >> decode_file('input.mp4')
+    scaled_video = inp_file >> 'videoconvert' >> 'videoscale' >> ('video/x-raw', {'width':300,'height':300})
+
+    mux = p >> 'mp4mux'
+    scaled_video >> 'x264enc' >> mux
+    inp_file >> 'avenc_aac' >> mux
+    mux >> ['filesink', {'location':'output.mp4'}]
+
+```
+
+
+```python
+
+# iterate over frames from a video file
+
+from candyfloss import Pipeline
+from candyfloss.utils import decode_file
+
+for frame in Pipeline(lambda p: p >> decode_file('input.webm')):
+    frame.save('frame.jpeg') # frame is a PIL image
+
+```
+
+```python
+
+# display your webcam with the classic emboss effect applied
+
+from candyfloss import Pipeline
+from PIL import ImageFilter
+
+with Pipeline() as p:
+    p >> 'autovideosrc' >> p.map(lambda frame: frame.filter(ImageFilter.EMBOSS)) >> 'autovideosink'
+
+```
+
+```python
+
+# display random noise frames in a window
+
+from candyfloss import Pipeline
+from candyfloss.utils import display_video
+from PIL import Image
+import numpy as np
+
+def random_frames():
+    rgb_shape = (300, 300, 3)
+    while 1:
+        mat = np.random.randint(0, 256, dtype=np.uint8, size=rgb_shape)
+        yield Image.fromarray(mat)
+
+with Pipeline() as p:
+    p.from_iter(random_frames(), (300, 300)) >> display_video()
+
+```
+
+## Syntax
+
+### Pipelines
+
+Candyfloss runs **pipelines**. They are created by constructing a `candyfloss.Pipeline` object. `Pipeline`s can be used two ways: either as context managers or as iterators. When used as a context manager, they allow you to construct a **pipeline** within the context and then the **pipeline** is executed when the context exits.
+
+***Example***
+
+```python
+
+from candyfloss import Pipeline
+
+with Pipeline() as p:
+    p >> 'videotestsrc' >> 'autovideosink'
+
+```
+
+When the **pipeline** is used as an iterator, it allows you to iterate over the frames produced by the **pipeline** (as PIL Image objects). To construct the **pipeline**, pass a function to the `Pipeline` constructor that builds and returns it.
+
+***Example***
+
+```python
+
+from candyfloss import Pipeline
+
+for frame in Pipeline(lambda p: p >> 'videotestsrc'):
+    frame.save('test_frame.png')
+
+```
+### Elements
+
+A **pipeline** is a graph of **elements** connected together. Some **elements** generate data, and that data flows out into the other **elements** they are connected to. To get a list of the different **elements** that are available on your system, run the `gst-inspect-1.0` command. To get documentation for a specific **element**, pass its name to the `gst-inspect-1.0` command (eg: `gst-inspect-1.0 tee`).
+
+**Elements** are constructed by calling the `>>` operator on the builder object returned by the context manager (ie in a `with` statement) or passed as an argument to the supplied constructor function (ie in `for frame in Pipeline(lambda p: p >> 'testvideosrc`):`). 
+
+The syntax for constructing **elements** is:
+
+1. A string literal (eg: `'videotestsrc'`) constructs an element with that name that takes no parameters.
+2. A list literal (eg: `['videotestsrc', {'pattern':18}]`) constructs an element with that name and sets parameters from the supplied dict.
+3. A tuple literal (eg: `('video/x-raw', {'width':100, 'height':100})`) constructs a **caps filter**. **Caps** are GStreamer's types, and caps filters are type constraints. The first argument is the type name and the second argument is a dictionary of parameters. Some **elements** will change their behavor at runtime based on the **caps** their upstream or downstream **elements** will accept. For example, the `videoscale` element will set the size it scales the video to based on the with and height parameters of the downstream **caps**. What **caps** an **element** supports is in the documentation generated by the `gst-inspect-1.0` command for that **element**.
+4. Calling `.map` on the builder object and passing a callable (eg: `p.map(lambda x: x.resize((100,100)))`) turns the given callable into an **element** that maps over frames. The argument passed to the function is a PIL Image object.
+5. Calling `.from_iter` on the builder object and passing an iterator over PIL Image objects turns the iterator into an **element** that produces frames from the iterator.
+
+Trying to construct an **element** that does not exist raises a `KeyError`.
+
