@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<nav>
+  <form action="" method="get">
+    <div id="filters-menu">
+      {{ filter.form.as_p }}
+    </div>
+    <input type="submit" value="{% translate 'Apply filters' %}" />
+  </form>
+</nav>
