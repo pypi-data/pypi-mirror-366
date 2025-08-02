@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore"
+]
+
+[project.urls]
+Homepage = "https://sr.ht/~meejah/git-withme/"
+Repository = "https://git.sr.ht/~meejah/git-withme"
+Issues = "https://todo.sr.ht/~meejah/git-withme"
+
+[project]
+name = "git-withme"
+dynamic = ["version"]
+description = "Encrypted, peer-to-peer Git for two+ people."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    { name = "meejah", email = "meejah@meejah.ca" },
+]
+requires-python = ">=3.6"
+keywords = [
+    "cryptography",
+    "magic-wormhole",
+    "privacy",
+    "infosec",
+]
+classifiers = [
+    "Framework :: Twisted",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "click",
+    "humanize",
+    "rich",
+    "magic-wormhole",
+    "magic-wormhole >= 0.20.0",
+    "fowl >= 25.7.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+dev = [
+    "twine",
+    "sphinx",
+    "dulwich",
+    "gpg",  # should use isis lovecruft's version?
+    "pip-tools",
+    "hatch",
+    "readme-renderer",
+    "cuvner",
+]
+
+[project.scripts]
+git-withme = "giwime.cli:withme"
+
+[tool.hatch.version]
+path = "src/giwime/__init__.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/giwime",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src",
+#    "docs",
+#    "Makefile",
+    "README.md",
+    "pyproject.toml",
+#    "requirements-pinned.txt",
+]
+exclude = [
+    "*~",
+    "*.egg-info*",
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source_pkgs = ["giwime"]
