@@ -1,0 +1,289 @@
+# ScematicsCLI
+
+A command-line interface (CLI) tool for accessing and managing Scematics API resources. This tool provides an interactive way to work with Scematics projects, uploads, annotations, and more.
+
+## Installation
+
+```bash
+pip install scematics-cli
+```
+
+## Upgrading
+
+To upgrade to the latest version:
+
+```bash
+pip install --upgrade scematics-cli
+```
+
+To completely reinstall the package:
+```bash
+pip uninstall scematics-cli -y
+pip install scematics-cli
+```
+
+## Features
+
+- **User Authentication**: Login with credentials or API key
+- **Project Management**: List and view project details
+- **Data Upload Options**:
+  - Direct upload for images and videos
+  - Folder-wise project upload
+  - Tag-based upload
+  - Custom video folder upload
+- **Annotation Management**:
+  - Export annotations with progress tracking
+  - Import annotations from files
+- **Interactive Interface**: User-friendly CLI with menus
+
+## Requirements
+
+- Python 3.10
+- Internet connection for API access
+- Scematics account credentials or API key
+
+## Usage
+
+After installation, you can launch the tool with:
+
+```bash
+scematics-cli
+```
+
+## Authentication
+
+When you start the application, you'll be prompted to choose your authentication method:
+
+```
+Please choose your authentication method.
+Choose option (1: Login with credentials, 2: Use API key) [1/2] (1):
+```
+
+- Option 1: Enter your username and password
+- Option 2: Provide your API key
+
+## Available Commands
+
+Once authenticated, you'll see the main menu with these options:
+
+| # | Command                              |
+|---|--------------------------------------|
+| 1 | List All Projects                    |
+| 2 | Get Project Details                  |
+| 3 | Upload Images (Local to App)         |
+| 4 | Export Annotations                   |
+| 5 | Import Annotations                   |
+| 6 | Upload Media (Local/Cloud to App)    |
+| 7 | Logout                               |
+| q | Quit                                 |
+
+
+### 1. List All Projects
+
+Displays all your projects with basic information including:
+- Project Name
+- Project ID
+- Description
+- Progress percentage
+- Total Images
+- Completed Images
+
+### 2. Get Project Details
+
+Retrieves and displays detailed information about a specific project:
+
+```
++----------------------------------------+
+| Project Details                        |
++----------------------------------------+
+| Project Name      | exampleprojects    |
+| Project ID        | exampleprojects097 |
+| Description       | Annotations        |
+| Progress          | 75%                |
+| Total Images      | 1330               |
+| Completed Images  | 1000               |
++----------------------------------------+
+```
+
+### 3. Upload Images (Local to App)
+
+Opens the upload submenu with multiple upload options:
+
+| # | Option                             |
+|---|------------------------------------|
+| 1 | Upload Images (Single/Multiple)    |
+| 2 | Upload Image Folder (Project-wise) |
+| 3 | Upload with Tags (Local Images)    |
+| b | Back to Main Menu                  |
+
+#### 3.1 Upload Images (Single/Multiple)
+
+Uploads files directly to an existing project.
+
+**Required input**:
+- Project ID
+- Path to files
+
+Example folder structure:
+```
+/home/user/images/
+├── image1.jpg
+├── image2.png
+├── image3.jpeg
+└── image4.tiff
+```
+
+#### 3.2 Upload Image Folder (Project-wise) 
+
+Creates new projects based on folder names and uploads images from those folders.
+
+**Required input**:
+- Path to main folder containing subfolders
+
+Example folder structure:
+```
+/home/user/main-folder/
+├── folder1/
+│   ├── image1.jpg
+│   ├── image2.png
+│   ├── image3.jpeg
+│   ├── image4.bmp
+│   ├── photo1.tiff
+│   └── sample_image.gif
+├── folder2/
+│   ├── image1.jpg
+│   ├── image2.png
+│   ├── image3.jpeg
+│   ├── image4.bmp
+│   ├── photo1.tiff
+│   └── sample_image.gif
+└── folder3/
+    ├── image1.jpg
+    ├── image2.png
+    ├── image3.jpeg
+    ├── image4.bmp
+    ├── photo1.tiff
+    └── sample_image.gif
+```
+
+In this case, three projects will be created named "folder1", "folder2", and "folder3", each containing its respective images.
+
+#### 3.3 Upload with Tags (Local Images)
+
+Uploads files using folder names as tags.
+
+**Required input**:
+- Project ID
+- Path to main folder containing subfolders
+
+Example folder structure: Same as folder-wise upload, but folder names are used as tags for the images instead of project names.
+
+### 4. Export Annotations
+
+Exports annotations from a project.
+
+**Required input**:
+- Project name
+- Export format
+
+### 5. Import Annotations
+
+Imports annotations into a project.
+
+**Required input**:
+- Project name
+- Import format
+- File path
+
+### 6. Upload Media (Local/Cloud to App)
+
+Uploads both images and videos from either your local system or supported cloud storage (S3, GCP, Azure).
+
+**Sub-options:**
+| # | Option |
+|---|--------|
+| 1 | Upload Folder (Images/Videos from Local) |
+| 2 | Quick Upload (Local to App) |
+| 3 | Upload from Cloud Storage (S3, GCP, Azure) |
+| b | Back to Main Menu |
+
+#### 6.1 Upload Folder (Local)
+
+Uploads a structured folder of images or videos from your machine.
+
+#### 6.2 Quick Upload (Local)
+
+For uploading one-off files quickly without complex folder structure.
+
+#### 6.3 Upload from Cloud Storage
+
+Uploads data from supported cloud storage (like S3, GCP, Azure) using your access credentials.
+
+Example folder structure:
+```
+Main Folder (e.g., test)
+├── [UUID-subfolder1]
+│   ├── examplenames.mp4
+│   └── examplenames.json
+├── [UUID-subfolder2]
+│   ├── examplenames.mp4
+│   └── examplenames.json
+└── ...
+```
+
+### 7. Logout
+
+Logs out the current user session.
+
+## Examples
+
+### Login Example
+
+```
+Please choose your authentication method.
+Choose option (1: Login with credentials, 2: Use API key) [1/2] (1):
+Username: user@example.com
+Password: ********
+Login successful!
+Starting application...
+```
+
+### Project Upload Example
+
+After selecting "Folder-wise Project Upload", provide the main folder path:
+
+```
+Enter the path to the main folder: /home/user/main-folder/
+```
+
+The system will:
+1. Create projects named after each subfolder
+2. Upload images from each subfolder to their respective projects
+3. Display progress during the upload
+
+## Supported File Formats
+
+### Images
+- jpg/jpeg
+- png
+- bmp
+- tiff/tif
+- gif
+
+### Videos
+- mp4
+
+## Troubleshooting
+
+If you encounter any issues:
+1. Check your internet connection
+2. Verify your credentials
+3. Ensure you have the correct permissions for the project
+4. Check if the file path exists and is accessible
+5. If the upload process is interrupted for any reason (such as internet disconnection or system error), a _thumbnail folder might still be created at your specified path. In such cases, please delete the existing _thumbnail folder before attempting the upload again. A fresh folder will be automatically generated during the next upload.
+6. If you face an error during upload, please ensure that each image within a dataset has a unique filename. Each image must have a unique name. Rename the image and try again.
+
+## Contact
+
+For support, please contact [info@scematics.io](mailto:info@scematics.io)
+
