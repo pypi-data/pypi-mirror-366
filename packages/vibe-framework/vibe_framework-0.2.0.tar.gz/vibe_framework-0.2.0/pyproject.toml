@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "vibe-framework"
+version = "0.2.0"
+description = "A lightweight Python framework for quick project setup, similar to Django but simpler"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/yourusername/vibe-framework"
+repository = "https://github.com/yourusername/vibe-framework"
+keywords = ["framework", "cli", "development", "tool"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+packages = [{include = "vibe", from = "src"}]
+
+[tool.poetry.scripts]
+vibe = "vibe.cli:main"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+black = "^23.7.0"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+pre-commit = "^3.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
