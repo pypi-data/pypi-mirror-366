@@ -1,0 +1,83 @@
+Metadata-Version: 2.4
+Name: silver-platter
+Version: 0.5.48
+Summary: Large scale VCS change management
+Author-email: Jelmer Vernooij <jelmer@jelmer.uk>
+License-Expression: GPL-3.0-or-later
+Project-URL: Homepage, https://jelmer.uk/code/silver-platter
+Project-URL: Bug Tracker, https://github.com/jelmer/silver-platter/issues
+Project-URL: Repository, https://github.com/jelmer/silver-platter
+Project-URL: GitHub, https://github.com/jelmer/silver-platter
+Keywords: git bzr vcs github gitlab launchpad
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Operating System :: POSIX
+Classifier: Topic :: Software Development :: Version Control
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: breezy>=3.3.3
+Requires-Dist: dulwich>=0.20.23
+Requires-Dist: jinja2
+Requires-Dist: pyyaml
+Requires-Dist: ruamel.yaml
+Provides-Extra: debian
+Requires-Dist: debmutate>=0.3; extra == "debian"
+Requires-Dist: python_debian>=0.1.48; extra == "debian"
+Requires-Dist: brz-debian; extra == "debian"
+Provides-Extra: launchpad
+Requires-Dist: launchpadlib; extra == "launchpad"
+Provides-Extra: detect-gbp-dch
+Requires-Dist: lintian-brush; extra == "detect-gbp-dch"
+Provides-Extra: testing
+Requires-Dist: testtools; extra == "testing"
+Requires-Dist: debmutate>=0.3; extra == "testing"
+Requires-Dist: python-debian; extra == "testing"
+Requires-Dist: brz-debian; extra == "testing"
+Provides-Extra: dev
+Requires-Dist: ruff==0.12.5; extra == "dev"
+Dynamic: license-file
+
+# Python bindings for Silver-Platter
+
+Silver-Platter makes it possible to contribute automatable changes to source
+code in a version control system
+([codemods](https://github.com/jelmer/awesome-codemods)).
+
+It automatically creates a local checkout of a remote repository,
+makes user-specified changes, publishes those changes on the remote hosting
+site and then creates a pull request.
+
+In addition to that, it can also perform basic maintenance on branches
+that have been proposed for merging - such as restarting them if they
+have conflicts due to upstream changes.
+
+This package contains Python bindings for silver platter.
+
+## Usage
+
+The core class is the ``Workspace`` context manager, which exists in two forms:
+
+* ``silver_platter.workspace.Workspace`` (for generic projects)
+* ``silver_platter.debian.Workspace`` (for Debian packages)
+
+An example, adding a new entry to a changelog file in the ``dulwich`` Debian
+package and creating a merge proposal with that change:
+
+```python
+
+from silver_platter.debian import Workspace
+import subprocess
+
+with Workspace.from_apt_package(package="dulwich") as ws:
+    subprocess.check_call(['dch', 'some change'], cwd=ws.path)
+    ws.commit()  # Behaves like debcommit
+    ws.publish(mode='propose')
+```
