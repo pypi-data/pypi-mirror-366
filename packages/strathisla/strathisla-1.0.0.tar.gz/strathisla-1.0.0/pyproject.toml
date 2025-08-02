@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "strathisla" 
+version = "1.0.0" 
+description = "Likelihood plugins for the Spey package"
+readme = "README.md"
+license = "MIT" 
+authors = [
+    {name = "Joe Egan", email = "joseph.caimin.egan@cern.ch"}
+]
+
+keywords = ["high energy physics", "statistics", "particle physics", "spey", "likelihood", "EFT", "fitting", "re-interpretation", "BSM"]
+classifiers = [
+    "Development Status :: 3 - Alpha", 
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "spey>=0.1.11",
+"numpy>=1.21.0",
+    "scipy>=1.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=22.0",
+    "isort>=5.0",
+    "flake8>=4.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/joes-git/strathisla"
+"Bug Reports" = "https://github.com/joes-git/strathisla/issues"
+"Source" = "https://github.com/joes-git/strathisla"
+
+[project.entry-points."spey.backend.plugins"]
+"strathisla.full_nuisance_parameters" = "strathisla.nuisance_parameters:FullNuisanceParameters"
+"strathisla.simple_multivariate_gaussian_eft" = "strathisla.eft:SimpleMultivariateGaussianEFT"
+"strathisla.multivariate_gaussian_scaled_covariance_eft" = "strathisla.eft:MultivariateGaussianCovarianceScaledEFT"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
