@@ -1,0 +1,21 @@
+#######################################################################
+# Simbench rural3 Base
+#######################################################################
+sbrural3:
+  parent:
+  modules: [store, powergrid, sbdata]
+  start_date: 2017-01-01 00:00:00+0100
+  end: 1*24*60*60
+  step_size: 15*60
+  store_params:
+    filename: sbrural3.csv
+  powergrid_params:
+    sbrural3:
+      gridfile: 1-LV-rural3--0-sw
+  sbdata_params:
+    sbrural3:
+      interpolate: true
+      randomize_data: true
+      is_load: false  # Determine type from name
+      is_sgen: false  # Determine type from name
+      combined_mapping: default
