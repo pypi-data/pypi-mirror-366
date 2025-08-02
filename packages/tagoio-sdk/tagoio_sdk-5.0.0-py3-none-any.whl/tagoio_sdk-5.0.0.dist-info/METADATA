@@ -1,0 +1,93 @@
+Metadata-Version: 2.4
+Name: tagoio-sdk
+Version: 5.0.0
+Summary: Official Python SDK for TagoIO
+Project-URL: Homepage, https://tago.io/
+Project-URL: Repository, https://github.com/tago-io/sdk-python/
+Project-URL: Documentation, https://py.sdk.tago.io/
+Project-URL: Changelog, https://github.com/tago-io/sdk-python/releases
+Project-URL: Bug Tracker, https://github.com/tago-io/sdk-python/issues
+Author-email: "TagoIO Inc." <contact@tago.io>
+License: Apache-2.0
+License-File: LICENSE
+Keywords: analysis,device,iot,sensor,tago,tagoio
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Requires-Dist: python-dateutil>=2.9.0
+Requires-Dist: requests-toolbelt>=1.0.0
+Requires-Dist: requests<3.0.0,>=2.32.0
+Requires-Dist: sseclient-py>=1.8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.4.1; extra == 'dev'
+Requires-Dist: requests-mock>=1.12.1; extra == 'dev'
+Requires-Dist: ruff>=0.12.7; extra == 'dev'
+Requires-Dist: sphinx>=8.2.3; extra == 'dev'
+Description-Content-Type: text/markdown
+
+<br/>
+<p align="center">
+  <img src="https://assets.tago.io/tagoio/sdk.png" width="250px" alt="TagoIO"></img>
+</p>
+
+# TagoIO - Python SDK
+
+Official Python SDK for TagoIO
+
+## Installation
+
+```bash
+pip install tagoio-sdk
+```
+
+## Quick Example
+
+If you have any questions, feel free to check our [Help Center](https://help.tago.io/portal/en/home)
+
+### Insert Device Data
+
+```python
+from tagoio_sdk import Resources
+
+resources = Resources()
+resource.devices.sendDeviceData("myDeviceID", {
+    "variable": "temperature",
+    "unit": "F",
+    "value": 55,
+    "time": "2015-11-03 13:44:33",
+    "location": {"lat": 42.2974279, "lng": -85.628292},
+})
+```
+
+### Edit Device Data
+
+```python
+from tagoio_sdk import Resources
+
+resources = Resource()
+resource.devices.editDeviceData("myDeviceID", {
+    "id": "idOfTheRecord",
+    "value": "new value",
+    "unit": "new unit"
+})
+```
+
+## Development Commands
+
+```bash
+uv sync --dev
+uv run pytest tests/
+uv run ruff check src
+uv run ruff format src
+```
+
+## License
+
+TagoIO SDK for Python is released under the [Apache-2.0 License](https://github.com/tago-io/sdk-python/blob/master/LICENSE)
