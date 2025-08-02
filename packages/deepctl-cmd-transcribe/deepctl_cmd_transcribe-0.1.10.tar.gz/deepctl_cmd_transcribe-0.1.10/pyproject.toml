@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepctl-cmd-transcribe"
+version = "0.1.10"
+description = "Transcribe command for deepctl"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Deepgram", email = "devrel@deepgram.com" }]
+maintainers = [{ name = "Deepgram", email = "devrel@deepgram.com" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = ["deepgram", "cli", "transcribe", "speech", "audio"]
+requires-python = ">=3.10"
+dependencies = [
+    "deepctl-core>=0.1.10",
+    "deepctl-shared-utils>=0.1.10",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    "deepgram-sdk>=3.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+# Internal commands not meant to be called directly
+
+[project.entry-points."deepctl.commands"]
+transcribe = "deepctl_cmd_transcribe.command:TranscribeCommand"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["deepctl_cmd_transcribe*"]
