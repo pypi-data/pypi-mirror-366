@@ -1,0 +1,38 @@
+[project]
+    name                  = "parserclass"
+    version               = "0.1.0-alpha7"
+    description           = "Declarative function argument parsing with type hinting."
+    requires-python       = "==3.11"
+    authors               = [{name = "oeykmiih", email = "joao@kyeo.xyz"}]
+    keywords              = ["ArgumentParser", "cli"]
+    classifiers           = ["License :: OSI Approved :: MIT License"]
+    scripts               = {}
+    optional-dependencies = {dev = ["ruff", "mypy", "pytest"]}
+    urls                  = {repository = "https://codeberg.org/oeykmiih/py_parserclass"}
+
+[build-system]
+    requires      = ["setuptools"]
+    build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+    where = ["source"]
+
+[tool.mypy]
+    exclude               = ["source/**/_vendor"]
+    strict                = true
+    disallow_untyped_defs = true
+    strict_equality       = true
+    local_partial_types   = true
+
+[tool.pyright]
+    exclude    = ["source/**/_vendor"]
+    extraPaths = ["source"]
+
+[tool.pytest.ini_options]
+    minversion = "6.0"
+    addopts    = ["-rf"]
+    pythonpath = ["source"]
+    testpaths  = ["tests", "source/*/tests"]
+
+[tool.pyvendor.dependencies]
+    "source/parserclass/_vendor" = ["retrievableset"]
