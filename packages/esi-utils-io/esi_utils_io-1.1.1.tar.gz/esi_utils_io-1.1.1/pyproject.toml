@@ -1,0 +1,48 @@
+[project]
+name = "esi-utils-io"
+version = "1.1.1"
+description = "USGS Earthquake Impact Utilities for IO"
+authors = [
+    {name = "Mike Hearne", email="mhearne@usgs.gov"},
+]
+license = {file = "LICENSE.md"}
+readme = "README.md"
+requires-python = ">=3.8"
+
+keywords = ["utilities", "io"]
+
+
+# Requirements: This is done differently by poetry!
+dependencies = [
+    "numpy>=1.26",
+    "h5py>=3.1.0",
+    "pandas>=1.0",
+    "pytz>=2021.3"
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=0.7.0",
+    "black>=21",
+    "flake8>=3.9",
+    "ipython>=7.26",
+    "twine>=4.0.2"
+]
+test = [
+    "pytest>=6.2",
+]
+build = [
+    "build",
+    "twine",
+    "check-wheel-contents"
+]
+
+[project.scripts]
+repotag = "esi_utils_io.bin.repotag:main"
+
+[build-system]
+requires = [
+    "setuptools >= 35.0.2",
+    "setuptools_scm >= 2.0.0, <3"
+]
+build-backend = "setuptools.build_meta"
