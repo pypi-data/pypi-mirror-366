@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "agent-handler-sdk"
+version = "0.1.5"
+description = "Agent Handler SDK for defining and invoking LLM tools"
+authors = ["David Dalmaso <david.dalmaso@merge.dev>", "Gil Feig <gil@merge.dev>"]
+packages = [
+  { include = "agent_handler_sdk" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+pydantic = "^2.0"
+jsonschema = "^4.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
+pytest-asyncio = "^0.20.3"
+mypy = "^1.4.1"
+black = "^23.3.0"
+pre-commit = "^2.20.0"
+types-jsonschema = "^4.17.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-asyncio = "^0.20.3"
+pre-commit = "^2.20.0"
+types-jsonschema = "^4.23.0.20241208"
+
+[tool.poetry.scripts]
+ahs-scaffold = "agent_handler_sdk.cli:scaffold_connector"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
