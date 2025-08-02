@@ -1,0 +1,25 @@
+[project]
+name = "model-template-builder"
+version = "0.1.1"
+description = "building vllm models into a docker container."
+authors = [
+    {name = "Abdallah Gomaa",email = "agomaa@perian.io"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "transformers (>=4.54.0,<5.0.0)",
+    "docker (>=7.1.0,<8.0.0)",
+    "huggingface-hub (>=0.34.3,<0.35.0)"
+]
+
+[tool.poetry]
+packages = [{include = "model_template_builder", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+
