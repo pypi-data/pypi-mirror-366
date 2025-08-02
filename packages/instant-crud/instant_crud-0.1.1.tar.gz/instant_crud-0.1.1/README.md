@@ -1,0 +1,494 @@
+# instant-crud
+
+> Generate REST APIs instantly from SQLModel definitions
+
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-green.svg)](https://fastapi.tiangolo.com/)
+[![SQLModel](https://img.shields.io/badge/SQLModel-latest-orange.svg)](https://sqlmodel.tiangolo.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**instant-crud** is a powerful Python library that automatically generates fully-featured REST APIs from your SQLModel definitions. With just a decorator, you get complete CRUD operations, pagination, search, filtering, and export capabilities.
+
+## ✨ Features
+
+- 🚀 **Instant API Generation** - One decorator, full REST API
+- 📄 **Smart Pagination** - Multiple formats (offset, page-based, cursor, custom)
+- 🔍 **Built-in Search** - Automatic text search across model fields
+- 🔐 **Authentication Ready** - JWT/Bearer token support
+- 📊 **Export Capabilities** - Excel, CSV, PDF, JSON, Parquet
+- 🎯 **Type Safe** - Full TypeScript-like autocompletion
+- 📚 **Auto Documentation** - OpenAPI/Swagger docs generated
+- ⚡ **High Performance** - Built on FastAPI and SQLModel
+- 🔧 **Highly Configurable** - Environment variables + JSON config
+- 🧪 **Test Friendly** - Comprehensive test fixtures included
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Basic installation
+pip install instant-crud
+
+# With all features
+pip install instant-crud[full]
+
+# Development installation
+pip install instant-crud[dev]
+```
+
+### 5-Minute Example
+
+```python
+from typing import Optional
+from fastapi import FastAPI
+from sqlmodel import SQLModel, Field
+from instant_crud import auto_crud_api, setup
+
+# 1. Define your model with the decorator
+@auto_crud_api(prefix="/users", tags=["Users"])
+class User(SQLModel, table=True):
+    id: Optional[int] = Field(primary_key=True)
+    name: str
+    email: str
+    age: Optional[int] = None
+
+# 2. Create FastAPI app and setup instant-crud
+app = FastAPI(title="My API")
+factory = setup(get_session=get_session)  # your session function
+
+# 3. Register all decorated models
+routers = factory.create_routers_for_registered_models()
+for router in routers:
+    app.include_router(router, prefix="/api/v1")
+
+# 🎉 That's it! You now have a full REST API with:
+# GET    /api/v1/users         - List users (paginated)
+# POST   /api/v1/users         - Create user  
+# GET    /api/v1/users/{id}    - Get user by ID
+# PUT    /api/v1/users/{id}    - Update user
+# PATCH  /api/v1/users/{id}    - Partial update
+# DELETE /api/v1/users/{id}    - Delete user
+# GET    /api/v1/users/search  - Search users
+# GET    /api/v1/users/count   - Count users
+```
+
+### What You Get Automatically
+
+**CRUD Operations:**
+```bash
+curl http://localhost:8000/api/v1/users
+curl -X POST http://localhost:8000/api/v1/users -d '{"name":"John","email":"john@example.com"}'
+curl http://localhost:8000/api/v1/users/1
+curl -X PUT http://localhost:8000/api/v1/users/1 -d '{"name":"Jane","email":"jane@example.com"}'
+curl -X DELETE http://localhost:8000/api/v1/users/1
+```
+
+**Search & Filtering:**
+```bash
+curl http://localhost:8000/api/v1/users/search?q=john
+curl http://localhost:8000/api/v1/users?age=25&limit=10
+```
+
+**Pagination (Multiple Formats):**
+```json
+{
+  "items": [...],
+  "total": 150,
+  "skip": 20,
+  "limit": 10
+}
+```
+
+## 📖 Documentation
+
+### Basic Usage Patterns
+
+#### 1. Decorator Approach (Recommended)
+
+```python
+from instant_crud import auto_crud_api
+
+@auto_crud_api(prefix="/products", tags=["Products"])
+class Product(SQLModel, table=True):
+    id: Optional[int] = Field(primary_key=True)
+    name: str
+    price: float
+    in_stock: bool = True
+```
+
+#### 2. Factory Approach (Advanced)
+
+```python
+from instant_crud import CRUDFactory
+
+factory = CRUDFactory(
+    get_session=get_session,
+    get_current_user=get_current_user,  # Optional auth
+)
+
+router = factory.create_crud_router(
+    model=Product,
+    prefix="/products",
+    tags=["Products"],
+    search_fields=["name", "description"],
+    export_enabled=True
+)
+
+app.include_router(router)
+```
+
+### Configuration
+
+#### Environment Variables
+
+```bash
+INSTANT_CRUD_DEBUG=true
+INSTANT_CRUD_API_PREFIX=/api/v1
+INSTANT_CRUD_DEFAULT_PAGE_SIZE=50
+INSTANT_CRUD_MAX_PAGE_SIZE=1000
+INSTANT_CRUD_ENABLE_EXPORT=true
+INSTANT_CRUD_ENABLE_AUTH=false
+INSTANT_CRUD_CONFIG_FILE=./config/crud.json
+```
+
+#### JSON Configuration
+
+```json
+{
+  "response_format": "page_based",
+  "formats": {
+    "page_based": {
+      "items_key": "data",
+      "wrapper_key": "pagination",
+      "current_page_key": "current_page",
+      "per_page_key": "per_page",
+      "total_pages_key": "total_pages",
+      "total_count_key": "total_count",
+      "has_next_key": "has_next",
+      "has_prev_key": "has_prev"
+    }
+  }
+}
+```
+
+### Authentication
+
+```python
+from fastapi import Depends, HTTPException
+from fastapi.security import HTTPBearer
+
+security = HTTPBearer()
+
+def get_current_user(token = Depends(security)):
+    # Validate JWT token
+    return validate_token(token.credentials)
+
+def get_user_with_roles(user = Depends(get_current_user)):
+    # Add role checking
+    return add_roles(user)
+
+factory = CRUDFactory(
+    get_session=get_session,
+    get_current_user=get_current_user,
+    get_user_with_roles=get_user_with_roles
+)
+```
+
+### Custom Pagination Formats
+
+#### Offset-based (Default)
+```json
+{
+  "items": [...],
+  "total": 100,
+  "skip": 20,
+  "limit": 10
+}
+```
+
+#### Page-based
+```json
+{
+  "data": [...],
+  "pagination": {
+    "current_page": 3,
+    "per_page": 10,
+    "total_pages": 10,
+    "total_count": 100,
+    "has_next": true,
+    "has_prev": true
+  }
+}
+```
+
+#### Custom Template
+```json
+{
+  "results": [...],
+  "meta": {
+    "count": 100,
+    "page": 3,
+    "size": 10,
+    "links": {
+      "first": "/api/users?page=1",
+      "last": "/api/users?page=10",
+      "next": "/api/users?page=4",
+      "prev": "/api/users?page=2"
+    }
+  }
+}
+```
+
+### Export Features
+
+```python
+# Enable exports (requires instant-crud[export])
+@auto_crud_api(prefix="/users", export_enabled=True)
+class User(SQLModel, table=True):
+    # ... model definition
+
+# Available export endpoints:
+# GET /api/v1/users/export/excel
+# GET /api/v1/users/export/csv  
+# GET /api/v1/users/export/pdf
+# GET /api/v1/users/export/json
+# GET /api/v1/users/export/parquet
+```
+
+### Advanced Features
+
+#### Read-Only APIs
+```python
+@auto_crud_api(prefix="/reports", read_only=True)
+class Report(SQLModel, table=True):
+    # Only GET endpoints will be created
+    pass
+```
+
+#### Custom Search Fields
+```python
+@auto_crud_api(
+    prefix="/articles",
+    search_fields=["title", "content", "author"]
+)
+class Article(SQLModel, table=True):
+    title: str
+    content: str
+    author: str
+    # Search will work on these fields only
+```
+
+#### Batch Operations
+```python
+# Create multiple items
+POST /api/v1/users/batch
+[
+  {"name": "User1", "email": "user1@example.com"},
+  {"name": "User2", "email": "user2@example.com"}
+]
+
+# Delete multiple items  
+DELETE /api/v1/users/batch
+[1, 2, 3, 4, 5]
+```
+
+## 🧪 Testing
+
+The library includes comprehensive test fixtures:
+
+```python
+import pytest
+from fastapi.testclient import TestClient
+
+def test_user_crud(client: TestClient):
+    # Create user
+    response = client.post("/users/", json={
+        "name": "Test User",
+        "email": "test@example.com"
+    })
+    assert response.status_code == 201
+    
+    # Get user
+    user_id = response.json()["id"]
+    response = client.get(f"/users/{user_id}")
+    assert response.status_code == 200
+```
+
+## 🔧 Development
+
+### Setup Development Environment
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/instant-crud.git
+cd instant-crud
+
+# Create virtual environment with UV
+uv venv --python 3.12
+source .venv/bin/activate  # Linux/Mac
+# .venv\Scripts\activate   # Windows
+
+# Install dependencies
+uv sync --extra dev --extra full
+
+# Install in development mode
+uv pip install -e .
+```
+
+### Run Tests
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with coverage
+uv run pytest --cov=src --cov-report=html
+
+# Run specific test file
+uv run pytest tests/test_basic_crud.py -v
+```
+
+### Code Quality
+
+```bash
+# Format code
+uv run black src/ tests/ examples/
+
+# Lint code
+uv run ruff check src/ tests/ examples/
+
+# Fix linting issues
+uv run ruff check --fix src/ tests/ examples/
+```
+
+### Run Examples
+
+```bash
+# Basic example
+cd examples
+uv run python basic_usage.py
+
+# Advanced example with auth
+uv run python advanced_usage.py
+
+# Visit http://localhost:8000/docs for API documentation
+```
+
+## 📚 Examples
+
+See the [`examples/`](examples/) directory for complete working examples:
+
+- **[basic_usage.py](examples/basic_usage.py)** - Simple CRUD API with auto-generated endpoints
+- **[advanced_usage.py](examples/advanced_usage.py)** - Authentication, custom pagination, exports
+- **[custom_pagination.py](examples/custom_pagination.py)** - Custom pagination formats
+- **[with_auth.py](examples/with_auth.py)** - JWT authentication integration
+
+## 🤝 API Reference
+
+### Main Components
+
+#### `@auto_crud_api` Decorator
+```python
+@auto_crud_api(
+    prefix: str = None,                    # URL prefix
+    tags: List[str] = None,               # OpenAPI tags
+    search_fields: List[str] = None,      # Searchable fields
+    export_enabled: bool = None,          # Enable exports
+    auth_enabled: bool = None,            # Enable auth
+    read_only: bool = False,              # Read-only API
+)
+```
+
+#### `CRUDFactory` Class
+```python
+factory = CRUDFactory(
+    get_session: Callable,                # DB session provider
+    get_current_user: Callable = None,    # Auth function
+    get_user_with_roles: Callable = None, # Role-based auth
+    settings: InstantCRUDSettings = None, # Custom settings
+    config_file: str = None,              # Config file path
+)
+```
+
+#### `InstantCRUDSettings` Configuration
+```python
+settings = InstantCRUDSettings(
+    debug: bool = False,
+    api_prefix: str = "/api/v1", 
+    default_page_size: int = 100,
+    max_page_size: int = 1000,
+    enable_export: bool = True,
+    enable_auth: bool = False,
+    pagination_format: str = "offset_based",
+    config_file: str = None,
+)
+```
+
+## 🛠️ Optional Dependencies
+
+```bash
+# Core functionality (always installed)
+fastapi>=0.115.8
+sqlmodel>=0.0.22
+pydantic>=2.0.0
+pydantic-settings>=2.7.1
+
+# Export features
+pip install instant-crud[export]
+# Adds: duckdb, pandas, xlsxwriter, weasyprint, jinja2
+
+# Authentication
+pip install instant-crud[auth]  
+# Adds: python-jose, passlib
+
+# Development tools
+pip install instant-crud[dev]
+# Adds: pytest, black, ruff, httpx
+
+# Everything
+pip install instant-crud[full]
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Quick Contribution Setup
+
+```bash
+# Fork the repository on GitHub
+git clone https://github.com/yourusername/instant-crud.git
+cd instant-crud
+
+# Setup development environment
+uv sync --extra dev --extra full
+
+# Make your changes
+# Add tests for new features
+uv run pytest
+
+# Submit a pull request
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **[FastAPI](https://fastapi.tiangolo.com/)** - The amazing web framework that makes this possible
+- **[SQLModel](https://sqlmodel.tiangolo.com/)** - Perfect bridge between SQLAlchemy and Pydantic  
+- **[Pydantic](https://pydantic.dev/)** - Data validation and serialization
+- **[UV](https://github.com/astral-sh/uv)** - Ultra-fast Python package manager
+
+## 🔗 Links
+
+- **Documentation**: [https://instant-crud.readthedocs.io](https://instant-crud.readthedocs.io)
+- **PyPI Package**: [https://pypi.org/project/instant-crud/](https://pypi.org/project/instant-crud/)
+- **Source Code**: [https://github.com/yourusername/instant-crud](https://github.com/yourusername/instant-crud)
+- **Issue Tracker**: [https://github.com/yourusername/instant-crud/issues](https://github.com/yourusername/instant-crud/issues)
+
+---
+
+⭐ **Star us on GitHub if instant-crud helps you build APIs faster!**

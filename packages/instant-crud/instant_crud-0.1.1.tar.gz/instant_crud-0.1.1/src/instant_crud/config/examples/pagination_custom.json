@@ -1,0 +1,22 @@
+{
+    "response_format": "custom",
+    "formats": {
+        "custom": {
+            "template": {
+                "results": "{{items}}",
+                "meta": {
+                    "count": "{{total}}",
+                    "page": "{{current_page}}",
+                    "size": "{{per_page}}",
+                    "pages": "{{total_pages}}",
+                    "links": {
+                        "first": "/api/resource?page=1",
+                        "last": "/api/resource?page={{total_pages}}",
+                        "next": "{% if has_next %}/api/resource?page={{current_page + 1}}{% endif %}",
+                        "prev": "{% if has_prev %}/api/resource?page={{current_page - 1}}{% endif %}"
+                    }
+                }
+            }
+        }
+    }
+}

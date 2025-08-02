@@ -1,0 +1,12 @@
+{
+    "response_format": "cursor_based",
+    "formats": {
+        "cursor_based": {
+            "items_key": "results",
+            "wrapper_key": "meta",
+            "count_key": "count",
+            "next_key": "next_cursor",
+            "previous_key": "prev_cursor"
+        }
+    }
+}
