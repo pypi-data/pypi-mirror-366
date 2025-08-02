@@ -1,0 +1,149 @@
+Metadata-Version: 2.4
+Name: tatami
+Version: 0.0.2rc2
+Summary: The clean, modular Python web floorplan
+Project-URL: Homepage, https://github.com/ibonn/tatami
+Project-URL: Documentation, https://ibonn.github.io/tatami/
+Project-URL: Repository, https://github.com/ibonn/tatami.git
+Author-email: Ibon <ibonescartin@gmail.com>
+License-Expression: LGPL-3.0-only
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Pydantic
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Requires-Dist: colorama==0.4.6
+Requires-Dist: jinja2==3.1.6
+Requires-Dist: pydantic==2.11.7
+Requires-Dist: python-dotenv==1.1.1
+Requires-Dist: pyyaml==6.0.2
+Requires-Dist: starlette==0.47.2
+Requires-Dist: uvicorn==0.35.0
+Description-Content-Type: text/markdown
+
+![Tatami Logo](https://raw.githubusercontent.com/ibonn/tatami/refs/heads/main/docs/source/_static/tatami-logo-gradient.png)
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/ibonn/tatami/pypi-publish.yml?style=flat-square)
+![Docs Status](https://img.shields.io/github/actions/workflow/status/ibonn/tatami/gh-pages.yml?label=docs&style=flat-square)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/tatami?style=flat-square)
+![PyPI - Version](https://img.shields.io/pypi/v/tatami?style=flat-square)
+
+---
+
+**The clean, modular Python web floorplan.**
+
+Tatami is a minimal, convention-powered web framework that builds your application from the ground up — guided by your directory structure, not boilerplate or ceremony.
+
+Like traditional *tatami* mats that structure a Japanese room, Tatami lets you define the shape and flow of your web app naturally, simply by laying things out.
+
+---
+
+## ✨ Features
+
+- 🔁 **Automatic routing** from file and folder structure
+- 📦 **Service injection** via convention
+- 🧩 **Auto-loaded middleware**, templates, and static assets
+- 📖 **Live OpenAPI docs** (ReDoc, Swagger, RapiDoc)
+- 🧠 **Auto-generated endpoint documentation** from docstrings and README
+- ⚡ **Zero-config startup** — just run your app directory
+
+---
+
+## 🚀 Quick Start
+
+```bash
+pip install tatami
+```
+
+**Create a new project:**
+```bash
+tatami create myproject
+```
+
+**Run your project:**
+```bash
+tatami run myproject
+```
+
+Your API will be available at `http://localhost:8000` with automatic docs at `/docs/swagger`.
+
+## 🧠 Philosophy
+
+Tatami is designed for:
+
+* Structure-first design: Routes and services emerge from file layout.
+* Simplicity: Eliminate configuration and glue code.
+* Alignment: Your docs, code, and architecture reflect each other.
+
+It's like FastAPI and Flask had a minimalist, Spring Boot-inspired child.
+
+## 📚 Documentation
+You can access the whole documentation for Tatami [here](https://ibonn.github.io/tatami/)
+
+By the way, Tatami automatically generates your application’s documentation at the following endpoints:
+- `/openapi.json` - OpenAPI specification
+- `/docs/swagger` - Swagger UI
+- `/docs/redoc` - ReDoc
+- `/docs/rapidoc` - RapiDoc
+
+## 🔌 Example
+
+**Using decorators (recommended):**
+```python
+from tatami import get, post, router
+from pydantic import BaseModel
+
+class User(BaseModel):
+    name: str
+    age: int
+
+class Users(router('/users')):
+    @get('/')
+    def list_users(self):
+        """Returns all users in the system."""
+        return [{"id": 1, "name": "Alice", "age": 30}]
+
+    @post('/')
+    def create_user(self, user: User):
+        """Creates a new user."""
+        return {"message": f"Created user {user.name}"}
+
+    @get('/{user_id}')
+    def get_user(self, user_id: int):
+        """Get a specific user by ID."""
+        return {"id": user_id, "name": "Alice", "age": 30}
+```
+
+**Using convention-based routing:**
+```python
+# In routers/users.py
+class Users:
+    def get_users(self):
+        """List all users"""
+        return [{"id": 1, "name": "Alice"}]
+    
+    def post_user(self, user: User):
+        """Create a new user"""
+        return {"created": user.name}
+```
+
+This automatically creates:
+* GET /users/
+* POST /users/
+* GET /users/{user_id}
+
+...with full OpenAPI schemas generated automatically.
+
+## 🌱 Still Early
+
+Tatami is experimental. Expect breaking changes, rapid iteration, and exciting ideas.
+
+Contributions, feedback, and issue reports are more than welcome.
