@@ -1,0 +1,1 @@
+# Typer TUI runner plugin for yaapp

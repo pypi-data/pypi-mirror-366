@@ -1,0 +1,1 @@
+# Rich TUI runner plugin for yaapp
