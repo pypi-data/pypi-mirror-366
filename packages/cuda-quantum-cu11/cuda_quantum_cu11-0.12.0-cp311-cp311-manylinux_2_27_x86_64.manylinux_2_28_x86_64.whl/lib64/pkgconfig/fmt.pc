@@ -1,0 +1,11 @@
+prefix=/tmp/tmpg48_xfk_/wheel/platlib
+exec_prefix=/tmp/tmpg48_xfk_/wheel/platlib
+libdir=${exec_prefix}/lib64
+includedir=${prefix}/include
+
+Name: fmt
+Description: A modern formatting library
+Version: 11.2.1
+Libs: -L${libdir} -lfmt
+Cflags: -I${includedir}
+
