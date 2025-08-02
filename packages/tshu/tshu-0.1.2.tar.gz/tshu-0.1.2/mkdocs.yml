@@ -1,0 +1,76 @@
+nav:
+    - README: index.md
+    - Reference:
+          - Command: reference/command.md
+          - CompletedCommand: reference/completed-command.md
+          - CommandError: reference/command-error.md
+site_name: tshu
+repo_url: https://github.com/aspizu/tshu
+repo_name: tshu
+site_author: Priyanshu Dangare
+site_url: https://aspizu.github.io/tshu
+theme:
+    name: material
+    logo: assets/tshu-logo.svg
+    favicon: assets/tshu-logo.svg
+    features:
+        - navigation.instant
+        - navigation.instant.prefetch
+        - navigation.instant.progress
+        - navigation.instant.preview
+        - navigation.tracking
+        - navigation.tabs
+        - navigation.tabs.sticky
+        - navigation.expand
+        - content.code.annotate
+        - toc.follow
+        - navigation.path
+        - navigation.top
+        - content.code.copy
+        - content.tabs.link
+    font:
+        text: Inter Tight
+        code: Cascadia Code
+    palette:
+        # Palette toggle for automatic mode
+        - media: "(prefers-color-scheme)"
+          toggle:
+              icon: material/brightness-auto
+              name: Switch to light mode
+
+        # Palette toggle for light mode
+        - media: "(prefers-color-scheme: light)"
+          scheme: white
+          primary: white
+          toggle:
+              icon: material/brightness-7
+              name: Switch to dark mode
+
+        # Palette toggle for dark mode
+        - media: "(prefers-color-scheme: dark)"
+          scheme: slate
+          primary: black
+          toggle:
+              icon: material/brightness-4
+              name: Switch to system preference
+plugins:
+    - search
+    - mkdocstrings:
+          handlers:
+              python:
+                  options:
+                      show_source: false
+                      show_symbol_type_heading: true
+                      merge_init_into_class: true
+                      parameter_headings: true
+                      show_signature_annotations: true
+markdown_extensions:
+    - admonition
+    - pymdownx.highlight:
+          default_lang: python
+extra:
+    social:
+        - icon: fontawesome/brands/github
+          link: https://github.com/aspizu
+        - icon: fontawesome/brands/discord
+          link: https://discord.gg/MMfMkRuhAf
