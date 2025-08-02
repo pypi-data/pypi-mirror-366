@@ -1,0 +1,33 @@
+[project]
+name = "mtbs"
+version = "0.1.9"
+description = "a little lib to interact with Metabase"
+readme = "README.md"
+authors = [
+    { name = "Ruddy", email = "ruddy.at.work@proton.me" }
+]
+requires-python = ">=3.12.8"
+dependencies = [
+    "alive-progress>=3.2.0",
+    "click==8.1.7",
+    "diskcache>=5.6.3",
+    "mcp[cli]>=1.11.0",
+    "opentelemetry-api>=1.34.1",
+    "opentelemetry-sdk>=1.34.1",
+    "pandas>=2.3.1",
+    "plotly>=6.2.0",
+    "questionary>=2.1.0",
+    "requests==2.31.0",
+    "streamlit>=1.47.0",
+    "tabulate>=0.9.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+mtbs = "mtbs.cli:cli"
+#sql = "mtbs.sql:main"
+#mcp_stdio = "mtbs.mcp_server:main_stdio"
+#mcp_sse   = "mtbs.mcp_server:main_sse"

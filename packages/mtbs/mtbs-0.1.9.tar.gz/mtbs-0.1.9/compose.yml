@@ -1,0 +1,58 @@
+services:
+  mtbs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mtbs:latest
+    container_name: mtbs-app
+    working_dir: /app
+    volumes:
+      - .:/app
+      - uv-cache:/root/.cache/uv
+    environment:
+      - PYTHONPATH=/app/src
+    command: uv run python -m mtbs
+    # Uncomment if you need to expose ports
+    # ports:
+    #   - "8000:8000"
+    restart: unless-stopped
+    
+  # Service pour le serveur MCP en mode SSE
+  mtbs-mcp-sse:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mtbs:latest
+    container_name: mtbs-mcp-sse
+    working_dir: /app
+    volumes:
+      - .:/app
+      - uv-cache:/root/.cache/uv
+      - ./cookies.json:/tmp/cookies.json
+    environment:
+      - PYTHONPATH=/app/src
+      - MTBS_COOKIE_FILE=/tmp/cookies.json
+    command: uv run mcp_sse
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    
+  # Service pour le serveur MCP en mode STDIO
+  mtbs-mcp-stdio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mtbs:latest
+    container_name: mtbs-mcp-stdio
+    working_dir: /app
+    volumes:
+      - .:/app
+      - uv-cache:/root/.cache/uv
+    environment:
+      - PYTHONPATH=/app/src
+    command: uv run mcp_stdio
+    restart: unless-stopped
+
+volumes:
+  uv-cache:
+    driver: local
