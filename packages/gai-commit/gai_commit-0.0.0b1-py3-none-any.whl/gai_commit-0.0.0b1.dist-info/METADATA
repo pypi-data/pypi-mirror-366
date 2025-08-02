@@ -1,0 +1,78 @@
+Metadata-Version: 2.4
+Name: gai-commit
+Version: 0.0.0b1
+Summary: An AI-powered git commit message generator.
+Author-email: Muzahid <mmsaddam@gmail.com>
+Project-URL: Homepage, https://github.com/muzahid59/gai
+Project-URL: Bug Tracker, https://github.com/muzahid59/gai/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Version Control :: Git
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: python-dotenv
+Requires-Dist: openai
+Dynamic: license-file
+
+# gai-commit
+
+An AI-powered git commit message generator that helps you create meaningful commit messages using AI.
+
+## Installation
+
+```bash
+pip install gai-commit
+```
+
+## Usage
+
+```bash
+# The command is still 'gai' 
+gai --help
+gai --provider openai
+gai --provider ollama
+```
+
+## Features
+
+- 🤖 **AI-Powered**: Generate commit messages using OpenAI or Ollama
+- 🔄 **Interactive**: Choose from generated suggestions or edit them
+- ⚙️ **Configurable**: Support for multiple AI providers
+- 🔐 **Secure**: API keys stored safely in .env files
+
+## Configuration
+
+Create a `.env` file in your project root:
+
+```dotenv
+# Choose provider: 'ollama' or 'openai'
+PROVIDER=ollama
+
+# For Ollama (local)
+MODEL=llama3.2
+CHAT_URL=http://localhost:11434/api
+
+# For OpenAI (cloud)
+# PROVIDER=openai
+# API_KEY=your_api_key_here
+```
+
+## Command Line Options
+
+```bash
+gai --provider ollama    # Override provider
+gai --provider openai    # Use OpenAI instead of default
+```
+
+## Requirements
+
+- **For Ollama:** Install and run [Ollama](https://ollama.ai) locally
+- **For OpenAI:** Valid API key with available credits
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
