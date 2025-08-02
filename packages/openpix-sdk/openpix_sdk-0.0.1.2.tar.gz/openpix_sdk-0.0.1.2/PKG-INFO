@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: openpix-sdk
+Version: 0.0.1.2
+Summary: Openpix SDK usign async http client with aiohttp
+Project-URL: Homepage, https://github.com/fabioantonioastore/async-openpix-sdk
+Project-URL: Issues, https://github.com/fabioantonioastore/async-openpix-sdk/issues
+Author-email: Fabio Antonio Astore <astore.a.fabio@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: Openpix,SDK
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.13.5
+Requires-Dist: aiodns>=3.5.0
+Requires-Dist: aiohttp>=3.12.15
+Requires-Dist: brotli>=1.1.0
+Requires-Dist: json-stream>=2.3.3
+Requires-Dist: pydantic>=2.11.7
+Description-Content-Type: text/markdown
+
+# openpix-sdk
+Async OpenPix SDK using aiohttp as http client
