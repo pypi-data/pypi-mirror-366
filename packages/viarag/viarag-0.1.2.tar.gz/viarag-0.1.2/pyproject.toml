@@ -1,0 +1,30 @@
+[project]
+name = "viarag"
+version = "0.1.2"
+description = "Minimal Python SDK for interacting with the ViaRAG API"
+authors = [{name = "Eric Meltser", email = "info@viaveri.co"}]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "GNU General Public License v3.0"}
+dependencies = ["requests"]
+keywords = ["rag", "api", "sdk", "viarag"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://viarag.ai"
+Repository = "https://github.com/ViaVeritas/viarag"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
