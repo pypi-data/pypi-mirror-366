@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: curses_minesweeper
+Version: 1.0.0
+Summary: (yet another) Minesweeper implementation with curses, cuz why not
+Keywords: curses,minesweeper,cli-game
+Author-email: nokarm567 <nokarm567@gmail.com>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-Expression: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console :: Curses
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Natural Language :: English
+Classifier: Topic :: Games/Entertainment
+License-File: LICENSE
+Requires-Dist: windows-curses; sys_platform == 'win32'
+
+# Curses Minesweeper
+
+*(yet)* another Minesweeper implementation, cuz why not?
+
+## Features
+- Minesweeper
+- Lightweight
+- 3 control schemes (WASD, arrow keys, numpad)
+- Customizable grid size
+- Deterministic mine placement with seeeding
+- Runs in most terminals
+- Oh, and also Minesweeper
+
+## Installation
+
+```bash
+pip install curses-minesweeper
+```
+
+## Usage
+
+To play the game in terminal
+```bash
+minesweeper
+```
+use minesweeper --help for more information
+
+To start the game from a python script
+```python
+import curses_minesweeper
+curses_minesweeper.launch()
+```
+use help(curses_minesweeper) for more information

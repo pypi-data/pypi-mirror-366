@@ -1,0 +1,29 @@
+[build-system]
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "curses_minesweeper"
+version = "1.0.0"
+dependencies = [
+  "windows-curses; sys_platform == 'win32'"
+]
+requires-python = ">=3.9"
+authors = [{name = "nokarm567", email = "nokarm567@gmail.com"}]
+description = "(yet another) Minesweeper implementation with curses, cuz why not"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["curses", "minesweeper", "cli-game"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Environment :: Console :: Curses",
+    "Intended Audience :: End Users/Desktop",
+    "Natural Language :: English",
+    "Topic :: Games/Entertainment"
+]
+
+[project.scripts]
+minesweeper = "curses_minesweeper.game:launch"
