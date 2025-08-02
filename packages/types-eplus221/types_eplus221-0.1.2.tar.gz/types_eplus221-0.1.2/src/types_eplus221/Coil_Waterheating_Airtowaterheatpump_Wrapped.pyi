@@ -1,0 +1,64 @@
+from typing import Annotated, Literal
+from pydantic import Field
+
+from eppy.bunch_subclass import EpBunch
+
+class Coil_Waterheating_Airtowaterheatpump_Wrapped(EpBunch):
+    """Heat pump water heater (HPWH) heating coil, air-to-water direct-expansion (DX)"""
+
+    Name: Annotated[str, Field(default=...)]
+    """Unique name for this instance of a heat pump water heater DX coil."""
+
+    Rated_Heating_Capacity: Annotated[float, Field(default=..., gt=0)]
+    """Heating capacity at the rated inlet air temperatures, rated condenser inlet"""
+
+    Rated_COP: Annotated[float, Field(gt=0, default=3.2)]
+    """Heating coefficient of performance at the rated inlet air temperatures,"""
+
+    Rated_Sensible_Heat_Ratio: Annotated[float, Field(ge=0.5, le=1, default=0.85)]
+    """Gross air-side sensible heat ratio at the rated inlet air temperatures,"""
+
+    Rated_Evaporator_Inlet_Air_DryBulb_Temperature: Annotated[float, Field(gt=5, default=19.7)]
+    """Evaporator inlet air dry-bulb temperature corresponding to rated coil performance"""
+
+    Rated_Evaporator_Inlet_Air_WetBulb_Temperature: Annotated[float, Field(gt=5, default=13.5)]
+    """Evaporator inlet air wet-bulb temperature corresponding to rated coil performance"""
+
+    Rated_Condenser_Water_Temperature: Annotated[float, Field(gt=25, default=57.5)]
+    """Condenser inlet water temperature corresponding to rated coil performance"""
+
+    Rated_Evaporator_Air_Flow_Rate: Annotated[float, Field(gt=0)]
+    """Evaporator air flow rate corresponding to rated coil performance"""
+
+    Evaporator_Fan_Power_Included_in_Rated_COP: Annotated[Literal['Yes', 'No'], Field(default='Yes')]
+    """Select Yes if the evaporator fan power is included in the rated COP. This choice field"""
+
+    Evaporator_Air_Inlet_Node_Name: Annotated[str, Field(default=...)]
+    """The node from which the DX coil draws its inlet air."""
+
+    Evaporator_Air_Outlet_Node_Name: Annotated[str, Field(default=...)]
+    """The node to which the DX coil sends its outlet air."""
+
+    Crankcase_Heater_Capacity: Annotated[float, Field(ge=0, default=0)]
+    """The compressor crankcase heater only operates when the dry-bulb temperature of air"""
+
+    Maximum_Ambient_Temperature_for_Crankcase_Heater_Operation: Annotated[float, Field(ge=0, default=10)]
+    """The compressor crankcase heater only operates when the dry-bulb temperature of air"""
+
+    Evaporator_Air_Temperature_Type_for_Curve_Objects: Annotated[Literal['DryBulbTemperature', 'WetBulbTemperature'], Field(default='WetBulbTemperature')]
+    """Determines temperature type for heating capacity curves and"""
+
+    Heating_Capacity_Function_of_Temperature_Curve_Name: Annotated[str, Field()]
+    """Heating capacity modifier curve (function of temperature) should be biquadratic or cubic."""
+
+    Heating_Capacity_Function_of_Air_Flow_Fraction_Curve_Name: Annotated[str, Field()]
+    """Heating capacity modifier curve (function of air flow fraction) should be quadratic or cubic."""
+
+    Heating_COP_Function_of_Temperature_Curve_Name: Annotated[str, Field()]
+    """Heating COP modifier curve (function of temperature) should be biquadratic or cubic."""
+
+    Heating_COP_Function_of_Air_Flow_Fraction_Curve_Name: Annotated[str, Field()]
+    """Heating COP modifier curve (function of air flow fraction) should be quadratic or cubic."""
+
+    Part_Load_Fraction_Correlation_Curve_Name: Annotated[str, Field()]
+    """Part Load Fraction Correlation (function of part load ratio) should be quadratic or cubic."""
