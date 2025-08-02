@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: dataset_iterator
+Version: 0.5.3
+Summary: Keras-style data iterator for images contained in dataset files such as hdf5 or PIL readable files. Images can be contained in several files.
+Home-page: https://github.com/jeanollion/dataset_iterator.git
+Download-URL: https://github.com/jeanollion/dataset_iterator/releases/download/v0.5.1/dataset_iterator-0.5.1.tar.gz
+Author: Jean Ollion
+Author-email: jean.ollion@polytechnique.org
+Keywords: Iterator,Dataset,Image,Numpy
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: h5py>=2.9
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: scikit-learn
+Requires-Dist: scikit-image
+Requires-Dist: tensorflow>=2.7.1
+Requires-Dist: keras
+Requires-Dist: psutil
+Requires-Dist: dill
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Dataset Iterator
+This repo contains keras iterator classes for multi-channel (time-lapse) images contained in dataset files such as hdf5.
+
+## Dataset structure:
+One dataset file can contain several sub-datasets (dataset_name0, dataset_name1, etc...), the iterator will iterate through all of them as if they were concatenated.
+
+    .
+    ├── ...
+    ├── dataset_name0                    
+    │   ├── channel0          
+    │   └── channel1   
+    │   └── ...
+    ├── dataset_name1                    
+    │   ├── channel0          
+    │   └── channel1   
+    │   └── ...
+    └── ...
+
+Each dataset contain channels (channel0, channel1 ...) that must have same shape. All datasets must have the same number of channels, and shape (except batch size) must be equal among datasets.
+
+## Groups
+
+There can be more folder level, for instance to have train and test sets in the same file:
+
+    .
+    ├── ...
+    ├── experiment1                    
+    │   ├── train          
+    │   │   ├── raw
+    │   │   └── labels
+    │   └── test   
+    │       ├── raw
+    │       └── labels
+    ├── experiment2                    
+    │   ├── train          
+    │   │   ├── raw
+    │   │   └── labels
+    │   └── test   
+    │       ├── raw
+    │       └── labels
+    └── ...
+```python
+train_it = MultiChannelIterator(dataset_file_path = file_path, channel_keywords = ["/raw", "/labels"], group_keyword="train")
+test_it = MultiChannelIterator(dataset_file_path = file_path, channel_keywords = ["/raw", "/labels"], group_keyword="test")
+```
+# Image formats
+- Those iterators are using an object of class `DatasetIO` to access the data.
+- There is currently an implementation of DatasetIO for .h5 files (`H5pyIO`), as well as dataset composed of multiple images files supported by PILLOW (`MultipleFileIO`).
+- one can also concatenate datasets from different files:
+  - if a dataset is split into several files that contain the same channels: use `ConcatenateDatasetIO`
+  - if a dataset contains channels in different files, use: `MultipleDatasetIO`
+
+# Demo
+See this notebook for a demo: [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1J-UPivwyNTpyLhOMfzhfG0pIl6gDD9I5)
