@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mlektic"
+version = "1.0.8"
+description = "A Python ML library to use and visualize gradient descent for linear and logistic regression optimization."
+readme = "README.md"
+requires-python = ">=3.8,<3.13"
+authors = [
+  { name = "Daniel Antonio García Escobar", email = "contacto@dialektico.com" }
+]
+
+dependencies = [
+  "numpy>=2.0,<3.0",
+  "pandas>=2.0,<2.3",
+  "polars>=1.25,<1.29",
+  "scikit-learn>=1.2,<1.7",
+  "matplotlib>=3.8,<3.11",
+  "torch==2.6.*",
+  "psutil>=5.9"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent"
+]
+
+[project.optional-dependencies]
+tensorflow = ["tensorflow>=2.18,<2.19"]
+dev = [
+  "pytest>=7.4.0",
+  "setuptools>=72.1.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["mlektic*"]
+
+[tool.setuptools]
+include-package-data = true 
+
+[tool.setuptools.package-data]
+"mlektic.reporting" = ["templates/*.html"]
+
+[project.urls]
+Source = "https://github.com/DanielDialektico/mlektic"
+Documentation = "https://dialektico.com/mlektic/docs/"
