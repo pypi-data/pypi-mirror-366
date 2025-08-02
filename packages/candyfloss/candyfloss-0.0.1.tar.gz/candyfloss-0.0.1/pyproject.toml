@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "candyfloss"
+version = "0.0.1"
+authors = [
+    {name="Bob Poekert", email="bob@poekert.com"}
+]
+description = "An ergonomic interface over GStreamer"
+requires-python = ">=3.11"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://git.hella.cheap/bob/candyfloss"
