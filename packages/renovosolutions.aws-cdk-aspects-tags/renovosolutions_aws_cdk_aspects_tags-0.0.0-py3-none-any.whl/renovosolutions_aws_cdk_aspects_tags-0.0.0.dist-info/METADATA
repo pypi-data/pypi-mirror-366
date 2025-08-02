@@ -1,0 +1,170 @@
+Metadata-Version: 2.1
+Name: renovosolutions.aws-cdk-aspects-tags
+Version: 0.0.0
+Summary: A library of CDK aspects for tagging AWS resources
+Home-page: https://github.com/RenovoSolutions/cdk-aspects-library-tags.git
+Author: Renovo Solutions<webmaster+cdk@renovo1.com>
+License: Apache-2.0
+Project-URL: Source, https://github.com/RenovoSolutions/cdk-aspects-library-tags.git
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: JavaScript
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Typing :: Typed
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved
+Requires-Python: ~=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aws-cdk-lib <3.0.0,>=2.208.0
+Requires-Dist: constructs <11.0.0,>=10.0.5
+Requires-Dist: jsii <2.0.0,>=1.113.0
+Requires-Dist: publication >=0.0.3
+Requires-Dist: typeguard <4.3.0,>=2.13.3
+
+# CDK Aspects Library - Tags
+
+A library of [AWS CDK Aspects](https://docs.aws.amazon.com/cdk/v2/guide/aspects.html) for applying consistent tagging to AWS resources.
+
+## Features
+
+This library provides two main aspects for tagging AWS resources:
+
+### ApplyTags
+
+An aspect that applies a set of custom tags to all taggable resources in the given scope. This is useful for:
+
+* Cost allocation and tracking
+* Resource management and organization
+* Compliance and governance requirements
+* Environment identification
+
+### ApplyKmsTags
+
+An aspect that applies CloudFormation-specific tags to KMS keys, including:
+
+* `cfn:stack-name` - The name of the CloudFormation stack
+* `cfn:logical-id` - The logical ID of the KMS key resource
+
+This is particularly useful because KMS keys are not automatically tagged by CloudFormation, making them difficult to track and manage in large deployments.
+
+It's not possible to use the same tags that CloudFormation applies to other resources, because those names are reserved for CloudFormation's internal use. As a best approximation, it uses the similar tag names listed above.
+
+## Examples
+
+### TypeScript
+
+```python
+import { Aspects, App, Stack } from 'aws-cdk-lib';
+import { aws_s3 as s3, aws_kms as kms } from 'aws-cdk-lib';
+import { ApplyTags, ApplyKmsTags } from '@renovosolutions/cdk-aspects-library-tags';
+
+const app = new App();
+const stack = new Stack(app, 'MyStack');
+
+// Create some resources
+new s3.Bucket(stack, 'MyBucket');
+new kms.Key(stack, 'MyKey');
+
+// Apply custom tags to all taggable resources
+const tags = {
+  'Environment': 'Production',
+  'Project': 'MyProject',
+  'Owner': 'TeamName'
+};
+Aspects.of(stack).add(new ApplyTags(tags));
+
+// Apply CloudFormation tags specifically to KMS keys
+Aspects.of(stack).add(new ApplyKmsTags());
+```
+
+### Python
+
+```python
+from aws_cdk import (
+  Aspects,
+  App,
+  Stack,
+  aws_s3 as s3,
+  aws_kms as kms,
+)
+from renovosolutions_aspects_tags import (
+  ApplyTags,
+  ApplyKmsTags,
+)
+
+app = App()
+stack = Stack(app, "MyStack")
+
+# Create some resources
+s3.Bucket(stack, "MyBucket")
+kms.Key(stack, "MyKey")
+
+# Apply custom tags to all taggable resources
+tags = {
+    "Environment": "Production",
+    "Project": "MyProject",
+    "Owner": "TeamName"
+}
+Aspects.of(stack).add(ApplyTags(tags))
+
+# Apply CloudFormation tags specifically to KMS keys
+Aspects.of(stack).add(ApplyKmsTags())
+```
+
+### C Sharp
+
+```csharp
+using Amazon.CDK;
+using Amazon.CDK.AWS.S3;
+using Amazon.CDK.AWS.KMS;
+using System.Collections.Generic;
+using renovosolutions;
+
+var app = new App();
+var stack = new Stack(app, "MyStack");
+
+// Create some resources
+new Bucket(stack, "MyBucket");
+new Key(stack, "MyKey");
+
+// Apply custom tags to all taggable resources
+var tags = new Dictionary<string, string>
+{
+    ["Environment"] = "Production",
+    ["Project"] = "MyProject",
+    ["Owner"] = "TeamName"
+};
+Aspects.Of(stack).Add(new ApplyTags(tags));
+
+// Apply CloudFormation tags specifically to KMS keys
+Aspects.Of(stack).Add(new ApplyKmsTags());
+```
+
+## Scope of Application
+
+The aspects in this library work at different scopes:
+
+* **ApplyTags**: Applies to all resources that implement the `ITaggable` interface (most AWS resources)
+* **ApplyKmsTags**: Applies specifically to `AWS::KMS::Key` resources
+
+You can apply these aspects at any level in your CDK hierarchy:
+
+* **App level**: Tags all resources across all stacks
+* **Stack level**: Tags all resources within a specific stack
+* **Construct level**: Tags resources within a specific construct
+
+## API Reference
+
+For detailed API documentation, see [API.md](./API.md).
+
+## Contributing
+
+Contributions are welcome! Please see our [contributing guidelines](https://github.com/RenovoSolutions/cdk-aspects-library-tags/blob/main/CONTRIBUTING.md) for more details.
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
