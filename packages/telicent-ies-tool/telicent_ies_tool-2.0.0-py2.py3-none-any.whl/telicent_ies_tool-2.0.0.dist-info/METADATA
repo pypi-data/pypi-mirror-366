@@ -1,0 +1,491 @@
+Metadata-Version: 2.4
+Name: telicent-ies-tool
+Version: 2.0.0
+Summary: A library for working with the IES data standard
+Author-email: Telicent Ltd <opensource@telicent.io>
+License:                                  Apache License
+                                   Version 2.0, January 2004
+                                http://www.apache.org/licenses/
+        
+           TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+        
+           1. Definitions.
+        
+              "License" shall mean the terms and conditions for use, reproduction,
+              and distribution as defined by Sections 1 through 9 of this document.
+        
+              "Licensor" shall mean the copyright owner or entity authorized by
+              the copyright owner that is granting the License.
+        
+              "Legal Entity" shall mean the union of the acting entity and all
+              other entities that control, are controlled by, or are under common
+              control with that entity. For the purposes of this definition,
+              "control" means (i) the power, direct or indirect, to cause the
+              direction or management of such entity, whether by contract or
+              otherwise, or (ii) ownership of fifty percent (50%) or more of the
+              outstanding shares, or (iii) beneficial ownership of such entity.
+        
+              "You" (or "Your") shall mean an individual or Legal Entity
+              exercising permissions granted by this License.
+        
+              "Source" form shall mean the preferred form for making modifications,
+              including but not limited to software source code, documentation
+              source, and configuration files.
+        
+              "Object" form shall mean any form resulting from mechanical
+              transformation or translation of a Source form, including but
+              not limited to compiled object code, generated documentation,
+              and conversions to other media types.
+        
+              "Work" shall mean the work of authorship, whether in Source or
+              Object form, made available under the License, as indicated by a
+              copyright notice that is included in or attached to the work
+              (an example is provided in the Appendix below).
+        
+              "Derivative Works" shall mean any work, whether in Source or Object
+              form, that is based on (or derived from) the Work and for which the
+              editorial revisions, annotations, elaborations, or other modifications
+              represent, as a whole, an original work of authorship. For the purposes
+              of this License, Derivative Works shall not include works that remain
+              separable from, or merely link (or bind by name) to the interfaces of,
+              the Work and Derivative Works thereof.
+        
+              "Contribution" shall mean any work of authorship, including
+              the original version of the Work and any modifications or additions
+              to that Work or Derivative Works thereof, that is intentionally
+              submitted to Licensor for inclusion in the Work by the copyright owner
+              or by an individual or Legal Entity authorized to submit on behalf of
+              the copyright owner. For the purposes of this definition, "submitted"
+              means any form of electronic, verbal, or written communication sent
+              to the Licensor or its representatives, including but not limited to
+              communication on electronic mailing lists, source code control systems,
+              and issue tracking systems that are managed by, or on behalf of, the
+              Licensor for the purpose of discussing and improving the Work, but
+              excluding communication that is conspicuously marked or otherwise
+              designated in writing by the copyright owner as "Not a Contribution."
+        
+              "Contributor" shall mean Licensor and any individual or Legal Entity
+              on behalf of whom a Contribution has been received by Licensor and
+              subsequently incorporated within the Work.
+        
+           2. Grant of Copyright License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              copyright license to reproduce, prepare Derivative Works of,
+              publicly display, publicly perform, sublicense, and distribute the
+              Work and such Derivative Works in Source or Object form.
+        
+           3. Grant of Patent License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              (except as stated in this section) patent license to make, have made,
+              use, offer to sell, sell, import, and otherwise transfer the Work,
+              where such license applies only to those patent claims licensable
+              by such Contributor that are necessarily infringed by their
+              Contribution(s) alone or by combination of their Contribution(s)
+              with the Work to which such Contribution(s) was submitted. If You
+              institute patent litigation against any entity (including a
+              cross-claim or counterclaim in a lawsuit) alleging that the Work
+              or a Contribution incorporated within the Work constitutes direct
+              or contributory patent infringement, then any patent licenses
+              granted to You under this License for that Work shall terminate
+              as of the date such litigation is filed.
+        
+           4. Redistribution. You may reproduce and distribute copies of the
+              Work or Derivative Works thereof in any medium, with or without
+              modifications, and in Source or Object form, provided that You
+              meet the following conditions:
+        
+              (a) You must give any other recipients of the Work or
+                  Derivative Works a copy of this License; and
+        
+              (b) You must cause any modified files to carry prominent notices
+                  stating that You changed the files; and
+        
+              (c) You must retain, in the Source form of any Derivative Works
+                  that You distribute, all copyright, patent, trademark, and
+                  attribution notices from the Source form of the Work,
+                  excluding those notices that do not pertain to any part of
+                  the Derivative Works; and
+        
+              (d) If the Work includes a "NOTICE" text file as part of its
+                  distribution, then any Derivative Works that You distribute must
+                  include a readable copy of the attribution notices contained
+                  within such NOTICE file, excluding those notices that do not
+                  pertain to any part of the Derivative Works, in at least one
+                  of the following places: within a NOTICE text file distributed
+                  as part of the Derivative Works; within the Source form or
+                  documentation, if provided along with the Derivative Works; or,
+                  within a display generated by the Derivative Works, if and
+                  wherever such third-party notices normally appear. The contents
+                  of the NOTICE file are for informational purposes only and
+                  do not modify the License. You may add Your own attribution
+                  notices within Derivative Works that You distribute, alongside
+                  or as an addendum to the NOTICE text from the Work, provided
+                  that such additional attribution notices cannot be construed
+                  as modifying the License.
+        
+              You may add Your own copyright statement to Your modifications and
+              may provide additional or different license terms and conditions
+              for use, reproduction, or distribution of Your modifications, or
+              for any such Derivative Works as a whole, provided Your use,
+              reproduction, and distribution of the Work otherwise complies with
+              the conditions stated in this License.
+        
+           5. Submission of Contributions. Unless You explicitly state otherwise,
+              any Contribution intentionally submitted for inclusion in the Work
+              by You to the Licensor shall be under the terms and conditions of
+              this License, without any additional terms or conditions.
+              Notwithstanding the above, nothing herein shall supersede or modify
+              the terms of any separate license agreement you may have executed
+              with Licensor regarding such Contributions.
+        
+           6. Trademarks. This License does not grant permission to use the trade
+              names, trademarks, service marks, or product names of the Licensor,
+              except as required for reasonable and customary use in describing the
+              origin of the Work and reproducing the content of the NOTICE file.
+        
+           7. Disclaimer of Warranty. Unless required by applicable law or
+              agreed to in writing, Licensor provides the Work (and each
+              Contributor provides its Contributions) on an "AS IS" BASIS,
+              WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+              implied, including, without limitation, any warranties or conditions
+              of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+              PARTICULAR PURPOSE. You are solely responsible for determining the
+              appropriateness of using or redistributing the Work and assume any
+              risks associated with Your exercise of permissions under this License.
+        
+           8. Limitation of Liability. In no event and under no legal theory,
+              whether in tort (including negligence), contract, or otherwise,
+              unless required by applicable law (such as deliberate and grossly
+              negligent acts) or agreed to in writing, shall any Contributor be
+              liable to You for damages, including any direct, indirect, special,
+              incidental, or consequential damages of any character arising as a
+              result of this License or out of the use or inability to use the
+              Work (including but not limited to damages for loss of goodwill,
+              work stoppage, computer failure or malfunction, or any and all
+              other commercial damages or losses), even if such Contributor
+              has been advised of the possibility of such damages.
+        
+           9. Accepting Warranty or Additional Liability. While redistributing
+              the Work or Derivative Works thereof, You may choose to offer,
+              and charge a fee for, acceptance of support, warranty, indemnity,
+              or other liability obligations and/or rights consistent with this
+              License. However, in accepting such obligations, You may act only
+              on Your own behalf and on Your sole responsibility, not on behalf
+              of any other Contributor, and only if You agree to indemnify,
+              defend, and hold each Contributor harmless for any liability
+              incurred by, or claims asserted against, such Contributor by reason
+              of your accepting any such warranty or additional liability.
+        
+           END OF TERMS AND CONDITIONS
+        
+           APPENDIX: How to apply the Apache License to your work.
+        
+              To apply the Apache License to your work, attach the following
+              boilerplate notice, with the fields enclosed by brackets "[]"
+              replaced with your own identifying information. (Don't include
+              the brackets!)  The text should be enclosed in the appropriate
+              comment syntax for the file format. We also recommend that a
+              file or class name and description of purpose be included on the
+              same "printed page" as the copyright notice for easier
+              identification within third-party archives.
+        
+           Copyright 2024 TELICENT LTD
+        
+           Licensed under the Apache License, Version 2.0 (the "License");
+           you may not use this file except in compliance with the License.
+           You may obtain a copy of the License at
+        
+               http://www.apache.org/licenses/LICENSE-2.0
+        
+           Unless required by applicable law or agreed to in writing, software
+           distributed under the License is distributed on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+           See the License for the specific language governing permissions and
+           limitations under the License.
+        
+Project-URL: Repository, https://github.com/telicent-oss/ies-tool
+Project-URL: Changelog, https://github.com/telicent-oss/ies-tool/blob/main/CHANGELOG.md
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE
+Requires-Dist: geohash-tools==0.2.0
+Requires-Dist: python-geohash==0.8.5
+Requires-Dist: pyshacl==0.25.0
+Requires-Dist: requests==2.32.4
+Requires-Dist: rdflib==6.3.2
+Requires-Dist: phonenumbers==8.13.35
+Requires-Dist: pycountry==24.6.1
+Requires-Dist: validators==0.28.1
+Requires-Dist: iso4217parse==0.5.1
+Requires-Dist: shortuuid==1.0.13
+Provides-Extra: dev
+Requires-Dist: pre-commit==3.5.0; extra == "dev"
+Requires-Dist: ruff==0.1.5; extra == "dev"
+Requires-Dist: types-requests==2.31.0.10; extra == "dev"
+Requires-Dist: mypy==1.7.0; extra == "dev"
+Requires-Dist: mkdocs==1.5.3; extra == "dev"
+Requires-Dist: mkdocs-material==9.5.11; extra == "dev"
+Requires-Dist: mkdocstrings==0.24.0; extra == "dev"
+Requires-Dist: mkdocstrings_python==1.8.0; extra == "dev"
+Dynamic: license-file
+
+# telicent-ies-tool
+
+A library for working with the [IES data standard.](https://github.com/dstl/IES4)
+
+IES is a UK Government data exchange standard. It is a 4D ontology specified as an RDF Schema. The purpose 
+of telicent-ies-tool is to make it easier for users to create compliant IES data.
+
+Formal ontologies can be hard for beginners to grasp. Unlike traditional data models, they are constructional
+in nature. Instead of defining a set of entities and fields to populate, ontologies like IES define a set of
+common objects that can be assembled following well-defined patterns. This introduces a degree of flexibility
+not found in traditional data models, which is great for real-world situations where information requirements
+change faster than the data models can be re-engineered. The disadvantage to this approach is that if users
+and developers are not steeped in the principles that underpin the ontology (4D, extensional, constructional)
+then it is possible to generate structures that do not follow the patterns. We can mitigate this somewhat with
+the use of SHACL, but overuse of SHACL would result in the loss of desired flexibility.
+
+To counter some of these issues, Telicent have collected together a number of convenience functions that we
+have used on projects into one Python library to help data engineers get started and hopefully ensure 
+appropriate use of the ontology. This is work in progress, and we want to hear from users about what is 
+missing / not working, and of course requests for new features. We will continue to add functionality as we
+identify the requirement in customer projects. 
+
+
+## Dependencies
+
+Python >= 3.8
+
+## Install
+
+```shell
+pip install telicent-ies-tool
+```
+
+## Overview & Approach
+
+The IES Tool has a main factory class - `IESTool` - that takes care of storage, caching, and Python object instantiation. 
+This will be automatically initiated as the default `IES_TOOL` constant which can be imported It is necessary to initiate
+a tool object for every dataset you wish to work with. 
+
+```python
+from ies_tool.ies_tool import IESTool, IES_TOOL
+```
+
+As well as the main factory class, and the default instance of the tool (IES_TOOL), there are base Python classes for all
+the significant IES classes:
+
+
+* <a href="https://www.w3.org/TR/rdf-schema/#ch_resource">RdfsResource</a>
+    * <a href="https://www.w3.org/TR/rdf-schema/#ch_class">RdfsClass</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#types">ClassOfElement</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#representation-and-content">Representation</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#identifiers">Identifier</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#identifiers">Name</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#characteristics-and-measures">MeasureValue</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#characteristics-and-measures">Measure</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#types">ClassOfClassOfElement</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#characteristics-and-measures">UnitOfMeasure</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#identifiers">NamingScheme</a>
+    * <a href="https://github.com/dstl/IES4/blob/master/ies.md#ies-overview">ExchangedItem</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#types">ClassOfElement</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#representation-and-content">Representation</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#identifiers">Identifier</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#identifiers">Name</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#characteristics-and-measures">MeasureValue</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#characteristics-and-measures">Measure</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#types">ClassOfClassOfElement</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#characteristics-and-measures">UnitOfMeasure</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#identifiers">NamingScheme</a>
+    * <a href="https://github.com/dstl/IES4/blob/master/ies.md#ies-overview">Element</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#ies-overview">Entity</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#communications-device">Device</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#Location">Location</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#Location">GeoPoint</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#posts-and-roles">ResponsibleActor</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#posts-and-roles">Post</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#person">Person</a>
+                * <a href="https://github.com/dstl/IES4/blob/master/ies.md#organisation">Organisation</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#ies-overview">State</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#communications-device">DeviceState</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#start-and-end">BoundingState</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#start-and-end">BirthState</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#start-and-end">DeathState</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#events-dear-boy-events">EventParticipant</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#events-dear-boy-events">Event</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#communication">Communication</a>
+            * <a href="https://github.com/dstl/IES4/blob/master/ies.md#communication">PartyInCommunication</a>
+        * <a href="https://github.com/dstl/IES4/blob/master/ies.md#period-of-time">ParticularPeriod</a>
+
+Each of these classes can be instantiated using typical Pythonic approach - e.g. 
+```python
+anne = Person(given_name="Anne", surname="Smith")
+```
+Note that the default IES_TOOL instance will be used unless you specify the `tool=` parameter in the class initiation you're using
+so it knows where to create the RDF data. It is recommended that this approach is used in most cases. 
+
+However, data can also be created using the `instantiate()` method on IESTool, the tool will attempt to determine the most
+appropriate Python base class to initiate - e.g.
+
+```python
+fred = tool.instantiate(classes=['http://ies.data.gov.uk/ontology/ies4#Person'])
+```
+The 'fred' object returned will be a Python Person object. It's generally better to just initiate the classes directly, as
+it is not always possible to deterministically infer the Python class from the `instantiate()` call. Developers can override
+the inference by setting the `base_class` parameter - e.g.
+
+
+## Usage
+
+To import, use:
+
+```python
+from ies_tool.ies_tool import IESTool, IES_TOOL
+```
+
+This will import a pre-initiated IESTool object that is ready to use, and will be the default factory object for all other classes
+
+To manually instantiate another tool (factory) object:
+
+```python
+tool = IESTool()
+```
+
+
+
+
+### Creating Data
+
+#### Person
+To create a person we need to instantiate a `Person` object first. We can pass in several parameters, but the only mandatory one is the `tool` 
+parameter which refers to the IESTool factory object being used. The instantiated person graph will be stored in tool dataset.
+
+```python
+my_person = Person(
+    given_name='Fred',
+    surname='Smith',
+    date_of_birth="1985-08-21"
+)
+```
+Note that `start` is used for the date of birth as this is inherited from Element. This person instance will be created in the default IES_TOOL.
+
+We can then add additional information associated with the person using one of the available methods such as 
+`add_identifier()`, `add_state()`, `in_location()`, `works_for()` etc.
+
+The data produced from the example above will be:
+
+```turtle
+@prefix : <http://example.com/rdf/testdata#> .
+@prefix ies: <http://ies.data.gov.uk/ontology/ies4#> .
+@prefix iso8601: <http://iso.org/iso8601#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:d8751056-e1c2-40b7-86f6-670e50e450f1-1_BIRTH a ies:BirthState ;
+    ies:inPeriod iso8601:1985-08-21 ;
+    ies:isStartOf :d8751056-e1c2-40b7-86f6-670e50e450f1-1 .
+
+:d8751056-e1c2-40b7-86f6-670e50e450f1-1 a ies:Person ;
+    ies:hasName :d8751056-e1c2-40b7-86f6-670e50e450f1-1_FIRSTNAME,
+        :d8751056-e1c2-40b7-86f6-670e50e450f1-1_SURNAME .
+
+:d8751056-e1c2-40b7-86f6-670e50e450f1-1_FIRSTNAME a ies:GivenName ;
+    ies:representationValue "Fred"^^xsd:string .
+
+:d8751056-e1c2-40b7-86f6-670e50e450f1-1_SURNAME a ies:Surname ;
+    ies:representationValue "Smith"^^xsd:string .
+
+iso8601:1985-08-21 a ies:ParticularPeriod ;
+    ies:iso8601PeriodRepresentation "1985-08-21"^^xsd:string .
+```
+
+Note that the URIs are generated automatically (UUIDs appended to the default data namespace) unless the uri parameter is used to manually set them.
+
+### Extending the IES Ontology
+If you plan to use new subclasses in your data, it helps to register those new classes (and their supertypes) with IES Tool. This will enable the tool to make better inference of base Python classes. The extensions are added as a dictionary where the key is the URI of the new class, and the value is a list of the new class's superclasses:
+
+```python
+ADDITONAL_CLASSES = {
+    "http://ies.data.gov.uk/ontology/ies4#Widget": ['http://ies.data.gov.uk/ontology/ies4#Device'],
+    "http://ies.data.gov.uk/ontology/ies4#Gizmo": ['http://ies.data.gov.uk/ontology/ies4#Device']
+}
+
+tool = IESTool()
+tool.add_classes(ADDITONAL_CLASSES)
+```
+
+### Low-level operations (RDF / RDFS)
+The base classes provide some simple methods for creating predicates:
+
+```python
+my_person.add_literal(predicate="http://xmlns.com/foaf/0.1/name",literal="Fred Smith")
+my_person.add_label("Freddy")
+my_person.add_comment("The one and only Fred Smith")
+my_person.add_telicent_primary_name("SMITH, Fred")
+my_person.add_related_object(predicate="http://ies.data.gov.uk/ontology/ies4#ancestorOf",related_object=my_other_person)
+```
+
+The IES tool itself also provides a set of low-level methods for working with the graph, such as `add_triple` which adds an RDF statement:
+
+```python
+IES_TOOL.add_triple(
+    subject=my_person.uri,
+    predicate='http://ies.data.gov.uk/ontology/ies4#hasCharacteristic',
+    obj=characteristic_uri
+)
+```
+
+### Namespaces
+
+To bind an RDF namespace prefix, we need to 'register' that prefix. The library pre-configures prefixes: 
+`xsd:`, `dc:`, `rdf:`, `rdfs:`, `owl:`, `ies:`, `iso8601:`, `iso3166:`
+
+Registering these prefixes just enables shorter, more readable RDF to be produced. The methods in the IES tool itself all
+require fully expanded URIs. 
+
+```python
+from ies_tool.ies_tool import IES_TOOL
+
+
+IES_TOOL.add_prefix("data:", "http://example.com/rdf/testdata#")
+```
+
+As a default `http://example.com/rdf/testdata#` is used as a default data namespace. This can be changed: 
+
+```python
+IES_TOOL.uri_stub = 'http://mydomain.org/rdf-data#'
+```
+Note this will also set the blank prefix `:` to `http://mydomain.org/rdf-data#`
+
+### Saving/creating RDF
+
+#### As a text string
+
+```python
+my_rdf_string = IES_TOOL.get_rdf(format="turtle") 
+```
+As the IES tool uses RDFLib by default. If another storage plug-in has been used, it may not support all the RDF bindings.
+
+#### Saving RDF locally
+
+```python
+IES_TOOL.save_rdf("path/to/my/file.ttl", rdf_format="ttl")  
+```
+
+### To clear the graph:
+
+```python
+IES_TOOL.clear_graph()
+```
