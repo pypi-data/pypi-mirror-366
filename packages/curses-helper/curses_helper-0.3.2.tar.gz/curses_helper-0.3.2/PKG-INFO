@@ -1,0 +1,37 @@
+Metadata-Version: 2.1
+Name: curses-helper
+Version: 0.3.2
+Summary: Curses helper stuff.
+Home-page: https://github.com/taitep/curses_helper
+License: GPL-3.0-or-later
+Keywords: curses
+Author: taitep
+Author-email: taitep@taitep.se
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Project-URL: Repository, https://github.com/taitep/curses_helper
+Description-Content-Type: text/markdown
+
+# curses_helper
+
+Provides curses helper stuff.
+
+Install with `pip3 install curses-helper`.
+
+## `@curses_app`
+The `@curses_app` decorator can be used as a replacement for wrapper. It takes the following arguments:
+- `echo`: Whether to enable echo mode in the terminal. Default=False
+- `cbreak`: Whether to enable cbreak mode, allowing reading keyboard input without waiting for enter. Default=True
+- `keypad`: Whether to enable curses keypad mode. default=False
+
+## Types
+curses_helper provides a types module, providing the following type hinting types:
+- `Window`: The curses window type.
+
+All types that cannot be handled at runtime are set to `Any` when the program is being run.

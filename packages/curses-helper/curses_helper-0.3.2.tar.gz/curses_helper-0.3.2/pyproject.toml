@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "curses-helper"
+version = "0.3.2"
+description = "Curses helper stuff."
+authors = ["taitep <taitep@taitep.se>"]
+keywords = ["curses"]
+license = "GPL-3.0-or-later"
+homepage = "https://github.com/taitep/curses_helper"
+repository = "https://github.com/taitep/curses_helper"
+readme = "README.md"
+include = ["LICENSE"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
