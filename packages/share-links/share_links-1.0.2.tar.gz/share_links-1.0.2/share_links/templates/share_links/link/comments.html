@@ -1,0 +1,11 @@
+{% load i18n comments %}
+
+<article>
+  {% get_comment_count for link as comment_count %}
+  <p>
+    {% blocktrans count count=comment_count %}{{ comment_count }} comment.{% plural %}{{ comment_count }} comments.{% endblocktrans %}
+  </p>
+  {% render_comment_list for link %}
+</article>
+
+{% render_comment_form for link %}

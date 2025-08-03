@@ -1,0 +1,11 @@
+{% extends "share_links/base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% if link.title != None and link.title != "" %}{{ link.title }}{% else %}{{ link.link }}{% endif %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  {% include "share_links/link/link.html" %}
+  {% include "share_links/link/archive.html" %}
+  {% include "share_links/link/comments.html" %}
+{% endblock %}

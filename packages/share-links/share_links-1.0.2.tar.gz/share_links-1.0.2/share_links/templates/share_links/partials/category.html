@@ -1,0 +1,11 @@
+{% load markdownify i18n humanize %}
+
+<article>
+  <h2><a href="{% url "category" category.pk %}">{{ category.label }}</a></h2>
+</p>
+{% if category.description %}
+  <p>
+    {{ category.description|markdownify|truncatewords_html:20 }}
+  </p>
+{% endif %}
+</article>

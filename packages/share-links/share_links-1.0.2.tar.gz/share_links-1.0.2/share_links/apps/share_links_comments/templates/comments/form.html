@@ -1,0 +1,35 @@
+{% load comments i18n %}
+
+<article>
+  {% if request.GET.c %}
+    <p class="comment-success">{% translate "Thank you for your comment. It will be moderated and published soon." %}</p>
+  {% endif %}
+
+  <p>
+    <i>
+      {% translate 'Comments must be written using <a href="https://daringfireball.net/projects/markdown/basics">Markdown</a>.' %}<br />
+      {% translate "Supported tags are: a, p, i, b, img, ul, ol, li, code, pre, em, strong, blockquote, br." %}
+    </i>
+  </p>
+
+  <form action="{% comment_form_target %}" method="post" id="post-comment">{% csrf_token %}
+    <input type="hidden" name="next" value="{% url 'link' link.id %}" />
+    {% for field in form %}
+      {% if field.is_hidden %}
+        <div>{{ field }}</div>
+      {% endif %}
+    {% endfor %}
+    <div class="post-comment">
+      {% for field in form %}
+        {% if not field.is_hidden %}
+          {% if field.errors %}{{ field.errors }}{% endif %}
+          <p{% if field.errors %} class="error"{% endif %}{% if field.name == "honeypot" %} style="display:none;"{% endif %}>
+            {{ field.label_tag }} {{ field }}
+          </p>
+        {% endif %}
+      {% endfor %}
+      <p class="submit">
+        <input type="submit" name="post" value="{% trans "Post" %}"/>
+      </div>
+    </form>
+  </article>

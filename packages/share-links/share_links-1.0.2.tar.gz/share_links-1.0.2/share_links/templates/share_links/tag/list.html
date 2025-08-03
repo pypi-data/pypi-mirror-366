@@ -1,0 +1,18 @@
+{% extends "share_links/base.html" %}
+{% load share_links_templatetags markdownify i18n humanize %}
+
+{% block title %}{% translate "List of tags" %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  {% include "share_links/partials/sort.html" %}
+
+  {% for tag in page_obj %}
+    {% include "share_links/partials/tag.html" %}
+  {% empty %}
+    <article>{% translate "There's no tag yet!" %}</article>
+  {% endfor %}
+{% endblock content %}
+
+{% block pagination %}
+  {% include "share_links/partials/pagination.html" %}
+{% endblock pagination %}

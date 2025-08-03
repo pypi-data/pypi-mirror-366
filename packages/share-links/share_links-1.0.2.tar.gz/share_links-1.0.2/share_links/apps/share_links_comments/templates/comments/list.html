@@ -1,0 +1,21 @@
+{% load i18n humanize markdownify %}
+
+<dl id="comments">
+  {% for comment in comment_list %}
+    <div class="comment" id="c{{ comment.id }}">
+      {% if comment.is_removed %}
+        <dt><a href="{% url 'link' link.id %}#c{{ comment.id }}" title="{{ comment.submit_date }}" class="opacity">{{ comment.submit_date|naturaltime }}</a></dt>
+        <dd><i>{% translate "This comment was moderated." %}</i></dd>
+      {% else %}
+        <dt>
+          {% if comment.user_url %}<a href="{{ comment.user_url }}">{% endif %}{% if comment.user %}{{ comment.user }}{% else %}{{ comment.name }}{% endif %}{% if comment.user_url %}</a>{% endif %}{% if comment.user %} <span class="opacity">({% translate "admin" %})</span>{% endif %}
+          &mdash;
+          <a href="{% url 'link' link.id %}#c{{ comment.id }}" title="{{ comment.submit_date }}" class="opacity">{{ comment.submit_date|naturaltime }}</a>
+        </dt>
+        <dd>
+          <p>{{ comment.comment|markdownify }}</p>
+        </dd>
+      {% endif %}
+    </div>
+  {% endfor %}
+</dl>

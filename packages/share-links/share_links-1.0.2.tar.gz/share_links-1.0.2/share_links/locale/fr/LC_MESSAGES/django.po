@@ -1,0 +1,896 @@
+# Copyright (C) 2021-xxxx
+# This file is distributed under the same license as the PACKAGE package.
+# Corentin Bettiol <corentin@244466666.xyz>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: XXX\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-26 08:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: website/apps/share_links/admin.py:20
+msgid "About page"
+msgstr "Page à propos"
+
+#: website/apps/share_links/admin.py:22
+msgid "Contact page"
+msgstr "Page de contact"
+
+#: website/apps/share_links/admin.py:31
+msgid ""
+"You can only create two \"AboutContactPages\" instances (first is About "
+"page, second is Contact page), and you can't delete any of them! If you know "
+"what you're doing, you can still add/delete objects using the model directly "
+"(not the admin like now)."
+msgstr ""
+"Vous ne pouvez créer que deux instances de \"AboutContactPages\" (la "
+"première est la page À propos et la seconde est la page de Contact), et vous "
+"ne pouvez pas les supprimer! Si vous savez ce que vous faites vous pouvez "
+"toujours créer/supprimer des instances en passant par le modèle directement "
+"(et pas la section d'administration)."
+
+#: website/apps/share_links/admin.py:94
+msgid "How to handle updates?"
+msgstr "Comment gérer les mises à jour automatiques ?"
+
+#: website/apps/share_links/admin.py:105
+msgid "Save file"
+msgstr "Sauvegarder le fichier"
+
+#: website/apps/share_links/admin.py:131
+msgid "File exist?"
+msgstr "Le fichier existe ?"
+
+#: website/apps/share_links/admin.py:136 website/apps/share_links/models.py:19
+#: website/apps/share_links/models.py:186
+msgid "Title"
+msgstr "Titre"
+
+#: website/apps/share_links/admin.py:145
+msgid "Web archive"
+msgstr "Web archive"
+
+#: website/apps/share_links/admin.py:152
+msgid "Add tags to current selection"
+msgstr "Ajout des tags à la sélection"
+
+#: website/apps/share_links/admin.py:186
+msgid ""
+"{len(links)} links where updated with the new tags {', '.join([str(tag) for "
+"tag in tags])}."
+msgstr ""
+"{len(links)} liens ont été mis à jour avec l'ajout des tags {', '."
+"join([str(tag) for tag in tags])}."
+
+#: website/apps/share_links/admin.py:236
+msgid "Link nb"
+msgstr "Nombre de liens"
+
+#: website/apps/share_links/admin.py:248
+msgid "Tag nb"
+msgstr "Nb de tags"
+
+#: website/apps/share_links/admin_utils.py:7
+msgid "is online?"
+msgstr "est en ligne ?"
+
+#: website/apps/share_links/admin_utils.py:12
+msgid "Online"
+msgstr "En ligne"
+
+#: website/apps/share_links/admin_utils.py:13
+msgid "Offline"
+msgstr "Hors ligne"
+
+#: website/apps/share_links/admin_utils.py:24
+msgid "has at least one tag"
+msgstr "a au moins un tag"
+
+#: website/apps/share_links/admin_utils.py:29
+msgid "At least one tag"
+msgstr "Au moins un tag"
+
+#: website/apps/share_links/admin_utils.py:30
+msgid "No tag"
+msgstr "Pag de tag"
+
+#: website/apps/share_links/admin_utils.py:41
+msgid "random"
+msgstr "aléatoire"
+
+#: website/apps/share_links/admin_utils.py:46
+msgid "Random"
+msgstr "Aléatoire"
+
+#: website/apps/share_links/filters.py:23
+#: website/apps/share_links/filters.py:118
+#: website/apps/share_links/filters.py:139
+msgid "Highlighted"
+msgstr "Mis en avant"
+
+#: website/apps/share_links/filters.py:27
+#: website/apps/share_links/filters.py:122
+#: website/apps/share_links/templates/share_links/collection/detail.html:14
+#: website/apps/share_links/templates/share_links/partials/collection.html:10
+msgid "Added by"
+msgstr "Ajouté par"
+
+#: website/apps/share_links/filters.py:30
+#: website/apps/share_links/filters.py:125
+#: website/apps/share_links/filters.py:144
+msgid "Date added"
+msgstr "Date d'ajout"
+
+#: website/apps/share_links/filters.py:33 website/apps/share_links/models.py:60
+msgid "Language"
+msgstr "Langue"
+
+#: website/apps/share_links/filters.py:36
+msgid "Is online"
+msgstr "Est en ligne"
+
+#: website/apps/share_links/filters.py:37
+msgid "Has comments"
+msgstr "A des commentaires"
+
+#: website/apps/share_links/filters.py:75
+msgid "No language"
+msgstr "Pas de langue"
+
+#: website/apps/share_links/filters.py:142
+msgid "Tag name"
+msgstr "Nom du tag"
+
+#: website/apps/share_links/forms.py:6
+#: website/apps/share_links/templates/share_links/base.html:44
+#: website/apps/share_links/templates/share_links/search/results.html:4
+#: website/apps/share_links/templates/share_links/search/results.html:11
+msgid "Search"
+msgstr "Recherche"
+
+#: website/apps/share_links/models.py:17 website/apps/share_links/models.py:83
+msgid "Link"
+msgstr "Lien"
+
+#: website/apps/share_links/models.py:21 website/apps/share_links/models.py:124
+#: website/apps/share_links/models.py:144
+#: website/apps/share_links/models.py:188
+#: website/apps/share_links/models.py:212
+#: website/apps/share_links/models.py:241
+msgid "Description"
+msgstr "Description"
+
+#: website/apps/share_links/models.py:24 website/apps/share_links/models.py:127
+#: website/apps/share_links/models.py:147
+#: website/apps/share_links/models.py:191
+#: website/apps/share_links/models.py:215
+msgid "You can use markdown here."
+msgstr "Vous pouvez utiliser du markdown ici."
+
+#: website/apps/share_links/models.py:32
+msgid ""
+"Link will be displayed with a special color, and will appear in the "
+"\"highlighted\" sort option."
+msgstr ""
+"Les liens vont être affichés avec une couleur spéciale, et vont apparaître "
+"dans le tri \"mis en avant\"."
+
+#: website/apps/share_links/models.py:41
+#, python-brace-format
+msgid ""
+"Upload pdf or screenshot of the page. If this field is empty and "
+"USE_WEASYPRINT is set to True (currently set to {USE_WEASYPRINT}), "
+"then the pdf will be auto-generated using weasyprint."
+msgstr ""
+"Héberger un pdf ou un screenshot de la page. Si ce champ est vide etque "
+"USE_WEASYPRINT est égal à True (sa valeur actuelle est {USE_WEASYPRINT}), "
+"alors le pdf va être auto-généré en utilisant weasyprint."
+
+#: website/apps/share_links/models.py:47
+msgid "Uncheck this box if you don't want the file to be auto-generated."
+msgstr ""
+"Décochez cette case si vous ne voulez pas qu'un fichier soit auto-généré."
+
+#: website/apps/share_links/models.py:53
+msgid ""
+"Uncheck this box if the link is not online anymore (will provide the web "
+"archive link instead of the original link)."
+msgstr ""
+"Décochez cette case si le lien visé n'est plus accessible (cette action va "
+"remplacer le lien par un lien web archive)."
+
+#: website/apps/share_links/models.py:67
+msgid "Allow override title?"
+msgstr "Autoriser la mise à jour automatique du titre ?"
+
+#: website/apps/share_links/models.py:69
+msgid ""
+"Management commands will try to fetch the title from the website &lt;"
+"title&gt; tag."
+msgstr ""
+"Les commandes automatiques vont pouvoir tenter de mettre à jour le titre du "
+"site à partir du tag html &lt;title&gt;."
+
+#: website/apps/share_links/models.py:74
+msgid "Allow override language?"
+msgstr "Autoriser la mise à jour automatique de la langue ?"
+
+#: website/apps/share_links/models.py:76
+msgid ""
+"Management commands will try to fetch the language from the lang attribute."
+msgstr ""
+"Les commandes automatiques vont pouvoir tenter de mettre à jour la langue du "
+"site à partir de l'attribut lang."
+
+#: website/apps/share_links/models.py:84
+#: website/apps/share_links/templates/share_links/base.html:30
+#: website/apps/share_links/templates/share_links/search/results.html:28
+msgid "Links"
+msgstr "Liens"
+
+#: website/apps/share_links/models.py:122
+msgid "Label"
+msgstr "Label"
+
+#: website/apps/share_links/models.py:132
+msgid "Category"
+msgstr "Catégorie"
+
+#: website/apps/share_links/models.py:133
+msgid "Categories"
+msgstr "Catégories"
+
+#: website/apps/share_links/models.py:141
+#: website/apps/share_links/models.py:167
+#: website/apps/share_links/templates/share_links/tag/detail.html:8
+msgid "Tag"
+msgstr "Tag"
+
+#: website/apps/share_links/models.py:142
+#: website/apps/share_links/models.py:210
+msgid "Slug"
+msgstr "Slug"
+
+#: website/apps/share_links/models.py:161
+msgid ""
+"Tag will be displayed with a special color, and will appear in the "
+"\"highlighted\" sort option."
+msgstr ""
+"Les tags vont être affichés avec une couleur spéciale, et vont apparaître "
+"dans le tri \"mis en avant\"."
+
+#: website/apps/share_links/models.py:168
+#: website/apps/share_links/templates/share_links/base.html:32
+#: website/apps/share_links/templates/share_links/search/results.html:38
+msgid "Tags"
+msgstr "Tags"
+
+#: website/apps/share_links/models.py:199
+#: website/apps/share_links/models.py:200
+msgid "About & Contact Pages"
+msgstr "Pages À propos & Contact"
+
+#: website/apps/share_links/models.py:206
+msgid "Name"
+msgstr "Nom"
+
+#: website/apps/share_links/models.py:208
+msgid "The name of the collection."
+msgstr "Le nom de la collection."
+
+#: website/apps/share_links/models.py:226
+msgid ""
+"Collection will be displayed with a special color, and will appear in the "
+"\"highlighted\" sort option."
+msgstr ""
+"La collection va être affichée avec une couleur spéciale, et va apparaître "
+"dans le tri \"mis en avant\"."
+
+#: website/apps/share_links/models.py:245
+msgid ""
+"You can use markdown here. If the description is empty, the link description "
+"will be used (if it exists)."
+msgstr ""
+"Vous pouvez utiliser du markdown ici. Si la description est vide, la "
+"description du lien va être utilisée à la place (si elle existe)."
+
+#: website/apps/share_links/templates/admin/add_tags.html:5
+#: website/apps/share_links/templates/admin/add_tags.html:9
+msgid "Add tags to multiple links"
+msgstr "Ajouter des tags à plusieurs liens"
+
+#: website/apps/share_links/templates/admin/add_tags.html:14
+msgid "Submit"
+msgstr "Valider"
+
+#: website/apps/share_links/templates/share_links/base.html:7
+msgid "a share-links instance."
+msgstr "une instance de share-links."
+
+#: website/apps/share_links/templates/share_links/base.html:31
+msgid "Collections"
+msgstr "Collections"
+
+#: website/apps/share_links/templates/share_links/base.html:35
+msgid "About"
+msgstr "À propos"
+
+#: website/apps/share_links/templates/share_links/base.html:36
+msgid "Random link!"
+msgstr "Lien aléatoire !"
+
+#: website/apps/share_links/templates/share_links/base.html:37
+msgid "Manage content"
+msgstr "Gérer"
+
+#: website/apps/share_links/templates/share_links/base.html:43
+msgid "Search:"
+msgstr "Recherche:"
+
+#: website/apps/share_links/templates/share_links/base.html:61
+#, python-format
+msgid ""
+"\n"
+"              %(site_name)s, because sharing links and keeping track of them "
+"should be easy!\n"
+"            "
+msgstr ""
+"\n"
+"                            %(site_name)s, parce que partager et garder une "
+"trace des liens devrait être simple !\n"
+"                        "
+
+#: website/apps/share_links/templates/share_links/base.html:66
+#: website/apps/share_links/templates/share_links/misc/stats.html:5
+#: website/apps/share_links/templates/share_links/misc/stats.html:9
+msgid "Statistics"
+msgstr "Statistiques"
+
+#: website/apps/share_links/templates/share_links/base.html:67
+#: website/apps/share_links/templates/share_links/misc/webring.html:4
+#: website/apps/share_links/templates/share_links/misc/webring.html:8
+msgid "Webring"
+msgstr "Webring"
+
+#: website/apps/share_links/templates/share_links/base.html:68
+#: website/apps/share_links/templates/share_links/rss/home.html:4
+msgid "RSS"
+msgstr "RSS"
+
+#: website/apps/share_links/templates/share_links/base.html:83
+msgid "Apply"
+msgstr "Changer"
+
+#: website/apps/share_links/templates/share_links/base.html:89
+#, python-format
+msgid ""
+"<i>Share Links</i> %(get_version)s, the tool used behind this site, is open "
+"source! <a href=\"https://gitlab.com/sodimel/share-links\">Go check the "
+"code</a>!"
+msgstr ""
+"<i>Share Links</i> %(get_version)s, l'outil derrière ce site, est open-"
+"source ! <a href=\"https://gitlab.com/sodimel/share-links\">Venez voir le "
+"code</a> !"
+
+#: website/apps/share_links/templates/share_links/base.html:94
+msgid ""
+"The only data stored are server logs, and informations you submit using the "
+"comment system."
+msgstr ""
+"Les seules données stockées sont les logs serveur, et les informations que "
+"vous pouvez soummettre en utilisant le système de commentaires."
+
+#: website/apps/share_links/templates/share_links/base.html:97
+msgid "Contact the owner of the site"
+msgstr "Contactez le propriétaire du site"
+
+#: website/apps/share_links/templates/share_links/category/detail.html:18
+msgid "All tags in this category"
+msgstr "Tous les tags dans cette catégorie"
+
+#: website/apps/share_links/templates/share_links/category/detail.html:21
+#: website/apps/share_links/templates/share_links/link/link.html:31
+msgid "Added"
+msgstr "Ajouté"
+
+#: website/apps/share_links/templates/share_links/category/detail.html:21
+#: website/apps/share_links/templates/share_links/collection/detail.html:12
+#: website/apps/share_links/templates/share_links/partials/collection.html:8
+#: website/apps/share_links/templates/share_links/partials/tag.html:5
+#: website/apps/share_links/templates/share_links/tag/detail.html:12
+msgid "link"
+msgstr "lien"
+
+#: website/apps/share_links/templates/share_links/category/detail.html:23
+msgid "No tags in this category."
+msgstr "Aucun tag dans cette catégorie."
+
+#: website/apps/share_links/templates/share_links/collection/detail.html:27
+msgid "No link in this collection!"
+msgstr "Aucun lien dans cette collection !"
+
+#: website/apps/share_links/templates/share_links/collection/list.html:4
+msgid "List of collections"
+msgstr "Liste des collections"
+
+#: website/apps/share_links/templates/share_links/collection/list.html:11
+msgid "There's no collection yet!"
+msgstr "Il n'y a pas de collection pour l'instant !"
+
+#: website/apps/share_links/templates/share_links/link/archive.html:8
+msgid "Saved file"
+msgstr "Fichier sauvegardé"
+
+#: website/apps/share_links/templates/share_links/link/archive.html:13
+msgid "Web Archive"
+msgstr "Web Archive"
+
+#: website/apps/share_links/templates/share_links/link/comments.html:6
+#, python-format
+msgid "%(comment_count)s comment."
+msgid_plural "%(comment_count)s comments."
+msgstr[0] "%(comment_count)s commentaire."
+msgstr[1] "%(comment_count)s commentaires."
+
+#: website/apps/share_links/templates/share_links/link/link.html:3
+msgid ""
+"This link is likely not available on the web, it has been replaced by a web "
+"archive link."
+msgstr ""
+"Ce lien n'est vraisemblablement plus disponible sur internet, il a été "
+"remplacépar un lien menant vers une archive."
+
+#: website/apps/share_links/templates/share_links/link/link.html:5
+msgid "offline"
+msgstr "hors ligne"
+
+#: website/apps/share_links/templates/share_links/link/link.html:33
+#: website/apps/share_links/templates/share_links/misc/comments.html:20
+#: website/apps/share_links/templates/share_links/misc/webring.html:13
+#: website/apps/share_links/templates/share_links/misc/webring.html:23
+#: website/apps/share_links/templates/share_links/misc/webring.html:27
+#: website/apps/share_links/templates/share_links/misc/webring.html:64
+msgid "by"
+msgstr "par"
+
+#: website/apps/share_links/templates/share_links/link/link.html:38
+#, python-format
+msgid "%(comments_nb)s comment"
+msgid_plural "%(comments_nb)s comments"
+msgstr[0] "%(comments_nb)s commentaire"
+msgstr[1] "%(comments_nb)s commentaires"
+
+#: website/apps/share_links/templates/share_links/link/list.html:4
+msgid "List of links"
+msgstr "Liste des liens"
+
+#: website/apps/share_links/templates/share_links/link/list.html:12
+msgid "There's no link (yet)!"
+msgstr "Il n'y a pas de lien pour l'instant !"
+
+#: website/apps/share_links/templates/share_links/misc/comments.html:6
+msgid "Latest comments"
+msgstr "Derniers commentaires"
+
+#: website/apps/share_links/templates/share_links/misc/comments.html:12
+#: website/apps/share_links/templates/share_links/misc/comments.html:19
+msgid "Posted on"
+msgstr "Posté sur"
+
+#: website/apps/share_links/templates/share_links/misc/comments.html:15
+msgid "This comment was moderated."
+msgstr "Ce commentaire a été modéré."
+
+#: website/apps/share_links/templates/share_links/misc/comments.html:20
+msgid "admin"
+msgstr "admin"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:11
+#, python-format
+msgid ""
+"\n"
+"        Some stats for %(site_name)s (the greatest instance of share-links "
+"of all time):\n"
+"      "
+msgstr ""
+"\n"
+"        Quelques stats concernant %(site_name)s (la meilleure instance de "
+"share-links de tous les temps):\n"
+"      "
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:17
+msgid "Number of links:"
+msgstr "Nombre de liens :"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:24
+msgid "All from"
+msgstr "Tous ajoutés par"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:29
+msgid "By languages:"
+msgstr "Par langues :"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:33
+msgid "There's "
+msgstr "Il y a "
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:33
+msgid "links in language"
+msgstr "liens dans la langue"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:35
+msgid "... And "
+msgstr "... Et "
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:35
+msgid "where language is not defined"
+msgstr "où la langue n'est pas définie"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:41
+msgid "Number of comments:"
+msgstr "Nombre de commentaires:"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:44
+msgid "Number of tags:"
+msgstr "Nombre de tags :"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:47
+msgid "Most used tag:"
+msgstr "Tag le plus utilisé :"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:49
+#, python-format
+msgid "used %(nb)s times"
+msgstr "utilisé %(nb)s fois"
+
+#: website/apps/share_links/templates/share_links/misc/stats.html:51
+#: website/apps/share_links/templates/share_links/tag/list.html:12
+msgid "There's no tag yet!"
+msgstr "Il n'y a pas de tag pour l'instant !"
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:13
+#: website/apps/share_links/templates/share_links/misc/webring.html:18
+msgid "PREVIOUS"
+msgstr "PRÉCÉDENT"
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:23
+msgid "RANDOM"
+msgstr "ALÉATOIRE"
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:27
+#: website/apps/share_links/templates/share_links/misc/webring.html:31
+msgid "NEXT"
+msgstr "SUIVANT"
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:37
+#, python-format
+msgid ""
+"\n"
+"      <div >\n"
+"        <p>\n"
+"          You are on the webring listing all instances of share-links that "
+"have been added to the file by their respective owners. Each Link takes you "
+"to another site. \"Previous\" and \"Next\" take you to the \"neighboring\" "
+"instances of this site, and \"Random\" takes you to a random instance in the "
+"list.\n"
+"        </p>\n"
+"        <p class=\"opacity\">\n"
+"          Currently, the webring has <b>%(nb)s</b> "
+"instance%(nb|pluralize)s.\n"
+"        </p>\n"
+"      </div>\n"
+"    "
+msgstr ""
+"\n"
+"      <div class=\"detail-item margins-item\">\n"
+"      <p>\n"
+"        Vous vous trouvez sur le webring qui liste toutes les instances de "
+"share-links qui ont été ajoutées au fichier par leurs propriétaires "
+"respectifs. Chaque Lien vous emmène vers une de ces instances. \"Précédent\" "
+"et \"Suivant\" vous emmènent vers les instances \"voisines\" de ce site, et "
+"\"Aléatoire\" vous emmène vers une instance aléatoire de la liste.\n"
+"      </p>\n"
+"      <p class=\"opacity smaller\">\n"
+"        Actuellement, le webring contient <b>%(nb)s</b> "
+"instance%(nb|pluralize)s.\n"
+"      </p>\n"
+"      </div>\n"
+"  "
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:49
+msgid ""
+"There are no \"Previous\" & \"Next\" links in this page because this "
+"instance of share-links cannot be found on the webring.json file on the repo."
+msgstr ""
+"Il n'y a pas de lien \"Précédent\" & \"Suivant\" sur cette page, parce que "
+"cette instance de share-links n'a pas été trouvée dans le fichier webring."
+"json dans le repo."
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:53
+msgid ""
+"<b>How to add my site?</b><br />If you have an instance running, just add "
+"yourself in the <a class='color-link' href='https://gitlab.com/sodimel/share-"
+"links/-/blob/main/webring.json'><code>webring.json</code></a> file and "
+"submit a merge request (you can also submit your instance in an issue)."
+msgstr ""
+"<b>Comment rajouter mon site ?</b><br />Si vous avez une instance qui tourne "
+"quelque part, ajoutez simplement ses infos dans le fichier <a class='color-"
+"link' href='https://gitlab.com/sodimel/share-links/-/blob/main/webring."
+"json'><code>webring.json</code></a> et lancez une Merge Request (vous pouvez "
+"aussi simplement soumettre les informations dans une issue sur le repo)."
+
+#: website/apps/share_links/templates/share_links/misc/webring.html:58
+msgid "Show all the links in the webring"
+msgstr "Montrer tous les liens du webring"
+
+#: website/apps/share_links/templates/share_links/partials/pagination.html:6
+msgid "first"
+msgstr "première"
+
+#: website/apps/share_links/templates/share_links/partials/pagination.html:7
+msgid "previous"
+msgstr "précédente"
+
+#: website/apps/share_links/templates/share_links/partials/pagination.html:9
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr "Page %(current)s/%(total)s"
+
+#: website/apps/share_links/templates/share_links/partials/pagination.html:11
+msgid "next"
+msgstr "suivante"
+
+#: website/apps/share_links/templates/share_links/partials/pagination.html:12
+msgid "last"
+msgstr "dernière"
+
+#: website/apps/share_links/templates/share_links/partials/sort.html:8
+msgid "Apply filters"
+msgstr "Appliquer les filtres"
+
+#: website/apps/share_links/templates/share_links/partials/tag.html:5
+msgid "Subcategory of"
+msgstr "Sous-catégorie de"
+
+#: website/apps/share_links/templates/share_links/rss/home.html:8
+msgid "RSS feeds"
+msgstr "Flux RSS"
+
+#: website/apps/share_links/templates/share_links/rss/home.html:11
+msgid "You can subscribe to some RSS feeds on this page:"
+msgstr "Vous pouvez accéder aux flux RSS depuis cette page :"
+
+#: website/apps/share_links/templates/share_links/rss/home.html:15
+msgid "new links & tags"
+msgstr "nouveaux liens & tags"
+
+#: website/apps/share_links/templates/share_links/rss/home.html:16
+msgid "new links only"
+msgstr "nouveau liens uniquement"
+
+#: website/apps/share_links/templates/share_links/rss/home.html:17
+msgid "new tags only"
+msgstr "nouveau tags uniquement"
+
+#: website/apps/share_links/templates/share_links/search/results.html:9
+msgid "Results for"
+msgstr "Résultats pour"
+
+#: website/apps/share_links/templates/share_links/search/results.html:14
+msgid ""
+"\n"
+"          Use the magnifying glass icon at the top right of the screen in "
+"order to make your request.\n"
+"        "
+msgstr ""
+"\n"
+"          Utilisez l'icône de la loupe en haut à droite de l'écran pour "
+"lancer une recherche.\n"
+"       "
+
+#: website/apps/share_links/templates/share_links/search/results.html:21
+#, python-format
+msgid ""
+"\n"
+"        Queries are processed for words that are at least "
+"%(request_min_chars)s characters long, in order to reduce server load. "
+"<i>Sorry words & tags < %(request_min_chars)s long!</i>\n"
+"      "
+msgstr ""
+"\n"
+"        La recherche est effectuée pour les requêtes qui ont au moins "
+"%(request_min_chars)s caractères de long, afin de réduire la charge du "
+"serveur. <i>Désolé les mots & les tags < %(request_min_chars)s caractères !</"
+"i>\n"
+"      "
+
+#: website/apps/share_links/templates/share_links/search/results.html:33
+msgid "No link was found."
+msgstr "Aucun lien n'a été trouvé."
+
+#: website/apps/share_links/templates/share_links/search/results.html:43
+msgid "No tag was found."
+msgstr "Aucun tag n'a été trouvé."
+
+#: website/apps/share_links/templates/share_links/tag/detail.html:25
+msgid "No link with this tag!"
+msgstr "Aucun lien avec ce tag !"
+
+#: website/apps/share_links/templates/share_links/tag/list.html:4
+msgid "List of tags"
+msgstr "Liste des tags"
+
+#: website/apps/share_links/templatetags/share_links_templatetags.py:22
+#: website/apps/share_links/templatetags/share_links_templatetags.py:24
+#, python-brace-format
+msgid "This page is in {lang}."
+msgstr "Cette page est en {lang}."
+
+#: website/apps/share_links/templatetags/share_links_templatetags.py:51
+msgid "Favicon of"
+msgstr "Favicon de"
+
+#: website/apps/share_links/urls.py:10
+msgid "search/"
+msgstr "recherche/"
+
+#: website/apps/share_links/urls.py:12
+msgid "rss/"
+msgstr "rss/"
+
+#: website/apps/share_links/urls.py:13
+msgid "rss/new/all/"
+msgstr "rss/nouveaux/tous/"
+
+#: website/apps/share_links/urls.py:14
+msgid "rss/new/links/"
+msgstr "rss/nouveaux/liens/"
+
+#: website/apps/share_links/urls.py:15
+msgid "rss/new/tags/"
+msgstr "rss/nouveaux/tags/"
+
+#: website/apps/share_links/urls.py:18
+msgid "about/"
+msgstr "a-propos/"
+
+#: website/apps/share_links/urls.py:19
+msgid "contact/"
+msgstr "contact/"
+
+#: website/apps/share_links/urls.py:20
+msgid "statistics/"
+msgstr "statistiques/"
+
+#: website/apps/share_links/urls.py:21
+msgid "webring/"
+msgstr "webring/"
+
+#: website/apps/share_links/urls.py:23
+msgid "get-title/"
+msgstr "récupérer-titre/"
+
+#: website/apps/share_links/urls.py:24
+msgid "get-lang/"
+msgstr "récupérer-langue/"
+
+#: website/apps/share_links/urls.py:26
+msgid "tag/<str:slug>/"
+msgstr "tag/<str:slug>"
+
+#: website/apps/share_links/urls.py:27
+msgid "tags/"
+msgstr "tags/"
+
+#: website/apps/share_links/urls.py:28
+msgid "category/<int:pk>/"
+msgstr ""
+
+#: website/apps/share_links/urls.py:33
+msgid "collection/<str:slug>/"
+msgstr "collection/<str:slug>"
+
+#: website/apps/share_links/urls.py:35
+msgid "collections/"
+msgstr "collections/"
+
+#: website/apps/share_links/urls.py:37
+msgid "link/<int:pk>/"
+msgstr "lien/<int:pk>/"
+
+#: website/apps/share_links/urls.py:39
+msgid "domain-name/<str:domain_name>/"
+msgstr "nom-de-domaine/<str:domain_name>/"
+
+#: website/apps/share_links/urls.py:43
+msgid "random/"
+msgstr "aléatoire/"
+
+#: website/apps/share_links/utils.py:75
+msgid "Got a HTTP status of 404, Not found. The page does not exist anymore."
+msgstr "Le scraper a reçu un code HTTP 404, Not found. La page n'existe plus."
+
+#: website/apps/share_links/utils.py:82
+msgid ""
+"Got a HTTP status of 406, Not Acceptable. It seems that this page does not "
+"really like scrapping, you're gonna take the data yourself."
+msgstr ""
+"Le scraper a reçu un code HTTP 406, Not Acceptable. On dirait que ce site "
+"n'aime pas vraiment les scrapers, vous allez devoir récupérer les données "
+"vous-même."
+
+#: website/apps/share_links/utils.py:89
+msgid ""
+"Got a HTTP status of 410, Gone. The resource is likely not available anymore."
+msgstr ""
+"Le scraper a reçu un code HTTP 410, Gone. La ressource n'est sûrement plus "
+"disponible."
+
+#: website/apps/share_links/utils.py:92
+#, python-brace-format
+msgid "Unknown error, HTTP code {e.code}."
+msgstr "Erreur inconnue, code HTTP {e.code}."
+
+#: website/apps/share_links/utils.py:94
+msgid "Url is unreachable."
+msgstr "L'URL n'est pas accessible."
+
+#: website/apps/share_links/utils.py:114
+msgid "Got an empty title, you'll need to be creative!"
+msgstr "On a récupéré un titre vide, vous allez devoir être créatif !"
+
+#: website/apps/share_links/utils.py:133
+msgid ""
+"Lang attribute found does not match any of available value in "
+"LANGUAGE_CHOICES."
+msgstr ""
+"L'attribut lang trouvé ne correspond à aucune des valeurs disponibles dans "
+"LANGUAGES_CHOICES."
+
+#: website/apps/share_links/utils.py:136
+msgid "Cannot find a lang attribute."
+msgstr "Impossible de trouver un attribut lang."
+
+#: website/apps/share_links/views.py:104
+msgid "All links for domain"
+msgstr "Tous les liens pour le domaine"
+
+#: website/apps/share_links/views.py:248 website/apps/share_links/views.py:264
+msgid "Error: no url supplied."
+msgstr "Erreur : aucune URL fournie."
+
+#: website/apps/share_links/views.py:306
+msgid "New links & tags"
+msgstr "Nouveaux liens & tags"
+
+#: website/apps/share_links/views.py:308
+msgid "Creation of links and tags."
+msgstr "Création des liens & des tags"
+
+#: website/apps/share_links/views.py:345
+msgid "New links"
+msgstr "Nouveaux liens"
+
+#: website/apps/share_links/views.py:347
+msgid "Creation of links."
+msgstr "Création des liens"
+
+#: website/apps/share_links/views.py:374
+msgid "New tags"
+msgstr "Nouveaux tags"
+
+#: website/apps/share_links/views.py:376
+msgid "Creation of tags."
+msgstr "Création des tags"
+
+#~ msgid "Share Links"
+#~ msgstr "Share Links"
+
+#~ msgid "Share links admin"
+#~ msgstr "Administration de Share Links"

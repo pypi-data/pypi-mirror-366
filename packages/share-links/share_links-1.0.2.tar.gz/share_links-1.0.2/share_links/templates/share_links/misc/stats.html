@@ -1,0 +1,56 @@
+{% extends "share_links/base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% translate "Statistics" %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  <article>
+    <h2>{% translate "Statistics" %}</h2>
+    <p >
+      {% blocktranslate with site_name=request.site.name %}
+        Some stats for {{ site_name }} (the greatest instance of share-links of all time):
+      {% endblocktranslate %}
+    </p>
+    <ul>
+      <li>
+        {% translate "Number of links:" %} <b>{{ stats.nb_links }}</b>
+        <ul>
+          {% if stats.authors|length > 1 %}
+            {% for author, nb in stats.authors.items %}
+              <li><a href="/{{ LANGUAGE_CODE }}/?sort=author&author={{ author }}">{{ author }}</a>: {{ nb }}</li>
+            {% endfor %}
+          {% else %}
+            <li>{% translate "All from" %} {% for author, nb in stats.authors.items %}<a href="/{{ LANGUAGE_CODE }}/?sort=author&author={{ author }}">{{ author }}</a>{% endfor %} !</li>
+          {% endif %}
+        </ul>
+      </li>
+      <ul>
+        <li>{% translate "By languages:" %}</li>
+        <ul>
+          {% for language, nb in stats.languages.items %}
+            {% if language != "not defined" %}
+              <li>{% translate "There's " %} <b>{{ nb }}</b> {% translate "links in language" %} <i>{{ language }}</i>.</li>
+            {% else %}
+              <li>{% translate "... And " %} {{ nb }} {% translate "where language is not defined" %}.</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </ul>
+      <li>
+        {% translate "Number of comments:" %} <b>{{ stats.nb_comments }}</b>
+      </li>
+      <li>
+        {% translate "Number of tags:" %} <b>{{ stats.nb_tags }}</b>
+      </li>
+      <li>
+        {% translate "Most used tag:" %}
+        {% if stats.most_used_tag.tag.slug %}
+          <b><a href="{% url "tag" stats.most_used_tag.tag.slug %}">{{ stats.most_used_tag.tag.tag }}</a></b> <i>({% blocktranslate with nb=stats.most_used_tag.nb %}used {{ nb }} times{% endblocktranslate %})</i>
+        {% else %}
+          <i>{% translate "There's no tag yet!" %}</i>
+        {% endif %}
+      </li>
+    </ul>
+  </article>
+{% endblock %}

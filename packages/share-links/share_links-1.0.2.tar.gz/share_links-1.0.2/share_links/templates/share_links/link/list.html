@@ -1,0 +1,18 @@
+{% extends "share_links/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "List of links" %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  {% include "share_links/partials/sort.html" %}
+
+  {% for link in page_obj %}
+    {% include "share_links/link/link.html" %}
+  {% empty %}
+    <article>{% translate "There's no link (yet)!" %}</article>
+  {% endfor %}
+{% endblock %}
+
+{% block pagination %}
+  {% include "share_links/partials/pagination.html" %}
+{% endblock %}

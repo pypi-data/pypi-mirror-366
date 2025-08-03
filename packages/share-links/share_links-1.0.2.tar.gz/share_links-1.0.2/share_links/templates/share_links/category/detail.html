@@ -1,0 +1,28 @@
+{% extends "share_links/base.html" %}
+{% load share_links_templatetags markdownify i18n humanize %}
+
+{% block title %}{{ category.label }} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  <article>
+    <h2><a href="{% url "category" category.pk %}">{{ category.label }}</a></h2>
+  </p>
+  {% if category.description %}
+    <p>
+      {{ category.description|markdownify|truncatewords_html:20 }}
+    </p>
+  {% endif %}
+  </article>
+
+  <article>
+    <h3>{% translate "All tags in this category" %}</h3>
+    <ul>
+      {% for tag in category.tags.all %}
+        <li><a href="{% url "tag" tag.slug %}" title="{{ tag.description|markdownify|striptags }}">{{ tag.tag }}</a> &mdash; <i>{% translate "Added" %} {{ tag.date_added|naturaltime }} &mdash; {{ tag|get_links_nb }} {% translate "link" %}{{ tag|get_links_nb|pluralize }}</i></li>
+      {% empty %}
+        <li>{% translate "No tags in this category." %}</li>
+      {% endfor %}
+    </ul>
+  </article>
+
+{% endblock %}

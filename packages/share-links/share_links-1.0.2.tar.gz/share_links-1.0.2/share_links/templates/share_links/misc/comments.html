@@ -1,0 +1,29 @@
+{% extends "share_links/base.html" %}
+{% load i18n comments share_links_templatetags humanize markdownify %}
+
+
+{% block content %}
+  <h2>{% translate "Latest comments" %}</h2>
+
+  {% for comment in page_obj %}
+    <article id="c{{ comment.id }}">
+      {% if comment.is_removed %}
+        <dt>
+          {% translate "Posted on" %}
+          <a href="{% url 'link' comment.content_object.id %}">{% if comment.content_object.title != None and comment.content_object.title != "" %}{{ comment.content_object.title|safe }}{% else %}{{ comment.content_object.link }}{% endif %}</a>:</dt>
+        <dt title="{{ comment.submit_date }}" class="opacity">{{ comment.submit_date|naturaltime }}</dt>
+        <dd><i>{% translate "This comment was moderated." %}</i></dd>
+      {% else %}
+        <dt>
+          <dt>
+            {% translate "Posted on" %}
+            <a href="{% url 'link' comment.content_object.id %}">{% if comment.content_object.title != None and comment.content_object.title != "" %}{{ comment.content_object.title|safe }}{% else %}{{ comment.content_object.link }}{% endif %}</a> {% translate "by" %} {% if comment.user_url %}<a href="{{ comment.user_url }}">{% endif %}{% if comment.user %}{{ comment.user }}{% else %}{{ comment.name }}{% endif %}{% if comment.user_url %}</a>{% endif %}{% if comment.user %} <span class="opacity">({% translate "admin" %})</span>{% endif %}:</dt>
+          <dt title="{{ comment.submit_date }}" class="opacity">{{ comment.submit_date|naturaltime }}</dt>
+        </dt>
+        <dd>
+          <p>{{ comment.comment|markdownify }}</p>
+        </dd>
+      {% endif %}
+    </article>
+  {% endfor %}
+{% endblock %}
