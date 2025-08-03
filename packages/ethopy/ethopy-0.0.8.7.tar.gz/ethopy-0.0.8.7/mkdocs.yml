@@ -1,0 +1,100 @@
+site_name: EthoPy
+site_description: Python Boilerplate contains all the boilerplate you need to create a Python package.
+site_author: olakiril, alexevag
+site_url: https://ef-lab.github.io/ethopy_package/
+repo_url: https://github.com/ef-lab/ethopy_package
+
+theme:
+    palette:
+        - scheme: slate
+          primary: teal
+          accent: indigo
+          toggle:
+              icon: material/toggle-switch
+              name: Switch to light mode
+        - scheme: default
+          primary: teal
+          accent: indigo
+          toggle:
+              icon: material/toggle-switch-off
+              name: Switch to dark mode
+    name: material
+    icon:
+        repo: fontawesome/brands/github
+    logo: assets/EthoPy_logo.png
+    favicon: assets/EthoPy_logo.png
+    features:
+        - navigation.instant
+        - navigation.tracking
+        - navigation.top
+        - navigation.tabs
+        - navigation.tabs.sticky
+        - navigation.path
+        - search.highlight
+        - search.share
+        - search.suggest
+        - content.tabs.link
+        - content.code.annotation
+        - content.code.copy
+    custom_dir: "docs/overrides"
+    font:
+        text: Google Sans
+        code: Regular
+plugins:
+    - search
+    - mkdocstrings:
+        handlers:
+          python:
+            paths: [src]
+    - mkdocs-jupyter:
+          include_source: True
+          ignore_h1_titles: True
+          execute: True
+          allow_errors: false
+          ignore: ["conf.py"]
+          execute_ignore: ["*ignore.ipynb"]
+          
+markdown_extensions:
+    - admonition
+    - abbr
+    - attr_list
+    - def_list
+    - footnotes
+    - meta
+    - md_in_html
+    - pymdownx.superfences
+    - pymdownx.tabbed:
+        alternate_style: true
+    - pymdownx.highlight:
+          linenums: true
+    - toc:
+          permalink: true
+
+nav:
+  - Overview:
+    - Overview: index.md
+  - Getting Started:
+    - Quickstart: getting_started.md
+    - Installation: installation.md
+    - Local Configuration: local_conf.md
+    - Examples:
+        - Overview: creating_custom_components.md
+        - Experiment: match_port_example.md
+        - Stimulus: dot_stimulus_example.md
+        - Behavior: multi_port_behavior_example.md
+    - Plugins: plugin.md
+    - Task Setup: task_setup.md
+    - Control Experiment: control.md
+    - Logging: logging.md
+    - Setup Configuration Index: setup_configuration_idx.md
+    - Database Setup: database_setup.md
+    - Export to NWB: nwb_docs.md
+    - Troubleshooting: troubleshooting.md
+  - API Reference:
+      - Logger Module: API/logger.md
+      - Behavior Module: API/behavior.md
+      - Experiment Module: API/experiment.md
+      - Interface Module: API/interface.md
+      - Stimulus Module: API/stimulus.md
+  - Contributing: contributing.md
+  - Report Issues: https://github.com/ef-lab/ethopy_package/issues

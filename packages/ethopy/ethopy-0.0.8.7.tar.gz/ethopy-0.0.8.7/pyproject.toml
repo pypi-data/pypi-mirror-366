@@ -1,0 +1,143 @@
+[project]
+name = "ethopy"
+dynamic = ["version"]
+description = "State control system for automated, high-throughput behavioral training."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT License"}
+authors = [
+    {name = "Emmanouil Froudarakis", email = "admin@example.com"},
+    {name = "Alex Evangelou", email = "evangelou.alexandr@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Typing :: Typed"
+]
+dependencies = [
+    "click>=8.1.0",
+    "datajoint",
+    "imageio",
+    "pandas>=2.0.0",
+    "h5py",
+    "pygame",
+    "pygame-menu",
+    "numpy",
+    "scipy",
+    "pyopengl",
+    "imageio-ffmpeg",
+    "pyfiglet",
+    "scikit-learn>=1.3.2",
+    "setuptools>=75.3.0",
+    "pynwb",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "freezegun>=1.5.1",
+    "isort>=5.0",
+    "mypy>=1.0",
+    "ruff>=0.0.290",
+    "freezegun>=1.5.1",
+    "pytest-mock>=3.14.0",
+]
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings",
+    "mkdocs-jupyter",
+    "mkdocstrings-python>=1.11.1",
+]
+
+[project.urls]
+Documentation = "https://ef-lab.github.io/ethopy_package/"
+Repository = "https://github.com/ef-lab/ethopy_package"
+Changelog = "https://github.com/ef-lab/ethopy_package/releases"
+
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/ethopy/__init__.py"
+
+[project.scripts]
+ethopy = "ethopy.cli:main"
+ethopy-setup-djdocker = "ethopy.setup_db:setup_dj_docker"
+ethopy-db-connection = "ethopy.setup_db:check_db_connection"
+ethopy-setup-schema = "ethopy.setup_db:createschema"
+ethopy-create-task = "ethopy.utils.create_ethopy_task:generate_ethopy_template"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ethopy"]
+only-include = ["src/ethopy"]
+
+[tool.mypy]
+python_version = "3.8"
+disallow_untyped_defs = true
+ignore_missing_imports = true
+disable_error_code = ["attr-defined", "misc"]
+exclude = [
+  # TODO: Remove from the following to the exclude list
+  "tests",
+  "src/ethopy/utils",
+  "src/ethopy/task",
+  "src/ethopy/stimuli",
+  "src/ethopy/experiments",
+  "src/ethopy/interfaces",
+  "src/ethopy/behaviors"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src", "tests"]
+exclude = [
+  ".venv",
+  ".mypy_cache",
+  "docs/_build",
+  # TODO: Remove the following files from the exclude list
+  "tests",
+  "src/ethopy/utils",
+  "src/ethopy/task",
+  "src/ethopy/stimuli",
+  "src/ethopy/experiments",
+  "src/ethopy/interfaces",
+  "src/ethopy/behaviors"
+]
+
+select = [
+    "D", "F", "E", "I", "W", "YTT", "B", "Q", "PLE", "PLR", "PLW", "PIE",
+    "PYI", "TID","D212",
+]
+
+ignore = [
+    "E402", "E731", "B010", "B011", "B015", "B019", "B020", "B023", "B905", "PLR0913", "PLR0911", "PLR0912",
+    "PLR0915", "PLW0603", "PYI021", "B904", "PLR2004", "PLR5501", "PYI041", "TID252", "D213","D203",
+]
+
+fixable = ["F401", "F841", "E", "W", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ethopy"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = ["tests"]
