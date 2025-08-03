@@ -1,0 +1,46 @@
+[project]
+name = "geneprep"
+version = "0.1.1"
+description = "Published package for GenePrep project"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+
+authors = [
+  { name = "Yue Xue", email = "yx2876@columbia.edu" }, 
+  { name = "Sirihaasa Nallamothu", email = "sn37@illinois.edu" }
+]
+
+dependencies = [
+  "openai",
+  "python-dotenv",
+  "backoff",
+  "dill",
+  "nbconvert",
+  "nbformat",
+  "numpy",
+  "pandas",
+  "protobuf",
+  "scikit-learn",
+  "statsmodels",
+  "tqdm",
+  "biopython",
+  "psutil",
+  "pynvml",
+  "anthropic",
+  "google.generativeai",
+  "ollama"
+]
+
+[project.urls]
+Homepage = "https://github.com/YueXu-2001/GenePrep"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["geneprep*"]
+
+[tool.setuptools.package-data]
+"geneprep" = ["metadata/*.json"]
