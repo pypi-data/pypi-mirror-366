@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<title>Phoney Dictate</title>
+
+<script type="text/javascript">
+
+window.onload = function() {
+
+	var textArea = document.getElementById("text-area"),
+		clearButton = document.getElementById("clear-button"),
+		reduceButton = document.getElementById("reduce-button"),
+		enlargeButton = document.getElementById("enlarge-button"),
+		fontSize = 12,
+		mustPost = false,
+		mayPost = true;
+
+	function postChanges() {
+		var request = new XMLHttpRequest();
+		var timedOut = false;
+		request.onreadystatechange = function() {
+			if(request.readyState === 4) {
+				mayPost = true;
+				clearTimeout(timer);
+				if(request.status == '200') {
+					textArea.setAttribute('class', 'comms-up');
+				} else if(request.status == '0') {
+					textArea.setAttribute('class', 'comms-down');
+				}
+			}
+			if(timedOut) {
+				setTimeout(postChanges, 5000);
+			} else if(mustPost) {
+				setTimeout(postChanges, 10);
+			}
+		}
+		request.open("POST", "/");
+		request.send(textArea.value);
+		var timer = setTimeout(function() {
+			console.log('timed out');
+			timedOut = true;
+			request.abort();
+			textArea.class = "comms-down";
+		}, 4000);
+	}
+
+	clearButton.onclick = function() {
+		textArea.value = "";
+		textArea.focus();
+	}
+
+	reduceButton.onclick = function() {
+		fontSize -= 1;
+		setFontSize();
+	}
+
+	enlargeButton.onclick = function() {
+		fontSize += 1;
+		setFontSize();
+	}
+
+	setFontSize = function() {
+		textArea.style.fontSize = fontSize + 'pt';
+		if(fontSize <= 7) {
+			reduceButton.setAttribute('disabled', true)
+		} else {
+			reduceButton.removeAttribute('disabled')
+		}
+		if(fontSize >= 28) {
+			enlargeButton.setAttribute('disabled', true)
+		} else {
+			enlargeButton.removeAttribute('disabled')
+		}
+		textArea.focus();
+	}
+
+	textArea.onkeyup = function() {
+		if(mayPost) {
+			postChanges();
+		} else {
+			mustPost = true;
+		}
+	}
+
+	setFontSize();
+
+}
+
+</script>
+
+
+<style>
+
+body, header {
+	display: flex;
+}
+
+body {
+	flex-direction: column;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+	background-color: #E7E7E7;
+	font-family: sans-serif;
+	font-size: 10pt;
+}
+
+header {
+	flex-direction: row;
+	padding: 2px;
+	gap: 3px;
+}
+
+header button {
+	flex-grow: 1;
+	padding: 6px;
+}
+
+header button.sizer {
+	font-style: italic;
+}
+
+#text-area {
+	flex-grow: 1;
+	padding: 10px;
+	border-color: #E7E7E7;
+	border-style: solid;
+	border-width: 0 4px;
+}
+
+#text-area:focus {
+	outline: none;
+}
+
+#text-area.comms-up {
+	background-color: #FFFFFF;
+}
+
+#text-area.comms-down {
+	color: #555;
+	background-color: #C9C0C0;
+}
+
+footer {
+	text-align: center;
+	padding: 4px;
+}
+
+</style>
+
+</head>
+<body>
+	<header>
+		<button class="sizer" id="reduce-button" title="Reduce text size">Aa -</button>
+		<button id="clear-button" title="Clear contents and start over">Clear</button>
+		<button class="sizer" id="enlarge-button" title="Enlarge text size">Aa +</button>
+	</header>
+	<textarea id="text-area"></textarea>
+	<footer>Dictate text in the area above</footer>
+</div>
+</body>
+</html>
