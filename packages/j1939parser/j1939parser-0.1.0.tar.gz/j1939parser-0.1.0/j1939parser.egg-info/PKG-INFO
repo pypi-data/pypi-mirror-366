@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: j1939parser
+Version: 0.1.0
+Summary: Extracts GPS positions from J1939 PGN 65267 CAN logs
+Author: Jagjit Singh
+Author-email: your@email.com
+License: MIT
+Requires-Python: >=3.12
+License-File: LICENSE
+Provides-Extra: can
+Requires-Dist: python-can>=4.0.0; extra == "can"
+Dynamic: author
+Dynamic: author-email
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-python
+Dynamic: summary
