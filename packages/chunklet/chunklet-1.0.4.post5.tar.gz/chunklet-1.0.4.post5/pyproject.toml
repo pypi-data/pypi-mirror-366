@@ -1,0 +1,76 @@
+# Core Project Metadata
+[project]
+name = "chunklet"
+version = "1.0.4.post5"
+description = "A smart multilingual text chunker for LLMs, RAG, and beyond."
+authors = [
+  { name = "Speedyk_005", email = "speedy40115719@gmail.com" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.9"
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Operating System :: OS Independent"
+]
+
+keywords = [
+  "nlp", "chunking", "text-splitting", "llm", "rag", "ai", "multilingual"
+]
+
+dependencies = [
+  "mpire>=2.10.0",
+  "loguru>=0.7.2",
+  "sentence-splitter>=1.4",
+  "sentsplit>=0.0.7",
+  "langid>=1.1.6"
+]
+
+[project.urls]
+Homepage = "https://github.com/speed40/chunklet"
+Repository = "https://github.com/speed40/chunklet"
+Issues = "https://github.com/Speedyk-005/chunklet/issues"
+
+[project.scripts]
+chunklet = "chunklet.core:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "pytest-cov"
+]
+
+# Build System
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Setuptools Config
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["chunklet"]
+
+# Mypy Config
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+warn_unreachable = true
+no_implicit_optional = true
+
+# Pytest Config
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "--cov=src/chunklet --cov-report=term-missing --strict-markers"
+testpaths = ["tests"]
