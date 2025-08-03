@@ -1,0 +1,94 @@
+Metadata-Version: 2.4
+Name: carconnectivity-plugin-database
+Version: 0.1a1
+Summary: CarConnectivity plugin for storing data to Databases
+Author: Till Steinbach
+License: MIT License
+        
+        Copyright (c) 2021 Till Steinbach
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: System Administrators
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Utilities
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: Home Automation
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: carconnectivity>=0.8
+Requires-Dist: sqlalchemy~=2.0.34
+Requires-Dist: psycopg2-binary~=2.9.9
+Requires-Dist: alembic~=1.13.2
+Dynamic: license-file
+
+
+
+# CarConnectivity Plugin for Database storage
+[![GitHub sourcecode](https://img.shields.io/badge/Source-GitHub-green)](https://github.com/tillsteinbach/CarConnectivity-plugin-database/)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tillsteinbach/CarConnectivity-plugin-database)](https://github.com/tillsteinbach/CarConnectivity-plugin-database/releases/latest)
+[![GitHub](https://img.shields.io/github/license/tillsteinbach/CarConnectivity-plugin-database)](https://github.com/tillsteinbach/CarConnectivity-plugin-database/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/tillsteinbach/CarConnectivity-plugin-database)](https://github.com/tillsteinbach/CarConnectivity-plugin-database/issues)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/carconnectivity-plugin-database?label=PyPI%20Downloads)](https://pypi.org/project/carconnectivity-plugin-database/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/carconnectivity-plugin-database)](https://pypi.org/project/carconnectivity-plugin-database/)
+[![Donate at PayPal](https://img.shields.io/badge/Donate-PayPal-2997d8)](https://www.paypal.com/donate?hosted_button_id=2BVFF5GJ9SXAJ)
+[![Sponsor at Github](https://img.shields.io/badge/Sponsor-GitHub-28a745)](https://github.com/sponsors/tillsteinbach)
+
+[CarConnectivity](https://github.com/tillsteinbach/CarConnectivity) is a python API to connect to various car services. If you want to store the data collected from your vehicle to a relational database (e.g. MySQL, PostgreSQL, or SQLite) this plugin will help you.
+
+### Install using PIP
+If you want to use the CarConnectivity Plugin for Databases, the easiest way is to obtain it from [PyPI](https://pypi.org/project/carconnectivity-plugin-database/). Just install it using:
+```bash
+pip3 install carconnectivity-plugin-database
+```
+after you installed CarConnectivity
+
+## Configuration
+In your carconnectivity.json configuration add a section for the database plugin like this. A documentation of all possible config options can be found [here](https://github.com/tillsteinbach/CarConnectivity-plugin-database/tree/main/doc/Config.md).
+```
+{
+    "carConnectivity": {
+        "connectors": [
+            ...
+        ]
+        "plugins": [
+            {
+                "type": "database",
+                "config": {
+                    "db_url": "sqlite:///carconnectivity.db"
+                }
+            }
+        ]
+    }
+}
+```
+
+## Updates
+If you want to update, the easiest way is:
+```bash
+pip3 install carconnectivity-plugin-database --upgrade
+```
