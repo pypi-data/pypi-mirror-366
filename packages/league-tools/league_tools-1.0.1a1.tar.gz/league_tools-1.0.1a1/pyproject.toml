@@ -1,0 +1,62 @@
+[project]
+name = "league-tools"
+version = "1.0.1a1"
+description = "WAD、BIN、BNK、WPK文件简单处理"
+authors = [{ name = "Virace", email = "Virace@aliyun.com" }]
+keywords = ["league", "wad", "bnk"]
+dependencies = [
+    "xxhash>=3.4.1",
+    "loguru>=0.7.2",
+    "zstd>=1.5.5.1",
+    "lxml>=5.4.0",
+    "requests>=2.32.3",
+    "quick-xmltodict>=0.1.3",
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+]
+requires-python = ">= 3.10"
+
+[project.urls]
+homepage = "https://github.com/Virace/py-bnk-extract"
+repository = "https://github.com/Virace/py-bnk-extract"
+"Bug Tracker" = "https://github.com/Virace/py-bnk-extract/issues"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+[tool.uv]
+managed = true
+dev-dependencies = [
+    "psutil>=7.0.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "*.json"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/league_tools"]
+exclude = [
+    "*.json",
+]
