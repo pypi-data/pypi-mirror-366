@@ -1,0 +1,82 @@
+[build-system]
+requires = ["flit_core>=3.12,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "pythonic-fp-containers"
+version = "3.0.0"
+readme = "README.rst"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Geoffrey R. Scheller", email = "geoffrey@scheller.com" }]
+keywords = [
+  "boxes",
+  "functional_tuple",
+  "immutable_list",
+  "queue",
+  "fifo",
+  "lifo",
+  "dqueue",
+  "dequeue",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Framework :: Pytest",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = [
+  "pythonic-fp-circulararray>= 5.3.0",
+  "pythonic-fp-fptools>=5.0.0",
+  "pythonic-fp-iterables>=5.0.0",
+  "pythonic-fp-singletons>=1.0.0",
+]
+dynamic = ["description"]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.4.1",
+  "pythonic-fp-splitends>=1.0.0",
+]
+
+[project.urls]
+Changelog = "https://github.com/grscheller/pythonic-fp-containers/blob/main/CHANGELOG.rst"
+Documentation = "https://grscheller.github.io/pythonic-fp/containers/development/build/html/releases.html"
+Homepage = "https://github.com/grscheller/pythonic-fp/blob/main/README.md"
+Source = "https://github.com/grscheller/pythonic-fp-containers"
+
+[tool.flit.module]
+name = "pythonic_fp.containers"
+
+[tool.mypy]
+enable_incomplete_feature = ["NewGenericSyntax"]
+implicit_reexport = false
+local_partial_types = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pylsp-mypy]
+enabled = true
+live-mode = true
+strict = true
+report_progress = true
+
+[tool.pytest.ini_options]
+consider_namespace_packages = true
+testpaths = ["tests/"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py313"
+ignore = ["E741"]
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-line-length = 72
