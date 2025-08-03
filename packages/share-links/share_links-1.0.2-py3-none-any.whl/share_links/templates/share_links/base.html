@@ -1,0 +1,102 @@
+{% load i18n static share_links_templatetags %}{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{{ request.site.name }}{% endblock %}</title>
+    <meta name="description" content="{{ request.site.name }}, {% translate 'a share-links instance.' %}" />
+    <meta name="viewport" content="width=device-width" />
+    {% block css %}
+      <link rel="preload" as="style" href="{% static "share_links/design.css" %}" />
+      <link rel="stylesheet" href="{% static "share_links/design.css" %}" />
+    {% endblock%}
+    <link rel="icon" type="image/png" href="{% static "share_links/favicon.png" %}"/>
+  </head>
+  <body>
+    {% block messages %}
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endblock %}
+
+    {% block header%}
+      <header>
+        <h1><a href="{% url 'homepage' %}" translate="no">{{ request.site.name }}</a></h1>
+        <nav>
+          <a href="{% url 'homepage' %}">{% translate "Links" %}</a>
+          <a href="{% url 'collections' %}">{% translate "Collections" %}</a>
+          <a href="{% url 'tags' %}">{% translate "Tags" %}</a>
+          {% comment %} <a href="{% url 'comments' %}">{% translate "Last comments" %}</a> {% endcomment %}
+          <a href="{% url 'about' %}">{% translate "About" %}</a>
+          <a href="{% url 'random' %}">{% translate "Random link!" %}</a>
+          {% if user.is_authenticated %}<a href="{% url 'admin:index' %}">{% translate "Manage content" %}</a>{% endif %}
+          <span id="search">
+            <label for="toggle">🔎</label>
+            <input type="checkbox" id="toggle" class="hidden">
+            <div class="search-bar">
+              <form action="{% url 'search' %}" method="get">
+                <label for="search-box" id="search-label">{% translate "Search:" %}</label>
+                <input id="search-box" type="text" name="search" placeholder="{% translate 'Search' %}" />
+              </form>
+            </div>
+          </span>
+        </nav>
+      </header>
+    {% endblock %}
+
+    <main>
+      {% block content %}{% endblock %}
+      {% block pagination %}{% endblock %}
+    </main>
+
+    {% block footer %}
+      <footer>
+        <article>
+          <p>
+            {% blocktranslate with site_name=request.site.name %}
+              {{ site_name }}, because sharing links and keeping track of them should be easy!
+            {% endblocktranslate %}
+          </p>
+          <nav>
+            <a href="{% url 'stats' %}">{% translate "Statistics" %}</a>
+            <a href="{% url 'webring' %}">{% translate "Webring" %}</a>
+            <a href="{% url 'rss_index' %}">{% translate "RSS" %}</a>
+          </nav>
+        </article>
+        <article class="not-so-long">
+          <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language">
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                  {{ language.code }}
+                </option>
+              {% endfor %}
+            </select>
+            <input type="submit" value="{% translate 'Apply' %}">
+          </form>
+          <p class="to-the-moon"><a href="#">&#8593;</a></p>
+        </article>
+        <article>
+          <p>
+            {% blocktranslate with get_version="v"|get_version %}<i>Share Links</i> {{ get_version }}, the tool used behind this site, is open source! <a href="https://gitlab.com/sodimel/share-links">Go check the code</a>!{% endblocktranslate %}
+          </p>
+        </article>
+        <article>
+          <p>
+            {% translate "The only data stored are server logs, and informations you submit using the comment system." %}
+          </p>
+          <p>
+            <a href="{% url 'contact' %}">{% translate "Contact the owner of the site" %}</a>
+          </p>
+        </article>
+      </footer>
+    {% endblock %}
+  </body>
+</html>

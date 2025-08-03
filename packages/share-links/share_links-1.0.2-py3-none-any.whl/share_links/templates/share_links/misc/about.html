@@ -1,0 +1,12 @@
+{% extends "share_links/base.html" %}
+{% load markdownify i18n %}
+
+{% block title %}{{ about_text.page_title }} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  <article>
+    <h2>{{ about_text.page_title }}</h2>
+
+    {{ about_text.description|markdownify }}
+  </article>
+{% endblock %}

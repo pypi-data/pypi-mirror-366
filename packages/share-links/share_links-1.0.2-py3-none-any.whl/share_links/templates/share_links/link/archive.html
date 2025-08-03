@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% if link.file or show_webarchive_link and link.online %}
+  <article class="meta">
+{% endif %}
+{% if link.file %}
+  <p>
+    <a href="{{ link.file.url }}">{% translate "Saved file" %}</a>
+  </p>
+{% endif %}
+{% if show_webarchive_link and link.online %}
+  <p>
+    <a href="https://web.archive.org/*/{{ link.link }}">{% translate "Web Archive" %}</a>
+  </p>
+{% endif %}
+{% if link.file or show_webarchive_link and link.online %}
+  </article>
+{% endif %}

@@ -1,0 +1,47 @@
+{% extends "share_links/base.html" %}
+{% load share_links_templatetags i18n %}
+
+{% block title %}{% translate "Search" %} : {{ block.super }}{% endblock %}
+
+{% block content %}
+  <article>
+    {% if request.GET.search %}
+      <h2>{% translate "Results for" %} {{ request.GET.search }}</h2>
+    {% else %}
+      <h2>{% translate "Search" %}</h2>
+
+      <p>
+        {% blocktranslate %}
+          Use the magnifying glass icon at the top right of the screen in order to make your request.
+        {% endblocktranslate %}
+      </p>
+    {% endif %}
+
+    <p>
+      {% blocktranslate %}
+        Queries are processed for words that are at least {{ request_min_chars }} characters long, in order to reduce server load. <i>Sorry words & tags < {{ request_min_chars }} long!</i>
+      {% endblocktranslate %}
+    </p>
+  </article>
+
+  <article>
+    <h2>{% translate "Links" %}</h2>
+    <ul>
+      {% for link in links %}
+        {% include "share_links/link/link.html" %}
+      {% empty %}
+        <li><i class="opacity">{% translate "No link was found." %}</i></li>
+      {% endfor %}
+    </ul>
+  </article>
+  <article>
+    <h2>{% translate "Tags" %}</h2>
+    <ul>
+      {% for tag in tags %}
+        {% include "share_links/partials/tag.html" %}
+      {% empty %}
+        <li><i class="opacity">{% translate "No tag was found." %}</i></li>
+      {% endfor %}
+    </ul>
+  </article>
+{% endblock %}

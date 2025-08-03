@@ -1,0 +1,21 @@
+{% extends "share_links/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "RSS" %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  <article>
+    <h2>{% translate "RSS feeds" %}</h2>
+
+    <p >
+      {% translate "You can subscribe to some RSS feeds on this page:" %}
+    </p>
+    <div >
+      <ul>
+        <li><b><a href="{% url 'rss_new' %}">{% translate "new links & tags" %}</a></b></li>
+        <li><a href="{% url 'rss_new_links' %}">{% translate "new links only" %}</a></li>
+        <li><a href="{% url 'rss_new_tags' %}">{% translate "new tags only" %}</a></li>
+      </ul>
+    </div>
+  </article>
+{% endblock %}

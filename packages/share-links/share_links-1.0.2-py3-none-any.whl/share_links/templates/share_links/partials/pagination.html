@@ -1,0 +1,16 @@
+{% load share_links_templatetags i18n %}
+
+{% block pagination %}
+  <aside class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?{% query_transform page=1 %}">&laquo; {% translate "first" %}</a>
+      <a href="?{% query_transform page=page_obj.previous_page_number %}">{% translate "previous" %}</a>
+    {% endif %}
+    <p>{% blocktranslate with current=page_obj.number total=page_obj.paginator.num_pages %}Page {{ current }} of {{ total }}{% endblocktranslate %}</p>
+    {% if page_obj.has_next %}
+      <a href="?{% query_transform page=page_obj.next_page_number %}">{% translate "next" %}</a>
+      <a href="?{% query_transform page=page_obj.paginator.num_pages %}">{% translate "last" %} &raquo;</a>
+    {% endif %}
+  </span>
+  </aside>
+{% endblock %}

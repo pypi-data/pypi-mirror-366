@@ -1,0 +1,12 @@
+{% load share_links_templatetags markdownify i18n humanize %}
+
+<article>
+  <h2><a href="{% url "tag" tag.slug %}">{{ tag.tag }}</a></h2>
+  <p class="opacity">{% if tag.category %}{% translate "Subcategory of" %} <a href="{% url 'category' tag.category.pk %}">{{ tag.category }}</a> &mdash;{% endif %}<span title="{{ tag.date_added }}">{{ tag.date_added|naturaltime }}</span> &mdash; {{ tag|get_links_nb }} {% translate "link" %}{{ tag|get_links_nb|pluralize }}</span>
+</p>
+{% if tag.description %}
+  <p>
+    {{ tag.description|markdownify|truncatewords_html:20 }}
+  </p>
+{% endif %}
+</article>

@@ -1,0 +1,17 @@
+{% extends "share_links/base.html" %}
+{% load share_links_templatetags markdownify i18n humanize %}
+
+{% block title %}{% translate "List of collections" %} : {{ request.site.name }}{% endblock title %}
+
+{% block content %}
+  {% include "share_links/partials/sort.html" %}
+  {% for collection in page_obj %}
+    {% include "share_links/partials/collection.html" %}
+  {% empty %}
+    <article>{% translate "There's no collection yet!" %}</article>
+  {% endfor %}
+{% endblock %}
+
+{% block pagination %}
+  {% include "share_links/partials/pagination.html" %}
+{% endblock %}
