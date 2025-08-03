@@ -1,0 +1,19 @@
+[console_scripts]
+outgoing = outgoing.__main__:main
+
+[outgoing.password_schemes]
+base64 = outgoing.passwords:base64_scheme
+dotenv = outgoing.passwords:dotenv_scheme
+env = outgoing.passwords:env_scheme
+file = outgoing.passwords:file_scheme
+keyring = outgoing.passwords:keyring_scheme
+
+[outgoing.senders]
+babyl = outgoing.senders.mailboxes:BabylSender
+command = outgoing.senders.command:CommandSender
+maildir = outgoing.senders.mailboxes:MaildirSender
+mbox = outgoing.senders.mailboxes:MboxSender
+mh = outgoing.senders.mailboxes:MHSender
+mmdf = outgoing.senders.mailboxes:MMDFSender
+null = outgoing.senders.null:NullSender
+smtp = outgoing.senders.smtp:SMTPSender
