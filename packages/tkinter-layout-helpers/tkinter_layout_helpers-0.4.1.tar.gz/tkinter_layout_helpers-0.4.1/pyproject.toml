@@ -1,0 +1,82 @@
+[project]
+name = "tkinter_layout_helpers"
+version = "0.4.1"
+description = "A library which is intended to simplify a placement of widgets with .grid() and .pack() methods"
+authors = [{ name = "insolor", email = "insolor@gmail.com" }]
+requires-python = ">=3.9"
+readme = "README.md"
+license = "MIT"
+keywords = [
+    "tkinter",
+    "grid",
+    "pack",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "typing-extensions",  # For Self type. Remove after dropping Python < 3.11
+]
+
+[project.urls]
+Homepage = "https://github.com/insolor/tkinter-layout-helpers"
+Repository = "https://github.com/insolor/tkinter-layout-helpers"
+Documentation = "https://insolor.github.io/tkinter-layout-helpers"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.4,<9.0.0",
+    "pytest-mock>=3.11.1,<4",
+    "pytest-cov>=4.1,<6.0",
+    "ruff>=0.4.7,<0.13.0",
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.16",
+    "mkdocstrings>=0.30.0",
+    "mkdocstrings-python>=1.16.12",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN002",
+    "ANN003",
+    "C408",
+    "D100",
+    "D104",
+    "D205",
+    "D212",
+    "D401",
+]
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "ANN001",
+    "ANN201",
+    "ANN202",
+    "D",  # Don't warn about missing documentation in tests
+    "S101",  # Don't warn about using of asserts in tests
+]
+
+"examples/*" = [
+    "ANN",
+    "D",
+    "S311",
+    "PL",
+    "INP001",
+    "ERA001",
+]
