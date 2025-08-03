@@ -1,0 +1,82 @@
+[project]
+name = "kabinet"
+version = "0.7.0"
+description = ""
+authors = [{ name = "jhnnsrs", email = "jhnnsrs@gmail.com" }]
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = [
+    "rath>=3.6",
+    "websockets>=15.0.1",
+]
+
+[tool.uv]
+dev-dependencies =  [
+    "pytest-asyncio>=0.26.0",
+    "pytest-cov>=6.1.1",
+    "pytest>=8.3.5",
+    "python-semantic-release>=9.21.0",
+    "autoflake>=1.7.7,<2",
+    "aiohttp>=3.8.3,<4",
+    "pytest-aiohttp>=1.0.4,<2",
+    "ruff>=0.11",
+    "dokker>=2.3",
+]
+
+
+[tool.hatch.build.targets.sdist]
+include = ["kabinet"]
+
+[tool.hatch.build.targets.wheel]
+include = ["kabinet"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.mypy]
+exclude = ["venv/", "tests/"]
+ignore_missing_imports = true
+
+[tool.ruff]
+extend-select = ["ANN", "D1"]
+ignore = ["ANN101"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 100
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that require a deployment via testcontainers",
+]
+
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+upload_to_pypi = true
+branch = "main"
+build_command = "uv build"
