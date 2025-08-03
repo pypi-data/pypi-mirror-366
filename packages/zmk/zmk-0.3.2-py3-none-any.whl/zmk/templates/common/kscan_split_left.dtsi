@@ -1,0 +1,8 @@
+&kscan {
+    // Replace these comments with the GPIO pins in the matrix for the left side.
+    // See https://zmk.dev/docs/development/hardware-integration/new-shield#shield-overlays
+    col-gpios
+        = <${gpio} 0 GPIO_ACTIVE_HIGH>
+        , <${gpio} 0 GPIO_ACTIVE_HIGH>
+        ;
+};

@@ -1,0 +1,34 @@
+// This file was generated from a template. Edit it to match your keyboard.
+// See https://docs.zephyrproject.org/3.5.0/hardware/porting/board_porting.html
+// and https://zmk.dev/docs/development/hardware-integration/new-shield for more
+// instructions.
+
+/dts-v1/;
+<%block name="system_includes" />
+#include <dt-bindings/zmk/matrix_transform.h>
+
+<%block name="includes" />
+#include "${id}-layouts.dtsi"
+
+/ {
+    model = "${name}";
+    compatible = "${id}";
+
+<%block name="chosen">
+    chosen {
+        zmk,physical-layout = &default_layout;
+    };
+</%block>
+
+<%block name="kscan">
+<%include file="kscan.dtsi" />
+</%block>
+
+<%block name="matrix_transform">
+<%include file="matrix_transform.dtsi" />
+</%block>
+<%block name="nodes">
+</%block>
+};
+
+${self.body()}

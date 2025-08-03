@@ -1,0 +1,5 @@
+<%inherit file="/common/hardware.zmk.yml" />
+% if interconnect:
+requires:
+  - ${interconnect}
+% endif

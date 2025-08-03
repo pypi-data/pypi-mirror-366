@@ -1,0 +1,9 @@
+<%inherit file="/board/other/Kconfig.defconfig" />
+
+<%def name="guard()">BOARD_${id.upper()}</%def>
+
+<%block name="inner">
+config ZMK_KEYBOARD_NAME
+    default "${shortname}"
+
+</%block>

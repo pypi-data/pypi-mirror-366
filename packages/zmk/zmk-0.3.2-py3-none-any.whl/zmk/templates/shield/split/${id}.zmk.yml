@@ -1,0 +1,9 @@
+<%inherit file="/common/hardware.zmk.yml" />
+% if interconnect:
+requires:
+  - ${interconnect}
+% endif
+
+siblings:
+  - ${id}_left
+  - ${id}_right

@@ -1,0 +1,16 @@
+if SHIELD_${id.upper()}_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "${shortname}"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif # SHIELD_${id.upper()}_LEFT
+
+if SHIELD_${id.upper()}_LEFT || SHIELD_${id.upper()}_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif # SHIELD_${id.upper()}_LEFT || SHIELD_${id.upper()}_RIGHT

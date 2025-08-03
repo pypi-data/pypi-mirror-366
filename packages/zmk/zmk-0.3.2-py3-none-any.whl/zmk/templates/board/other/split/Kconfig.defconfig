@@ -1,0 +1,16 @@
+<%inherit file="/board/other/Kconfig.defconfig" />
+
+<%def name="guard()">BOARD_${id.upper()}_LEFT || BOARD_${id.upper()}_RIGHT</%def>
+
+<%block name="before">
+if BOARD_${id.upper()}_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "${shortname}"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif # BOARD_${id.upper()}_LEFT
+
+</%block>
