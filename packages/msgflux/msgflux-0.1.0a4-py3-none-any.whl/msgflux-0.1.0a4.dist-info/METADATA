@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: msgflux
+Version: 0.1.0a4
+Summary: Messages and Dynamic AI Systems in Python powered by pretrained models
+Project-URL: Homepage, https://github.com/msgflux/msgspec-ext
+Project-URL: Documentation, https://github.com/msgflux/msgspec-ext
+Project-URL: Repository, https://github.com/msgflux/msgspec-ext
+Author-email: Vilson Rodrigues <vilson@msgflux.com>
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.9
+Requires-Dist: code2mermaid>=0.3.0
+Requires-Dist: defusedxml>=0.7.1
+Requires-Dist: jinja2>=3.1.6
+Requires-Dist: mermaid-py>=0.8.0
+Requires-Dist: msgspec-ext>=0.1.0
+Requires-Dist: opentelemetry-api>=1.35.0
+Requires-Dist: opentelemetry-exporter-otlp>=1.35.0
+Requires-Dist: opentelemetry-sdk>=1.35.0
+Requires-Dist: tenacity>=8.2.3
+Requires-Dist: tomli-w>=1.2.0
+Requires-Dist: typing-extensions>=4.14.1
+Requires-Dist: uvloop>=0.21.0
+Provides-Extra: httpx
+Requires-Dist: httpx>=0.28.1; extra == 'httpx'
+Provides-Extra: openai
+Requires-Dist: openai>=1.97.1; extra == 'openai'
+Requires-Dist: opentelemetry-instrumentation-openai>=0.43.1; extra == 'openai'
+Description-Content-Type: text/markdown
+
+# msgFlux
