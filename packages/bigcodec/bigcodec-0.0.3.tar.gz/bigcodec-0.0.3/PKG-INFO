@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: bigcodec
+Version: 0.0.3
+Summary: Python library for bigcodec.
+Author-email: Ivan Shivalov <ivansivalov396@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/intexcor/gputop
+Project-URL: Repository, https://github.com/intexcor/gputop
+Project-URL: Issues, https://github.com/intexcor/gputop/issues
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: torch
+Requires-Dist: einops
+Requires-Dist: numpy
+Requires-Dist: torchaudio
+Requires-Dist: einops
+Requires-Dist: huggingface_hub
+
+# BigCodec
+
+Python library for bigcodec. This is something that the author of bigcodec didn't do, so I'm doing it for him.
+
+## Setup
+
+```
+pip install bigcodec
+```
+
+## Usage
+
+```
+import torch.accelerator
+from bigcodec import BigCodec
+import torchaudio
+
+codec = BigCodec.from_pretrained("intexcp/bigcodec")
+
+wav = torchaudio.load("enc.wav")[0]
+wav = wav.unsqueeze(0)
+device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+codec = codec.to(device)
+wav = wav.to(device)
+with torch.no_grad():
+    enc = codec.encode(wav)
+    dec = codec.decode(enc)
+print(enc)
+torchaudio.save("dec.wav", dec.squeeze(0).cpu(), 16000, encoding="PCM_F")
+```
