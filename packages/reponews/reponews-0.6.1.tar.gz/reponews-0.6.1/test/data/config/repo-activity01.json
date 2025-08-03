@@ -1,0 +1,70 @@
+{
+    "recipient": null,
+    "sender": null,
+    "subject": "[reponews] New activity on your GitHub repositories",
+    "auth_token": null,
+    "auth_token_file": null,
+    "state_file": null,
+    "api_url": "https://api.github.com/graphql",
+    "activity": {
+        "issues": null,
+        "pull_requests": null,
+        "discussions": null,
+        "releases": null,
+        "prereleases": null,
+        "drafts": null,
+        "tags": null,
+        "released_tags": null,
+        "stars": null,
+        "forks": null,
+        "my_activity": null,
+        "affiliated": {
+            "issues": false,
+            "pull_requests": false,
+            "discussions": null,
+            "releases": null,
+            "prereleases": null,
+            "drafts": null,
+            "tags": null,
+            "released_tags": null,
+            "stars": null,
+            "forks": null,
+            "my_activity": null
+        },
+        "repo": {
+            "owner/*": {
+                "issues": null,
+                "pull_requests": null,
+                "discussions": null,
+                "releases": null,
+                "prereleases": null,
+                "drafts": null,
+                "tags": false,
+                "released_tags": null,
+                "stars": null,
+                "forks": null,
+                "my_activity": true,
+                "include": true
+            },
+            "owner/repo": {
+                "issues": null,
+                "pull_requests": null,
+                "discussions": null,
+                "releases": false,
+                "prereleases": null,
+                "drafts": null,
+                "tags": null,
+                "released_tags": null,
+                "stars": null,
+                "forks": null,
+                "my_activity": false,
+                "include": true
+            }
+        }
+    },
+    "repos": {
+        "affiliations": ["OWNER", "ORGANIZATION_MEMBER", "COLLABORATOR"],
+        "include": [],
+        "exclude": []
+    }
+}

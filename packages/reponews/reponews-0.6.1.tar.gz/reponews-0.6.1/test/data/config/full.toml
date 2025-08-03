@@ -1,0 +1,22 @@
+[reponews]
+recipient = "Myself <me@here.there>"
+sender = "RepoNews <reponews@cron.job>"
+subject = "GitHub Activity!"
+auth-token = "ghp_1234567890123456789"
+state-file = "~/.varlib/reponews.json"
+api-url = "https://api.myservice.nil/graphql"
+
+[reponews.activity]
+issues = false
+pull-requests = false
+discussions = true
+my-activity = true
+drafts = false
+
+[reponews.repos]
+affiliations = ["OWNER"]
+include = [
+    "python/*",
+    "pypa/pip",
+]
+exclude = ["python/planet", "pypa/*"]
