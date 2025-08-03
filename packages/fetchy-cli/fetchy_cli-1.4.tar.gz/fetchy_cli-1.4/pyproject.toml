@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools"]                             # Boilerplate
+build-backend = "setuptools.build_meta"               # Boilerplate
+
+[project]
+name = "fetchy-cli"                              # Your pip install <name> (must be unique)
+version = "1.4"                               # Must be manually updated here with every change
+authors = [
+	{ name="espehon", email="espehon@gmail.com" },      # Email is optional (as array?)
+]
+
+description = "Fetch strings from your system rather than your own memory!"               # Header on PyPI (above readme)
+readme = "README.md"                               # Boilerplate and will be added to the PyPI page
+license = "GPL-3.0-or-later"
+requires-python = ">=3.8"                            # Python version
+dependencies = [
+	"copykitten >= 1.2.0" 
+]                                     # Any site-package dependencies (as a list)
+
+classifiers = [                                       	# Kinda boilerplate. Used as hashtags really
+	"Programming Language :: Python :: 3",          # Tweak this to match your project
+	"Development Status :: 5 - Production/Stable",               # https://pypi.org/classifiers/
+	"Environment :: Console",
+	"Operating System :: OS Independent",
+	"Topic :: Utilities"
+]
+
+[project.scripts]                               # The entrypoint for CLI app (if needed)
+fet = "fetchy_cli.fetchy:cli"               	# SYNTAX: <commandlet> = "folder.file:function"
+                                                # def main in __main__ and place in if name check
+[project.urls]
+"Homepage" = "https://github.com/espehon/fetchy-cli"              # Boilerplate links to GitHub repo
+"Bug Tracker" = "https://github.com/espehon/fetchy-cli/issues"    # Boilerplate links to GitHub repo issues
+
+[tool.setuptools]
+license-files = []
