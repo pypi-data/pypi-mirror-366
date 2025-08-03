@@ -1,0 +1,71 @@
+include LICENSE
+include README.rst
+include CHANGES.rst
+include pyproject.toml
+
+include imagecodecs/py.typed
+
+include imagecodecs/*.c
+include imagecodecs/*.h
+include imagecodecs/*.pyi
+include imagecodecs/*.pyx
+include imagecodecs/*.pxd
+include imagecodecs/*.pxi
+
+exclude imagecodecs/_*.c
+
+include imagecodecs/licenses/*
+include imagecodecs/patches/*
+
+include 3rdparty/*
+include 3rdparty/*/*
+
+include tests/*.py
+include tests/data/*.txt
+include tests/data/*.bin
+include tests/data/*.npy
+include tests/data/*.zfp
+include tests/data/*.png
+include tests/data/*.icc
+include tests/data/*.jpg
+include tests/data/*.jxr
+include tests/data/*.j2k
+include tests/data/*.jp2
+include tests/data/*.jls
+include tests/data/*.jxl
+include tests/data/*.tif
+include tests/data/*.hdr
+include tests/data/*.uhdr
+include tests/data/*.apng
+include tests/data/*.avif
+include tests/data/*.webp
+include tests/data/*.br
+include tests/data/tiff/*.tif
+include tests/data/ljpeg/*.ljp
+include tests/data/lerc/*.*
+include tests/data/libaec/121B2TestData/*.txt
+include tests/data/libaec/121B2TestData/AllOptions/*.*
+
+# files too large or not licensed
+exclude tests/data/libaec/121B2TestData/ExtendedParameters/*.*
+exclude tests/data/tiff/gray.movie.*.tif
+exclude tests/data/ljpeg/dcm*.ljp
+exclude tests/data/ljpeg/2ch.ljp
+exclude tests/data/ljpeg/pvrg.ljp
+exclude tests/data/bcn/*.dds
+exclude tests/data/33792x79872.jpg
+exclude tests/data/jpegxr.czi
+exclude tests/data/jetraw.bin
+
+exclude *.cmd
+exclude build_utils/*
+
+recursive-exclude doc *
+recursive-exclude docs *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *-
+recursive-exclude * *.html
+recursive-exclude * *Copy*.*
+
+recursive-exclude * numpy/*.h
