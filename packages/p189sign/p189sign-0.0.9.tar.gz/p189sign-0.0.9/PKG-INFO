@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: p189sign
+Version: 0.0.9
+Summary: 189 web disk signature.
+Home-page: https://github.com/ChenyangGao/p189client/tree/main/modules/p189sign
+License: MIT
+Keywords: python-189,signature
+Author: ChenyangGao
+Author-email: wosiwujm@gmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: pycryptodome
+Project-URL: Repository, https://github.com/ChenyangGao/p189client/tree/main/modules/p189sign
+Description-Content-Type: text/markdown
+
+# 天翼网盘（cloud.189.cn）签名
+
+## 安装
+
+你可以通过 [pypi](https://pypi.org/project/p189sign/) 安装
+
+```console
+pip install -U p189sign
+```
+
+## 用法
+
+```python
+from p189sign import *
+```
+
