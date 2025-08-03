@@ -1,0 +1,49 @@
+- job:
+    name: jjb-tox-cross-jenkins-job-builder
+    description: Tests compatibility with master branch of jenkins-job-builder
+    parent: tox-py312
+    nodeset: ubuntu-noble
+    required-projects:
+      - jjb/python-jenkins
+      - jjb/jenkins-job-builder
+    voting: true
+
+- project:
+    check:
+      jobs:
+        # Only in check:
+        - tox-cover:
+            nodeset: ubuntu-noble
+        # Jobs common to gate pipeline
+        - tox-linters:
+            nodeset: ubuntu-noble
+        - openstack-tox-docs:
+            nodeset: ubuntu-noble
+        - tox-py38:
+            nodeset: ubuntu-focal
+        - tox-py39:
+            nodeset: ubuntu-focal
+        - tox-py310:
+            nodeset: ubuntu-jammy
+        - tox-py311:
+            nodeset: ubuntu-jammy
+        - tox-py312:
+            nodeset: ubuntu-noble
+        - jjb-tox-cross-jenkins-job-builder
+    gate:
+      jobs:
+        - tox-linters:
+            nodeset: ubuntu-noble
+        - openstack-tox-docs:
+            nodeset: ubuntu-noble
+        - tox-py38:
+            nodeset: ubuntu-focal
+        - tox-py39:
+            nodeset: ubuntu-focal
+        - tox-py310:
+            nodeset: ubuntu-jammy
+        - tox-py311:
+            nodeset: ubuntu-jammy
+        - tox-py312:
+            nodeset: ubuntu-noble
+        - jjb-tox-cross-jenkins-job-builder
