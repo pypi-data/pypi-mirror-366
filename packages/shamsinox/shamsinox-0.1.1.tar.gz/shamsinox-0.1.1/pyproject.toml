@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shamsinox"
+version = "0.1.1"
+authors = [
+  { name = "Arsham Hasanpour", email = "arshammhasanpourrr@gmail.com" },
+]
+description = "A Python library for working with the Persian (Jalali) calendar"
+readme = "README.md"
+requires-python = ">=3.6"
+license = { text = "MIT" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/ArshamH011/shamsinox"
+Repository = "https://github.com/ArshamH011/shamsinox"
+Issues = "https://github.com/ArshamH011/shamsinox/issues"

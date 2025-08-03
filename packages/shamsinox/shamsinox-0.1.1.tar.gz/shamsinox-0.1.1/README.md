@@ -1,0 +1,48 @@
+shamsinox
+A Python library for working with the Persian (Jalali) calendar, similar to Python's datetime module.
+Features
+
+Create and validate Persian dates
+Convert between Persian and Gregorian calendars
+Support for Persian leap year calculations
+Basic date arithmetic (add/subtract days, difference between dates)
+Get today's date in the Persian calendar
+
+Installation
+pip install shamsinox
+
+Usage
+from shamsinox import PersianDate
+from datetime import timedelta
+
+# Create a Persian date
+pd = PersianDate(1404, 5, 12)
+print(pd)  # 1404/05/12 (Mordad)
+
+# Convert to Gregorian
+gd = pd.to_gregorian()
+print(gd)  # 2025-08-03
+
+# Get today's Persian date
+today = PersianDate.today()
+print(today)  # e.g., 1404/05/11 (Mordad)
+
+# Add 10 days
+future_date = today + timedelta(days=10)
+print(future_date)  # e.g., 1404/05/21 (Mordad)
+
+# Calculate difference between dates
+diff = future_date - today
+print(f"Difference in days: {diff}")  # Difference in days: 10
+
+Development
+To contribute or run tests:
+
+Clone the repository: git clone https://github.com/ArshamH011/shamsinox.git
+Install dependencies: pip install -r requirements.txt (if any)
+Run tests: python -m unittest discover tests
+
+License
+MIT License
+Contact
+For issues or suggestions, please open an issue on the GitHub repository.
