@@ -1,0 +1,309 @@
+Metadata-Version: 2.4
+Name: cursor-mcp
+Version: 0.1.0
+Summary: MCP server for managing Cursor IDE MCP configurations
+Project-URL: Homepage, https://github.com/hud-evals/hud-cursor-manager
+Project-URL: Bug Tracker, https://github.com/hud-evals/hud-cursor-manager/issues
+Project-URL: Documentation, https://github.com/hud-evals/hud-cursor-manager/tree/main/README.md
+Author-email: lorenss-m <saeclmusic@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 lorenss-m
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: cursor,ide,mcp,modelcontextprotocol
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Requires-Dist: click>=8.0.0
+Requires-Dist: fastmcp>=2.11.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: mcp[cli]>=1.12.3
+Requires-Dist: psutil>=5.9.0
+Description-Content-Type: text/markdown
+
+# Cursor MCP Manager
+
+An MCP (Model Context Protocol) server that allows you to manage Cursor IDE's MCP configuration through tools.
+
+## Features
+
+- **List MCP Servers**: View all configured MCP servers
+- **Add MCP Server**: Add new MCP servers to your configuration (STDIO or HTTP)
+- **Remove MCP Server**: Remove existing MCP servers
+- **Update MCP Server**: Modify server configurations
+- **Refresh Server**: Restart a specific MCP server with automatic process cleanup
+- **Kill Server**: Manually stop a running MCP server
+- **Process Monitoring**: Check server status and running processes
+- **Log Collection**: View logs from running MCP servers
+- **Cross-Platform**: Works on Windows, macOS, and Linux
+- **Docker Support**: Special handling for Docker-based MCP servers
+
+**Note**: Cursor automatically detects changes to the `mcp.json` file and reloads servers without requiring a restart.
+
+## Installation
+
+### Quick Install with uvx (Recommended)
+
+The simplest way to use cursor-mcp is with `uvx` (no installation required!):
+
+```json
+{
+  "mcpServers": {
+    "cursor-manager": {
+      "command": "uvx",
+      "args": ["cursor-mcp"]
+    }
+  }
+}
+```
+
+That's it! This will automatically download and run the latest version from PyPI.
+
+### Alternative: Install from Source
+
+If you want to run from source code:
+
+```json
+{
+  "mcpServers": {
+    "cursor-manager": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "path\\to\\hud-cursor-manager",
+        "run",
+        "mcp-stdio"
+      ]
+    }
+  }
+}
+```
+
+### How it Works
+
+1. **First Connection**: When Cursor starts the STDIO proxy, it automatically spawns a persistent HTTP server in the background
+2. **Subsequent Connections**: New Cursor windows connect to the existing HTTP server
+3. **Shared State**: All windows share the same server state, logs, and configuration
+4. **Persistence**: The HTTP server continues running even after all Cursor windows are closed
+
+### MCP Protocol Compliance
+
+The cursor-mcp-manager follows the MCP specification:
+
+- **JSON-RPC 2.0**: All messages use standard JSON-RPC format
+- **Lifecycle Management**: Proper handling of initialize, initialized, and shutdown messages
+- **STDIO Transport**: The proxy handles stdin/stdout communication with proper message framing
+- **HTTP Transport**: The backend server uses HTTP/SSE for multi-client support
+- **Error Handling**: Implements proper JSON-RPC error codes (-32700 for parse errors, -32603 for internal errors)
+
+The STDIO proxy acts as a bridge, converting between:
+- **Client → Server**: STDIO messages are forwarded to the HTTP server via POST requests
+- **Server → Client**: HTTP SSE events are forwarded to stdout
+- **Lifecycle**: The proxy handles shutdown gracefully, disconnecting only the STDIO connection while keeping the HTTP server running
+
+### Managing the Background Server
+
+The HTTP server runs persistently in the background. To manage it:
+
+```bash
+# Check server status
+uv run cursor-manager status
+
+# Stop the server
+uv run cursor-manager stop
+
+# Start the server manually
+uv run cursor-manager start
+
+# Restart the server
+uv run cursor-manager restart
+
+# View server logs
+uv run cursor-manager logs
+```
+
+**Important**: The background HTTP server ignores shutdown signals when started by the STDIO proxy. This ensures it stays running even when Cursor disconnects. Use `cursor-manager stop` to properly shut it down.
+
+### Available Commands
+
+Once installed, you can use these commands:
+
+```bash
+# Run the MCP server directly (same as default)
+uvx cursor-mcp
+
+# Use the manager CLI tool
+uvx --from cursor-mcp cursor-manager
+
+# Run the full server with HTTP backend
+uvx --from cursor-mcp cursor-mcp-manager
+```
+
+### Install from PyPI
+
+```bash
+# Install globally as a tool
+uv tool install cursor-mcp
+
+# Or use pip
+pip install cursor-mcp
+```
+
+### From source
+
+```bash
+git clone https://github.com/hud-evals/hud-cursor-manager
+cd hud-cursor-manager
+uv sync
+uv run cursor-mcp-manager
+```
+
+## Configuration
+
+The Cursor MCP Manager runs as an HTTP server to share state across all Cursor windows.
+
+### Step 1: Start the HTTP Server
+
+```bash
+# From the project directory
+uv run python start_http_server.py
+
+# Or directly
+uv run python -m cursor_mcp_manager
+```
+
+The server will run on `http://localhost:8765`
+
+### Step 2: Configure Cursor
+
+Add this to your Cursor's MCP configuration at `~/.cursor/mcp.json` (Windows: `%USERPROFILE%\.cursor\mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "cursor-manager": {
+      "url": "http://localhost:8765"
+    }
+  }
+}
+```
+
+## Usage
+
+Once configured, you can use the following tools in Cursor:
+
+### List all MCP servers
+Ask: "List all my MCP servers"
+
+### Add a new server
+Ask: "Add an MCP server named 'weather' with command 'python' and args ['weather_server.py']"
+
+### Remove a server
+Ask: "Remove the MCP server named 'weather'"
+
+### Update a server
+Ask: "Update the 'weather' server to use command 'uv' with args ['run', 'weather.py']"
+
+### Refresh/restart a specific server
+Ask: "Refresh the 'weather' MCP server"
+
+### Check server status
+Ask: "Is the 'weather' server running?"
+
+### View server logs
+Ask: "Show me the logs for the 'weather' server"
+
+## Supported MCP Server Configurations
+
+The Cursor MCP Manager supports all standard MCP server configuration options:
+
+### STDIO Servers (Command-based)
+```json
+{
+  "server-name": {
+    "command": "python",
+    "args": ["server.py", "--option", "value"],
+    "env": {
+      "API_KEY": "your-key",
+      "DEBUG": "true"
+    },
+    "cwd": "/path/to/server/directory"
+  }
+}
+```
+
+### HTTP/SSE Servers (URL-based)
+```json
+{
+  "remote-server": {
+    "url": "http://example.com:8080/mcp"
+  }
+}
+```
+
+### Docker-based Servers
+```json
+{
+  "docker-server": {
+    "command": "docker",
+    "args": ["run", "--rm", "-i", "-p", "6080:6080", "mcp/server-image"],
+    "env": {
+      "CONFIG": "production"
+    }
+  }
+}
+```
+
+### Platform-Specific Considerations
+
+- **Windows**: The manager handles Windows paths and `cmd.exe` execution automatically
+- **macOS/Linux**: Full support for Unix-style paths and shell commands
+- **Docker**: Special handling for container lifecycle, including automatic cleanup on refresh
+
+## Development
+
+```bash
+# Install dependencies
+uv sync
+
+# Run the server
+uv run cursor-mcp-manager
+
+# Or run directly with Python
+uv run python -m cursor_mcp_manager
+```
+
+## Known Limitations
+
+### Tool List Updates in Active Conversations
+
+When you refresh an MCP server that has new or updated tools, the changes will be available on your next message in the conversation. Cursor refreshes the tool list when you send a new message.
+
+**Note**: Simply send another message after refreshing to see the updated tools - no need to start a new conversation.
+
+## License
+
+MIT
