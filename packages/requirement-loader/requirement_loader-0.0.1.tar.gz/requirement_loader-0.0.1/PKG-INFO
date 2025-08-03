@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: requirement-loader
+Version: 0.0.1
+Summary: When working on production servers, there is a risk that a zero-day vulnerability may be discovered in one of the packages listed in the requirements.txt file. With Requirement Loader, you can update the requirements file hosted online (e.g., on GitHub), and it will automatically download and install the updated dependencies. It can then either restart the application immediately or, if the update is too complex, defer the update until the next scheduled restart.
+Author-email: Ivole32 <ivo.theis@posteo.de>
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+
+# requirements-loader
+When working on production servers, there is a risk that a zero-day vulnerability may be discovered in one of the packages listed in the requirements.txt file. With Requirement Loader, you can update the requirements file hosted online (e.g., on GitHub), and it will automatically download and install the updated dependencies. It can then either restart the application immediately or, if the update is too complex, defer the update until the next scheduled restart.
