@@ -1,0 +1,170 @@
+[build-system]
+requires = ["setuptools>=65", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brainsait-pybrain"
+version = "0.1.0"
+description = "Unified Healthcare Intelligence Platform - AI-powered healthcare data harmonization and decision support"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Dr. Fadil", email = "fadil@brainsait.com"},
+    {name = "BrainSAIT Team", email = "team@brainsait.com"}
+]
+maintainers = [
+    {name = "BrainSAIT Healthcare Innovation Lab", email = "healthcare@brainsait.com"}
+]
+keywords = [
+    "healthcare", "ai", "fhir", "clinical-nlp", "medical-ai",
+    "health-informatics", "interoperability", "decision-support",
+    "federated-learning", "healthcare-analytics"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Healthcare Industry",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Framework :: FastAPI",
+]
+
+dependencies = [
+    "fhir.resources>=6.5.0",
+    "pandas>=1.5.0",
+    "numpy>=1.23.0",
+    "scikit-learn>=1.2.0",
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "spacy>=3.5.0",
+    "networkx>=3.0",
+    "pydantic>=2.0",
+    "httpx>=0.24.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "redis>=4.5.0",
+    "sqlalchemy>=2.0",
+    "alembic>=1.11.0",
+    "cryptography>=41.0.0",
+    "python-jose[cryptography]>=3.3.0",
+    "prometheus-client>=0.17.0",
+    "opentelemetry-api>=1.18.0",
+    "opentelemetry-sdk>=1.18.0",
+    "python-multipart>=0.0.6",
+    "aiofiles>=23.1.0",
+    "orjson>=3.9.0",
+    "python-dateutil>=2.8.2",
+    "pytz>=2023.3",
+    "langchain>=0.0.200",
+    "chromadb>=0.4.0",
+    "sentence-transformers>=2.2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.3.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.3.0",
+    "flake8>=6.0.0",
+    "mypy>=1.3.0",
+    "isort>=5.12.0",
+    "pre-commit>=3.3.0",
+    "pytest-mock>=3.11.0",
+    "factory-boy>=3.2.1",
+    "faker>=18.11.0",
+    "responses>=0.23.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.2.0",
+    "sphinx-autodoc-typehints>=1.23.0",
+    "myst-parser>=2.0.0",
+]
+ml = [
+    "tensorflow>=2.13.0",
+    "xgboost>=1.7.0",
+    "lightgbm>=3.3.0",
+    "optuna>=3.2.0",
+    "mlflow>=2.4.0",
+]
+nlp = [
+    "scispacy>=0.5.2",
+    "medspacy>=1.0.0",
+    "nltk>=3.8.0",
+    "gensim>=4.3.0",
+]
+cloud = [
+    "boto3>=1.26.0",
+    "azure-storage-blob>=12.16.0",
+    "google-cloud-storage>=2.9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/brainsait/pybrain"
+Documentation = "https://pybrain.readthedocs.io"
+Repository = "https://github.com/brainsait/pybrain"
+Issues = "https://github.com/brainsait/pybrain/issues"
+Changelog = "https://github.com/brainsait/pybrain/blob/main/CHANGELOG.md"
+
+[project.scripts]
+pybrain = "pybrain.cli:main"
+pybrain-server = "pybrain.server:run"
+pybrain-worker = "pybrain.worker:start"
+
+[project.entry-points."pybrain.plugins"]
+fhir_harmonizer = "pybrain.plugins.harmonizers:FHIRHarmonizer"
+clinical_nlp = "pybrain.plugins.nlp:ClinicalNLP"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = {find = {where = ["src"], include = ["pybrain*"]}}
+
+[tool.setuptools.package-data]
+pybrain = [
+    "models/*.pkl",
+    "models/*.pt",
+    "data/*.json",
+    "data/*.yaml",
+    "templates/*.html",
+    "static/**/*",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --cov=pybrain --cov-report=term-missing"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+source = ["src/pybrain"]
+omit = ["*/tests/*", "*/migrations/*"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false

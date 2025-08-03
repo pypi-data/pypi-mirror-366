@@ -1,0 +1,8 @@
+[console_scripts]
+pybrain = pybrain.cli:main
+pybrain-server = pybrain.server:run
+pybrain-worker = pybrain.worker:start
+
+[pybrain.plugins]
+clinical_nlp = pybrain.plugins.nlp:ClinicalNLP
+fhir_harmonizer = pybrain.plugins.harmonizers:FHIRHarmonizer
