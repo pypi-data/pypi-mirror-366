@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: django-tokenauth
+Version: 0.5.5
+Summary: An authentication backend that uses tokens sent over email to authenticate users.
+Home-page: https://github.com/skorokithakis/django-tokenauth
+Author: Stavros Korokithakis
+Author-email: hi@stavros.io
+License: BSD
+Keywords: django
+License-File: LICENSE
+Provides-Extra: test
+Requires-Dist: django; extra == "test"
+Requires-Dist: black==23.10.1; extra == "test"
+Requires-Dist: factory-boy==3.3.0; extra == "test"
+Requires-Dist: pre-commit==3.5.0; extra == "test"
+Requires-Dist: psycopg2-binary==2.8.6; extra == "test"
+Requires-Dist: pytest==7.4.3; extra == "test"
+Requires-Dist: pytest-django==4.5.2; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: summary
+
+A small Django authentication backend that sends users a one-time login link through email. When the user clicks the link, they are immediately logged in.
