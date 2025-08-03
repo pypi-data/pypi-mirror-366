@@ -1,0 +1,48 @@
+[project]
+name = "ansible-docsmith"
+version = "0.0.1"
+description = "DocSmith for Ansible: automating role documentation (using argument_specs.yml)"
+keywords = ["ansible", "documentation", "yaml", "cli", "automation"]
+license = "GPL-3.0-or-later"
+license-files = ["LICENSES/*.txt"]
+authors = [
+  { name = "foundata GmbH" },
+  { name = "Andreas Haerter", email = "ah@foundata.com" },
+]
+maintainers = [
+  { name = "Andreas Haerter", email = "ah@foundata.com" },
+]
+requires-python = ">=3.11"
+dependencies = []
+
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+
+  # Indication for whom the project is for
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Topic :: Documentation",
+  "Topic :: Software Development :: Documentation",
+  "Topic :: System :: Systems Administration",
+  "Topic :: Utilities",
+
+  # Supported Python versions
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/foundata/ansible-docsmith"
+Documentation = "https://github.com/foundata/ansible-docsmith/README.md"
+Repository = "https://github.com/foundata/ansible-docsmith.git"
+Issues = "https://github.com/foundata/ansible-docsmith/issues"
+Changelog = "https://github.com/foundata/ansible-docsmith/CHANGELOG.md"
+
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
