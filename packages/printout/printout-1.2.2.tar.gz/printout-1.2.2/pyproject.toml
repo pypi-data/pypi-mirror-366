@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "printout"
+version = "1.2.2"
+description = "Enhanced print function with automatic logging"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{ name = "Jelani Jenkins", email = "jj@jenkinscode.com" }]
+requires-python = ">=3.7"
+
+[tool.setuptools]
+packages = ["printout"]
