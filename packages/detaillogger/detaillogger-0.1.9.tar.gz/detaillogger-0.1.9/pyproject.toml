@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["detaillogger"]
+
+[project]
+name = "detaillogger"
+version = "0.1.9"
+dependencies = []
+
+requires-python = ">=3.8"
+authors = [
+  {name = "Ryan LaPine", email = "github.stunt845@passinbox.com"}
+]
+maintainers = [
+  {name = "Ryan LaPine", email = "github.stunt845@passinbox.com"}
+]
+description = "DetailLogger is a lightweight Python utility for enhanced logging and exception data tracing."
+readme = "README.md"
+license = { text = "MIT" }
+license-files = ["LICENCSE.*"]
+keywords = [
+  "logging",
+  "logger",
+  "structured logging",
+  "console output",
+  "debugging",
+  "log formatting",
+  "Python logging",
+  "CLI tools",
+  "developer tools",
+  "diagnostics",
+  "trace logs",
+  "custom logger",
+  "log levels",
+  "terminal output",
+  "verbose logging"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Utilities"
+]
+
+[project.urls]
+Homepage = "https://github.com/rlapine/DetailLogger"
+Repository = "https://github.com/rlapine/DetailLogger"
+Documentation = "https://github.com/rlapine/DetailLogger/README.md"
+
+[project.scripts]
+detaillogger = "detaillogger.core:main"
