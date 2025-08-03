@@ -1,0 +1,50 @@
+[project]
+name = "alpha-chick"
+version = "0.1.0"
+description = "High-performance TA indicators for Python"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.3.2",
+    "pandas>=2.3.1",
+]
+
+[dependency-groups]
+dev = [
+  "approvaltests>=14.5.0",
+  "mypy>=1.15.0",
+  "pre-commit>=4.2.0",
+  "pre-commit-uv>=4.1.4",
+  "pyfakefs>=5.8.0",
+  "pytest>=8.3.5",
+  "pytest-approvaltests>=0.2.4",
+  "pytest-benchmark>=5.1.0",
+  "pytest-cov>=6.1.1",
+  "pytype>=2024.10.11 ; sys_platform == 'linux'",
+  "ruff>=0.11.5",
+]
+
+[tool.pytest.ini_options]
+addopts = "--approvaltests-use-reporter=PythonNative"
+pythonpath = [
+  "src"
+]
+
+[tool.pytype]
+inputs = ['src']
+jobs = 'auto'
+
+[tool.ruff]
+line-length = 120
+include = ["src/**/*.py", "tests/**/*.py", "examples/**/*.py"]
+respect-gitignore = true
+
+[tool.ruff.lint]
+ignore = ["E501", "UP038", "PD901", "PLR0913", "PLR0915"]
+select = ["E", "F", "B", "I", "N", "Q", "UP", "C4", "ARG", "NPY", "PD", "PERF", "PL"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ARG001", "ARG002", "ARG005", "PLR2004"]
+
+[tool.black]
+line-length = 120
