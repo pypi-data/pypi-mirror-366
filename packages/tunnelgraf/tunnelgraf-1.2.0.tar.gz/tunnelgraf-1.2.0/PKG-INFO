@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: tunnelgraf
+Version: 1.2.0
+Summary: Hierarchical SSH tunnel management made easy. Securely define and share multihop connection profiles that expose a graph of remote endpoints as localhost.
+Project-URL: Homepage, https://github.com/denniswalker/tunnelgraf
+Project-URL: Documentation, https://github.com/denniswalker/tunnelgraf/blob/main/README.md
+Project-URL: Repository, https://github.com/denniswalker/tunnelgraf
+Project-URL: Issues, https://github.com/denniswalker/tunnelgraf/issues
+Author-email: Dennis Walker <denniswalker@me.com>
+Maintainer-email: Dennis Walker <denniswalker@me.com>
+License: MIT License
+        
+        Copyright (c) 2023 Dennis Walker
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: connectivity,dns,hosts,remote,secrets,ssh,tunnel
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: System :: Networking
+Requires-Dist: click>=8.0.6
+Requires-Dist: deepmerge~=1.0
+Requires-Dist: paramiko~=3.4.0
+Requires-Dist: psutil~=6.0.0
+Requires-Dist: pydantic~=2.10.0
+Requires-Dist: python-hosts~=1.0.5
+Requires-Dist: pyyaml~=6.0.0
+Requires-Dist: sftpretty~=1.1.6
+Requires-Dist: sshtunnel~=0.4.0
+Requires-Dist: wcwidth~=0.2.13
+Provides-Extra: test
+Requires-Dist: pytest-cov>=4.0.0; extra == 'test'
+Requires-Dist: pytest>=7.0.0; extra == 'test'
