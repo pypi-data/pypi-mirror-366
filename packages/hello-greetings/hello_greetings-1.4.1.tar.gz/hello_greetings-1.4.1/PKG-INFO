@@ -1,0 +1,137 @@
+Metadata-Version: 2.4
+Name: hello-greetings
+Version: 1.4.1
+Summary: A simple command line tool that greets the user
+Home-page: https://github.com/AaronOET/hello-greetings
+Author: Aaron Hsu
+Author-email: Aaron Hsu <aaronhsu@mail.ntou.edu.tw>
+Maintainer-email: Aaron Hsu <aaronhsu@mail.ntou.edu.tw>
+License: MIT License
+        
+        Copyright (c) 2025 Your Name
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/AaronOET/hello-greetings
+Project-URL: Repository, https://github.com/AaronOET/hello-greetings
+Project-URL: Issues, https://github.com/AaronOET/hello-greetings/issues
+Project-URL: Changelog, https://github.com/AaronOET/hello-greetings/blob/main/CHANGELOG.md
+Keywords: greeting,cli,tool
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Hello Greetings
+
+A simple command line tool that greets the user.
+
+## Description
+
+Hello Greetings is a lightweight CLI tool that provides interactive greetings. It can accept names as command line arguments or prompt for input interactively.
+
+## Installation
+
+```bash
+pip install hello-greetings
+```
+
+## Usage
+
+### Command Line Arguments
+
+```bash
+# Greet a specific name
+hello-greetings world
+
+# Interactive mode (prompts for input)
+hello-greetings
+
+# Show version
+hello-greetings --version
+
+# Show help
+hello-greetings --help
+```
+
+### Examples
+
+```bash
+$ hello-greetings Python
+hello Python
+
+$ hello-greetings
+Enter something: Universe
+hello Universe
+```
+
+## Features
+
+- Simple command-line interface
+- Interactive input mode
+- Version information
+- Cross-platform compatibility
+
+## Requirements
+
+- Python 3.9+
+
+## Development
+
+### Installation for Development
+
+```bash
+# Clone the repository
+git clone https://github.com/AaronOET/hello-greetings.git
+cd hello-greetings
+
+# Install in development mode
+pip install -e .
+```
+
+### Running Tests
+
+```bash
+python -m pytest tests/
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
