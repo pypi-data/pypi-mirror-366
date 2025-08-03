@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+  <!-- id pattern: YYYYMMDDTHHMMSS±HHMM -->
+  <xs:simpleType name="traceIdType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{8}T\d{6}[+-]\d{4}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- text-only section type -->
+  <xs:complexType name="textOnlyType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- gsl-description is a text-only element -->
+  <xs:element name="gsl-description" type="textOnlyType" />
+
+  <!-- gsl-test element (for manual or automated test descriptions/code) -->
+  <xs:element name="gsl-test">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="id" type="xs:string" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- gsl-tdd: optional description, then 1+ tests -->
+  <xs:element name="gsl-tdd">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="gsl-description" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="gsl-test" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="gsl-header" type="textOnlyType"/>
+  <xs:element name="gsl-purpose" type="textOnlyType"/>
+  <xs:element name="gsl-inputs" type="textOnlyType"/>
+  <xs:element name="gsl-outputs" type="textOnlyType"/>
+  <xs:element name="gsl-workflows" type="textOnlyType"/>
+  <xs:element name="gsl-document-spec" type="textOnlyType"/>
+
+  <!-- gsl-block: all major doc sections in strict order -->
+  <xs:element name="gsl-block">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="gsl-purpose"/>
+        <xs:element ref="gsl-inputs"/>
+        <xs:element ref="gsl-outputs"/>
+        <xs:element ref="gsl-workflows"/>
+        <xs:element ref="gsl-tdd"/>
+        <xs:element ref="gsl-document-spec"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Root: gsl-prompt, now allows description at top -->
+  <xs:element name="gsl-prompt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="gsl-description" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="gsl-header"/>
+        <xs:element ref="gsl-block"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="traceIdType" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
