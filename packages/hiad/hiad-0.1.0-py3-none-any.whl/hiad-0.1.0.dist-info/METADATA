@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: hiad
+Version: 0.1.0
+Summary: high-resolution anomaly detection
+Home-page: https://github.com/cnulab/HiAD
+Author: cnulab
+Author-email: cnulab <2024010482@bupt.cn>
+Project-URL: Homepage, https://github.com/cnulab/HiAD
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=1.10
+Requires-Dist: torchvision
+Requires-Dist: torchmetrics
+Requires-Dist: numpy
+Requires-Dist: PyYAML
+Requires-Dist: easydict
+Requires-Dist: opencv-python
+Requires-Dist: Pillow
+Requires-Dist: scikit-learn
+Requires-Dist: scikit-image
+Requires-Dist: imgaug
+Requires-Dist: tabulate
+Requires-Dist: kornia
+Requires-Dist: matplotlib
+Requires-Dist: timm==0.8.15.dev0
+Requires-Dist: FrEIA
+Requires-Dist: geomloss
+Requires-Dist: pandas
+Requires-Dist: grad-cam
+Provides-Extra: cuda
+Requires-Dist: faiss-gpu; extra == "cuda"
+Provides-Extra: cuda11
+Requires-Dist: faiss-gpu-cu11; extra == "cuda11"
+Provides-Extra: cuda12
+Requires-Dist: faiss-gpu-cu12; extra == "cuda12"
+
+HiAD
