@@ -1,0 +1,279 @@
+"""Hashers tests."""
+
+import typing
+from unittest import mock
+
+import pytest
+
+from .. import errors
+from ..hashers import BLAKE2Hasher
+from ..hashers import BLAKE3Hasher
+from ..hashers import HasherChoice
+from ..hashers import blake3
+
+
+class TestsBLAKE2Hasher:
+    """BLAKE2Hasher tests."""
+
+    secrets = (b'averysecretsecret', b'0123456789012345')
+    person = b'acab'
+    digest_size = 16
+
+    def get_hasher(
+        self,
+        hasher: HasherChoice,
+        *,
+        secrets: typing.Optional[typing.Tuple[bytes]] = None,
+        digest_size: typing.Optional[int] = None,
+        person: typing.Optional[bytes] = None,
+    ) -> BLAKE2Hasher:
+        """Get the hasher instance to test."""
+        return BLAKE2Hasher(
+            hasher,
+            secrets=secrets or self.secrets,
+            digest_size=digest_size or self.digest_size,
+            person=person or self.person,
+        )
+
+    @pytest.mark.parametrize(
+        'choice',
+        (
+            HasherChoice.blake2b,
+            HasherChoice.blake2s,
+        ),
+    )
+    def test_validate_digest_size_too_long(self, choice: HasherChoice) -> None:
+        """Test that digest_size is being correctly validated."""
+        with pytest.raises(
+                errors.InvalidOptionError,
+                match='digest_size should be lower',
+        ):
+            self.get_hasher(choice, digest_size=128)
+
+    @pytest.mark.parametrize(
+        'choice',
+        (
+            HasherChoice.blake2b,
+            HasherChoice.blake2s,
+        ),
+    )
+    def test_derive_person(self, choice: HasherChoice) -> None:
+        """Test that person is correctly derived."""
+        hasher = self.get_hasher(choice)
+
+        assert self.person != hasher._person  # pylint: disable=W0212
+        assert hasher._hasher.PERSON_SIZE == len(hasher._person)  # pylint: disable=W0212
+
+    @pytest.mark.parametrize(
+        'choice',
+        (
+            HasherChoice.blake2b,
+            HasherChoice.blake2s,
+        ),
+    )
+    def test_derive_secret(self, choice: HasherChoice) -> None:
+        """Test that secrets are correctly derived."""
+        hasher = self.get_hasher(choice)
+
+        assert len(self.secrets) == len(hasher.keys)
+        assert self.secrets != hasher.keys
+        assert sorted(self.secrets) != sorted(hasher.keys)
+
+        for key in hasher.keys:
+            assert hasher._hasher.MAX_KEY_SIZE == len(key)  # pylint: disable=W0212
+
+        # Ensure keys are actually derived
+        with mock.patch.object(BLAKE2Hasher, '_derive_key') as mock_derive_key:
+            hasher = self.get_hasher(choice)
+
+        person = hasher._person  # pylint: disable=W0212
+        calls = [mock.call(secret, person=person) for secret in self.secrets]
+        mock_derive_key.assert_has_calls(calls)
+        assert len(calls) == mock_derive_key.call_count
+
+        # Ensure the hasher gets called properly
+        hasher_to_patch = f'blake2signer.hashers.blakehashers.hashlib.{choice.value}'
+        with mock.patch(hasher_to_patch) as mock_hasher:
+            mock_hasher.PERSON_SIZE = 8
+            mock_hasher.MAX_KEY_SIZE = 12
+            mock_hasher.MAX_DIGEST_SIZE = 16
+            mock_hasher.return_value.digest.return_value = b'abc123'
+
+            self.get_hasher(choice)
+
+        calls = [mock.call(self.person, digest_size=8), mock.call().digest()]
+        for secret in self.secrets:
+            calls.append(mock.call(secret, digest_size=12, person=b'abc123'))
+            calls.append(mock.call().digest())
+        mock_hasher.assert_has_calls(calls)
+        expected_call_count = len(calls) // 2
+        assert expected_call_count == mock_hasher.call_count
+        assert expected_call_count == mock_hasher.return_value.digest.call_count
+
+    @pytest.mark.parametrize(
+        ('choice', 'data', 'salt', 'expected_digest'),
+        (
+            (
+                HasherChoice.blake2b,
+                b'datadata',
+                b'',
+                b'I\xb5v\x9d\xd7"\xec\xd8Q\x0c\x94\xd0\xa1\x02z?',
+            ),
+            (
+                HasherChoice.blake2b,
+                b'datadata',
+                b'salt',
+                b'\xb8\xa4\x84o\xbf\xf6>\xc1\x9dLN/\xbe\\\xd1>',
+            ),
+            (
+                HasherChoice.blake2s,
+                b'datadata',
+                b'',
+                b"\xf9`<\x8c\x85\xe8o+\x07'\x84s=\xc5'\x8a",
+            ),
+            (
+                HasherChoice.blake2s,
+                b'datadata',
+                b'salt',
+                b'\xfb,T\xc0\xc5\xf5\xf4\xf9\xfc\x8d\xb1T\xceY\x03\xdb',
+            ),
+        ),
+    )
+    def test_digest(
+        self,
+        choice: HasherChoice,
+        data: bytes,
+        salt: bytes,
+        expected_digest: bytes,
+    ) -> None:
+        """Test that digest is correctly calculated."""
+        hasher = self.get_hasher(choice)
+
+        digest = hasher.digest(data, key=hasher.signing_key, salt=salt)
+
+        assert expected_digest == digest
+
+    @pytest.mark.parametrize(
+        'choice',
+        (
+            HasherChoice.blake2b,
+            HasherChoice.blake2s,
+        ),
+    )
+    def test_signing_key_is_the_newest_one(self, choice: HasherChoice) -> None:
+        """Test that the signing key is the newest one."""
+        hasher = self.get_hasher(choice)
+
+        assert hasher.keys[-1] == hasher.signing_key
+
+
+class TestsBLAKE2HasherPy38(TestsBLAKE2Hasher):
+    """BLAKE2Hasher tests, hack for Pytest under Python <=3.8."""
+
+    __new__ = object.__new__
+
+
+class TestsBLAKE3Hasher:
+    """BLAKE3Hasher tests."""
+
+    secrets = (b'averysecretsecret', b'0123456789012345')
+    person = b'acab'
+    digest_size = 16
+
+    def get_hasher(
+        self,
+        hasher: HasherChoice = HasherChoice.blake3,
+        *,
+        secrets: typing.Optional[typing.Tuple[bytes]] = None,
+        digest_size: typing.Optional[int] = None,
+        person: typing.Optional[bytes] = None,
+    ) -> BLAKE3Hasher:
+        """Get the hasher instance to test."""
+        return BLAKE3Hasher(
+            hasher,
+            secrets=secrets or self.secrets,
+            digest_size=digest_size or self.digest_size,
+            person=person or self.person,
+        )
+
+    def test_validate_digest_size_unlimited(self) -> None:
+        """Test that blake3 has no maximum digest size."""
+        hasher = self.get_hasher(digest_size=1_000)
+
+        assert hasher.max_digest_size is None
+
+    def test_derive_person(self) -> None:
+        """Test that person is not derived."""
+        hasher = self.get_hasher()
+
+        assert self.person == hasher._person  # pylint: disable=W0212
+
+    def test_derive_secret(self) -> None:
+        """Test that secret is correctly derived."""
+        hasher = self.get_hasher()
+
+        assert len(self.secrets) == len(hasher.keys)
+        assert self.secrets != hasher.keys
+        assert sorted(self.secrets) != sorted(hasher.keys)
+
+        for key in hasher.keys:
+            assert blake3().key_size == len(key)
+
+        # Ensure keys are actually derived
+        with mock.patch.object(BLAKE3Hasher, '_derive_key') as mock_derive_key:
+            hasher = self.get_hasher()
+
+        person = hasher._person  # pylint: disable=W0212
+        calls = [mock.call(secret, person=person) for secret in self.secrets]
+        mock_derive_key.assert_has_calls(calls)
+        assert len(calls) == mock_derive_key.call_count
+
+        # Ensure the hasher gets called properly
+        with mock.patch('blake2signer.hashers.blakehashers.blake3') as mock_hasher:
+            mock_hasher.return_value.key_size = 16
+
+            self.get_hasher()
+
+        calls = []  # person is not derived
+        derive_key_context = 'blake2signer 2021-12-29 18:04:37 BLAKE3Hasher key derivation'
+        for secret in self.secrets:
+            calls.append(mock.call(secret, derive_key_context=derive_key_context))
+            calls.append(mock.call().update(self.person))
+            calls.append(mock.call().digest(length=16))
+        mock_hasher.assert_has_calls(calls)
+        expected_call_count = len(calls) // 3
+        assert expected_call_count == mock_hasher.call_count
+        assert expected_call_count == mock_hasher.return_value.update.call_count
+        assert expected_call_count == mock_hasher.return_value.digest.call_count
+
+    @pytest.mark.parametrize(
+        ('data', 'salt', 'expected_digest'),
+        (
+            (b'datadata', b'', b"\xfe\x88\x96\xe5\xdf:\xb6f\xe1}\x9f\x18\x9a'\xad\x8d"),
+            (b'datadata', b'salt', b'\xeez6\xf20\xca\xcae\x93\xc3\xcchh\x90(\xdf'),
+        ),
+    )
+    def test_digest(
+        self,
+        data: bytes,
+        salt: bytes,
+        expected_digest: bytes,
+    ) -> None:
+        """Test that digest is correctly calculated."""
+        hasher = self.get_hasher()
+
+        digest = hasher.digest(data, key=hasher.signing_key, salt=salt)
+
+        assert expected_digest == digest
+
+    def test_signing_key_is_the_newest_one(self) -> None:
+        """Test that the signing key is the newest one."""
+        hasher = self.get_hasher()
+
+        assert hasher.keys[-1] == hasher.signing_key
+
+
+class TestsBLAKE3HasherPy38(TestsBLAKE3Hasher):
+    """BLAKE3Hasher tests, hack for Pytest under Python <=3.8."""
+
+    __new__ = object.__new__
