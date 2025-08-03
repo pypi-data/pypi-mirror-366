@@ -1,0 +1,70 @@
+# DevToolkit
+
+A versatile command-line toolkit for developers, built with Python and Click.
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/devtoolkit.git
+cd devtoolkit
+
+# Install using poetry
+poetry install
+```
+
+## Usage
+
+Once installed, you can use the `devtoolkit` command from your terminal.
+
+```bash
+devtoolkit --help
+```
+
+### Available Commands
+
+*   `uuid`: Generates a version 4 UUID.
+*   `hash`: Hashes a string using various algorithms.
+*   `jsonfmt`: Formats and validates a JSON file.
+*   `envgen`: Creates a .env file from user input.
+*   `port-check`: Checks if a port is free.
+*   `regex-tester`: Tests a regex pattern.
+*   `cheats`: Displays cheat sheets.
+*   `lorem`: Generates lorem ipsum text.
+*   `base64`: Encodes/decodes base64.
+*   `timer`: Starts a terminal timer.
+*   `timestamp`: Converts timestamps and dates.
+*   `gen-password`: Generates a secure password.
+*   `slugify`: Converts text to a slug.
+*   `file-stats`: Shows file statistics.
+*   `colorize`: Colorizes terminal text.
+*   `mkproject`: Creates a basic project structure.
+*   `git-ignore`: Generates a .gitignore file.
+*   `url-encode`: URL-encodes a string.
+*   `url-decode`: URL-decodes a string.
+*   `unit-convert`: Converts units.
+*   `whoami`: Displays system and user info.
+*   `ipinfo`: Shows public and local IP.
+
+### Examples
+
+```bash
+# Generate a UUID
+devtoolkit uuid
+
+# Hash a string
+devtoolkit hash "hello world" --algorithm sha256
+
+# Format a JSON file
+devtoolkit jsonfmt my_data.json
+```
+
+## Development
+
+This project uses Poetry for dependency management.
+
+### Running Tests
+
+```bash
+poetry run pytest
+```

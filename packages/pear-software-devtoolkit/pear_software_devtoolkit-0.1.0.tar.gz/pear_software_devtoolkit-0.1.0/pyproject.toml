@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pear-software-devtoolkit"
+version = "0.1.0"
+description = "A versatile command-line toolkit for developers."
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+click = "^8.1.7"
+rich = "^13.7.1"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pear-software-devtoolkit = "pear_software_devtoolkit.cli:cli"
