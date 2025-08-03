@@ -1,0 +1,30 @@
+[project]
+name = "marksum"
+version = "0.1.4"
+description = ""
+authors = [
+    {name = "Nimish Kumar",email = "nimishkumar.work@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+dependencies = [
+    "typer (>=0.16.0,<0.17.0)",
+    "rich (>=14.1.0,<15.0.0)",
+    "markdown2 (>=2.5.4,<3.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "openai (>=1.98.0,<2.0.0)",
+    "google-generativeai (>=0.8.5,<0.9.0)"
+]
+
+
+[tool.poetry]
+packages = [{include = "marksum", from = "src"}]
+include = [{path = "src/marksum/prompts", format = "sdist"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+marksum = "marksum.cli:app"
