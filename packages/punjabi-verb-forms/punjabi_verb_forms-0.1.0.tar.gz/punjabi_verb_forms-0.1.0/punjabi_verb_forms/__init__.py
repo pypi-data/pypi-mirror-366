@@ -1,0 +1,1 @@
+from .inflector import PunjabiInflector
