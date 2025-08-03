@@ -1,0 +1,13 @@
+[project]
+name = "tool2openai"
+version = "0.1.2"
+description = "Набор простеньких инструментов для собственного openai-совместимого эндпоинта."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.98.0",
+]
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
