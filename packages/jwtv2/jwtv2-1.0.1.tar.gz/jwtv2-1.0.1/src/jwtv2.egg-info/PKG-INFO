@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: jwtv2
+Version: 1.0.1
+Summary: A package for CTF Challenge
+Author-email: Example Author <author@1337.com>
+License-Expression: MIT
+Project-URL: Homepage, http://localhost:1337/
+Project-URL: Issues, https://localhost:1337/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.1
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+A Python implementation of the author
+
+## Installing
+
+```
+pip install pyjwtv2
+```
+
+## Usage
+
+```
+>>> import jwt
+>>> encoded = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+>>> print(encoded)
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb21lIjoicGF5bG9hZCJ9.4twFt5NiznN84AWoo1d7KO1T_yoc0Z6XOpOVswacPZg
+>>> jwt.decode(encoded, "secret", algorithms=["HS256"])
+{'some': 'payload'}
+```
