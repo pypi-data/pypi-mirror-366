@@ -1,0 +1,158 @@
+Metadata-Version: 2.4
+Name: elusion-kit
+Version: 0.0.3
+Summary: A Python framework for building high-quality, type-safe API SDKs with comprehensive error handling and retry logic
+Project-URL: Homepage, https://github.com/elusionhub/elusion-kit
+Project-URL: Documentation, https://elusion-kit.readthedocs.io
+Project-URL: Repository, https://github.com/elusionhub/elusion-kit.git
+Project-URL: Issues, https://github.com/elusionhub/elusion-kit/issues
+Project-URL: Changelog, https://github.com/elusionhub/elusion-kit/blob/main/CHANGELOG.md
+Project-URL: Bug Reports, https://github.com/elusionhub/elusion-kit/issues
+Project-URL: Source Code, https://github.com/elusionhub/elusion-kit
+Project-URL: Framework Documentation, https://elusion-kit.readthedocs.io/en/latest/
+Author-email: Elusion Hub <elusion.lab@gmail.com>
+Maintainer-email: Elusion Hub <elusion.lab@gmail.com>
+License-Expression: MIT
+Keywords: api-client,api-sdk-framework,async,authentication,developer-tools,elusion,elusion-kit,error-handling,framework,http-client,pagination,pydantic,python-framework,retry-logic,sdk,type-safe
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Networking
+Classifier: Typing :: Typed
+Requires-Python: >=3.13
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: typing-extensions>=4.8.0
+Provides-Extra: all
+Requires-Dist: elusion[dev,docs,examples,test]; extra == 'all'
+Provides-Extra: dev
+Requires-Dist: black>=23.9.0; extra == 'dev'
+Requires-Dist: coverage>=7.0.0; extra == 'dev'
+Requires-Dist: ginx>=0.1.6; extra == 'dev'
+Requires-Dist: isort>=5.12.0; extra == 'dev'
+Requires-Dist: mypy>=1.7.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.5.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest-httpx>=0.21.0; extra == 'dev'
+Requires-Dist: pytest-mock>=3.10.0; extra == 'dev'
+Requires-Dist: pytest>=8.0.0; extra == 'dev'
+Requires-Dist: respx>=0.20.0; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocs-gen-files>=0.5.0; extra == 'docs'
+Requires-Dist: mkdocs-literate-nav>=0.6.0; extra == 'docs'
+Requires-Dist: mkdocs-material>=9.4.0; extra == 'docs'
+Requires-Dist: mkdocs-section-index>=0.3.0; extra == 'docs'
+Requires-Dist: mkdocs>=1.5.0; extra == 'docs'
+Requires-Dist: mkdocstrings[python]>=0.24.0; extra == 'docs'
+Provides-Extra: examples
+Requires-Dist: python-dotenv>=1.0.0; extra == 'examples'
+Requires-Dist: rich>=13.0.0; extra == 'examples'
+Requires-Dist: typer>=0.9.0; extra == 'examples'
+Provides-Extra: test
+Requires-Dist: faker>=19.0.0; extra == 'test'
+Requires-Dist: freezegun>=1.2.0; extra == 'test'
+Requires-Dist: pytest-httpx>=0.21.0; extra == 'test'
+Requires-Dist: responses>=0.23.0; extra == 'test'
+Requires-Dist: respx>=0.20.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# Elusion Kit
+
+![Elusion Kit Logo](docs/assets/elusion-kit-logo.png)
+
+A modern Python framework for building high-quality, type-safe API SDKs with comprehensive error handling and retry logic.
+
+## What is Elusion Kit?
+
+Elusion Kit is a framework that provides the infrastructure needed to build professional API SDKs. It handles the common patterns like HTTP clients, authentication, retry logic, error handling, and data validation, so you can focus on implementing your specific API's business logic.
+
+## Key Features
+
+- **Type Safe**: Full type hints with strict mypy configuration
+- **Robust Error Handling**: Comprehensive exception hierarchy with detailed context
+- **Automatic Retries**: Configurable retry strategies with exponential backoff
+- **Flexible Authentication**: Extensible authentication patterns for any API
+- **Modern Python**: Built for Python 3.13+ with latest features
+- **Well Tested**: High test coverage with comprehensive test utilities
+- **Developer Friendly**: Meaningful naming patterns and clear abstractions
+
+## Quick Start
+
+```python
+from elusion._core import BaseServiceClient, HTTPClient
+from elusion._core.authentication import APIKeyAuthenticator
+from elusion._core.configuration import ClientConfiguration, ServiceSettings
+
+class MySDKClient(BaseServiceClient):
+    def __init__(self, api_key: str):
+        config = ClientConfiguration(timeout=30.0, max_retries=3)
+        settings = ServiceSettings(base_url="https://api.example.com")
+        authenticator = APIKeyAuthenticator(api_key)
+
+        super().__init__(
+            config=config,
+            service_settings=settings,
+            authenticator=authenticator
+        )
+
+    def _get_service_name(self) -> str:
+        return "MyAPI"
+
+    def _get_base_url(self) -> str:
+        return "https://api.example.com"
+
+# Usage
+client = MySDKClient("your-api-key")
+```
+
+## Installation
+
+```bash
+pip install elusion-kit
+```
+
+## Documentation
+
+- [Getting Started](docs/getting-started.md) - Build your first SDK
+- [Core Concepts](docs/core-concepts.md) - Understanding the framework
+- [Configuration](docs/configuration.md) - Client and service configuration
+- [Authentication](docs/authentication.md) - Authentication patterns
+- [HTTP Client](docs/http-client.md) - Making requests with retry logic
+- [Models](docs/models.md) - Data models and validation
+- [Error Handling](docs/error-handling.md) - Exception handling patterns
+- [Testing](docs/testing.md) - Testing your SDKs
+- [Examples](docs/examples/) - Complete SDK examples
+- [API Reference](docs/api-reference/) - Detailed API documentation
+
+## Who Should Use Elusion Kit?
+
+- **SDK Developers**: Building client libraries for REST APIs
+- **API Providers**: Creating official SDKs for your services
+- **Enterprise Teams**: Standardizing API client patterns across projects
+- **Open Source Maintainers**: Building high-quality community SDKs
+
+## Example SDKs Built with Elusion
+
+- [elusion-jokes](https://github.com/elusionhub/elusion-kit-examples/elusion-jokes) - Sample APIs Jokes SDK
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- [Documentation](docs/)
+- [Issues](https://github.com/elusionhub/elusion-kit/issues)
+- [Discussions](https://github.com/elusionhub/elusion-kit/discussions)
