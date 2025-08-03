@@ -1,0 +1,33 @@
+[project]
+name = "nofex"
+version = "1.0.0"
+description = "This is a Python library for hacking and security."
+authors = [
+  { name = "kasra kiani", email = "kasrakini011@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["your", "keywords", "here"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "phonenumbers",
+    "pyautogui",
+    "requests",
+    "beautifulsoup4", # bs4 در واقع beautifulsoup4 هست
+    "psutil",
+    "rotate-screen",
+    "pynput",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/your_project_name"
+"Bug Tracker" = "https://github.com/yourusername/your_project_name/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"] # یا builder مورد نظر شما، مثلا poetry یا flit
+build-backend = "setuptools.build_meta" # یا poetry.core.masonry.api یا flit_core.buildapi
