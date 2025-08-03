@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: python-meteolux
+Version: 0.1.0
+Summary: python library for accessing the MeteoLux REST API
+Project-URL: Homepage, https://github.com/sim0nx/python-meteolux
+Project-URL: Download, https://github.com/sim0nx/python-meteolux
+Project-URL: Tracker, https://github.com/sim0nx/python-meteolux/issues
+Project-URL: Documentation, http://python-meteolux.readthedocs.io/en/latest/?badge=latest
+Project-URL: Source, https://github.com/sim0nx/python-meteolux
+Author-email: Georges Toth <georges@trypill.org>
+License: AGPLv3+
+Keywords: MeteoLux
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.9
+Requires-Dist: httpx
+Requires-Dist: pydantic
+Description-Content-Type: text/markdown
+
+An early implementation of the MeteoLux REST API.
+
+https://metapi.ana.lu/api/v1/docs
