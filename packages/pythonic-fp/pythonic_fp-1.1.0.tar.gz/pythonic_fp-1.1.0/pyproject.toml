@@ -1,0 +1,82 @@
+[build-system]
+requires = ["flit_core>=3.12,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "pythonic-fp"
+version = "1.1.0"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Geoffrey R. Scheller", email = "geoffrey@scheller.com" }]
+keywords = [
+  "functional",
+  "pythonic",
+  "circular array",
+  "monad",
+  "gadgets",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Pytest",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = [
+  "pythonic-fp-singletons>=1.0.0",
+]
+dynamic = ["description"]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.4.1",
+  "pythonic-fp-circulararray>=5.3.0",
+]
+
+[project.urls]
+Changelog = "https://github.com/grscheller/pythonic-fp-gadgets/blob/main/CHANGELOG.rst"
+Documentation = "https://grscheller.github.io/pythonic-fp/gadgets/development/build/html/releases.html"
+Homepage = "https://github.com/grscheller/pythonic-fp/blob/main/README.md"
+Source = "https://github.com/grscheller/pythonic-fp-gadgets"
+
+[tool.flit.sdist]
+exclude = [
+  "docs/",
+  "CHANGELOG.rst",
+]
+
+[tool.flit.module]
+name = "pythonic_fp.gadgets"
+
+[tool.mypy]
+enable_incomplete_feature = ["NewGenericSyntax"]
+implicit_reexport = false
+local_partial_types = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pylsp-mypy]
+enabled = true
+live-mode = true
+strict = true
+report_progress = true
+
+[tool.pytest.ini_options]
+consider_namespace_packages = true
+testpaths = ["tests/"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py313"
+ignore = ["E741"]
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-line-length = 72
