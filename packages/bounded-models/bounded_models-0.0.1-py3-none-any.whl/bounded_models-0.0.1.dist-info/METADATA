@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: bounded-models
+Version: 0.0.1
+Summary: A framework to check if Pydantic models are bounded
+Author: Shunichiro Nomura
+Author-email: Shunichiro Nomura <nomura@space.t.u-tokyo.ac.jp>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Typing :: Typed
+Requires-Dist: pydantic>=2.11.7
+Requires-Python: >=3.13
+Project-URL: Issues, https://github.com/shunichironomura/bounded-models/issues
+Project-URL: Repository, https://github.com/shunichironomura/bounded-models
+Description-Content-Type: text/markdown
+
+# Bounded Models
+
+> [!WARNING]
+> This project is in early development and not ready for use.
+> The functionality is not yet complete or incorrectly implemented, and the API may change significantly.
+
+This package provides a framework to check if Pydantic models are "bounded". A bounded model is one where all fields have defined constraints that create a "bounded" set of valid values, enabling uniform sampling from the constrained space.
+
+It also provides a convenient class `BoundedModel`, a subclass of `Pydantic.BaseModel` that automatically checks if the model is bounded when instantiated.
+
+## Supported field types
+
+- **Numeric Types**: `int`, `float` with both upper and lower bounds
+- **Literal Types**: `Literal` values
+- **BaseModel Types**: Nested `BoundedModel` instances
