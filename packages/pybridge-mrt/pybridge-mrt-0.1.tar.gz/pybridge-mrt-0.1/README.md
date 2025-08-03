@@ -1,0 +1,26 @@
+
+THIS LIBRARY IS FOR SHARING DATA BETWEEN TWO OR MORE THAN
+TWO SCRIPTS WITH <<SQL>> DATABASE,
+BUT YOU CAN USE <<pybridge>> AS A SIMPLE DATABASE LIBRARY
+
+:::::::::::::::::::::::::::::::::::::::::::::::;
+
+The main class of library is 'bridge' with some methods:
+
+send_to_bridge() => for saving and sharing data with SQL database
+
+receive_from_bridge(self, all=True, find_key=None, on_delete=False) =>
+for getting datas from selected bridge by built object
+***args:
+all : RETURNS ALL RECORDS
+find_key : YOU CAN FILTER RECORDS BASED ON THEIR KEYS
+on_delete : DELETES ALL FOUNDED RECORDS WHEN IT IS <<TRUE>>
+
+delete_bridge_data(find_key=None) => delete records from databse with filtering by <<KEYS>>
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::;
+
+THIS PACAKGE IS DEVELOPED BY <<MRT>> => (MOHAMMAD REZA TAGHDIRI) A PERSIAN PROGRAMER.
+
+I HOPE THAT <<pybridge>> MAKE SOME WORKS EASIER FOR YOU....
