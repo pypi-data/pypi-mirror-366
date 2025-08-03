@@ -1,0 +1,97 @@
+Metadata-Version: 2.4
+Name: bareASGI
+Version: 5.0.0a3
+Summary: A lightweight ASGI framework
+Author-email: Rob Blackbourn <rob.blackbourn@gmail.com>
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://rob-blackbourn.github.io/bareASGI
+Project-URL: Repository, https://github.com/rob-blackbourn/bareASGI
+Project-URL: Issues, https://github.com/rob-blackbourn/bareASGI/issues
+Keywords: asgi,web,framework,asyncio,http
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Internet :: WWW/HTTP
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: bareutils>=5.0.0-alpha.2
+Provides-Extra: dev
+Requires-Dist: autopep8; extra == "dev"
+Requires-Dist: coverage; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: pylint; extra == "dev"
+Requires-Dist: types-setuptools; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs; extra == "docs"
+Requires-Dist: mkdocs-material; extra == "docs"
+Requires-Dist: jetblack-markdown; extra == "docs"
+Requires-Dist: mike; extra == "docs"
+Provides-Extra: examples
+Requires-Dist: hypercorn; extra == "examples"
+Requires-Dist: uvicorn; extra == "examples"
+Dynamic: license-file
+
+# bareASGI
+
+A lightweight Python [ASGI](user-guide/asgi) web server framework
+(read the [docs](https://rob-blackbourn.github.io/bareASGI/)).
+
+## Overview
+
+This is a _bare_ ASGI web server framework. The goal is to provide
+a minimal implementation, with other facilities (serving static files, CORS,
+sessions, etc.) being implemented by optional packages.
+
+The framework is targeted at micro-services which require a light footprint
+(in a container for example), or as a base for larger frameworks.
+
+Python 3.8+ is required.
+
+## Optional Packages
+
+- [bareASGI-cors](https://github.com/rob-blackbourn/bareASGI-cors) for cross origin resource sharing,
+- [bareASGI-static](https://github.com/rob-blackbourn/bareASGI-static) for serving static files,
+- [bareASGI-jinja2](https://github.com/rob-blackbourn/bareASGI-jinja2) for [Jinja2](https://github.com/pallets/jinja) template rendering,
+- [bareASGI-graphql-next](https://github.com/rob-blackbourn/bareASGI-graphql-next) for [GraphQL](https://github.com/graphql-python/graphql-core) and [graphene](https://github.com/graphql-python/graphene),
+- [bareASGI-rest](https://github.com/rob-blackbourn/bareASGI-rest) for REST support,
+- [bareASGI-prometheus](https://github.com/rob-blackbourn/bareASGI-prometheus) for [prometheus](https://prometheus.io/) metrics,
+- [bareASGI-session](https://github.com/rob-blackbourn/bareASGI-session) for sessions.
+
+## Functionality
+
+The framework provides the basic functionality required for developing a web
+application, including:
+
+- Http,
+- WebSockets,
+- Routing,
+- Lifecycle,
+- Middleware
+
+## Simple Server
+
+Here is a simple server with a request handler that returns some text.
+
+```python
+import uvicorn
+from bareasgi import Application, HttpRequest, HttpResponse, text_writer
+
+async def example_handler(request: HttpRequest) -> HttpResponse:
+    return HttpResponse(
+        200,
+        [(b'content-type', b'text/plain')],
+        text_writer('This is not a test')
+    )
+
+app = Application()
+app.http_router.add({'GET'}, '/', example_handler)
+
+uvicorn.run(app, port=9009)
+```
