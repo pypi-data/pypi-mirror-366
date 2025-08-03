@@ -1,0 +1,20 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include tinyshare *.py
+recursive-include tinyshare/pyarmor_runtime_000000 *
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude test/*
+global-exclude a_build_script/*
+global-exclude sdk-tinyshare/*
+global-exclude build_bytecode/*
+global-exclude tinyshare-src/*
+global-exclude examples/*
+global-exclude docs/*
+global-exclude prompt/*
+global-exclude yyeg/*
+global-exclude dist/*
+global-exclude build/*
+global-exclude *.egg-info/*
