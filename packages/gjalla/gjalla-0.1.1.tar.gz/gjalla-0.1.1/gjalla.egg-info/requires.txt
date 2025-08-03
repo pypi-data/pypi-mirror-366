@@ -1,0 +1,16 @@
+cryptography>=3.4.8
+requests>=2.25.1
+click>=8.0.0
+pydantic>=1.8.0
+rich>=10.0.0
+spacy>=3.4.0
+
+[:python_version < "3.4"]
+pathlib2>=2.3.6
+
+[dev]
+pytest>=6.0.0
+pytest-cov>=2.10.0
+black>=21.0.0
+flake8>=3.8.0
+mypy>=0.812
