@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: sok-ble
+Version: 0.1.8
+Summary: SOK BLE battery interface library
+Project-URL: Homepage, https://github.com/IAmTheMitchell/sok-ble
+Project-URL: Bug Tracker, https://github.com/IAmTheMitchell/sok-ble/issues
+Project-URL: Changelog, https://github.com/IAmTheMitchell/sok-ble/blob/main/CHANGELOG.md
+Author-email: Mitchell Carlson <mitchell.carlson.pro@gmail.com>
+License: Apache-2.0
+License-File: LICENSE
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.11
+Requires-Dist: async-timeout>=4.0.3
+Requires-Dist: bleak-retry-connector>=3.9.0
+Requires-Dist: bleak>=0.22.3
+Description-Content-Type: text/markdown
+
+# SOK BLE
+
+![Tests](https://github.com/IAmTheMitchell/sok-ble/actions/workflows/test.yml/badge.svg)
+![Release](https://github.com/IAmTheMitchell/sok-ble/actions/workflows/release.yml/badge.svg)
+
+Python library for interacting with SOK Bluetooth-enabled batteries.
+
+## Quick Start
+
+```python
+import asyncio
+from bleak import BleakScanner
+from sok_ble.sok_bluetooth_device import SokBluetoothDevice
+
+
+async def main() -> None:
+    device = await BleakScanner.find_device_by_address("AA:BB:CC:DD:EE:FF")
+    sok = SokBluetoothDevice(device)
+    await sok.async_update()
+    print("Voltage:", sok.voltage)
+
+
+asyncio.run(main())
+```
+
+## References
+
+[@zuccaro's comment](https://github.com/Louisvdw/dbus-serialbattery/issues/350#issuecomment-1500658941)
+[Bluetooth-Devices/inkbird-ble](https://github.com/Bluetooth-Devices/inkbird-ble)
