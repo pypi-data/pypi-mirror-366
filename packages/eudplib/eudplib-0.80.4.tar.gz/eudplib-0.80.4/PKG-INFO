@@ -1,0 +1,66 @@
+Metadata-Version: 2.4
+Name: eudplib
+Version: 0.80.4
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Games/Entertainment :: Real Time Strategy
+Requires-Dist: typing-extensions
+License-File: LICENSE
+Summary: eudplib is a package which provides scripting for StarCraft Use Map Setting(UMS) to UMS map and tool developers.
+Keywords: StarCraft,EUD,Trigger
+Author-email: Trgk <whyask37@naver.com>, Armoha <kein0011@naver.com>
+Maintainer-email: Armoha <kein0011@naver.com>
+License: MIT
+Requires-Python: >=3.10, <3.14
+Description-Content-Type: text/x-rst; charset=UTF-8
+Project-URL: homepage, https://github.com/armoha/eudplib/
+Project-URL: documentation, https://github.com/armoha/euddraft/wiki
+Project-URL: source, https://github.com/armoha/eudplib/
+Project-URL: issues, https://github.com/armoha/euddraft/issues
+Project-URL: changelog, https://github.com/armoha/euddraft/blob/master/CHANGELOG.md
+
+eudplib : EUD python library
+============================
+``eudplib`` is a StarCraft Use Map Setting(UMS) map tool library for Python programming language.
+
+Fork of https://github.com/phu54321/eudplib
+
+For easy-to-use executable, see https://github.com/armoha/euddraft/releases
+
+Features
+--------
+* Support opening (unprotected) map and extracting scenario.chk data
+* Powerful trigger scripting
+* Edit input map to compile output EUD map
+* ``epScript``, scripting language for StarCraft Trigger similar to JavaScript
+
+Where is the issue tracker?
+---------------------------
+
+The eudplib issue tracker lives in `euddraft repository <https://github.com/armoha/euddraft/issues/>`_.
+
+Since euddraft is standalone distribution for Python, eudplib, freeze map protector and epTrace line profiler, it's convenient to use a single issue tracker for both.
+
+How to build ``libepScript.dll``
+--------------------------------
+Windows
+^^^^^^^
+Requires CMake, MSVC, Python >= 3.10
+
+#. ``git clone https://github.com/armoha/eudplib --recursive``
+#. ``cd eudplib/eudplib/epscript/cpp``
+#. ``mkdir build``
+#. ``cd build``
+#. ``cmake .. -A x64 -DCMAKE_BUILD_TYPE=Release``
+#. ``msbuild ALL_BUILD.vcxproj /p:Configuration=Release /p:Platform=x64``
+
