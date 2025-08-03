@@ -1,0 +1,105 @@
+Metadata-Version: 2.3
+Name: coref-onnx
+Version: 0.1.2
+Summary: Lightweight cross-lingual coreference resolution using ONNX Runtime and distilled transformer models
+License: MIT
+Keywords: coreference,coreference resolution,onnx,onnxruntime,spacy,nlp,natural language processing,transformers,crosslingual,multilingual,huggingface
+Author: Tal Almagor
+Author-email: almagoric@gmail.com
+Requires-Python: >=3.11,<3.13
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Text Processing :: Linguistic
+Requires-Dist: huggingface-hub (>=0.34.3,<0.35.0)
+Requires-Dist: onnxruntime (>=1.22.1,<2.0.0)
+Requires-Dist: spacy (>=3.8.7,<4.0.0)
+Requires-Dist: tokenizers (>=0.21.4,<0.22.0)
+Description-Content-Type: text/markdown
+
+# Coreference Resolution with ONNX (AllenNLP-based)
+
+Lightweight, fast coreference resolution component using a distilled version of AllenNLP's coreference model, exported to ONNX. 
+
+## ✨ Features
+
+- 🧠 Cross-lingual coreference resolution
+- 🪶 Lightweight model based on AllenNLP’s coref modeling
+- ⚡  Fast inference via ONNX
+- 🔌 Easy integration with spaCy
+
+---
+
+## 📦 Installation
+
+```bash
+$ pip install coref-onnx
+```
+
+## 🚀 Quickstart
+
+Usage as a standalone component
+
+```python
+from coref_onnx import CoreferenceResolver, decode_clusters
+
+resolver = CoreferenceResolver.from_pretrained("talmago/allennlp-coref-onnx-mMiniLMv2-L12-H384-distilled-from-XLMR-Large")
+
+sentences = [
+    ["Barack", "Obama", "was", "the", "44th", "President", "of", "the", "United", "States", "."],
+    ["He", "was", "born", "in", "Hawaii", "."]
+]
+
+pred = resolver(sentences)
+
+print(decode_clusters(sentences, pred["clusters"][0]))
+
+# Output is:
+# [['Barack Obama', 'He']]
+```
+
+Usage with spaCy
+
+```python
+import spacy
+
+from coref_onnx import create_coref_minilm_component
+
+nlp = spacy.load("en_core_web_sm")
+nlp.add_pipe("coref_minilm")
+
+doc = nlp("Barack Obama was born in Hawaii. He was elected president in 2008.")
+print(doc._.coref_clusters[0])
+print(doc._.cluster_heads)
+print(doc._.resolved_text)
+
+# Output is:
+# [Barack Obama, He]
+# {'Barack Obama': Barack Obama}
+# Barack Obama was born in Hawaii. Barack Obama was elected president in 2008.
+```
+
+## 🛠️ Development
+
+Set up virtualenv
+
+```sh
+$ make env
+```
+
+Set PYTHONPATH
+
+```sh
+$ export PYTHONPATH=$PYTHONPATH:/Users/talmago/git/coref-onnx/src
+```
+
+Code formatting
+
+```sh
+$ make format
+```
