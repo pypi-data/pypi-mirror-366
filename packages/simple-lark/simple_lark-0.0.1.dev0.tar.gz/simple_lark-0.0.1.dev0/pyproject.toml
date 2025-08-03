@@ -1,0 +1,96 @@
+[project]
+name = "simple-lark"
+version = "0.0.1.dev0"
+description = "Simple Lark SDK"
+readme = "README.md"
+authors = [
+    { name = "xuxiang.simple", email = "xuxiang.simple@bytedance.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.11.7",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = [
+    "-s",           # 显示 print 输出
+    "-v",           # 详细输出
+    "--tb=short",   # 简洁的回溯信息
+]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[[tool.uv.index]]
+url = "https://bytedpypi.byted.org/simple/"
+default = true
+
+[dependency-groups]
+dev = [
+    "hatchling>=1.27.0",
+]
+test = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "python-dotenv>=1.1.1",
+]
+
+[tool.hatch.build]
+skip-excluded-dirs = true
+packages = ["src/slark"]
+#include = ["src"]
+include = [
+    "src/slark/**/*",
+    "README.md",
+    "pyproject.toml"
+]
+exclude = [
+    ".env",
+    "*.pyc",
+    "*.log",
+    "logs/",
+    "tests/",
+    "Makefile",
+]
+
+[tool.ruff]
+fix = true
+line-length = 120
+exclude = [
+    "**/*.pyi", # 忽略所有 .pyi 文件
+]
+
+[tool.ruff.lint]
+# Lint rules (like flake8 + isort + more)
+select = [
+    "E", # PyCodeStyle errors (PEP 8)
+    "F", # PyFlakes (logical errors)
+    "W", # PyCodeStyle warnings
+    "I", # Isort (import sorting)
+    "UP", # Pyupgrade (modern Python syntax)
+    "B", # Bugbear (common mistakes)
+    "C4", # Flake8-comprehensions
+    "RUF", # Ruff-specific rules
+]
+
+# Ignore specific rules or files
+ignore = [
+    "E501",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "UP035", # Type[Klass] -> type[Klass]
+] # Ignore line-too-long errors
+
+# Enable isort-like import sorting
+isort.known-first-party = ["slark"]
+
+[tool.coverage.run]
+# https://coverage.readthedocs.io/en/latest/source.html#source
+source = ["src/"]
+# https://coverage.readthedocs.io/en/latest/config.html
+branch = true
