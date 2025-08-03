@@ -1,0 +1,15 @@
+models:
+  simple_qa:
+    model_id: 1607392311
+    name: "Simple QA"
+    description: "A simple question-answer model for Anki."
+    fields:
+      - name: "Question"
+        type: "text"
+      - name: "Answer"
+        type: "text"
+    templates:
+      - name: "Card 1"
+        qfmt: "{{Question}}"
+        afmt: '{{FrontSide}}<hr id="answer">{{Answer}}'
+  
