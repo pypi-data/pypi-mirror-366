@@ -1,0 +1,239 @@
+Metadata-Version: 2.4
+Name: mcp-imgutils
+Version: 1.4.3
+Summary: MCP服务：将本地图片发送给LLM
+Requires-Python: >=3.11
+Requires-Dist: anyio
+Requires-Dist: click
+Requires-Dist: mcp>=1.2.0
+Requires-Dist: pillow
+Requires-Dist: starlette
+Requires-Dist: uvicorn
+Provides-Extra: test
+Requires-Dist: pre-commit>=3.6.0; extra == 'test'
+Requires-Dist: pytest-asyncio>=0.23.0; extra == 'test'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'test'
+Requires-Dist: pytest>=7.0.0; extra == 'test'
+Requires-Dist: ruff>=0.3.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# MCP图片工具服务
+
+这是一个基于Model Context Protocol (MCP)的服务，允许LLM模型访问和分析本地图片，提供完整的图片信息和EXIF元数据。
+
+## 功能特性
+
+- **图片查看与分析**: 将本地图片转换为LLM可分析的格式
+- **完整图片信息**: 获取分辨率、大小、格式、颜色模式等技术参数
+- **EXIF元数据提取**: 提取拍摄参数、设备信息、GPS数据等完整EXIF信息
+- **智能格式处理**: 自动处理各种图片格式和大小调整
+- **安全文件检查**: 检查图片文件大小以防止过大的文件传输
+- **专业术语支持**: 保持英文EXIF键名，便于LLM理解专业摄影术语
+
+## 安装
+
+确保已安装必要的依赖：
+
+```bash
+uv install
+# 或者
+pip install -e .
+```
+
+## 使用方法
+
+### Claude Desktop配置
+
+这是一个MCP服务器，需要通过Claude Desktop配置使用。
+
+**配置文件位置**:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**配置内容**:
+
+#### 方法1: 使用pip安装（推荐）
+
+```bash
+pip install mcp-imgutils
+```
+
+```json
+{
+  "mcpServers": {
+    "mcp-imgutils": {
+      "command": "python",
+      "args": ["-m", "imgutils"]
+    }
+  }
+}
+```
+
+#### 方法2: 本地开发
+
+```json
+{
+  "mcpServers": {
+    "mcp-imgutils": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/absolute/path/to/imgutils",
+        "run",
+        "python",
+        "-m",
+        "imgutils"
+      ]
+    }
+  }
+}
+```
+
+**注意**:
+
+- 必须使用绝对路径，不能使用相对路径
+- 配置完成后需要重启Claude Desktop
+
+## 工具使用示例
+
+一旦服务运行起来，你可以在Claude中使用以下工具：
+
+### view_image - 图片查看与分析
+
+查看并分析本地图片，获取完整的图片信息和EXIF元数据。
+
+**参数:**
+
+- `image_path` - 图片文件的完整路径
+- `max_file_size` (可选) - 允许的最大文件大小（字节，默认5MB）
+
+**返回内容:**
+
+1. **详细的图片信息文本**，包括：
+   - 文件名、路径、大小
+   - 图片格式、分辨率、颜色模式
+   - 总像素数等技术参数
+
+2. **EXIF元数据**（如果有），包括：
+   - 拍摄设备信息（Make, Model, Software）
+   - 拍摄参数（ExposureTime, FNumber, ISOSpeedRatings, FocalLength）
+   - 拍摄时间（DateTime, DateTimeOriginal）
+   - 技术参数（ColorSpace, Flash, MeteringMode）
+   - 所有其他可用的EXIF字段
+
+3. **图片的视觉内容**，供LLM进行图像分析
+
+### 使用示例
+
+配置完成后，在Claude Desktop中：
+
+```text
+用户: 请分析这张照片 /Users/john/Photos/sunset.jpg
+
+Claude: [调用 view_image 工具]
+
+返回结果:
+图片详细信息:
+文件名: sunset.jpg
+文件路径: /Users/john/Photos/sunset.jpg
+文件大小: 2,456,789 字节 (2.34 MB)
+图片格式: JPEG
+分辨率: 4032 x 3024
+颜色模式: RGB
+总像素数: 12,192,768
+
+EXIF Metadata:
+Make: Apple
+Model: iPhone 13 Pro
+DateTime: 2024:01:15 18:30:25
+ExposureTime: 0.008
+FNumber: 1.8
+ISOSpeedRatings: 64
+FocalLength: 5.7
+Flash: 16
+ColorSpace: 1
+...
+
+[同时显示图片内容供分析]
+```
+
+## 支持的图片格式
+
+- JPEG (.jpg, .jpeg)
+- PNG (.png)
+- GIF (.gif)
+- BMP (.bmp)
+- WebP (.webp)
+
+### 图片处理
+
+- 默认最大文件大小限制为5MB
+- 所有非JPEG格式的图片会被转换为JPEG以减小大小
+- 对于包含透明通道的图片（如PNG），会在转换时添加白色背景
+- 使用优化的JPEG压缩算法减小输出文件大小
+
+### 错误处理
+
+服务包含全面的错误处理机制：
+
+- 图片路径验证
+- 文件大小检查
+- 图片格式验证
+- 异常捕获和友好错误消息
+
+## EXIF元数据支持
+
+该服务提供完整的EXIF元数据提取功能：
+
+### 支持的EXIF信息类型
+
+- **设备信息**: 相机品牌、型号、软件版本
+- **拍摄参数**: 曝光时间、光圈值、ISO感光度、焦距
+- **拍摄时间**: 拍摄时间、数字化时间、原始时间
+- **技术参数**: 色彩空间、闪光灯设置、测光模式、曝光程序
+- **图片属性**: EXIF图片尺寸、方向信息
+- **GPS信息**: 地理位置数据（如果有）
+- **其他元数据**: 所有可用的EXIF标签
+
+### EXIF数据处理特性
+
+- **智能类型处理**: 自动处理字节数据、分数值、浮点数等不同数据类型
+- **英文键名**: 保持原始EXIF标签名，便于LLM理解专业术语
+- **优雅降级**: 没有EXIF数据的图片不会显示空白部分
+- **完整提取**: 提取所有可用的EXIF字段，不预设限制
+
+## 扩展性
+
+该服务设计为可扩展的，未来可以添加更多功能：
+
+- **更多图片格式**: 支持RAW格式、HEIC等
+- **图片预处理**: 裁剪、缩放、旋转等操作
+- **高级分析**: 颜色分布、直方图、对象检测
+- **批量处理**: 同时处理多个图片文件
+- **AI增强**: 图片质量评估、场景识别等
+
+## 注意事项
+
+### 文件路径
+
+- 图片路径必须是完整的绝对路径
+- 支持跨平台路径格式（Windows、macOS、Linux）
+
+### 隐私与安全
+
+- 服务不会修改原始图片文件
+- 图片数据不会被永久存储，仅在处理过程中临时使用
+- EXIF数据可能包含敏感信息（如GPS位置），请注意隐私保护
+
+### 性能考虑
+
+- 默认最大文件大小限制为5MB，可通过参数调整
+- 大型图片会自动进行质量优化以减小传输大小
+- EXIF提取对性能影响很小，适合实时使用
+
+### 兼容性
+
+- 支持所有主流图片格式的EXIF数据
+- 某些格式（如PNG、GIF）可能不包含EXIF信息
+- AI生成的图片通常不包含传统的拍摄参数EXIF数据
