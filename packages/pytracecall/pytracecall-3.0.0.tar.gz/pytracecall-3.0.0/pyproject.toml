@@ -1,0 +1,45 @@
+[project]
+name = "pytracecall"
+version = "3.0.0"
+description = "pytracecall: A debugging module with sync and async decorators (CallTracer and aCallTracer) for tracing function calls, and a function (stack) for logging the current call stack"
+authors = [
+    { name = "Alex Semenyaka", email = "alex.semenyaka@gmail.com" },
+]
+dependencies = []
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+keywords = [
+    'debug', 'debugging', 'trace', 'tracer', 'decorator', 
+    'logging', 'stacktrace', 'callstack', 'inspect', 'recursion'
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: System :: Logging",
+]
+
+#[project.urls]
+#Homepage = ""
+#Repository = ""
+#Issues = ""
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.ruff]
+line-length = 88
