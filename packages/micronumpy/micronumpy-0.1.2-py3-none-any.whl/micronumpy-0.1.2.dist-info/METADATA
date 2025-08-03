@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: micronumpy
+Version: 0.1.2
+Summary: Una implementación ligera y pura en Python de la API de NumPy para proyectos sin dependencias pesadas.
+Home-page: https://github.com/TuUsuario/micronumpy
+Author: luis
+Author-email: gachaprimosxd128@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-python
+Dynamic: summary
+
+# micronumpy
+
+`micronumpy` es una reimplementación ultraligera y pura en Python de las funcionalidades más esenciales de la API de NumPy. Está diseñada para entornos donde las dependencias pesadas como el NumPy completo no son una opción, como dispositivos con recursos limitados o para proyectos que buscan la máxima portabilidad.
+
+## Características Principales
+
+- Objeto `ndarray` para cálculo numérico.
+- Operaciones vectorizadas (`+`, `-`, `*`).
+- Multiplicación de matrices con el operador `@`.
+- Creación de arrays (`zeros`, `array`).
+- Cero dependencias externas.
+
+## Instalación
+
+```bash
+pip install .
