@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sagikoza"
+version = "2.3.1"
+description = "A Python library for crawling and retrieving all notices published under Japan’s Furikome Sagi Relief Act, with support for both full data extraction and incremental updates."
+readme = "README.md"
+authors = [
+  { name = "new-village" }
+]
+dependencies = [
+  "requests",
+  "beautifulsoup4",
+  "jpdatetime"
+]
+requires-python = ">=3.8"
+license = { file = "LICENSE", name = "Apache-2.0" }
