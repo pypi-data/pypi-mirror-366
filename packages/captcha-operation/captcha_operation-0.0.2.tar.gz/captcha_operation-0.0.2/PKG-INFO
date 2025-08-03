@@ -1,0 +1,58 @@
+Metadata-Version: 2.2
+Name: captcha_operation
+Version: 0.0.2
+Summary: 数字运算验证码
+Home-page: https://github.com/xiaoxuan6/captcha_operation
+Author: xiaoxuan6
+Keywords: number operation captcha
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ddddocr
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# captcha_operation
+数字运算验证码
+
+# Install
+
+```
+pip install captcha-operation
+```
+
+# Test
+
+```python
+from captcha_operation.operation import operation
+```
+
+## bytes
+
+```python
+filepath = os.path.join(os.path.dirname(__file__), 'captcha.png')
+result = operation(filepath)
+```
+
+## Image
+
+```python
+filepath = os.path.join(os.path.dirname(__file__), 'captcha.png')
+result = operation(Image.open(filepath))
+```
+
+## base64 str
+
+```python
+result = operation('iVBORw0KGgoAAAANSUhEUgAAAIcAAAAoCAIAAxxx')
+```
+
