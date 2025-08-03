@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: shakenfist-client
+Version: 0.7.8
+Summary: Shaken Fist: an opinionated minimal cloud
+Home-page: https://madebymikal.com/shakenfist
+Author: Michael Still
+Author-email: mikal@stillhq.com
+License: Apache2
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: chardet (>=5.0.0)
+Requires-Dist: click (>=8.0.0)
+Requires-Dist: pbr
+Requires-Dist: prettytable
+Requires-Dist: pyyaml
+Requires-Dist: requests (>=2.31.0)
+Requires-Dist: requests-toolbelt (>=1.0.0)
+Requires-Dist: shakenfist-utilities
+Requires-Dist: tqdm
+Requires-Dist: urllib3 (>=1.26.14)
+
+Python REST API client for Shaken Fist
+======================================
+
+This is a python REST API client and command line client for the minimal cloud [Shaken Fist](https://github.com/shakenfist/shakenfist).
+
+The library is a complete interface to the Shaken Fist HTTP API.
+
