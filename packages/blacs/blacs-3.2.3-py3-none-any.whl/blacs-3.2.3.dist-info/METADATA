@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: blacs
+Version: 3.2.3
+Summary: Graphical labscript suite experiment queue and hardware interface
+Author-email: The labscript suite community <labscriptsuite@googlegroups.com>
+License: Copyright (c) 2013, Monash University
+        All rights reserved.
+        
+        This project (BLACS) is dual licensed under the 2-clause BSD license and 3-clause BSD license (see the files BSD-2-CLAUSE-LICENSE.txt and BSD-3-CLAUSE-LICENSE.txt), subject to the following conditions:
+        
+        1) If you wish to use this project with PySide and/or a commercial license of PyQt, the use of this project is governed by the terms of one of the licenses, chosen at your discretion.
+        
+        2) If you wish to use this project with the free (GPLv2 or GPLv3 licensed) version of PyQt, the use of this project is governed by the terms of the 3-clause BSD license only, along with the terms specified in the GPL_EXCEPTIONS.TXT file in the PyQt project source code.
+        
+        These terms are in place to guarantee compatibility with the terms outlined in the GPL License Exceptions of the PyQt project (see the GPL_EXCEPTIONS.TXT file in the source code of the PyQt project)
+Project-URL: Homepage, http://labscriptsuite.org/
+Project-URL: Documentation, https://docs.labscriptsuite.org/
+Project-URL: Repository, https://github.com/labscript-suite/blacs/
+Project-URL: Downloads, https://github.com/labscript-suite/blacs/releases/
+Project-URL: Tracker, https://github.com/labscript-suite/blacs/issues/
+Keywords: experiment control,automation
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: desktop-app>=0.1.2
+Requires-Dist: labscript_utils>=3.1.0b1
+Requires-Dist: runmanager>=3.0.0
+Requires-Dist: qtutils>=2.2.2
+Requires-Dist: zprocess>=2.14.1
+Provides-Extra: docs
+Requires-Dist: PyQt5; extra == "docs"
+Requires-Dist: Sphinx==8.2.3; extra == "docs"
+Requires-Dist: sphinx-rtd-theme==3.0.2; extra == "docs"
+Requires-Dist: myst_parser==4.0.1; extra == "docs"
+Dynamic: license-file
+
+<img src="https://raw.githubusercontent.com/labscript-suite/labscript-suite/master/art/blacs_32nx32n.svg" height="64" alt="the labscript suite – blacs" align="right">
+
+# the _labscript suite_ » blacs
+
+### Graphical interface to scientific instruments and experiment supervision
+
+[![Actions Status](https://github.com/labscript-suite/blacs/workflows/Build%20and%20Release/badge.svg)](https://github.com/labscript-suite/blacs/actions)
+[![License](https://img.shields.io/pypi/l/blacs.svg)](https://github.com/labscript-suite/blacs/raw/master/LICENSE.txt)
+[![Python Version](https://img.shields.io/pypi/pyversions/blacs.svg)](https://python.org)
+[![PyPI](https://img.shields.io/pypi/v/blacs.svg)](https://pypi.org/project/blacs)
+[![Conda Version](https://img.shields.io/conda/v/labscript-suite/blacs)](https://anaconda.org/labscript-suite/blacs)
+[![Google Group](https://img.shields.io/badge/Google%20Group-labscriptsuite-blue.svg)](https://groups.google.com/forum/#!forum/labscriptsuite)
+<!--[![DOI](http://img.shields.io/badge/DOI-10.1063%2F1.4817213-0F79D0.svg)](https://doi.org/10.1063/1.4817213)-->
+
+
+**blacs** supervises the execution of experiments controlled by the [*labscript suite*](https://github.com/labscript-suite/labscript-suite). It manages experiment queuing and hardware-timed execution, and provides manual control over devices between experiment shots.
+
+
+## Installation
+
+blacs is distributed as a Python package on [PyPI](https://pypi.org/user/labscript-suite) and [Anaconda Cloud](https://anaconda.org/labscript-suite), and should be installed with other components of the _labscript suite_. Please see the [installation guide](https://docs.labscriptsuite.org/en/latest/installation) for details.
