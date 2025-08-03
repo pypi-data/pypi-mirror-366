@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: edawishlist
+Version: 0.0.20
+Summary: A package that interfaces software to firmware and vice versa following a list of wishes
+Project-URL: Homepage, https://gitlab.cern.ch/msilvaol/wishlist
+Project-URL: Issues, https://gitlab.cern.ch/msilvaol/wishlist/-/issues
+Author-email: Marcos Oliveira <marcos.oliveira@cern.ch>
+License-File: LICENSE.md
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7.6
+Requires-Dist: bigtree
+Requires-Dist: pandas
+Requires-Dist: pyyaml
+Provides-Extra: full
+Requires-Dist: jinja2; extra == 'full'
+Description-Content-Type: text/markdown
+
+# wishlist
+
+## Installing
+
+- [ ] Clonning repository
+```
+git clone https://gitlab.cern.ch/msilvaol/wishlist.git
+```
+- [ ] Installing conda encironment
+```
+conda create --name wishlist --file wishlist/requirements.txt -c conda-forge -y
+conda activate wishlist
+pip install bigtree
+pip install cocotbext-axi
+```
+
+
+## Getting started
+
+- [ ] Activating environment
+```
+conda activate wishlist
+```
+
+## Building and uploading to pip
+
+```
+python3 -m build  
+python3 -m twine upload dist/* 
+```
