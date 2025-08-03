@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "foreblocks"
+version = "0.1.4"
+description = "Modular Time Series Forecasting Library"
+authors = [
+    { name = "Laio Seman", email = "laioseman@gmail.com" }
+]
+
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+keywords = ["time series", "forecasting", "deep learning", "transformer", "lstm", "pytorch"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+dependencies = [
+    "torch>=1.12",
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "matplotlib",
+    "PyWavelets",
+    "pytorch_wavelets",
+    "wandb",
+]
+
+[project.urls]
+Homepage = "https://github.com/lseman/foreblocks"
+Repository = "https://github.com/lseman/foreblocks"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
