@@ -1,0 +1,119 @@
+Version 0.9.7:
+	- Added type hints to public APIs.
+	- Fixed leading whitespace in StreamDeck Plus serial number strings.
+	- Added support for new PID variant of the StreamDeck MK2.
+	- Added support for new StreamDeck 16-key, 32-key and scissor modules.
+
+Version 0.9.6:
+	- Fixed StreamDeck+ returning 10 key states instead of the expected 8.
+	- Fixed StreamDeck+ dial push event not being detected correctly.
+	- Fixed old key states and dial states returned if requested from inside a key or dial callback function.
+	- Added support for FreeBSD platforms.
+	- Added support for the StreamDeck Neo.
+
+Version 0.9.5:
+	- Added support for the StreamDeck Plus.
+
+Version 0.9.4:
+	- Updated Windows HIDAPI backend to attempt to load from the local working directory.
+	- Added detection for MacOS Homebrew installations of the libhidapi back-end library.
+
+Version 0.9.3:
+	- Added support for a new sub-variant of the StreamDeck XL.
+
+Version 0.9.2:
+	- Added support for a new sub-variant of the StreamDeck Mini.
+
+Version 0.9.1:
+	- Transport errors now trigger a closing of the underlying StreamDeck device, so further API calls will throw correctly (and ``is_open()`` will return ``False``).
+	- Updated animated example script to use separate cycle generators for each key, so the animations play at the correct rate regardless of key count.
+	- Added support for the StreamDeck pedal.
+	- Added new `is_visual()` function.
+
+Version 0.9.0:
+	- Added new `set_poll_frequency()` function.
+	- Added new `is_open()` function.
+	- Fixed a possible internal thread join error when a deck object was closed.
+
+Version 0.8.5:
+	- Add support for the new StreamDeck MK2.
+
+Version 0.8.4:
+	- Updated animated example script to attempt to maintain a constant FPS, regardless of rendering time.
+	- Fixed a race condition in the LibUSB HIDAPI transport backend that could cause crashes when a device was closed.
+
+Version 0.8.3:
+	- Altered LibUSB transport workaround to only apply on Mac.
+	- Fixed internal _extract_string() method to discard all data after the first NUL byte, fixing corrupt serial number strings being returned in some cases.
+	- Set minimum Python version to 3.8, as some of the library uses newer syntax/core library features.
+
+Version 0.8.2:
+	- Added new ``PILHelper.create_scaled_image()`` function to easily generate scaled/padded key images for a given deck.
+	- Updated LibUSB transport backend so that device paths are returned as UTF-8 strings, not raw bytes.
+	- Updated version/serial number string extraction from StreamDecks so that invalid characters are substituted, rather than raising a ``UnicodeDecodeError`` error.
+	- Added LibUSB transport workaround for a bug on Mac platforms when using older versions of the library.
+
+Version 0.8.1:
+	- Fixed memory leak in LibUSB HIDAPI transport backend.
+
+Version 0.8.0:
+	- Fix random crashes in LibUSB HIDAPI transport backend on Windows, as the API is not thread safe.
+	- Added support for atomic updates of StreamDeck instances via the Python ``with`` scope syntax.
+
+Version 0.7.3:
+	- Fix crash in new LibUSB HIDAPI transport backend on systems with multiple connected StreamDeck devices.
+	- Fix crash in new LibUSB HIDAPI transport backend when ``connected()`` was called on a StreamDeck instance.
+
+Version 0.7.2:
+	- Documentation restructuring to move installation out of the readme and into the library documentation.
+
+Version 0.7.1:
+	- Cleaned up new LibUSB HIDAPI transport backend, so that it only searches for OS-specific library files.
+	- Fixed minor typo in the libUSB HIDAPI transport backend probe failure message.
+
+Version 0.7.0:
+	- Removed old HID and HIDAPI backends, added new ``ctypes`` based LibUSB-HIDAPI backend replacement.
+
+Version 0.6.3:
+	- Added support for the new V2 hardware revision of the StreamDeck Original.
+
+Version 0.6.2:
+	- Fixed broken StreamDeck XL communications on Linux.
+	- Added blacklist for the ``libhidapi-hidraw`` system library which breaks StreamDeck Original communications.
+
+Version 0.6.1:
+	- Fixed broken HIDAPI backend probing.
+	- Fixed double-open of HID backend devices causing connection issues on some platforms.
+
+Version 0.6.0:
+	- Added support for the ``HID`` Python package. This new HID backend is strongly recommended over the old HIDAPI backend.
+	- Added auto-probing of installed backends, if no specific transport is supplied when constructing a DeviceManager instance.
+
+Version 0.5.1:
+	- Fixed StreamDeck XL reporting swapped rows/columns count.
+	- Fixed StreamDeck XL failing to report correct serial number and firmware version.
+
+Version 0.5.0:
+	- Fixed StreamDeck devices occasionally showing partial old frames on initial connection.
+	- Removed support for RAW pixel images, StreamDeck Mini and Original take BMP images.
+	- Removed ``width`` and ``height`` information from Deck key image dict, now returned as ``size`` tuple entry.
+
+Version 0.4.0:
+	- Added StreamDeck XL support.
+
+Version 0.3.2:
+	- Fixed StreamDeck Mini key images not updating under some circumstances.
+
+Version 0.3.1:
+	- Added animated image example script.
+
+Version 0.3:
+	- Remapped StreamDeck key indexes so that key 0 is located on the physical
+	  top-left of all supported devices.
+
+Version 0.2.4:
+	- Added new ``StreamDeck.get_serial_number()`` function.
+	- Added new ``StreamDeck.get_firmware_version()`` function.
+
+Version 0.2.3:
+	- Added new ``StreamDeck.ImageHelpers modules`` for easier key image generation.
