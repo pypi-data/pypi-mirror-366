@@ -1,0 +1,40 @@
+
+python -m key_musicz.run 参数
+参数如下:
+    [-s/--sfile=]sf2文件
+    [-f/--fp=]额外配置文件(没啥用)
+    [-t/--default=]主要配置文件(默认预制的play.js)
+    [-l/--libpath=]windows下fluidsynth库的bin的路径
+例：
+    python -m key_musicz.run -s./FluidR3Mono_GM.sf2 -l./lib -tplayrb.js
+默认配置文件（key_musicz/conf目录下）：
+    通用配置：
+        按住shift+主键盘的数字键盘调整基调，~退出，空格切音
+    play.js:
+        从左到右从下到上音调依次升高
+        音调从低到高顺序: 
+                zxcvbnm,./`alt_l``alt_r` (该组受基调影响：shift+1,3,5,7,9)
+                asdfghjkl;'`enter` (该组受基调影响：shift+1,3,5,7,9)
+                qwertyuiop[] (该组受基调影响：shift+2,4,6,8,0)
+                1234567890-= (该组受基调影响：shift+2,4,6,8,0)
+    playblk.js:
+        主要2*6作为一组
+        音调从低到高顺序: 
+            12345qwert6y (该组受基调影响：shift+1,3,5,7,9)
+            asdfgzxcvb`alt_l`h (该组受基调影响：shift+1,3,5,7,9)
+            jkl;'nm,./`alt_r``enter` (该组受基调影响：shift+2,4,6,8,0)
+            7890-uiop[=] (该组受基调影响：shift+2,4,6,8,0)
+    playrb.js
+        主要2*6作为一组
+        音调从低到高顺序: : 
+            qwert12345y6 (该组受基调影响：shift+1,3,5,7,9)
+            zxcvbasdfg`alt_l`h (该组受基调影响：shift+1,3,5,7,9)
+            nm,./jkl;'`alt_r``enter` (该组受基调影响：shift+2,4,6,8,0)
+            uiop[7890-]= (该组受基调影响：shift+2,4,6,8,0)
+    playbb.js
+        主要2*6作为一组
+        音调从低到高顺序: : 
+            12345qwert6y (该组受基调影响：shift+1,3,5,7,9)
+            asdfgzxcvb`alt_l`h (该组受基调影响：shift+1,3,5,7,9)
+            nm,./jkl;'`alt_r``enter` (该组受基调影响：shift+2,4,6,8,0)
+            uiop[7890-]= (该组受基调影响：shift+2,4,6,8,0)
