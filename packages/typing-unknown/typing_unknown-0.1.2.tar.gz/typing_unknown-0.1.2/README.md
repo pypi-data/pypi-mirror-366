@@ -1,0 +1,75 @@
+# typing-unknown
+
+[![PyPI](https://img.shields.io/pypi/v/typing-unknown)](https://pypi.org/project/typing-unknown/)
+[![Tests](https://github.com/ryayoung/typing-unknown/actions/workflows/tests.yml/badge.svg)](https://github.com/ryayoung/typing-unknown/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/ryayoung/typing-unknown/branch/main/graph/badge.svg)](https://codecov.io/gh/ryayoung/typing-unknown)
+[![License](https://img.shields.io/github/license/ryayoung/typing-unknown)](https://github.com/ryayoung/typing-unknown/blob/main/LICENSE)
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Pyright](https://img.shields.io/badge/type%20checker-pyright-blue)](https://github.com/microsoft/pyright)
+
+**`Unknown`: The missing member of Python's `typing` module**
+
+```
+pip install typing-unknown
+```
+
+Use `Unknown` as a drop-in *(but more strict)* replacement for `object` in
+type hints.
+
+```python
+from typing_unknown import Unknown
+
+def handle_thing(obj: Unknown):
+    # Caller may pass any value, but we're limited in how we can use it.
+```
+
+### Why `Unknown`?
+
+Historically, `object` has served the implicit role of "Unknown" in type hints,
+preferred over `typing.Any` when you wish to *limit* how a value may be used
+before checking its type.
+
+But, `object` isn't as strict as you'd think. For example, static type checkers
+consider the following code **valid** (no type issues):
+
+```python
+def handle_unknown_thing(obj: object | MyType, *args: float):
+    if obj:
+        obj_class = type(obj)
+        instance = obj_class(*args)
+```
+
+But, **this code could be invalid**. In multiple ways. _Even if_ `obj` were of a valid,
+compatible subtype of `object`, with no hidden or unusual behavior.
+
+> [!TIP]
+> If something is `object`, type checkers assume:
+> 
+> 1. Its constructor accepts any `*args`, or any `**kwargs`, both, or no
+>    arguments at all.
+> 2. Its provided-by-default-but-overridable "magic" signatures - like `__bool__` - are
+>    unchanged.
+
+To static type checkers, `Unknown` more accurately reflects what can
+and cannot be done with an arbitrary, valid `object`.
+
+Same code, after swapping `object` for `Unknown`:
+
+```python
+def handle_unknown_thing(obj: Unknown | MyType, *args: float):
+    if obj: # PYRIGHT ERROR: Invalid conditional operand
+        obj_class = type(obj)
+        instance = obj_class(*args) # PYRIGHT ERROR: reportArgumentType
+```
+
+Perfect. This forces us to *safely* narrow the type of `obj`
+(or explicitly suppress the issues):
+
+```python
+# Pyright errors are gone. Code is "safe" now.
+
+def handle_unknown_thing(obj: Unknown | MyType, *args: float):
+    if obj is not None and isinstance(obj, MyType):
+        obj_class = type(obj)
+        instance = obj_class(*args)
+```
