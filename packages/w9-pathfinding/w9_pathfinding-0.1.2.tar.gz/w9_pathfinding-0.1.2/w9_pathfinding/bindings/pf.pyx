@@ -1,0 +1,592 @@
+# distutils: language = c++
+
+from functools import wraps
+from w9_pathfinding.bindings cimport cdefs
+from w9_pathfinding.bindings.envs cimport _Env
+
+
+def _pathfinding(func):
+    @wraps(func)
+    def wrap(finder, start, goal, **kwargs):
+        map = finder.env._node_mapper
+        start = map.to_id(start)
+        goal = map.to_id(goal)
+        path = map.from_ids(func(finder, start, goal, **kwargs))
+        return path
+
+    return wrap
+
+
+cdef class _AbsPathFinder():
+    """
+    Abstract base class for all pathfinding algorithms
+    """
+
+    cdef cdefs.AbsPathFinder* _baseobj
+    cdef readonly _Env env
+
+    def __cinit__(self):
+        pass
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(env={self.env})"
+
+    @_pathfinding
+    def find_path(self, start, goal):
+        """
+        Find a path between two nodes.
+
+        Parameters
+        ----------
+        start : node
+            The starting node.
+
+        goal : node
+            The goal node.
+
+        Returns
+        -------
+        list of nodes
+            A list of node representing the path from `start` to `goal`.
+            If path is found the list will start with `start` and end with `goal`.
+            If no path is found, returns an empty list.
+
+        Raises
+        ------
+        ValueError
+            If either `start` or `goal` is not a valid node in the environment.
+        """
+        return self._baseobj.find_path(start, goal)
+
+
+cdef class DFS(_AbsPathFinder):
+    """
+    Depth-First Search (DFS) pathfinding algorithm.
+
+    DFS explores as far as possible along each branch before backtracking.
+
+    It does not guarantee to find the optimal path.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+    """
+
+    cdef cdefs.DFS* _obj
+
+    def __cinit__(self, _Env env):
+        self.env = env
+        self._obj = new cdefs.DFS(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class BFS(_AbsPathFinder):
+    """
+    Breadth-First Search (BFS) pathfinding algorithm.
+
+    BFS explores all nodes at the current depth before moving to the next level.
+
+    It guarantees to find the optimal path only in unweighted environments
+    (when all edges have equal cost).
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+    """
+
+    cdef cdefs.BFS* _obj
+
+    def __cinit__(self, _Env env):
+        self.env = env
+        self._obj = new cdefs.BFS(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class BiBFS(_AbsPathFinder):
+    """
+    Bidirectional Breadth-First Search (BiBFS) algorithm.
+
+    BiBFS performs two simultaneous BFS searches: one from the start and one
+    from the goal. When the two frontiers meet, a valid path is reconstructed.
+    This algorithm can significantly reduce search time in large environments compared to BFS.
+
+    It guarantees to find the optimal path only in unweighted environments
+    (when all edges have equal cost).
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+    """
+
+    cdef cdefs.BiBFS* _obj
+
+    def __cinit__(self, _Env env):
+        self.env = env
+        self._obj = new cdefs.BiBFS(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class Dijkstra(_AbsPathFinder):
+    """
+    Dijkstra's algorithm for optimal pathfinding in weighted environments.
+
+    Dijkstra's algorithm computes the lowest-cost path between nodes by
+    expanding nodes in order of increasing path cost.
+
+    It guarantees to find the optimal path in any environment.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+    """
+
+    cdef cdefs.Dijkstra* _obj
+    
+    def __cinit__(self, _Env env):
+        self.env = env
+        self._obj = new cdefs.Dijkstra(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class BiDijkstra(_AbsPathFinder):
+    """
+    Bidirectional Dijkstra's algorithm for optimal pathfinding in weighted environments.
+
+    This algorithm runs two simultaneous Dijkstra searches — one from the start,
+    one from the goal — and stops when the frontiers meet. Often faster than regular Dijkstra.
+
+    It guarantees to find the optimal path in any environment.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+    """
+
+    cdef cdefs.BiDijkstra* _obj
+
+    def __cinit__(self, _Env env):
+        self.env = env
+        self._obj = new cdefs.BiDijkstra(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class AStar(_AbsPathFinder):
+    """
+    A* search algorithm for optimal pathfinding.
+
+    A* extends Dijkstra by using a heuristic function to estimate
+    the remaining cost to the goal, allowing faster search in many environments.
+
+    It guarantees to find the optimal path in any environment.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+
+    Raises
+    ------
+    ValueError
+        If the environment does not support heuristics.
+    """
+
+    cdef cdefs.AStar* _obj
+
+    def __cinit__(self, _Env env):
+        if not env._baseobj.has_heuristic():
+            raise ValueError(
+                f"{self.__class__.__name__} requires a heuristic function. "
+                f"But {env} does not support heuristic estimation."
+            )
+        self.env = env
+        self._obj = new cdefs.AStar(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class BiAStar(_AbsPathFinder):
+    """
+    Bidirectional A* search algorithm for optimal pathfinding.
+
+    This algorithm runs two simultaneous A* searches — one from the start,
+    one from the goal — and stops when the frontiers meet. Often faster than regular A*.
+
+    It guarantees to find the optimal path in any environment.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+
+    Raises
+    ------
+    ValueError
+        If the environment does not support heuristics.
+    """
+
+    cdef cdefs.BiAStar* _obj
+
+    def __cinit__(self, _Env env):
+        if not env._baseobj.has_heuristic():
+            raise ValueError(
+                f"{self.__class__.__name__} requires a heuristic function. "
+                f"But {env} does not support heuristic estimation."
+            )
+        self.env = env
+        self._obj = new cdefs.BiAStar(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class GBS(_AbsPathFinder):
+    """
+    Greedy Best-First Search (GBS) algorithm.
+
+    GBS uses only the heuristic function to guide the search, always choosing
+    the node that appears closest to the goal.
+
+    It can be fast, but does not guarantee to find the optimal path.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+
+    Raises
+    ------
+    ValueError
+        If the environment does not support heuristics.
+    """
+
+    cdef cdefs.GBS* _obj
+
+    def __cinit__(self, _Env env):
+        if not env._baseobj.has_heuristic():
+            raise ValueError(
+                f"{self.__class__.__name__} requires a heuristic function. "
+                f"But {env} does not support heuristic estimation."
+            )
+        self.env = env
+        self._obj = new cdefs.GBS(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+
+cdef class IDAStar(_AbsPathFinder):
+    """
+    Iterative Deepening A* (IDA*) algorithm.
+
+    IDA* combines the space efficiency of DFS with the optimality of A*.
+    It performs repeated depth-limited searches, gradually increasing the
+    limit based on estimated cost.
+
+    It guarantees to find the optimal path in any environment.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+
+    Raises
+    ------
+    ValueError
+        If the environment does not support heuristics.
+    """
+
+    cdef cdefs.IDAStar* _obj
+
+    def __cinit__(self, _Env env):
+        if not env._baseobj.has_heuristic():
+            raise ValueError(
+                f"{self.__class__.__name__} requires a heuristic function. "
+                f"But {env} does not support heuristic estimation."
+            )
+        self.env = env
+        self._obj = new cdefs.IDAStar(env._baseobj)
+        self._baseobj = self._obj
+
+    def __dealloc__(self):
+        del self._obj
+
+    @_pathfinding
+    def find_path(self, int start, int goal, double max_distance=10):
+        """
+        Find a path between two nodes.
+
+        Parameters
+        ----------
+        start : node
+            The starting node.
+
+        goal : node
+            The goal node.
+
+        max_distance : float, default is 10.
+            The maximum allowed path cost (`g + h`) to consider during the search.
+            If the optimal path exceeds this cost, the algorithm returns an empty list.
+
+        Returns
+        -------
+        list of nodes
+            A list of node representing the path from `start` to `goal`.
+            If path is found the list will start with `start` and end with `goal`.
+            If no path is found, returns an empty list.
+
+        Raises
+        ------
+        ValueError
+            If either `start` or `goal` is not a valid node in the environment.
+        """
+        return self._obj.find_path(start, goal, max_distance)
+
+
+cdef class ResumableBFS:
+    """
+    Resumable Breadth-First Search (BFS) for shortest-path queries from a fixed source.
+
+    This class performs a single-source BFS from a given `start_node`,
+    and allows querying shortest-path distances and paths to any node.
+    Unlike standard BFS, the results are cached and reused efficiently for
+    multiple distance/path queries without re-running the full search.
+
+    Useful in scenarios where multiple path or distance lookups are needed
+    from the same source node.
+
+    It guarantees to find the optimal path only in unweighted environments
+    (when all edges have equal cost).
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+
+    start_node : node
+        The source node to start BFS from.
+
+    Raises
+    ------
+    ValueError
+        If `start_node` is not a valid node in the environment.
+    """
+
+    cdef cdefs.ResumableBFS* _obj
+    cdef readonly _Env env
+
+    def __cinit__(self, _Env env, start_node):
+        self.env = env
+        node_id = env._node_mapper.to_id(start_node)
+        self._obj = new cdefs.ResumableBFS(env._baseobj, node_id)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(env={self.env}, start_node={self.start_node})"
+
+    def __dealloc__(self):
+        del self._obj
+
+    @property
+    def start_node(self):
+        """
+        The current start node for the BFS traversal.
+        This is the source node from which all distances and paths are computed.
+
+        You can get or set this property. Setting a new start node will
+        reset internal state and rerun BFS's algorithm in the next query.
+        """
+        node_id = self._obj.start_node()
+        return self.env._node_mapper.from_id(node_id)
+
+    @start_node.setter
+    def start_node(self, start_node):
+        """
+        Set a new start node for the BFS traversal.
+        """
+        node_id = self.env._node_mapper.to_id(start_node)
+        self._obj.set_start_node(node_id)
+
+    def distance(self, node):
+        """
+        Get the minimum number of steps required to reach `node` from the `start_node`.
+
+        Parameters
+        ----------
+        node : node
+            The target node.
+
+        Returns
+        -------
+        float
+            The number of steps from `start_node` to `node`.
+            Returns `float('inf')` if the node is unreachable.
+
+        Raises
+        ------
+        ValueError
+            If `node` is not a valid node in the environment.
+        """
+        node_id = self.env._node_mapper.to_id(node)
+        d = self._obj.distance(node_id)
+        return d if d >= 0 else float("inf")
+
+    def find_path(self, node):
+        """
+        Find the shortest path from the start node to the given node,
+        minimizing the number of steps.
+
+        Parameters
+        ----------
+        node : node
+            The target node.
+
+        Returns
+        -------
+        list
+            A list of nodes representing the shortest (step-wise) path from
+            `start_node` to `node`.
+            If path is found the list will start with `start_node` and end with `node`.
+            Returns an empty list if the target node is unreachable.
+
+        Raises
+        ------
+        ValueError
+            If `node` is not a valid node in the environment.
+        """
+        map = self.env._node_mapper
+        node_id = map.to_id(node)
+        path = self._obj.find_path(node_id)
+        return map.from_ids(path)
+
+
+cdef class ResumableDijkstra:
+    """
+    Resumable Dijkstra's algorithm for shortest-path queries from a fixed source.
+
+    This class performs a single-source Dijkstra traversal from a given `start_node`,
+    and allows querying shortest-path distances and paths to any node.
+    Unlike standard Dijkstra's algorithm, the results are cached and reused efficiently for
+    multiple distance/path queries without re-running the full search.
+
+    It guarantees to find the optimal path in any environment.
+
+    Parameters
+    ----------
+    env : Environment
+        The environment in which to search for paths.
+
+    start_node : node
+        The source node to start Dijkstra's algorithm from.
+
+    Raises
+    ------
+    ValueError
+        If `start_node` is not a valid node in the environment.
+    """
+
+    cdef cdefs.ResumableDijkstra* _obj
+    cdef readonly _Env env
+
+    def __cinit__(self, _Env env, start_node):
+        self.env = env
+        node_id = env._node_mapper.to_id(start_node)
+        self._obj = new cdefs.ResumableDijkstra(env._baseobj, node_id)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(env={self.env}, start_node={self.start_node})"
+
+    def __dealloc__(self):
+        del self._obj
+
+    @property
+    def start_node(self):
+        """
+        The current start node for the Dijkstra's traversal.
+        This is the source node from which all distances and paths are computed.
+
+        You can get or set this property. Setting a new start node will
+        reset internal state and rerun Dijkstra's algorithm in the next query..
+        """
+        node_id = self._obj.start_node()
+        return self.env._node_mapper.from_id(node_id)
+
+    @start_node.setter
+    def start_node(self, start_node):
+        """
+        Set a new start node for the Dijkstra's traversal.
+        """
+        node_id = self.env._node_mapper.to_id(start_node)
+        self._obj.set_start_node(node_id)
+
+    def distance(self, node):
+        """
+        Get the shortest-path cost from the `start node` to the given node.
+
+        Parameters
+        ----------
+        node : node
+            The target node.
+
+        Returns
+        -------
+        float
+            The minimum cost from `start_node` to `node`.
+            Returns `float('inf')` if the node is unreachable.
+
+        Raises
+        ------
+        ValueError
+            If `node` is not a valid node in the environment.
+        """
+        node_id = self.env._node_mapper.to_id(node)
+        d = self._obj.distance(node_id)
+        return d if d >= 0 else float("inf")
+
+    def find_path(self, node):
+        """
+        Find the optimal path from the start node to the given node.
+
+        Parameters
+        ----------
+        node : node
+            The target node.
+
+        Returns
+        -------
+        list
+            A list of nodes representing the optimal path from `start_node` to `node`.
+            If path is found the list will start with `start_node` and end with `node`.
+            Returns an empty list if the target node is unreachable.
+
+        Raises
+        ------
+        ValueError
+            If `node` is not a valid node in the environment.
+        """
+        map = self.env._node_mapper
+        node_id = map.to_id(node)
+        path = self._obj.find_path(node_id)
+        return map.from_ids(path)

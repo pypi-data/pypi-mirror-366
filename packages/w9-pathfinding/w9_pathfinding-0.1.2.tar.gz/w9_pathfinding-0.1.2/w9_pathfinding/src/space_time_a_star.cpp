@@ -1,0 +1,282 @@
+#include "include/space_time_a_star.h"
+
+
+SpaceTimeAStar::SpaceTimeAStar(Env* env) : env(env), rrs_(nullptr) {
+}
+
+Path SpaceTimeAStar::reconstruct_path(int start, Node* node) {
+    Path path = {node->node_id};
+    while (node->parent != nullptr) {
+        node = node->parent;
+        path.push_back(node->node_id);
+    }
+    std::reverse(path.begin(), path.end());
+    return path;
+}
+
+std::unique_ptr<ResumableSearch> SpaceTimeAStar::reverse_resumable_search(int node_id) {
+    if (env->has_heuristic())
+        return std::make_unique<ResumableAStar>(env, node_id, true);
+    else
+        return std::make_unique<ResumableDijkstra>(env, node_id, true);
+}
+
+ResumableSearch* SpaceTimeAStar::ensure_rrs(ResumableSearch* rrs, int goal) {
+    if (rrs)
+        return rrs;
+
+    if (!rrs_)
+        rrs_ = reverse_resumable_search(goal);
+    else
+        rrs_->set_start_node(goal);
+
+    return rrs_.get();
+}
+
+Path SpaceTimeAStar::find_path(int start, int end) {
+    return find_path_with_depth_limit(start, end, 100, nullptr);
+}
+
+Path SpaceTimeAStar::find_path_with_depth_limit(
+    int start,
+    int goal,
+    int search_depth,
+    const ReservationTable *rt,
+    ResumableSearch *rrs,
+    int min_terminal_time,
+    int start_time
+) {
+    rrs = ensure_rrs(rrs, goal);
+
+    double f0 = rrs->distance(start);
+    if (f0 == -1) {
+        // unreachable
+        return {};
+    }
+
+    int env_size = env->size();
+    int max_terminal_time = start_time + search_depth;
+
+    typedef pair<double, Node*> key;
+    priority_queue<key, vector<key>, std::greater<key>> openset;
+
+    std::unordered_map<int, Node> nodes;
+    nodes.emplace(start, Node(nullptr, start, start_time, 0, f0));
+    openset.push({0, &nodes.at(start)});
+
+    auto process_node = [&] (int node_id, double cost, Node* current) {
+        int time = current->time + 1;
+
+        double h = rrs->distance(node_id);
+        if (h == -1)
+            return false;
+
+        double distance = current->distance + cost;
+
+        int st = node_id + time * env_size;
+        if (!nodes.count(st)) {
+            nodes.emplace(st, Node(current, node_id, time, distance, distance + h));
+            openset.push({distance + h, &nodes.at(st)});
+        }
+        else if (nodes.at(st).distance > distance) {
+            Node& n = nodes.at(st);
+            n.f = distance + h;
+            n.distance = distance;
+            n.parent = current;
+            openset.push({n.f, &n});
+        }
+        return true;
+    };
+
+    while (!openset.empty()) {
+        auto [f, current] = openset.top();
+        openset.pop();
+
+        int t = current->time;
+        int n = current->node_id;
+
+        if (n == goal) {
+            if (t >= min_terminal_time)
+                return reconstruct_path(start, current);
+            else if (t == -1) {
+                // terminal node
+                return reconstruct_path(start, current->parent);
+            }
+        }
+
+        int h = n + t * env_size;
+        if (nodes.count(h) && f > nodes.at(h).f)
+            continue;
+
+        if (t >= max_terminal_time) {
+            // terminal node
+            if (process_node(goal, rrs->distance(n), current))
+                nodes.at(goal + (t + 1) * env_size).time = -1;
+            continue;
+        }
+
+        if (!rt) {
+            for (auto &[node_id, cost] : env->get_neighbors(n, false, true))
+                process_node(node_id, cost, current);
+        }
+        else {
+            auto reserved_edges = rt->get_reserved_edges(t, n);
+            for (auto &[node_id, cost] : env->get_neighbors(n, false, true)) {
+                if (!reserved_edges.count(node_id) && !rt->is_reserved(t + 1, node_id))
+                    process_node(node_id, cost, current);
+            }
+        }
+    }
+
+    return {};
+}
+
+
+Path SpaceTimeAStar::find_path_with_exact_length(
+    int start,
+    int goal,
+    int length,
+    const ReservationTable *rt,
+    int start_time
+) {
+    int env_size = env->size();
+    int terminal_time = start_time + length;
+
+    typedef pair<double, Node*> key;
+    priority_queue<key, vector<key>, std::greater<key>> openset;
+
+    std::unordered_map<int, Node> nodes;
+    nodes.emplace(start, Node(nullptr, start, start_time, 0, 0));
+    openset.push({0, &nodes.at(start)});
+
+    auto process_node = [&] (int node_id, double cost, Node* current) {
+        int time = current->time + 1;
+
+        double h = 0;
+        if (env->has_heuristic())
+            h = env->estimate_distance(node_id, goal);
+
+        double distance = current->distance + cost;
+
+        int st = node_id + time * env_size;
+        if (!nodes.count(st)) {
+            nodes.emplace(st, Node(current, node_id, time, distance, distance + h));
+            openset.push({distance + h, &nodes.at(st)});
+        }
+        else if (nodes.at(st).distance > distance) {
+            Node& n = nodes.at(st);
+            n.f = distance + h;
+            n.distance = distance;
+            n.parent = current;
+            openset.push({n.f, &n});
+        }
+    };
+
+    while (!openset.empty()) {
+        auto [f, current] = openset.top();
+        openset.pop();
+
+        int time = current->time;
+
+        if (time == terminal_time) {
+            if (current->node_id == goal)
+                return reconstruct_path(start, current);
+            continue;
+        }
+
+        int h = current->node_id + time * env_size;
+        if (nodes.count(h) && f > nodes.at(h).f)
+            continue;
+
+        if (!rt) {
+            for (auto &[node_id, cost] : env->get_neighbors(current->node_id, false, true))
+                process_node(node_id, cost, current);
+        }
+        else {
+            auto reserved_edges = rt->get_reserved_edges(time, current->node_id);
+            for (auto &[node_id, cost] : env->get_neighbors(current->node_id, false, true)) {
+                if (!reserved_edges.count(node_id) && !rt->is_reserved(time + 1, node_id))
+                    process_node(node_id, cost, current);
+            }
+        }
+    }
+
+    return {};
+}
+
+
+Path SpaceTimeAStar::find_path_with_length_limit(
+    int start,
+    int goal,
+    int max_length,
+    const ReservationTable *rt,
+    ResumableSearch* rrs,
+    int min_terminal_time,
+    int start_time
+) {
+    rrs = ensure_rrs(rrs, goal);
+
+    ResumableSearch& rrs_ = *rrs;
+    if (rrs_.distance(start) < 0)
+        return {};
+
+    int env_size = env->size();
+    int terminal_time = start_time + max_length;
+
+    typedef pair<double, Node*> key;
+    priority_queue<key, vector<key>, std::greater<key>> openset;
+
+    std::unordered_map<int, Node> nodes;
+    nodes.emplace(start, Node(nullptr, start, start_time, 0, 0));
+    openset.push({0, &nodes.at(start)});
+
+    auto process_node = [&] (int node_id, double cost, Node* current) {
+        int time = current->time + 1;
+        double h = rrs_.distance(node_id);
+        double distance = current->distance + cost;
+
+        int st = node_id + time * env_size;
+        if (!nodes.count(st)) {
+            nodes.emplace(st, Node(current, node_id, time, distance, distance + h));
+            openset.push({distance + h, &nodes.at(st)});
+        }
+        else if (nodes.at(st).distance > distance) {
+            Node& n = nodes.at(st);
+            n.f = distance + h;
+            n.distance = distance;
+            n.parent = current;
+            openset.push({n.f, &n});
+        }
+    };
+
+    while (!openset.empty()) {
+        auto [f, current] = openset.top();
+        openset.pop();
+
+        int time = current->time;
+
+        if (time >= min_terminal_time && current->node_id == goal)
+            return reconstruct_path(start, current);
+
+        if (time >= terminal_time)
+            continue;
+
+        int h = current->node_id + time * env_size;
+        if (nodes.count(h) && f > nodes.at(h).f)
+            continue;
+
+        if (!rt) {
+            for (auto &[node_id, cost] : env->get_neighbors(current->node_id, false, true))
+                process_node(node_id, cost, current);
+        }
+        else {
+            auto reserved_edges = rt->get_reserved_edges(time, current->node_id);
+            for (auto &[node_id, cost] : env->get_neighbors(current->node_id, false, true)) {
+                if (!reserved_edges.count(node_id) && !rt->is_reserved(time + 1, node_id))
+                    process_node(node_id, cost, current);
+            }
+        }
+    }
+
+    return {};
+}
