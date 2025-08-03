@@ -1,0 +1,48 @@
+[project]
+name = "slack-mcp-server"
+version = "0.1.3"
+description = "A Model Context Protocol (MCP) server for Slack workspace integration using FastMCP with HTTP transport and multiuser support"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["slack", "mcp", "model-context-protocol", "fastmcp", "http", "api"]
+license = "MIT"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Communications :: Chat",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+    "fastmcp",
+    "slack-sdk",
+    "python-dotenv",
+    "requests"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/slack-mcp-server"
+Repository = "https://github.com/yourusername/slack-mcp-server"
+Issues = "https://github.com/yourusername/slack-mcp-server/issues"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["slack_mcp_server"]
+
+[project.scripts]
+slack-mcp-server = "slack_mcp_server:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "flake8",
+    "mypy"
+]
