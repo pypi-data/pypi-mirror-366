@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "my_simple_pkg"
+version = "0.1.1"
+description = "A simple example package"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [
+    { include = "my_simple_pkg" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
