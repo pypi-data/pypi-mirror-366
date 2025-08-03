@@ -1,0 +1,61 @@
+[build-system]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "datatrees"
+version = "0.3.7"
+authors = [
+    { name = "Gianni Mariani", email = "gianni@mariani.ws" },
+]
+description = "Wrapper for dataclasses with auto field injection, binding, self-default lamdas and more."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "frozendict>=2.3.8",
+    "sortedcollections>=2.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/owebeeone/datatrees"
+"Bug Tracker" = "https://github.com/owebeeone/datatrees/issues"
+
+[project.optional-dependencies]
+types = [
+    "typing_extensions>=4.1.0; python_version < '3.11'",
+]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "datatrees[types]",
+]
+
+[tool.mypy]
+files = "datatrees, tests/test_type_checking.py"
+warn_unused_configs = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+show_error_codes = true
+
+[tool.pyright]
+include = [
+    "src/datatrees",
+    "tests",
+]
+plugins = [
+    "datatrees.plugins.pyright_plugin",
+]
+executionEnvironments = [
+    { root = ".." },
+]
