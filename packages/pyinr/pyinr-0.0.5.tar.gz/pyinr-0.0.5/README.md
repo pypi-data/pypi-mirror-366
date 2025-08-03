@@ -1,0 +1,45 @@
+# pyinr
+
+A simple Python package to convert currencies.
+
+## Installation
+
+You can install `pyinr` directly from PyPI using pip:
+
+```bash
+pip install pyinr
+```
+
+## Usage
+
+Here's how you can use the `pyinr` module to perform currency conversions:
+
+```python
+from pyinr import convert
+
+# Example: Convert 100 USD to EUR
+eur_amount = convert(100, "USD", "EUR")
+print(f"100 USD is equal to {eur_amount} EUR")
+
+# Example: Convert 500 JPY to INR
+inr_amount = convert(500, "JPY", "INR")
+print(f"500 JPY is equal to {inr_amount} INR")
+
+# Example: Convert 250 INR to USD
+usd_amount = convert(250, "INR", "USD")
+print(f"250 INR is equal to {usd_amount} USD")
+```
+
+**Note:** The `convert` function fetches live exchange rates from `exchangerate-api.com`. For real-world applications, consider API rate limits and error handling.
+
+## PyPI Instructions
+
+This package is available on PyPI. You can find it by searching for `pyinr` on the [PyPI website](https://pypi.org/).
+
+To install it, simply run:
+
+```bash
+pip install pyinr
+```
+
+If you encounter any issues or have suggestions, please report them on the [Bug Tracker](https://github.com/ganeshdatta23/pyinr/issues).
