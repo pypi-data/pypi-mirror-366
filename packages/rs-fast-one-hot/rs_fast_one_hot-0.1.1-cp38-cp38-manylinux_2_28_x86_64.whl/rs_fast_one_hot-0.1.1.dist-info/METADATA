@@ -1,0 +1,68 @@
+Metadata-Version: 2.1
+Name: rs_fast_one_hot
+Version: 0.1.1
+Summary: Simple class for fast one hot encoding. Support scikit-learn transformer interface and multithreading.
+Author-email: GAlexander <g.alexander.box@gmail.com>
+Project-URL: Homepage, https://github.com/g-alexander/rs_fast_one_hot
+Project-URL: Bug Tracker, https://github.com/g-alexander/rs_fast_one_hot/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: <3.14.0,>=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: scikit-learn
+
+# Fast One Hot Encoder
+
+This is simple package for fast one hot encoding, implemented in Rust.
+
+## Installation
+```bash
+pip install rs_fast_one_hot --upgrade
+```
+
+## Usage
+```python
+from rs_fast_one_hot import OneHotTransformer
+
+data = ['1a', '1a', '2h', '5j', '8n', '8n', '5j']
+
+transformer = OneHotTransformer()
+transformer.fit(data)
+res = transformer.transform(data)
+
+print("Encoded data:", res.toarray())
+```
+
+for multithread transform:
+```python
+transformer = OneHotTransformer(n_jobs=5)
+```
+
+to back to single thread:
+```python
+transformer.to_single_thread()
+```
+complete example
+```python
+from rs_fast_one_hot import OneHotTransformer
+
+data = ['1a', '1a', '2h', '5j', '8n', '8n', '5j']
+
+transformer = OneHotTransformer(5)
+transformer.fit(data)
+
+res = transformer.transform(data)
+print("Encoded data before save", res.toarray())
+
+transformer.to_single_thread() # convert to single thread for prom usage
+with open('transformer.pkl', 'wb') as f:
+    pickle.dump(transformer, f)
+
+# Load transformer from disk
+with open('transformer.pkl', 'rb') as f:
+    transformer2 = pickle.load(f)
+res2 = transformer2.transform(data)
+print("Encoded data after load from disk", res2.toarray())
+```
