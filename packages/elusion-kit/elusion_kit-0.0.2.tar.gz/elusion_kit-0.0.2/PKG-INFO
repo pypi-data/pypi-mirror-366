@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: elusion-kit
+Version: 0.0.2
+Summary: A Python framework for building high-quality, type-safe API SDKs with comprehensive error handling and retry logic
+Project-URL: Homepage, https://github.com/elusionhub/elusion-kit
+Project-URL: Documentation, https://elusion-kit.readthedocs.io
+Project-URL: Repository, https://github.com/elusionhub/elusion-kit.git
+Project-URL: Issues, https://github.com/elusionhub/elusion-kit/issues
+Project-URL: Changelog, https://github.com/elusionhub/elusion-kit/blob/main/CHANGELOG.md
+Project-URL: Bug Reports, https://github.com/elusionhub/elusion-kit/issues
+Project-URL: Source Code, https://github.com/elusionhub/elusion-kit
+Project-URL: Framework Documentation, https://elusion-kit.readthedocs.io/en/latest/
+Author-email: Elusion Hub <elusion.lab@gmail.com>
+Maintainer-email: Elusion Hub <elusion.lab@gmail.com>
+License-Expression: MIT
+Keywords: api-client,api-sdk-framework,async,authentication,developer-tools,elusion,elusion-kit,error-handling,framework,http-client,pagination,pydantic,python-framework,retry-logic,sdk,type-safe
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Networking
+Classifier: Typing :: Typed
+Requires-Python: >=3.13
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: typing-extensions>=4.8.0
+Provides-Extra: all
+Requires-Dist: elusion[dev,docs,examples,test]; extra == 'all'
+Provides-Extra: dev
+Requires-Dist: black>=23.9.0; extra == 'dev'
+Requires-Dist: coverage>=7.0.0; extra == 'dev'
+Requires-Dist: ginx>=0.1.6; extra == 'dev'
+Requires-Dist: isort>=5.12.0; extra == 'dev'
+Requires-Dist: mypy>=1.7.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.5.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest-httpx>=0.21.0; extra == 'dev'
+Requires-Dist: pytest-mock>=3.10.0; extra == 'dev'
+Requires-Dist: pytest>=8.0.0; extra == 'dev'
+Requires-Dist: respx>=0.20.0; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocs-gen-files>=0.5.0; extra == 'docs'
+Requires-Dist: mkdocs-literate-nav>=0.6.0; extra == 'docs'
+Requires-Dist: mkdocs-material>=9.4.0; extra == 'docs'
+Requires-Dist: mkdocs-section-index>=0.3.0; extra == 'docs'
+Requires-Dist: mkdocs>=1.5.0; extra == 'docs'
+Requires-Dist: mkdocstrings[python]>=0.24.0; extra == 'docs'
+Provides-Extra: examples
+Requires-Dist: python-dotenv>=1.0.0; extra == 'examples'
+Requires-Dist: rich>=13.0.0; extra == 'examples'
+Requires-Dist: typer>=0.9.0; extra == 'examples'
+Provides-Extra: test
+Requires-Dist: faker>=19.0.0; extra == 'test'
+Requires-Dist: freezegun>=1.2.0; extra == 'test'
+Requires-Dist: pytest-httpx>=0.21.0; extra == 'test'
+Requires-Dist: responses>=0.23.0; extra == 'test'
+Requires-Dist: respx>=0.20.0; extra == 'test'
