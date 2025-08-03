@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: echemdbconverters
+Version: 0.4.1
+Summary: echemdb-converters is a Python library and command line tool to load csv data and convert those into frictionless Data Packages.
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: clevercsv<0.9.0,>=0.7.0
+Requires-Dist: click<9,>=8
+Requires-Dist: pandas<3,>=1.3
+Requires-Dist: unitpackage<0.10.0,>=0.9.0
+Dynamic: license-file
+
+# echemdb-converters
+
+Convert raw data into echemdb data packages
+
+## Installation
+
+This package is available on [PiPY](https://pypi.org/project/echemdbconverters/) and can be installed with pip:
+
+```sh .noeval
+pip install echemdbconverters
+```
