@@ -1,0 +1,165 @@
+# 💰 Harzcoin Python SDK `v4.1.0`
+
+A lightweight Python SDK for interacting with the **Harzcoin** ecosystem — enabling wallet management, SHA256 proof-of-work mining, and secure G-Coin (or Harzcoin) transfers via a Supabase backend.
+
+---
+
+## 🚀 Features
+
+* 🔐 Create and manage wallets
+* 🪙 Send and receive Harzcoin (G-Coins)
+* ⚒️ Mine Harzcoin with SHA256 + difficulty-based dynamic rewards
+* 📡 Works seamlessly with Supabase Functions
+* 🛠 Utility functions for wallet creation, viewing, and helpful tips
+
+---
+
+## 📦 Installation
+
+Just clone the repo or download the script:
+
+```bash
+git clone https://github.com/yourusername/harzcoin-sdk.git
+```
+
+Or directly download `harzcoin.py`.
+
+---
+
+## 🧠 Requirements
+
+* Python 3.7+
+* `requests` module (standard, but run below if not installed)
+
+```bash
+pip install requests
+```
+
+---
+
+## 📚 Usage
+
+### 1. **Initialize a Wallet**
+
+```python
+from harzcoin import wallet
+
+mywallet = wallet(walletId="hz8264812", walletKey="bau-2hd-ako")
+```
+
+### 2. **Send Harzcoin (Quick Transfer)**
+
+```python
+mywallet.quick_send(receiverId="hz1234567", bal=50.0)
+```
+
+### 3. **Advanced Transfer (Custom Fee Wallet)**
+
+```python
+mywallet.advanced_transfer(
+    walletId="hz8264812",
+    walletKey="bau-2hd-ako",
+    receiverId="hz1234567",
+    bal=100.0,
+    user_fee="hz000BURN"
+)
+```
+
+### 4. **Start Mining (SHA256 Proof of Work)**
+
+```python
+result = mywallet.mine_sha256()
+if result:
+    print("✅ Successfully mined block:", result)
+```
+
+---
+
+## 🔧 Utility Functions
+
+Import `utilities` for handy tools:
+
+```python
+from harzcoin import utilities
+
+util = utilities()
+```
+
+### ➕ Create a Wallet
+
+```python
+util.create()
+```
+
+### 👁 View Wallet Info
+
+```python
+util.view("hz8264812")
+```
+
+### ❓ Help Command
+
+```python
+util.help("burn")  # returns burn wallet address
+util.help("hcmc")  # returns central wallet
+```
+
+---
+
+## 🧱 Mining Explained
+
+* Uses `SHA256` brute-force with dynamic difficulty.
+* Reward = `400 * difficulty`
+* You get paid automatically to your wallet once the hash is found.
+* Prevents duplicate mining by remembering the last hash.
+
+---
+
+## 🌍 API Endpoint
+
+Hosted on [Supabase Edge Functions](https://supabase.com/):
+
+```
+https://wnafumlmiulybbkqauew.supabase.co/functions/v1
+```
+
+Built-in endpoints:
+
+* `/create` → Create wallet
+* `/wallet-view` → View wallet data
+* `/send` → Send Harzcoin
+* `/update-mining-block` → Get latest mining info
+
+---
+
+## 🧪 Example Main Script
+
+```python
+if __name__ == "__main__":
+    mywallet = wallet("hz8264812", "bau-2hd-ako")
+    result = mywallet.mine_sha256()
+    print(result)
+```
+
+---
+
+## 🔐 Security
+
+* Never expose your `walletKey` publicly.
+* Always use HTTPS when interacting with APIs.
+* This SDK is not production-hardened, so **do not use for real money** without auditing.
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## 🧙‍♂️ Author
+
+Created by **justharsiz**
+Powered by **Moracle Softworks**
+
+> *"Build the chain. Be the node. Earn the coin."* 🔗
