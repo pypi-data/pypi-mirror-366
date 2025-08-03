@@ -1,0 +1,40 @@
+[project]
+name = "ormlet"
+version = "0.1.0"
+description = "Ormlet is a lightweight, minimal ORM designed to give you just enough structure and flexibility to build SQL queries."
+readme = "README.md"
+requires-python = ">=3.13"
+classifiers = [
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/chamanbravo/ormlet"
+Repository = "https://github.com/chamanbravo/ormlet"
+Issues = "https://github.com/chamanbravo/ormlet/issues"
+
+
+[tool.ruff]
+src = ["./ormlet"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "strict"
+executionEnvironments = [{ root = "ormlet" }]
+include = ["ormlet"]

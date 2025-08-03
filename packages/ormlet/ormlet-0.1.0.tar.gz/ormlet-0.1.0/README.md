@@ -1,0 +1,100 @@
+<p align="center">
+  <a href="https://pypi.org/project/ormlet/"><img src="./docs/ormlet.jpg" alt="Ormlet"></a>
+
+</p>
+<p align="center">
+    <em>Ormlet is a lightweight, minimal ORM designed to give you just enough structure and flexibility to build SQL queries.</em>
+</p>
+
+---
+
+The key features are:
+
+- Declarative column definitions (IntegerField, TextField, etc.)
+- Auto SQL generation for SELECT, INSERT, UPDATE, DELETE
+- Fluent and chainable QueryBuilder
+- Logical operators: AND, OR, multiple WHERE support
+
+## Installation
+
+Create and activate a virtual environment and then install **Ormlet**:
+
+<div class="termy">
+
+```console
+$ pip install ormlet
+---> 100%
+Successfully installed ormlet
+```
+
+</div>
+
+## Example
+
+### Models
+
+```Python hl_lines="3  6  11  20"
+from ormlet import Model, column
+
+
+class User(Model):
+    __table__ = "users"
+
+    id = column.IntegerField(primary_key=True, autoincrement=True)
+    name = column.VarCharField(max_length=50)
+    age = column.IntegerField()
+```
+
+### Database Manager
+
+```Python hl_lines="3  6  11  20"
+from ormlet import DatabaseManager
+
+db = DatabaseManager("test.db")
+db.register_tables([User])
+```
+
+### Queries
+
+```Python hl_lines="3  6  11  20"
+from ormlet import insert, select, update, delete
+
+insert(User).values(id=1, name="Alice", age=30).execute(connection)
+select(User).where(User.name == "Bob").execute(connection)
+update(User).set(age=41).where(User.name == "Charlie").execute(connection)
+delete(User).where(User.name == "Dan").execute(connection)
+```
+
+### Quick Example
+
+```Python hl_lines="3  6  11  20"
+from ormlet import DatabaseManager, Model, column
+
+class User(Model):
+    __table__ = "users"
+
+    id = column.IntegerField(primary_key=True)
+    name = column.VarCharField(max_length=50)
+    age = column.IntegerField()
+
+db = DatabaseManager("test.db")
+db.register_tables([User])
+
+with db.connect() as conn:
+    insert(User).values(id=1, name="Alice", age=30).execute(conn)
+    select(User).where(User.name == "Alice").execute(conn)
+    update(User).set(age=41).where(User.name == "Alice").execute(conn)
+    delete(User).where(User.id== 1).execute(conn)
+```
+
+## Dependencies
+
+**Ormlet** uses no external dependencies it works with just standard Python.
+
+## License
+
+This project is licensed under the terms of the MIT license.
+
+## Contributing
+
+Feel free to open issues, suggest features, or submit PRs.
