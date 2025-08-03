@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: fastapi_auth_oidc
+Version: 0.1.3
+Summary: FastAPI Auth OpenID Connect
+Author-email: "DYAKOV.SPACE" <admin@dyakov.space>, Roman Dyakov <roman@dyakov.space>
+License: BSD 3-Clause
+Project-URL: Homepage, https://git.dyakov.space/dyakovri/fastapi-auth-oidc
+Project-URL: Documentation, https://git.dyakov.space/dyakovri/fastapi-auth-oidc/wiki
+Project-URL: Repository, https://git.dyakov.space/dyakovri/fastapi-auth-oidc
+Project-URL: Issues, https://git.dyakov.space/dyakovri/fastapi-auth-oidc/issues
+Project-URL: Changelog, https://git.dyakov.space/dyakovri/fastapi-auth-oidc/releases
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: fastapi
+Requires-Dist: cachetools>=6.1.0
+Requires-Dist: requests
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Requires-Dist: httpx; extra == "dev"
+Dynamic: license-file
+
+# FastAPI OIDC Security
+
+This library allows your server-side application to check credentials with ease using OpenID Connect token flows. Use it with Firebase, Keycloak, Authentik or other OIDC providers.
+
+
+## Simple usage
+
+```python
+from fastapi import FastAPI
+from fastapi_auth_oidc import OIDCProvider, IDToken
+
+app = FastAPI()
+auth_user = OIDCProvider(
+    configuration_uri="https://example.domain/issuer/.well-known/openid-configuration",
+    client_id="my-client",
+)
+
+@app.get("/me")
+def get_me(
+    user: Annotated[IDToken | None, Depends(auth_user)],
+):
+    return user.model_dump() if user else {}
+```
+
+**You must process errors and absent token manually!**
