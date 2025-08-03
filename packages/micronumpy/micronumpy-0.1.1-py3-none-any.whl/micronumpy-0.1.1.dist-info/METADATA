@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: micronumpy
+Version: 0.1.1
+Summary: Una implementación ligera y pura en Python de la API esencial de NumPy con autograd básico.
+Home-page: https://github.com/TuUsuario/micronumpy
+Author: TuNombre
+Author-email: tu@email.com
+Project-URL: Bug Tracker, https://github.com/TuUsuario/micronumpy/issues
+Project-URL: Source, https://github.com/TuUsuario/micronumpy
+Project-URL: Documentation, https://github.com/TuUsuario/micronumpy#readme
+Project-URL: Changelog, https://github.com/TuUsuario/micronumpy/releases
+Keywords: numpy autograd deep learning neural networks scientific computing
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Intended Audience :: Developers
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
+# micronumpy
+
+`micronumpy` es una reimplementación ultraligera y pura en Python de las funcionalidades más esenciales de la API de NumPy. Está diseñada para entornos donde las dependencias pesadas como el NumPy completo no son una opción, como dispositivos con recursos limitados o para proyectos que buscan la máxima portabilidad.
+
+## Características Principales
+
+- Objeto `ndarray` para cálculo numérico.
+- Operaciones vectorizadas (`+`, `-`, `*`).
+- Multiplicación de matrices con el operador `@`.
+- Creación de arrays (`zeros`, `array`).
+- Cero dependencias externas.
+
+## Instalación
+
+```bash
+pip install .
