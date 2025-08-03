@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: llmq
+Version: 0.0.2
+Summary: High-Performance vLLM Job Queue Package
+Author-email: Pieter <pieter@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/ipieter/llmq
+Project-URL: Repository, https://github.com/ipieter/llmq
+Project-URL: Documentation, https://github.com/ipieter/llmq#readme
+Project-URL: Issues, https://github.com/ipieter/llmq/issues
+Keywords: llm,queue,vllm,gpu,inference,rabbitmq,async
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: vllm>=0.7.0
+Requires-Dist: transformers>=4.47.0
+Requires-Dist: aio-pika>=9.5.0
+Requires-Dist: click>=8.1.7
+Requires-Dist: pydantic>=2.10.0
+Requires-Dist: rich>=13.9.0
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: httpx>=0.27.0
+Provides-Extra: test
+Requires-Dist: pytest>=8.0.0; extra == "test"
+Requires-Dist: pytest-asyncio>=0.23.0; extra == "test"
+Requires-Dist: pytest-mock>=3.12.0; extra == "test"
+Requires-Dist: pytest-cov>=6.0.0; extra == "test"
+Requires-Dist: faker>=30.0.0; extra == "test"
+Provides-Extra: dev
+Requires-Dist: llmq[test]; extra == "dev"
+Requires-Dist: black>=24.0.0; extra == "dev"
+Requires-Dist: ruff>=0.8.0; extra == "dev"
+Requires-Dist: mypy>=1.13.0; extra == "dev"
+Requires-Dist: bandit[toml]>=1.7.0; extra == "dev"
+Requires-Dist: safety>=3.0.0; extra == "dev"
+Requires-Dist: build>=1.0.0; extra == "dev"
+Requires-Dist: twine>=4.0.0; extra == "dev"
+Requires-Dist: setuptools-scm[toml]>=6.2; extra == "dev"
+
+# llmq
+
+High-Performance Inference Queueing
+
+## Quick Start
+
+```bash
+# Install
+pip install llmq
+
+# Start RabbitMQ
+docker run -d --name rabbitmq -p 5672:5672 rabbitmq:3
+
+# Submit jobs
+echo '{"id": "1", "prompt": "Say hello", "name": "world"}' > jobs.jsonl
+llmq submit my-queue jobs.jsonl > output.jsonl
+
+# Start worker on a GPU node (in another terminal)
+llmq worker dummy my-queue
+```
+
+## Features
+
+- **High-performance**: GPU-accelerated inference with vLLM
+- **Scalable**: RabbitMQ-based job distribution
+- **Simple**: Unix-friendly CLI with piped output
+- **Async**: Non-blocking job processing
+- **Flexible**: Support for multiple worker types
+
+## Worker Types
+
+- `llmq worker run <model> <queue>` - vLLM worker for real inference
+- `llmq worker dummy <queue>` - Testing worker
+
+## Configuration
+
+Set via environment variables:
+
+- `RABBITMQ_URL` - RabbitMQ connection
+- `VLLM_GPU_MEMORY_UTILIZATION` - GPU memory usage (0.0-1.0)
+- `VLLM_QUEUE_PREFETCH` - Concurrent jobs per worker
+
+## Documentation
+
+See the [GitHub repository](https://github.com/ipieter/llmq) for full documentation.
+
+## License
+
+MIT
