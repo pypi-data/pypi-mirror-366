@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tphat"
+version = "0.0.1"
+description = "package"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+  { name="khah", email="trchikhanhfrv@gmail.com" }
+]
+dependencies = []
+
+[tool.setuptools]
+package-dir = {"" = "."}
+packages = ["tphat"]
