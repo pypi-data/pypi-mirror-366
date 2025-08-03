@@ -1,0 +1,12 @@
+[console_scripts]
+adventure = main:main
+llm-adventure = main:main
+llmadventure = main:main
+
+[gui_scripts]
+llmadventure-gui = llmadventure.gui.main:main
+
+[llmadventure.plugins]
+combat_enhanced = llmadventure.plugins.combat_enhanced:CombatEnhancedPlugin
+example = llmadventure.plugins.example:ExamplePlugin
+story_generator = llmadventure.plugins.story_generator:StoryGeneratorPlugin
