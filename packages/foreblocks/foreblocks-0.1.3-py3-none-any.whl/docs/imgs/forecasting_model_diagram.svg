@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1101 1292" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <path id="rect1" d="M10.519,0.519L1090.48,0.519C1095.97,0.519 1100.48,5.033 1100.48,10.519L1100.48,1281.22C1100.48,1286.7 1095.97,1291.22 1090.48,1291.22L10.519,1291.22C5.033,1291.22 0.519,1286.7 0.519,1281.22L0.519,10.519C0.519,5.033 5.033,0.519 10.519,0.519Z" style="fill:rgb(248,250,252);fill-rule:nonzero;stroke:rgb(226,232,240);stroke-width:1.04px;"/>
+    <g id="title" transform="matrix(1,0,0,1,550.5,30.5)">
+        <g transform="matrix(18,0,0,18,-136.2,0)">
+        </g>
+        <g transform="matrix(18,0,0,18,-130.206,0)">
+        </g>
+        <text x="-165.195px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:18px;fill:rgb(55,65,81);">Uniﬁed ForecastingModel <tspan x="59.164px 72.163px " y="0px 0px ">Ar</tspan>chitecture</text>
+    </g>
+    <path id="rect_input" d="M642.568,70.619L642.568,90.381C642.568,95.902 638.085,100.385 632.564,100.385L465,100.385C459.478,100.385 454.996,95.902 454.996,90.381L454.996,70.619C454.996,65.098 459.478,60.615 465,60.615L632.564,60.615C638.085,60.615 642.568,65.098 642.568,70.619Z" style="fill:rgb(254,215,170);stroke:rgb(253,186,116);stroke-width:2.23px;"/>
+    <g id="text_input" transform="matrix(1,0,0,1,550.5,85.5)">
+        <text x="-87.151px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(146,64,14);">src, targets, time_features</text>
+    </g>
+    <path id="arrow1" d="M550.5,105.5L550.5,120.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="rect_preprocess" d="M700.5,133.5L700.5,197.5C700.5,201.915 696.915,205.5 692.5,205.5L408.5,205.5C404.085,205.5 400.5,201.915 400.5,197.5L400.5,133.5C400.5,129.085 404.085,125.5 408.5,125.5L692.5,125.5C696.915,125.5 700.5,129.085 700.5,133.5Z" style="fill:rgb(219,234,254);stroke:rgb(147,197,253);stroke-width:2px;"/>
+    <g id="text_preprocess_title" transform="matrix(1,0,0,1,550.5,145.5)">
+        <text x="-67.679px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(30,64,175);">Input Preprocessing</text>
+    </g>
+    <g id="text_preprocess1" transform="matrix(1,0,0,1,410.5,165.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• input_preprocessor(src)</text>
+    </g>
+    <g id="text_preprocess2" transform="matrix(1,0,0,1,410.5,177.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Optional skip connection</text>
+    </g>
+    <g id="text_preprocess3" transform="matrix(1,0,0,1,410.5,189.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• input_normalization</text>
+    </g>
+    <g id="text_preprocess4" transform="matrix(1,0,0,1,570.5,165.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.846px 14.067px " y="0px 0px 0px ">Tim</tspan>e feature embedding</text>
+    </g>
+    <g id="text_preprocess5" transform="matrix(1,0,0,1,570.5,177.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Multi-encoder support</text>
+    </g>
+    <g id="text_preprocess6" transform="matrix(1,0,0,1,570.5,189.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• V<tspan x="12.212px 18.882px " y="0px 0px ">AE</tspan> hidden processing</text>
+    </g>
+    <path id="arrow2" d="M550.5,210.5L550.5,225.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="strategy_router" transform="matrix(1,0,0,1,0.499997,0.499997)">
+        <path d="M550,305L475,270L550,235L625,270L550,305Z" style="fill:rgb(254,243,199);fill-rule:nonzero;stroke:rgb(251,191,36);stroke-width:2px;"/>
+    </g>
+    <g id="text_strategy_router" transform="matrix(1,0,0,1,550.5,267.5)">
+        <text x="-34.008px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:12px;fill:rgb(146,64,14);">Forecasting</text>
+        <text x="-27.674px" y="12px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:12px;fill:rgb(146,64,14);">Strategy?</text>
+    </g>
+    <path id="path_direct" d="M475.5,270.5L225.5,270.5L225.5,320.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="label_direct" transform="matrix(1,0,0,1,350.5,290.5)">
+        <text x="-12.227px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">direct</text>
+    </g>
+    <path id="rect_direct" d="M325.5,333.5L325.5,397.5C325.5,401.915 321.915,405.5 317.5,405.5L133.5,405.5C129.085,405.5 125.5,401.915 125.5,397.5L125.5,333.5C125.5,329.085 129.085,325.5 133.5,325.5L317.5,325.5C321.915,325.5 325.5,329.085 325.5,333.5Z" style="fill:rgb(207,250,254);stroke:rgb(103,232,249);stroke-width:2px;"/>
+    <g id="text_direct_title" transform="matrix(1,0,0,1,225.5,345.5)">
+        <text x="-61.462px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(12,74,110);">Direct Forecasting</text>
+    </g>
+    <g id="text_direct1" transform="matrix(1,0,0,1,135.5,365.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Single forward pass</text>
+    </g>
+    <g id="text_direct2" transform="matrix(1,0,0,1,135.5,377.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• decoder(src)</text>
+    </g>
+    <g id="text_direct3" transform="matrix(1,0,0,1,135.5,389.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Fastest inference</text>
+    </g>
+    <g id="text_direct4" transform="matrix(1,0,0,1,135.5,401.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• No iterative generation</text>
+    </g>
+    <path id="path_auto" d="M500.5,305.5L500.5,365.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="label_auto" transform="matrix(1,0,0,1,462.488,331.494)">
+        <text x="-32.795px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">autoregressive</text>
+    </g>
+    <path id="rect_auto" d="M550.5,378.5L550.5,462.5C550.5,466.915 546.915,470.5 542.5,470.5L358.5,470.5C354.085,470.5 350.5,466.915 350.5,462.5L350.5,378.5C350.5,374.085 354.085,370.5 358.5,370.5L542.5,370.5C546.915,370.5 550.5,374.085 550.5,378.5Z" style="fill:rgb(233,213,255);stroke:rgb(196,181,253);stroke-width:2px;"/>
+    <g id="text_auto_title" transform="matrix(1,0,0,1,450.5,390.5)">
+        <text x="-89.862px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(88,28,135);">Autoregressive Generation</text>
+    </g>
+    <g id="text_auto1" transform="matrix(1,0,0,1,360.5,410.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Start with last timestep</text>
+    </g>
+    <g id="text_auto2" transform="matrix(1,0,0,1,360.5,422.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Generate step-by-step</text>
+    </g>
+    <g id="text_auto3" transform="matrix(1,0,0,1,360.5,434.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.104px 16.665px " y="0px 0px 0px ">Tea</tspan>cher forcing support</text>
+    </g>
+    <g id="text_auto4" transform="matrix(1,0,0,1,360.5,446.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Scheduled sampling</text>
+    </g>
+    <g id="text_auto5" transform="matrix(1,0,0,1,360.5,458.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• For RNN/LSTM models</text>
+    </g>
+    <path id="path_seq2seq" d="M600.5,305.5L600.5,365.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="label_seq2seq" transform="matrix(1,0,0,1,677.81,331.494)">
+        <text x="-70.317px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">seq2seq / transformer_seq2seq</text>
+    </g>
+    <path id="rect_seq2seq" d="M775.5,378.5L775.5,462.5C775.5,466.915 771.915,470.5 767.5,470.5L583.5,470.5C579.085,470.5 575.5,466.915 575.5,462.5L575.5,378.5C575.5,374.085 579.085,370.5 583.5,370.5L767.5,370.5C771.915,370.5 775.5,374.085 775.5,378.5Z" style="fill:rgb(209,250,229);stroke:rgb(134,239,172);stroke-width:2px;"/>
+    <g id="text_seq2seq_title" transform="matrix(1,0,0,1,675.5,390.5)">
+        <text x="-59.524px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(6,95,70);">Seq2Seq Strategy</text>
+    </g>
+    <g id="text_seq2seq1" transform="matrix(1,0,0,1,585.5,410.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Routes by model_type</text>
+    </g>
+    <g id="text_seq2seq2" transform="matrix(1,0,0,1,585.5,422.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• RNN/LSTM style</text>
+    </g>
+    <g id="text_seq2seq3" transform="matrix(1,0,0,1,585.5,434.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.846px 15.176px " y="0px 0px 0px ">Tra</tspan>nsformer style</text>
+    </g>
+    <g id="text_seq2seq4" transform="matrix(1,0,0,1,585.5,446.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Informer-like style</text>
+    </g>
+    <g id="text_seq2seq5" transform="matrix(1,0,0,1,585.5,458.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Multi-encoder option</text>
+    </g>
+    <path id="arrow_to_model_type" d="M675.5,475.5L675.5,500.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="model_type_router" transform="matrix(1,0,0,1,0.499997,0.499997)">
+        <path d="M675,580L600,545L675,510L750,545L675,580Z" style="fill:rgb(254,215,170);fill-rule:nonzero;stroke:rgb(253,186,116);stroke-width:2px;"/>
+    </g>
+    <g id="text_model_type_router" transform="matrix(1,0,0,1,675.5,550.5)">
+        <text x="-36.226px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:12px;fill:rgb(146,64,14);">Model T<tspan x="8.218px 14.892px " y="0px 0px ">yp</tspan>e?</text>
+    </g>
+    <path id="path_rnn" d="M600.5,545.5L250.5,545.5L250.5,595.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="label_rnn" transform="matrix(1,0,0,1,425.5,565.5)">
+        <text x="-9.165px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">lstm</text>
+    </g>
+    <path id="rect_rnn" d="M400.5,608.5L400.5,732.5C400.5,736.915 396.915,740.5 392.5,740.5L158.5,740.5C154.085,740.5 150.5,736.915 150.5,732.5L150.5,608.5C150.5,604.085 154.085,600.5 158.5,600.5L392.5,600.5C396.915,600.5 400.5,604.085 400.5,608.5Z" style="fill:rgb(243,232,255);stroke:rgb(168,85,247);stroke-width:2px;"/>
+    <g id="text_rnn_title" transform="matrix(1,0,0,1,275.5,620.5)">
+        <text x="-54.838px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(88,28,135);">RNN/LSTM Style</text>
+    </g>
+    <path id="rect_rnn_encdec" d="M390.5,635.5L390.5,650.5C390.5,653.26 388.26,655.5 385.5,655.5L165.5,655.5C162.74,655.5 160.5,653.26 160.5,650.5L160.5,635.5C160.5,632.74 162.74,630.5 165.5,630.5L385.5,630.5C388.26,630.5 390.5,632.74 390.5,635.5Z" style="fill:rgb(250,245,255);stroke:rgb(216,180,254);stroke-width:1px;"/>
+    <g id="text_rnn_encdec" transform="matrix(1,0,0,1,275.5,647.5)">
+        <text x="-86.128px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(88,28,135);">Encoder</text>
+        <text x="-43.34px" y="0px" style="font-family:'LucidaGrande-Bold', 'Lucida Grande', sans-serif;font-weight:600;font-size:10px;fill:rgb(88,28,135);">→</text>
+        <text x="-30.562px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(88,28,135);">Hidden State</text>
+        <text x="33.335px" y="0px" style="font-family:'LucidaGrande-Bold', 'Lucida Grande', sans-serif;font-weight:600;font-size:10px;fill:rgb(88,28,135);">→</text>
+        <text x="46.113px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(88,28,135);">Decoder</text>
+    </g>
+    <g id="text_rnn1" transform="matrix(1,0,0,1,170.5,670.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• encoder(src)</text>
+        <text x="65.186px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:10px;fill:rgb(55,65,81);">→</text>
+        <text x="77.964px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">outputs, hidden</text>
+    </g>
+    <g id="text_rnn2" transform="matrix(1,0,0,1,170.5,682.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Process hidden (V<tspan x="87.251px 93.921px " y="0px 0px ">AE</tspan>/bidirectional)</text>
+    </g>
+    <g id="text_rnn3" transform="matrix(1,0,0,1,170.5,694.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Initialize decoder input</text>
+    </g>
+    <g id="text_rnn4" transform="matrix(1,0,0,1,170.5,706.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Step-by-step generation</text>
+    </g>
+    <g id="text_rnn5" transform="matrix(1,0,0,1,170.5,718.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Optional attention mechanism</text>
+    </g>
+    <g id="text_rnn6" transform="matrix(1,0,0,1,170.5,730.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.104px 16.665px " y="0px 0px 0px ">Tea</tspan>cher forcing + scheduled sampling</text>
+    </g>
+    <path id="path_transformer" d="M676.5,580.5L676.5,640.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="label_transformer" transform="matrix(1,0,0,1,720.5,615.5)">
+        <text x="-25.562px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">transformer</text>
+    </g>
+    <path id="rect_transformer" d="M825.5,653.5L825.5,757.5C825.5,761.915 821.915,765.5 817.5,765.5L583.5,765.5C579.085,765.5 575.5,761.915 575.5,757.5L575.5,653.5C575.5,649.085 579.085,645.5 583.5,645.5L817.5,645.5C821.915,645.5 825.5,649.085 825.5,653.5Z" style="fill:rgb(219,234,254);stroke:rgb(147,197,253);stroke-width:2px;"/>
+    <g id="text_transformer_title" transform="matrix(1,0,0,1,700.5,665.5)">
+        <text x="-59.527px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(30,64,175);">T<tspan x="-51.741px -46.293px " y="0px 0px ">ra</tspan>nsformer Style</text>
+    </g>
+    <g id="text_transformer1" transform="matrix(1,0,0,1,585.5,685.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• encoder(src)</text>
+        <text x="65.186px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:10px;fill:rgb(55,65,81);">→</text>
+        <text x="77.964px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">memory</text>
+    </g>
+    <g id="text_transformer2" transform="matrix(1,0,0,1,585.5,697.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="5.732px 12.402px " y="0px 0px ">Au</tspan>toregressive decoding</text>
+    </g>
+    <g id="text_transformer3" transform="matrix(1,0,0,1,585.5,709.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• decoder(input, memory)</text>
+    </g>
+    <g id="text_transformer4" transform="matrix(1,0,0,1,585.5,721.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Handle size mismatches</text>
+    </g>
+    <g id="text_transformer5" transform="matrix(1,0,0,1,585.5,733.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.104px 16.665px " y="0px 0px 0px ">Tea</tspan>cher forcing support</text>
+    </g>
+    <g id="text_transformer6" transform="matrix(1,0,0,1,585.5,745.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Padding for input/output dims</text>
+    </g>
+    <g id="text_transformer7" transform="matrix(1,0,0,1,585.5,757.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Cross-attention with memory</text>
+    </g>
+    <path id="path_informer" d="M750.5,545.5C900.5,545.5 950.5,545.5 950.5,640.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <g id="label_informer" transform="matrix(1,0,0,1,850.5,565.5)">
+        <text x="-27.505px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">informer-like</text>
+    </g>
+    <path id="rect_informer" d="M1070.5,653.5L1070.5,757.5C1070.5,761.915 1066.91,765.5 1062.5,765.5L858.5,765.5C854.085,765.5 850.5,761.915 850.5,757.5L850.5,653.5C850.5,649.085 854.085,645.5 858.5,645.5L1062.5,645.5C1066.91,645.5 1070.5,649.085 1070.5,653.5Z" style="fill:rgb(207,250,254);stroke:rgb(103,232,249);stroke-width:2px;"/>
+    <g id="text_informer_title" transform="matrix(1,0,0,1,960.5,665.5)">
+        <text x="-63.407px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(12,74,110);">Informer-Like Style</text>
+    </g>
+    <g id="text_informer1" transform="matrix(1,0,0,1,860.5,685.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• encoder(src, time_features)</text>
+    </g>
+    <g id="text_informer2" transform="matrix(1,0,0,1,860.5,697.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Start token expansion</text>
+    </g>
+    <g id="text_informer3" transform="matrix(1,0,0,1,860.5,709.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Parallel decoding</text>
+    </g>
+    <g id="text_informer4" transform="matrix(1,0,0,1,860.5,721.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• decoder(dec_input, enc_out)</text>
+    </g>
+    <g id="text_informer5" transform="matrix(1,0,0,1,860.5,733.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Handle encoder/decoder tuples</text>
+    </g>
+    <g id="text_informer6" transform="matrix(1,0,0,1,860.5,745.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.846px 14.067px " y="0px 0px 0px ">Tim</tspan>e feature integration</text>
+    </g>
+    <g id="text_informer7" transform="matrix(1,0,0,1,860.5,757.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• ProbSparse/Full attention</text>
+    </g>
+    <path id="conv_direct" d="M225.5,410.5C402.833,508.989 548.633,799.477 548.633,869.477" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="conv_auto" d="M450.5,475.5C450.5,575.5 549.478,814.477 549.478,869.477" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="conv_rnn" d="M275.5,745.5C275.5,795.5 524.144,685.722 551.167,870.322" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="conv_transformer" d="M700.5,770.5C700.5,820.5 532.589,784.189 551.167,869.477" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="conv_informer" d="M960.5,770.5C960.5,820.5 520.767,747.033 550.322,870.322" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="rect_output_process" d="M700.5,879.5L700.5,943.5C700.5,947.915 696.915,951.5 692.5,951.5L408.5,951.5C404.085,951.5 400.5,947.915 400.5,943.5L400.5,879.5C400.5,875.085 404.085,871.5 408.5,871.5L692.5,871.5C696.915,871.5 700.5,875.085 700.5,879.5Z" style="fill:rgb(243,232,255);stroke:rgb(168,85,247);stroke-width:2px;"/>
+    <g id="text_output_process_title" transform="matrix(1,0,0,1,550.5,891.5)">
+        <text x="-62.617px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(88,28,135);">Output Processing</text>
+    </g>
+    <g id="text_output1" transform="matrix(1,0,0,1,410.5,911.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• output_normalization</text>
+    </g>
+    <g id="text_output2" transform="matrix(1,0,0,1,410.5,923.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• output_postprocessor</text>
+    </g>
+    <g id="text_output3" transform="matrix(1,0,0,1,410.5,935.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• KL<tspan x="18.145px 20.923px " y="0px 0px "> d</tspan>ivergence tracking</text>
+    </g>
+    <g id="text_output4" transform="matrix(1,0,0,1,570.5,911.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Multi-encoder aggregation</text>
+    </g>
+    <g id="text_output5" transform="matrix(1,0,0,1,570.5,923.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="5.732px 12.402px " y="0px 0px ">At</tspan>tention context integration</text>
+    </g>
+    <g id="text_output6" transform="matrix(1,0,0,1,570.5,935.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Dimension projection</text>
+    </g>
+    <path id="arrow_final" d="M550.5,956.5L550.5,971.5" style="fill:none;fill-rule:nonzero;stroke:rgb(55,65,81);stroke-width:2px;"/>
+    <path id="rect_final_output" d="M625.5,984.5L625.5,1008.5C625.5,1012.92 621.915,1016.5 617.5,1016.5L483.5,1016.5C479.085,1016.5 475.5,1012.92 475.5,1008.5L475.5,984.5C475.5,980.085 479.085,976.5 483.5,976.5L617.5,976.5C621.915,976.5 625.5,980.085 625.5,984.5Z" style="fill:rgb(254,215,170);stroke:rgb(253,186,116);stroke-width:2px;"/>
+    <g id="text_final_output" transform="matrix(1,0,0,1,550.5,1001.5)">
+        <text x="-72.362px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(146,64,14);">Forecasted Sequence</text>
+    </g>
+    <path id="rect_multi_encoder" d="M300.5,808.5L300.5,912.5C300.5,916.915 296.915,920.5 292.5,920.5L58.5,920.5C54.085,920.5 50.5,916.915 50.5,912.5L50.5,808.5C50.5,804.085 54.085,800.5 58.5,800.5L292.5,800.5C296.915,800.5 300.5,804.085 300.5,808.5Z" style="fill:rgb(254,243,199);stroke:rgb(251,191,36);stroke-width:2px;"/>
+    <g id="text_multi_encoder_title" transform="matrix(1,0,0,1,175.5,820.5)">
+        <text x="-66.886px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(146,64,14);">Multi-Encoder Mode</text>
+    </g>
+    <g id="text_multi1" transform="matrix(1,0,0,1,60.5,840.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Separate encoder/decoder per feature</text>
+    </g>
+    <g id="text_multi2" transform="matrix(1,0,0,1,60.5,852.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Process each input dimension</text>
+    </g>
+    <g id="text_multi3" transform="matrix(1,0,0,1,60.5,864.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Independent attention per feature</text>
+    </g>
+    <g id="text_multi4" transform="matrix(1,0,0,1,60.5,876.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="5.732px 12.402px " y="0px 0px ">Ag</tspan>gregation layer combines outputs</text>
+    </g>
+    <g id="text_multi5" transform="matrix(1,0,0,1,60.5,888.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Linear combination weights</text>
+    </g>
+    <g id="text_multi6" transform="matrix(1,0,0,1,60.5,900.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Parallel feature processing</text>
+    </g>
+    <g id="text_multi7" transform="matrix(1,0,0,1,60.5,912.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• ModuleList for scalability</text>
+    </g>
+    <path id="rect_teacher_forcing" d="M1050.5,808.5L1050.5,912.5C1050.5,916.915 1046.91,920.5 1042.5,920.5L758.5,920.5C754.085,920.5 750.5,916.915 750.5,912.5L750.5,808.5C750.5,804.085 754.085,800.5 758.5,800.5L1042.5,800.5C1046.91,800.5 1050.5,804.085 1050.5,808.5Z" style="fill:rgb(220,252,231);stroke:rgb(134,239,172);stroke-width:2px;"/>
+    <g id="text_teacher_forcing_title" transform="matrix(1,0,0,1,900.5,820.5)">
+        <text x="-87.391px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:14px;fill:rgb(6,95,70);">T<tspan x="-79.871px -72.085px " y="0px 0px ">ea</tspan>cher Forcing Sampling</text>
+    </g>
+    <g id="text_teacher1" transform="matrix(1,0,0,1,760.5,840.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• <tspan x="6.104px 11.846px 15.176px " y="0px 0px 0px ">Tra</tspan>ining: use target values as next input</text>
+    </g>
+    <g id="text_teacher2" transform="matrix(1,0,0,1,760.5,852.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Inference: use model predictions</text>
+    </g>
+    <g id="text_teacher3" transform="matrix(1,0,0,1,760.5,864.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• teacher_forcing_ratio controls probability</text>
+    </g>
+    <g id="text_teacher4" transform="matrix(1,0,0,1,760.5,876.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• scheduled_sampling_fn for curriculum</text>
+    </g>
+    <g id="text_teacher5" transform="matrix(1,0,0,1,760.5,888.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Epoch-based scheduling</text>
+    </g>
+    <g id="text_teacher6" transform="matrix(1,0,0,1,760.5,900.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Improves training stability</text>
+    </g>
+    <g id="text_teacher7" transform="matrix(1,0,0,1,760.5,912.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">• Reduces exposure bias</text>
+    </g>
+    <path id="rect_features" d="M950.5,1064.5L950.5,1148.5C950.5,1152.91 946.915,1156.5 942.5,1156.5L158.5,1156.5C154.085,1156.5 150.5,1152.91 150.5,1148.5L150.5,1064.5C150.5,1060.09 154.085,1056.5 158.5,1056.5L942.5,1056.5C946.915,1056.5 950.5,1060.09 950.5,1064.5Z" style="fill:rgb(241,245,249);stroke:rgb(203,213,225);stroke-width:2px;"/>
+    <g id="text_features_title" transform="matrix(1,0,0,1,550.5,1076.5)">
+        <g transform="matrix(16,0,0,16,-85.9609,0)">
+        </g>
+        <g transform="matrix(16,0,0,16,-80.6328,0)">
+        </g>
+        <text x="-111.734px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:16px;fill:rgb(55,65,81);">Uniﬁed <tspan x="-53.656px -42.102px " y="0px 0px ">Ar</tspan>chitecture Features</text>
+    </g>
+    <g id="feature1" transform="matrix(1,0,0,1,170.5,1096.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">Multiple forecasting strategies in one model</text>
+    </g>
+    <g id="feature2" transform="matrix(1,0,0,1,170.5,1111.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">Support for LSTM, <tspan x="104.194px 110.51px 114.173px " y="0px 0px 0px ">Tra</tspan>nsformer<tspan x="163.088px 166.144px " y="0px 0px ">, </tspan>Informer architectures</text>
+    </g>
+    <g id="feature3" transform="matrix(1,0,0,1,170.5,1126.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">Multi-encoder processing for complex features</text>
+    </g>
+    <g id="feature4" transform="matrix(1,0,0,1,170.5,1141.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">V<tspan x="17.988px 25.325px " y="0px 0px ">AE</tspan> hidden state processing with KL<tspan x="190.631px 193.687px " y="0px 0px "> t</tspan>racking</text>
+    </g>
+    <g id="feature5" transform="matrix(1,0,0,1,550.5,1096.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.269px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);"><tspan x="11.269px 16.769px 22.886px " y="0px 0px 0px ">Tea</tspan>cher forcing and scheduled sampling</text>
+    </g>
+    <g id="feature6" transform="matrix(1,0,0,1,550.5,1111.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">Bidirectional encoder support</text>
+    </g>
+    <g id="feature7" transform="matrix(1,0,0,1,550.5,1126.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">Optional attention mechanisms</text>
+    </g>
+    <g id="feature8" transform="matrix(1,0,0,1,550.5,1141.5)">
+        <text x="0px" y="0px" style="font-family:'LucidaGrande', 'Lucida Grande', sans-serif;font-weight:500;font-size:11px;fill:rgb(55,65,81);">✓</text>
+        <text x="11.462px" y="0px" style="font-family:'Helvetica';font-size:11px;fill:rgb(55,65,81);">Flexible input/output processing pipeline</text>
+    </g>
+    <path id="rect_config" d="M950.5,1184.5L950.5,1258.5C950.5,1262.91 946.915,1266.5 942.5,1266.5L158.5,1266.5C154.085,1266.5 150.5,1262.91 150.5,1258.5L150.5,1184.5C150.5,1180.09 154.085,1176.5 158.5,1176.5L942.5,1176.5C946.915,1176.5 950.5,1180.09 950.5,1184.5Z" style="fill:rgb(255,251,235);stroke:rgb(245,158,11);stroke-width:2px;"/>
+    <g id="text_config_title" transform="matrix(1,0,0,1,550.5,1196.5)">
+        <g transform="matrix(16,0,0,16,11.1055,0)">
+        </g>
+        <g transform="matrix(16,0,0,16,16.4336,0)">
+        </g>
+        <text x="-93.77px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:16px;fill:rgb(146,64,14);">Common Conﬁgurations</text>
+    </g>
+    <g id="config1" transform="matrix(1,0,0,1,170.5,1216.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(55,65,81);">LSTM Seq2Seq:</text>
+    </g>
+    <g id="config1_text" transform="matrix(1,0,0,1,270.5,1216.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">strategy=&quot;seq2seq&quot;, model_type=&quot;lstm&quot;, teacher_forcing_ratio=0.5</text>
+    </g>
+    <g id="config2" transform="matrix(1,0,0,1,170.5,1231.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(55,65,81);">T<tspan x="5.562px 9.453px " y="0px 0px ">ra</tspan>nsformer:</text>
+    </g>
+    <g id="config2_text" transform="matrix(1,0,0,1,250.5,1231.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">strategy=&quot;transformer_seq2seq&quot;, model_type=&quot;transformer&quot;</text>
+    </g>
+    <g id="config3" transform="matrix(1,0,0,1,170.5,1246.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(55,65,81);">Informer-style:</text>
+    </g>
+    <g id="config3_text" transform="matrix(1,0,0,1,260.5,1246.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">strategy=&quot;seq2seq&quot;, model_type=&quot;informer-like&quot;</text>
+    </g>
+    <g id="config4" transform="matrix(1,0,0,1,610.5,1216.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(55,65,81);">Direct:</text>
+    </g>
+    <g id="config4_text" transform="matrix(1,0,0,1,650.5,1216.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">strategy=&quot;direct&quot; (fastest inference)</text>
+    </g>
+    <g id="config5" transform="matrix(1,0,0,1,610.5,1231.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(55,65,81);">Multi-Encoder:</text>
+    </g>
+    <g id="config5_text" transform="matrix(1,0,0,1,700.5,1231.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">multi_encoder_decoder=T<tspan x="116.094px 119.424px " y="0px 0px ">ru</tspan>e</text>
+    </g>
+    <g id="config6" transform="matrix(1,0,0,1,610.5,1246.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica-Bold', 'Helvetica';font-weight:700;font-size:10px;fill:rgb(55,65,81);">Autoregressive:</text>
+    </g>
+    <g id="config6_text" transform="matrix(1,0,0,1,710.5,1246.5)">
+        <text x="0px" y="0px" style="font-family:'Helvetica';font-size:10px;fill:rgb(55,65,81);">strategy=&quot;autoregressive&quot;</text>
+    </g>
+    <g id="multi_connection1" transform="matrix(1.01339,0,0,1.00861,-4.03524,-7.06672)">
+        <path d="M301.474,820.48C322.457,772.179 622.146,707.841 547.613,309.71" style="fill:none;fill-rule:nonzero;stroke:rgb(251,191,36);stroke-opacity:0.7;stroke-width:2.52px;stroke-dasharray:3,3;"/>
+    </g>
+    <g id="teacher_connection1" transform="matrix(1.00007,0,0,1,-0.0316528,0)">
+        <path d="M840.352,798.524C840.352,711.002 848.933,645.509 811.901,614.113C778.605,585.885 724.697,596.594 675.911,590.772C572.897,578.478 467.698,566.345 451.888,477.016" style="fill:none;fill-rule:nonzero;stroke:rgb(134,239,172);stroke-opacity:0.7;stroke-width:1.38px;stroke-dasharray:3,3;"/>
+    </g>
+    <path id="teacher_connection2" d="M841.289,801.251C848.695,498.6 768.042,536.076 676.728,474.524" style="fill:none;fill-rule:nonzero;stroke:rgb(134,239,172);stroke-opacity:0.7;stroke-width:1.5px;stroke-dasharray:3,3;"/>
+</svg>
