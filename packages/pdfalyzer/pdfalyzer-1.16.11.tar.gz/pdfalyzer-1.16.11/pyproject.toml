@@ -1,0 +1,106 @@
+[tool.poetry]
+name = "pdfalyzer"
+version = "1.16.11"
+description = "PDF analysis tool. Scan a PDF with YARA rules, visualize its inner tree-like data structure in living color (lots of colors), force decodes of suspicious font binaries, and more."
+authors = ["Michel de Cryptadamus <michel@cryptadamus.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+documentation = "https://github.com/michelcrypt4d4mus/pdfalyzer"
+homepage = "https://github.com/michelcrypt4d4mus/pdfalyzer"
+repository = "https://github.com/michelcrypt4d4mus/pdfalyzer"
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Artistic Software",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+include = [
+    "CHANGELOG.md",
+    "LICENSE",
+    ".pdfalyzer.example"
+]
+
+keywords = [
+    "ascii art",
+    "binary",
+    "color",
+    "cybersecurity",
+    "DFIR",
+    "encoding",
+    "font",
+    "infosec",
+    "maldoc",
+    "malicious pdf",
+    "malware",
+    "malware analysis",
+    "pdf",
+    "pdfs",
+    "pdf analysis",
+    "pypdf",
+    "threat assessment",
+    "visualization",
+    "yara"
+]
+
+packages = [
+    { include = "pdfalyzer" }
+]
+
+
+#####################
+#   Dependencies    #
+#####################
+[tool.poetry.dependencies]
+python = "^3.9.2"
+anytree = "~=2.13"
+pypdf = "^5.9.0"
+yaralyzer = "^1.0.4"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.3.0"
+pytest = "^7.1.2"
+pytest-skip-slow = "^0.0.3"
+
+
+#############
+#  Scripts  #
+#############
+[tool.poetry.scripts]
+combine_pdfs = 'pdfalyzer:combine_pdfs'
+pdfalyze = 'pdfalyzer:pdfalyze'
+pdfalyzer_show_color_theme = 'pdfalyzer:pdfalyzer_show_color_theme'
+
+
+#####################
+#     PyPi URLs     #
+#####################
+[tool.poetry.urls]
+Changelog = "https://github.com/michelcrypt4d4mus/pdfalyzer/blob/master/CHANGELOG.md"
+
+
+###############################
+#     Poetry build system     #
+###############################
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+
+##################
+#     pytest     #
+##################
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
