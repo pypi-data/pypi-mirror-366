@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "offers_check_marketplaces-test-prod": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "offers-check-marketplaces-mcp-2025",
+        "offers-check-marketplaces.exe"
+      ],
+      "env": {
+        "LICENSE_KEY": "743017d6-221c-4e0a-93ed-e417ae006db2"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "disabled": false,
+      "autoApprove": [
+        "browser_navigate",
+        "browser_type",
+        "browser_click",
+        "browser_close"
+      ]
+    }
+  }
+}
