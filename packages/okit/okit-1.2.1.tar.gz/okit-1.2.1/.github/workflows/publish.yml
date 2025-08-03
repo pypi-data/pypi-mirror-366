@@ -1,0 +1,136 @@
+name: Publish Python Package
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Check manual trigger on main branch
+        if: github.event_name == 'workflow_dispatch' && github.ref_name == 'main'
+        run: |
+          echo "Error: Manual trigger is not allowed on main branch"
+          exit 1
+
+      - name: Generate version for dev/pre-release branch (manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          echo "Current branch: $BRANCH_NAME"
+          COUNT=${GITHUB_RUN_NUMBER}
+          # 解析分支名，生成 PEP 440 版本号
+          if [[ "$BRANCH_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-dev$ ]]; then
+            BASE_VER="${BASH_REMATCH[1]}"
+            VERSION="${BASE_VER}.dev$COUNT"
+            echo "Matched dev branch, BASE_VER=${BASE_VER}, VERSION=$VERSION"
+          elif [[ "$BRANCH_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-alpha$ ]]; then
+            BASE_VER="${BASH_REMATCH[1]}"
+            VERSION="${BASE_VER}a$COUNT"
+            echo "Matched alpha branch, BASE_VER=${BASE_VER}, VERSION=$VERSION"
+          elif [[ "$BRANCH_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-beta$ ]]; then
+            BASE_VER="${BASH_REMATCH[1]}"
+            VERSION="${BASE_VER}b$COUNT"
+            echo "Matched beta branch, BASE_VER=${BASE_VER}, VERSION=$VERSION"
+          elif [[ "$BRANCH_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-rc$ ]]; then
+            BASE_VER="${BASH_REMATCH[1]}"
+            VERSION="${BASE_VER}rc$COUNT"
+            echo "Matched rc branch, BASE_VER=${BASE_VER}, VERSION=$VERSION"
+          else
+            echo "Invalid branch name: $BRANCH_NAME"
+            exit 1
+          fi
+          echo "dev_version=$VERSION" >> $GITHUB_ENV
+          echo "Set version: $VERSION"
+          sed -i "s/^__version__ = .*/__version__ = \"$VERSION\"/" src/okit/__init__.py
+
+      - name: Sync version with tag (tag push)
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          CUR_VERSION=$(grep '^__version__' src/okit/__init__.py | cut -d'"' -f2)
+          if [ "$CUR_VERSION" != "$TAG_NAME" ]; then
+            echo "__version__ is inconsistent, auto update to tag version $TAG_NAME"
+            sed -i "s/^__version__ = .*/__version__ = \"$TAG_NAME\"/" src/okit/__init__.py
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add src/okit/__init__.py
+            git commit -m "chore: sync version to $TAG_NAME [auto-commit]"
+            git push origin HEAD:main
+          else
+            echo "__version__ matches tag, no update needed"
+          fi
+
+      - name: Build package
+        run: uv build .
+
+      - name: Publish to PyPI/TestPyPI
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          TESTPYPI_TOKEN: ${{ secrets.TESTPYPI_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Dev branch test release"
+            uv publish --index testpypi --token "$TESTPYPI_TOKEN"
+          elif [ "${{ github.event_name }}" = "push" ] && [[ "${{ github.ref_name }}" =~ (dev|alpha|beta|rc) ]]; then
+            echo "Tag ${{ github.ref_name }} test release"
+            uv publish --index testpypi --token "$TESTPYPI_TOKEN"
+          else
+            echo "Tag ${{ github.ref_name }} production release"
+            uv publish --token "$PYPI_TOKEN"
+          fi
+
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
