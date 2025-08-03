@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: stanlee
+Version: 0.0.1
+Summary: AI agent framework with tool execution capabilities
+Project-URL: Homepage, https://github.com/amaarora/stanlee
+Project-URL: Repository, https://github.com/amaarora/stanlee
+Project-URL: Issues, https://github.com/amaarora/stanlee/issues
+Author-email: Aman Arora <aman.arora0210@gmail.com>
+License: MIT
+License-File: LICENSE
+Keywords: agent,ai,claude,framework,llm,openai,tool
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Requires-Dist: debugpy>=1.8.15
+Requires-Dist: litellm>=1.74.15
+Requires-Dist: pydantic>=2.11.7
+Provides-Extra: dev
+Requires-Dist: pre-commit>=4.2.0; extra == 'dev'
+Requires-Dist: ruff>=0.8.0; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: pytest-cov>=6.0.0; extra == 'test'
+Requires-Dist: pytest-mock>=3.14.0; extra == 'test'
+Requires-Dist: pytest>=8.4.1; extra == 'test'
+Description-Content-Type: text/markdown
+
+# Stanlee
+
+Stanlee is a simple collection of AI agents that are in use on a daily basis. These consist of financial assistants, news reporters, paper readers - and more! The library is meant to cover comprehensive use cases - from Claude Code SDK to multiple LLM providers. Stanlee also comes with a front end - also built from scratch. 
+
+The backend consists of Python, for the wider support of libraries.
+
+## Installation
+
+```bash
+pip install stanlee
+```
+
+or with uv:
+
+```bash
+uv add stanlee
+```
+
+## Usage
+
+```python
+from stanlee import Agent, Tool
+
+# Create and use your agent
+agent = Agent(name="MyAgent")
+```
