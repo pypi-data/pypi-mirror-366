@@ -1,0 +1,72 @@
+name: complex-training
+instance_type: h100.80gb.sxm5.8x
+num_instances: 2
+region: us-central1-a
+
+# Working directory
+working_dir: /workspace
+
+# Command to run
+command: |
+  python -m torch.distributed.launch \
+    --nproc_per_node=2 \
+    --master_port=29500 \
+    train.py \
+    --config config.yaml \
+    --output_dir /models/output
+
+# Environment variables
+env:
+  CUDA_VISIBLE_DEVICES: "0,1"
+  WANDB_API_KEY: "${WANDB_API_KEY}"
+  HF_TOKEN: "${HF_TOKEN}"
+  NCCL_DEBUG: INFO
+
+# Storage volumes
+volumes:
+  - size_gb: 500
+    mount_path: /data
+  - size_gb: 200
+    mount_path: /models
+  - volume_id: vol-shared-data
+    mount_path: /shared
+
+# Startup script
+command: |
+  #!/bin/bash
+  set -e
+  
+  echo "Setting up training environment..."
+  
+  # Install dependencies
+  pip install -r requirements.txt
+  
+  # Download dataset if not present
+  if [ ! -f /data/dataset.tar.gz ]; then
+    wget https://example.com/dataset.tar.gz -O /data/dataset.tar.gz
+    tar -xzf /data/dataset.tar.gz -C /data/
+  fi
+  
+  # Setup wandb
+  wandb login $WANDB_API_KEY
+  
+  echo "Environment ready!"
+
+# Shutdown script
+shutdown_script: |
+  #!/bin/bash
+  # Upload final model to cloud storage
+  aws s3 sync /models/output s3://my-bucket/models/
+  
+  # Clean up temporary files
+  rm -rf /tmp/*
+
+# Resource limits
+max_run_time_hours: 24
+max_cost: 1000.00
+
+# Advanced options
+persistent_home: true
+ssh_keys:
+  - ssh-key-123
+  - ssh-key-456

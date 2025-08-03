@@ -1,0 +1,242 @@
+{
+  "project": {
+    "success": {
+      "fid": "proj-abc123",
+      "name": "my-project",
+      "created_at": "2024-01-15T10:30:00Z"
+    }
+  },
+  
+  "instance_types": {
+    "gpu_single": {
+      "name": "gpu.nvidia.a100",
+      "fid": "inst-type-123",
+      "num_cpus": 32,
+      "ram": 256,
+      "gpus": [
+        {"name": "A100", "vram_gb": 80, "count": 1}
+      ],
+      "local_storage_gb": 1000,
+      "network_bandwidth_gbps": 25.0
+    },
+    "gpu_multi": {
+      "name": "gpu.nvidia.h100-8x",
+      "fid": "inst-type-456", 
+      "num_cpus": 128,
+      "ram": 2048,
+      "gpus": [
+        {"name": "H100", "vram_gb": 80, "count": 8}
+      ],
+      "local_storage_gb": 8000,
+      "network_bandwidth_gbps": 100.0
+    },
+    "cpu_only": {
+      "name": "cpu.intel.xeon",
+      "fid": "inst-type-789",
+      "num_cpus": 64,
+      "ram": 512,
+      "gpus": null,
+      "local_storage_gb": 2000,
+      "network_bandwidth_gbps": 10.0
+    }
+  },
+  
+  "auctions": {
+    "available": {
+      "fid": "auction-123",
+      "instance_type": "gpu.nvidia.a100",
+      "region": "us-central1",
+      "capacity": 10,
+      "last_instance_price": "$2.50",
+      "created_at": "2024-01-15T12:00:00Z",
+      "updated_at": "2024-01-16T12:00:00Z"
+    }
+  },
+  
+  "bids": {
+    "pending": {
+      "fid": "bid-pending",
+      "project": "proj-123",
+      "auction": "auction-123",
+      "status": "pending",
+      "price_per_hour": 2.0,
+      "created_at": "2024-01-15T11:00:00Z"
+    },
+    "won": {
+      "fid": "bid-won",
+      "project": "proj-123", 
+      "auction": "auction-456",
+      "status": "won",
+      "price_per_hour": 2.2,
+      "created_at": "2024-01-15T11:30:00Z",
+      "allocation_id": "alloc-789"
+    },
+    "lost": {
+      "fid": "bid-lost",
+      "project": "proj-123",
+      "auction": "auction-789",
+      "status": "lost",
+      "price_per_hour": 1.8,
+      "created_at": "2024-01-15T10:00:00Z"
+    },
+    "expired": {
+      "fid": "bid-expired",
+      "project": "proj-123",
+      "auction": "auction-old",
+      "status": "expired",
+      "price_per_hour": 2.1,
+      "created_at": "2024-01-14T10:00:00Z"
+    }
+  },
+  
+  "volumes": {
+    "available": {
+      "fid": "vol-123",
+      "name": "test-volume",
+      "region": "us-central1",
+      "size_gb": 100,
+      "status": "available",
+      "interface": "block",
+      "created_at": "2024-01-15T09:00:00Z"
+    },
+    "file_share": {
+      "fid": "vol-456",
+      "name": "shared-volume",
+      "region": "us-east1",
+      "size_gb": 500,
+      "status": "available",
+      "interface": "file",
+      "created_at": "2024-01-14T15:00:00Z",
+      "mount_targets": [
+        {"ip": "10.0.0.1", "path": "/mnt/shared"}
+      ]
+    },
+    "attached": {
+      "fid": "vol-789",
+      "name": "attached-volume",
+      "region": "us-west1",
+      "size_gb": 200,
+      "status": "attached",
+      "interface": "block",
+      "created_at": "2024-01-13T12:00:00Z",
+      "attached_to": ["instance-123"]
+    }
+  },
+  
+  "tasks": {
+    "created": {
+      "bid_id": "bid-123",
+      "task_id": "task-456"
+    },
+    "running": {
+      "task_id": "task-123",
+      "name": "test-task",
+      "status": "running",
+      "instance_type": "gpu.nvidia.a100",
+      "region": "us-central1",
+      "created_at": "2024-01-15T14:00:00Z",
+      "started_at": "2024-01-15T14:05:00Z",
+      "logs": "Starting task execution...\n",
+      "ssh_host": "10.0.0.1",
+      "ssh_user": "ubuntu"
+    },
+    "completed": {
+      "task_id": "task-789",
+      "name": "completed-task",
+      "status": "completed",
+      "instance_type": "gpu.nvidia.h100",
+      "region": "us-east1",
+      "created_at": "2024-01-15T10:00:00Z",
+      "started_at": "2024-01-15T10:05:00Z",
+      "completed_at": "2024-01-15T12:00:00Z",
+      "logs": "Task completed successfully\n",
+      "result": {"status": "completed", "output": "Success"}
+    },
+    "failed": {
+      "task_id": "task-fail",
+      "name": "failed-task",
+      "status": "failed",
+      "instance_type": "gpu.nvidia.a100",
+      "region": "us-west1",
+      "created_at": "2024-01-15T13:00:00Z",
+      "started_at": "2024-01-15T13:05:00Z",
+      "failed_at": "2024-01-15T13:10:00Z",
+      "logs": "Error: Task execution failed\n",
+      "error": "RuntimeError: Out of memory"
+    }
+  },
+  
+  "allocations": {
+    "list": [
+      {
+        "allocation_id": "alloc-123",
+        "instance_type": "gpu.nvidia.a100", 
+        "region": "us-central1",
+        "price_per_hour": 2.5,
+        "status": "available"
+      },
+      {
+        "allocation_id": "alloc-456",
+        "instance_type": "gpu.nvidia.h100-8x",
+        "region": "us-east1", 
+        "price_per_hour": 20.0,
+        "status": "available"
+      }
+    ]
+  },
+  
+  "errors": {
+    "validation": {
+      "detail": [
+        {"type": "missing", "loc": ["body", "project"], "msg": "Field required"},
+        {"type": "missing", "loc": ["body", "region"], "msg": "Field required"},
+        {"type": "missing", "loc": ["body", "disk_interface"], "msg": "Field required"}
+      ]
+    },
+    "not_found": {
+      "error": "Resource not found",
+      "code": "NOT_FOUND",
+      "message": "The requested resource does not exist"
+    },
+    "rate_limit": {
+      "error": "Rate limit exceeded",
+      "code": "RATE_LIMIT_EXCEEDED",
+      "message": "Too many requests. Please try again later.",
+      "retry_after": 60
+    },
+    "server_error": {
+      "error": "Internal server error",
+      "code": "INTERNAL_ERROR",
+      "message": "An unexpected error occurred"
+    }
+  },
+  
+  "large_responses": {
+    "task_list": {
+      "tasks": [
+        {
+          "task_id": "task-001",
+          "name": "task-001",
+          "status": "running",
+          "instance_type": "gpu.nvidia.a100",
+          "region": "us-central1"
+        },
+        {
+          "task_id": "task-002",
+          "name": "task-002", 
+          "status": "completed",
+          "instance_type": "gpu.nvidia.h100",
+          "region": "us-east1"
+        },
+        {
+          "task_id": "task-003",
+          "name": "task-003",
+          "status": "pending",
+          "instance_type": "cpu.intel.xeon",
+          "region": "us-west1"
+        }
+      ],
+      "next_token": "token-123"
+    }
+  }
+}

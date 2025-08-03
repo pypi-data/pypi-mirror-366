@@ -1,0 +1,1166 @@
+{
+  "fixture_usage": {
+    "most_used": [
+      [
+        "monkeypatch",
+        10
+      ],
+      [
+        "provider",
+        9
+      ],
+      [
+        "tmp_path",
+        8
+      ],
+      [
+        "mock_http_client",
+        6
+      ],
+      [
+        "runner",
+        4
+      ],
+      [
+        "mock_flow",
+        4
+      ],
+      [
+        "adapter",
+        3
+      ],
+      [
+        "flow",
+        3
+      ],
+      [
+        "mock_sleep",
+        2
+      ],
+      [
+        "mock_time",
+        2
+      ]
+    ],
+    "session_scoped": []
+  },
+  "shared_fixtures": {
+    "runner": {
+      "used_by": [
+        "test_cli_integration.py",
+        "unit/test_cli_commands.py",
+        "integration/test_cli_mounts.py",
+        "integration/test_cli.py"
+      ],
+      "defined_in": [
+        "test_cli_integration.py",
+        "unit/test_cli_commands.py",
+        "integration/test_cli_mounts.py",
+        "integration/test_cli.py"
+      ]
+    },
+    "mock_sleep": {
+      "used_by": [
+        "unit/test_google_colab_integration.py",
+        "unit/test_logs.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "mock_time": {
+      "used_by": [
+        "unit/test_google_colab_integration.py",
+        "unit/test_ssh_key_auto_generation.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "integration": {
+      "used_by": [
+        "unit/test_google_colab_integration.py",
+        "unit/test_jupyter_integration.py"
+      ],
+      "defined_in": [
+        "unit/test_google_colab_integration.py",
+        "unit/test_jupyter_integration.py"
+      ]
+    },
+    "mock_flow": {
+      "used_by": [
+        "unit/test_jupyter_integration.py",
+        "integration/test_cli_mounts.py",
+        "integration/test_init_reconfigure.py",
+        "integration/test_init_e2e.py"
+      ],
+      "defined_in": [
+        "unit/test_google_colab_integration.py",
+        "unit/test_jupyter_integration.py",
+        "integration/test_cli_mounts.py",
+        "unit/integrations/test_monarch.py"
+      ]
+    },
+    "tmp_path": {
+      "used_by": [
+        "unit/test_security.py",
+        "unit/test_auth.py",
+        "unit/test_ssh_key_manager_security.py",
+        "unit/test_ssh_key_auto_generation.py",
+        "unit/test_cli_commands.py",
+        "unit/test_cli_parsing.py",
+        "integration/test_cli.py",
+        "unit/providers/local/test_local_init.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "provider": {
+      "used_by": [
+        "unit/test_multi_region_selection.py",
+        "unit/test_fcp_provider_unit.py",
+        "unit/test_logs.py",
+        "unit/test_fcp_provider.py",
+        "unit/test_fcp_provider_behavior.py",
+        "unit/test_fcp_instance_resolution.py",
+        "integration/test_fcp_user_journeys.py",
+        "integration/test_fcp_integration.py",
+        "integration/test_fcp_user_journeys_improved.py"
+      ],
+      "defined_in": [
+        "unit/test_multi_region_selection.py",
+        "unit/test_fcp_provider_unit.py",
+        "unit/test_logs.py",
+        "unit/test_fcp_provider.py",
+        "unit/test_fcp_provider_behavior.py",
+        "unit/test_fcp_instance_resolution.py",
+        "integration/test_fcp_user_journeys.py",
+        "integration/test_fcp_integration.py",
+        "integration/test_fcp_user_journeys_improved.py"
+      ]
+    },
+    "mock_run": {
+      "used_by": [
+        "unit/test_logs.py",
+        "unit/test_ssh_key_auto_generation.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "mock_http_client": {
+      "used_by": [
+        "unit/test_auth.py",
+        "integration/test_ssh_key_generation_integration.py",
+        "integration/test_init_reconfigure.py",
+        "integration/test_init_e2e.py",
+        "integration/providers/fcp/test_script_size_integration.py",
+        "unit/providers/fcp/test_fcp_init.py"
+      ],
+      "defined_in": [
+        "test_task_submission.py",
+        "unit/test_auth.py",
+        "unit/test_ssh_key_manager_security.py",
+        "unit/test_ssh_key_auto_generation.py",
+        "integration/test_ssh_key_generation_integration.py",
+        "integration/providers/fcp/test_script_size_integration.py",
+        "unit/providers/fcp/test_fcp_init.py"
+      ]
+    },
+    "monkeypatch": {
+      "used_by": [
+        "unit/test_auth.py",
+        "unit/test_ssh_key_manager_security.py",
+        "unit/test_decorator_real.py",
+        "unit/test_config.py",
+        "unit/test_ssh_key_auto_generation.py",
+        "unit/test_cli_commands.py",
+        "unit/test_cli_parsing.py",
+        "integration/test_docker_caching_e2e.py",
+        "integration/test_ssh_key_generation_integration.py",
+        "unit/integrations/test_monarch.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "caplog": {
+      "used_by": [
+        "unit/test_mount_processor.py",
+        "unit/test_capability_selection.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "adapter": {
+      "used_by": [
+        "unit/test_yaml_adapter.py",
+        "unit/test_submitit_adapter.py",
+        "unit/test_slurm_adapter.py"
+      ],
+      "defined_in": [
+        "unit/test_yaml_adapter.py",
+        "unit/test_submitit_adapter.py",
+        "unit/test_slurm_adapter.py",
+        "unit/integrations/test_monarch_adapter.py"
+      ]
+    },
+    "ssh_key_manager": {
+      "used_by": [
+        "unit/test_ssh_key_manager_security.py",
+        "unit/test_ssh_key_auto_generation.py"
+      ],
+      "defined_in": [
+        "unit/test_ssh_key_manager_security.py",
+        "unit/test_ssh_key_auto_generation.py"
+      ]
+    },
+    "region": {
+      "used_by": [
+        "unit/test_models_property.py",
+        "unit/providers/fcp/test_fcp_init.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    },
+    "flow": {
+      "used_by": [
+        "integration/test_end_to_end.py",
+        "e2e/test_api.py",
+        "e2e/test_ssh_e2e.py"
+      ],
+      "defined_in": [
+        "e2e/test_api.py",
+        "e2e/test_ssh_e2e.py"
+      ]
+    },
+    "mock_keyring_func": {
+      "used_by": [
+        "integration/test_init_reconfigure.py",
+        "integration/test_init_e2e.py"
+      ],
+      "defined_in": [
+        "external"
+      ]
+    }
+  },
+  "risky_patterns": {
+    "test_example_validator.py": [
+      "Uses setup_method which may create order dependencies",
+      "Class TestExamplePatterns has class-level attribute: EXPECTED_PATTERNS",
+      "Uses setup_method which may create order dependencies",
+      "Uses setup_method which may create order dependencies"
+    ],
+    "unit/test_google_colab_integration.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_jupyter_integration.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_submit_api.py": [
+      "Uses setup_method which may create order dependencies"
+    ],
+    "unit/test_user_resolution.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_gpu_parser.py": [
+      "Uses setup_method which may create order dependencies"
+    ],
+    "unit/test_logs.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_mount_processor.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_task_manager.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_decorator_real.py": [
+      "Uses global keyword"
+    ],
+    "unit/test_instance_matcher.py": [
+      "Uses setup_method which may create order dependencies"
+    ],
+    "unit/test_config.py": [
+      "Uses global keyword"
+    ],
+    "unit/test_url_resolver.py": [
+      "Uses setup_method which may create order dependencies",
+      "Uses setup_method which may create order dependencies"
+    ],
+    "unit/test_submitit_adapter.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/test_s3_support.py": [
+      "Uses setup_method which may create order dependencies"
+    ],
+    "analysis/test_dependency_map.py": [
+      "Uses global keyword",
+      "Uses sleep - potential race condition"
+    ],
+    "integration/test_local_provider_logs.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "integration/test_monarch_integration.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "integration/test_jupyter_integration.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "integration/test_end_to_end.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "performance/test_volume_bulk_operations.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "e2e/test_ssh_e2e.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "integration/fcp_live_instances/test_logs_integration.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/providers/test_local_phase0.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/providers/test_local_phase4.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/providers/test_local_phase1.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/providers/test_local_phase2.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/providers/test_local_phase3.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/integrations/test_monarch.py": [
+      "Uses sleep - potential race condition"
+    ],
+    "unit/providers/fcp/test_script_size_handler.py": [
+      "Uses setup_method which may create order dependencies"
+    ]
+  },
+  "external_dependencies": {
+    "test_example_validator.py": [
+      "network"
+    ],
+    "unit/test_fcp_provider.py": [
+      "network"
+    ],
+    "unit/test_task_manager.py": [
+      "network"
+    ],
+    "unit/test_provider.py": [
+      "network"
+    ],
+    "unit/test_config_from_env.py": [
+      "network"
+    ],
+    "unit/test_decorator_real.py": [
+      "network"
+    ],
+    "unit/test_cli_commands.py": [
+      "network"
+    ],
+    "analysis/test_dependency_map.py": [
+      "network"
+    ],
+    "integration/test_fcp_user_journeys.py": [
+      "network"
+    ],
+    "integration/test_fcp_integration.py": [
+      "network"
+    ],
+    "integration/test_end_to_end.py": [
+      "network"
+    ],
+    "integration/test_docker_caching_e2e.py": [
+      "network"
+    ],
+    "integration/test_cli_mounts.py": [
+      "network"
+    ],
+    "integration/test_ssh_key_generation_integration.py": [
+      "network"
+    ],
+    "integration/test_fcp_user_journeys_improved.py": [
+      "network"
+    ],
+    "integration/test_init_reconfigure.py": [
+      "network"
+    ],
+    "integration/test_cli.py": [
+      "network"
+    ],
+    "integration/test_init_e2e.py": [
+      "network"
+    ],
+    "performance/test_benchmarks.py": [
+      "network"
+    ],
+    "performance/test_complexity.py": [
+      "network"
+    ],
+    "integration/fcp_live_instances/test_startup_scripts_integration.py": [
+      "network"
+    ],
+    "integration/fcp_live_instances/test_critical_features.py": [
+      "network"
+    ]
+  },
+  "test_counts": {
+    "test_basic.py": {
+      "classes": 0,
+      "functions": 4,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_local_provider_full.py": {
+      "classes": 0,
+      "functions": 0,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_code_packaging.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_example_validator.py": {
+      "classes": 3,
+      "functions": 10,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_invoke_integration.py": {
+      "classes": 1,
+      "functions": 3,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_cli_integration.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_task_submission.py": {
+      "classes": 1,
+      "functions": 1,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "test_examples.py": {
+      "classes": 1,
+      "functions": 17,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_google_colab_integration.py": {
+      "classes": 2,
+      "functions": 10,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_invoke_serialization.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_volume_commands_comprehensive.py": {
+      "classes": 4,
+      "functions": 22,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_jupyter_integration.py": {
+      "classes": 3,
+      "functions": 13,
+      "fixtures_defined": 3,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_submit_api.py": {
+      "classes": 1,
+      "functions": 13,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_security.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_upload_code.py": {
+      "classes": 1,
+      "functions": 11,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_user_resolution.py": {
+      "classes": 4,
+      "functions": 21,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_gpu_parser.py": {
+      "classes": 1,
+      "functions": 10,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_config_loader.py": {
+      "classes": 1,
+      "functions": 10,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_multi_region_selection.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_fcp_provider_unit.py": {
+      "classes": 4,
+      "functions": 10,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_logs.py": {
+      "classes": 4,
+      "functions": 14,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_auth.py": {
+      "classes": 4,
+      "functions": 17,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_fcp_provider.py": {
+      "classes": 1,
+      "functions": 4,
+      "fixtures_defined": 3,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_errors.py": {
+      "classes": 1,
+      "functions": 13,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_mount_processor.py": {
+      "classes": 1,
+      "functions": 11,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_decorator_thread_safety.py": {
+      "classes": 0,
+      "functions": 1,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_task_manager_simple.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 3,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_yaml_adapter.py": {
+      "classes": 2,
+      "functions": 2,
+      "fixtures_defined": 4,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_s3_script_section.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_fcp_provider_behavior.py": {
+      "classes": 4,
+      "functions": 10,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_task_manager.py": {
+      "classes": 5,
+      "functions": 11,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_provider.py": {
+      "classes": 4,
+      "functions": 11,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_file_share_support.py": {
+      "classes": 4,
+      "functions": 14,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_ssh_key_manager_security.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_config_from_env.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_decorator_real.py": {
+      "classes": 2,
+      "functions": 13,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_instance_matcher.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_api_contracts.py": {
+      "classes": 7,
+      "functions": 24,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_ssh_preconditions.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_ssh_tunnel_concepts.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_config.py": {
+      "classes": 3,
+      "functions": 15,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_capability_selection.py": {
+      "classes": 2,
+      "functions": 10,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_fcp_mount_adapter.py": {
+      "classes": 1,
+      "functions": 10,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_models.py": {
+      "classes": 7,
+      "functions": 21,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_url_resolver.py": {
+      "classes": 2,
+      "functions": 12,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_models_property.py": {
+      "classes": 10,
+      "functions": 23,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_submitit_adapter.py": {
+      "classes": 2,
+      "functions": 4,
+      "fixtures_defined": 3,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_ssh_key_auto_generation.py": {
+      "classes": 1,
+      "functions": 9,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_flow_find_instances.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_cli_commands.py": {
+      "classes": 2,
+      "functions": 10,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_task_resolver.py": {
+      "classes": 1,
+      "functions": 9,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_ssh_multi_node.py": {
+      "classes": 2,
+      "functions": 10,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_s3_support.py": {
+      "classes": 3,
+      "functions": 12,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_fcp_instance_resolution.py": {
+      "classes": 1,
+      "functions": 4,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_validation_errors.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_cli_parsing.py": {
+      "classes": 3,
+      "functions": 14,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/test_slurm_adapter.py": {
+      "classes": 3,
+      "functions": 6,
+      "fixtures_defined": 4,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "analysis/test_dependency_map.py": {
+      "classes": 2,
+      "functions": 0,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_local_provider_logs.py": {
+      "classes": 2,
+      "functions": 9,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_monarch_integration.py": {
+      "classes": 1,
+      "functions": 0,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_jupyter_integration.py": {
+      "classes": 2,
+      "functions": 6,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_file_share_integration.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_fcp_user_journeys.py": {
+      "classes": 1,
+      "functions": 4,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_flow_mounts.py": {
+      "classes": 2,
+      "functions": 8,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_fcp_integration.py": {
+      "classes": 2,
+      "functions": 8,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 1
+    },
+    "integration/test_ssh_with_local_provider.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_ssh_integration.py": {
+      "classes": 2,
+      "functions": 3,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_end_to_end.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_upload_code_integration.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_docker_caching_e2e.py": {
+      "classes": 0,
+      "functions": 1,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_cli_mounts.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 4,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_ssh_key_generation_integration.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_fcp_user_journeys_improved.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_init_reconfigure.py": {
+      "classes": 1,
+      "functions": 4,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_ssh_real_server.py": {
+      "classes": 2,
+      "functions": 7,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_cli.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/test_init_e2e.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "performance/test_benchmarks.py": {
+      "classes": 7,
+      "functions": 12,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "performance/test_volume_bulk_operations.py": {
+      "classes": 5,
+      "functions": 8,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "performance/test_complexity.py": {
+      "classes": 2,
+      "functions": 3,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "e2e/test_gpu.py": {
+      "classes": 0,
+      "functions": 1,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "e2e/test_api.py": {
+      "classes": 1,
+      "functions": 4,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "e2e/test_ssh_e2e.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 2,
+      "session_fixtures": 0,
+      "class_fixtures": 2
+    },
+    "integration/docker_caching/test_docker_persistent_storage.py": {
+      "classes": 0,
+      "functions": 4,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/fcp_live_instances/test_logs_integration.py": {
+      "classes": 0,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/fcp_live_instances/test_docker_integration.py": {
+      "classes": 0,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/fcp_live_instances/test_startup_scripts_integration.py": {
+      "classes": 0,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/fcp_live_instances/test_critical_features.py": {
+      "classes": 0,
+      "functions": 2,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/providers/fcp/test_script_size_integration.py": {
+      "classes": 1,
+      "functions": 4,
+      "fixtures_defined": 3,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/providers/fcp/test_docker_integration.py": {
+      "classes": 5,
+      "functions": 13,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "integration/providers/fcp/test_startup_script_validation.py": {
+      "classes": 4,
+      "functions": 9,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/init/test_writer.py": {
+      "classes": 1,
+      "functions": 8,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/init/test_validator.py": {
+      "classes": 1,
+      "functions": 0,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/init/test_resolver.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/test_local_phase0.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/test_local_phase4.py": {
+      "classes": 1,
+      "functions": 7,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/test_local_phase1.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/test_local_phase2.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/test_local_phase3.py": {
+      "classes": 1,
+      "functions": 5,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/integrations/test_monarch_adapter.py": {
+      "classes": 6,
+      "functions": 5,
+      "fixtures_defined": 5,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/integrations/test_monarch.py": {
+      "classes": 8,
+      "functions": 12,
+      "fixtures_defined": 3,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/local/test_local_init.py": {
+      "classes": 1,
+      "functions": 23,
+      "fixtures_defined": 1,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/fcp/test_script_sections.py": {
+      "classes": 6,
+      "functions": 42,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/fcp/test_script_size_limits.py": {
+      "classes": 1,
+      "functions": 6,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/fcp/test_template_engine.py": {
+      "classes": 3,
+      "functions": 16,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/fcp/test_script_size_handler.py": {
+      "classes": 5,
+      "functions": 18,
+      "fixtures_defined": 0,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    },
+    "unit/providers/fcp/test_fcp_init.py": {
+      "classes": 1,
+      "functions": 22,
+      "fixtures_defined": 4,
+      "session_fixtures": 0,
+      "class_fixtures": 0
+    }
+  }
+}

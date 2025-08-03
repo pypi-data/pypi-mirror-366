@@ -1,0 +1,36 @@
+{
+  "tasks": [
+    {
+      "bid_id": "bid-test-12345678",
+      "name": "training-job-1",
+      "status": "running",
+      "instance_type": "a100.80gb.sxm4.1x",
+      "num_instances": 1,
+      "region": "us-central1-a",
+      "created_at": "2024-01-01T12:00:00Z",
+      "started_at": "2024-01-01T12:05:00Z",
+      "ssh_host": "10.0.1.100",
+      "ssh_port": 22,
+      "ssh_user": "ubuntu",
+      "cost_per_hour": 25.60,
+      "total_cost": 12.80
+    },
+    {
+      "bid_id": "bid-test-87654321",
+      "name": "inference-job",
+      "status": "completed",
+      "instance_type": "a100.40gb.pcie",
+      "num_instances": 1,
+      "region": "us-east-1a",
+      "created_at": "2024-01-01T10:00:00Z",
+      "started_at": "2024-01-01T10:02:00Z",
+      "completed_at": "2024-01-01T11:00:00Z",
+      "cost_per_hour": 15.40,
+      "total_cost": 15.40
+    }
+  ],
+  "total": 2,
+  "page": 1,
+  "per_page": 20,
+  "has_more": false
+}

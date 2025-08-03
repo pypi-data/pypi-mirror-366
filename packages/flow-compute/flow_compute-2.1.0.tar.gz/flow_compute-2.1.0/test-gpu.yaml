@@ -1,0 +1,8 @@
+name: gpu-test
+instance_type: 8xh100
+# Use multi-line script format for shell commands with operators
+command: |
+  nvidia-smi && echo "GPU test completed!"
+ssh_keys:
+  - sshkey_vea9uxBRhMJN  # test_flow_key platform ID
+max_price_per_hour: 98.32
