@@ -1,0 +1,12 @@
+#changelist .row-action {list-style: none; margin: 5px 0;}
+
+.fpe-action {white-space: nowrap;}
+.fpe-action::before {margin-right: 3px}
+.fpe-action-addrevision::before {content: "📝"}
+.fpe-action-cancel::before {content: "🔙"}
+.fpe-action-compare::before {content: "🔬"}
+.fpe-action-edit::before {content: "✏️"}
+.fpe-action-preview::before {content: "👀"}
+.fpe-action-publish::before {content: "🚀"}
+.fpe-action-revert::before {content: "🚫"}
+.fpe-action-warning::before {content: "⚠️"}
