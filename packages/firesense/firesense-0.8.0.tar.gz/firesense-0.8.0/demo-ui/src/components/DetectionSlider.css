@@ -1,0 +1,209 @@
+.detection-slider-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.slider-label {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.slider-position {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+.slider-wrapper {
+  position: relative;
+  padding: 1rem 0;
+}
+
+.detection-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.detection-slider::-webkit-slider-track {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.detection-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 3px;
+  height: 16px;
+  background: #1976d2;
+  border-radius: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+  transition: all 0.2s ease;
+  margin-top: 8px; /* Push the line below the dots */
+}
+
+.detection-slider::-webkit-slider-thumb:hover {
+  background: #1565c0;
+  box-shadow: 0 0 8px rgba(25, 118, 210, 0.6);
+}
+
+.detection-slider::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.detection-slider::-moz-range-thumb {
+  width: 3px;
+  height: 16px;
+  background: #1976d2;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+  transition: all 0.2s ease;
+  margin-top: 8px; /* Push the line below the dots */
+}
+
+.detection-slider::-moz-range-thumb:hover {
+  background: #1565c0;
+  box-shadow: 0 0 8px rgba(25, 118, 210, 0.6);
+}
+
+.detection-markers {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.detection-marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.detection-marker.clear {
+  background-color: #4ade80;
+}
+
+.detection-marker.fire {
+  background-color: #fbbf24;
+}
+
+.detection-marker.dangerous {
+  background-color: #f87171;
+}
+
+.detection-marker.future {
+  background-color: rgba(148, 163, 184, 0.3);
+  border-color: rgba(148, 163, 184, 0.5);
+}
+
+.detection-marker.active {
+  transform: translateX(-50%) scale(1.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  animation: pulse-marker 1s ease-in-out;
+}
+
+@keyframes pulse-marker {
+  0% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.3);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Reveal animation when marker becomes visible */
+.detection-marker:not(.future) {
+  animation: reveal-status 0.5s ease-out forwards;
+}
+
+@keyframes reveal-status {
+  0% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.slider-legend {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.legend-dot.clear {
+  background-color: #4ade80;
+}
+
+.legend-dot.fire {
+  background-color: #fbbf24;
+}
+
+.legend-dot.dangerous {
+  background-color: #f87171;
+}
+
+.legend-dot.future {
+  background-color: rgba(148, 163, 184, 0.3);
+  border-color: rgba(148, 163, 184, 0.5);
+}

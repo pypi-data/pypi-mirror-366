@@ -1,0 +1,36 @@
+{
+  "model": {
+    "model_variant": "gemma-3n-e4b",
+    "model_path": "./models/gemma-3n-e4b",
+    "use_quantization": false,
+    "quantization_type": "4bit",
+    "quantization_compute_dtype": "float16",
+    "max_new_tokens": 200,
+    "temperature": 0.1,
+    "top_p": 0.9,
+    "image_resolution": 336
+  },
+  "video": {
+    "frame_interval": 2.0,
+    "max_frames": null,
+    "start_time": 0.0,
+    "end_time": null,
+    "batch_size": 1,
+    "async_processing": true
+  },
+  "detection": {
+    "confidence_threshold": 0.7,
+    "save_positive_frames": true,
+    "save_all_frames": false,
+    "frame_format": "jpg"
+  },
+  "output": {
+    "output_dir": "./output",
+    "results_filename": "fire_detection_results",
+    "output_format": "json",
+    "include_metadata": true
+  },
+  "device": "auto",
+  "debug": false,
+  "verbose": false
+}
