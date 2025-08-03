@@ -1,0 +1,228 @@
+Metadata-Version: 2.4
+Name: aceflow-mcp-server
+Version: 1.0.1
+Summary: AceFlow MCP Server for AI-driven workflow management
+Project-URL: Homepage, https://github.com/aceflow/aceflow-mcp-server
+Project-URL: Documentation, https://docs.aceflow.dev/mcp
+Project-URL: Repository, https://github.com/aceflow/aceflow-mcp-server.git
+Project-URL: Issues, https://github.com/aceflow/aceflow-mcp-server/issues
+Author-email: AceFlow Team <team@aceflow.dev>
+License: MIT License
+        
+        Copyright (c) 2025 AceFlow Team
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Requires-Dist: click>=8.0.0
+Requires-Dist: fastmcp>=0.1.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: rich>=13.0.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: flake8>=6.0.0; extra == 'dev'
+Requires-Dist: isort>=5.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# AceFlow MCP Server
+
+AI-driven workflow management through Model Context Protocol.
+
+## Overview
+
+AceFlow MCP Server provides structured software development workflows through the Model Context Protocol (MCP), enabling AI clients like Kiro, Cursor, and Claude to manage projects with standardized processes.
+
+## Features
+
+### 🛠️ MCP Tools
+- **aceflow_init**: Initialize projects with different workflow modes
+- **aceflow_stage**: Manage project stages and workflow progression  
+- **aceflow_validate**: Validate project compliance and quality
+- **aceflow_template**: Manage workflow templates
+
+### 📊 MCP Resources
+- **aceflow://project/state**: Current project state and progress
+- **aceflow://workflow/config**: Workflow configuration and settings
+- **aceflow://stage/guide/{stage}**: Stage-specific guidance and instructions
+
+### 🤖 MCP Prompts
+- **workflow_assistant**: Context-aware workflow guidance
+- **stage_guide**: Stage-specific assistance and best practices
+
+## Quick Start
+
+### Installation
+
+```bash
+# Install via uvx (recommended)
+uvx aceflow-mcp-server
+
+# Or install traditionally
+pip install aceflow-mcp-server
+```
+
+### MCP Client Configuration
+
+Add to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "aceflow": {
+      "command": "uvx",
+      "args": ["aceflow-mcp-server@latest"],
+      "env": {
+        "ACEFLOW_LOG_LEVEL": "INFO"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "aceflow_init",
+        "aceflow_stage", 
+        "aceflow_validate",
+        "aceflow_template"
+      ]
+    }
+  }
+}
+```
+
+### Usage Example
+
+```
+User: "I want to start a new AI project with standard workflow"
+
+AI: I'll help you initialize a new project using AceFlow.
+
+[Uses aceflow_init tool]
+✅ Project initialized successfully in standard mode!
+
+Current status:
+- Project: ai-project
+- Mode: STANDARD
+- Stage: user_stories (0% complete)
+
+Ready to begin with user story analysis. Would you like guidance for this stage?
+```
+
+## Workflow Modes
+
+### Minimal Mode
+Fast prototyping and concept validation
+- 3 stages: Implementation → Test → Demo
+- Ideal for MVPs and quick experiments
+
+### Standard Mode  
+Traditional software development workflow
+- 8 stages: User Stories → Task Breakdown → Test Design → Implementation → Unit Test → Integration Test → Code Review → Demo
+- Balanced approach for most projects
+
+### Complete Mode
+Enterprise-grade development process
+- 12 stages: Full requirements analysis through security review
+- Comprehensive quality gates and documentation
+
+### Smart Mode
+AI-enhanced adaptive workflow
+- 10 stages with intelligent adaptation
+- Dynamic complexity assessment and optimization
+
+## Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   AI Client     │    │  MCP Server     │    │  AceFlow Core   │
+│  (Kiro/Cursor)  │◄──►│   (FastMCP)     │◄──►│    Engine       │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                              │
+                              ▼
+                       ┌─────────────────┐
+                       │  File System    │
+                       │ (.aceflow/...)  │
+                       └─────────────────┘
+```
+
+## Development
+
+### Setup
+
+```bash
+# Clone repository
+git clone https://github.com/aceflow/aceflow-mcp-server
+cd aceflow-mcp-server
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Run with coverage
+pytest --cov=aceflow_mcp_server
+```
+
+### Project Structure
+
+```
+aceflow-mcp-server/
+├── aceflow_mcp_server/
+│   ├── __init__.py
+│   ├── server.py          # Main MCP server
+│   ├── tools.py           # MCP tools implementation
+│   ├── resources.py       # MCP resources
+│   ├── prompts.py         # MCP prompts
+│   └── core/              # Core functionality
+├── tests/                 # Test suite
+├── docs/                  # Documentation
+└── pyproject.toml         # Project configuration
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure all tests pass
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+- **Documentation**: https://docs.aceflow.dev/mcp
+- **Issues**: https://github.com/aceflow/aceflow-mcp-server/issues
+- **Discussions**: https://github.com/aceflow/aceflow-mcp-server/discussions
+
+---
+
+*Generated by AceFlow v3.0 MCP Server*
