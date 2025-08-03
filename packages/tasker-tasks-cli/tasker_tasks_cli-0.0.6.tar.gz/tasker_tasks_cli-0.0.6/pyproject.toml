@@ -1,0 +1,27 @@
+[project]
+name = "tasker-tasks-cli"
+version = "0.0.6"
+authors = [
+  { name="MTM", email="monotone.the.musical@gmail.com" },
+]
+description = "tasker: cli based task manager."
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+]
+
+dependencies = [
+  "configparser",
+  "iterfzf",
+  "python-dateutil"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/monotone-the-musical/tasker"
+"Bug Tracker" = "https://github.com/monotone-the-musical/tasker/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
