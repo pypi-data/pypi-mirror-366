@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: synapso_core
+Version: 0.2.0
+Summary: Synapso Core
+Author-email: Ganesh Palanikumar <me@ganeshpkumar.dev>
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/synapso-xyz/synapso-core
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: sqlalchemy==2.0.41
+Requires-Dist: langchain-text-splitters==0.3.8
+Requires-Dist: chonkie[hub,st]==1.1.1
+Requires-Dist: loguru==0.7.3
+Requires-Dist: pydantic==2.11.7
+Requires-Dist: rank-bm25==0.2.2
+Requires-Dist: nltk==3.9.1
+Requires-Dist: sqlite-vss==0.1.2
+Requires-Dist: aiosqlite==0.21.0
+Requires-Dist: greenlet==3.2.3
+Requires-Dist: mlx-lm==0.26.2
+Dynamic: license-file
+
+# synapso-core
+Core utils
