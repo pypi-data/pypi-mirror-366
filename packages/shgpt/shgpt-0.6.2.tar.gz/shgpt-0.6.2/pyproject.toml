@@ -1,0 +1,56 @@
+[project]
+name = "shgpt"
+version = "0.6.2"
+authors = [{name = "Jiacai Liu", email="dev@liujiacai.net"}]
+description = "Chat with LLM in your terminal, be it shell generator, story teller, linux-terminal, etc."
+readme = "README.md"
+keywords = ["ai", "llm", "shell", "gpt"]
+license = "GPL-3.0"
+requires-python = ">=3.0.0"
+dependencies = [
+  "requests",
+  "pyperclip",
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.optional-dependencies]
+test = []
+# tui = ["textual"]
+
+[project.urls]
+Repository = "https://github.com/jiacai2050/my-works/tree/main/shellgpt"
+Issues = "https://github.com/jiacai2050/my-works/issues"
+
+[project.scripts]
+sg = "shellgpt:main"
+shellgpt = "shellgpt:main"
+
+[build-system]
+requires = ["setuptools>=80.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+exclude = ["tests"]
+include = ["shellgpt", "shellgpt.*"]
+
+# https://github.com/astral-sh/ruff?tab=readme-ov-file#configuration
+[tool.ruff.lint]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "single"
