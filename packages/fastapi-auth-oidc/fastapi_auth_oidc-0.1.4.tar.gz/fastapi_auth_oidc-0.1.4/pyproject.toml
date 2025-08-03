@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastapi_auth_oidc"
+authors = [
+    {name = "DYAKOV.SPACE", email = "admin@dyakov.space"},
+    {name = "Roman Dyakov", email = "roman@dyakov.space"}
+]
+description = "FastAPI Auth OpenID Connect"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = []
+license = {text = "BSD 3-Clause"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "fastapi",
+    "cachetools>=6.1.0",
+    "requests",
+    "python-jose[cryptography]>=3.5.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://git.dyakov.space/dyakovri/fastapi-auth-oidc"
+Documentation = "https://git.dyakov.space/dyakovri/fastapi-auth-oidc/wiki"
+Repository = "https://git.dyakov.space/dyakovri/fastapi-auth-oidc"
+Issues = "https://git.dyakov.space/dyakovri/fastapi-auth-oidc/issues"
+Changelog = "https://git.dyakov.space/dyakovri/fastapi-auth-oidc/releases"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "httpx"
+]
+
+[tool.setuptools]
+packages = ["fastapi_auth_oidc"]
+
+[tool.setuptools.dynamic]
+version = {attr = "fastapi_auth_oidc.__version__"}
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+indent-width = 4
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
