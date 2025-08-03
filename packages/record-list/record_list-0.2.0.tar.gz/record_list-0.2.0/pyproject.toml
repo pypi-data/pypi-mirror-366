@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["rlist*"]
+exclude = ["rlist.tests*"]
+
+[tool.ruff]
+line-length = 88
+
+[project]
+name = "record-list"
+version = "0.2.0"
+description = "Record list with handy methods"
+authors = [
+    { name="Maximos Nikiforakis", email="nikiforos@live.co.uk" },
+]
+keywords = ["rlist", "list"]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.urls]
+Documentation= "https://maxcode123.github.io/rlist/"
+Repository="https://github.com/Maxcode123/rlist"
+Issues="https://github.com/Maxcode123/rlist/issues"
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.15",
+    "mkdocstrings[python]>=0.29.1",
+    "ty>=0.0.1a14",
+    "unittest-extensions>=0.4.0",
+]
