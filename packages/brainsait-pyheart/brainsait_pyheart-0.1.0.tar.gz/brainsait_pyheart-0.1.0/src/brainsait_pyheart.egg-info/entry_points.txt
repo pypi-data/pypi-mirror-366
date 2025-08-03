@@ -1,0 +1,10 @@
+[console_scripts]
+pyheart = pyheart.cli:main
+pyheart-migrate = pyheart.database:migrate
+pyheart-server = pyheart.server:run
+pyheart-worker = pyheart.worker:start
+
+[pyheart.adapters]
+dicom = pyheart.adapters.dicom:DICOMAdapter
+hl7v2 = pyheart.adapters.hl7:HL7v2Adapter
+x12 = pyheart.adapters.x12:X12Adapter
