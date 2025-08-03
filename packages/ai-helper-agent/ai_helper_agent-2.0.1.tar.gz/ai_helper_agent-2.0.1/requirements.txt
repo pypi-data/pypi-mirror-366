@@ -1,0 +1,34 @@
+# AI Helper Agent v2.0.1 - Production Dependencies
+# Advanced AI-Powered Programming Assistant with Multi-Provider Support
+# Install with: pip install -r requirements.txt
+
+# Core LangChain Framework
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.1.0
+
+# AI Provider Integrations
+langchain-groq>=0.1.0
+langchain-openai>=0.1.0
+langchain-anthropic>=0.1.0
+langchain-google-genai>=0.1.0
+langchain-ollama>=0.1.0
+
+# Core System Dependencies
+rich>=13.0.0
+structlog>=23.0.0
+requests>=2.25.0
+cryptography>=3.4.0
+sqlalchemy>=1.4.0
+
+# Internet & Web Search
+beautifulsoup4>=4.9.0
+duckduckgo-search>=3.0.0
+googlesearch-python>=1.2.0
+
+# Vector Storage & AI Processing
+faiss-cpu>=1.7.0
+chromadb>=0.4.0
+
+# Python 3.3 compatibility
+pathlib2; python_version<'3.4'

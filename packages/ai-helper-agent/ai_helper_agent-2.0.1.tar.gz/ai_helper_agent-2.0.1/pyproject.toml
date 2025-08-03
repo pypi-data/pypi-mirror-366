@@ -1,0 +1,240 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-helper-agent"
+version = "2.0.1"
+description = "Advanced AI-Powered Programming Assistant with Multi-Provider Support, Internet Search, and 40+ CLI Commands"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Meet Solanki (AIML Student)", email = "aistudentlearn4@gmail.com"}
+]
+maintainers = [
+    {name = "AIMLDev726", email = "aistudentlearn4@gmail.com"}
+]
+keywords = [
+    "ai", "assistant", "programming", "code-analysis", "bug-fixing", 
+    "automation", "groq", "openai", "anthropic", "google", "langchain",
+    "internet-search", "cli", "developer-tools", "ai-agent"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS"
+]
+requires-python = ">=3.8"
+dependencies = [
+    # Core LangChain Dependencies
+    "langchain>=0.1.0",
+    "langchain-core>=0.1.0",
+    "langchain-community>=0.1.0",
+    
+    # AI Provider Support
+    "langchain-groq>=0.1.0",
+    "langchain-openai>=0.1.0",
+    "langchain-anthropic>=0.1.0",
+    "langchain-google-genai>=0.1.0",
+    "langchain-ollama>=0.1.0",
+    
+    # Core Dependencies
+    "rich>=13.0.0",
+    "structlog>=23.0.0",
+    "requests>=2.25.0",
+    "cryptography>=3.4.0",
+    "sqlalchemy>=1.4.0",
+    
+    # Internet Search & Web
+    "beautifulsoup4>=4.9.0",
+    "duckduckgo-search>=3.0.0",
+    "googlesearch-python>=1.2.0",
+    
+    # Vector Storage & AI
+    "faiss-cpu>=1.7.0",
+    "chromadb>=0.4.0",
+    
+    # Compatibility
+    "pathlib2; python_version<'3.4'"
+]
+
+[project.scripts]
+
+# Primary CLI Interfaces
+ai-helper = "ai_helper_agent.cli.multi_provider_cli:main"
+ai-chat = "ai_helper_agent.cli.enhanced_cli:main"
+ai-assist = "ai_helper_agent.cli.enhanced_cli:main"
+ai-selector = "ai_helper_agent.cli.cli_selector:main"
+
+# Single Provider CLIs
+ai-groq = "ai_helper_agent.cli.cli_single:main"
+ai-openai = "ai_helper_agent.cli.cli_single:main"
+ai-anthropic = "ai_helper_agent.cli.cli_single:main"
+ai-google = "ai_helper_agent.cli.cli_single:main"
+ai-ollama = "ai_helper_agent.cli.cli_single:main"
+
+# Multi-Provider CLI
+ai-multi = "ai_helper_agent.cli.multi_provider_cli:main"
+ai-providers = "ai_helper_agent.cli.multi_provider_cli:main"
+ai-pro = "ai_helper_agent.cli.multi_provider_cli:main"
+
+# Internet-Enabled CLIs
+ai-web = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai-search-web = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai-internet-web = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai-web-single = "ai_helper_agent.cli.cli_internet_single:main"
+
+# Specialized Commands
+ai-code = "ai_helper_agent.cli.enhanced_cli:main"
+ai-debug = "ai_helper_agent.cli.enhanced_cli:main"
+ai-fix = "ai_helper_agent.cli.enhanced_cli:main"
+ai-analyze = "ai_helper_agent.cli.enhanced_cli:main"
+ai-review = "ai_helper_agent.cli.enhanced_cli:main"
+ai-optimize = "ai_helper_agent.cli.enhanced_cli:main"
+ai-test = "ai_helper_agent.cli.enhanced_cli:main"
+ai-docs = "ai_helper_agent.cli.enhanced_cli:main"
+ai-explain = "ai_helper_agent.cli.enhanced_cli:main"
+ai-refactor = "ai_helper_agent.cli.enhanced_cli:main"
+
+# Provider-Specific Commands
+groq-chat = "ai_helper_agent.cli.cli_single:main"
+openai-chat = "ai_helper_agent.cli.cli_single:main"
+claude-chat = "ai_helper_agent.cli.cli_single:main"
+gemini-chat = "ai_helper_agent.cli.cli_single:main"
+ollama-chat = "ai_helper_agent.cli.cli_single:main"
+
+# Utility Commands
+ai-setup = "ai_helper_agent.utilities.api_key_setup:main"
+ai-config = "ai_helper_agent.core.config:main"
+ai-version = "ai_helper_agent.cli.enhanced_cli:version"
+ai-help = "ai_helper_agent.cli.enhanced_cli:help"
+ai-status = "ai_helper_agent.cli.enhanced_cli:status"
+
+# Advanced Features
+ai-stream = "ai_helper_agent.cli.enhanced_cli:stream_mode"
+ai-history = "ai_helper_agent.cli.enhanced_cli:show_history"
+ai-clear = "ai_helper_agent.cli.enhanced_cli:clear_history"
+ai-export = "ai_helper_agent.cli.enhanced_cli:export_conversation"
+ai-import = "ai_helper_agent.cli.enhanced_cli:import_conversation"
+
+# MAIN CLI SELECTOR
+ai-helper-selector = "ai_helper_agent.cli.cli_selector:main"
+ai-chat-selector = "ai_helper_agent.cli.cli_selector:main"
+ai-menu = "ai_helper_agent.cli.cli_selector:main"
+
+# API KEY & SECURITY MANAGEMENT
+ai-setup-keys = "ai_helper_agent.utilities.api_key_setup:main"
+ai-keys = "ai_helper_agent.utilities.api_key_setup:main"
+ai-security = "ai_helper_agent.utilities.api_key_setup:main"
+
+# SYSTEM TOOLS & UTILITIES
+ai-core = "ai_helper_agent.core.core:main"
+ai-browser = "ai_helper_agent.utils.browser_integration:main"
+ai-mcp = "ai_helper_agent.utils.mcp_integration:main"
+ai-tools = "ai_helper_agent.core.core:main"
+
+# DEVELOPMENT TOOLS
+ai-launcher = "ai_helper_agent.cli.cli_selector:main"
+ai-run = "ai_helper_agent.cli.cli_selector:main"
+
+# USER-FRIENDLY ALIASES
+ai-super-chat = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai-smart = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai-genius = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai-fast-chat = "ai_helper_agent.cli.cli_single:main"
+ai-quick = "ai_helper_agent.cli.cli_single:main"
+ai-turbo = "ai_helper_agent.cli.cli_single:main"
+ai-web-chat = "ai_helper_agent.cli.cli_internet_single:main"
+ai-internet = "ai_helper_agent.cli.cli_internet_single:main"
+ai-smart-chat = "ai_helper_agent.cli.multi_provider_cli:main"
+
+# Advanced Features - File Processing + Multi-Provider
+ai-advanced = "ai_helper_agent.cli.enhanced_cli:main"
+ai-dev = "ai_helper_agent.cli.enhanced_cli:main"
+ai-expert = "ai_helper_agent.cli.enhanced_cli:main"
+
+# TECHNICAL / LEGACY
+ai-helper-multi = "ai_helper_agent.cli.multi_provider_cli:main"
+ai-helper-agent = "ai_helper_agent.cli.multi_provider_cli:main"
+ai-helper-single = "ai_helper_agent.cli.cli_single:main"
+ai-helper-groq = "ai_helper_agent.cli.cli_single:main"
+ai-helper-internet = "ai_helper_agent.cli.cli_internet_single:main"
+ai-helper-web = "ai_helper_agent.cli.cli_internet_single:main"
+ai-helper-enhanced = "ai_helper_agent.cli.enhanced_cli:main"
+ai-helper-enhanced-internet = "ai_helper_agent.cli.enhanced_internet_cli:main"
+ai_helper_agent = "ai_helper_agent.cli.cli:main"
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "pre-commit"
+]
+test = [
+    "pytest>=6.0",
+    "pytest-cov"
+]
+
+[project.urls]
+Homepage = "https://github.com/AIMLDev726/ai-helper-agent"
+Documentation = "https://github.com/AIMLDev726/ai-helper-agent#readme"
+Repository = "https://github.com/AIMLDev726/ai-helper-agent"
+"Bug Tracker" = "https://github.com/AIMLDev726/ai-helper-agent/issues"
+Changelog = "https://github.com/AIMLDev726/ai-helper-agent/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ai_helper_agent*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+ai_helper_agent = ["*.txt", "*.md"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "--cov=ai_helper_agent --cov-report=html --cov-report=term-missing"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
