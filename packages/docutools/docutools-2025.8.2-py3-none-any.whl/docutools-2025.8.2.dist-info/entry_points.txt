@@ -1,0 +1,11 @@
+[console_scripts]
+mdrun = lcdoc.lprunner:main
+
+[mkdocs.plugins]
+lcd-blacklist = lcdoc.mkdocs.blacklist:BlacklistPlugin
+lcd-custom-dir = lcdoc.mkdocs.custom_dir:CustomDirPlugin
+lcd-find-pages = lcdoc.mkdocs.find_pages:MDFindPagesPlugin
+lcd-lp = lcdoc.mkdocs.lp:LPPlugin
+lcd-md-replace = lcdoc.mkdocs.replace:MDReplacePlugin
+lcd-page-tree = lcdoc.mkdocs.page_tree:PageTreePlugin
+lcd-stats = lcdoc.mkdocs.stats:StatsPlugin
