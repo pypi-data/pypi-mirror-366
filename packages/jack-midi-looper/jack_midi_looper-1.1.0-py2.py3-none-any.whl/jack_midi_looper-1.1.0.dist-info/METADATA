@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: jack_midi_looper
+Version: 1.1.0
+Summary: A jack client which generates MIDI events by beat, not time, using "loops" imported from midi files.
+Author-email: Leon Dionne <ldionne@dridesign.sh.cn>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Multimedia :: Sound/Audio :: Sound Synthesis
+Classifier: Topic :: Multimedia :: Sound/Audio :: MIDI
+Requires-Dist: JACK-Client
+Requires-Dist: numpy
+Requires-Dist: appdirs
+Requires-Dist: progress
+Requires-Dist: mido
+Requires-Dist: midi_notes
+Requires-Dist: log_soso
+Requires-Dist: PyQt5 ; extra == "qt"
+Requires-Dist: soso_qt_extras >= 1.1.0 ; extra == "qt"
+Project-URL: Home, https://github.com/Zen-Master-SoSo/jack_midi_looper
+Provides-Extra: qt
+
+# jack_midi_looper
+
+A jack client which generates MIDI events by beat, not time, using "loops" imported from midi files.
+
