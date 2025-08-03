@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: Prihops
+Version: 0.5
+Summary: Google drive integration
+Home-page: 
+Author: Bedirhan
+Author-email: bedirhan.oytpass@gmail.com
+Keywords: Google,DRİVE,entegration
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: tkinter
+Requires-Dist: google-auth
+Requires-Dist: google-api-python-client
+Requires-Dist: google-auth-httplib2
+Requires-Dist: google-auth-oauthlib
+Requires-Dist: Pillow
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# Prihops
+
+Prihops kütüphanesi Google drive den veri çekme ve ekleme olanagı sunarak veri saklamayı daha basit bir hâle getirir 
+
+## Kullanım
+
+- info() tarminale kütüphanenin versiyonunu verir
+- Control() drive dosyasındaki metin veya başlığı kontrol eder
+- delete() drive dosyasındaki metin veya başlığı siler
+- get() drive dosyasındaki metin veya başlığı çeker
+- give() drive dosyasına metin veya başlık ekler
+
+### Download 
+
+- pip install Prihops
+
+#### Telif Hakkı 
+
+Prihops kütüphanesi ile yapılan herhangi bir uygulamada kütüphanenin herhangi bir işlevine üçretlendirme uygulanamaz
