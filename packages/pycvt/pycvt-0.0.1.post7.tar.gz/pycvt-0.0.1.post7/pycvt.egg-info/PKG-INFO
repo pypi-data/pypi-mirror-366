@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: pycvt
+Version: 0.0.1.post7
+Summary: A lightweight Python toolkit for seamless image composition, color processing, and visualizing detection results.
+Author-email: ferretsprite <ferret-sprite-goon@duck.com>
+Project-URL: Homepage, https://github.com/xx025/pycvt
+Project-URL: Repository, https://github.com/xx025/pycvt
+Project-URL: Documentation, https://github.com/xx025/pycvt#readme
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: distinctipy>=1.3.4
+Requires-Dist: easyfont>=0.0.1.post10
+Requires-Dist: imageio>=2.37.0
+Requires-Dist: opencv-python>=4.11.0.86
+Requires-Dist: pillow>=11.2.1
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: scikit-image>=0.25.2
+
+# pycvt
+
+
+
+## Install
+
+```
+pip install pycvt --upgrade
+```
+
+## dev
+
+``` 
+uv sync
+```
+
+
+## API List
+
+- [colors.py](pycvt/clolors/colors.py)
+- [paste_image](pycvt/paster/paste_image.py)
+- wait for more...
