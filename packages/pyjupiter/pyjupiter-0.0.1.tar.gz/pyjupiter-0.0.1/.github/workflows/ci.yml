@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          uv sync --all-extras
+
+      - name: Test with pytest
+        run: |
+          uv run pytest tests/ -v --cov=pyjupiter --cov-report=xml --cov-report=html
+
+      - name: Lint with ruff
+        run: |
+          uv run ruff check .
+
+      - name: Type check with pyright
+        run: |
+          uv run pyright
+          uv run ruff format --check .
+
+      - name: Security Scanning
+        run: |
+          uv run bandit -r pyjupiter -ll
+          uv run pip-audit

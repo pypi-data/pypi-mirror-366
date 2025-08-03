@@ -1,0 +1,14 @@
+{
+  "name": "pyjupiter",
+  "description": "Prettier configuration for pyjupiter markdown files",
+  "private": true,
+  "devDependencies": {
+    "mermaid-validate": "^1.0.3",
+    "prettier": "^3.6.2"
+  },
+  "scripts": {
+    "format:md": "prettier --write '**/*.md'",
+    "format:md:check": "prettier --check '**/*.md'",
+    "validate:mermaid": "mermaid-validate validate-md docs/index.md && mermaid-validate validate-md docs/index.zh.md"
+  }
+}

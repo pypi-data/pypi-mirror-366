@@ -1,0 +1,35 @@
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off']
+  document-start:
+    present: false
+  comments:
+    min-spaces-from-content: 1
+
+ignore: |
+  .venv/
+  site/
+  htmlcov/
+  .pytest_cache/
+  .ruff_cache/
+  .pyright/
+  .git/
+  pnpm-lock.yaml
+  node_modules
+
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+  - '.yamllint'
+
+# Allow custom tags used in config files
+allowed-tags:
+  # Python name tags
+  - '!TAG'
+  - '!ENV'
+  - '!relative'

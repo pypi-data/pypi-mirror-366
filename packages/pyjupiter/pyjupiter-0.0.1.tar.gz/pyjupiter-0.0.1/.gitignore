@@ -1,0 +1,90 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+poetry.lock
+Pipfile
+Pipfile.lock
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Hatch, Poetry & Setuptools artifacts
+*.whl
+*.tar.gz
+*.log
+.cache/
+.hatch/
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Testing & Coverage
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+htmlcov/
+.pytest_cache/
+pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# macOS & Windows
+.DS_Store
+Thumbs.db
+
+# Git metadata (if using submodules)
+.gitmodules
+
+# Pyright or MyPy type-checking cache
+.pyright/
+.mypy_cache/
+
+# Generated Docs (if using Sphinx)
+docs/_build/
+
+# Ignore environment variables (if using dotenv)
+.env
+
+# UV specific
+.python-version
+
+# Flake8 config
+.flake8
+
+# ruff
+.ruff_cache
+
+# IDE
+.ropeproject
+.zed
+
+# ai
+.claude
+CLAUDE.md
+
+# pypi
+.pypi
+
+# node
+node_modules
+
+site

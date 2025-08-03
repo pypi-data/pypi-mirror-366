@@ -1,0 +1,158 @@
+[project]
+name = "pyjupiter"
+version = "0.0.1"
+description = "High-performance sync/async Python SDK for Jupiter Exchange APIs, powered by curl_cffi."
+authors = [{ name = "solanab", email = "whiredj@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.9.1"
+keywords = ["solana", "jupiter", "sdk"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "pydantic>=2.11.3",
+    "curl-cffi>=0.12",
+    "solders>=0.26.0",
+    "base58>=2.1.1",
+]
+
+[project.urls]
+homepage = "https://github.com/solanab/pyjupiter"
+repository = "https://github.com/solanab/pyjupiter"
+
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.23.7",
+    "pytest-cov>=6.1.1",
+    # Linting/Formatting
+    "ruff>=0.12.4",
+    "pyright>=1.1.403",
+    "python-dotenv>=1.1.1",
+    "yamllint>=1.35.1",
+    "yamlfix>=1.17.0",
+    "pre-commit>=3.5.0",
+    # doc
+    "mkdocs-material>=9.6.0",
+    "mkdocs-static-i18n>=1.2.0",
+    "bandit>=1.8.6",
+    "pip-audit>=2.9.0",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pyjupiter"]
+
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+# Support all Python versions from 3.9 to 3.13
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings (包含 trailing whitespace)
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "T10", # flake8-debugger (替代 debug-statements)
+    "T20", # flake8-print
+    "SIM", # flake8-simplify
+    "RUF", # Ruff 特定规则
+]
+ignore = [
+    "E501",   # line too long (由 formatter 处理)
+    "RUF006", # Store async task reference (fire-and-forget tasks)
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pyright]
+pythonVersion = "3.9"
+typeCheckingMode = "standard" # 使用标准模式，避免与 ruff 重复检查
+
+# 核心类型检查
+reportGeneralTypeIssues = true
+reportOptionalSubscript = true
+reportOptionalMemberAccess = true
+reportOptionalCall = true
+
+# 关闭与 ruff 重复的检查
+reportMissingImports = false  # ruff: F401
+reportUnusedImport = false    # ruff: F401
+reportUnusedClass = false     # ruff: F841
+reportUnusedFunction = false  # ruff: F841
+reportUnusedVariable = false  # ruff: F841
+reportDuplicateImport = false # ruff: F811
+
+# 关闭过于严格的类型检查
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+reportUnknownParameterType = false
+reportMissingParameterType = false
+reportUntypedFunctionDecorator = false
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+pythonpath = ["."]
+markers = [
+    "requires_private_key: marks tests that require PRIVATE_KEY environment variable",
+]
+
+[tool.coverage.run]
+source = ["pyjupiter"]
+omit = ["*/tests/*", "*/examples/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# yamlfix 配置
+[tool.yamlfix]
+line_length = 120
+sequence_style = "block_style"
+preserve_quotes = false
+explicit_start = false
+explicit_end = false
+whitelines = 1
+section_whitelines = 0
+config_path = ".yamllint"
