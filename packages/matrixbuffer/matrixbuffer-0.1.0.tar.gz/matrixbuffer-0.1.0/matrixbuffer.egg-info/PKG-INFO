@@ -1,0 +1,87 @@
+Metadata-Version: 2.4
+Name: matrixbuffer
+Version: 0.1.0
+Summary: A multiprocess-safe buffer for PyTorch tensors with live rendering using Pygame.
+Home-page: https://github.com/yourusername/matrixbuffer
+Author: Your Name
+Author-email: Alec Louis Clemente Candidato <aleccandidato@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2023 [Your Name]
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        1. The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        2. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pygame
+Requires-Dist: torch
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# MatrixBuffer
+
+MatrixBuffer is a Python package that provides a multiprocess-safe buffer for PyTorch tensors, specifically designed for rendering RGB matrices using Pygame. This package allows for efficient sharing of tensor data between processes, making it suitable for applications that require real-time rendering and updates.
+
+## Features
+
+- **Multiprocess Safe**: Utilizes shared memory and locks to ensure safe access to tensor data across multiple processes.
+- **Flexible Modes**: Supports both numerical and RGB modes for tensor data.
+- **Easy Integration**: Designed to work seamlessly with Pygame for rendering visual data.
+
+## Installation
+
+You can install the MatrixBuffer package using pip. Run the following command:
+
+```
+pip install matrixbuffer
+```
+
+## Usage
+
+Here is a simple example of how to use the MatrixBuffer package:
+
+```python
+import pygame
+from matrixbuffer.MatrixBuffer import MultiprocessSafeTensorBuffer, Render, update_buffer_process
+import multiprocessing
+
+# Initialize Pygame and create a window
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+
+# Create a multiprocess-safe tensor buffer
+rgb_buffer = MultiprocessSafeTensorBuffer(n=240, m=320, mode="rgb")
+
+# Create a renderer
+renderer = Render(rgb_buffer, screen)
+
+# Start the worker process to update the buffer
+stop_event = multiprocessing.Event()
+worker_process = multiprocessing.Process(target=update_buffer_process, args=(rgb_buffer, stop_event))
+worker_process.start()
+
+# Main loop for rendering
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    renderer.render()
+
+# Clean up
+stop_event.set()
+worker_process.join()
+pygame.quit()
+```
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for more details.
