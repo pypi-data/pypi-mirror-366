@@ -1,0 +1,274 @@
+# 🚀 git-shield
+
+`git-shield` is a lightweight, secure command-line tool that **detects hard-coded secrets, passwords, API keys, and random-looking sensitive data in your Git staged files before you commit.**
+
+👌 Prevent accidental leaks
+📊 Generate user-friendly reports
+💪 Automate via Git pre-commit hooks
+📈 Combines Regex + Shannon Entropy detection for maximum protection
+🔍 Smart file type detection for comprehensive scanning
+
+---
+
+## ✨ Features
+
+- 🔍 **Smart File Detection**: Automatically detects and scans text files including:
+
+  - Code files (`.py`, `.js`, `.ts`, `.java`, `.cpp`, etc.)
+  - Configuration files (`.env`, `.config`, `.yml`, `.json`, etc.)
+  - Documentation (`.md`, `.txt`, `.rst`, etc.)
+  - Certificate files (`.pem`, `.key`, `.crt`, etc.)
+  - And many more supported formats
+
+- 🛡 **Comprehensive Secret Detection**:
+
+  - AWS Access Keys & Secret Keys
+  - Private/Public Keys (RSA, DSA, EC, SSH)
+  - API Keys (GitHub, Google, Stripe, Twilio, etc.)
+  - Database URLs (PostgreSQL, MongoDB, Redis, MySQL)
+  - OAuth tokens and client secrets
+  - JWT tokens
+  - Slack tokens and webhooks
+  - Environment variables
+  - Hardcoded credentials in code
+  - Secrets in comments
+
+- 🔧 **Git Hook Management**:
+
+  - Easy installation/uninstallation of pre-commit hooks
+  - Automatic scanning before every commit
+  - Blocks commits when secrets are detected
+
+- 📊 **Detailed Reports**: File, line number, pattern type, and code context
+- ⚡ **Fast and Lightweight**: Minimal dependencies, runs locally
+- 🔐 **Security Focused**: 100% local operation, no network calls
+
+---
+
+## 📦 Installation
+
+Ensure you have **Python 3.8+** installed.
+
+```bash
+# Install via PyPI
+pip install git-shield
+```
+
+Alternatively:
+
+```bash
+git clone https://github.com/yourusername/git-shield.git
+cd git-shield
+pip install .
+```
+
+---
+
+## ⚡ Quick Start
+
+### Basic Usage
+
+Scan staged files in your Git repository:
+
+```bash
+git-shield scan --staged
+```
+
+Scan specific files:
+
+```bash
+git-shield scan --files config.env database.yml
+```
+
+### Git Hook Setup
+
+Install git-shield as a pre-commit hook (recommended):
+
+```bash
+git-shield install
+```
+
+This will automatically scan for secrets before every commit and block commits if secrets are found.
+
+Check hook status:
+
+```bash
+git-shield status
+```
+
+Uninstall the hook if needed:
+
+```bash
+git-shield uninstall
+```
+
+---
+
+## 📋 Command Reference
+
+### `git-shield scan`
+
+Scan files for secrets.
+
+**Options:**
+
+- `--staged`: Scan all staged files in the current git repository
+- `--files`: Scan specific files (can specify multiple files)
+
+**Examples:**
+
+```bash
+# Scan staged files
+git-shield scan --staged
+
+# Scan specific files
+git-shield scan --files .env config.py
+
+# Scan multiple specific files
+git-shield scan --files file1.txt file2.py file3.yml
+```
+
+### `git-shield install`
+
+Install git-shield as a pre-commit hook.
+
+**Example:**
+
+```bash
+git-shield install
+```
+
+### `git-shield uninstall`
+
+Uninstall git-shield pre-commit hook.
+
+**Example:**
+
+```bash
+git-shield uninstall
+```
+
+### `git-shield status`
+
+Check the installation status of git-shield hooks.
+
+**Example:**
+
+```bash
+git-shield status
+```
+
+---
+
+## 📊 Output Examples
+
+### ✅ No Secrets Detected
+
+```
+🔍 Scanning 3 file(s) for secrets...
+✅ No secrets detected. Safe to commit.
+```
+
+### ❌ Secrets Detected
+
+```
+🔍 Scanning 2 file(s) for secrets...
+
+❌ Secrets detected:
+   📄 config.env:5 [Password] -> pass****
+      Code: password=EXAMPLE_PASSWORD
+
+   📄 api.py:12 [API Key] -> AKIA****
+      Code: aws_access_key = "AKIAEXAMPLEKEY123"
+
+🚫 Found 2 secret(s). Please remove them before committing.
+```
+
+---
+
+## 🔍 Supported File Types
+
+git-shield automatically detects and scans text files including:
+
+**Code Files:**
+
+- `.py`, `.js`, `.ts`, `.jsx`, `.tsx`, `.html`, `.css`, `.scss`, `.sass`
+- `.java`, `.cpp`, `.c`, `.h`, `.hpp`, `.cs`, `.go`, `.rs`, `.swift`
+- `.kt`, `.scala`, `.clj`, `.hs`, `.ml`, `.fs`, `.vb`, `.pl`, `.pm`
+- `.tcl`, `.lua`, `.vim`, `.tex`, `.rst`, `.adoc`, `.wiki`
+
+**Configuration Files:**
+
+- `.env`, `.config`, `.conf`, `.ini`, `.cfg`, `.properties`
+- `.json`, `.xml`, `.yaml`, `.yml`, `.toml`
+
+**Documentation:**
+
+- `.md`, `.txt`, `.log`, `.csv`, `.tsv`, `.tab`, `.dat`, `.asc`
+
+**Certificate Files:**
+
+- `.pem`, `.key`, `.crt`, `.cer`, `.der`, `.p12`, `.pfx`
+- `.p7b`, `.p7c`, `.crl`, `.csr`
+
+**Scripts:**
+
+- `.sh`, `.bash`, `.zsh`, `.fish`, `.ps1`, `.bat`, `.cmd`
+
+---
+
+## 🛡 Detection Patterns
+
+git-shield includes comprehensive patterns for detecting:
+
+- **AWS**: Access keys, secret keys, session tokens
+- **GitHub**: Personal access tokens, OAuth tokens, app tokens
+- **Database**: PostgreSQL, MongoDB, Redis, MySQL connection strings
+- **OAuth**: Client IDs, client secrets, access tokens
+- **Slack**: Tokens, webhooks
+- **Stripe**: Live/test keys, publishable keys
+- **Google**: API keys, OAuth credentials
+- **Social Media**: Facebook, Twitter tokens
+- **Communication**: Twilio, SendGrid, Mailgun API keys
+- **Generic**: Base64/hex encoded secrets, UUIDs, hardcoded credentials
+
+---
+
+## 🔐 Security Focus
+
+- **100% Local**: No network calls, runs entirely on your machine
+- **No Data Storage**: Does not store or upload your code
+- **Open Source**: MIT Licensed, transparent codebase
+- **Privacy First**: Your secrets never leave your system
+
+---
+
+## ❗ Exit Codes
+
+| Exit Code | Meaning                           |
+| --------- | --------------------------------- |
+| 0         | No secrets found — commit allowed |
+| 1         | Secrets detected — commit blocked |
+| 2         | Environment/tool errors           |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📝 License
+
+MIT License — Free to use, modify, and distribute.
+
+---
+
+## ❤️ Support
+
+If you like this project, ⭐ star the repo and share it!
+
+<!-- **Author:** 👤 **Vamil Porwal** - [GitHub](https://github.com/VamilP) -->
+
+**Author:** 👤 **Vamil Porwal**
