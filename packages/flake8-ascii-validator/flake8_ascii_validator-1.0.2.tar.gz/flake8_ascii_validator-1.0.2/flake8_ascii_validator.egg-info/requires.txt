@@ -1,0 +1,15 @@
+flake8>=3.0.0
+
+[dev]
+pytest>=6.0
+pytest-cov
+flake8
+black
+isort
+build
+twine
+
+[test]
+pytest>=6.0
+pytest-cov
+flake8
