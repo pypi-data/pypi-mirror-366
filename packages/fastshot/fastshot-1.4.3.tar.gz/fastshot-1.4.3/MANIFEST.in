@@ -1,0 +1,8 @@
+include fastshot/config.ini
+include fastshot/_config_reset.ini
+recursive-include fastshot/resources * 
+include fastshot/env.bat
+recursive-include fastshot/web * 
+recursive-include fastshot/plugins * 
+recursive-include fastshot/settings *
+recursive-include fastshot/utils *
