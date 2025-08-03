@@ -1,0 +1,12 @@
+{
+  "name": "dexscreen",
+  "description": "Prettier configuration for dexscreen markdown files",
+  "private": true,
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  },
+  "scripts": {
+    "format:md": "prettier --write '**/*.md'",
+    "format:md:check": "prettier --check '**/*.md'"
+  }
+}
