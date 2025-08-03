@@ -1,0 +1,31 @@
+[project]
+name = "mqttwrappr"
+version = "0.0.9"
+authors = [
+  { name="Nils Klasen", email="likeable.versed-78@icloud.com" },
+]
+description = "A user friendly wrappr for easy mqtt operations"
+readme = "README.md"
+requires-python = ">=3.9,<4"
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+dependencies = [
+    "paho-mqtt==1.6.1",
+    "pyyaml"
+]
+
+[project.urls]
+Homepage = "https://git-ce.rwth-aachen.de/kls/mqttwrappr"
+Documentation = "https://mqttwrappr-dee8f6.pages.git-ce.rwth-aachen.de"
+Issues = "https://git-ce.rwth-aachen.de/kls/mqttwrappr/-/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
