@@ -1,0 +1,122 @@
+[project]
+name = "mcp-kit"
+dynamic = ["version"]
+description = "MCP tooling for developing and optimizing multi-agent AI systems."
+readme = "README.md"
+authors = [
+    { name = "Agentiqs", email = "support@agentiqs.ai" }
+]
+maintainers = [
+  {name = "Mauro", email = "mauro@agentiqs.ai"},
+  {name = "Guido", email = "guido@agentiqs.ai"},
+]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "fastapi[standard]>=0.115.12, <1",
+    "litellm>=1.72.6, <2",
+    "mcp>=1.9.4, <1.10",
+    "omegaconf>=2.3.0, <3",
+    "openapi-core>=0.19.5, <1",
+    "openapi-mcp>=0.1.0, <1",
+    "python-dotenv>=1.1.0, <2",
+    "typing-extensions>=4.14.0, <5",
+]
+license = "Apache-2.0"
+license-files = ["LICEN[CS]E.*"]
+keywords = ["mcp", "ai", "agent", "llm", "proxy", "mock", "oas", "openapi", "tool"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: Apache Software License",
+
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: OS Independent",
+  "Operating System :: POSIX",
+  "Operating System :: POSIX :: Linux",
+
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://agentiqs.ai/"
+Documentation = "https://docs.agentiqs.ai/mcp-kit-python/docs"
+Repository = "https://github.com/agentiqs/mcp-kit-python"
+Issues = "https://github.com/agentiqs/mcp-kit-python/issues"
+Changelog = "https://github.com/agentiqs/mcp-kit-python/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+vcs = "git"
+style = "pep440"
+bump = true
+# Ensure clean versions for tagged releases
+local-scheme = "no-local-version"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_kit"]
+
+[project.optional-dependencies]
+langgraph = [
+    "langchain-mcp-adapters==0.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.0, <9",
+    "pytest-asyncio>=1.0.0",
+    "pytest-cov>=6.2.1",
+    "mcp-kit[langgraph]",
+    "mypy>=1.16.1",
+    "ruff>=0.11.13",
+    "types-redis",
+    "types-cachetools",
+    "types-PyYAML",
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+implicit_reexport = false
+strict_equality = true
+exclude = ["tests/.*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+exclude = ["tests"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP"]
+ignore = ["B010"]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

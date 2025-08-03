@@ -1,0 +1,150 @@
+name: Generate Documentation
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Release"]
+    types:
+      - completed
+    branches:
+      - 'release/**'
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    # Only run if workflow_run was successful, or if triggered by other events
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+
+    steps:
+    - name: Checkout mcp-kit-python repository
+      uses: actions/checkout@v4
+      with:
+        path: mcp-kit-python
+        # When triggered by release workflow, checkout the specific tagged commit
+        ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+        fetch-depth: 0
+
+    - name: Checkout docs repository
+      uses: actions/checkout@v4
+      with:
+        repository: agentiqs/docs
+        path: website
+        token: ${{ secrets.DOCS_REPO_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+
+    - name: Install documentation dependencies
+      working-directory: mcp-kit-python/docs_syncer
+      run: |
+        echo "📦 Installing dependencies with uv..."
+        uv sync
+        echo "📋 Installed packages:"
+        uv tree
+
+    - name: Generate documentation
+      working-directory: mcp-kit-python/docs_syncer
+      run: |
+        echo "🚀 Generating comprehensive documentation (API reference + user guide)..."
+        uv run python generator.py
+
+    - name: Check for tag
+      id: check_tag
+      working-directory: mcp-kit-python
+      run: |
+        # Get the commit SHA we're working with
+        if [ "${{ github.event_name }}" = "workflow_run" ]; then
+          COMMIT_SHA="${{ github.event.workflow_run.head_sha }}"
+        else
+          COMMIT_SHA="${{ github.sha }}"
+        fi
+
+        echo "🏷️ Checking if commit ${COMMIT_SHA} is tagged..."
+
+        # Check if this commit has a tag in the mcp-kit-python repo
+        TAG=$(git tag --points-at ${COMMIT_SHA} | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
+
+        if [ -n "$TAG" ]; then
+          # Remove 'v' prefix to get clean version
+          VERSION=${TAG#v}
+          echo "✅ Found tag: $TAG (version: $VERSION)"
+
+          # Store outputs for reuse
+          echo "has_tag=true" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+        else
+          echo "has_tag=false" >> $GITHUB_OUTPUT
+          echo "ℹ️ No version tag found for this commit, skipping versioning"
+        fi
+
+    - name: Create versioned docs
+      if: steps.check_tag.outputs.has_tag == 'true'
+      working-directory: website
+      run: |
+        VERSION="${{ steps.check_tag.outputs.version }}"
+        echo "📦 Installing npm dependencies..."
+        npm install
+
+        echo "📚 Creating versioned documentation for version $VERSION..."
+        npm run docusaurus docs:version:mcp-kit-python $VERSION
+
+        echo "🔀 Creating Netlify redirects for version $VERSION..."
+        mkdir -p static
+        echo "/mcp-kit-python/$VERSION/docs/*      /mcp-kit-python/docs/:splat      301" > static/_redirects
+        echo "/mcp-kit-python/$VERSION/category/*  /mcp-kit-python/category/:splat  301" >> static/_redirects
+
+        echo "✅ Versioned documentation and redirects created for $VERSION"
+
+    - name: Commit and push documentation changes
+      working-directory: website
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+        # Add all documentation changes
+        git add .
+
+        echo "📝 Committing documentation changes..."
+
+        # Create comprehensive commit message
+        CHANGED_FILES=$(git diff --staged --name-only | wc -l)
+
+        if [ "${{ github.event_name }}" = "workflow_run" ]; then
+          TRIGGER_INFO="triggered by release workflow"
+          SOURCE_SHA="${{ github.event.workflow_run.head_sha }}"
+        else
+          TRIGGER_INFO="triggered by ${{ github.event_name }}"
+          SOURCE_SHA="${{ github.sha }}"
+        fi
+
+        COMMIT_MSG="📚 Update mcp-kit-python documentation from mcp-kit-python@${SOURCE_SHA}
+
+        Files changed: $CHANGED_FILES
+        Trigger: $TRIGGER_INFO
+        Source commit: https://github.com/${{ github.repository }}/commit/${SOURCE_SHA}"
+
+        git commit -m "$COMMIT_MSG"
+        git push
+        echo "✅ Documentation successfully updated!"
+
+    - name: Create tag in docs repo for versioned release
+      if: steps.check_tag.outputs.has_tag == 'true'
+      working-directory: website
+      run: |
+        VERSION="${{ steps.check_tag.outputs.version }}"
+        DOCS_TAG="mcp-kit-python-v${VERSION}"
+
+        echo "🏷️ Creating tag ${DOCS_TAG} in docs repository..."
+
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag ${DOCS_TAG}
+        git push origin ${DOCS_TAG}
+
+        echo "✅ Created tag ${DOCS_TAG} in docs repository"
