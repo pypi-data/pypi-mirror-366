@@ -1,0 +1,17 @@
+[project]
+name = "snsr"
+version = "0.1.5"
+description = "A simple random movement screensaver."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{ name = "nichsedge" }]
+requires-python = ">=3.7"
+dependencies = [
+    "pyautogui>=0.9.54",
+]
+
+[project.scripts]
+snsr = "main:run_screensaver"
+
+[project.urls]
+Homepage = "https://github.com/nichsedge/snsr"
