@@ -1,0 +1,1 @@
+This package is not for commercial use, all rights belong to original package SoundCard
