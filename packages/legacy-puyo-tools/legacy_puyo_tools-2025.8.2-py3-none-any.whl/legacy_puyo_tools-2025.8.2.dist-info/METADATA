@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: legacy-puyo-tools
+Version: 2025.8.2
+Summary: A tool to edit text for older Puyo Puyo games.
+Project-URL: Changelog, https://github.com/wushenrong/legacy-puyo-tools/blob/main/CHANGELOG.md
+Project-URL: Homepage, https://wushenrong.github.io/legacy-puyo-tools/
+Project-URL: Issues, https://github.com/wushenrong/legacy-puyo-tools/issues
+Project-URL: Source, https://github.com/wushenrong/legacy-puyo-tools.git
+Author-email: Samuel Wu <twopizza9621536@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: puyopuyo
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Other Audience
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: File Formats
+Classifier: Topic :: Games/Entertainment :: Puzzle Games
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Requires-Dist: attrs>=25.3
+Requires-Dist: bidict>=0.23.1
+Requires-Dist: click>=8.2.1
+Requires-Dist: cloup>=3.0.7
+Requires-Dist: lxml>=6
+Requires-Dist: numpy>=2.0.2
+Requires-Dist: pillow>=11.3
+Requires-Dist: typing-extensions>=4.14.1
+Description-Content-Type: text/markdown
+
+# Legacy Puyo Tools
+
+A command line tool for modding older Puyo Puyo games (Yes, the name is using a
+[reversed naming scheme](https://github.com/microsoft/WSL)).
+
+## Why
+
+[Puyo Text Editor](https://github.com/nickworonekin/puyo-text-editor),
+[fntedit](https://github.com/exelotl/fntedit), and other tools already can
+modify formats used by older Puyo Puyo games. However, there are advantages to
+rewrite them in Python:
+
+- Better cross compatibility with Linux.
+- Easier migration when upgrade away from end of life language versions.
+- Formats are stored in an intermediate representation before conversion.
+
+This project also aims to document how these formats work, so others can
+reimplement them if needed.
+
+## Progress Report
+
+Current progress on implementing conversion and creation support for formats
+that are used by the older Puyo Puyo games. Includes regression testing and
+documentation. Additional formats may be added if there is a need to modify
+other Puyo Puyo games.
+
+-   Legend:
+    - ✅ Fully Complete
+    - ⚠️ Partially Complete
+    - ❌ Incomplete
+
+| Format | Conversion | Creation | Testing | Documentation |
+| ------ | ---------- | -------- | ------- | ------------- |
+| `fmp`  | ✅        | ✅       | ❌      | ✅           |
+| `fnt`  | ❌        | ❌       | ❌      | ❌           |
+| `fpd`  | ✅        | ✅       | ✅      | ✅           |
+| `mtx`  | ⚠️        | ❌       | ❌      | ❌           |
