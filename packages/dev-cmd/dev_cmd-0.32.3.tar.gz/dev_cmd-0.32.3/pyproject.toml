@@ -1,0 +1,191 @@
+[build-system]
+requires = [
+    # 1st publication of pex.build_backend.wrap was in Pex 2.50.0.
+    "pex>=2.50",
+
+    # 1st support for license expressions was in setuptools 77.0.0.
+    "setuptools>=77",
+]
+build-backend = "pex.build_backend.wrap"
+
+[tool.pex.build_backend]
+delegate-build-backend = "setuptools.build_meta"
+
+[[tool.pex.build_backend.script-locks]]
+command = [
+    "uv",
+    "export",
+    "--format",
+    "pylock.toml",
+    "--no-header",
+    "--no-emit-project",
+    "--all-extras",
+    "--no-dev",
+    "-q",
+    "-o",
+    "{lock_path}",
+]
+
+[project]
+name = "dev-cmd"
+requires-python = ">=3.9"
+dependencies = [
+    "aioconsole",
+    "ansicolors",
+    "colorama; sys_platform == 'win32'",
+    "packaging",
+    "tomli; python_version < '3.11'",
+    "typing-extensions"
+]
+
+authors = [
+    {name = "John Sirois", email = "john.sirois@gmail.com"},
+]
+description = "A simple development command runner for Python projects."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+keywords = ["automation", "command", "runner", "testing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Utilities",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+old-pythons = ["pex", "filelock"]
+
+[project.urls]
+Repository = "https://github.com/jsirois/dev-cmd"
+"Bug Tracker" = "https://github.com/jsirois/dev-cmd/issues"
+Changelog = "https://github.com/jsirois/dev-cmd/blob/main/CHANGES.md"
+
+[project.scripts]
+dev-cmd = "dev_cmd.run:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "dev_cmd.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dev_cmd*"]
+
+[dependency-groups]
+dev = [
+    "dev-cmd[old-pythons]",
+    "ruff",
+    {include-group = "test"},
+    {include-group = "type-check"},
+]
+test = [
+    "ansicolors",
+    "packaging",
+    "pytest",
+]
+type-check = [
+    "dev-cmd[old-pythons]",
+    "mypy",
+    "types-colorama",
+    "types-setuptools",
+    "types-tqdm",
+    {include-group = "test"},
+]
+
+[[tool.mypy.overrides]]
+module = ["aioconsole.*"]
+follow_untyped_imports = true
+
+[[tool.mypy.overrides]]
+module = ["colors.*"]
+follow_untyped_imports = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.uv]
+required-version = ">=0.5.19"
+cache-keys = [
+    {env = "DEV_CMD_UV_FORCE_BUILD"}
+]
+
+[tool.dev-cmd.commands]
+fmt = ["ruff", "format"]
+check-fmt = ["ruff", "format", "--diff"]
+
+lint = ["ruff", "check", "--fix"]
+check-lint = ["ruff", "check"]
+
+[tool.dev-cmd.commands.type-check.factors]
+py = "The Python version to type check in <major>.<minor> form; i.e.: 3.13."
+[tool.dev-cmd.commands.type-check]
+args = [
+    "mypy",
+    "--python-version", "{-py:{markers.python_version}}",
+    "--cache-dir", ".mypy_cache_{markers.python_version}",
+    "setup.py",
+    "dev_cmd",
+    "tests",
+]
+dependency-group = "type-check"
+
+[tool.dev-cmd.commands.test]
+python = "{-py:}"
+env = {"PYTHONHASHSEED" = "{--hashseed}"}
+args = ["pytest"]
+cwd = "tests"
+accepts-extra-args = true
+dependency-group = "test"
+
+[tool.dev-cmd.tasks.checks]
+description = "Runs all development checks, including auto-formatting code."
+steps = [
+    "fmt",
+    "lint",
+    # Parallelizing the type checks and test is safe (they don't modify files), and it nets a ~3x
+    # speedup over running them all serially.
+    ["type-check-py3.{9..14}", "test"],
+]
+
+[tool.dev-cmd.tasks.ci]
+description = "Runs all checks used for CI."
+# None of the CI checks modify files; so they can all be run in parallel which nets a ~1.5x speedup.
+steps = [["check-fmt", "check-lint", "type-check", "test"]]
+
+[tool.dev-cmd]
+default = "checks"
+exit-style = "immediate"
+
+[[tool.dev-cmd.python]]
+# Suppress pyproject cache keys since uv.lock and a few env vars are enough to uniquely determine
+# venv content.
+pyproject-cache-keys = []
+extra-cache-keys = [
+    {env = "DEV_CMD_UV_FORCE_BUILD"},
+    "uv.lock",
+]
+
+3rdparty-export-command = [
+    "uv", "export", "-q",
+    "--no-emit-project",
+    "--only-group", "{dependency-group:dev}",
+    "-o", "{requirements.txt}"
+]
