@@ -1,0 +1,38 @@
+<!-- templates/widgets/htmx_autocomplete.html -->
+<div class="htmx-autocomplete" data-widget-id="{{ widget.attrs.id }}">
+    {# Hidden value input - rendered by Django #}
+    {% with widget=hidden_widget %}
+    <input {% for attr, value in widget.attrs.items %}
+                {{ attr }}="{{ value }}"
+            {% endfor %} type="{{ widget.type }}" name="{{ widget.name }}" 
+           id="{{ widget.attrs.id }}" class="{{ widget.attrs.class }}" 
+           value="{{ widget.value|default_if_none:'' }}">
+    {% endwith %}
+    
+    <div class="htmx-autocomplete-container">
+        {# Display value - rendered by Django #}
+        <div class="htmx-autocomplete-display-container">
+            {% with widget=display_widget %}
+            <input {% for attr, value in widget.attrs.items %}
+                       {{ attr }}="{{ value }}"
+                   {% endfor %} type="{{ widget.type }}" name="{{ widget.name }}" 
+                   id="{{ widget.attrs.id }}" class="{{ widget.attrs.class }}" 
+                   value="{{ widget.value|default_if_none:'' }}" 
+                   readonly tabindex="-1">
+            {% endwith %}
+        </div>
+        
+        {# Search input - rendered by Django #}
+        <div class="htmx-autocomplete-search-container">
+            {% with widget=search_widget %}
+            <input {% for attr, value in widget.attrs.items %}
+                       {{ attr }}="{{ value }}"
+                   {% endfor %} type="{{ widget.type }}" name="{{ widget.name }}" 
+            
+            value="{{ widget.value|default_if_none:'' }}" class="{{ widget.attrs.class }}"
+                   >
+            {% endwith %}
+            <div class="htmx-autocomplete-results"></div>
+        </div>
+    </div>
+</div>
