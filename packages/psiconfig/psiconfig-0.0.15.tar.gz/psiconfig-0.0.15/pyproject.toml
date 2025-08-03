@@ -1,0 +1,20 @@
+[project]
+name = "psiconfig"
+version = "0.0.15"
+requires-python = '==3.13.*'
+readme = "README.md"
+description = "A module to validate and load config files."
+authors = [{name = "Jeff", "email" = "<jeffwatkins2000@gmail.com>"}]
+include = ["HISTORY.md"]
+
+
+dependencies = [
+    "psi_toml>=0.0.11",
+]
+
+[dependency-groups]
+dev = ['pytest']
+
+[build-system]
+requires = ['uv-build']
+build-backend = 'uv_build'
