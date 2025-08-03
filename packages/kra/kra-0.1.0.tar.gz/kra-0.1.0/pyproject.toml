@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kra"
+version = "0.1.0"
+description = "Convenient DataFrame column operations for Polars."
+authors = [
+    { name = "Krzysztof Joachimiak" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "polars>=0.16.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/krzjoa/kra"
+Documentation = "https://kra.readthedocs.io/"
