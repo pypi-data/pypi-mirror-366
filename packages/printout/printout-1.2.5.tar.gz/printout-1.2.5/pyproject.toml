@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "printout"
+version = "1.2.5"
+description = "This print utility allows you to print information to the console and file in one call.  You don't need to use logger and print anymore.  With this tool, you can perform both actions using only printout"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{ name = "Jelani Jenkins", email = "jj@jenkinscode.com" }]
+requires-python = ">=3.7"
+
+[tool.setuptools]
+packages = ["printout"]
