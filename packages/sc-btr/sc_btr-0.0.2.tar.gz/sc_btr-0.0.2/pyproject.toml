@@ -1,0 +1,19 @@
+[tool.hatch.build.targets.wheel]
+packages = ["src/"]
+[build-system]
+requires = ["hatchling", "numpy", "cffi", "soundcard"]
+build-backend = "hatchling.build"
+[project]
+name = "sc_btr"
+version = "0.0.2"
+authors = [
+ { name="Layzy", email="westkarpov@yandex.ru" },
+]
+description = ""
+readme = "README.md"
+requires-python = ">=3.9.0"
+classifiers = [
+   "Programming Language :: Python :: 3",
+   "License :: OSI Approved :: MIT License",
+   "Operating System :: OS Independent",
+]
