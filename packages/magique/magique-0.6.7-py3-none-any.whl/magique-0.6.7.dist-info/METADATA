@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: magique
+Version: 0.6.7
+Summary: Message transfer package for AI agents and distributed computing.
+Author-email: Weize Xu <vet.xwz@gmail.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: cloudpickle>=3.1.0
+Requires-Dist: executor-engine>=0.3.1
+Requires-Dist: fastapi>=0.115.6
+Requires-Dist: funcdesc>=0.1.9
+Requires-Dist: loguru>=0.7.2
+Requires-Dist: msgpack>=1.1.0
+Requires-Dist: psutil>=6.1.0
+Requires-Dist: uvicorn>=0.32.1
+Requires-Dist: websockets>=14.1
+Requires-Dist: authlib
+Requires-Dist: python-jose
+Requires-Dist: python-dotenv
+Requires-Dist: fire
+Requires-Dist: httpx
+Provides-Extra: dev
+Requires-Dist: pytest-asyncio>=0.24.0; extra == "dev"
+Requires-Dist: pytest>=8.3.4; extra == "dev"
+Requires-Dist: pytest-cov>=6.0.0; extra == "dev"
