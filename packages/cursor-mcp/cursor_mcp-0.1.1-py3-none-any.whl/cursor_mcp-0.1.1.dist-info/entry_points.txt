@@ -1,0 +1,5 @@
+[console_scripts]
+cursor-manager = cursor_mcp_manager.manager_cli:cli
+cursor-mcp = cursor_mcp_manager.stdio_proxy:run_stdio_server
+cursor-mcp-manager = cursor_mcp_manager.__main__:main
+mcp-stdio = cursor_mcp_manager.stdio_proxy:run_stdio_server
