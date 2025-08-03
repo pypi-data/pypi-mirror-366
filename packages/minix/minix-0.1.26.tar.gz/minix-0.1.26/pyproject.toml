@@ -1,0 +1,36 @@
+[project]
+name = "minix"
+version = "0.1.26"
+description = "A modular Python framework for backend, AI, and data projects"
+authors = [
+    { name = "AmirHossein Advari", email = "amiradvari@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi (>=0.116.1,<0.117.0)",
+    "uvicorn (>=0.35.0,<0.36.0)",
+    "celery (>=5.5.3,<6.0.0)",
+    "redis (>=4.6.0,<5.0.0)",
+    "boto3 (>=1.39.14,<2.0.0)",
+    "aiokafka (>=0.12.0,<0.13.0)",
+    "sqlalchemy (>=2.0.41,<3.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "pymysql (>=1.1.1,<2.0.0)",
+    "celery-redbeat (>= 2.3.2)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.extras]
+ai = ["torch", "mlflow", "qdrant-client"]
+clickhouse = ["clickhouse-sqlalchemy", "clickhouse-driver"]
+dev = ["typer"]
+
+
+[tool.poetry.scripts]
+minix = "minix.core.cli.cli:app"
