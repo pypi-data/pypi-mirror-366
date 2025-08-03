@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include requirements.txt
+exclude palms.json
+exclude *.egg-info
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.pyo
+recursive-exclude build *
+recursive-exclude .git *
