@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: bioreactor_model
+Version: 0.0.4
+Summary: Bioreactor-model is a Python package for bioreactor and biomass growth calculations
+Project-URL: Homepage, https://github.com/matrixdex/bioreactor-model
+Project-URL: Issues, https://github.com/matrixdex/bioreactor-model/issues
+Author-email: Noorul Ali <manonthemoon13131@gmail.com>
+License-Expression: CC0-1.0
+License-File: LICENSE
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.13
+Requires-Dist: numpy
+Description-Content-Type: text/markdown
+
+# Bioreactor-model Python package
+
+## Installation
+
+```bash
+pip install bioreactor-model
+```
+
+## Functions
+
+`class calc.CellComposition` calculates biomass formula and biomass formula weight
+`class calc.CellComposition` solves biomass equation
+
+## Documentation
+Available on README.md at [https://github.com/matrixdex/bioreactor-model](https://github.com/matrixdex/bioreactor-model)
+
+## Example
+See `tests/test.py` for biomass cell composition calculation from dry weight values, biomass equation solution with gas inlet-outlet transfer values, respiratory quotient determination, and yeast biomass growth solution under glucose and hexane substrates
+
+## Future development
+
+Scale up parameters, fed-batch yield estimation, yield coefficient calculation, gas transfer estimation, oxygen transport and uptake rates will be added soon.
