@@ -1,0 +1,22 @@
+[project]
+name = "Questioning_game"
+version = "0.2.0"
+description = "A game that asks question and award you prize on every correct answer just a question game to practice my coding skills and its does not really award you money for real. its a fake game made for fun and learning."
+authors = [
+  { name="Aliyan Khan", email="aliyankhan25552@gmail.com.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.7"
+dependencies = []
+
+[project.scripts]
+Questioning_game = "main:main"
+
+[project.urls]
+Homepage = "https://github.com/sHadow-987"
+Repository = "https://github.com/sHadow-987/Questioning_game"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
