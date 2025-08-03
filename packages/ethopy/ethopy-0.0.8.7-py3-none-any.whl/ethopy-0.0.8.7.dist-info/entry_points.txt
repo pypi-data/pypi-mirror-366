@@ -1,0 +1,6 @@
+[console_scripts]
+ethopy = ethopy.cli:main
+ethopy-create-task = ethopy.utils.create_ethopy_task:generate_ethopy_template
+ethopy-db-connection = ethopy.setup_db:check_db_connection
+ethopy-setup-djdocker = ethopy.setup_db:setup_dj_docker
+ethopy-setup-schema = ethopy.setup_db:createschema
