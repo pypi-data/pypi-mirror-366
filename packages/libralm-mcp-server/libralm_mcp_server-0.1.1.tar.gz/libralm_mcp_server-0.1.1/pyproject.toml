@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "libralm-mcp-server"
+version = "0.1.1"
+description = "LibraLM MCP Server - A Model Context Protocol server for searching and retrieving book information"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "LibraLM", email = "support@libralm.com"}
+]
+keywords = ["mcp", "server", "libralm", "books", "library", "search"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "fastmcp>=2.11.0",
+    "mcp>=1.12.3",
+    "pydantic>=2.11.7",
+    "requests>=2.32.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/libralm-ai/libralm_mcp_server"
+Documentation = "https://github.com/libralm-ai/libralm_mcp_server#readme"
+Repository = "https://github.com/libralm-ai/libralm_mcp_server"
+Issues = "https://github.com/libralm-ai/libralm_mcp_server/issues"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["libralm_mcp_server.py"]
+sources = ["."]
+
+[project.scripts]
+libralm-mcp-server = "libralm_mcp_server:main"
