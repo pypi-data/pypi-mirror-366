@@ -1,0 +1,72 @@
+Metadata-Version: 2.4
+Name: SplIsoFind
+Version: 0.1.1
+Summary: Spatial Isoform Finder detects spatially variable isoforms in long-read spatial data
+Author-email: Lieke Michielsen <lim4020@med.cornell.edu>
+License: MIT License
+        
+        Copyright (c) 2025 Tilgner Lab
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/tilgnerlab/Spl-IsoFind
+Project-URL: Source Code, https://github.com/tilgnerlab/Spl-IsoFind
+Project-URL: Documentation, https://splisofind.readthedocs.io
+Project-URL: Issue Tracker, https://github.com/tilgnerlab/Spl-IsoFind/issues
+Keywords: spatial transcriptomics,long read,alternative splicing,isoform
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: POSIX :: Linux
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas<2.0.0,>=1.1.2
+Requires-Dist: numpy<2.0.0,>=1.19.2
+Requires-Dist: scanpy>=1.10.3
+Requires-Dist: scipy
+Requires-Dist: statsmodels
+Requires-Dist: scikit-learn
+Requires-Dist: libpysal
+Requires-Dist: esda
+Requires-Dist: tqdm
+Requires-Dist: jupyter
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Dynamic: license-file
+
+# Spatial Isoform Finder (Spl-IsoFind)
+
+Spl-IsoFind can be used to detect spatially variable isoforms in long-read spatial transcriptomics data. 
+
+### Installation
+
+SplIsoFind requires Python 3.9 or higher. The easiest way to install is through the following command:
+
+```
+pip install SplIsoFind
+```
+
+### Tutorials
+
+The tutorial folder contains notebooks to run Spl-IsoFind on demo data. See the documentation for more information. The demo datasets can be downloaded here: 
+
+For citation and further information please refer to our [preprint](https://www.biorxiv.org/content/10.1101/2025.06.25.661563v1)
+
