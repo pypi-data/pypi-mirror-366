@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ error_type }} - WorkFrame{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center min-vh-50 align-items-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card border-0 bg-{{ error_color }} bg-opacity-10">
+                <div class="card-body text-center py-5">
+                    <i class="bi {{ error_icon }} display-4 text-{{ error_color }} mb-3"></i>
+                    <h2 class="h4 mb-3">{{ error_type }}</h2>
+                    <p class="mb-4">{{ error_message }}</p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <button onclick="history.back()" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Go Back
+                        </button>
+                        {% if back_url %}
+                        <a href="{{ back_url }}" class="btn btn-primary">
+                            <i class="bi bi-list me-1"></i>Return to List
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.min-vh-50 {
+    min-height: 50vh;
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 2rem 1.5rem !important;
+    }
+    
+    .d-flex.flex-wrap .btn {
+        margin-bottom: 0.5rem;
+        min-width: 120px;
+    }
+}
+
+/* Ensure proper text wrapping on mobile */
+@media (max-width: 576px) {
+    .h4 {
+        font-size: 1.25rem;
+    }
+    
+    p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+}
+</style>
+{% endblock %}
