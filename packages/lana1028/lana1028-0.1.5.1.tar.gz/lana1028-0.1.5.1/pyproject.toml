@@ -1,0 +1,50 @@
+[project]
+name = "lana1028"
+version = "0.1.5.1"
+description = """
+LANA-1028 is a custom encryption algorithm designed for high security and strong cryptographic resistance. 
+It uses a 1028-bit key, multiple rounds of encryption, and advanced substitution and permutation techniques to ensure data confidentiality.
+
+Features:
+- 1028-bit encryption key for strong security
+- 64 rounds of encryption for enhanced protection
+- SHA-512-based key expansion
+- Non-linear substitution (S-Box) and bitwise permutation (P-Box)
+- Easy-to-use API for encryption and decryption
+- New `secure_mode=True` option for stronger defaults
+- Even simpler API via `import lana1028` — no nested imports required
+
+Example:  
+    import lana1028
+    key = generate_lana1028_key()
+    message = "Secret message for encryption"
+
+    print("[Original Message]:", message)
+
+    encrypted = lana1028_encrypt(message, key, secure_mode=True)
+    print("[Encrypted]:", encrypted)
+    print("[Encrypted Size]:", len(encrypted.encode()), "bytes")
+
+    decrypted = lana1028_decrypt(encrypted, key, secure_mode=True)
+    print("[Decrypted]:", decrypted)
+
+
+Installation:
+Install the package via pip:
+
+    pip install lana1028
+"""
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [
+  { name = "Tristan", email = "contactpgag@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
