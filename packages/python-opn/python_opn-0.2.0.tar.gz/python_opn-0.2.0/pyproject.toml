@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools >= 77.0.3", "requests >= 2.32.4"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-opn"
+version = "0.2.0"
+authors = [
+    {name = 'Jay Deiman', email = 'admin@splitstreams.com'},
+]
+description = "A comprehensive OPNSense API client"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+]
+license = {file = "LICENSE"}
+
+[project.urls]
+homepage = "https://github.com/crustymonkey/py-opn"
+issues = "https://github.com/crustymonkey/py-opn/issues"
