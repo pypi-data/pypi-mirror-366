@@ -1,0 +1,65 @@
+[project]
+name = "JaxNRSur"
+version = "1.0.0"
+description = "Numerical relativity surrogate model for gravitational waveforms in Jax"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    {name = "Kaze W. K. Wong", email = "kazewong.physics@gmail.com"},
+    {name = "Max isi"},
+    {name = "Ethan Payne"},
+    {name = "Vijay Varma"},
+    {name = "Tousif Islam"}
+]
+keywords = ["gravitational-wave", "Numerical relativity", "autodiff", "jax"]
+license = {text = "MIT"}
+dependencies = [
+    "beartype>=0.21.0",
+    "coveralls>=4.0.1",
+    "equinox>=0.12.1",
+    "h5py>=3.13.0",
+    "jax>=0.6.0",
+    "lineax>=0.0.8",
+    "optax>=0.2.5",
+    "requests>=2.32.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/kazewong/JaxNRSur"
+Repository = "https://github.com/kazewong/JaxNRSur"
+
+[project.optional-dependencies]
+cuda = [
+    "jax[cuda]>=0.6.0",
+]
+benchmark = [
+    "tensorboard>=2.19.0",
+    "gwsurrogate>=1.1.6",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "jaxnrsur",
+    "matplotlib>=3.10.3",
+    "ipykernel>=6.29.5",
+    "ipython>=9.2.0",
+    "notebook>=7.4.3",
+    "pytest>=8.4.0",
+    "ruff>=0.12.0",
+]
+
+[tool.uv.sources]
+jaxnrsur = { workspace = true }
+
+[tool.pyright]
+include = ["src"]
+exclude = ["test", "docs"]
+
+[tool.ruff]
+include = ["src"]
+exclude = ["test", "docs"]
