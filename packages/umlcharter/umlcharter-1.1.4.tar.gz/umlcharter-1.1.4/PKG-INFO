@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: umlcharter
+Version: 1.1.4
+Summary: Python package for quick diagrams creation without a need to learn new DSL
+Home-page: https://github.com/mikalaiyurkin/charter
+Author: Mikalai Yurkin
+Author-email: yurkin.mikalai@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-python
+Dynamic: summary
+
+![pypi](https://img.shields.io/pypi/v/umlcharter.svg)
+![versions](https://img.shields.io/pypi/pyversions/umlcharter.svg)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/umlcharter)
+
+# umlcharter
+Python package for quick diagrams creation without a need to learn a new DSL.
+
+The goal of this package is to provide a tool for convenient and quick creation of the diagrams as a code
+in the popular DSLs (PlantUML, Mermaid, D2, etc) using simple python constructions.
+
+This package focuses on not to provide the full coverage for the all the things these DSLs are supporting, but rather on
+the simplicity, speed and ease of diagrams creation.
+
+For the examples of how this package can be used and the list of exactly supported DSLs, 
+please check the documentation:
+- [Sequence Diagrams](https://github.com/mikalaiyurkin/umlcharter/blob/master/docs/sequence_diagram/README.md)
+- [State & Activity Diagrams (Flowcharts)](https://github.com/mikalaiyurkin/umlcharter/blob/master/docs/graph_diagram/README.md)
