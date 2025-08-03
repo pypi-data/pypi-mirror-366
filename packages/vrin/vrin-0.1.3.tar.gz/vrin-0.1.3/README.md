@@ -1,0 +1,251 @@
+# VRIN Memory Orchestration
+
+AI-powered knowledge management and retrieval system that provides human-like neural memory capabilities.
+
+## Quick Start
+
+```bash
+pip install vrin
+```
+
+```python
+from vrin import VRIN
+
+# Create VRIN client with your API key
+vrin = VRIN(api_key="your_api_key_here")
+
+# Insert knowledge into memory
+vrin.insert("Python is a programming language created by Guido van Rossum in 1991")
+
+# Retrieve knowledge using natural language queries
+results = vrin.query("What is Python?")
+print(results)
+```
+
+That's it! VRIN automatically handles:
+- ✅ Fact extraction and knowledge structuring
+- ✅ Neural memory retrieval with semantic search
+- ✅ Temporal context and conflict resolution
+- ✅ Pronoun resolution for clarity
+- ✅ User isolation and security
+
+## Features
+
+### 🧠 **Neural Memory System**
+- Human-like memory retrieval using semantic similarity
+- Automatic fact extraction from natural language
+- Temporal context awareness and conflict resolution
+
+### 🔍 **Intelligent Search**
+- Natural language querying
+- Semantic similarity matching
+- Context-aware responses
+- Anti-hallucination protection
+
+### 🛡️ **Enterprise Security**
+- User isolation and data privacy
+- API key management
+- Secure authentication
+- Rate limiting and monitoring
+
+### 📊 **Knowledge Graph Visualization**
+- Interactive graph visualization
+- Real-time knowledge mapping
+- Relationship discovery
+- Temporal fact tracking
+
+## Installation
+
+```bash
+pip install vrin
+```
+
+## Basic Usage
+
+### 1. Initialize the Client
+
+```python
+from vrin import VRIN
+
+# Option 1: Pass API key directly
+vrin = VRIN(api_key="your_api_key_here")
+
+# Option 2: Use environment variable
+import os
+os.environ["VRIN_API_KEY"] = "your_api_key_here"
+vrin = VRIN()
+```
+
+### 2. Insert Knowledge
+
+```python
+# Insert single piece of knowledge
+result = vrin.insert("Python is a high-level programming language created by Guido van Rossum")
+
+# Insert multiple pieces of knowledge
+texts = [
+    "Python was first released in 1991",
+    "Python is known for its simplicity and readability",
+    "Guido van Rossum is the creator of Python"
+]
+results = vrin.insert_multiple(texts)
+```
+
+### 3. Query Knowledge
+
+```python
+# Basic query
+results = vrin.query("What is Python?")
+
+# Advanced query with LLM processing
+results = vrin.query_advanced("Explain the history of Python programming language")
+```
+
+### 4. Access Knowledge Graph
+
+```python
+# Get complete knowledge graph
+graph = vrin.get_knowledge_graph()
+nodes = graph['data']['nodes']
+edges = graph['data']['edges']
+```
+
+## API Reference
+
+### Core Methods
+
+#### `insert(text: str)`
+Insert knowledge into the system.
+
+```python
+result = vrin.insert("Knowledge text here")
+```
+
+#### `query(query: str)`
+Query knowledge using natural language.
+
+```python
+results = vrin.query("What is the capital of France?")
+```
+
+#### `get_knowledge_graph()`
+Retrieve the complete knowledge graph.
+
+```python
+graph = vrin.get_knowledge_graph()
+```
+
+### Advanced Methods
+
+#### `query_advanced(query: str)`
+Advanced query with LLM processing (may timeout for complex queries).
+
+```python
+results = vrin.query_advanced("Complex query with reasoning")
+```
+
+#### `insert_multiple(texts: List[str])`
+Insert multiple pieces of knowledge at once.
+
+```python
+results = vrin.insert_multiple(["Text 1", "Text 2", "Text 3"])
+```
+
+#### `query_multiple(queries: List[str])`
+Query multiple questions at once.
+
+```python
+results = vrin.query_multiple(["Question 1", "Question 2"])
+```
+
+## Error Handling
+
+The SDK provides specific exception types for different error scenarios:
+
+```python
+from vrin import VRINError, VRINAuthenticationError, VRINRateLimitError
+
+try:
+    result = vrin.query("What is Python?")
+except VRINAuthenticationError:
+    print("Invalid API key")
+except VRINRateLimitError:
+    print("Rate limit exceeded")
+except VRINError as e:
+    print(f"General error: {e}")
+```
+
+## Configuration
+
+### Environment Variables
+
+- `VRIN_API_KEY`: Your VRIN API key
+- `VRIN_BASE_URL`: Custom API endpoint (optional)
+
+### Client Configuration
+
+```python
+vrin = VRIN(
+    api_key="your_api_key",
+    base_url="https://custom-endpoint.com",  # Optional
+    timeout=30,                              # Request timeout in seconds
+    max_retries=3                            # Maximum retry attempts
+)
+```
+
+## Examples
+
+### Basic Knowledge Management
+
+```python
+from vrin import VRIN
+
+vrin = VRIN(api_key="your_api_key")
+
+# Store knowledge about a topic
+vrin.insert("Machine learning is a subset of artificial intelligence that enables computers to learn without being explicitly programmed.")
+
+# Query the knowledge
+results = vrin.query("What is machine learning?")
+print(results)
+```
+
+### Multi-step Knowledge Building
+
+```python
+# Build knowledge incrementally
+vrin.insert("John is a software engineer")
+vrin.insert("John works at Google")
+vrin.insert("Google is a technology company")
+
+# Query complex relationships
+results = vrin.query("Where does John work?")
+print(results)
+```
+
+### Knowledge Graph Analysis
+
+```python
+# Get the complete knowledge graph
+graph = vrin.get_knowledge_graph()
+
+# Analyze the structure
+nodes = graph['data']['nodes']
+edges = graph['data']['edges']
+
+print(f"Knowledge graph contains {len(nodes)} entities and {len(edges)} relationships")
+```
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- 📧 Email: contact@vrin.ai
+- 📖 Documentation: https://docs.vrin.ai
+- 🐛 Issues: https://github.com/vrin-ai/vrin-python/issues 
