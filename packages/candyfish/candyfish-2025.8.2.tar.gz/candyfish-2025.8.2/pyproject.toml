@@ -1,0 +1,13 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "candyfish"
+version = "2025.8.2"
+description = "简易文本训练器"
+dependencies = ["numpy", "torch"]
+
+requires-python = ">=3.10"
+readme = "README.md"
+authors = [{name = "Loliyer", email = "271153910@qq.com"}]
