@@ -1,0 +1,201 @@
+Metadata-Version: 2.1
+Name: xiaothink
+Version: 1.1.0
+Summary: 一个AI工具包，帮助用户快速调用小思框架（Xiaothink）相关接口。
+Home-page: UNKNOWN
+Author: Ericsjq
+Author-email: xiaothink@foxmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: tensorflow
+Requires-Dist: numpy
+
+# Xiaothink Python 模块使用文档（更新版）
+
+Xiaothink 是一个以自然语言处理（NLP）为核心的AI研究组织，致力于提供高效、灵活的工具来满足各种应用场景的需求。Xiaothink Python 模块是该组织提供的核心工具包，涵盖了图像生成、文本续写、颜值评分以及对话模型等多种功能。以下是详细的使用指南和代码示例。
+
+## 目录
+1. [安装](#安装)
+2. [本地对话模型](#本地对话模型)
+3. [图像特征提取与多模态对话](#图像特征提取与多模态对话)
+4. [更新日志](#更新日志)
+
+---
+
+## 安装
+
+首先，您需要通过 pip 安装 Xiaothink 模块：
+
+```bash
+pip install xiaothink
+```
+
+---
+
+## 注：由于业务范围调整，2025年7月17日后，小思框架将暂停所有WebAI服务，转向端侧AI模型领域研究，本代码库也同步删除相关接口。
+
+---
+
+## 本地对话模型
+
+对于本地加载的对话模型，根据模型类型的不同，应调用相应的函数来进行对话。
+
+### 单轮对话
+
+适用于单轮对话场景。
+
+### 示例代码
+
+```python
+import xiaothink.llm.inference.test_formal as tf
+
+model = tf.QianyanModel(
+    ckpt_dir=r'path/to/your/t6_model',
+    MT='t6_beta_dense',
+    vocab=r'path/to/your/vocab'# vocab文件在模型储存库中已给出
+)
+
+while True:
+    inp = input('【问】：')
+    if inp == '[CLEAN]':
+        print('【清空上下文】\n\n')
+        model.clean_his()
+        continue
+    re = model.chat_SingleTurn(inp, temp=0.32)  # 使用 chat_SingleTurn 进行单轮对话
+    print('\n【答】：', re, '\n')
+```
+
+### 多轮对话
+
+适用于多轮对话场景。
+
+### 示例代码
+
+```python
+import xiaothink.llm.inference.test_formal as tf
+
+model = tf.QianyanModel(
+    ckpt_dir=r'path/to/your/t6_model',
+    MT='t6_beta_dense',
+    vocab=r'path/to/your/vocab'# vocab文件在模型储存库中已给出
+)
+
+while True:
+    inp = input('【问】：')
+    if inp == '[CLEAN]':
+        print('【清空上下文】\n\n')
+        model.clean_his()
+        continue
+    re = model.chat(inp, temp=0.32)  # 使用 chat 进行单轮对话
+    print('\n【答】：', re, '\n')
+```
+
+### 文本续写
+
+适用于更灵活的文本续写场景
+
+### 示例代码
+
+```python
+import xiaothink.llm.inference.test as test
+
+MT = 't6_beta_dense'
+m, d = test.load(
+    ckpt_dir=r'path/to/your/t6_model',
+    MT='t6_beta_dense',
+    vocab=r'path/to/your/vocab'# vocab文件在模型储存库中已给出
+)
+
+inp='你好！'
+belle_chat = '{"conversations": [{"role": "user", "content": {inp}}, {"role": "assistant", "content": "'.replace('{inp}', inp)    # t6系列中经过指令微调的模型支持的instruct格式
+inp_m = belle_chat
+
+ret = test.generate_texts_loop(m, d, inp_m,    
+                               num_generate=100,
+                               every=lambda a: print(a, end='', flush=True),
+                               temperature=0.32,
+                               pass_char=['▩'])    #▩是t6系列模型的<unk>标识
+```
+
+**重要提示**：对于本地模型，单论对话模型应调用 `model.chat_SingleTurn` 函数，多轮对话模型应调用 `model.chat` 函数，未进行指令微调的预训练模型模型建议调用 `model.chat` 函数。
+
+---
+
+## 图像特征提取与多模态对话
+
+在1.1.0版本中，我们新增了图像特征提取功能（img2ms和ms2img接口），该功能基于小思框架首创的的img_zip技术，能够实现图像的高压缩率有损压缩，同时将图像转换为AI可读的特征信息（tokens）。
+
+### 技术特点：
+- 将大图切分为80x80x3的小块
+- 每个小块转换为100、96、36或更少个数字
+- 结合.7z压缩算法，图像总体压缩率可达10%
+- 支持在对话中使用`<img>{image_path}</img>`标签让模型"看到"图片内容
+
+### 使用示例：
+
+```python
+from xiaothink.llm.inference.test_formal import QianyanModel
+
+if __name__ == '__main__':
+    model = QianyanModel(
+        ckpt_dir=r'E:\小思框架\论文\ganskchat\ckpt_test_t6_tiny_img2ms',
+        MT='t6_tiny',
+        vocab=r'E:\小思框架\论文\ganskchat\vocab_lx3.txt',
+        imgzip_model_path='E:/小思框架/o第十四代/text2img2/best_pro2_96c.keras'  # 指定img_zip模型路径
+    )
+
+    while True:
+        inp = input('【问】：')
+        if inp == '[CLEAN]':
+            print('【清空上下文】\n\n')
+            model.clean_his()
+            continue
+        ret = model.chat(inp, temp=0.18, pre_text='')
+        print('\n【答】：', ret, '\n')
+```
+
+在对话中，您可以输入如下内容：
+`<img>E:/a.jpg</img>请你描述这张图片`
+
+模型将自动解析图像路径并提取特征，然后根据图像内容进行回答。
+
+**注意**：
+1. 使用此功能时，需要确保在初始化模型时提供了正确的`imgzip_model_path`
+2. 指定的语言模型只支持指定的img_zip模型版本
+3. 图像路径需使用绝对路径以确保正确解析
+
+---
+
+## 更新日志
+
+### 版本 1.1.0 (2025-08-02)
+- **新增功能**：
+  - 添加`img2ms`和`ms2img`接口，实现图像的高压缩率有损压缩
+  - 支持将图像转换为AI可读的特征tokens
+  - 扩展对话模型支持多模态输入（图像+文本）
+  
+- **技术升级**：
+  - 基于小思框架自研的img_zip技术
+  - 支持80x80x3图像块的智能压缩
+  - 当输出为96个特征值时，结合.7z算法可实现10%超高压缩率
+  
+- **使用方式**：
+  - 在对话中使用`<img>{image_path}</img>`标签插入图像
+  - 初始化模型时需指定img_zip模型路径
+  - 支持多模态对话（图像描述、图像问答等场景）
+
+- **注意事项**：
+  - 仅支持端侧AI模型
+
+---
+
+以上就是 Xiaothink Python 模块的主要功能及使用方法。
+
+如有任何疑问或建议，请随时联系我们：xiaothink@foxmail.com。
+
