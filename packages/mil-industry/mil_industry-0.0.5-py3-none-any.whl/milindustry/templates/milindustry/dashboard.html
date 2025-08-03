@@ -1,0 +1,138 @@
+{% extends 'milindustry/base.html' %}
+{% load i18n %}
+{% load humanize %}
+{% load custom_filters %}
+{% load navactive %}
+
+{% block milindustry_content %}
+    <div class="d-flex justify-content-center">
+        <form method="post" action="{% url 'milindustry:refresh_job_slots_usage' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary mt-3">
+                <i class="fas fa-rotate-right me-1"></i> Refresh
+            </button>
+        </form>
+      </div>
+    <div class="card-body">
+    {% if characters_slots_overview %}
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm align-middle text-center">
+        <thead class="thead-light">
+          <tr>
+            <th>Character</th>
+            <th>Manufacturing - {{ aggregated_slots.manufacturing.used }} / {{ aggregated_slots.manufacturing.max }}</th>
+            <th>Reaction - {{ aggregated_slots.reaction.used }} / {{ aggregated_slots.reaction.max }}</th>
+            <th>Research - {{ aggregated_slots.research.used }} / {{ aggregated_slots.research.max }}</th>
+            <th>As of</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for char in characters_slots_overview %}
+        <tr>
+            <td>
+            <img src="https://images.evetech.net/characters/{{ char.character_id }}/portrait?size=32" alt="">
+            <span>&nbsp;{{ char.character_name }}</span>
+            </td>
+            <td>
+            <div class="d-flex flex-wrap justify-content-center">
+                {% for i in char.manufacturing.used|times %}
+                <div class="slot-box used"></div>
+                {% endfor %}
+                {% for i in char.manufacturing.unused|times %}
+                <div class="slot-box unused"></div>
+                {% endfor %}
+                {% for i in char.manufacturing.disabled|times %}
+                <div class="slot-box disabled"></div>
+                {% endfor %}
+            </div>
+            <small class="text-muted">{{ char.manufacturing.used }} / {{ char.manufacturing.max }}</small>
+            </td>
+            <td>
+            <div class="d-flex flex-wrap justify-content-center">
+                {% for i in char.reaction.used|times %}
+                <div class="slot-box used"></div>
+                {% endfor %}
+                {% for i in char.reaction.unused|times %}
+                <div class="slot-box unused"></div>
+                {% endfor %}
+                {% for i in char.reaction.disabled|times %}
+                <div class="slot-box disabled"></div>
+                {% endfor %}
+            </div>
+            <small class="text-muted">{{ char.reaction.used }} / {{ char.reaction.max }}</small>
+            </td>
+            <td>
+            <div class="d-flex flex-wrap justify-content-center">
+                {% for i in char.research.used|times %}
+                <div class="slot-box used"></div>
+                {% endfor %}
+                {% for i in char.research.unused|times %}
+                <div class="slot-box unused"></div>
+                {% endfor %}
+                {% for i in char.research.disabled|times %}
+                <div class="slot-box disabled"></div>
+                {% endfor %}
+            </div>
+            <small class="text-muted">{{ char.research.used }} / {{ char.research.max }}</small>
+            </td>
+            <td>
+            <div class="d-flex flex-wrap justify-content-center">
+                {{ char.as_of|date:"Y-m-d - H:i:s" }}
+            </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <div class="mt-3 text-center small text-muted">
+        <div class="d-flex justify-content-center flex-wrap gap-3 mt-1">
+          <div class="d-flex align-items-center">
+            <div class="slot-box used me-2"></div>
+            <span>Being used</span>
+          </div>
+          <span class="ms-1"></span>
+          <div class="d-flex align-items-center">
+            <div class="slot-box unused me-2"></div>
+            <span>Available</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+      <p>No character slot data available.</p>
+    {% endif %}
+
+  </div>
+{% endblock %}
+
+{% block extra_javascript %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .slot-box {
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  .slot-box.used {
+    background-color: #f09e07ff; /* green */
+    border-color: #adb5bd;
+  }
+  .slot-box.unused {
+    background-color: #88ff70ff; /* light gray */
+    border-color: #adb5bd;
+  }
+
+  .slot-box.disabled {
+  opacity: 0;
+  cursor: not-allowed;
+  }
+</style>
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}
