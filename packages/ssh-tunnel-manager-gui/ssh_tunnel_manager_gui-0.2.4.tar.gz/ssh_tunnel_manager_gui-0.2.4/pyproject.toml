@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ssh-tunnel-manager-gui"
+version = "0.2.4"
+description = "A manager for SSH tunnels with a GUI."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+  {name = "NtWriteCode", email = "118625463+NtWriteCode@users.noreply.github.com"},
+]
+keywords = ["ssh", "tunnel", "network", "gui"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Networking",
+    "Topic :: Utilities",
+    "Framework :: Pytest",
+    "Environment :: X11 Applications :: Qt",
+    "Topic :: Software Development :: User Interfaces",
+]
+
+dependencies = [
+    "PyQt6>=6.0.0",
+    "typing-extensions>=4.0.0",
+    "PyYAML>=6.0.0",
+]
+
+[project.optional-dependencies]
+windows = ["pywin32>=300"]
+
+[project.urls]
+"Homepage" = "https://github.com/NtWriteCode/ssh-tunnel-manager"
+"Bug Tracker" = "https://github.com/NtWriteCode/ssh-tunnel-manager/issues"
+
+[project.scripts]
+ssh-tunnel-manager = "ssh_tunnel_manager.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ssh_tunnel_manager*"] 
+exclude = ["tests*"] 
+
+# If you have data files like your icon.png that need to be included:
+[tool.setuptools.package-data]
+"ssh_tunnel_manager" = ["icon.ico"] # Example, adjust as needed 
