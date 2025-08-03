@@ -1,0 +1,136 @@
+site_name: "docutools"
+site_description: "Documentation Building Tools"
+site_url: "https://axiros.github.io/docutools"
+repo_url: "https://github.com/axiros/docutools"
+repo_name: "docutools"
+
+# configure your own scheme handler for this, dependent on where YOU want to edit (repo server or local fs):
+edit_uri: git://$repos/docutools/docs
+
+copyright: |
+  Copyright &copy; 2022 Axiros GmbH (Gk)
+#
+nav:
+  - "Overview": index.md
+  - Installation:
+      - install.md
+      - "Development Installation": dev_install.md
+      - "Task Runner": task_runner.md
+      - "About Conda": conda.md
+  - Features:
+      - features/index.md
+      - Plugins:
+          - Blacklist: features/blacklist/index.md
+          - Find Pages: features/find-pages/index.md
+          - Literate Programming (LP):
+              - Overview: features/lp/index.md
+              - Syntax: features/lp/syntax.md
+              - Parameters: features/lp/parameters.md
+              - Sessions: features/lp/sessions.md
+              - Evaluation and Caching: features/lp/eval.md
+              - Async Fetching: features/lp/async.md
+          - LP Shell Mode:
+              - Overview: features/lp/bash/index.md
+              - Tmux Sessions: features/lp/bash/sessions.md
+              - Terminal Colors: features/lp/xterm.md
+              - Examples: features/lp/examples.md
+              - Tips: features/lp/tips.md
+          - LP Python Mode:
+              - Overview: features/lp/python/_index.md
+              - Mechanics: features/lp/python/_tech.md
+          - Other LP Plugins:
+              - Overview: features/lp/plugs/_index.md
+              - Mechanics: features/lp/plugs/_tech.md
+          - Markdown Replace: features/md-replace/index.md
+          - Page Tree: features/page-tree/index.md
+          - Stats: features/stats/index.md
+      - Third Party: features/third.md
+      - "TermCasts": features/termcasts/index.md
+      - Darkmode: features/darkmode.md
+  - About:
+      - Coverage: about/coverage.md
+      - Contributing: about/contributing.md
+      - Changelog: about/changelog.md
+      - Credits: about/credits.md
+      - Navigation: about/navigation.md
+      - TODO: about/todo.md
+
+theme:
+  features:
+    - navigation.instant
+    - navigation.top
+    - navigation.tabs
+    - navigation.sections
+      # toc.integrate
+      #- navigation.expand
+  name:
+    material
+    #custom_dir: docs/lcd
+  icon:
+    logo: material/book-open-page-variant
+  palette:
+    scheme: preference
+    primary: blue grey
+    accent: deep purple
+  font:
+    text: Roboto
+    code: Roboto Mono
+    #- toc.autohide
+
+# extra_css:
+#   - theme/src/css/mkdocstrings.css
+
+markdown_extensions:
+  - admonition
+  - attr_list # {: style="height: ..."}
+  - footnotes # foo[^1] is ...(start with ^)
+  - meta
+  - markdown_include.include
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.critic:
+      mode: view
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.keys
+  - pymdownx.tilde
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
+  - markdown.extensions.tables
+  - markdown.extensions.footnotes
+  - markdown.extensions.md_in_html:
+  - pymdownx.superfences:
+      preserve_tabs: true
+  - toc:
+      permalink: "¤"
+  - pymdownx.snippets:
+      base_path:
+        - docs
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/axiros
+
+plugins:
+  # in this order. e.g. md-replace before lp, so that lp can process its results
+  - search
+  - lcd-blacklist
+  - lcd-md-replace
+  - lcd-lp
+  - lcd-find-pages:
+      find-pages:
+        - features/lp/:follow
+  - lcd-page-tree
+  - lcd-stats
+  - macros:
+      j2_block_start_string: "<%{"
+      j2_block_end_string: "}%>"
+      j2_variable_start_string: "<{"
+      j2_variable_end_string: "}>"
