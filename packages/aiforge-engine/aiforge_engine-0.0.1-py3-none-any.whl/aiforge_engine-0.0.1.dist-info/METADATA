@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: aiforge-engine
+Version: 0.0.1
+Summary: AIForge 核心 + 可选 GUI/Web 界面支持
+License-File: LICENSE
+Requires-Python: >=3.10
+Provides-Extra: gui
+Requires-Dist: textual; extra == 'gui'
+Provides-Extra: web
+Requires-Dist: fastapi; extra == 'web'
+Requires-Dist: uvicorn; extra == 'web'
