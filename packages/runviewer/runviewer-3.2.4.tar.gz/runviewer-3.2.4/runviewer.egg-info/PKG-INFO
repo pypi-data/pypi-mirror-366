@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: runviewer
+Version: 3.2.4
+Summary: A program to view shots compiled by labscript
+Author-email: The labscript suite community <labscriptsuite@googlegroups.com>
+License: Copyright (c) 2014, Monash University
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met: 
+        
+        1. Redistributions of source code must retain the above copyright notice, this
+           list of conditions and the following disclaimer. 
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution. 
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+        ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+        ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+        (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+        LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+        ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+        (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Project-URL: Homepage, http://labscriptsuite.org/
+Project-URL: Documentation, https://docs.labscriptsuite.org/
+Project-URL: Repository, https://github.com/labscript-suite/runviewer/
+Project-URL: Downloads, https://github.com/labscript-suite/runviewer/releases/
+Project-URL: Tracker, https://github.com/labscript-suite/runviewer/issues/
+Keywords: experiment control,automation
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: desktop-app>=0.1.2
+Requires-Dist: labscript_utils>=3.1.0b1
+Requires-Dist: labscript-c-extensions
+Requires-Dist: pyqtgraph>=0.11.1
+Requires-Dist: qtutils>=2.0.0
+Requires-Dist: zprocess
+Requires-Dist: numpy>=1.15
+Requires-Dist: scipy
+Requires-Dist: h5py
+Provides-Extra: docs
+Requires-Dist: PyQt5; extra == "docs"
+Requires-Dist: Sphinx==8.2.3; extra == "docs"
+Requires-Dist: sphinx-rtd-theme==3.0.2; extra == "docs"
+Requires-Dist: myst_parser==4.0.1; extra == "docs"
+Dynamic: license-file
+
+<img src="https://raw.githubusercontent.com/labscript-suite/labscript-suite/master/art/runviewer_32nx32n.svg" height="64" alt="the labscript suite – runviewer" align="right">
+
+# the _labscript suite_ » runviewer
+
+### Visualize hardware-timed experiment instructions
+
+[![Actions Status](https://github.com/labscript-suite/runviewer/workflows/Build%20and%20Release/badge.svg)](https://github.com/labscript-suite/runviewer/actions)
+[![License](https://img.shields.io/pypi/l/runviewer.svg)](https://github.com/labscriptsuite/runviewer/raw/master/LICENSE.txt)
+[![Python Version](https://img.shields.io/pypi/pyversions/runviewer.svg)](https://python.org)
+[![PyPI](https://img.shields.io/pypi/v/runviewer.svg)](https://pypi.org/project/runviewer)
+[![Conda Version](https://img.shields.io/conda/v/labscript-suite/runviewer)](https://anaconda.org/labscript-suite/runviewer)
+[![Google Group](https://img.shields.io/badge/Google%20Group-labscriptsuite-blue.svg)](https://groups.google.com/forum/#!forum/labscriptsuite)
+<!--[![DOI](http://img.shields.io/badge/DOI-10.1063%2F1.4817213-0F79D0.svg)](https://doi.org/10.1063/1.4817213)-->
+
+
+**runviewer** is a graphical interface for visualising hardware-timed experiments composed using the [*labscript suite*](https://github.com/labscript-suite/labscript-suite). runviewer shows you what you have commanded the hardware to do throughout an experiment shot, by plotting annotated, interactive timeseries of outputs and inputs. These traces are reverse engineered (uncompiled) from the hardware instructions produced by labscript, and provide a faithful representation of what the hardware has been commanded to do.
+
+## Installation
+
+runviewer is distributed as a Python package on [PyPI](https://pypi.org/user/labscript-suite) and [Anaconda Cloud](https://anaconda.org/labscript-suite), and should be installed with other components of the _labscript suite_. Please see the [installation guide](https://docs.labscriptsuite.org/en/latest/installation) for details.
