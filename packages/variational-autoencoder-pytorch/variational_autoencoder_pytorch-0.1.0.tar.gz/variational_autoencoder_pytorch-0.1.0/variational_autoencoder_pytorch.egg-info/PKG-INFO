@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: variational-autoencoder-pytorch
+Version: 0.1.0
+Summary: A package to simplify the implementing a variational-autoencoder model with fully connected latent heads.
+Author-email: Mehran Bazrafkan <mhrn.bzrafkn.dev@gmail.com>
+License-Expression: MIT
+Keywords: variational autoencoder,pytorch,ml,deep learning
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# variational-autoencoder-pytorch
+A minimal PyTorch library for building variational autoencoders (VAEs) with fully connected latent heads. Designed for fast prototyping, it provides modular encoder-decoder components and handles μ/logσ² prediction out of the box. Ideal for researchers and developers who want clean, customizable VAE models without boilerplate.
