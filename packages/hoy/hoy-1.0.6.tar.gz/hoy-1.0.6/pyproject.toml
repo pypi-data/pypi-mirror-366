@@ -1,0 +1,44 @@
+[project]
+name = "hoy"
+dynamic = ["version"]
+description = "A dead simple notifier."
+readme = "README.md"
+license = "Zlib"
+authors = [{ name = "Matthew Go", email = "lezgomatt@gmail.com" }]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: zlib/libpng License",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Topic :: Utilities",
+  "Typing :: Typed",
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/lezgomatt/hoy#readme"
+Issues = "https://github.com/lezgomatt/hoy/issues"
+Source = "https://github.com/lezgomatt/hoy"
+
+[project.scripts]
+hoy = "hoy.hoy:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "hoy/hoy.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = ["mypy>=1.0.0"]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:hoy/}"
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
