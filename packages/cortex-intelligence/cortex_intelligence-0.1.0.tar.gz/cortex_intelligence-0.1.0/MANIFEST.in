@@ -1,0 +1,20 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include MANIFEST.in
+
+# Include ONNX models
+include models/*.onnx
+
+# Include documentation
+include docs/*.md
+
+# Include examples
+include examples/*.py
+
+# Include tests
+include tests/*.py
+
+# Include package data
+recursive-include cortex *.py
+recursive-include cortex *.md 
