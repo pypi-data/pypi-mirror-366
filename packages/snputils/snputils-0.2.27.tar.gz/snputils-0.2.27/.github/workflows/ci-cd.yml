@@ -1,0 +1,152 @@
+# File: .github/workflows/release.yml
+# This workflow handles:
+# 1. For Pull Requests:
+#    - Runs all tests
+#    - Verifies documentation builds
+# 2. For Pre-releases:
+#    - Runs all tests
+#    - Builds documentation
+#    - Deploys documentation to GitHub Pages
+#    - Publishes package to PyPI
+#    - If everything passes:
+#      - Updates the release to a full release (removes pre-release status)
+
+name: Test, Docs & Publish
+
+on:
+  # Run on pull requests to main branch to verify changes
+  pull_request:
+    branches:
+      - main
+  # Run when a new release is published to deploy docs and package
+  release:
+    types: [published]
+
+permissions:
+  contents: write   # Needed to update release status
+  pages: write      # Needed for docs deployment
+  id-token: write   # Needed for docs deployment
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request' || (github.event_name == 'release' && github.event.release.prerelease == true)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.13']  # Test on limit versions (3.8 and latest)
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full repository history, including all tags
+
+      - name: Verify available tags
+        run: git tag -l
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"           # Enables automatic pip caching
+
+      # Cache test data
+      - name: Cache test data
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: snputils-test-data-${{ hashFiles('snputils/snp/io/read/__test__/conftest.py') }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tox tox-gh-actions
+
+      - name: Run tests
+        run: python -m tox
+
+  build-docs:
+    # Only build documentation after tests have passed
+    needs: test
+    if: needs.test.result == 'success' && (github.event_name == 'pull_request' || (github.event_name == 'release' && github.event.release.prerelease == true))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full repository history, including all tags
+
+      - name: Verify available tags
+        run: git tag -l
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'  # Ensure this is the latest Python version so the cached deps are used
+          cache: 'pip'
+
+      - name: Install package with docs dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install '.[docs]'
+
+      # Build documentation and verify it builds correctly
+      # DOC_ALLOW_EXEC=1 allows executing code examples in docstrings
+      - name: Build documentation
+        run: DOC_ALLOW_EXEC=1 pdoc --docformat google -o docs/ snputils
+
+      # Upload Pages artifact if this is a release
+      - name: Upload Pages artifact
+        if: github.event_name == 'release'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+
+  deploy:
+    needs: [test, build-docs]
+    if: needs.build-docs.result == 'success' && github.event_name == 'release' && github.event.release.prerelease == true
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Deploy documentation to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # Build and publish to PyPI
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full repository history, including all tags
+
+      - name: Verify available tags
+        run: git tag -l
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'  # Ensure this is the latest Python version so the cached deps are used
+          cache: 'pip'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      # Update the release to a full release and mark it as latest
+      - name: Mark Release as Final and Latest
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release edit ${{ github.event.release.tag_name }} --prerelease=false --latest
