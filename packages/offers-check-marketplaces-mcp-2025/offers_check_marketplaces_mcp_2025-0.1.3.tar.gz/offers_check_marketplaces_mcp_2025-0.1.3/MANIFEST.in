@@ -1,0 +1,28 @@
+# Include documentation
+include README.md
+include LICENSE
+include LICENSE_INTEGRATION.md
+
+# Include configuration examples
+include .cursor/mcp.json
+include .kiro/settings/mcp.json
+
+# Include data directory structure (but not actual data files)
+recursive-include offers_check_marketplaces *.py
+recursive-include offers_check_marketplaces *.json
+
+# Exclude test files and cache
+exclude test_*.py
+exclude *_test.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude data *
+recursive-exclude .pytest_cache *
+recursive-exclude .venv *
+recursive-exclude .git *
+recursive-exclude .github *
+recursive-exclude .cursor *
+recursive-exclude .kiro *
+exclude docker-compose.yml
+exclude Dockerfile
+exclude uv.lock
