@@ -1,0 +1,109 @@
+# ==========================
+# Main project configuration 
+# ==========================
+
+[project]
+name = "autofmt"
+version = "0.1.1"
+description = """Watchdog-based Python auto-formatter using Ruff and Black"""
+license = { file = "LICENSE" }
+readme = "README.md"
+authors = [
+  { name = "shaileshpandit141", email = "shaileshpandit141@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Code Generators",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Utilities",
+]
+requires-python = ">=3.13"
+dependencies = [
+  "black>=25.1.0",
+  "rich>=14.1.0",
+  "ruff>=0.12.5",
+  "watchdog>=6.0.0",
+]
+
+# CLI scripts entry point configuration
+# -------------------------------------
+[project.scripts]
+autofmt = "autofmt:main" # CLI entry point
+
+# ==========================
+# Build system configuration
+# ==========================
+[build-system]
+requires = ["hatchling"]          # Build tool requirement
+build-backend = "hatchling.build" # Build backend
+
+# =================
+# Dependency groups
+# =================
+[dependency-groups]
+dev = ["autofmt", "pytest>=8.4.1"] # Development dependency group
+
+# ===============
+# UV tool sources
+# ===============
+[tool.uv.sources]
+autofmt = { workspace = true }
+
+# =====================
+# Optional dependencies
+# =====================
+[project.optional-dependencies]
+dev = ["pytest", "black", "ruff"] # Optional dev dependencies
+
+# ============
+# Package data
+# ============
+[tool.setuptools.package-data]
+"pydantic_storage" = ["py.typed"] # Include type information
+
+# ============
+# Project URLs
+# ============
+[project.urls]
+Homepage = "https://github.com/shaileshpandit141/autofmt"
+Repository = "https://github.com/shaileshpandit141/autofmt"
+Issues = "https://github.com/shaileshpandit141/autofmt/issues"
+
+# ===================
+# Tool Configurations
+# ===================
+
+# Disable ruff S101 rule for test casecases
+# -----------------------------------------
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["S101"]
+
+# ====================
+# Pytest configuration
+# ====================
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-v"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+
+# ==========================
+# Autofmt tool configuration
+# ==========================
+[tool.autofmt]
+watch_path = "."
+formatters = ["black", "ruff"]
+cooldown_seconds = 1.0
