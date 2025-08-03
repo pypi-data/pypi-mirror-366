@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lirayspy"
+version = "0.0.4"
+description = "Python client library for LiRAYS API - Fiber Network Design"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "LiRAYS API Client", email = "support@lirays.com"}
+]
+keywords = ["lirays", "api", "gis", "fiber", "network", "design"]
+
+dependencies = [
+    "httpx>=0.24.0",
+    "requests>=2.31.0",
+    "pydantic>=2.0.0",
+    "python-dateutil>=2.8.0",
+    "typing-extensions>=4.0.0; python_version < '3.10'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-httpx>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/LiRAYSgj/Lirays-Api-Python-Client"
+Documentation = "https://github.com/LiRAYSgj/Lirays-Api-Python-Client#readme"
+Repository = "https://github.com/LiRAYSgj/Lirays-Api-Python-Client"
+"Bug Tracker" = "https://github.com/LiRAYSgj/Lirays-Api-Python-Client/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lirayspy*"]
+
+[tool.setuptools.package-dir]
+lirayspy = "lirayspy"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 119
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+asyncio_mode = "auto"

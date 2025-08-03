@@ -1,0 +1,555 @@
+# LiRAYS Python API Client
+
+[![PyPI version](https://badge.fury.io/py/lirayspy.svg)](https://badge.fury.io/py/lirayspy)
+[![Python Support](https://img.shields.io/pypi/pyversions/lirayspy.svg)](https://pypi.org/project/lirayspy/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A comprehensive Python client library for the **LiRAYS API** - the leading platform for fiber network design and geographic information systems (GIS). This library provides a clean, intuitive interface to interact with all LiRAYS API endpoints including authentication, project management, plan execution, layer management, feature operations, and real-time tool execution.
+
+## 🚀 Features
+
+- **🔐 Authentication**: Secure JWT-based authentication with automatic token refresh
+- **📊 Project Management**: Complete CRUD operations for GIS projects
+- **📋 Plan Management**: Create and manage analysis plans with status tracking
+- **🗂️ Layer Management**: Handle 25+ geographic layer types with full classification support
+- **📍 Feature Operations**: Full geometry support (Points, LineStrings, Polygons) with batch operations
+- **🛠️ Tool Execution**: Real-time streaming execution of GIS analysis tools with progress tracking
+- **🔄 Context Manager Support**: Automatic resource cleanup and connection management
+- **📦 Type Safety**: Full type hints and enum support for better development experience
+- **⚡ Session Management**: Persistent sessions with automatic reconnection
+
+## 📦 Installation
+
+```bash
+pip install lirayspy
+```
+
+## ⚡ Quick Start
+
+```python
+from lirayspy import LiRAYSApiClient
+from lirayspy.tools import LayerClass, GeomType, PlanStatus
+
+# Initialize client with context manager (recommended)
+with LiRAYSApiClient("https://api.lirays.com") as client:
+    # Authenticate
+    if client.login("your-email@example.com", "your-password"):
+        print("Successfully authenticated!")
+        
+        # Create a project
+        project = client.create_project(
+            name="Fiber Network Expansion",
+            description="Q4 2024 fiber network expansion project"
+        )
+        
+        # Create a plan
+        plan = client.create_plan(
+            project_id=project["id"],
+            name="Phase 1 Analysis",
+            status=PlanStatus.IN_PROGRESS
+        )
+        
+        # Create a layer for fiber infrastructure
+        layer = client.create_layer(
+            plan_id=plan["id"],
+            layer_class=LayerClass.FIBER_24,
+            name="24-Core Fiber Network"
+        )
+        
+        # Add a point feature (network node)
+        feature = client.create_feature(
+            layer_id=layer["id"],
+            geom_type=GeomType.POINT,
+            coordinates=[-122.4194, 37.7749]  # San Francisco coordinates
+        )
+        
+        print(f"Created feature: {feature['id']}")
+```
+
+## 📚 Comprehensive API Documentation
+
+### 🔐 Authentication
+
+```python
+from lirayspy import LiRAYSApiClient
+
+# Initialize client
+client = LiRAYSApiClient("https://api.lirays.com")
+
+# Login with credentials
+success = client.login("user@example.com", "password")
+if success:
+    print(f"Logged in as: {client.email}")
+
+# Check health status
+if client.health_check():
+    print("API is healthy and responding")
+
+# Logout (clears tokens)
+client.logout()
+```
+
+### 📊 Project Management
+
+```python
+# Create a new project
+project = client.create_project(
+    name="Smart City Infrastructure",
+    description="IoT and fiber network integration project"
+)
+
+# List projects with pagination
+projects = client.get_projects(page=1, per_page=10)
+print(f"Found {len(projects['resources'])} projects")
+
+# Get specific project
+project_details = client.get_project(project["id"])
+
+# Update project
+updated_project = client.update_project(
+    project["id"],
+    name="Smart City Infrastructure v2.0",
+    description="Updated project scope"
+)
+
+# Delete project (will cascade delete all child resources)
+client.delete_project(project["id"])
+```
+
+### 📋 Plan Management
+
+```python
+from lirayspy.tools import PlanStatus
+
+# Create a plan
+plan = client.create_plan(
+    project_id=project["id"],
+    name="Network Optimization Analysis",
+    description="Optimize fiber routing for maximum efficiency",
+    status=PlanStatus.NOT_ASSIGNED
+)
+
+# Get plans for a project
+plans = client.get_plans(page=1, per_page=20, project_id=project["id"])
+
+# Update plan status
+updated_plan = client.update_plan(
+    plan["id"],
+    status=PlanStatus.COMPLETED
+)
+
+# Get specific plan
+plan_details = client.get_plan(plan["id"])
+```
+
+### 🗂️ Layer Management
+
+LiRAYS supports 25+ layer types for comprehensive network design:
+
+```python
+from lirayspy.tools import LayerClass
+
+# Available layer classes include:
+# - Primary: PLAN_AREA, PARCELS, CABINET
+# - Network Points: MST, SPLICE, RESIDENTIAL
+# - Hand-holes: VAULT_24X36, VAULT_17X30, VAULT_10X15
+# - Fiber: FIBER_24, FIBER_48, FIBER_72, FIBER_144, FIBER_288
+# - Conduits: CONDUIT_075, CONDUIT_125
+# - And many more...
+
+# Create different types of layers
+fiber_layer = client.create_layer(
+    plan_id=plan["id"],
+    layer_class=LayerClass.FIBER_144,
+    name="High-Capacity Backbone"
+)
+
+vault_layer = client.create_layer(
+    plan_id=plan["id"],
+    layer_class=LayerClass.VAULT_24X36,
+    name="Distribution Vaults"
+)
+
+# Get available layer classes
+layer_classes = client.get_layer_classes()
+ready_layers = client.get_ready_layer_classes()
+
+# List layers for a plan
+layers = client.get_layers(page=1, per_page=50, plan_id=plan["id"])
+
+# Update layer
+updated_layer = client.update_layer(
+    fiber_layer["id"],
+    name="Updated Fiber Network"
+)
+```
+
+### 📍 Feature Operations
+
+Complete geometry support with batch operations:
+
+```python
+from lirayspy.tools import GeomType
+
+# Create a point feature (network node, splice point, etc.)
+point_feature = client.create_feature(
+    layer_id=layer["id"],
+    geom_type=GeomType.POINT,
+    coordinates=[-122.4194, 37.7749]
+)
+
+# Create a line feature (fiber cable route)
+line_feature = client.create_feature(
+    layer_id=layer["id"],
+    geom_type=GeomType.LINESTRING,
+    coordinates=[
+        [-122.4194, 37.7749],
+        [-122.4184, 37.7759],
+        [-122.4174, 37.7769]
+    ]
+)
+
+# Create a polygon feature (service area, easement)
+polygon_feature = client.create_feature(
+    layer_id=layer["id"],
+    geom_type=GeomType.POLYGON,
+    coordinates=[[
+        [-122.4200, 37.7740],
+        [-122.4180, 37.7740],
+        [-122.4180, 37.7760],
+        [-122.4200, 37.7760],
+        [-122.4200, 37.7740]  # Close the polygon
+    ]]
+)
+
+# Batch create multiple features
+batch_coordinates = [
+    [-122.4100, 37.7800],
+    [-122.4110, 37.7810],
+    [-122.4120, 37.7820]
+]
+
+batch_result = client.create_feature_batch(
+    layer_id=layer["id"],
+    geom_type=GeomType.POINT,
+    features_coordinates=batch_coordinates
+)
+
+# Update feature geometry
+updated_feature = client.update_feature(
+    point_feature["id"],
+    coordinates=[-122.4200, 37.7750]
+)
+
+# Get features for a layer
+features = client.get_features(page=1, per_page=100, layer_id=layer["id"])
+
+# Delete features (individual and batch)
+client.delete_feature(point_feature["id"])
+
+# Batch delete multiple features
+feature_ids = [f["id"] for f in batch_result["features"]]
+client.delete_feature_batch(feature_ids)
+```
+
+### 🛠️ Tool Execution
+
+Real-time streaming execution of GIS analysis tools:
+
+```python
+# Get available analysis tools
+available_actions = client.get_available_actions()
+print(f"Available tools: {available_actions}")
+
+# Get tool requirements
+if "network_analysis" in available_actions:
+    requirements = client.get_tool_required_payload("network_analysis")
+    print(f"Tool requirements: {requirements}")
+
+# Execute tool with streaming progress
+action_config = {
+    "analysis_depth": 3,
+    "optimization_level": "high",
+    "include_cost_analysis": True
+}
+
+input_data = {
+    "project_id": project["id"],
+    "layer_ids": [layer["id"]]
+}
+
+print("Executing network analysis tool...")
+for result in client.execute_action("network_analysis", action_config, input_data):
+    print(f"Status: {result.get('status')}")
+    print(f"Progress: {result.get('progress', 0)}%")
+    
+    if result.get("status") == "completed":
+        print("Analysis completed successfully!")
+        print(f"Results: {result.get('result')}")
+        break
+    elif result.get("status") == "failed":
+        print(f"Analysis failed: {result.get('error')}")
+        break
+```
+
+## 🔧 Advanced Usage
+
+### Context Manager (Recommended)
+
+Always use the context manager for automatic resource cleanup:
+
+```python
+with LiRAYSApiClient("https://api.lirays.com") as client:
+    client.login("user@example.com", "password")
+    
+    # Perform operations...
+    # Session is automatically closed when exiting the context
+```
+
+### Error Handling
+
+```python
+try:
+    with LiRAYSApiClient("https://api.lirays.com") as client:
+        if not client.login("user@example.com", "wrong-password"):
+            raise Exception("Authentication failed")
+            
+        project = client.create_project("Test Project")
+        
+except Exception as e:
+    print(f"Operation failed: {e}")
+    # Context manager ensures cleanup even on errors
+```
+
+### Custom Configuration
+
+```python
+# Custom API endpoint and version
+client = LiRAYSApiClient(
+    base_url="https://custom-api.lirays.com",
+    version="v2"
+)
+
+# Reset client configuration
+client.reset(
+    base_url="https://new-api.lirays.com",
+    version="v1"
+)
+```
+
+## 📋 Layer Types Reference
+
+LiRAYS supports comprehensive layer classification for fiber network design:
+
+### Primary Infrastructure
+- `PLAN_AREA` - Project planning areas
+- `PARCELS` - Property parcels and boundaries  
+- `CABINET` - Network cabinets and enclosures
+
+### Network Logical Points
+- `MST` - Main Service Terminals
+- `SPLICE` - Splice points and connections
+- `SPLICE_MST` - Combined splice and MST points
+- `RESIDENTIAL` - Residential connection points
+
+### Hand-holes and Vaults
+- `VAULT_24X36` - 24"×36" utility vaults
+- `VAULT_17X30` - 17"×30" utility vaults  
+- `VAULT_10X15` - 10"×15" utility vaults
+- `VAULT_OTHERS` - Custom vault configurations
+
+### Fiber Infrastructure
+- `FIBER_24` - 24-count fiber cables
+- `FIBER_48` - 48-count fiber cables
+- `FIBER_72` - 72-count fiber cables
+- `FIBER_144` - 144-count fiber cables
+- `FIBER_288` - 288-count fiber cables
+- `FIBER_TAIL` - Fiber tail connections
+- `FIBER_DROP` - Drop fiber connections
+
+### Conduits and Infrastructure
+- `CONDUIT_075` - 0.75" conduit systems
+- `CONDUIT_125` - 1.25" conduit systems
+- `TUNNEL` - Underground tunnel systems
+
+## 🧪 Testing
+
+The package includes a comprehensive test suite in the demo:
+
+```python
+# Run the complete API test suite
+python demo/demo.py
+```
+
+The test suite covers:
+- ✅ Authentication and health checks
+- ✅ Complete CRUD operations for all resource types
+- ✅ Batch operations and bulk processing
+- ✅ Tool execution with progress tracking
+- ✅ Data integrity verification
+- ✅ Automatic cleanup and state restoration
+
+## 📖 Examples
+
+### Complete Workflow Example
+
+```python
+from lirayspy import LiRAYSApiClient
+from lirayspy.tools import LayerClass, GeomType, PlanStatus
+
+def create_fiber_network_project():
+    """Complete example: Create a fiber network design project"""
+    
+    with LiRAYSApiClient("https://api.lirays.com") as client:
+        # Authenticate
+        if not client.login("engineer@network.com", "password"):
+            return "Authentication failed"
+        
+        try:
+            # Create project
+            project = client.create_project(
+                name="Downtown Fiber Expansion 2024",
+                description="High-speed fiber network expansion for downtown district"
+            )
+            
+            # Create analysis plan
+            plan = client.create_plan(
+                project_id=project["id"],
+                name="Route Optimization Analysis",
+                description="Optimize fiber routes for minimal cost and maximum coverage",
+                status=PlanStatus.IN_PROGRESS
+            )
+            
+            # Create infrastructure layers
+            fiber_layer = client.create_layer(
+                plan_id=plan["id"],
+                layer_class=LayerClass.FIBER_144,
+                name="Backbone Fiber Network"
+            )
+            
+            vault_layer = client.create_layer(
+                plan_id=plan["id"],
+                layer_class=LayerClass.VAULT_24X36,
+                name="Distribution Vaults"
+            )
+            
+            # Add network infrastructure
+            # Main distribution points
+            vault_coords = [
+                [-122.4194, 37.7749],  # Downtown hub
+                [-122.4154, 37.7709],  # South district
+                [-122.4234, 37.7789]   # North district
+            ]
+            
+            vault_features = client.create_feature_batch(
+                layer_id=vault_layer["id"],
+                geom_type=GeomType.POINT,
+                features_coordinates=vault_coords
+            )
+            
+            # Fiber backbone route
+            backbone_route = client.create_feature(
+                layer_id=fiber_layer["id"],
+                geom_type=GeomType.LINESTRING,
+                coordinates=[
+                    [-122.4194, 37.7749],
+                    [-122.4184, 37.7759],
+                    [-122.4174, 37.7769],
+                    [-122.4164, 37.7779]
+                ]
+            )
+            
+            print(f"✅ Created project: {project['name']}")
+            print(f"✅ Created plan: {plan['name']}")
+            print(f"✅ Created {len(vault_features['features'])} vault points")
+            print(f"✅ Created backbone route: {backbone_route['id']}")
+            
+            # Execute network analysis
+            print("🔄 Running network optimization analysis...")
+            for result in client.execute_action(
+                "network_optimization",
+                config={"optimization_type": "cost_distance"},
+                input_={"plan_id": plan["id"]}
+            ):
+                if result.get("status") == "completed":
+                    print("✅ Network analysis completed!")
+                    break
+                elif result.get("status") == "failed":
+                    print(f"❌ Analysis failed: {result.get('error')}")
+                    break
+            
+            return f"Project '{project['name']}' created successfully!"
+            
+        except Exception as e:
+            return f"Error: {e}"
+
+# Run the example
+result = create_fiber_network_project()
+print(result)
+```
+
+## 🛠️ Development
+
+### Setting up Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/LiRAYSgj/Lirays-Api-Python-Client.git
+cd Lirays-Api-Python-Client
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+python demo/demo.py
+
+# Format code
+black lirayspy/ demo/
+isort lirayspy/ demo/
+
+# Type checking
+mypy lirayspy/
+```
+
+### Running Tests
+
+```bash
+# Run the comprehensive test suite
+python demo/demo.py
+
+# The test will prompt for:
+# - API URL (default: https://api.lirays.com)
+# - Email credentials
+# - Password
+```
+
+## 📋 Requirements
+
+- **Python**: 3.8+
+- **Dependencies**:
+  - `requests >= 2.31.0` - HTTP client library
+  - `typing-extensions >= 4.0.0` (for Python < 3.10)
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🤝 Support
+
+- **Documentation**: [GitHub Repository](https://github.com/LiRAYSgj/Lirays-Api-Python-Client)
+- **Issues**: [Report Bug](https://github.com/LiRAYSgj/Lirays-Api-Python-Client/issues)
+- **Email**: support@lirays.com
+
+## 🔗 Links
+
+- **PyPI Package**: [https://pypi.org/project/lirayspy/](https://pypi.org/project/lirayspy/)
+- **Source Code**: [https://github.com/LiRAYSgj/Lirays-Api-Python-Client](https://github.com/LiRAYSgj/Lirays-Api-Python-Client)
+- **LiRAYS Platform**: [https://lirays.com](https://lirays.com)
+
+---
+
+**Built with ❤️ for the fiber network design community**
