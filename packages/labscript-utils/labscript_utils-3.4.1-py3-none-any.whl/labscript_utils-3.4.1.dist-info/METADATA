@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: labscript-utils
+Version: 3.4.1
+Summary: Shared utilities for the labscript suite
+Author-email: The labscript suite community <labscriptsuite@googlegroups.com>
+License: Copyright (c) 2013, Monash University
+        All rights reserved.
+        
+        This project (labscript_utils) is dual licensed under the 2-clause BSD license and 3-clause BSD license (see the files BSD-2-CLAUSE-LICENSE.txt and BSD-3-CLAUSE-LICENSE.txt), subject to the following conditions:
+        
+        1) If you wish to use this project with PySide and/or a commercial license of PyQt, the use of this project is governed by the terms of one of the licenses, chosen at your discretion.
+        
+        2) If you wish to use this project with the free (GPLv2 or GPLv3 licensed) version of PyQt, the use of this project is governed by the terms of the 3-clause BSD license only, along with the terms specified in the GPL_EXCEPTIONS.TXT file in the PyQt project source code.
+        
+        These terms are in place to guarantee compatibility with the terms outlined in the GPL License Exceptions of the PyQt project (see the GPL_EXCEPTIONS.TXT file in the source code of the PyQt project)
+Project-URL: Homepage, http://labscriptsuite.org/
+Project-URL: Documentation, https://docs.labscriptsuite.org/
+Project-URL: Repository, https://github.com/labscript-suite/labscript-utils/
+Project-URL: Downloads, https://github.com/labscript-suite/labscript-utils/releases/
+Project-URL: Tracker, https://github.com/labscript-suite/labscript-utils/issues/
+Keywords: experiment control,automation
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: h5py>=2.9
+Requires-Dist: numpy>=1.15
+Requires-Dist: packaging>=20.4
+Requires-Dist: pyqtgraph>=0.11.0rc0
+Requires-Dist: qtutils>=4.0
+Requires-Dist: scipy
+Requires-Dist: zprocess>=2.18.0
+Requires-Dist: setuptools_scm>=4.1.0
+Provides-Extra: docs
+Requires-Dist: PyQt5; extra == "docs"
+Requires-Dist: Sphinx==8.2.3; extra == "docs"
+Requires-Dist: sphinx-rtd-theme==3.0.1; extra == "docs"
+Requires-Dist: myst_parser==4.0.1; extra == "docs"
+Dynamic: license-file
+
+<img src="https://raw.githubusercontent.com/labscript-suite/labscript-suite/master/art/labscript_32nx32n.svg" height="64" alt="the labscript suite" align="right">
+
+# the _labscript suite_ » labscript-utils
+
+### Shared modules used by the _labscript suite_
+
+[![Actions Status](https://github.com/labscript-suite/labscript-utils/workflows/Build%20and%20Release/badge.svg)](https://github.com/labscript-suite/labscript-utils/actions)
+[![License](https://img.shields.io/pypi/l/labscript-utils.svg)](https://github.com/labscript-suite/labscript-utils/raw/master/LICENSE.txt)
+[![Python Version](https://img.shields.io/pypi/pyversions/labscript-utils.svg)](https://python.org)
+[![PyPI](https://img.shields.io/pypi/v/labscript-utils.svg)](https://pypi.org/project/labscript-utils)
+[![Conda Version](https://img.shields.io/conda/v/labscript-suite/labscript-utils)](https://anaconda.org/labscript-suite/labscript-utils)
+[![Google Group](https://img.shields.io/badge/Google%20Group-labscriptsuite-blue.svg)](https://groups.google.com/forum/#!forum/labscriptsuite)
+<!-- [![DOI](http://img.shields.io/badge/DOI-10.1063%2F1.4817213-0F79D0.svg)](https://doi.org/10.1063/1.4817213) -->
+
+
+Shared modules used by the [*labscript suite*](https://github.com/labscript-suite/labscript-suite). Includes a graphical exception handler, debug tools, configuration management, cross-platform filepath conversions, physical unit conversions and custom GUI widgets.
+
+
+## Installation
+
+labscript-utils is distributed as a Python package on [PyPI](https://pypi.org/user/labscript-suite) and [Anaconda Cloud](https://anaconda.org/labscript-suite), and should be installed with other components of the _labscript suite_. Please see the [installation guide](https://docs.labscriptsuite.org/en/latest/installation) for details.
