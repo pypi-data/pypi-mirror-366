@@ -1,0 +1,26 @@
+widgets:
+- widget_type: animation
+  enabled: true
+  duration: 100
+  scroll_speed: 0.1
+  repeat: true
+  sleep_before_repeat: 0.0
+  dynamic_source: kurokku:animation:rain
+- widget_type: clock
+  enabled: true
+  duration: 5
+  use_24_hour_format: false
+- widget_type: message
+  enabled: true
+  duration: 5
+  message: --*F
+  dynamic_source: weather:current:temp:spring_hill
+  scroll_speed: 0.1
+  repeat: false
+  sleep_before_repeat: 1.0
+brightness:
+  begin: 08:00:00
+  end: '20:00:00'
+  high: 7
+  low: 2
+
