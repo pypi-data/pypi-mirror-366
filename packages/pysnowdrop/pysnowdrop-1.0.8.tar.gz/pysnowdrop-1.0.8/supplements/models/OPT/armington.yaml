@@ -1,0 +1,89 @@
+name: Armington Trade Equilibrium with Iceberg Costs
+# Ch.23. Computing General Equilibrium Theories of Monopolistic Competition and Heterogeneous Firms
+# by Edward J. Balistreri, Thomas F. Rutherford
+# https://www.sciencedirect.com/science/article/pii/B9780444595683000237
+
+sets:
+   regions r:   [R1, R2, R3]
+   goods j:     [G1, G2]
+   regions alias s: r
+   
+symbols:
+   variables:  [Q(j)(r),P(j)(r),c(j)(r),Y(j)(r)]
+   parameters: [sig(j),eta,mu,Q0(j)(r),P0(j)(r),Y0(j)(r),c0(j)(r),tau(j)(r)(s),vx0(j)(r)(s),zeta(j)(r)(s)]
+
+equations:
+# Eq.1 Aggregate demand
+ - DEM(j)(r):     Q(j)(r) - Q0(j)(r) * (P0(j)(r) / P(j)(r))**eta
+ 
+# Eq.2 Armington unit cost function
+ - ARM(j)(s):     P(j)(s) - sum(r, zeta(j)(r)(s)**sig(j) * (tau(j)(r)(s)*c(j)(r))**(1-sig(j)))**(1/(1-sig(j))) 
+
+# Eq.3 Market clearance    
+ - MKT(j)(r):     Y(j)(r) - sum(s, tau(j)(r)(s)*Q(j)(s)* (zeta(j)(r)(s)*P(j)(s)/(tau(j)(r)(s)*c(j)(r)))**sig(j))
+
+# Eq.4 Input supply (output)
+ - SUP(j)(r):     Y(j)(r) - Y0(j)(r) * (c(j)(r)/c0(j)(r)) ** mu
+
+
+calibration:
+    # Parameters
+    sig_G1        : 3
+    sig_G2        : 2
+    eta           : 1.5
+    mu            : 0.5
+    P0(j)(r)      : 1
+    c0(j)(r)      : 1
+    vx0(j)(r)(s)  : 1
+    vx0(j)(r)(r)  : 3
+    
+    Q0(j)(r)      : sum(s, vx0(j)(s)(r)) / P0(j)(r)
+    Y0(j)(r)      : sum(s, vx0(j)(s)(r)) / c0(j)(r)
+    # Variables
+    Q(j)(r)       : Q0(j)(r)
+    P(j)(r)       : P0(j)(r)
+    c(j)(r)       : c0(j)(r)
+    Y(j)(r)       : Y0(j)(r)
+    tau(j)(r)(s)  : 1.5
+    zeta(j)(r)(s) : 1
+      
+constraints:
+   # Positive Variables
+   - Q(j)(r) >= 5.1
+   - P(j)(r) >= 0
+   - c(j)(r) >= 0
+   - Y(j)(r) >= 0
+   # Positive LHS of equations    
+   - DEM(j)(r) >= 0
+   - ARM(j)(s) >= 0
+   - MKT(j)(r) >= 0
+   - SUP(j)(r) >= 0
+
+labels:
+    # Variables
+    Q:    Composite Quantity
+    P:    Composite Price Index
+    c:    Composite input price (marginal cost)
+    Y:    Composite input supply (output)
+    # Parameters
+    sig:  Elasticity of substitution
+    eta:  Demand elasticity
+    mu:   Supply elasticity
+    Q0:   Benchmark aggregate quantity
+    P0:   Benchmark price index
+    c0:   Benchmark input cost
+    Y0:   Benchmark input supply
+    tau:  Iceberg transport cost factor
+    vx0:  Arbitrary benchmark export values
+    zeta: Bilateral preference weights
+    # Equations
+    DEM:  Aggregate demand
+    ARM:  Armington unit cost function
+    MKT:  Input market clearance
+    SUP:  Input supply (output)
+    
+Model: [DEM.Q,ARM.P,MKT.c,SUP.Y]
+Solver: 'ROOT'   # 'MCP','CONSTRAINED_OPTIMIZATION', 'ROOT'
+
+
+    
