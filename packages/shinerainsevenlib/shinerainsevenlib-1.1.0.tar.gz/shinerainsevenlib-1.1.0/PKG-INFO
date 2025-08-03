@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: shinerainsevenlib
+Version: 1.1.0
+Summary: Useful unadorned utilities for powerful Python programming
+Author-email: Ben Fisher <shinerainseven@gmail.com>
+License-Expression: LGPL-2.1-or-later
+Project-URL: Homepage, https://github.com/moltenform/shinerainsevenlib
+Project-URL: Issues, https://github.com/moltenform/shinerainsevenlib/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+
+*welcome to shinerainsevenlib*
+
+Useful unadorned utilities for powerful Python programming.
+
+[Online documentation](https://moltenform.github.io/shinerainsevenlib/)
+
+[![License: LGPL v2.1](https://img.shields.io/badge/License-LGPL_v2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
+
+This project is useful for:
+
+* functionality that isn't yet in the standard library
+   * example: compressing and uncompressing .7z archives.
+* functionality that is in the standard library, but isn't as intuitive
+   * example: `files.run` is a convenient way to start a process.
+* functionality for quickly writing one-off scripts
+   * example: `files.writeAll` defaults to utf-8 and is quick to type and read.
+
