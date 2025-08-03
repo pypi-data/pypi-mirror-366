@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: jack_midi_monitor
+Version: 1.1.0
+Summary: Provides a means to monitor midi events from a Jack client.
+Author-email: Leon Dionne <ldionne@dridesign.sh.cn>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Multimedia :: Sound/Audio :: MIDI
+Classifier: Topic :: Utilities
+Requires-Dist: JACK-Client
+Requires-Dist: midi_notes
+Requires-Dist: PyQt5
+Requires-Dist: soso_qt_extras >= 1.1.0
+
+# jack_midi_monitor
+
+Provides a means to monitor midi events from a Jack client.
+Includes both a console and a Qt GUI version.
+
+## Command line:
+
+	$ jack-midi-monitor-cli
+
+This will pop up a little QtDialog which will display incoming MIDI events.
+You can resize the dialog to make the font size bigger.
+
+## Gui:
+
+	$ jack-midi-monitor
+
+... will print incoming MIDI events to the console.
+
+## Connections
+
+Connect to the "JackMidiMonitor:input" port using your preferred method.
+
+For example, from the command line:
+
+	$ jack_connect system:midi_capture_1 JackMidiMonitor:input
+
+(jack_connect is part of the "jackd2" package on Debian)
+
