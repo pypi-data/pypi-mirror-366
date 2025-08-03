@@ -1,0 +1,18 @@
+Source: python-mlzlog
+Section: python
+Priority: optional
+Maintainer: Georg Brandl <g.brandl@fz-juelich.de>
+Build-Depends: debhelper (>= 11~),
+ git,
+ python3-all,
+ python3-setuptools,
+ dh-python
+Standards-Version: 4.1.4
+
+Package: python3-mlzlog
+Architecture: all
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ ${python3:Depends}
+Description: Useful common logging functionality by MLZ
+ Contains extensions to the standard logging library.

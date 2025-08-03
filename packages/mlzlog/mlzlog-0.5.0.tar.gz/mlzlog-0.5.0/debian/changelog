@@ -1,0 +1,157 @@
+python-mlzlog (0.5.0) stable; urgency=medium
+
+  * add flag to show tracebacks also on console
+
+ -- Georg Brandl <jenkins@frm2.tum.de>  Sun, 03 Aug 2025 12:25:24 +0200
+
+python-mlzlog (0.4.2) stable; urgency=medium
+
+  * formatExtendedFrame: hide secrets
+
+ -- Georg Brandl <jenkins@frm2.tum.de>  Thu, 31 Jul 2025 15:20:31 +0200
+
+python-mlzlog (0.4.1) stable; urgency=medium
+
+  * UNRELEASED
+
+ -- Alexander Zaft <jenkins@frm2.tum.de>  Thu, 31 Jul 2025 12:49:36 +0200
+
+python-mlzlog (0.4.0) jammy; urgency=medium
+
+  * add traceback option to ConsoleFormatter
+
+ -- Alexander Zaft <jenkins@frm2.tum.de>  Tue, 22 Oct 2024 13:04:01 +0200
+
+python-mlzlog (0.3.6) focal; urgency=medium
+
+  * debian: remove Python2 support
+
+ -- Georg Brandl <jenkins@frm2.tum.de>  Tue, 23 May 2023 07:10:08 +0200
+
+python-mlzlog (0.3.5) focal; urgency=medium
+
+  * version: translate to valid PEP 440 version
+  * update jenkins host
+  * debian: fix email addresses in changelog
+  * windows: use colorama if possible
+
+ -- Georg Brandl <jenkins@frm2.tum.de>  Tue, 28 Feb 2023 07:30:19 +0100
+
+python-mlzlog (0.3.4) unstable; urgency=medium
+
+  [ Georg Brandl ]
+  * use pybuild as intended, remove hacks
+
+  [ Markus Zolliker ]
+  * allow to configure symlink creation and colorization
+
+  [ Georg Brandl ]
+  * add standard release Makefile
+
+ -- Georg Brandl <jenkins@jenkinsng.admin.frm2.tum.de>  Wed, 26 Feb 2020 15:28:06 +0100
+
+python-mlzlog (0.3.3) unstable; urgency=low
+
+  [ Enrico Faulhaber ]
+  * fill packages with content
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Fri, 27 Sep 2019 10:30:46 +0200
+
+python-mlzlog (0.3.2) unstable; urgency=low
+
+  * UNRELEASED
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Fri, 27 Sep 2019 10:19:51 +0200
+
+python-mlzlog (0.3.1) unstable; urgency=low
+
+  [ Björn Pedersen ]
+  * Build python2 and python3 packages
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Fri, 27 Sep 2019 09:47:26 +0200
+
+python-mlzlog (0.3.0) unstable; urgency=low
+
+  [ Enrico Faulhaber ]
+  * provide python3-mlzlog package
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Fri, 27 Sep 2019 08:22:43 +0200
+
+python-mlzlog (0.2.2) unstable; urgency=low
+
+  [ Georg Brandl ]
+  * update debian compat
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Mon, 02 Sep 2019 07:25:56 +0200
+
+python-mlzlog (0.2.1) unstable; urgency=low
+
+  [ Georg Brandl ]
+  * logfile handler: fail early in init() when logfile path is readonly
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Sat, 16 Sep 2017 08:58:19 +0200
+
+python-mlzlog (0.2.0) unstable; urgency=low
+
+  [ Georg Brandl ]
+  * update all version.py to the same code base
+  * Some cleanup, more functionality from Entangle.
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Tue, 16 May 2017 17:50:42 +0200
+
+python-mlzlog (0.1.2) unstable; urgency=low
+
+  [ Alexander Lenz ]
+  * Fix typo.
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Tue, 30 Aug 2016 11:00:58 +0200
+
+python-mlzlog (0.1.1) unstable; urgency=low
+
+  [ Alexander Lenz ]
+  * Last packaging tweaks.
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Tue, 30 Aug 2016 10:58:45 +0200
+
+python-mlzlog (0.1.0) unstable; urgency=low
+
+  [ Alexander Lenz ]
+  * Add LICENSE file.
+  * Add readme file.
+  * Add setup.cfg.
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Tue, 30 Aug 2016 10:48:41 +0200
+
+python-mlzlog (0.0.1) unstable; urgency=medium
+
+  [ Alexander Lenz ]
+  * Inital commit.
+  * Add setup.py and the version script.
+  * Fix setup.py
+  * Inital commit.
+  * Add setup.py and the version script.
+  * Fix setup.py
+  * Add debian control files.
+
+  [ Jenkins ]
+  * UNRELEASED
+
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Mon, 29 Aug 2016 13:34:21 +0200
