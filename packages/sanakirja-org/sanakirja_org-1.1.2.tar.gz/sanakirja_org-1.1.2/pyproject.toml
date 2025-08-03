@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=67.4.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sanakirja-org"
+version = "1.1.2"
+authors = [{ name = "AceHanded" }]
+description = "An unofficial Python API and CLI tool for sanakirja.org."
+readme = "README.md"
+license-files = ["LICENSE"]
+requires-python = ">=3.8"
+keywords = ["sanakirja", "translation", "CLI", "API"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Natural Language :: Finnish",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Utilities",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Linguistic"
+]
+dependencies = []
+
+[project.urls]
+"Source Code" = "https://github.com/AceHanded/sanakirja-org"
+"Bug Reports" = "https://github.com/AceHanded/sanakirja-org/issues"
+
+[project.scripts]
+sanakirja = "sanakirja.cli:main"
