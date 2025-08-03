@@ -1,0 +1,27 @@
+Metadata-Version: 2.3
+Name: latexdl
+Version: 2.0.0b0
+Summary: 
+Author: Nima Shoghi
+Author-email: nimashoghi@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: mcp
+Requires-Dist: arxiv
+Requires-Dist: bibtexparser (>=2.0.0b8)
+Requires-Dist: fastmcp ; extra == "mcp"
+Requires-Dist: platformdirs
+Requires-Dist: pydantic
+Requires-Dist: pydantic-ai ; extra == "mcp"
+Requires-Dist: pypandoc-binary
+Requires-Dist: requests
+Requires-Dist: tqdm
+Requires-Dist: typing-extensions
+Project-URL: Homepage, https://github.com/nimashoghi/latexdl
+Description-Content-Type: text/markdown
+
+
