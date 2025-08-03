@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: obk
+Version: 0.1.4
+Summary: A scalable hello-world CLI starter. This is a pre-release/alpha version for initial feedback and CI testing. Not for production use.
+Author-email: hello@evenflow.dev
+License-File: LICENSE
+Requires-Python: >=3.9
+Requires-Dist: dependency-injector>=4.41
+Requires-Dist: typer>=0.12
+Requires-Dist: tzdata>=2024.1
+Requires-Dist: xmlschema>=3.2
+Provides-Extra: test
+Requires-Dist: pytest-cov>=4.0.0; extra == 'test'
+Requires-Dist: pytest-mock>=3.10.0; extra == 'test'
+Requires-Dist: pytest>=7.0.0; extra == 'test'
+Requires-Dist: python-dotenv>=1.0.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# obk
+
+> ⚠️ This project is in early development (pre-release/alpha).
+> The current release is a “hello world” scaffold. APIs and behavior will change rapidly as features are added over the coming weeks.
+
+Minimal CLI demonstrating dependency injection and error-handled commands.
+
+## Installation
+
+```bash
+pip install obk
+```
+
+## Quickstart
+
+```bash
+obk hello-world
+obk divide 4 2
+```
+
+## Features
+
+* `hello-world` prints a greeting
+* `divide` divides two numbers with zero-checking
+* `greet` greets by name with optional excitement
+* `fail` triggers a fatal error for testing
+
+## Usage
+
+For help on available commands:
+
+```bash
+obk --help
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+MIT
