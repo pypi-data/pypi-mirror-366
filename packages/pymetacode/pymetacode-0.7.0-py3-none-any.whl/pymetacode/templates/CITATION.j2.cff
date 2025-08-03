@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+title: {{ package.name }}
+abstract: >
+    {{ package.description }}
+authors:
+  {%- for author in authors %}
+  - family-names: {{ author.family_names }}
+    given-names: {{ author.given_names }}
+    #orcid: "https://orcid.org/<YOUR ORCID ID HERE>"
+  {%- endfor %}
+type: software
+license: {{ package.license_classifier }}
+{%- if package.urls.source %}
+repository-code: "{{ package.urls.source }}"
+{%- endif %}
+keywords:
+  {%- if package.keywords %}
+  {%- for item in package.keywords %}
+  - "{{ item }}"
+  {%- endfor %}
+  {%- endif %}
+# Highly recommended starting with the first release: DOI via Zenodo
+#identifiers:
+#  - description: "The concept DOI of the work."
+#    type: doi
+#    value: 10.5281/zenodo.########
