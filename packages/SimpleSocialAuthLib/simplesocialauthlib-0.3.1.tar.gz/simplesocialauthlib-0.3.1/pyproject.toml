@@ -1,0 +1,112 @@
+[project]
+name = "SimpleSocialAuthLib"
+dynamic = []
+description = "SimpleSocialAuthLib is a Python library designed to simplify social authentication for various providers. It offers a straightforward interface for handling OAuth2 flows and retrieving user data from popular social platforms."
+authors = [
+    { name = "Macktireh", email = "abdimack97@gmail.com" },
+]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Typing :: Typed",
+    "Topic :: Software Development :: Libraries",
+]
+requires-python = ">=3.12"
+dependencies = []
+version = "0.3.1"
+
+[project.license]
+text = "MIT"
+
+[project.optional-dependencies]
+google = [
+    "google-api-python-client>=2.177.0",
+    "requests-oauthlib>=2.0.0",
+]
+github = [
+    "requests>=2.32.4",
+]
+all = [
+    "google-api-python-client>=2.177.0",
+    "requests-oauthlib>=2.0.0",
+    "requests>=2.32.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/Macktireh/SimpleSocialAuthLib"
+Documentation = "https://github.com/Macktireh/SimpleSocialAuthLib#readme"
+Repository = "https://github.com/Macktireh/SimpleSocialAuthLib"
+Issues = "https://github.com/Macktireh/SimpleSocialAuthLib/issues"
+
+[dependency-groups]
+lint = [
+    "pre-commit>=4.2.0",
+    "ruff>=0.12.7",
+]
+test = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+]
+
+[tool.pdm]
+distribution = true
+source = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/simple", name = "tuna" },
+    { url = "https://mirror.sjtu.edu.cn/pypi/web/simple", name = "sjtug" },
+]
+
+[tool.pdm.scripts]
+test = "pytest -v"
+rufffix = "ruff check --fix"
+precommit = "pre-commit run --all-files"
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.ruff]
+line-length = 99
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+    "I",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
