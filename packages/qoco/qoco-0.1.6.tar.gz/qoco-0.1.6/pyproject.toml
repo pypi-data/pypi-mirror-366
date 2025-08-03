@@ -1,0 +1,20 @@
+[build-system]
+requires = ["scikit-build-core", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "qoco"
+version = "0.1.6"
+description = "QOCO: Quadratic Objective Conic Optimizer"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{ name = "Govind M. Chari", email = "govindchari1@gmail.com" }]
+dependencies = ["jinja2", "numpy>=1.7", "qdldl", "scipy>=0.13.2", "setuptools"]
+
+[tool.scikit-build]
+install.components = ["python"]
+wheel.install-dir = "qoco"
+
+[project.urls]
+Homepage = "https://github.com/qoco-org/qoco"
+Issues = "https://github.com/qoco-org/qoco/issues"
