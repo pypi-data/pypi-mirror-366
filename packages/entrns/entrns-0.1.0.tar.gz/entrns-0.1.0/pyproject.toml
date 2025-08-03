@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "entrns"
+version = "0.1.0"
+description = "Biblioteca para crear bots simples y entrenarlos"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}  # ✅ ESTA ES LA CLAVE QUE TE FALTABA
+authors = [
+    { name = "TuNombre", email = "tunombre@example.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
