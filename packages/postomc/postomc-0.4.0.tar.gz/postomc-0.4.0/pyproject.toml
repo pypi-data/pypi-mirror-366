@@ -1,0 +1,28 @@
+[project]
+name = "postomc"
+dynamic = ["version"]
+description = "A package to read and analyze OpenMC's `depletion_results.h5` files."
+readme = "README.md"
+authors = [{ name = "Nicolas Linden", email = "nicolas@nlinden.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.1.8",
+    "h5py>=3.12.1",
+    "matplotlib>=3.10.5",
+    "numpy>=2.2.2",
+    "pandas>=2.2.3",
+    "pint>=0.24.4",
+    "rich>=14.1.0",
+    "uncertainties>=3.2.2",
+    "xlsxwriter>=3.2.2",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "postomc.__version__" }
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+pomc = "postomc.CLI.cli:cli"
