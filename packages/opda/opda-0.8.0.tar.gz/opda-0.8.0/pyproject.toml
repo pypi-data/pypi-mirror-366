@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools >= 77.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "opda"
+version = "0.8.0"
+authors = [{ name = "Nicholas Lourie", email = "dev@nicholaslourie.com" }]
+description = "Design and analyze optimal deep learning models."
+readme = "README.rst"
+license = "Apache-2.0"
+requires-python = ">= 3.9"
+dependencies = [
+  "numpy >= 1.26",
+  "scipy >= 1.11",
+]
+keywords = [
+  "opda",
+  "optimal design analysis",
+  "hyperparameter tuning",
+  "machine learning", "ml",
+  "deep learning", "dl",
+  "artificial intelligence", "ai",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+# experiments
+nbs = [
+  "notebook == 7.0.6",
+]
+# development
+lint = [
+  "ruff == 0.1.13",
+]
+docs = [
+  "furo == 2023.9.10",
+  "matplotlib == 3.7.4",
+  "numpydoc == 1.6.0",
+  "sphinx == 7.1.2",
+  "tomli; python_version<'3.11'",  # backwards compatibility (Python < 3.11)
+]
+test = [
+  "pytest == 7.4.4",
+]
+package = [
+  "build == 1.2.2",
+  "twine == 6.1.0",
+]
+ci = [
+  "lxml == 5.3.0",
+  "nox == 2023.4.22",
+  "requests == 2.31.0",
+  "tomli; python_version<'3.11'",  # backwards compatibility (Python < 3.11)
+]
+
+[project.urls]
+Documentation = "https://nicholaslourie.github.io/opda"
+Source = "https://github.com/nicholaslourie/opda"
+Issues = "https://github.com/nicholaslourie/opda/issues"
+Changelog = "https://nicholaslourie.github.io/opda/changelog.html"
+
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = [
+  "opda*",
+]
+namespaces = false
+
+[tool.setuptools.package-data]
+opda = ["_approximations.json"]
