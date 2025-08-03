@@ -1,0 +1,27 @@
+{
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "always"
+    }
+  },
+  "[markdown][yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dts]": {
+    "editor.formatOnSave": false
+  },
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  "files.associations": {
+    "**/templates/board/**": "mako",
+    "**/templates/shield/**": "mako",
+    "**/templates/common/**": "mako"
+  },
+  "isort.check": true,
+  "isort.args": ["--settings-path", "${workspaceFolder}"],
+  "python.analysis.importFormat": "relative",
+  "python.analysis.typeCheckingMode": "standard"
+}

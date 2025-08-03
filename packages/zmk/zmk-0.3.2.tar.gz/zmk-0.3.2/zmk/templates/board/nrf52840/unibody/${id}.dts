@@ -1,0 +1,22 @@
+<%inherit file="/common/board.dts" />
+<%block name="system_includes">
+#include <nordic/nrf52840_qiaa.dtsi>
+</%block>
+<%block name="includes">
+#include "${id}-pinctrl.dtsi"
+</%block>
+<%block name="chosen">
+    chosen {
+        zephyr,code-partition = &code_partition;
+        zephyr,console = &cdc_acm_uart;
+        zephyr,sram = &sram0;
+        zephyr,flash = &flash0;
+        // Uncomment this if you enabled one of the "vddh" nodes below.
+        // zmk,battery = &vbatt;
+        zmk,physical-layout = &default_layout;
+    };
+</%block>
+<%block name="nodes">
+<%include file="/board/nrf52840/common_inner.dtsi" />
+</%block>
+<%include file="/board/nrf52840/common_outer.dtsi" />
