@@ -1,0 +1,95 @@
+[project]
+name = "cursor-mcp"
+version = "0.1.1"
+description = "MCP server for managing Cursor IDE MCP configurations"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "lorenss-m", email = "saeclmusic@gmail.com" }
+]
+license = { file = "LICENSE" }
+dependencies = [
+    "fastmcp>=2.11.0",
+    "mcp[cli]>=1.12.3",
+    "httpx>=0.24.0",
+    "psutil>=5.9.0",
+    "click>=8.0.0",
+]
+keywords = ["mcp", "cursor", "ide", "modelcontextprotocol"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8.0",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.24.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hud-evals/hud-cursor-manager"
+"Bug Tracker" = "https://github.com/hud-evals/hud-cursor-manager/issues"
+"Documentation" = "https://github.com/hud-evals/hud-cursor-manager/tree/main/README.md"
+
+[project.scripts]
+cursor-mcp = "cursor_mcp_manager.stdio_proxy:run_stdio_server"  # Default command for uvx
+cursor-mcp-manager = "cursor_mcp_manager.__main__:main"
+cursor-manager = "cursor_mcp_manager.manager_cli:cli"
+# Direct STDIO server command (for easy testing)
+mcp-stdio = "cursor_mcp_manager.stdio_proxy:run_stdio_server"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["*/tests/", "*.log", "*.txt"]
+
+[tool.hatch.build.targets.wheel]
+include = ["src/cursor_mcp_manager"]
+packages = ["src/cursor_mcp_manager"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+exclude = [
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "E722",   # bare except (sometimes needed for catch-all)
+    "PLR0913", # too many arguments
+    "PLR2004", # magic value comparison
+    "PLR0912", # too many branches (complexity is sometimes necessary)
+    "PLR0915", # too many statements (complexity is sometimes necessary)
+    "PLC0415", # import should be at top-level (we use lazy imports intentionally)
+    "PTH123",  # open() vs Path.open() (both are fine)
+    "PLW1508", # invalid type for env var default (int defaults are fine)
+    "PLW0603", # using global statement (needed for singleton pattern)
+    "W293",    # blank line contains whitespace (handled by formatter)
+    "W291",    # trailing whitespace (handled by formatter)
+    "W292",    # no newline at end of file (handled by formatter)
+    "N815",    # mixedCase variables (needed for JSON field names)
+    "B008",    # function call in argument defaults (Pydantic Field() pattern)
+    "DTZ005",  # datetime without timezone (logs are local time intentionally)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["cursor_mcp_manager"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
