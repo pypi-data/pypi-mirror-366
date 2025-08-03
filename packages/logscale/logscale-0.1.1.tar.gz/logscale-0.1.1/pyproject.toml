@@ -1,0 +1,36 @@
+[project]
+name = "logscale"
+description = "Compute orders of magnitude"
+readme = "README.md"
+authors = [
+    { name = "cyrraz", email = "code.cyrraz@protonmail.com" }
+]
+requires-python = ">=3.9"
+dependencies = []
+dynamic = ["version"]
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.1.0",
+]
+test = [
+    "pytest>=8.3.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/cyrraz/logscale"
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/logscale/_version.py"
+
+[tool.ruff.lint]
+select = ["ALL"]
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", # assert in tests is fine
+                "INP001" # no __init__.py in tests
+                ]
