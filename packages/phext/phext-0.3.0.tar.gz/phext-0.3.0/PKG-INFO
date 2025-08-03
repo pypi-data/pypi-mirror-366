@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: phext
+Version: 0.3.0
+Summary: Pythonic implementation of phext
+Project-URL: Homepage, https://phext.io
+Project-URL: Repository, https://github.com/wbic16/phext-py
+Project-URL: Issues, https://github.com/wbic16/phext-py/issues
+Author-email: Will Bickford <wbic16@gmail.com>
+License: MIT
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.10
+Requires-Dist: xxhash
+Provides-Extra: dev
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Phext
+
+Welcome to the Pythonic port of phext.
+
+This port is a downstream artifact that tracks the Rust-based implementation of Phext. See https://github.com/wbic16/phext-rs for more details.
