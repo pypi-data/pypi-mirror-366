@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secmeasure"
+version = "0.1.1"
+description = "Library for cleaning strings and applying security measures."
+authors = [
+    { name = "Conde", email = "billordowiyi@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.6"
