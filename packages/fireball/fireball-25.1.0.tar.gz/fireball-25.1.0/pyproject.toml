@@ -1,0 +1,16 @@
+[project]
+name = "fireball"
+version = "25.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pyinstrument",
+    "typer",
+]
+
+[project.scripts]
+fib = "fireball:exec"
+
+[tool.uv]
+package = true
