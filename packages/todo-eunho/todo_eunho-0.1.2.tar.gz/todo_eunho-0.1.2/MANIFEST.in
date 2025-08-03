@@ -1,0 +1,10 @@
+# 포함할 파일
+include core_code/todo.json
+
+# 명시적으로 제외할 디렉토리 (안 써도 보통 자동 제외되지만, 확실히 하려면 작성)
+exclude __pycache__/*
+exclude .pytest_cache/*
+exclude .vscode/*
+exclude .github/*
+exclude requirements/*
+exclude *.log
