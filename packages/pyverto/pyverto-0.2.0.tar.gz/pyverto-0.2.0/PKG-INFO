@@ -1,0 +1,81 @@
+Metadata-Version: 2.4
+Name: pyverto
+Version: 0.2.0
+Summary: A python package version management tool.
+Project-URL: Documentation, https://github.com/phdenzel/pyverto#readme
+Project-URL: Issues, https://github.com/phdenzel/pyverto/issues
+Project-URL: Source, https://github.com/phdenzel/pyverto
+Author-email: phdenzel <phdenzel@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: package version management,version bump
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.10
+Requires-Dist: gitpython>=3.1.44
+Requires-Dist: tomli; python_version < '3.11'
+Description-Content-Type: text/markdown
+
+# pyverto
+
+[![PyPI - Version](https://img.shields.io/pypi/v/pyverto.svg)](https://pypi.org/project/pyverto)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyverto.svg)](https://pypi.org/project/pyverto)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/github/phdenzel/pyverto/graph/badge.svg?token=QEAZAPPG71)](https://codecov.io/github/phdenzel/pyverto)
+
+-----
+
+## Table of Contents
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+```console
+pip install pyverto
+```
+
+## Usage
+
+```console
+Usage:
+  pyverto [command] [--commit] [-h]
+
+Commands:
+  version    Show current version
+  release    Remove any pre-release/dev/post suffix (finalize version)
+  major      Increment the major version
+  minor      Increment the minor version
+  micro      Increment the micro (patch) version
+  alpha      Convert to or increment alpha pre-release
+  beta       Convert to or increment beta pre-release
+  pre        Convert to or increment rc (release candidate)
+  rev        Increment post-release (+postN)
+  dev        Convert to or increment dev release (-devN)
+```
+Examples:
+  - `pyverto minor`: 0.0.1 → 0.1.0
+  - `pyverto dev`: 0.1.0 → 0.1.0-dev0
+  - `pyverto pre --commit`: 0.1.0-dev0 → 0.1.0-rc0
+  
+  
+## Usage in GitHub Actions
+
+```yaml
+- uses: phdenzel/pyverto@v0.1.10
+  with:
+    bump-type: "minor"
+    ref: ${{ github.base_ref }}
+```
+
+
+## License
+
+`pyverto` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
