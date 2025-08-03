@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: hatch-js
+Version: 0.1.0
+Summary: Hatch plugin for JavaScript builds
+Project-URL: Repository, https://github.com/python-project-templates/hatch-js
+Project-URL: Homepage, https://github.com/python-project-templates/hatch-js
+Author-email: the hatch-js authors <t.paine154@gmail.com>
+License: Apache-2.0
+License-File: LICENSE
+Keywords: build,hatch,javascript,js,pnpm,python,yarn
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: hatchling>=1.20
+Requires-Dist: pydantic
+Provides-Extra: develop
+Requires-Dist: build; extra == 'develop'
+Requires-Dist: bump-my-version; extra == 'develop'
+Requires-Dist: check-manifest; extra == 'develop'
+Requires-Dist: codespell<2.5,>=2.4; extra == 'develop'
+Requires-Dist: hatchling; extra == 'develop'
+Requires-Dist: mdformat-tables>=1; extra == 'develop'
+Requires-Dist: mdformat<0.8,>=0.7.22; extra == 'develop'
+Requires-Dist: pytest; extra == 'develop'
+Requires-Dist: pytest-cov; extra == 'develop'
+Requires-Dist: ruff; extra == 'develop'
+Requires-Dist: twine; extra == 'develop'
+Requires-Dist: uv; extra == 'develop'
+Requires-Dist: wheel; extra == 'develop'
+Description-Content-Type: text/markdown
+
+# hatch js
+
+Hatch plugin for JavaScript builds
+
+[![Build Status](https://github.com/python-project-templates/hatch-js/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/python-project-templates/hatch-js/actions/workflows/build.yaml)
+[![codecov](https://codecov.io/gh/python-project-templates/hatch-js/branch/main/graph/badge.svg)](https://codecov.io/gh/python-project-templates/hatch-js)
+[![License](https://img.shields.io/github/license/python-project-templates/hatch-js)](https://github.com/python-project-templates/hatch-js)
+[![PyPI](https://img.shields.io/pypi/v/hatch-js.svg)](https://pypi.python.org/pypi/hatch-js)
+
+## Overview
+
+A simple, extensible JS build plugin for [hatch](https://hatch.pypa.io/latest/).
+
+```toml
+[tool.hatch.build.hooks.hatch-js]
+path = "js"
+install_cmd = "install"
+build_cmd = "build"
+tool = "pnpm"
+targets = ["myproject/extension/cdn/index.js"]
+```
+
+See the [test cases](./hatch_js/tests/) for more concrete examples.
+
+`hatch-js` is driven by [pydantic](https://docs.pydantic.dev/latest/) models for configuration and execution of the build.
+These models can themselves be overridden by setting `build-config-class` / `build-plan-class`.
+
+## Configuration
+
+```toml
+verbose = "false"
+
+path = "path/to/js/root"
+tool = "npm" # or pnpm, yarn, jlpm
+
+install_cmd = "" # install command, defaults to `npm install`/`pnpm install`/`yarn`/`jlpm`
+build_cmd = "build" # build command, defaults to `npm run build`/`pnpm run build`/`yarn build`/`jlpm build`
+targets = [  # outputs to validate after build
+    "some/output.js"
+]
+```
+
+> [!NOTE]
+> This library was generated using [copier](https://copier.readthedocs.io/en/stable/) from the [Base Python Project Template repository](https://github.com/python-project-templates/base).
