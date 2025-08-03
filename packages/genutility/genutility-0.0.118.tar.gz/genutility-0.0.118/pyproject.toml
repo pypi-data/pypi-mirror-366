@@ -1,0 +1,106 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools",
+]
+
+[project]
+name = "genutility"
+version = "0.0.118"
+description = "A collection of various Python utilities"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [ { name = "Dobatymo" } ]
+requires-python = ">=3.7"
+classifiers = [
+  "License :: OSI Approved :: ISC License (ISCL)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Utilities",
+]
+dynamic = [
+  "dependencies",
+  "optional-dependencies",
+]
+urls.Homepage = "https://github.com/Dobatymo/genutility"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+lint.extend-select = [
+  "B",
+  "I",
+]
+lint.ignore = [
+  "B011",
+  "B904",
+  "E402",
+]
+
+[tool.isort]
+profile = "black"
+src_paths = [
+  "genutility",
+]
+line_length = 120
+known_third_party = [
+  "av",
+  "flask",
+  "gensim",
+  "msgpack",
+  "networkx",
+  "nltk",
+  "numba",
+  "numpy",
+  "pandas",
+  "polars",
+  "rasa",
+  "rich",
+  "scipy",
+  "scrapy",
+  "sklearn",
+  "tensorflow",
+  "toml",
+  "torch",
+  "twisted",
+  "unqlite",
+]
+
+[tool.pytest.ini_options]
+log_level = "DEBUG"
+testpaths = [
+  "genutility/tests",
+]
+python_files = [
+  "*.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if __name__ == .__main__.:",
+]
+sort = "Cover"
+
+[tool.mypy]
+allow_redefinition = true
+ignore_missing_imports = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.bandit]
+skips = [
+  "B101",
+]

@@ -1,0 +1,396 @@
+{
+    "algorithms": [],
+    "archive": [
+        "py7zr>=0.20.2"
+    ],
+    "args": [],
+    "aria": [
+        "aria2p",
+        "requests"
+    ],
+    "asynchronous": [],
+    "atomic": [],
+    "av": [
+        "av>=8.0; python_version>='3.8'",
+        "numpy"
+    ],
+    "bench": [],
+    "benchmarks": [
+        "numba; python_version<'3.11'",
+        "numpy"
+    ],
+    "binary": [],
+    "browscap": [
+        "re2"
+    ],
+    "bs4": [
+        "beautifulsoup4"
+    ],
+    "cache": [
+        "jsonschema",
+        "msgpack>=0.6.0",
+        "simplejson"
+    ],
+    "callbacks": [],
+    "casedict": [],
+    "cholesky": [
+        "numba; python_version<'3.11'",
+        "numpy"
+    ],
+    "compat": [
+        "gmpy2"
+    ],
+    "concurrency": [],
+    "config": [
+        "jsonschema",
+        "sortedcontainers",
+        "toml"
+    ],
+    "constants_physics": [],
+    "constants_video": [],
+    "cpython": [],
+    "crypto": [],
+    "csv": [],
+    "cv": [
+        "av>=8.0; python_version>='3.8'",
+        "numpy",
+        "opencv-python",
+        "wxPython>=4"
+    ],
+    "datastructures": [],
+    "datetime": [],
+    "dbm": [],
+    "debug": [],
+    "dict": [],
+    "downloadmanager": [
+        "aiohttp>=3.7.4",
+        "wxasync",
+        "wxPython>=4"
+    ],
+    "encoder": [
+        "nltk>=3.6.1",
+        "numpy"
+    ],
+    "error": [],
+    "exceptions": [],
+    "factorial": [],
+    "file": [],
+    "fileformats": [
+        "pandas",
+        "piexif",
+        "rich",
+        "setuptools"
+    ],
+    "filesdb": [
+        "tls-property>=1.0.1"
+    ],
+    "filesystem": [],
+    "fingerprinting": [
+        "numpy",
+        "Pillow>=9.2.0"
+    ],
+    "flask": [
+        "flask>=0.12.3",
+        "werkzeug>=0.11.11"
+    ],
+    "func": [],
+    "gensim": [
+        "gensim>=4.0.0",
+        "keras",
+        "numpy"
+    ],
+    "geometry": [],
+    "graph": [],
+    "hash": [],
+    "html": [
+        "beautifulsoup4"
+    ],
+    "http": [
+        "certifi",
+        "requests"
+    ],
+    "huggingface": [
+        "datasets",
+        "evaluate",
+        "scikit-learn"
+    ],
+    "image": [
+        "numpy"
+    ],
+    "imdb": [],
+    "implementationdetail": [],
+    "indexing": [],
+    "iter": [],
+    "json": [
+        "jsonschema",
+        "simplejson"
+    ],
+    "latex": [],
+    "lda": [
+        "jsonschema",
+        "nltk>=3.6.1",
+        "numpy",
+        "scikit-learn",
+        "simplejson"
+    ],
+    "locale": [],
+    "logging": [],
+    "markdown": [
+        "mistune<2"
+    ],
+    "math": [
+        "gmpy2"
+    ],
+    "mediainfo": [
+        "pymediainfo"
+    ],
+    "memorypath": [],
+    "metrics": [
+        "numpy"
+    ],
+    "metrictree": [],
+    "mongo": [
+        "pymongo"
+    ],
+    "msgpack": [
+        "msgpack>=0.6.0"
+    ],
+    "multihash": [
+        "rhash; sys_platform=='win32'"
+    ],
+    "net": [
+        "netifaces"
+    ],
+    "networkx": [
+        "networkx",
+        "numpy"
+    ],
+    "nlp": [
+        "gensim>=4.0.0",
+        "keras",
+        "nltk>=3.6.1",
+        "numpy"
+    ],
+    "nltk": [
+        "nltk>=3.6.1"
+    ],
+    "numba": [
+        "numba; python_version<'3.11'"
+    ],
+    "numpy": [
+        "numpy"
+    ],
+    "object": [
+        "jsonschema",
+        "simplejson"
+    ],
+    "ops": [],
+    "os": [],
+    "os_mac": [],
+    "os_posix": [],
+    "os_shared": [],
+    "os_win": [],
+    "pandas": [
+        "pandas"
+    ],
+    "parquet": [
+        "pyarrow"
+    ],
+    "pdf": [
+        "pdfminer",
+        "pypdf>=3.1.0,!=5.0.0",
+        "tika"
+    ],
+    "pickle": [],
+    "pillow": [
+        "piexif",
+        "Pillow>=9.2.0"
+    ],
+    "polars": [
+        "numpy",
+        "polars>=1.18; python_version>='3.9'"
+    ],
+    "powerpoint": [
+        "python-pptx"
+    ],
+    "profile": [],
+    "rand": [],
+    "rasa": [
+        "aiohttp>=3.7.4",
+        "requests",
+        "ruamel.yaml"
+    ],
+    "regression": [
+        "numpy"
+    ],
+    "resizing": [
+        "numpy",
+        "opencv-python",
+        "scikit-learn"
+    ],
+    "rich": [
+        "rich"
+    ],
+    "ringlist": [],
+    "salesforce": [
+        "aiohttp>=3.7.4",
+        "pandas",
+        "requests",
+        "simple-salesforce>=1.1.0"
+    ],
+    "scene_change_detection": [
+        "av>=8.0; python_version>='3.8'",
+        "numpy",
+        "opencv-python",
+        "wxPython>=4"
+    ],
+    "scipy": [
+        "numpy",
+        "scipy<1.13"
+    ],
+    "scrapy": [
+        "brotli",
+        "scrapy"
+    ],
+    "search": [],
+    "segment_tree": [],
+    "sequence": [],
+    "set": [],
+    "signal": [],
+    "sklearn": [
+        "numpy",
+        "scikit-learn"
+    ],
+    "sort": [],
+    "spark": [
+        "pyspark>=3.0.0"
+    ],
+    "sparql": [
+        "pandas",
+        "requests"
+    ],
+    "sql": [],
+    "sqlite": [],
+    "statistics": [
+        "gmpy2"
+    ],
+    "stdio": [],
+    "string": [],
+    "subprocess": [],
+    "sudoku": [
+        "gmpy2"
+    ],
+    "sys": [],
+    "tensorflow": [
+        "tensorflow"
+    ],
+    "test": [],
+    "tests": [
+        "aiohttp>=3.7.4",
+        "aioresponses>=0.7.2",
+        "av>=8.0; python_version>='3.8'",
+        "datasets",
+        "evaluate",
+        "flask>=0.12.3",
+        "gensim>=4.0.0",
+        "gmpy2",
+        "hypothesis",
+        "importlib-metadata>=1.4",
+        "jsonschema",
+        "keras",
+        "mistune<2",
+        "msgpack>=0.6.0",
+        "nltk>=3.6.1",
+        "numba; python_version<'3.11'",
+        "numpy",
+        "opencv-python",
+        "packaging",
+        "pandas",
+        "pdfminer",
+        "Pillow>=9.2.0",
+        "polars>=1.18; python_version>='3.9'",
+        "pypdf>=3.1.0,!=5.0.0",
+        "pywin32; sys_platform=='win32'",
+        "requests",
+        "requests-mock",
+        "ruamel.yaml",
+        "scikit-learn",
+        "scipy<1.13",
+        "setuptools",
+        "simple-salesforce>=1.1.0",
+        "simplejson",
+        "tika",
+        "tls-property>=1.0.1",
+        "toml",
+        "werkzeug>=0.11.11"
+    ],
+    "text": [
+        "jsonschema",
+        "msgpack>=0.6.0",
+        "simplejson"
+    ],
+    "text_segmentation": [],
+    "text_summarization": [
+        "numpy",
+        "spacy"
+    ],
+    "time": [],
+    "tls": [
+        "cryptography>=1.5.3",
+        "pyOpenSSL>=17.5.0"
+    ],
+    "toml": [
+        "toml"
+    ],
+    "torch": [
+        "torch"
+    ],
+    "torrent": [
+        "bencode.py>=2.0.0",
+        "jsonschema",
+        "requests",
+        "simplejson"
+    ],
+    "tqdm": [
+        "tqdm"
+    ],
+    "tree": [],
+    "twisted": [
+        "twisted"
+    ],
+    "twitch": [],
+    "typing": [],
+    "unicode": [
+        "jsonschema",
+        "msgpack>=0.6.0",
+        "simplejson"
+    ],
+    "unqlite": [
+        "unqlite"
+    ],
+    "url": [],
+    "videofile": [
+        "av>=8.0; python_version>='3.8'",
+        "numpy",
+        "opencv-python"
+    ],
+    "widgets": [
+        "wxPython>=4"
+    ],
+    "win": [
+        "pywin32; sys_platform=='win32'"
+    ],
+    "win32": [
+        "pywin32; sys_platform=='win32'",
+        "wmi; sys_platform=='win32'"
+    ],
+    "wsgi": [
+        "werkzeug>=0.11.11"
+    ],
+    "xsl": [
+        "lxml"
+    ],
+    "yaml": [
+        "ruamel.yaml"
+    ]
+}
