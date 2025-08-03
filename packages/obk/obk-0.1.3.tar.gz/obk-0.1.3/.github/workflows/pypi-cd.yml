@@ -1,0 +1,38 @@
+name: PyPI Deploy
+
+on:
+  push:
+    branches: deploy
+
+jobs:
+  build-and-publish:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clean workspace
+        run: git clean -fdx
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up virtual environment and install tools
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install build twine
+
+      - name: Bump patch version
+        run: .venv/bin/python .github/scripts/bump_patch.py
+
+      - name: Build package
+        run: .venv/bin/python -m build
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: .venv/bin/twine upload dist/*
