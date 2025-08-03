@@ -1,0 +1,178 @@
+Metadata-Version: 2.4
+Name: scene-rir
+Version: 1.0.0
+Summary: Room Impulse Response extraction package.
+Author-email: Christos Sevastiadis <csevast@auth.gr>
+Project-URL: Home, https://sr.ht/~csevast/scene-rir/
+Project-URL: Source, https://git.sr.ht/~csevast/scene_rir
+Keywords: room impulse response,rir
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Environment :: MacOS X
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy
+Requires-Dist: scipy
+Dynamic: license-file
+
+# SCENE-RIR
+
+The purpose of this package is to extract the **Room Impulse Response (RIR)** from the 
+recorded response signal of an appropriate excitation signal. It employs the **swept-sine 
+measurement method** [1]. Both **linear sweeps**—corresponding to a white spectrum
+noise—and **exponential sweeps**—corresponding to a pink spectrum noise—are implemented.
+ The exponential swept-sine generation is based on **Angelo Farina's methodology** [2].
+
+It is part of the  **Audio Simulation Module**, developed for the Horizon Europe project *SCENE* (2023-2025):
+*"Searchable multi-dimensional data lakes, supporting Cognitive film production & distribution, for the promotion of the EuropeaN Cultural HeritagE."*
+
+## 📦 Installation
+
+### Install via PyPI
+
+You can install this package from [PyPI](https://pypi.org) using `pip`:
+
+```
+pip install scene-rir
+```
+
+### Install via Conda
+
+To install this package using [conda](https://docs.conda.io), make sure you have either [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/products/distribution) installed.
+
+Then, run the following command:
+
+```bash
+conda install -c csevast scene-rir
+```
+
+## ✅ Installation verification
+To check if the package was installed successfully, try:
+```
+python -c "import scene_rir.rir; help(scene_rir.rir)
+```
+If the **scene-rir** is installed, this command will print all of its help documentation
+string.
+
+## 💻 Examples of usage
+Create and save the default exponential swept-sine excitation signal.
+```        
+from scene_rir import rir
+
+signal = rir.SweptSineSignal()
+signal.save("output/ss-signal-44100_kHz-2972_ms.wav")
+```
+
+Usage example of creating and using a swept-sine signal in a Python script.
+```
+from matplotlib import pyplot as plt
+from scene_rir import rir
+
+params = {
+    "antslcdur": 0.1,
+    "frqstp": 10000,
+    "frqstt": 100,
+    "pstslcdur": 0.1,
+    "sgllvl": -6,
+    "sglszeidx": 2,
+    "smprteidx": 5,
+    "ss_rtetyp": "log",
+}
+signal = rir.SweptSineSignal(params)
+_, sglvec = signal.signal_vector()
+tmevec = signal.time_vector()
+sgldur = signal.sgldur
+
+_, ax = plt.subplots()
+ax.plot(tmevec, sglvec)
+ax.set_xlim(0, sgldur)
+ax.set_ylim(-1, 1)
+
+plt.show()
+```
+
+Exctract the room impulse response from a recorded response signal to a
+previously produced swept-sine excitation signal.
+
+```
+from scene_rir import rir
+
+
+params = {
+    "rec_path": "input/rec-signal.wav",
+    "ref_path": "output/ref-signal.wav",
+    "sgllvl": 0,
+}
+irs_signal = rir.ImpulseResponseSignal(params)
+irs_signal.save("output/irs-signal.wav")
+```
+
+Usage example of extracting the impulse response in a Python script.
+```
+import numpy as np
+from matplotlib import pyplot as plt
+from scene_rir import rir
+
+par = {
+    "rec_path": "input/rec-signal.wav",
+    "ref_path": "output/ref-signal.wav",
+    "path": "output/irs-signal.wav",
+    "sgllvl": 0,
+}
+irs_signal = rir.ImpulseResponseSignal(par)
+smprte, sglvec = irs_signal.signal_vector()
+
+_, ax = plt.subplots()
+
+sgldur = sglvec.size / smprte
+tmevec = np.linspace(0, sgldur, sglvec.size)
+ax.plot(tmevec, sglvec)
+ax.set_xlim(0, sgldur)
+
+plt.show()
+```
+
+Example of usage from command line (Windows OS):
+```
+> python -m scene_rir
+Usage: python -m scene_rir [command] [parameter1] [parameter2]
+or
+python3 -m scene_rir [command] [parameter1] [parameter2]
+Available commands:
+save   Save the default swept-sine signal.
+> python -m scene_rir --help
+Usage: python -m scene_rir [command] [parameter1] [parameter2]
+or
+python3 -m scene_rir [command] [parameter1] [parameter2]
+Available commands:
+save   Save the default swept-sine signal.
+
+> python -m scene_rir save my_folder/my_signal.wav
+```
+
+## ⚖️ License: GNU GPL v3.0
+
+Copyright (C) 2025 Christos Sevastiadis
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+## 📖 References
+
+- [1]: International Organization for Standardization (2006). Acoustics — Application of new measurement methods in building and room acoustics (ISO Standard No. 18233). Retrieved from https://www.iso.org/standard/40408.html.
+- [2]: Farina, A. (2000, February). Simultaneous measurement of impulse response and distortion with a swept-sine technique. In Audio Engineering Society Convention 108. Audio Engineering Society.
