@@ -1,0 +1,31 @@
+                           ┌────────────────────────────────────────────┐
+                           │                 cli.py                     │
+                           │  (Click-based CLI entrypoint)              │
+                           └──────────────────┬─────────────────────────┘
+                                              │
+                                              ▼
+                                   ┌───────────────────┐
+                                   │   scanner.py      │
+                                   │ (Main engine)     │
+                                   └───────────────────┘
+                                              │
+             ┌────────────────────────────────┼──────────────────────────────┐
+             │                                │                              │
+             ▼                                ▼                              ▼
+     ┌───────────────┐              ┌─────────────────┐              ┌────────────────┐
+     │ patterns.py   │              │ config.py       │              │ entropy.py     │
+     │ Built-in regex│              │ Load JSON regex │              │ Entropy calc   │
+     └──────┬────────┘              └────────┬────────┘              └──────┬─────────┘
+            │                                │                             │
+            ▼                                ▼                             ▼
+    Merge Patterns                  Add Custom Patterns            Compute Entropy of
+                                                                   Quoted Strings
+            └──────────────┬────────────────────────────────────────────┘
+                           ▼
+            ┌────────────────────────────────────────┐
+            │ Scan staged files + aggregate results  │
+            └────────────────────────────────────────┘
+                           │
+                           ▼
+                     reporter.py
+              (Print rich table + return exit code)

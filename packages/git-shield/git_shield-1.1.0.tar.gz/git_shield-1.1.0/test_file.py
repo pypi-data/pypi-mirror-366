@@ -1,0 +1,2 @@
+AWS_SECRET = "AKIA1234567890ABCD"
+password = "MySecret123"
