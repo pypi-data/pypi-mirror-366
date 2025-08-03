@@ -1,0 +1,69 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Distribution / packaging
+*.egg-info/
+build/
+dist/
+*.egg
+.eggs/
+
+
+# Installer metadata
+*.manifest
+*.spec
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+*.env
+
+# PyInstaller
+*.log
+
+# Unit test / coverage
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+htmlcov/
+
+# MyPy / Pylint / others
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VSCode / IDEs / editors
+.vscode/
+.idea/
+*.swp
+
+# Local DBs, secrets
+db/*.cnf
+db/*.sqlite3
+*.db
+
+#tmp
+TMP/
+
+# Ignore LFS-tracked files
+.gitattributes
+.gitattributes.lock
+
+# Ignore Git and VCS folders
+.git/
+.gitignore
+
+# Ignore other hidden or system-specific files
+*.sublime-project
+*.sublime-workspace
