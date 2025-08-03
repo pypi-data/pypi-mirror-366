@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "todo-eunho"
+version = "0.1.1"
+description = "A simple CLI todo manager"
+readme = "README.md"
+authors = [{name = "Eunho Chung", email="silverhoo01@dgist.ac.kr"}]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+  "rich>=13.7.0",
+  "questionary>=2.0.1"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/ChungEunho/CLI_Todo"
+Source = "https://github.com/ChungEunho/CLI_Todo"
+Issues = "https://github.com/ChungEunho/CLI_Todo/issues"
+
+[project.scripts]
+todo = "core_code.cli:main"
