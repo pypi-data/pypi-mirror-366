@@ -1,0 +1,18 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Debug oe myproject",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "/odoo/vs_env/bin/python3.12",
+            "args": ["-Q","utest","-m","module_1","-v"],
+            "justMyCode": true,
+            "module": "odoo_env.oe"
+        }
+    ]
+}
