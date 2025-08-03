@@ -1,0 +1,61 @@
+version: 2
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - freebsd
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm
+      - arm64
+      - '386'
+    # Default is `-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}`.
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.buildSource=binaryRelease
+
+archives:
+  - name_template: >-
+      {{- .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}32-bit
+      {{- else if eq .Arch "arm" }}armv6
+      {{- else }}{{ .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [ zip ]
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  version_template: '{{ .Tag }}-next'
+changelog:
+  use: github-native
+  sort: asc
+brews:
+  -
+    # Repository to push the tap to.
+    repository:
+      owner: jesseduffield
+      name: homebrew-lazygit
+
+    # Your app's homepage.
+    # Default is empty.
+    homepage: 'https://github.com/jesseduffield/lazygit/'
+
+    # Your app's description.
+    # Default is empty.
+    description: 'A simple terminal UI for git commands, written in Go'
+
+    # # Packages your package depends on.
+    # dependencies:
+    #   - git
+    #   - zsh
+    # # Packages that conflict with your package.
+    # conflicts:
+    #   - svn
+    #   - bash
