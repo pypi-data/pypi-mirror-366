@@ -1,0 +1,56 @@
+[project]
+name = "django-markdown-database"
+version = "0.1.2"
+description = "Mount a directory of markdown files as a sqlite virtual table in Django"
+readme = "README.md"
+authors = [
+    { name = "Paul Traylor", email = "kungfudiscomonkey@gmail.com" },
+]
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.2.0",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+]
+
+[project.urls]
+Homepage = "https://codeberg.org/kfdm/django-markdown-database"
+Issues = "https://codeberg.org/kfdm/django-markdown-database/issues"
+
+[build-system]
+requires = ["setuptools", "setuptools-rust"]
+build-backend = "setuptools.build_meta"
+
+[[tool.setuptools-rust.ext-modules]]
+target = "markdowndb._lib"
+binding = "NoBinding"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint] # https://beta.ruff.rs/docs/rules/
+select = [
+    "C",       # Complexity
+    "E",       # pycodestyle
+    "F",       # Unused imports
+    "I",       # isort
+    "PGH004",  # Use specific rule codes when using noqa
+    "PLC0414", # Useless import alias. Import alias does not rename original package.
+    "S103",    # bad-file-permissions
+    "TRY004",  # Prefer TypeError exception for invalid type
+    "UP",      # pyupgrade
+    "W",       # pycodestyle
+]
+ignore = [
+    "E501", # Don't enforce line length for now
+    "E741", # Ambiguous variable name
+]

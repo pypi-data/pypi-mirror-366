@@ -1,0 +1,104 @@
+# Markdown files as a SQLite virtual table
+
+This library provides a sqlite virtual table implementation that allows mounting
+a directory of markdown files as a sqlite table.
+This allows a user to take their markdown files from their favorite static site blog
+or note taking system, and access them from Django as a sqlite table.
+
+This initial release only supports read-only operations (SELECT) though a future
+version will also support write operations (INSERT, UPDATE, DELETE)
+
+Currently only supports sdist via PyPI, though a future version will attempt to
+support a few platforms/versions as wheels.
+
+# Usage
+
+Add database connection to your settings.py
+
+```python
+DATABASES = {
+    "default": {
+        # Configure our database engine to this library
+        "ENGINE": "markdowndb",
+        # This is still a real sqlite database so your other models
+        # can live here as usual
+        "NAME": BASE_DIR / "db.sqlite3",
+        # Optionally override the sqlite binary for `django-admin dbshell`
+        # since the builtin MacOX sqlite does not allow loading modules
+        "CLIENT": "/usr/local/opt/sqlite/bin/sqlite3",
+        # Root path to our markdown files. Our models will ultimately be
+        # built as ROOT / <model_label>
+        "ROOT": BASE_DIR / "content"
+    }
+}
+```
+
+When creating models, add `required_db_vendor = "markdowndb"` and `managed = False` to your `Meta` class
+
+```python
+from markdowndb.mixins import FrontmatterModel
+
+class MyNotes(FrontmatterModel)
+    ...
+
+    class Meta:
+        required_db_vendor = "markdowndb"
+        managed = False
+```
+
+The `FrontmatterModel` mixin provides access to many underlying fields by default.
+See the comments on the model for specific fields.
+
+## Custom lookups
+
+Our `FrontmatterModel` provides a `metadata` JSONField that we can use to get the entire frontmatter, but we can also configure a custom lookup.
+
+Assuming frontmatter like the following
+
+```markdown
+---
+title: Some title
+date: 2025-01-01 01:02:03
+tags:
+  - one
+  - two
+---
+
+An excerpt for here.
+
+<!--more-->
+
+The longer blog post here.
+```
+
+We can define a custom model
+
+```python
+from markdowndb.mixins import FrontmatterModel
+
+class MyNotes(FrontmatterModel)
+    title = models.CharField()
+    date = models.DatetimeField()
+
+    class Meta:
+        required_db_vendor = "markdowndb"
+        managed = False
+```
+
+We have various ways of accessing our model
+
+```python
+# Lets get our first note as a quick test
+note = MyNotes.objects.first()
+# By default, our primary key will match the file inode since that should be
+# a constant indicator
+note.pk == note.inode
+# Calling the attribute directly returns 'Some title'
+note.title
+# As does getting the attribute from the metadata
+note.metadata['title']
+# Getting our post date lets Django process as a datetime value
+note.date
+# Though we can also pull the original string directly without conversion
+note.metadata['date']
+```
