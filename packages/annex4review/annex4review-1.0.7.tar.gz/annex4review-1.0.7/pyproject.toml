@@ -1,0 +1,37 @@
+[project]
+name = "annex4review"
+version = "1.0.7"
+description = "Annex IV Review: analyze PDF documents for EU AI Act compliance"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Aleksandr Racionalus", email = "prihodko02bk@gmail.com"}]
+keywords = ["AI Act", "compliance", "review", "PDF analysis"]
+dependencies = [
+  "typer[all]>=0.12",
+  "pydantic>=2.7",
+  "requests>=2.32",
+  "ruamel.yaml>=0.18",
+  "beautifulsoup4>=4.12",
+  "PyYAML>=6.0",
+  "Jinja2>=3.0",
+  "reportlab>=4.0",
+  "pyjwt>=2.9,<2.10",
+  "cryptography>=42",
+  "python-docx>=1.1",
+  "ftfy>=6.0",
+  "pikepdf>=8.0",
+  "PyPDF2>=3.0",
+  "pdfplumber>=0.10",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel", "build"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+
+[tool.setuptools.packages.find]
+include = ["annex4ac"]
