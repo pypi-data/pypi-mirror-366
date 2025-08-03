@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "nonebot-plugin-botoffline-email"
+version = "0.0.4"
+description = "QQ Bot 掉线后使用 SMTP 发送邮件提醒"
+authors = ["千秋紫莹 <qianqiuzy@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/qianqiuzy/nonebot-plugin-botoffline-email"
+keywords = ["nonebot", "nonebot2", "plugin", "botoffline", "smtp", "email"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+nonebot2 = "^2.3.0"
+nonebot-adapter-onebot = ">=2.0.0-beta.1"
+pydantic = "^2.0"
+pydantic-settings = "^2.0"
+python-dotenv = "^1.0"
+nonebot_plugin_apscheduler = ">=0.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.nonebot]
+plugins = ["nonebot-plugin-botoffline-email"]
+
+[tool.ruff]
+line-length = 120
+select = [
+  "F",
+  "E",
+  "W",
+  "I",
+  "UP",
+  "RUF"
+]
+ignore = [
+  "E402",   # module-import-not-at-top-of-file
+  "UP006",  # non-pep585-annotation
+  "UP035",  # deprecated-import
+  "UP037",  # quoted-annotation
+  "RUF001", # ambiguous-unicode-character-string
+  "RUF002", # ambiguous-unicode-character-docstring
+  "RUF003", # ambiguous-unicode-character-comment
+]
