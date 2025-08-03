@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2025 Samuel Wu
+#
+# SPDX-License-Identifier: MIT-0
+
+name: Run linters, formatters, and tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+    paths:
+      - src
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+            enable-cache: true
+            cache-dependency-glob: "pyproject.toml"
+
+      - uses: actions/cache@v4
+        if: ${{ matrix.python-version == '3.10' }}
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-4|${{ matrix.python-version }}|${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Run test with tox
+        run: uv run tox

@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2025 Samuel Wu
+#
+# SPDX-License-Identifier: MIT-0
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-illegal-windows-names
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+        exclude_types:
+          - plain-text
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+      - id: name-tests-test
+      - id: trailing-whitespace
+
+  - repo: https://github.com/tox-dev/pyproject-fmt
+    rev: "v2.6.0"
+    hooks:
+      - id: pyproject-fmt
+
+  - repo: https://github.com/tox-dev/tox-ini-fmt
+    rev: "1.5.0"
+    hooks:
+      - id: tox-ini-fmt
+        args:
+          - "-p"
+          - "pylint,lint,type"
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.4
+    hooks:
+      - id: ruff-check
+        args:
+          - --fix
+          - --ignore=D101,D102,FIX002
+      - id: ruff-format
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+        args:
+          - --fix
+
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v5.0.2
+    hooks:
+      - id: reuse
+
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
