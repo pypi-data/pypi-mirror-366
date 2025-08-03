@@ -1,0 +1,241 @@
+Metadata-Version: 2.4
+Name: taskpriority-mcp
+Version: 1.0.0
+Summary: MCP server for intelligent task prioritization with Claude Desktop
+Home-page: https://github.com/yourusername/mcp-priority
+Author: TaskPriority Team
+Author-email: TaskPriority Team <support@taskpriority.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/mcp-priority
+Project-URL: Documentation, https://github.com/yourusername/mcp-priority#readme
+Project-URL: Repository, https://github.com/yourusername/mcp-priority.git
+Project-URL: Issues, https://github.com/yourusername/mcp-priority/issues
+Keywords: mcp,claude,taskpriority,ai,task-management
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: httpx>=0.28.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: typing-extensions>=4.0.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# TaskPriority MCP Server
+
+[![MCP Version](https://img.shields.io/badge/MCP-1.12.3-blue)](https://github.com/modelcontextprotocol/servers)
+[![Python Version](https://img.shields.io/badge/Python-3.10%2B-green)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
+An intelligent task prioritization server that integrates with Claude Desktop through the Model Context Protocol (MCP). TaskPriority helps you manage tasks efficiently by providing AI-powered analysis including priority scoring, time estimation, and similarity detection.
+
+## 🌟 Features
+
+- **AI-Powered Task Analysis**: Automatic priority scoring (1-10), complexity assessment, and time estimation
+- **Smart Task Management**: Create, update, list, and delete tasks with full CRUD operations
+- **Similarity Detection**: Identifies duplicate and related tasks to prevent redundancy
+- **Real-time Analysis**: Get instant AI insights when creating or analyzing tasks
+- **MCP Integration**: Seamlessly works with Claude Desktop for natural language task management
+
+## 📋 Prerequisites
+
+- Python 3.10 or higher
+- Claude Desktop (for MCP integration)
+- TaskPriority API key from [taskpriority.ai](https://taskpriority.ai)
+
+## 🚀 Quick Start
+
+### 1. Install the Server
+
+Choose one of these installation methods:
+
+#### Option A: Install from PyPI (Recommended)
+```bash
+pip install taskpriority-mcp
+```
+
+#### Option B: Install from GitHub
+```bash
+pip install git+https://github.com/yourusername/mcp-priority.git
+```
+
+#### Option C: Install from Source
+```bash
+git clone https://github.com/yourusername/mcp-priority.git
+cd mcp-priority
+pip install -e .
+```
+
+### 2. Get Your API Key
+
+1. Sign up at [taskpriority.ai](https://taskpriority.ai)
+2. Go to Settings → API Keys
+3. Create a new key (starts with `tp_live_`)
+
+### 3. Configure Claude Desktop
+
+Find your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
+**Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+Add this configuration:
+
+```json
+{
+  "mcpServers": {
+    "taskpriority": {
+      "command": "taskpriority-mcp",
+      "env": {
+        "TASKPRIORITY_API_KEY": "tp_live_your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+### 4. Restart Claude Desktop
+
+Completely quit and restart Claude Desktop for the changes to take effect.
+
+## 💡 Usage
+
+Once configured, you can use natural language commands in Claude Desktop:
+
+### Creating Tasks
+
+```
+"Create a task to implement user authentication"
+"Add a bug report about the login page not loading"
+"New task: Improve database query performance"
+```
+
+### Listing Tasks
+
+```
+"Show me all my pending tasks"
+"List high-priority bugs"
+"What tasks are in progress?"
+```
+
+### Updating Tasks
+
+```
+"Mark task 123e4567 as completed"
+"Update the authentication task to in-progress"
+"Change the priority of the database task"
+```
+
+### Getting AI Analysis
+
+```
+"Analyze task 123e4567"
+"What's the time estimate for the authentication task?"
+"Show me tasks similar to implementing payment processing"
+```
+
+## 🛠️ Available MCP Tools
+
+### `create_task`
+Creates a new task with automatic AI analysis.
+
+**Parameters:**
+- `description` (required): Task description
+- `source` (optional): Origin of the task (default: "internal")
+- `customer_info` (optional): Additional context
+
+### `list_tasks`
+Lists tasks with filtering options.
+
+**Parameters:**
+- `status` (optional): Filter by status (pending, in_progress, completed, blocked)
+- `category` (optional): Filter by category (bug, feature, improvement, business, other)
+- `limit` (optional): Number of results (default: 50, max: 100)
+- `offset` (optional): Pagination offset (default: 0)
+
+### `get_task_details`
+Retrieves complete information about a specific task.
+
+**Parameters:**
+- `task_id` (required): UUID of the task
+
+### `update_task`
+Updates an existing task.
+
+**Parameters:**
+- `task_id` (required): UUID of the task
+- `status` (optional): New status
+- `description` (optional): Updated description
+- `customer_info` (optional): Updated customer information
+
+### `delete_task`
+Deletes a task permanently.
+
+**Parameters:**
+- `task_id` (required): UUID of the task
+
+### `get_ai_analysis`
+Gets or waits for AI analysis of a task.
+
+**Parameters:**
+- `task_id` (required): UUID of the task
+- `timeout` (optional): Max seconds to wait for analysis (default: 30)
+
+## 🔧 Configuration
+
+### Environment Variables
+
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `TASKPRIORITY_API_KEY` | Your TaskPriority API key | - | Yes |
+| `TASKPRIORITY_API_URL` | TaskPriority API base URL | `https://api.taskpriority.ai` | No |
+| `TASKPRIORITY_API_VERSION` | API version | `v1` | No |
+| `TASKPRIORITY_TIMEOUT` | Request timeout in seconds | `30` | No |
+| `DEBUG_MODE` | Enable debug logging | `false` | No |
+
+### Advanced Configuration
+
+For advanced configuration options, see the [Configuration Guide](docs/configuration.md).
+
+## 📚 Documentation
+
+- [API Reference](docs/api-reference.md) - Detailed API documentation
+- [Development Guide](docs/development.md) - Contributing and development setup
+- [Deployment Guide](docs/deployment.md) - Production deployment instructions
+- [Examples](examples/) - Code examples and use cases
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with the [Model Context Protocol](https://github.com/modelcontextprotocol/servers)
+- Powered by [TaskPriority AI](https://taskpriority.ai)
+- Integrated with [Claude Desktop](https://claude.ai)
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/yourusername/mcp-priority/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/mcp-priority/discussions)
+- **Email**: support@taskpriority.ai
+
+---
+
+Made with ❤️ by the TaskPriority team
