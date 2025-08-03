@@ -1,0 +1,61 @@
+<!--
+LaunchAgent plist for auto-starting the generichelpers streamlit app on macOS.
+
+🔧 Useful commands:
+
+    # Copy the plist into your LaunchAgents folder
+    cp com.ratnadip.streamlitapp.plist ~/Library/LaunchAgents/
+
+    # Register the LaunchAgent (enables auto-start on login)
+    launchctl load ~/Library/LaunchAgents/com.ratnadip.streamlitapp.plist
+
+    # 🔒 Disable auto-start and stop the app
+    launchctl unload ~/Library/LaunchAgents/com.ratnadip.streamlitapp.plist
+
+    # ✅ Start the app manually (for first-time launch or testing)
+    launchctl start com.ratnadip.streamlitapp
+
+    # 🛑 Stop the app temporarily (it will auto-start again on reboot/login)
+    launchctl stop com.ratnadip.streamlitapp
+
+    # 🌐 Find local IP address (for accessing from other devices on same network)
+    ifconfig
+    ipconfig getifaddr en0
+
+    # 🌐 Access from other devices
+    http://192.168.31.22:8503
+
+    # ✅ Verify that the app is running
+    lsof -i :8503 | http://localhost:8503
+
+    # 🛡️ Allow Python through macOS Firewall (required for external access)
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add $(which python3)
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp $(which python3)
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.ratnadip.streamlitapp</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/ratnadipadhikari/Library/CloudStorage/OneDrive-TIGERANALYTICS/TigerAnalytics/generic-helpers/src/generichelpers/.streamlit/run_streamlit.sh</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/streamlit-out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/streamlit-err.log</string>
+  </dict>
+</plist>
