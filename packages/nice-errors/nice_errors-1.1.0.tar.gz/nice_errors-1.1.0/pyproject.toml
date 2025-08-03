@@ -1,0 +1,23 @@
+[project]
+name = "nice-errors"
+version = "1.1.0"
+description = "Nice error messages for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "AGPL-3.0-only"
+authors = [
+    { name = "ProgMEM-CC" }
+]
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "colorama",
+]
+[tool.setuptools]
+packages = ["nice_errors"]
+[project.urls]
+Homepage = "https://github.com/ProgMEM-CC/nice-errors"
+Issues = "https://github.com/ProgMEM-CC/nice-errors/issues"
