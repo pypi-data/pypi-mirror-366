@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: todo-eunho
+Version: 0.1.1
+Summary: A simple CLI todo manager
+Author-email: Eunho Chung <silverhoo01@dgist.ac.kr>
+License: MIT
+Project-URL: Homepage, https://github.com/ChungEunho/CLI_Todo
+Project-URL: Source, https://github.com/ChungEunho/CLI_Todo
+Project-URL: Issues, https://github.com/ChungEunho/CLI_Todo/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: rich>=13.7.0
+Requires-Dist: questionary>=2.0.1
+
+Simple TodoList Manager
+
+How to install : 
+    pip install todo-eunho
+
+How to Use : 
+
+1. add :
+    adds an event to the todo list
+
+    Command : 
+        todo add "Title" --date "date" --time "time"
+
+    flag : 
+        --date : "DD_MON_YYYY" 
+               : "16_JUN_2001"
+        --time : "HH_MM"
+               : "23_00"
+
+    todo add "Meeting with Dowan Kim" --date "30_JUL_2025" --time "10_30"
+
+2. show : 
+    shows the todo list
+    
+    Command : 
+    todo show
+    
+3. clear : 
+    clears the todo list
+
+    Command
+    todo clear
+
+4. delete :
+    deletes an event of specified index from the todo list 
+
+    Command : 
+    todo delete <index>
+
+5. fix : 
+    fixes an event of specified index from the todo list
+
+    Command : 
+    todo fix <index> --date "date" --time "time"
+
+    flag :
+    --date : updates original event's date
+    --time : updates original event's time
+
+
+6. mdel :
+    deletes multiple events from the todo list
+
+    Command :
+    todo mdel <index> <index> <index>
+
+
