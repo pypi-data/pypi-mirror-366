@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "entrns"
+version = "0.1.1b0"
+description = "Librería simple para crear bots básicos entrenados con tokenización y corrección ligera."
+readme = "README.md"
+requires-python = ">=3.6"
+license = "MIT"  # ✅ Usando SPDX expression (¡no usar como tabla!)
+authors = [
+    { name = "luis", email = "gachaprimosxd128@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
