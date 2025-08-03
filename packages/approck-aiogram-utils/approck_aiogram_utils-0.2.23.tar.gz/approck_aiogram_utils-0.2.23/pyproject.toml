@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "approck-aiogram-utils"
+version = "0.2.23"
+description = ""
+authors = ["Aleksey Dalekin <ald@approck.pro>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+aiogram = "^3.7.0"
+approck-events-sdk = { version = ">=0.1.6", optional = true }
+approck-messaging = [
+    { version = ">=0.1.9" },
+    { version = ">=0.1.9", extras = [
+        "transport",
+    ], optional = true },
+]
+loguru = "^0.7.2"
+pydantic = { extras = ["email", "dotenv"], version = ">=2.4.1" }
+pydantic-settings = "^2.1.0"
+python = "^3.10"
+sentry-sdk = { version = "^2.5.1", optional = true }
+uprock-sdk = { version = "^0.1.43", optional = true }
+
+[tool.poetry.extras]
+events = ["approck-events-sdk"]
+sentry = ["sentry-sdk"]
+transport = ["approck-messaging"]
+uprock = ["uprock-sdk"]
+
+[tool.poetry.dev-dependencies]
+mypy = "^1.10.0"
+pytest = "^8.2.2"
+ruff = "^0.4.7"
+
+[tool.poetry.group.dev.dependencies]
+pytest-asyncio = "^0.23.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
