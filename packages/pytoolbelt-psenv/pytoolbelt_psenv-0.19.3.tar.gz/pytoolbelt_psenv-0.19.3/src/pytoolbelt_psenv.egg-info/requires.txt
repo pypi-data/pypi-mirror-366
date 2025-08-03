@@ -1,0 +1,14 @@
+python-dotenv==1.1.0
+pyyaml==6.0.2
+boto3==1.38.32
+structlog==25.4.0
+pydantic==2.11.5
+boto3-stubs[ssm,sts]==1.38.32
+
+[dev]
+pytest==8.4.0
+pytest-cov==6.1.1
+ruff==0.11.13
+boto3-stubs[ssm,sts]==1.38.32
+mkdocs==1.6.0
+mkdocs-material==9.5.26
