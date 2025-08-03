@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "task-agents-mcp"
+version = "2.0.1"
+description = "Multi-tool MCP server for specialized AI agents - each agent as its own tool"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "vredrick"},
+]
+keywords = ["mcp", "ai", "agents", "claude", "llm", "fastmcp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "fastmcp>=2.0.0",
+    "pyyaml>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/vredrick/task-agent"
+Repository = "https://github.com/vredrick/task-agent.git"
+Issues = "https://github.com/vredrick/task-agent/issues"
+
+[project.scripts]
+task-agent = "task_agents_mcp.server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["task_agents_mcp"]
+
+[tool.setuptools.package-data]
+task_agents_mcp = ["agents/*.md"]
