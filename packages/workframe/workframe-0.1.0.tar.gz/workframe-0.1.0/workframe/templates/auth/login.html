@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Login - {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center min-vh-100 align-items-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-4">
+                    <!-- Logo/Brand -->
+                    <div class="text-center mb-4">
+                        <i class="bi bi-briefcase display-4 text-primary mb-3"></i>
+                        <h2 class="h4 mb-1">{{ app_name }}</h2>
+                        <p class="text-muted small">{{ app_description }}</p>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form method="POST" data-loading>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <i class="bi bi-person me-1"></i>Username or Email
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="username" 
+                                   name="username" 
+                                   placeholder="Enter username or email"
+                                   required 
+                                   autofocus
+                                   autocomplete="username">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="bi bi-lock me-1"></i>Password
+                            </label>
+                            <input type="password" 
+                                   class="form-control form-control-lg" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="Enter password"
+                                   required
+                                   autocomplete="current-password">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="remember" 
+                                       name="remember">
+                                <label class="form-check-label" for="remember">
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer info -->
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    {{ app_description }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom styles for login page -->
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    .card {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+    }
+    
+    [data-bs-theme="dark"] .card {
+        background: rgba(33, 37, 41, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-control-lg {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    .btn-lg {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 576px) {
+        .container-fluid {
+            padding: 1rem;
+        }
+        
+        .card-body {
+            padding: 2rem 1.5rem !important;
+        }
+        
+        .form-control-lg {
+            font-size: 1.1rem;
+            padding: 1rem;
+        }
+        
+        .btn-lg {
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Larger touch targets for mobile */
+        .form-check-input {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        
+        .form-check-label {
+            padding-left: 0.5rem;
+        }
+    }
+    
+    /* Focus styles for accessibility */
+    .form-control:focus {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    /* Loading state */
+    form[data-loading] button[type="submit"]:disabled {
+        opacity: 0.6;
+    }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Auto-focus username field on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const usernameField = document.getElementById('username');
+        if (usernameField) {
+            // Small delay to ensure page is fully loaded
+            setTimeout(() => usernameField.focus(), 100);
+        }
+    });
+</script>
+{% endblock %}

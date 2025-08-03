@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+<!-- Render field macro - define at top -->
+{% macro render_field(field, form) %}
+{% set value = form.get_field_value(field) %}
+{% set error = form.get_field_error(field) %}
+
+{% if field.type == 'textarea' %}
+<div class="mb-3">
+    <label for="{{ field.name }}" class="form-label">
+        {{ field.name.replace('_', ' ').title() }}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}
+    </label>
+    <textarea name="{{ field.name }}" 
+              id="{{ field.name }}" 
+              class="form-control{% if error %} is-invalid{% endif %}"
+              rows="{{ field.rows or 3 }}"
+              {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}
+              {% if field.required %}required{% endif %}
+              {% if field.readonly %}readonly{% endif %}>{{ value or '' }}</textarea>
+    {% if error %}
+    <div class="invalid-feedback">{{ error }}</div>
+    {% endif %}
+</div>
+
+{% elif field.is_enum_field() or field.is_lookup_field() %}
+<div class="mb-3">
+    <label for="{{ field.name }}" class="form-label">
+        {% if field.is_lookup_field() and field.name.endswith('_id') %}
+            {{ field.name[:-3].replace('_', ' ').title() }}
+        {% else %}
+            {{ field.name.replace('_', ' ').title() }}
+        {% endif %}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}
+    </label>
+    <select name="{{ field.name }}" 
+            id="{{ field.name }}" 
+            class="form-select{% if error %} is-invalid{% endif %}"
+            {% if field.required %}required{% endif %}
+            {% if field.readonly %}disabled{% endif %}>
+        <option value="">Choose...</option>
+        {% set choices = field.get_choices(detailview.table.db, workframe_app) %}
+        {% for choice_value, choice_label in choices %}
+        <option value="{{ choice_value }}" {% if value and value|string == choice_value|string %}selected{% endif %}>
+            {{ choice_label }}
+        </option>
+        {% endfor %}
+    </select>
+    {% if error %}
+    <div class="invalid-feedback">{{ error }}</div>
+    {% endif %}
+</div>
+
+{% elif field.type == 'boolean' %}
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" 
+               name="{{ field.name }}" 
+               id="{{ field.name }}" 
+               class="form-check-input{% if error %} is-invalid{% endif %}" 
+               value="1" 
+               {% if value %}checked{% endif %}
+               {% if field.readonly %}disabled{% endif %}>
+        <label class="form-check-label" for="{{ field.name }}">
+            {{ field.name.replace('_', ' ').title() }}
+            {% if field.required %}<span class="text-danger">*</span>{% endif %}
+        </label>
+        {% if error %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endif %}
+    </div>
+</div>
+
+{% else %}
+<div class="mb-3">
+    <label for="{{ field.name }}" class="form-label">
+        {{ field.name.replace('_', ' ').title() }}
+        {% if field.required %}<span class="text-danger">*</span>{% endif %}
+    </label>
+    <input type="{{ field.get_input_type() }}" 
+           name="{{ field.name }}" 
+           id="{{ field.name }}" 
+           class="form-control{% if error %} is-invalid{% endif %}"
+           {% if value is not none %}value="{{ value }}"{% endif %}
+           {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}
+           {% if field.required %}required{% endif %}
+           {% if field.readonly %}readonly{% endif %}
+           {% if field.type in ['currency', 'number'] %}step="{{ '0.01' if field.type == 'currency' else '1' }}" min="0"{% endif %}>
+    {% if error %}
+    <div class="invalid-feedback">{{ error }}</div>
+    {% endif %}
+    {% if field.placeholder and not field.placeholder.startswith('Enter') %}
+    <div class="form-text">{{ field.placeholder }}</div>
+    {% endif %}
+</div>
+{% endif %}
+{% endmacro %}
+
+{% block title %}{{ action_text }} {{ detailview.table.name.title() }} - WorkFrame{% endblock %}
+
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" class="bg-light">
+    <div class="container-fluid">
+        <ol class="breadcrumb py-2 mb-0">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('dashboard') }}">
+                    <i class="bi bi-house me-1"></i>Dashboard
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ back_url }}">
+                    <i class="bi bi-arrow-left me-1"></i>{{ detailview.table.name.title() }}
+                </a>
+            </li>
+            {% if detailview.mode == 'edit' %}
+            <li class="breadcrumb-item">
+                <a href="../">View</a>
+            </li>
+            {% endif %}
+            <li class="breadcrumb-item active" aria-current="page">{{ action_text }}</li>
+        </ol>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-{{ 'plus-circle' if detailview.mode == 'create' else 'pencil' }} me-2"></i>
+                        {{ action_text }} {{ detailview.table.name.title() }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Show validation errors -->
+                    {% if form.has_errors() %}
+                    <div class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Please correct the following errors:</strong>
+                        <ul class="mb-0 mt-2">
+                            {% for field_name, error_message in form.errors.items() %}
+                            <li>{{ field_name.replace('_', ' ').title() }}: {{ error_message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="POST" data-loading>
+                        {% for field in form.fields %}
+                        {{ render_field(field, form) | safe }}
+                        {% endfor %}
+                        
+                        <div class="d-flex gap-2 flex-wrap mt-4">
+                            <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="bi bi-check-lg me-1"></i>{{ action_text }}
+                            </button>
+                            <a href="{{ back_url }}" class="btn btn-outline-secondary flex-fill">
+                                <i class="bi bi-x-lg me-1"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Mobile-first form optimizations */
+@media (max-width: 576px) {
+    .form-control, .form-select {
+        font-size: 1.1rem;
+        padding: 0.75rem;
+    }
+    
+    .form-check-input {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+}
+
+/* Touch-friendly spacing */
+.mb-3 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Focus styles for accessibility */
+.form-control:focus, .form-select:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+</style>
+{% endblock %}
