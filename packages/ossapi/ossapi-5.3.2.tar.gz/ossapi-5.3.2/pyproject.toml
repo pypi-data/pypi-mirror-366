@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ossapi"
+# see [tool.setuptools.dynamic]
+dynamic = ["version"]
+description = "The definitive python wrapper for the osu! api"
+readme = "README.md"
+keywords = ["osu!", "wrapper", "api", "python"]
+authors = [
+  {name = "Liam DeVoe", email = "orionldevoe@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "requests",
+    "requests_oauthlib",
+    "osrparse~=6.0",
+    "typing_utils"
+]
+
+[project.optional-dependencies]
+async = ["aiohttp"]
+
+[project.urls]
+"Homepage" = "https://github.com/tybug/ossapi"
+
+[tool.setuptools.dynamic]
+version = {attr = "ossapi.__version__"}
