@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: GameBoyLearningEnvironment
+Version: 1.0.0
+Summary: A short description of the package
+Home-page: https://github.com/edofazza/GameBoyLearningEnvironment
+Author: Edoardo Fazzari
+Author-email: fazzari.edoardo@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gymnasium
+Requires-Dist: numpy==1.26.4
+Requires-Dist: pyboy==2.6.0
+Requires-Dist: pygame==2.5.2
+Requires-Dist: pillow==10.3.0
+Requires-Dist: opencv-python==4.10.0.82
+
+# GameBoy Learning Environment (GLE)
+
+For installing the package you can:
+
+```bash
+pip install GameBoyLearningEnvironment
+```
+
+We provide also a set of ROM states, available in the `states` folder. For a description of them look at the paper Supplementary Material.
+
+Here a simple example of how to use our library: 
+
+```python
+from gle import create_env, PokemonBlueRed
+
+# calling the create_env function
+env = create_env('environment_name')
+# or by invocaking the environment class
+env = PokemonBlueRed(load_path='states/pokemon_red/pokemon_red_squirtle_after_rival_battle.state', window_type=window_type, max_actions=1000)
+```
+
+To cite the article please use:
+
+```latex
+@article{fazzari2025game,
+  title={The Game Boy Learning Environment},
+  author={Fazzari, Edoardo and Romano, Donato and Falchi, Fabrizio and Stefanini, Cesare},
+  journal={IEEE Transactions on Games},
+  year={2025},
+  publisher={IEEE}
+}
+```
