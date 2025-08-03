@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: nt_PyTgram_bot
+Version: 0.1.0
+Summary: Python Telegram Bot
+Home-page: https://github.com/sevapova/py-gram-bot/PyTgram_bot
+Author: Latipova Sevara
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+# PyTgram_bot
+
+# Updater -- telegram serviriga borib bir qancha updateni olib keladi qisqa qilib aytganda oxirgi updatelarni olib keladi
+
+# Dispatcher -- updater ustida amal bajaradi
+
+# Handler -- xabar kelsa hal qilish 
+
+# Types - Message, MyChatMember
+
+# nt_PyTgram_bot 
+
+`nt_PyTgram_bot` вЂ” bu `python-telegram-bot` kutubxonasi asosida Telegram botlar yaratishni soddalashtirish uchun yozilgan modul.
+
+## Xususiyatlar
+
+- Telegram API bilan oddiy interfeys
+- Botga xabarlar va komandalarni yozish oson
+- Moslashtirilgan `Updater`, `Handler` funksiyalari
+
+## O'rnatish
+
+```bash
+pip install nt_PyTgram_bot
+
+##  Foydalanish misoli
+
+```python
+from PyTgram_bot.updater import Updater
+from PyTgram_bot.handler import MessageHandler
+from PyTgram_bot.message_types import Update
+import requests
+from config import TOKEN
+
+def handle_message(update: Update):
+    chat_id = update.message['from']['id']
+    text = update.message['text']
+
+    requests.get(
+        url=f'https://api.telegram.org/bot{TOKEN}/sendMessage',
+        params={
+            'chat_id': chat_id,
+            'text': f"Siz yubordingiz: {text}"
+        }
+    )
+
+updater = Updater(TOKEN)
+updater.dispatcher.add_handler(MessageHandler(handle_message))
+updater.start_polling()
+
+
+
