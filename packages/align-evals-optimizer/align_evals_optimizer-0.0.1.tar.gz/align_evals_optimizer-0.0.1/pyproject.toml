@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "align_evals_optimizer"
+version = "0.0.1"
+description = "A pytjo"
+authors = [{name = "Isaac Hershenson", email = "isaac@langchain.dev"}]
+requires-python = ">=3.8"
+dependencies = [
+    "langsmith",
+    "requests",
+    "langchain-core",
+    "pydantic",
+    "langchain"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
