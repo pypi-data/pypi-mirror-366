@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "personal-web-utility"
+version = "0.0.21"
+description = ""
+authors = ["mmacuka <mihaelmacuka2@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "web",  to = "personal-web-utility" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.109.1"
+uvicorn  = "^0.23.2"
+pymongo = "^4.13.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
