@@ -1,0 +1,19 @@
+[project]
+name = "stocks-earnings-dates"
+version = "0.1.0"
+description = "Access 10 years of historical earnings dates for S&P 500 and Nasdaq stocks."
+authors = [
+    { name = "AlbertPerez7", email = "albertperez2004@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas>=2.3.1,<3.0.0"
+]
+
+[tool.setuptools.package-data]
+"stocks_earnings_dates" = ["data/earnings.db"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

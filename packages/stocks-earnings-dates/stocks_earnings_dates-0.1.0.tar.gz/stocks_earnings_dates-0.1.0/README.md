@@ -1,0 +1,74 @@
+# 📈 stocks-earnings-dates
+
+A lightweight Python package to query **historical earnings release dates** for stocks in the **S&P 500** and **top 100 Nasdaq**.  
+It provides access to the last 10 years of earnings dates (or fewer, if the company is more recently listed).
+
+---
+
+## 📦 Installation
+
+Install the package via pip:
+
+```bash
+pip install stocks-earnings-dates
+```
+
+---
+
+##  What’s Inside?
+
+This package uses a built-in SQLite database with over **24,000+ earnings dates** collected from public sources, organized by stock ticker.
+
+You can easily:
+
+- Get all historical earnings dates for a given stock.
+- List all supported tickers.
+
+---
+
+##  Usage
+
+```python
+from stocks_earnings_dates import get_earnings, list_all_tickers
+
+# Get earnings dates for a specific ticker
+dates = get_earnings("AAPL")
+print(dates)
+# Output: ['2024-08-01', '2024-05-02', ..., '2014-07-22']
+
+# List all tickers available in the database
+tickers = list_all_tickers()
+print(tickers)
+```
+
+---
+
+## 📁 Data Source
+
+The earnings database was compiled from publicly accessible financial websites.  
+The CSV was cleaned, normalized and converted to a bundled SQLite database for fast and offline access.
+
+---
+
+## 🚧 Limitations
+
+- This is a static dataset. Updates are not (yet) automated.
+- Only dates are available — no earnings surprises or results.
+
+---
+
+## 📬 Future Plans
+
+- Add CLI interface to query from terminal.
+- Automatically update the database monthly from trusted sources.
+
+---
+
+## 👤 Author
+
+Made by **Albert Pérez**  
+GitHub: [AlbertPerez7](https://github.com/AlbertPerez7)
+
+---
+
+
