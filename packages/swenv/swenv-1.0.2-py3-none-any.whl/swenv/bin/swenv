@@ -1,0 +1,16 @@
+#!/bin/sh
+BASE_DIR="$(dirname "$(dirname "$(dirname "$(readlink -f "$0")")")")"
+
+if [ -n "$PYTHONPATH" ]; then
+    export PYTHONPATH="$PYTHONPATH:$BASE_DIR"
+else
+    export PYTHONPATH="$BASE_DIR"
+fi
+
+if [ -x "$BASE_DIR/.venv/bin/python3" ]; then
+    python="$BASE_DIR/.venv/bin/python3"
+else
+    python=python3
+fi
+
+exec "$python" -m swenv "$@"
