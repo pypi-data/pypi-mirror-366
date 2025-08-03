@@ -1,0 +1,15 @@
+[console_scripts]
+cs-init-existing-project = circuit_synth.tools.init_existing_project:main
+cs-new-project = circuit_synth.tools.new_project:main
+cs-setup-kicad-plugins = circuit_synth.tools.setup_kicad_plugins:main
+install-kicad-plugins = install_kicad_plugins:main
+json-to-python = circuit_synth.codegen.json_to_python_project:main
+kicad-to-python = circuit_synth.tools.kicad_to_python_sync:main
+netlist-import = circuit_synth.kicad.netlist_importer:main
+preload-symbols = circuit_synth.scripts.preload_symbols:main
+preparse-symbols = circuit_synth.scripts.preparse_kicad_symbols:main
+python-to-kicad = circuit_synth.tools.python_to_kicad_sync:main
+register-agents = circuit_synth.claude_integration.agent_registry:main
+setup-claude-integration = circuit_synth.scripts.setup_claude:main
+validate-circuit = circuit_synth.validation.real_time_check:main
+validate-kicad = circuit_synth.core.kicad_validator:main
