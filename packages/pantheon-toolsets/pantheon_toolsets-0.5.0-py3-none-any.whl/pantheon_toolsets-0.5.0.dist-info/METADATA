@@ -1,0 +1,161 @@
+Metadata-Version: 2.4
+Name: pantheon-toolsets
+Version: 0.5.0
+Summary: Distributed toolsets for pantheon-agents, provide service via magique message transfer server.
+Author-email: Weize Xu <vet.xwz@gmail.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: magique>=0.6.7
+Requires-Dist: executor-engine>=0.3.3
+Requires-Dist: diskcache
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: fire>=0.7.0
+Requires-Dist: lancedb>=0.20.0
+Requires-Dist: crawl4ai>=0.5.0
+Requires-Dist: duckduckgo-search>=7.1.1
+Requires-Dist: loguru>=0.7.3
+Requires-Dist: openai>=1.58.1
+Requires-Dist: PyMuPDF>=1.25.5
+Requires-Dist: matplotlib>=3.10.3
+Requires-Dist: fastmcp>=2.11.0
+Provides-Extra: dev
+Requires-Dist: pytest-asyncio>=0.24.0; extra == "dev"
+Requires-Dist: pytest>=8.3.4; extra == "dev"
+Requires-Dist: pytest-cov>=6.0.0; extra == "dev"
+
+<div align="center">
+  <h1> Pantheon Toolsets </h1>
+
+  <p> Distributed toolsets for Pantheon Agents. </p>
+
+  <p>
+    <a href="https://github.com/aristoteleo/pantheon-toolsets/actions/workflows/test.yml">
+        <img src="https://github.com/aristoteleo/pantheon-toolsets/actions/workflows/test.yml/badge.svg" alt="Build Status">
+    </a>
+    <a href="https://pypi.org/project/pantheon-toolsets/">
+      <img src="https://img.shields.io/pypi/v/pantheon-toolsets.svg" alt="Install with PyPi" />
+    </a>
+    <a href="https://github.com/aristoteleo/pantheon-toolsets/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/aristoteleo/pantheon-toolsets" alt="MIT license" />
+    </a>
+  </p>
+</div>
+
+**Work in progress**
+
+Toolsets
+
+- [x] Python Interpreter
+- [x] R Interpreter
+- [x] Web browse
+  * [x] Duckduckgo search
+  * [x] Crawl4ai
+- [x] ScraperAPI
+  * [x] Google search
+  * [x] Web crawl
+- [x] Shell
+- [x] Convert toolset to MCP(Model Context Protocol)
+- [x] File editor/Filesystem access
+- [x] File transfer
+- [x] RAG system
+- [ ] LaTeX compiler
+- [ ] Browser-use
+
+## Installation
+
+```bash
+git clone https://github.com/aristoteleo/magique-ai.git
+cd magique-ai
+pip install -e ".[dev]"
+```
+
+## Usage
+
+Built-in toolsets:
+
+| Toolset | Package path | Description |
+|---------|-------------|-------------|
+| Python Interpreter | `pantheon.toolsets.python` | Run Python code in an interpreter. |
+| R Interpreter | `pantheon.toolsets.r` | Run R code in an interpreter. |
+| Shell | `pantheon.toolsets.shell` | Run shell commands. |
+| Web browse | `pantheon.toolsets.web_browse` | Search the web and return the contents of the pages. |
+| ScraperAPI | `pantheon.toolsets.scraper` | Use ScraperAPI to perform google search and web crawl. |
+| File editor/Filesystem access | `pantheon.toolsets.file_manager` | Edit files and access the filesystem. |
+| Vector RAG | `pantheon.toolsets.vector_rag` | Query a vector based RAG database. |
+
+Start a toolset, for example, the python interpreter from the command line:
+
+```bash
+python -m pantheon.toolsets.python
+```
+
+See help with:
+
+```bash
+python -m pantheon.toolsets.python -- --help
+NAME
+    __main__.py
+
+SYNOPSIS
+    __main__.py <flags>
+
+FLAGS
+    -s, --service_name=SERVICE_NAME
+        Type: str
+        Default: 'python-interpreter'
+    --mcp=MCP
+        Type: bool
+        Default: False
+    --mcp_kwargs=MCP_KWARGS
+        Type: dict
+        Default: {}
+    -t, --toolset_kwargs=TOOLSET_KWARGS
+        Type: dict
+        Default: {}
+```
+
+## Development
+
+Project structure:
+
+1. Built-in Toolsets
+
+
+### Test the package
+
+Please start a magique message transfer server first.
+
+```bash
+python -m magique.server
+```
+
+Then export the server url and run the test:
+
+```bash
+export MAGIQUE_SERVER_URL=ws://localhost:8765/ws
+pytest -s tests/
+```
+
+### Environment configration
+
+Firstly, you need docker and buildx installed. See [docker docs](https://docs.docker.com/engine/install/) and [buildx docs](https://github.com/docker/buildx?tab=readme-ov-file#installing) for installation.
+
+Magique-ai's built-in environments are stored in the `environments` folder.
+And all environments could be managed by the `environment/build_images.py` script:
+```
+$ python environment/build_images.py -h
+usage: build_images.py [-h] [-a] [-l] [-b TARGET] [--registry REGISTRY_PATH] [--push]
+
+Docker image build automation
+
+options:
+  -h, --help            show this help message and exit
+  -a, --all             Build all detected images
+  -l, --list            List available Docker configurations
+  -b TARGET, --build TARGET
+                        Build specific image by target name
+  --registry REGISTRY_PATH
+                        Specify Docker registry path (e.g., ghcr.io/username)
+  --push                Push the image(s) to the specified registry after building
+```
