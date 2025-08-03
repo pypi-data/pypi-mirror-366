@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: nice-errors
+Version: 1.0.9
+Summary: Nice error messages for Python
+Author: ProgMEM-CC
+License-Expression: AGPL-3.0-only
+Project-URL: Homepage, https://github.com/ProgMEM-CC/nice-errors
+Project-URL: Issues, https://github.com/ProgMEM-CC/nice-errors/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: colorama
+Dynamic: license-file
+
+# friendly_errors 😇
+
+A Python module that catches errors and displays them in a friendlier, more helpful way — with tips, emojis, and clear explanations!
+
+## ✨ Features
+
+- Friendly error messages with explanations
+- Custom traceback location info
+- YAML-configured error data
+- Automatically sets `sys.excepthook`
+
+## 📦 Installation
+
+```bash
+pip install nice-errors
+```
+## Usage
+
+```python
+import nice-errors
+
+#Throw an error here!
+
+print(1/0)
+# See the nice result!
+```
