@@ -1,0 +1,166 @@
+# pytest-yaml-fei
+
+### 1. 项目概述
+`pytest-yaml-fei` 是一个基于上海悠悠的 **pytest-yaml-yoyo** 框架的二次开发项目，
+它集成了 **pytest**、**yaml**、**allure**、**request** 和 **logging** 等模块，旨在实现零代码开发接口和接口自动化测试。
+用户只需编写 yaml 用例文件，即可快速实现自动化测试。
+
+
+### 2. 项目特点
+
+#### 2.1 零代码开发
+- 零代码：用户无需编写复杂的 Python 代码，只需编写 yaml 用例文件即可实现自动化测试。
+- 易于上手：对于非开发人员或测试人员来说，降低了学习成本和技术门槛。
+
+#### 2.2 集成多模块
+- pytest：强大的测试框架，支持多种测试方式和断言。
+- yaml：简洁易读的数据序列化格式，适合编写测试用例。
+- allure：生成美观的测试报告，方便团队沟通和问题追踪。
+- request：用于发送 HTTP 请求，支持多种请求方法和参数。
+- logging：记录测试过程中的日志信息，便于问题排查。
+- Jinja2：模板引擎，支持在 yaml 文件中使用变量和表达式。
+- faker：生成测试数据，支持生成多种测试数据。
+- requests-toolbelt：用于处理复杂的 HTTP 请求，如文件上传、表单提交等。
+- DingtalkChatbot：钉钉机器人，支持测试结果和 allure 报告地址的自动通知。
+
+#### 2.3 功能丰富
+- 接口请求：支持 GET、POST、PUT、DELETE 等多种 HTTP 请求方法。
+- 接口关联：支持多个接口之间的参数关联和数据传递。
+- 接口断言：支持对响应状态码、响应体等进行断言。
+- 用例分层机制：API和用例层，便于管理和维护。
+- 自定义函数：yaml 中支持自定义函数调用。
+- 数据驱动测试：支持通过 yaml 文件传递测试数据，实现参数化测试。
+- 日志记录：记录测试过程中的详细信息，便于问题排查和追溯。
+- 测试报告：生成详细的allure测试报告，包括测试用例执行情况、断言结果等。
+- DB操作：支持多MySQL数据库连接和Redis数据库操作。
+- 全局变量导出：支持通过export关键字在config和case中导出变量到全局环境。
+- 结果通知：支持钉钉机器人、飞书、微信、邮件通知测试结果和 allure 报告地址。
+- mark 标记功能实现，支持在cconfig和用例中使用mark，命令行中使用 --mark 参数过滤测试用例。
+- mark 标记对用例运行时长断言，支持在config和用例中使用mark，如mark: runtime(1)。
+
+#### 2.4 维护方便
+- 项目配置：支持通过配置文件对项目进行全局配置，如 base_url、全局 token 等。
+- 多环境支持：支持多套环境切换，方便在不同环境下进行测试。
+- 持续集成：支持 CLI 执行，适配持续集成 CI/CD 流程。
+
+### 3. 使用场景
+- 接口测试：适用于各种 Web 接口的自动化测试。
+- 性能测试：结合其他性能测试工具，可进行接口的性能测试。
+- 持续集成：集成到 CI/CD 流程中，实现自动化测试和部署。
+
+### 4. 快速开始
+#### 4.1 环境准备
+- Python 版本：最低版本要求 Python 3.8 或以上版本。
+- pip 安装：通过 pip 安装 pytest-yaml-fei 插件。
+
+```bash
+pip install pytest-yaml-fei
+```
+
+#### 4.2 创建项目
+使用 --start-project 命令快速创建项目 demo 结构，并自动创建几个简单的用例。
+
+```bash
+pytest --start-project
+```
+
+#### 4.3 编写 yaml 用例
+在项目的 testcases 目录下编写 yaml 用例文件，如 test_login.yml。
+
+**基础示例:**
+```yaml
+config:
+  name: login case
+  base_url: http://127.0.0.1:8000
+  variables:
+    username: "test123"
+    password: "123456"
+
+teststeps:
+- name: step login1
+  request:
+    method: POST
+    url: /login
+    json:
+      username: ${username}
+      password: ${password}
+  validate:
+  - eq: [status_code, 200]
+  - eq: [body.json.message, login success]
+```
+
+**带数据库和全局变量示例:**
+```yaml
+config:
+  name: user case
+  base_url: http://127.0.0.1:8000
+  export:
+    - user_id
+  variables:
+    sql1: select * from user_info where username like 'test';
+    sql2: select * from user_info where username like 'admin';
+    
+teststeps:
+- name: create user
+  request:
+    method: POST
+    url: /users
+    json:
+      name: "test_user"
+  extract:
+    user_id: body.json.id
+  validate:
+  - eq: [status_code, 201]
+
+test_db_more:
+  variables:
+    name1: '${env.db1.query_sql(sql1).username}'
+    name2: '${env.db2.query_sql(sql2).username}'
+  export:
+    - name1
+  validate:
+    - eq: ['${name1}', 'test']
+    - eq: ['${name2}', 'admin']
+```
+
+#### 4.4 执行用例
+在项目根目录下执行 pytest 命令，运行 yaml 用例文件。
+
+```bash
+pytest test_login.yml
+```
+
+#### 4.5 allure报告
+##### 4.5.1 allure 环境准备
+- allure 命令行工具是需要依赖jdk 环境，可以参考[java安装配置](https://blog.csdn.net/D_best0818/article/details/142260789)
+- allure 是一个命令行工具，可以参考[allure安装配置](https://blog.csdn.net/weixin_44719099/article/details/143978683)
+
+##### 4.5.2 生成 allure 报告
+在用例所在的目录执行命令, --alluredir 是指定报告生成的目录
+```bash
+pytest --alluredir ./report
+```
+
+打开allure 报告执行命令
+```bash
+allure serve ./report
+```
+
+### 5. 结论
+`pytest-yaml-fei` 是一个功能强大、易于上手、维护方便的接口自动化测试框架。通过零代码开发的方式，
+降低了测试人员的学习成本和技术门槛，提高了测试效率和测试质量。同时，该框架还支持多模块集成、功能丰富、
+使用场景广泛，是接口自动化测试的理想选择。
+
+
+### 6. 致谢
+非常感谢上海悠悠的开源框架，感谢悠悠的开源精神。
+
+### 7. 贡献与反馈
+欢迎贡献代码和提出建议！如有任何问题或建议，请提交 Issue 或 Pull Request。
+
+### 8. 开源协议
+本项目遵循 MIT 许可证，详情请参阅 LICENSE 文件。
+
+---
+
+希望这个项目能够帮助到您进行接口自动化测试！如果您有任何问题或需要进一步帮助，请随时联系我们。谢谢！
