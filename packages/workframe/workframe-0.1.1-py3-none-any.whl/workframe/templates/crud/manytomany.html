@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+
+{% block title %}{{ left_table.name.title() }} - {{ right_table.name.title() }} Assignments - WorkFrame{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">{{ left_table.name.title() }} - {{ right_table.name.title() }} Assignments</h1>
+            <p class="text-muted mb-0">Manage assignments between {{ left_table.name }} and {{ right_table.name }}</p>
+        </div>
+    </div>
+
+    <!-- Assignment Creation Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>Create New Assignment
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="assign" class="row g-3">
+                        <div class="col-md-5">
+                            <label for="{{ left_table.name }}_id" class="form-label">{{ left_table.name.title() }}</label>
+                            <select name="{{ left_table.name }}_id" id="{{ left_table.name }}_id" class="form-select" required>
+                                <option value="">Choose {{ left_table.name.title().rstrip('s') }}...</option>
+                                {% for record in left_data.records %}
+                                <option value="{{ record.id }}">{{ record.name or record.id }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="{{ right_table.name }}_id" class="form-label">{{ right_table.name.title() }}</label>
+                            <select name="{{ right_table.name }}_id" id="{{ right_table.name }}_id" class="form-select" required>
+                                <option value="">Choose {{ right_table.name.title().rstrip('s') }}...</option>
+                                {% for record in right_data.records %}
+                                <option value="{{ record.id }}">{{ record.name or record.id }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-plus-lg me-1"></i>Assign
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Quick add buttons -->
+                    <div class="mt-3 pt-3 border-top">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ left_table.name }}/new" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-plus me-1"></i>Add {{ left_table.name.title().rstrip('s') }}
+                            </a>
+                            <a href="{{ right_table.name }}/new" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-plus me-1"></i>Add {{ right_table.name.title().rstrip('s') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Assignments Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-link-45deg me-2"></i>Current Assignments
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="bulkDeleteBtn" style="display: none;">
+                                <i class="bi bi-trash me-1"></i>Remove Selected
+                            </button>
+                            <a href="export.csv" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-download me-1"></i>Export CSV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    {% if assignments_data.records %}
+                    <!-- Desktop Table View -->
+                    <div class="table-responsive d-none d-md-block">
+                        <form id="bulkDeleteForm" method="POST" action="bulk-delete">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col" width="50">
+                                            <input type="checkbox" class="form-check-input" id="selectAll">
+                                        </th>
+                                        <th scope="col">{{ left_table.name.title() }}</th>
+                                        <th scope="col">{{ right_table.name.title() }}</th>
+                                        <th scope="col">Assigned Date</th>
+                                        <th scope="col" width="120">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for assignment in assignments_data.records %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="form-check-input assignment-checkbox" 
+                                                   name="ids" value="{{ assignment.id }}">
+                                        </td>
+                                        <td>
+                                            {% for field in assignments_data.display_fields %}
+                                                {% if field.name.endswith(left_table.name + '_id') %}
+                                                    {{ assignment[field.name] }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for field in assignments_data.display_fields %}
+                                                {% if field.name.endswith(right_table.name + '_id') %}
+                                                    {{ assignment[field.name] }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">
+                                                {% if assignment.created_at %}
+                                                    {{ assignment.created_at.strftime('%b %d, %Y') if assignment.created_at is string == false else assignment.created_at }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <form method="POST" action="assignment/{{ assignment.id }}/delete" class="d-inline" 
+                                                  onsubmit="return confirm('Are you sure you want to remove this assignment?')">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+                    <!-- Mobile Card View -->
+                    <div class="d-md-none">
+                        <form id="bulkDeleteFormMobile" method="POST" action="bulk-delete">
+                            {% for assignment in assignments_data.records %}
+                            <div class="card mb-2 border-0 border-bottom">
+                                <div class="card-body py-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input assignment-checkbox-mobile" 
+                                                   name="ids" value="{{ assignment.id }}" id="mobile_{{ assignment.id }}">
+                                            <label class="form-check-label fw-bold" for="mobile_{{ assignment.id }}">
+                                                Assignment #{{ assignment.id }}
+                                            </label>
+                                        </div>
+                                        <form method="POST" action="assignment/{{ assignment.id }}/delete" class="d-inline" 
+                                              onsubmit="return confirm('Are you sure you want to remove this assignment?')">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted">{{ left_table.name.title() }}:</span>
+                                                <span>
+                                                    {% for field in assignments_data.display_fields %}
+                                                        {% if field.name.endswith(left_table.name + '_id') %}
+                                                            {{ assignment[field.name] }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted">{{ right_table.name.title() }}:</span>
+                                                <span>
+                                                    {% for field in assignments_data.display_fields %}
+                                                        {% if field.name.endswith(right_table.name + '_id') %}
+                                                            {{ assignment[field.name] }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {% if assignment.created_at %}
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            Assigned: {{ assignment.created_at.strftime('%b %d, %Y') if assignment.created_at is string == false else assignment.created_at }}
+                                        </small>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                    {% else %}
+                    <!-- Empty State -->
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox display-4 text-muted mb-3"></i>
+                        <h5 class="text-muted">No Assignments Yet</h5>
+                        <p class="text-muted">Create your first assignment using the form above.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Assignment form styling */
+.card .border-top {
+    border-top: 1px solid rgba(0,0,0,.125) !important;
+}
+
+/* Checkbox styling */
+.form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+/* Mobile optimizations */
+@media (max-width: 767px) {
+    .row.g-3 > .col-md-2 {
+        margin-top: 1rem;
+    }
+    
+    .d-flex.gap-2.flex-wrap .btn {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Table hover effects */
+.table-hover tbody tr:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.075);
+}
+
+/* Card hover effects for mobile */
+.card:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transform: translateY(-1px);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Bulk delete button animation */
+#bulkDeleteBtn {
+    transition: all 0.3s ease;
+}
+
+#bulkDeleteBtn.show {
+    display: inline-block !important;
+    animation: fadeInRight 0.3s ease;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Bulk selection functionality
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const assignmentCheckboxes = document.querySelectorAll('.assignment-checkbox');
+    const mobileCheckboxes = document.querySelectorAll('.assignment-checkbox-mobile');
+    const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+    const bulkDeleteForm = document.getElementById('bulkDeleteForm');
+    const bulkDeleteFormMobile = document.getElementById('bulkDeleteFormMobile');
+
+    // Select all functionality for desktop
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            assignmentCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateBulkDeleteButton();
+        });
+    }
+
+    // Individual checkbox change handlers
+    assignmentCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkDeleteButton);
+    });
+
+    mobileCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkDeleteButton);
+    });
+
+    function updateBulkDeleteButton() {
+        const checkedDesktop = document.querySelectorAll('.assignment-checkbox:checked').length;
+        const checkedMobile = document.querySelectorAll('.assignment-checkbox-mobile:checked').length;
+        const totalChecked = checkedDesktop + checkedMobile;
+        
+        if (totalChecked > 0) {
+            bulkDeleteBtn.style.display = 'inline-block';
+            bulkDeleteBtn.classList.add('show');
+        } else {
+            bulkDeleteBtn.style.display = 'none';
+            bulkDeleteBtn.classList.remove('show');
+        }
+
+        // Update select all checkbox state
+        if (selectAllCheckbox) {
+            if (checkedDesktop === assignmentCheckboxes.length && assignmentCheckboxes.length > 0) {
+                selectAllCheckbox.checked = true;
+                selectAllCheckbox.indeterminate = false;
+            } else if (checkedDesktop > 0) {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = true;
+            } else {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+            }
+        }
+    }
+
+    // Bulk delete button click handler
+    if (bulkDeleteBtn) {
+        bulkDeleteBtn.addEventListener('click', function() {
+            const checkedDesktop = document.querySelectorAll('.assignment-checkbox:checked').length;
+            const checkedMobile = document.querySelectorAll('.assignment-checkbox-mobile:checked').length;
+            const totalChecked = checkedDesktop + checkedMobile;
+            
+            if (totalChecked === 0) {
+                alert('Please select assignments to remove.');
+                return;
+            }
+
+            if (confirm(`Are you sure you want to remove ${totalChecked} assignment(s)?`)) {
+                // Use the appropriate form based on which checkboxes are selected
+                if (checkedDesktop > 0) {
+                    bulkDeleteForm.submit();
+                } else if (checkedMobile > 0) {
+                    bulkDeleteFormMobile.submit();
+                }
+            }
+        });
+    }
+
+    // Form validation for assignment creation
+    const assignForm = document.querySelector('form[action="assign"]');
+    if (assignForm) {
+        assignForm.addEventListener('submit', function(e) {
+            const leftSelect = document.getElementById('{{ left_table.name }}_id');
+            const rightSelect = document.getElementById('{{ right_table.name }}_id');
+            
+            if (!leftSelect.value || !rightSelect.value) {
+                e.preventDefault();
+                alert('Please select both {{ left_table.name.title() }} and {{ right_table.name.title() }}.');
+                return false;
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
