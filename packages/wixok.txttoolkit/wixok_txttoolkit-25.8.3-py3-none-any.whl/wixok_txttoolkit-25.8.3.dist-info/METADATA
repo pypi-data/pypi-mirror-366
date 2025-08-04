@@ -1,0 +1,79 @@
+Metadata-Version: 2.4
+Name: wixok.txttoolkit
+Version: 25.8.3
+Summary: Simple Python utility for text file operations.
+Author-email: Wixok <contact@wixok.com>
+Maintainer-email: Mohammed Dellihr <mohammeddellihr@maildoo.com>
+Project-URL: Homepage, https://txttoolkit.wixok.com
+Project-URL: Repository, https://github.com/wixok/txttoolkit
+Project-URL: Issues, https://github.com/wixok/txttoolkit/issues
+Keywords: text,file,io,toolkit,txttoolkit
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs; extra == "docs"
+Requires-Dist: mkdocs-material; extra == "docs"
+
+# TXTToolkit
+
+Simple Python utility for text file operations.
+
+## Install
+
+```bash
+pip install txttoolkit
+```
+
+## Usage
+
+```python
+from txt_toolkit import TXTToolkit
+
+# Read file
+lines = TXTToolkit.load("data.txt")
+print(lines)  # ['line 1', 'line 2', 'line 3', 'line 4']
+
+# Count lines
+count = TXTToolkit.count("data.txt")
+print(count)  # 4
+
+# Add a line
+add = TXTToolkit.add("data.txt", "line 4")
+print(add)  # True
+
+# Clear file
+clear = TXTToolkit.clear("data.txt")
+print(clear)  # True
+```
+
+## Methods
+
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `load(path)` | Read file lines into list | `list[str]` |
+| `count(path)` | Count non-empty lines | `int` |
+| `add(path, text)` | Append line to file | `bool` |
+| `clear(path)` | Empty the file | `bool` |
+
+## Debug Mode
+
+```python
+TXTToolkit.debug = True  # Enable error messages
+```
+
+## License
+
+MIT
