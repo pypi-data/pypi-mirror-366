@@ -1,0 +1,46 @@
+[project]
+name = "ansi-image"
+version = "0.1.0"
+description = "A library and tool for displaying images in the terminal using ANSI color codes"
+readme = "README.md"
+authors = [
+    { name = "Benno Evers", email = "benno.martin.evers@gmail.com" }
+]
+license = { file = "LICENSE" }
+keywords = ["terminal", "image", "ansi", "cli", "viewer"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics :: Viewers",
+    "Topic :: System :: Shells",
+    "Topic :: Terminals",
+]
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.11.7",
+    "pillow>=11.1.0",
+]
+
+[project.scripts]
+ansi-image = "ansi_image.tools.print:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "mypy>=1.17.0",
+    "pytest>=8.3.4",
+]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+check_untyped_defs = true
+disallow_untyped_defs = true
