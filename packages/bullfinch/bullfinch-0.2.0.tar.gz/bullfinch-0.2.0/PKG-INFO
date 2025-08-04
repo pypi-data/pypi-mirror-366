@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: bullfinch
+Version: 0.2.0
+Summary: A lightweight web framework like StillSite
+Author: Vadim
+Author-email: somerare22@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Framework :: Flask
+Classifier: License :: OSI Approved :: MIT License
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: summary
+
+# Bullfinch
+
+Bullfinch вЂ” СЌС‚Рѕ РїСЂРѕСЃС‚РѕР№ Python-С„СЂРµР№РјРІРѕСЂРє РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РІРµР±-РїСЂРёР»РѕР¶РµРЅРёР№ СЃ РїРѕРјРѕС‰СЊСЋ Р°РЅРЅРѕС‚Р°С†РёР№ (`@site`) Рё С€Р°Р±Р»РѕРЅРѕРІ.
+
+## РџСЂРёРјРµСЂ
+
+```python
+from bullfinch import Bullfinch, site, file_template, start, password, name
+
+app = Bullfinch('super duper')
+app.app.config['instance'] = app
+
+password(app.app) = "my_secret"
+name(app.app) = "admin_user"
+
+@site('/')
+def Home():
+    return file_template("index.html")
+
+@start()
+def run():
+    app.run()
+```
+
+## РђРІС‚РѕСЂРёР·Р°С†РёСЏ
+
+Р”РѕСЃС‚СѓРїРЅР° РїРѕ `/login` СЃ Р»РѕРіРёРЅРѕРј `admin_user` Рё РїР°СЂРѕР»РµРј `my_secret`.
