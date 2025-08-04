@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: clamnibs
+Version: 0.1.19
+Summary: Analysis of closed-loop amplitude-modulated non-invasive brain stimulation experiments
+Home-page: https://github.com/davidhaslacher/clam-nibs
+Author: David Haslacher
+Author-email: haslacherdavid@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Dist: emd>=0.6.2
+Requires-Dist: fooof>=1.0.0
+Requires-Dist: matplotlib>=3.7.1
+Requires-Dist: mne>=1.5.1
+Requires-Dist: numpy>=1.25.0
+Requires-Dist: pandas>=2.0.3
+Requires-Dist: pingouin>=0.5.3
+Requires-Dist: pycircstat>=0.0.2
+Requires-Dist: scipy>=1.14.0
+Requires-Dist: seaborn>=0.13.2
+Requires-Dist: setuptools>=69.0.3
+Requires-Dist: pynose>=1.5.2
+Requires-Dist: sphinx
+Requires-Dist: sphinx-rtd-theme
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+This toolbox contains all software required to implement closed-loop amplitude-modulated non-invasive brain stimulation (CLAM-NIBS) and evaluate the resulting electroencephalography (EEG) or magnetoencephalography (MEG) data.
