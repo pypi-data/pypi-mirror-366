@@ -1,0 +1,34 @@
+Metadata-Version: 2.1
+Name: pysolarcell
+Version: 1.1.2
+Summary: Solar cell simulation software
+Home-page: https://github.com/AustL/PySolarCell
+Author: AustL
+Author-email: 21chydra@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: sympy
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: scipy
+
+# PySolarCell
+
+A detailed balance solar cell solver for multijunction tandem solar cells. It supports IV and EQE calculation, and different connection types between layers e.g. series, parallel and mixed.
+
+## Installation
+
+Ensure that Python 3 and pip are installed and added to your environment PATH.
+
+```python -m pip install pysolarcell```
+
+Open a Python console and run the following command.
+
+```import pysolarcell```
+
+If you receive no errors, the installation was successful.
