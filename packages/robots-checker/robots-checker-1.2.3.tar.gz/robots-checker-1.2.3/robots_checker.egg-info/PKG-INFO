@@ -1,0 +1,51 @@
+Metadata-Version: 2.1
+Name: robots-checker
+Version: 1.2.3
+Summary: A tool to filter out data from robots.txt restricted URL domains.
+Author: Dongyang Fan
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+## robots-checker
+
+This is a package for convenient robots.txt based compliant filtering. By compliance filtering, we evaluates robots.txt rules specifically for AI training user agents, as shown in the list below.
+
+```bash
+"AI2Bot",                       # AI2  
+"Applebot-Extended",            # Apple  
+"Bytespider",                   # Bytedance  
+"CCBot",                        # Common Crawl  
+"CCBot/2.0",                    # Common Crawl  
+"CCBot/1.0",                    # Common Crawl  
+"ClaudeBot",                    # Anthropic  
+"cohere-training-data-crawler", # Cohere  
+"Diffbot",                      # Diffbot  
+"Meta-ExternalAgent",           # Meta  
+"Google-Extended",              # Google  
+"GPTBot",                       # OpenAI  
+"PanguBot",                     # Huawei  
+"*"
+```
+
+### Installation
+
+Currently, only robots.txt checking as of January 2025 is supported.
+
+Install the package
+
+```bash
+pip install robots-checker==1.2.2
+```
+
+### Usage
+
+```bash
+import url_checker
+checker = url_checker.RobotsTxtComplianceChecker() # "Jan-2025"
+status = checker.is_compliant("https://blog.example.com/some-page")
+print(status)   # ➜  "Compliant"  or  "NonCompliant"
+```
+
+### More?
+
+For more information, please check our [🕸️ website](https://data-compliance.github.io/)
