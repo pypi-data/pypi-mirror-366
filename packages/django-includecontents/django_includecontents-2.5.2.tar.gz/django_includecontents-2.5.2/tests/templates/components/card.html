@@ -1,0 +1,6 @@
+{# props title, large=False #}
+
+<section {% attrs class="card" %}>
+  <h3 {% if large %}class="large"{% endif %}>{{ title }}</h3>
+  <div>{{ contents }}</div>
+</section>
