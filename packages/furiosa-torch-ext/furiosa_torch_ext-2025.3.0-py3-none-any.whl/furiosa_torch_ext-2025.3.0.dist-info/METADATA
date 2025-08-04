@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: furiosa-torch-ext
+Version: 2025.3.0
+Summary: "Furiosa Torch Support Extension
+Author-email: "FurioaAI, Inc." <pkg@furiosa.ai>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Dist: torch == 2.5.1
+Requires-Dist: mypy ; extra == "test"
+Requires-Dist: pytest ; extra == "test"
+Requires-Dist: pytest-cov ; extra == "test"
+Requires-Dist: ruff ; extra == "test"
+Project-URL: Bug Tracker, https://github.com/furiosa-ai/furiosa-sdk/issues
+Project-URL: Documentation, https://furiosa-ai.github.io/docs
+Project-URL: Home, https://furiosa.ai
+Project-URL: Source Code, https://github.com/furiosa-ai/furiosa-sdk
+Provides-Extra: test
+
+# furiosa-torch-ext
+
+A common utility library for Torch Dynamo used in furiosa-llm and furiosa-compiler-python
+
+## Building
+```
+# install
+make install
+
+# lint
+make lint
+
+# test
+make test
+```
+
