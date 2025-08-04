@@ -1,0 +1,35 @@
+[project]
+name = "prarabdha-cache"
+version = "0.1.0"
+description = "Modular AI Cache System for chats, audio, and video data ingestion"
+authors = [{ name="Prarabdha Soni", email="prarabdha.soni@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+keywords = ["cache", "ai", "vector", "rag", "audio", "video"]
+
+dependencies = [
+    "redis>=4.0",
+    "faiss-cpu",
+    "fastapi",
+    "uvicorn",
+    "numpy",
+    "aiohttp",
+    "pydantic",
+    "typer[all]",
+    "cryptography",
+    "pandas",
+    "pyarrow",
+    "psutil",
+]
+
+[project.scripts]
+prarabdha = "prarabdha.cli.cli:app"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["prarabdha*"] 
