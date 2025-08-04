@@ -1,0 +1,17 @@
+[project]
+name = "minitonu"
+version = "0.0.1.1b1"
+description = "Una IA modular y minimalista para búsquedas y microacciones neuronales."
+authors = [{ name = "Luis Fernando Montaño Hernández", email = "luis@example.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"  # ✅ ESTA línea reemplaza el classifier de licencia
+dependencies = []
+
+[project.urls]
+Homepage = "https://example.com/minitonu"
+Repository = "https://github.com/tu_usuario/minitonu"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
