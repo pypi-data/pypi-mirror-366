@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: colbertfinance
+Version: 0.4.9
+Summary: Librería paso-a-paso para enseñar Markowitz
+Author: Jesús Colbert
+Project-URL: Homepage, https://pypi.org/project/colbertfinance
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: yfinance
+Requires-Dist: openpyxl
+
+# colbertfinance
+
+Pequeña librería pedagógica para mostrar **paso a paso** el modelo de
+portafolio de Markowitz (media-varianza).
+
+Cada función calcula un paso y, además, guarda automáticamente un
+Excel con los resultados para que los alumnos verifiquen los números.
