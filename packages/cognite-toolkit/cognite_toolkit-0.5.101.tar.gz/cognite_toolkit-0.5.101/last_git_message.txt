@@ -1,0 +1,37 @@
+[CDF-25146] 🐝 Row count 10,000 -> 500,000 (#1727)
+
+# Description
+
+<del>Stacked on #1739 </del>
+
+Using the `/run/query` as a fallback if the `/profile/raw` is unable to
+return the result.
+
+Note this also includes handling of throttling
+First time:
+<img width="2069" height="428" alt="image"
+src="https://github.com/user-attachments/assets/6810ba40-480b-40fb-9af0-b1b68a3b15db"
+/>
+
+Second time
+<img width="2261" height="336" alt="image"
+src="https://github.com/user-attachments/assets/8eb595c4-a998-403b-a6ff-6dab9ae1be97"
+/>
+
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Improved
+
+- [alpha] The `cdf profile assets` and `cdf profile raw` now can count
+up to 500,000 rows in a RAW table. Before, it would stop at 10,000 rows.
+
+## templates
+
+No changes.
