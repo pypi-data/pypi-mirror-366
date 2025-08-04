@@ -1,0 +1,150 @@
+Metadata-Version: 2.1
+Name: streamlit-image-carousel
+Version: 1.0.2
+Summary: Un composant Streamlit moderne pour créer des carrousels d'images interactifs
+Home-page: https://github.com/2nzi/Streamlit-Composant
+Author: Antoine
+Author-email: votre-email@example.com
+License: UNKNOWN
+Project-URL: Homepage, https://github.com/2nzi/Streamlit-Composant
+Project-URL: Issues, https://github.com/2nzi/Streamlit-Composant/issues
+Project-URL: Source, https://github.com/2nzi/Streamlit-Composant
+Keywords: streamlit,component,carousel,image,interactive,ui
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: streamlit>=1.28.0
+
+# 🎯 Streamlit Image Carousel
+
+Un composant Streamlit moderne et personnalisable pour créer des carrousels d'images interactifs avec navigation fluide et design élégant.
+
+## ✨ Fonctionnalités
+
+- **🎨 Design moderne** : Interface élégante avec animations fluides
+- **🔄 Navigation intuitive** : Clic sur les images ou flèches de navigation
+- **♾️ Carrousel infini** : Navigation circulaire dans la liste d'images
+- **🎛️ Personnalisation complète** : Couleurs, tailles, effets visuels
+- **📱 Responsive** : S'adapte à différentes tailles d'écran
+- **🛡️ Gestion d'erreurs** : Fallback élégant pour les images manquantes
+- **⚡ Performance optimisée** : Chargement intelligent des images
+
+## 🚀 Installation
+```
+pip install streamlit-image-carousel
+```
+
+## 📖 Utilisation rapide
+```python
+import streamlit as st
+from streamlit_image_carousel import image_carousel
+
+# Vos images
+images = [
+    {"name": "Image 1", "url": "https://example.com/image1.jpg"},
+    {"name": "Image 2", "url": "https://example.com/image2.jpg"},
+]
+
+# Utilisation basique
+result = image_carousel(images=images, key="my_carousel")
+
+# Récupérer la sélection
+if result:
+    selected_image = result["selected_image"]
+    selected_url = result["selected_url"]
+    current_index = result["current_index"]
+```
+
+## 🎨 Personnalisation
+```python
+result = image_carousel(
+    images=images,
+    max_visible=5,
+    background_color="#1a1a2e",
+    active_border_color="#ffffff",
+    active_glow_color="rgba(255, 255, 255, 0.5)",
+    fallback_background="#2a2a3e",
+    fallback_gradient_end="rgb(0, 0, 0)",
+    text_color="#ffffff",
+    arrow_color="#ffffff",
+    key="my_carousel"
+)
+```
+
+## 📊 Format des données
+
+### Entrée
+```python
+images = [
+    {
+        "name": "Nom de l'image",     # Texte affiché si image manquante
+        "url": "https://..."          # URL de l'image
+    },
+]
+```
+
+### Sortie
+```python
+{
+    "selected_image": "Nom de l'image sélectionnée",
+    "selected_url": "https://...",
+    "current_index": 0,               # Index de l'image sélectionnée
+    "timestamp": "2024-01-01T12:00:00.000Z"
+}
+```
+
+## 🎯 Cas d'usage
+
+### Sélection de joueurs
+```python
+joueurs = [
+    {"name": "Lionel Messi", "url": "https://..."},
+    {"name": "Cristiano Ronaldo", "url": "https://..."},
+]
+
+joueur_selectionne = image_carousel(
+    images=joueurs,
+    max_visible=7,
+    background_color="#1e3a8a",
+    active_border_color="#fbbf24",
+    arrow_color="#fbbf24",
+    key="joueurs"
+)
+```
+
+### Galerie de produits
+```python
+produits = [
+    {"name": "Produit A", "url": "https://..."},
+    {"name": "Produit B", "url": "https://..."},
+]
+
+produit_selectionne = image_carousel(
+    images=produits,
+    max_visible=5,
+    background_color="#f8fafc",
+    active_border_color="#3b82f6",
+    text_color="#1e293b",
+    key="produits"
+)
+```
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+---
+
+**Streamlit Image Carousel** - Créez des carrousels d'images élégants et interactifs pour vos applications Streamlit ! 🎨✨
+
+
