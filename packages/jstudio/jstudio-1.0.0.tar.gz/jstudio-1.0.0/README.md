@@ -1,0 +1,168 @@
+# JStudio Python SDK
+
+Official Python SDK for JStudio's API & WebSocket services - Fast, reliable API for real-time data from Various Games (Roblox).
+
+## Installation
+
+```bash
+pip install jstudio
+```
+
+## Quick Start
+
+```python
+import jstudio
+
+# Connect to JStudio API
+client = jstudio.connect('js_your_api_key_here')
+
+# Get all stock data
+stocks = client.stocks.all()
+print(f"Seed stock items: {len(stocks['seed_stock'])}")
+
+# Get specific stock types
+seed_items = client.stocks.seeds()
+print(f"Found {len(seed_items)} seed items")
+
+# Weather information
+weather_data = client.weather.all()
+active_weather = client.weather.active()
+print(f"Active weather events: {len(active_weather)}")
+
+# Get item information
+all_seeds = client.items.seeds()
+specific_item = client.items.get('apple')
+
+# Calculator
+result = client.calculator.calculate({
+    'Name': 'Apple',
+    'Weight': '5.2',
+    'Variant': 'Golden'
+})
+
+# Get image URLs
+image_url = client.images.get_url('apple')
+```
+
+## API Reference
+
+### Client Initialization
+
+```python
+import jstudio
+
+client = jstudio.connect(
+    api_key='js_your_key_here',    # Required: Your JStudio API key
+    base_url='https://api.joshlei.com',  # Optional: Custom API base URL
+    timeout=30,                     # Optional: Request timeout in seconds
+    retries=3,                      # Optional: Number of retry attempts
+    retry_delay=1.0                 # Optional: Delay between retries
+)
+```
+
+### Stocks API
+
+```python
+# Get all stock data
+all_stocks = client.stocks.all()
+
+# Get specific stock types
+seeds = client.stocks.seeds()
+gear = client.stocks.gear()
+eggs = client.stocks.eggs()
+cosmetics = client.stocks.cosmetics()
+event_shop = client.stocks.event_shop()
+traveling_merchant = client.stocks.traveling_merchant()
+```
+
+### Weather API
+
+```python
+# Get all weather data
+weather = client.weather.all()
+
+# Get only active weather events
+active_weather = client.weather.active()
+```
+
+### Items API
+
+```python
+# Get all items (optionally filtered by type)
+all_items = client.items.all()
+seed_items = client.items.all('seed')
+
+# Get specific item
+item = client.items.get('apple')
+
+# Get items by category
+seeds = client.items.seeds()
+gear = client.items.gear()
+eggs = client.items.eggs()
+cosmetics = client.items.cosmetics()
+events = client.items.events()
+pets = client.items.pets()
+seedpacks = client.items.seedpacks()
+weather_items = client.items.weather()
+```
+
+### Calculator API
+
+```python
+# Calculate with parameters
+result = client.calculator.calculate({
+    'Name': 'Apple',
+    'Weight': '5.2',
+    'Variant': 'Golden'
+})
+
+# Get all calculator data
+all_data = client.calculator.get_all_data()
+```
+
+### Images API
+
+```python
+# Get image URL for an item
+image_url = client.images.get_url('apple')
+```
+
+## Error Handling
+
+```python
+import jstudio
+
+try:
+    client = jstudio.connect('js_your_key_here')
+    stocks = client.stocks.all()
+except jstudio.JStudioApiError as e:
+    print(f"API Error ({e.status_code}): {e.message}")
+    if e.retry_after:
+        print(f"Retry after: {e.retry_after} seconds")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+```
+
+## Features
+
+- **Zero dependencies** (except `requests`)
+- **Automatic retries** with exponential backoff
+- **Rate limiting** handling
+- **Type hints** for better IDE support
+- **Comprehensive error handling**
+- **Same API as Node.js version** for consistency
+
+## Requirements
+
+- Python 3.7+
+- requests >= 2.25.0
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+- Homepage: https://api.joshlei.com
+- Issues/Support: https://discord.gg/kCryJ8zPwy
+- Repository: https://github.com/JStudiooo/growagarden-api
