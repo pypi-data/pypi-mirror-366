@@ -1,0 +1,98 @@
+Metadata-Version: 2.1
+Name: tautulli
+Version: 4.6.6.2142
+Summary: A complete Python client for Tautulli's API
+Home-page: https://github.com/nwithan8/pytulli
+Download-URL: https://github.com/nwithan8/pytulli/archive/refs/tags/4.6.6.2142.tar.gz
+Author: Nate Harris
+Author-email: n8gr8gbln@gmail.com
+License: GNU General Public License v3 (GPLv3)
+Keywords: Tautulli,API,client,Plex,PMS,Plex Media Server,media,server,JSON
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Multimedia
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.8, <4
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: objectrest==2.0.*
+Requires-Dist: pydantic>=2.10.0
+Requires-Dist: pytz==2024.*
+Requires-Dist: python-dotenv==1.0.*
+Requires-Dist: packaging==24.*
+Requires-Dist: typing-extensions
+Requires-Dist: PlexAPI==4.15.*,>=4.15.14
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: pytest-cov==3.*; extra == "dev"
+Requires-Dist: pytest-vcr==1.*; extra == "dev"
+Requires-Dist: pytest==7.*; extra == "dev"
+Requires-Dist: types-requests; extra == "dev"
+Requires-Dist: types-urllib3; extra == "dev"
+Requires-Dist: vcrpy==4.*; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx_rtd_theme; extra == "dev"
+Requires-Dist: sphinx-jsonschema; extra == "dev"
+Requires-Dist: sphinx-pydantic; extra == "dev"
+Requires-Dist: sphinx_autodoc_typehints; extra == "dev"
+
+# A Python client for Tautulli's API
+
+[![PyPi](https://img.shields.io/pypi/dm/tautulli?label=Downloads&logo=pypi)](https://pypi.org/project/tautulli)
+[![License](https://img.shields.io/pypi/l/tautulli?color=orange&style=flat-square)](https://github.com/nwithan8/pytulli/blob/master/LICENSE)
+
+[![Open Issues](https://img.shields.io/github/issues-raw/nwithan8/pytulli?color=gold&style=flat-square)](https://github.com/nwithan8/pytulli/issues?q=is%3Aopen+is%3Aissue)
+[![Closed Issues](https://img.shields.io/github/issues-closed-raw/nwithan8/pytulli?color=black&style=flat-square)](https://github.com/nwithan8/pytulli/issues?q=is%3Aissue+is%3Aclosed)
+[![Latest Release](https://img.shields.io/github/v/release/nwithan8/pytulli?color=red&label=latest%20release&logo=github&style=flat-square)](https://github.com/nwithan8/pytulli/releases)
+
+[![Discord](https://img.shields.io/discord/472537215457689601?color=blue&logo=discord&style=flat-square)](https://discord.gg/7jGbCJQ)
+[![Twitter](https://img.shields.io/twitter/follow/nwithan8?label=%40nwithan8&logo=twitter&style=flat-square)](https://twitter.com/nwithan8)
+
+Interact with Tautulli's API in Python
+
+# Installation
+
+- From PyPi (recommended): ``python -m pip install tautulli``
+- From GitHub ``python -m pip install git+https://github.com/nwithan8/pytulli.git``
+  - This is not recommended, as the version will always default to 0.0.0
+
+
+# Usage
+
+This client covers nearly 100% of all Tautulli's available API calls, including type checks and enforcing required variables.
+
+More details about Tautulli's API can be found on the [Tautulli's GitHub wiki page](https://github.com/Tautulli/Tautulli/wiki/Tautulli-API-Reference).
+
+Most API call functions that return data return raw JSON data. Some return strings or file contents (in the case of downloads).
+
+API calls functions that do not return data return `True`/`False` booleans to confirm that the API call was successful.
+
+Import the ``tautulli`` package as initialize the API
+Example:
+```python
+from tautulli import RawAPI
+
+api = RawAPI(base_url="http://myipaddress:port", api_key="thisisanapikey")
+```
+
+You can optionally pass ``verbose=True`` into the API declaration to produce verbose debugging logs and error messages.
+
+Additional utilities and shortcuts can be accessed via the `tautulli.tools` module.
+
+# Documentation
+
+Documentation available on [ReadTheDocs](https://pytulli.readthedocs.io/en/latest/documentation.html)
