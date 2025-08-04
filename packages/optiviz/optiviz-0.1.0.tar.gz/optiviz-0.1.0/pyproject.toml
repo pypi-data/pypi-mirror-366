@@ -1,0 +1,17 @@
+[project]
+name = "optiviz"
+version = "0.1.0"
+description = "Educational tool for visualizing PyTorch-compatible optimisers on any differentiable 1D or 2D function."
+authors = [{ name = "Ronit Kunkolienker", email = "ronitkunk@gmail.com" }]
+readme = "README.md"
+license = { file = "LICENSE.txt" }
+requires-python = ">=3.8"
+dependencies = [
+    "torch",
+    "matplotlib",
+    "numpy",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
