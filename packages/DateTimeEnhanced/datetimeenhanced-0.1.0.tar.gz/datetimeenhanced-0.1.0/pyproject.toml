@@ -1,0 +1,21 @@
+[project]
+name = "DateTimeEnhanced"
+version = "0.1.0"
+description = "DateTimeEnhanced is a lightweight Python utility class that simplifies working with dates and times. It provides enhanced formatting, week-day indexing, and easy retrieval of structured date/time information."
+authors = [ { name = "Tan Wei Hong", email = "twh723@gmail.com" } ]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
