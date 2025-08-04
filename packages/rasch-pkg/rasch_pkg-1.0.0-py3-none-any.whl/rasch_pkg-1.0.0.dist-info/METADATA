@@ -1,0 +1,357 @@
+Metadata-Version: 2.4
+Name: rasch-pkg
+Version: 1.0.0
+Summary: Rasch modeli asosida o'quvchilarni baholash tizimi - Student assessment system based on Rasch model
+Author-email: Muhammad Ali <muhammadali@example.com>
+Maintainer-email: Muhammad Ali <muhammadali@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/muhammadali/rasch-pkg
+Project-URL: Documentation, https://github.com/muhammadali/rasch-pkg#readme
+Project-URL: Repository, https://github.com/muhammadali/rasch-pkg.git
+Project-URL: Bug Tracker, https://github.com/muhammadali/rasch-pkg/issues
+Keywords: rasch-model,student-assessment,educational-measurement,psychometrics,item-response-theory,uzbekistan,education
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Education
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: openpyxl>=3.0.0
+Requires-Dist: psycopg2-binary>=2.9.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=5.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0.0; extra == "docs"
+Dynamic: license-file
+
+# Rasch Model Implementation
+
+Rasch modeli asosida o'quvchilarni baholash tizimi. Bu loyiha o'quvchilarning imtihon natijalarini Rasch modeli yordamida tahlil qilish va baholash uchun mo'ljallangan.
+
+## Xususiyatlar
+
+- **Rasch modeli asosida baholash**: O'quvchilarning skill level (θ) ni hisoblash
+- **Z-score va scaled score**: Standartlashtirilgan ballni hisoblash (0-100 oralig'ida)
+- **Daraja belgilash**: A+, A, B+, B, C+, C, NC darajalarini avtomatik belgilash
+- **Excel fayl bilan ishlash**: Excel fayllardan ma'lumotlarni o'qish va natijalarni eksport qilish
+- **Statistik tahlil**: Natijalar bo'yicha batafsil statistika
+- **Moslashuvchan konfiguratsiya**: Daraja chegaralarini o'zgartirish imkoniyati
+
+## O'rnatish
+
+### PyPI dan o'rnatish (tavsiya etiladi)
+
+```bash
+pip install rasch-pkg
+```
+
+### Repository dan o'rnatish
+
+1. Repository ni klonlash:
+```bash
+git clone <repository-url>
+cd rasch
+```
+
+2. Virtual muhit yaratish:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+```
+
+3. Bog'liqliklarni o'rnatish:
+```bash
+pip install -r requirements.txt
+```
+
+## Foydalanish
+
+### 1. Asosiy misol (fayllar bilan)
+
+```python
+from rasch_pkg import RaschModel
+
+# Rasch modeli obyektini yaratish
+rasch = RaschModel()
+
+# O'quvchi javoblari (1 - to'g'ri, 0 - noto'g'ri)
+answers = [1, 1, 0, 1, 0, 1, 1, 0, 1, 1]  # 10 ta savol
+
+# O'quvchini baholash
+result = rasch.process_student_answers(
+    student_id="001",
+    name="Ahmadov Ahmad",
+    answers=answers
+)
+
+print(f"Ball: {result.scaled_score:.2f}")
+print(f"Daraja: {result.grade.value}")
+```
+
+### 2. PostgreSQL ma'lumotlar bazasi bilan ishlash
+
+```python
+from rasch_pkg import RaschEvaluator
+
+# Database konfiguratsiyasi
+db_config = DatabaseConfig(
+    host="localhost",
+    port=5432,
+    database="postgres",
+    username="postgres",
+    password="password"
+)
+
+# Context manager bilan ishlash
+with DatabaseRaschProcessor(db_config) as processor:
+    # Barcha foydalanuvchilarni qayta ishlash
+    results = processor.process_all_users()
+
+    # Excel fayliga eksport qilish
+    excel_path = processor.export_to_excel(
+        results,
+        "matematika_test_natijalari.xlsx"
+    )
+
+    print(f"Natijalar {excel_path} fayliga saqlandi")
+```
+
+### Excel fayl bilan ishlash
+
+```python
+import pandas as pd
+from src.rasch_model import RaschModel
+
+# Excel faylni o'qish
+df = pd.read_excel('exam_results.xlsx')
+
+# Rasch modeli
+rasch = RaschModel()
+
+# Barcha o'quvchilarni baholash
+results = rasch.process_multiple_students(df)
+
+# Natijalarni eksport qilish
+rasch.export_results(results, 'output_results.xlsx')
+```
+
+### Ko'p o'quvchilarni baholash
+
+```python
+# O'quvchilar ma'lumotlari
+students_data = [
+    {
+        'id': '001',
+        'name': 'O\'quvchi 1',
+        'answers': [1, 1, 0, 1, 0, 1, 1, 0, 1, 1]
+    },
+    {
+        'id': '002', 
+        'name': 'O\'quvchi 2',
+        'answers': [1, 0, 1, 1, 0, 0, 1, 1, 0, 1]
+    }
+]
+
+results = rasch.process_multiple_students(students_data)
+
+# Statistika
+stats = rasch.get_statistics(results)
+print(f"O'rtacha ball: {stats['score_statistics']['mean']}")
+```
+
+## Daraja tizimi
+
+| Daraja | Ball oralig'i | Tavsif |
+|--------|---------------|---------|
+| A+ | 70.0 - 100.0 | A'lo |
+| A | 65.0 - 69.99 | A'lo |
+| B+ | 60.0 - 64.99 | Yaxshi |
+| B | 55.0 - 59.99 | Yaxshi |
+| C+ | 50.0 - 54.99 | Qoniqarli |
+| C | 46.0 - 49.99 | Qoniqarli |
+| NC | 0.0 - 45.99 | Qoniqarsiz |
+
+## Rasch modeli formulalari
+
+1. **Theta (θ) hisoblash**:
+   ```
+   θ = ln(p / (1-p))
+   ```
+   Bu yerda p = to'g'ri javoblar nisbati
+
+2. **Z-score hisoblash**:
+   ```
+   Z = (θ - μ) / σ
+   ```
+
+3. **Scaled score hisoblash**:
+   ```
+   Ball = 50 + 10 * Z
+   ```
+
+## Loyiha tuzilishi
+
+```
+rasch/
+├── src/
+│   ├── __init__.py
+│   ├── rasch_model.py          # Asosiy Rasch modeli klassi
+│   └── database_rasch.py       # PostgreSQL bilan ishlash klassi
+├── tests/
+│   ├── __init__.py
+│   ├── test_rasch_model.py     # Rasch modeli unit testlar
+│   └── test_database_rasch.py  # Database unit testlar
+├── examples/
+│   ├── rasch_example.py        # Asosiy foydalanish misollari
+│   ├── advanced_example.py     # Qo'shimcha misollar
+│   └── database_example.py     # Database misollari
+├── docs/
+│   ├── rules.pdf               # Rasch modeli qoidalari
+│   └── exam_answers_example_*.xlsx  # Misol Excel fayllari
+├── output/                     # Natijalar papkasi
+├── requirements.txt            # Python bog'liqliklar
+├── README.md                   # Ushbu fayl
+└── USAGE_GUIDE.md             # Foydalanish qo'llanmasi
+```
+
+## Testlarni ishga tushirish
+
+```bash
+# Barcha testlar
+python -m pytest tests/ -v
+
+# Coverage bilan
+python -m pytest tests/ --cov=src --cov-report=html
+
+# Bitta test fayl
+python -m unittest tests.test_rasch_model -v
+```
+
+## Misollarni ishga tushirish
+
+```bash
+# Asosiy misollar
+python examples/rasch_example.py
+
+# Qo'shimcha misollar
+python examples/advanced_example.py
+
+# Database misollari
+python examples/database_example.py
+
+# Alohida misollar
+python -c "from examples.rasch_example import example_1_single_student; example_1_single_student()"
+```
+
+## API Hujjatlari
+
+### RaschModel klassi
+
+#### Konstruktor
+```python
+RaschModel(grade_thresholds=None, max_iterations=100, convergence_threshold=1e-6)
+```
+
+#### Asosiy metodlar
+
+- `process_student_answers(student_id, name, answers)` - Bitta o'quvchini baholash
+- `process_multiple_students(data)` - Ko'p o'quvchilarni baholash  
+- `get_statistics(results)` - Statistika hisoblash
+- `export_results(results, filename)` - Natijalarni eksport qilish
+
+#### Yordamchi metodlar
+
+- `calculate_theta(correct_answers, total_questions)` - Theta hisoblash
+- `calculate_z_score(theta, mu, sigma)` - Z-score hisoblash
+- `calculate_scaled_score(z_score)` - Scaled score hisoblash
+- `determine_grade(scaled_score)` - Daraja belgilash
+
+### StudentResult dataclass
+
+O'quvchi natijasi uchun ma'lumotlar strukturasi:
+
+```python
+@dataclass
+class StudentResult:
+    student_id: str
+    name: str
+    answers: List[Union[int, float]]
+    correct_count: int
+    total_questions: int
+    raw_score: float
+    theta: float
+    mu: float
+    sigma: float
+    z_score: float
+    scaled_score: float
+    grade: GradeLevel
+```
+
+## Konfiguratsiya
+
+### Maxsus daraja chegaralari
+
+```python
+custom_thresholds = {
+    'NC': (0.0, 39.99),
+    'C': (40.0, 49.99),
+    'C+': (50.0, 59.99),
+    'B': (60.0, 69.99),
+    'B+': (70.0, 79.99),
+    'A': (80.0, 89.99),
+    'A+': (90.0, 100.0)
+}
+
+rasch = RaschModel(grade_thresholds=custom_thresholds)
+```
+
+## Xatoliklar va yechimlar
+
+### Keng uchraydigan xatoliklar
+
+1. **Excel fayl topilmadi**
+   - Fayl yo'lini tekshiring
+   - Fayl mavjudligini tasdiqlang
+
+2. **Noto'g'ri javob formati**
+   - Javoblar 0 yoki 1 bo'lishi kerak
+   - Boshqa qiymatlar avtomatik 0 ga aylantiriladi
+
+3. **Bo'sh ma'lumotlar**
+   - Kamida bitta javob bo'lishi kerak
+   - Bo'sh ro'yxatlar xatolikka olib keladi
+
+## Hissa qo'shish
+
+1. Fork qiling
+2. Feature branch yarating (`git checkout -b feature/yangi-xususiyat`)
+3. O'zgarishlarni commit qiling (`git commit -am 'Yangi xususiyat qo'shildi'`)
+4. Branch ni push qiling (`git push origin feature/yangi-xususiyat`)
+5. Pull Request yarating
+
+## Litsenziya
+
+MIT License
+
+## Muallif
+
+Rasch modeli implementatsiyasi - O'zbekiston Milliy Universiteti
