@@ -1,0 +1,195 @@
+Metadata-Version: 2.4
+Name: cryptodatapy-pandas-datareader
+Version: 0.10.1.post1
+Summary: Pandas-compatible data readers. Formerly a component of pandas.
+Author-email: The PyData Development Team <pydata@googlegroups.com>
+License: =======
+        License
+        =======
+        
+        pandas is distributed under a 3-clause ("Simplified" or "New") BSD
+        license. Parts of NumPy, SciPy, numpydoc, bottleneck, which all have
+        BSD-compatible licenses, are included. Their licenses follow the pandas
+        license.
+        
+        pandas license
+        ==============
+        
+        Copyright (c) 2011-2012, Lambda Foundry, Inc. and PyData Development Team
+        All rights reserved.
+        
+        Copyright (c) 2008-2011 AQR Capital Management, LLC
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are
+        met:
+        
+            * Redistributions of source code must retain the above copyright
+               notice, this list of conditions and the following disclaimer.
+        
+            * Redistributions in binary form must reproduce the above
+               copyright notice, this list of conditions and the following
+               disclaimer in the documentation and/or other materials provided
+               with the distribution.
+        
+            * Neither the name of the copyright holder nor the names of any
+               contributors may be used to endorse or promote products derived
+               from this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS
+        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+        A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+        OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+        SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+        LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+        DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+        THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+        (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        
+        About the Copyright Holders
+        ===========================
+        
+        AQR Capital Management began pandas development in 2008. Development was
+        led by Wes McKinney. AQR released the source under this license in 2009.
+        Wes is now an employee of Lambda Foundry, and remains the pandas project
+        lead.
+        
+        The PyData Development Team is the collection of developers of the PyData
+        project. This includes all of the PyData sub-projects, including pandas. The
+        core team that coordinates development on GitHub can be found here:
+        http://github.com/pydata.
+        
+        Full credits for pandas contributors can be found in the documentation.
+        
+        Our Copyright Policy
+        ====================
+        
+        PyData uses a shared copyright model. Each contributor maintains copyright
+        over their contributions to PyData. However, it is important to note that
+        these contributions are typically only changes to the repositories. Thus,
+        the PyData source code, in its entirety, is not the copyright of any single
+        person or institution. Instead, it is the collective copyright of the
+        entire PyData Development Team. If individual contributors want to maintain
+        a record of what changes/contributions they have specific copyright on,
+        they should indicate their copyright in the commit message of the change
+        when they commit the change to one of the PyData repositories.
+        
+        With this in mind, the following banner should be used in any source code
+        file to indicate the copyright and license terms:
+        
+        #-----------------------------------------------------------------------------
+        # Copyright (c) 2012, PyData Development Team
+        # All rights reserved.
+        #
+        # Distributed under the terms of the BSD Simplified License.
+        #
+        # The full license is in the LICENSE file, distributed with this software.
+        #-----------------------------------------------------------------------------
+        
+        Other licenses can be found in the LICENSES directory.
+        
+Project-URL: Homepage, https://pandas.pydata.org
+Project-URL: Documentation, https://pandas-datareader.readthedocs.io/en/latest/
+Project-URL: Repository, https://github.com/pydata/pandas-datareader.git
+Project-URL: Bug Tracker, https://github.com/pydata/pandas-datareader/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: lxml
+Requires-Dist: pandas>=1.5.3
+Requires-Dist: requests>=2.19.0
+Dynamic: license-file
+
+# pandas-datareader
+
+Up to date remote data access for pandas, works for multiple versions of
+pandas.
+
+[![image](https://img.shields.io/pypi/v/pandas-datareader.svg)](https://pypi.python.org/pypi/pandas-datareader/)
+[![image](https://codecov.io/gh/pydata/pandas-datareader/branch/master/graph/badge.svg)](https://codecov.io/gh/pydata/pandas-datareader)
+[![image](https://readthedocs.org/projects/pandas-datareader/badge/?version=latest)](https://pandas-datareader.readthedocs.io/en/latest/)
+[![image](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License](https://img.shields.io/pypi/l/pandas-datareader)](https://pypi.org/project/pandas-datareader/)
+
+## Installation
+
+Install using `pip`
+
+``` shell
+pip install pandas-datareader
+```
+
+## Usage
+
+``` python
+import pandas_datareader as pdr
+pdr.get_data_fred('GS10')
+```
+
+## Documentation
+
+[Stable documentation](https://pydata.github.io/pandas-datareader/) is available on
+[github.io](https://pydata.github.io/pandas-datareader/). A second copy of the stable
+documentation is hosted on [read the docs](https://pandas-datareader.readthedocs.io/)
+for more details.
+
+[Development documentation](https://pydata.github.io/pandas-datareader/devel/) is available
+for the latest changes in master.
+
+### Requirements
+
+Using pandas datareader requires the following packages:
+
+-   pandas>=1.5.3
+-   lxml
+-   requests>=2.19.0
+
+Building the documentation additionally requires:
+
+-   matplotlib
+-   ipython
+-   requests_cache
+-   sphinx
+-   pydata_sphinx_theme
+
+Development and testing additionally requires:
+
+-   black
+-   coverage
+-   codecov
+-   coveralls
+-   flake8
+-   pytest
+-   pytest-cov
+-   wrapt
+
+### Install latest development version
+
+``` shell
+python -m pip install git+https://github.com/pydata/pandas-datareader.git
+```
+
+or
+
+``` shell
+git clone https://github.com/pydata/pandas-datareader.git
+cd pandas-datareader
+python setup.py install
+```
