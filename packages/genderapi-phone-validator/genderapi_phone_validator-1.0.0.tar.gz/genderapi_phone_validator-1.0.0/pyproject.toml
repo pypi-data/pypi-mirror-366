@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genderapi-phone-validator"
+version = "1.0.0"
+description = "Official Python SDK for validating and formatting phone numbers using the GenderAPI.io service."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+
+authors = [
+    { name = "Onur Ozturk", email = "support@genderapi.io" }
+]
+
+keywords = [
+    "gender",
+    "genderapi",
+    "phone validator",
+    "phone validation",
+    "phone number formatting",
+    "phone metadata",
+    "E.164",
+    "API client",
+    "python sdk"
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent"
+]
+
+dependencies = [
+    "requests>=2.28.0,<3.0.0"
+]
+
+[project.urls]
+Homepage = "https://www.genderapi.io"
+Documentation = "https://www.genderapi.io/docs-phone-validation-formatter-api"
+Repository = "https://github.com/GenderAPI/phone-validator-python"
+Issues = "https://github.com/GenderAPI/phone-validator-python/issues"
