@@ -1,0 +1,2 @@
+from dokuWikiDumper.__version__ import DUMPER_VERSION
+UPLOADER_VERSION = DUMPER_VERSION
