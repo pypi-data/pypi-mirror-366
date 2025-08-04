@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>aidesk - API Service</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .endpoint { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .auth-status { color: #666; margin-bottom: 20px; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>aidesk API Service</h1>
+    <div class="auth-status">Status: {{ auth_status }} | <a href="{{ login_logout_link }}">{{ login_logout_text }}</a></div>
+    
+    <h2>Available APIs</h2>
+    
+    <div class="endpoint">
+        <h3>Login</h3>
+        <p><strong>POST /api/login</strong></p>
+        <p>Parameters: username, password</p>
+        <p>Returns: Authentication status</p>
+    </div>
+    
+    <div class="endpoint">
+        <h3>Generate File</h3>
+        <p><strong>POST /api/generate-file</strong> (Requires authentication)</p>
+        <p>Parameters: filename, content</p>
+        <p>Returns: File generation status and path</p>
+    </div>
+    
+    <div class="endpoint">
+        <h3>Upload File</h3>
+        <p><strong>POST /api/upload-file</strong> (Requires authentication)</p>
+        <p>Content-Type: multipart/form-data</p>
+        <p>Returns: File upload status and path</p>
+    </div>
+</body>
+</html>
