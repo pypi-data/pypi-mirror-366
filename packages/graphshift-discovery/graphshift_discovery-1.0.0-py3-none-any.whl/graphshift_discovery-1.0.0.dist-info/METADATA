@@ -1,0 +1,327 @@
+Metadata-Version: 2.4
+Name: graphshift-discovery
+Version: 1.0.0
+Summary: AI-Augmented Java Migration Assistant - Open Source Edition
+Home-page: https://github.com/graphshift-dev/discovery
+Author: GraphShift Team
+Author-email: contact@graphshift.dev
+Project-URL: Bug Reports, https://github.com/graphshift-dev/discovery/issues
+Project-URL: Source, https://github.com/graphshift-dev/discovery
+Project-URL: Documentation, https://docs.graphshift.dev
+Keywords: java migration refactoring analysis ast deprecation
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Java
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: System :: Software Distribution
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: pathlib>=1.0.0
+Requires-Dist: aiohttp>=3.8.0
+Requires-Dist: appdirs>=1.4.4
+Requires-Dist: setuptools
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Requires-Dist: mypy>=0.991; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# GraphShift Discovery
+
+GraphShift Discovery is an AI-augmented Java migration analysis tool that helps developers identify deprecated APIs, assess migration complexity, and plan upgrade paths for Java applications. GraphShift uses python, and you will need Python 3.8 or higher for compatibility
+
+## Features
+
+- **Single Repository Analysis**: Analyze individual Java repositories for migration readiness
+- **Organization-wide Analysis**: Scan multiple repositories across GitHub organizations
+- **Migration Readiness Assessment**: Categorize findings by severity (Critical, Warning, Info)
+- **Rich HTML Reports**: Interactive reports with filtering, sorting, and visual indicators
+- **Multiple Output Formats**: JSON, HTML, and CSV outputs for different use cases
+- **Configurable Scope**: Focus on upgrade blockers or comprehensive deprecation analysis
+
+## Installation
+
+### Via pip (Recommended)
+
+```bash
+pip install graphshift-discovery
+```
+
+### From Source
+
+```bash
+git clone https://github.com/graphshift-dev/discovery
+cd discovery
+pip install -e .
+```
+
+## Quick Start
+
+### First Run - Initialization
+
+On first use, GraphShift will prompt you to set up a working directory:
+
+```bash
+graphshift init
+# GraphShift needs a working directory.
+# Working directory [C:\Users\user\AppData\Local\GraphShift]: 
+```
+
+This working directory will contain:
+- `reports/` - Analysis results and HTML reports
+- `templates/` - Customizable HTML report templates
+- `logs/` - Application logs
+- `clones/` - Temporary repository clones
+- `temp/` - Temporary analysis files
+- `resources/` - Static assets (logo, etc.)
+- `config/` - User editable configuration (GitHub Token)
+
+### Basic Commands
+
+#### Health Check
+```bash
+graphshift health
+```
+
+#### Health Check
+```bash
+graphshift health
+```
+Verifies system requirements and configuration.
+
+#### Single Repository Analysis
+```bash
+# Remote repository
+graphshift analyze --repo https://github.com/spring-projects/spring-petclinic
+
+# Local repository
+graphshift analyze --local-path /path/to/local/repo
+
+# With specific target JDK
+graphshift analyze --repo https://github.com/user/repo --to-version 21
+
+# Focus on upgrade blockers only
+graphshift analyze --repo https://github.com/user/repo --scope upgrade-blockers
+```
+
+#### Organization Analysis
+```bash
+# Analyze all public repositories in an organization
+graphshift analyze --org spring-projects
+
+# Limit number of repositories
+graphshift analyze --org spring-projects --max-repos 5
+
+# Analyze with specific parameters
+graphshift analyze --org spring-projects --to-version 17 --scope upgrade-blockers
+```
+
+## Command Reference
+
+### Global Options
+- `--verbose, -v` - Enable verbose logging
+- `--config CONFIG` - Specify custom configuration file
+
+### Analysis Commands
+
+#### `graphshift analyze`
+Analyze Java repositories for migration issues.
+
+**Repository Selection:**
+- `--repo URL` - Analyze single remote repository
+- `--local-path PATH` - Analyze local repository
+- `--org ORGANIZATION` - Analyze GitHub organization
+- `--local-org PATH` - Analyze local directory containing multiple repos
+
+**Analysis Options:**
+- `--to-version VERSION` - Target JDK version (default: 21)
+- `--scope SCOPE` - Analysis scope: `all-deprecations` or `upgrade-blockers` (default: all-deprecations)
+- `--max-repos N` - Maximum repositories to analyze for organization scans (default: 50)
+- `--provider PROVIDER` - SCM provider: `github` (default: github)
+
+**Output Options:**
+- `--no-keep-clones` - Delete cloned repositories after analysis
+
+#### `graphshift health`
+Check system health and configuration.
+
+#### `graphshift init`
+Manually initialize or reconfigure GraphShift.
+
+**Options:**
+- `--base-dir PATH` - Specify working directory
+
+## Configuration
+
+GraphShift uses a YAML configuration file that is copied to your working directory during initialization. You can customize settings like GitHub tokens, memory allocation, and analysis parameters.
+
+### Managing Configuration
+
+Use the `graphshift config` commands to manage your configuration:
+
+```bash
+# Edit configuration (opens in default editor)
+graphshift config edit
+
+# View current configuration  
+graphshift config show
+
+# Show config file location
+graphshift config path
+```
+
+### GitHub Access
+
+For organization analysis, configure GitHub access:
+
+```yaml
+graphshift:
+  scm:
+    github:
+      base_url: "https://api.github.com"
+      # Add personal access token for private repos or higher rate limits
+      # token: "your-github-token"
+```
+
+**Actions:**
+- `graphshift config edit` - Open config file in default editor
+- `graphshift config show` - Display current configuration
+- `graphshift config path` - Show config file location
+
+## Understanding the Output
+
+### Migration Readiness Status
+
+- **READY** - No blocking issues found
+- **READY WITH TECH DEBT** - Minor warnings that should be reviewed
+- **BLOCKED** - Critical issues that prevent migration
+
+### Severity Levels
+
+- **Critical** - APIs removed in target JDK version, will cause compilation failures
+- **Warning** - APIs deprecated in target JDK version, may be removed in future versions
+- **Info** - General deprecation notices for awareness
+
+### Report Files
+
+For each analysis, GraphShift generates:
+
+1. **JSON Report** (`*_analysis.json`) - Raw analysis data for programmatic use
+2. **HTML Report** (`*_analysis.html`) - Interactive web report with filtering and sorting
+3. **CSV Report** (`*_analysis.csv`) - Tabular data for spreadsheet analysis
+
+### Organization Reports
+
+Organization analysis creates:
+- Individual repository reports in subdirectories
+- Organization summary report (`*_organization_summary.html`)
+- Aggregated JSON data with cross-repository insights
+
+
+
+### Analysis Settings
+
+```yaml
+graphshift:
+  jar:
+    memory: "4g"
+    initial_memory: "1g"
+    stack_size: "8m"
+```
+
+## Examples
+
+### Analyzing Spring Framework
+```bash
+graphshift analyze --repo https://github.com/spring-projects/spring-framework --to-version 21
+```
+
+### Organization Survey
+```bash
+graphshift analyze --org apache --max-repos 10 --scope upgrade-blockers
+```
+
+### Local Development
+```bash
+graphshift analyze --local-path ./my-java-project --to-version 17
+```
+
+## Architecture
+
+GraphShift Discovery uses a hybrid architecture:
+
+1. **Java Analysis Engine** - Performs AST parsing and deprecation detection
+2. **Python Orchestration** - Handles workflow, SCM integration, and report generation
+3. **Knowledge Base** - Curated deprecation and removal information
+4. **Template System** - Customizable HTML report generation
+
+## System Requirements
+
+- **Python**: 3.8 or higher
+- **Java**: JDK 8 or higher (for analysis engine)
+- **Memory**: 4GB RAM recommended for large codebases
+- **Storage**: Temporary space for repository clones
+
+## Troubleshooting
+
+### Common Issues
+
+**"JAR analyzer not found"**
+- Ensure Java is installed and accessible
+- Check that the analysis engine was properly packaged
+
+**"No SCM providers configured"**
+- Verify GitHub configuration for organization analysis
+- Check network connectivity for remote repositories
+
+**"Analysis failed with memory error"**
+- Increase JVM memory settings in configuration
+- Analyze smaller repository subsets
+
+### Debug Mode
+
+Enable verbose logging for detailed troubleshooting:
+```bash
+graphshift --verbose analyze --repo https://github.com/user/repo
+```
+
+## Contributing
+
+GraphShift Discovery is designed for extensibility:
+
+- **Templates**: Customize HTML reports by modifying templates in your working directory
+- **Configuration**: Extend analysis parameters through YAML configuration
+- **Integration**: Use JSON output for integration with other tools
+
+## License
+
+Apache License 2.0
+
+## Support
+
+Bugs or Enhancements? https://github.com/graphshift-dev/discovery/issues
+Feedback? Send an email to hi@graphshift.dev with subject line Feedback
