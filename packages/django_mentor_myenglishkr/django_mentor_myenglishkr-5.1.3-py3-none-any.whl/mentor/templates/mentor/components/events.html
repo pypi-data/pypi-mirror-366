@@ -1,0 +1,33 @@
+{% load static %}
+
+<section id="events" class="events">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>{{ events.title }}</h2>
+      <p>{{ events.subtitle }}</p>
+    </div>
+
+    <figure class="text-center">
+      <blockquote class="blockquote">
+        <p>{{ events.p1 | safe }}</p>
+      </blockquote>
+    </figure>
+
+    <div class="row">
+      {% for item in events.items %}
+      <div class="col-md-6 d-flex align-items-stretch">
+        <div class="card">
+          <div class="card-img">
+            <img src="{% static 'mentor/img/events/'|add:item.filename %}" alt="...">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><a href="">{{ item.title }}</a></h5>
+            <p class="fst-italic text-center">{{ item.subtitle }}</p>
+            <p class="card-text">{{ item.desc |safe }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

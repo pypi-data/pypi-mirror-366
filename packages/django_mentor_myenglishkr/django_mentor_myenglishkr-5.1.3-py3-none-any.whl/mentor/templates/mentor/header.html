@@ -1,0 +1,57 @@
+{% load static %}
+
+<style>
+#header .logo {
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: none;
+  font-style: italic;
+  font-family: "Poppins", "Noto Sans KR", sans-serif;
+}
+</style>
+
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+    <!-- 로고 -->
+    {% if use_logo %}
+      <a href="#" class="logo me-auto"><img src="{% static 'mentor/img/logo/'|add:logo_text|add:'.png' %}" alt="" class="img-fluid" style="height:48px;"></a>
+    {% else %}
+      <h1 class="logo me-auto"><a href="#">{{ basic_info.company_name }}</a></h1>
+    {% endif %}
+
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li><a class="nav-link scrollto" href="#hero">Home</a></li>
+        <!-- 메뉴 -->
+        {% for component, _, title, is_show in components %}
+          {% if is_show %}
+          <li><a class="nav-link scrollto" href="#{{ component }}">{{ title }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+    {% for component, _, title, is_show in components %}
+    {% if component == "appointment" and is_show %}
+      <a href="#appointment" class="appointment-btn"><span class="d-none d-md-inline">예약하기</span></a>
+    {% endif %}
+    {% endfor %}
+
+    <!-- language selection -->
+    <div class="btn-group btn-group-sm mx-4" role="group" aria-label="Language Selection">
+      {% for item in lang.list %}
+        {% if item == lang.selected %}
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio_{{ item }}" autocomplete="off" checked>
+        {% else %}
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio_{{ item }}" autocomplete="off">
+        {% endif %}
+        <a href="{% url 'mentor:home' item %}" class="btn btn-outline-success">{{ item|upper }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</header>
