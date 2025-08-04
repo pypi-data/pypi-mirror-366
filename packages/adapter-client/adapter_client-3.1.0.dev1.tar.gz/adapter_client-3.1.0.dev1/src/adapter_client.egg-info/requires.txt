@@ -1,0 +1,16 @@
+pydantic<2.0,>=1.10.17
+minio==6.0.2
+zeep<4.2.0,>=4.1.0
+django
+django-postgres-partitioning==1.1.1
+
+[:python_version == "3.7"]
+celery<5.3.0
+django_celery_beat<2.6.0
+
+[:python_version > "3.7"]
+celery
+django_celery_beat
+
+[opensearch]
+opensearch-logger==1.2.2
