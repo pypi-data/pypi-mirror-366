@@ -1,0 +1,102 @@
+[project]
+name = "fakts-next"
+version = "2.2.0"
+description = "asynchronous configuration provider ( tailored to support dynamic client-server relations)"
+authors = [{ name = "jhnnsrs", email = "jhnnsrs@gmail.com" }]
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+dependencies = [
+    "pydantic>2",
+    "koil>=2.0.4",
+    "certifi>=2025.4.26",
+    "aiohttp>=3.11.18",
+    "pyyaml>=6.0.2",
+    "oauthlib>=3.3.1",
+]
+
+
+[project.scripts]
+fakts = "fakts.cli.main:cli"
+
+[tool.uv]
+dev-dependencies = [
+    "dokker>=2.2",
+    "pyqt5>=5.15.11",
+    "pytest-asyncio>=0.26.0",
+    "pytest-cov>=6.1.1",
+    "pytest-qt>=4.4.0",
+    "pytest>=8.3.5",
+    "python-semantic-release>=9.21.1",
+    "qtpy>=2.4.3",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["fakts_next"]
+
+[tool.hatch.build.targets.wheel]
+include = ["fakts_next"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+qt_api = "pyqt5"
+markers = [
+    "integration: marks tests that require a running server",
+    "qt: marks tests that require a running qt application",
+    "network: marks tests that require a network connection",
+]
+
+[tool.mypy]
+exclude = ["venv/", "tests/", "examples/"]
+ignore_missing_imports = true
+
+[tool.ruff]
+extend-select = ["ANN", "D1"]
+extend-ignore = ["ANN101", "ANN002", "ANN003", "D100", "ANN401"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "tests",
+    "examples",
+]
+
+# Same as Black.
+line-length = 100
+
+[[tool.pydoc-markdown.loaders]]
+type = "python"
+search_path = ["fakts"]
+
+[tool.pydoc-markdown.renderer]
+type = "docusaurus"
+docs_base_path = "website/docs"
+
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+upload_to_pypi = true
+branch = "main"
+build_command = "uv build"
