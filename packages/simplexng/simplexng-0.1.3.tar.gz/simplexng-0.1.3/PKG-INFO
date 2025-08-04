@@ -1,0 +1,138 @@
+Metadata-Version: 2.4
+Name: simplexng
+Version: 0.1.3
+Summary: A simple way to run SearXNG locally
+Project-URL: Repository, https://github.com/jlevy/simplexng
+Author-email: Joshua Levy <joshua@cal.berkeley.edu>
+License-Expression: AGPL-3.0-or-later
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Typing :: Typed
+Requires-Python: <4.0,>=3.11
+Requires-Dist: babel==2.17.0
+Requires-Dist: brotli==1.1.0
+Requires-Dist: certifi==2025.7.14
+Requires-Dist: clideps>=0.1.6
+Requires-Dist: fasttext-predict==0.9.2.4
+Requires-Dist: flask-babel==4.0.0
+Requires-Dist: flask==3.1.1
+Requires-Dist: httpx-socks[asyncio]==0.10.0
+Requires-Dist: httpx[http2]==0.28.1
+Requires-Dist: isodate==0.7.2
+Requires-Dist: jinja2==3.1.6
+Requires-Dist: lxml==6.0.0
+Requires-Dist: markdown-it-py==3.0.0
+Requires-Dist: msgspec==0.19.0
+Requires-Dist: platformdirs>=4.3.8
+Requires-Dist: pygments==2.19.2
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: pyyaml==6.0.2
+Requires-Dist: rich>=14.0.0
+Requires-Dist: setproctitle==1.3.6
+Requires-Dist: tomli==2.2.1; python_version < '3.11'
+Requires-Dist: typer-slim==0.16.0
+Requires-Dist: uvloop==0.21.0
+Requires-Dist: valkey==6.1.0
+Requires-Dist: waitress>=3.0.2
+Requires-Dist: whitenoise==6.9.0
+Description-Content-Type: text/markdown
+
+# SimpleXNG
+
+SimpleXNG is a simplified package of [SearXNG](https://github.com/searxng/searxng) to
+make it a single command to run for local use.
+
+## Why?
+
+The [official install options](https://docs.searxng.org/admin/installation.html) for
+SearXNG are a bit complex and assume admin privileges to set up.
+This can be simplified a lot if you’re just wanting to run it locally for your own use.
+
+SimpleXNG is a tiny package to run SearXNG locally on macOS, Linux, or Windows.
+
+I wrote this since a friend was asking me why it wasn’t easier to set up for “localhost”
+use or embedded use.
+I thought I’d see if it worked as a minimal, modern uv package.
+
+## Running
+
+1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/) if you haven’t
+   already.
+
+2. Install and run:
+
+   ```shell
+   uv tool install --upgrade simplexng
+   simplexng --open
+   ```
+
+   Or if you’re in a hurry, in one line:
+
+   ```shell
+   uvx --upgrade simplexng --open
+   ```
+
+   This will install the latest version of SimpleXNG and open it in your browser.
+
+See more options:
+
+```shell
+simplexng --help
+```
+
+## Notes
+
+- SimpleXNG uses [uv](https://github.com/astral-sh/uv) to manage the Python
+  dependencies.
+
+- It omits Apache, Nginx, and Docker setup.
+
+- It by default uses the
+  [minimal template settings](https://github.com/searxng/searxng/blob/master/utils/templates/etc/searxng/settings.yml)
+  with Redis and rate limiting turned off.
+  (You can adjust the settings file if desired.)
+
+- Since SearXNG is distributed in Docker images only, we vendor a recent copy of SearXNG
+  so it is all available in a single package from PyPI for quick installation.
+
+- On first run, it sets up a minimal config file (on macOS and Linux it will be
+  `~/.config/simplexng/settings.yml`), which you can edit and will be used on subsequent
+  runs.
+
+- You can see the version of SearXNG being used with `simplexng --version`. If you want
+  a newer or different build, you can clone this repo and run:
+  ```shell
+  ./scripts/clone_searxng.sh HEAD   # Or pick a revision
+  uv run simplexng
+  ```
+
+## Thoughts?
+
+If this is useful or of interest or have feedback, file an issue or drop a comment [on
+my post about SimpleXNG](https://github.com/searxng/searxng/discussions/5082).
+
+## License
+
+This code and SearXNG are AGPL-3.0 licensed.
+
+* * *
+
+## Project Docs
+
+For how to install uv and Python, see [installation.md](installation.md).
+
+For development workflows, see [development.md](development.md).
+
+For instructions on publishing to PyPI, see [publishing.md](publishing.md).
+
+* * *
+
+*This project was built from
+[simple-modern-uv](https://github.com/jlevy/simple-modern-uv).*
