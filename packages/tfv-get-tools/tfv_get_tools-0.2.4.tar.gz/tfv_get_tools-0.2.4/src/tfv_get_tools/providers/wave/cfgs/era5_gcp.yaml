@@ -1,0 +1,48 @@
+_BASE_URL: "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3"
+_INFO_URL: https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels
+
+_SOURCE_XLIMS: [-180, 360]
+_SOURCE_YLIMS: [-90, 90]
+_SOURCE_TIMELIMS: ["1940-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+
+# Default variables to extract if no `variables` arg is provided.
+_VARIABLES:
+  [
+    "significant_height_of_combined_wind_waves_and_swell",
+    "peak_wave_period",
+    "mean_wave_direction",
+    "wave_spectral_directional_width",
+  ]
+
+# ERA5 only has the single single-levels dataset.
+_DATASETS: { 1940-01-01: { reanalysis-era5-single-levels: default } }
+
+# KEY: The standard NC Variable for merged data (and per `_standard_attrs.py`)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+hs:
+  source_var: "swh"
+  tfv_var: "WVHT"
+  bc_scale: 1
+  bc_offset: 0
+
+tp:
+  source_var: "pp1d"
+  tfv_var: "WVPER"
+  bc_scale: 1
+  bc_offset: 0
+
+mwd:
+  source_var: "mwd"
+  tfv_var: "WVDIR"
+  bc_scale: 1
+  bc_offset: 0
+
+spr:
+  source_var: "wdw"
+  tfv_var: null
+  bc_scale: 1
+  bc_offset: 0
