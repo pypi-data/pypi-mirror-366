@@ -1,0 +1,162 @@
+Metadata-Version: 2.4
+Name: pypsbuilder
+Version: 2.6.4
+Summary: THERMOCALC front-end for constructing and analyzing PT pseudosections
+Project-URL: Homepage, https://github.com/ondrolexa/pypsbuilder
+Project-URL: Documentation, https://pypsbuilder.readthedocs.io
+Project-URL: Repository, https://github.com/ondrolexa/pypsbuilder.git
+Project-URL: Issues, https://github.com/ondrolexa/pypsbuilder/issues
+Project-URL: Changelog, https://github.com/ondrolexa/pypsbuilder/blob/master/CHANGELOG.md
+Author-email: Ondrej Lexa <lexa.ondrej@gmail.com>
+Maintainer-email: Ondrej Lexa <lexa.ondrej@gmail.com>
+License: MIT License
+        
+        Simplistic THERMOCALC front-end for constructing PT pseudosections.
+        Copyright (c) 2015, Ondrej Lexa
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: AUTHORS.md
+License-File: LICENSE
+Keywords: THERMOCALC,petrology
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: networkx
+Requires-Dist: numpy
+Requires-Dist: qtpy
+Requires-Dist: scikit-image
+Requires-Dist: scipy
+Requires-Dist: shapely>=2
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: jupyterlab; extra == 'dev'
+Requires-Dist: pyqt6; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: sphinx; extra == 'dev'
+Requires-Dist: sphinx-mdinclude; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == 'docs'
+Requires-Dist: sphinx-mdinclude; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme; extra == 'docs'
+Provides-Extra: jupyter
+Requires-Dist: jupyterlab; extra == 'jupyter'
+Provides-Extra: pyqt5
+Requires-Dist: pyqt5; extra == 'pyqt5'
+Provides-Extra: pyqt6
+Requires-Dist: pyqt6; extra == 'pyqt6'
+Provides-Extra: tests
+Requires-Dist: pytest; extra == 'tests'
+Requires-Dist: pytest-cov; extra == 'tests'
+Description-Content-Type: text/markdown
+
+# pypsbuilder
+
+[![PyPI - Version](https://img.shields.io/pypi/v/pypsbuilder)](https://pypi.org/project/pypsbuilder/)
+[![Testing](https://github.com/ondrolexa/pypsbuilder/actions/workflows/testing.yml/badge.svg?event=push)](https://github.com/ondrolexa/pypsbuilder)
+[![Documentation Status](https://readthedocs.org/projects/polylx/badge/?version=stable)](https://pypsbuilder.readthedocs.io/en/latest/?badge=latest)
+
+Not that simplistic THERMOCALC front-end for constructing and visualizations of P-T, T-X and P-X pseudosections
+
+## How to install
+
+It is strongly suggested to install **pypsbuilder** into separate environment. You can create
+Python virtual environment. For Linux and macOS use:
+
+    python -m venv .venv
+    source .venv/bin/activate
+
+for Windows use Command Prompt or PowerShell:
+
+    python -m venv .venv
+    .venv\Scripts\activate
+
+or, if you will got error *'python' is not recognized as an internal or external command*, try:
+
+    py -m venv .venv
+    .venv\Scripts\activate
+
+> [!NOTE]
+> On Microsoft Windows, it may be required to set the execution policy in PowerShell for the user.
+> You can do this by issuing the following PowerShell command:
+> ```
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+
+and install **pypsbuilder** using pip within the environment. **You should choose the UI framework using option** `pyqt5` **or** `pyqt6`:
+
+    pip install pypsbuilder[pyqt6]
+
+JupyterLab could also be installed providing the `jupyter` option:
+
+    pip install pypsbuilder[pyqt6,jupyter]
+
+## I'm using conda or mamba to manage environments
+
+If you have already have conda or mamba installed, you can create environment with:
+
+    conda create -n pyps python=3.12.8 matplotlib shapely pyqt tqdm scikit-image qtpy jupyterlab
+
+or
+
+    mamba create -n pyps python=3.12.8 matplotlib shapely pyqt tqdm scikit-image qtpy jupyterlab
+
+Then activate the new environment:
+
+    conda activate pyps
+
+or
+
+    mamba activate pyps
+
+and install with pip. As PyQt is already installed with mamba/conda, we will install **pypsbuilder** without UI framework:
+
+    pip install pypsbuilder
+
+> [!NOTE]
+> If you encounter errors during install, try to install without upgrading dependencies:
+> ```
+> pip install --no-deps pypsbuilder
+> ```
+
+#### Upgrade existing installation
+
+To upgrade an already installed **pypsbuilder** to the latest release:
+
+    pip install --upgrade pypsbuilder
+
+or to the latest master version:
+
+    pip install --upgrade https://github.com/ondrolexa/pypsbuilder/archive/master.zip
+
+## Documentation and tutorials
+
+Check documentation and tutorials on RTD [https://pypsbuilder.readthedocs.io/en/latest/](https://pypsbuilder.readthedocs.io/en/latest/)
+
+## License
+
+pypsbuilder is free software: you can redistribute it and/or modify it under the terms of the MIT License. A copy of this license is provided in ``LICENSE`` file.
