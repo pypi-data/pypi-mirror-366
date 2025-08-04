@@ -1,0 +1,104 @@
+# Default configuration for Vector DB Query
+app:
+  name: Vector DB Query
+  version: 1.0.0
+  log_level: INFO
+
+# Qdrant vector database settings
+qdrant:
+  host: localhost
+  port: 6333
+  collection_name: documents
+  api_key: null
+  timeout: 30
+  grpc_port: 6334
+  prefer_grpc: false
+
+# Embedding service configuration
+embeddings:
+  provider: google  # Options: google, openai, cohere, huggingface
+  model: models/embedding-001
+  api_key: ${EMBEDDINGS_API_KEY}  # Set via environment variable
+  dimension: 768
+  batch_size: 100
+  task_type: retrieval_document
+
+# Document processing settings
+processing:
+  chunk_size: 1000
+  chunk_overlap: 200
+  file_extensions:
+    - .txt
+    - .md
+    - .pdf
+    - .doc
+    - .docx
+    - .xlsx
+    - .xls
+    - .csv
+  max_file_size: 10485760  # 10MB
+  encoding: utf-8
+  pdf_extract_images: false
+  preserve_formatting: true
+
+# Document processing settings (for scanner compatibility)
+document_processing:
+  supported_formats:
+    - .txt
+    - .md
+    - .pdf
+    - .doc
+    - .docx
+    - .xlsx
+    - .xls
+    - .csv
+  scanner:
+    max_file_size_mb: 100
+    ignored_patterns:
+      - ".*"
+      - "__pycache__"
+
+# MCP (Model Context Protocol) settings
+mcp:
+  enabled: false
+  host: 0.0.0.0
+  port: 8080
+  auth_required: false
+  auth_token: ${MCP_AUTH_TOKEN}
+  rate_limit: 100  # requests per minute
+  rate_limit_window: 60  # seconds
+  allowed_origins:
+    - "*"
+  max_request_size: 1048576  # 1MB
+
+# Search settings
+search:
+  default_limit: 10
+  max_limit: 100
+  score_threshold: 0.7
+  rerank: false
+  hybrid_search: false
+
+# Cache settings
+cache:
+  enabled: true
+  ttl: 3600  # 1 hour
+  max_size: 1000
+  eviction_policy: lru
+
+# Interactive CLI settings
+cli:
+  theme: monokai
+  animations: true
+  show_icons: true
+  page_size: 20
+  confirm_exit: true
+  show_tips: true
+  autosave: true
+
+# Paths
+paths:
+  config_dir: ~/.vector_db_query
+  data_dir: ~/.vector_db_query/data
+  logs_dir: ~/.vector_db_query/logs
+  cache_dir: ~/.vector_db_query/cache
