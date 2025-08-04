@@ -1,0 +1,26 @@
+# Basic Roundtable Configuration
+# Simple two-model collaborative discussion
+
+default_model = "openai/gpt-4"
+
+[roundtable]
+enabled_roles = ["generator", "critic"]
+
+[roundtable.role_model_mapping]
+generator = "openai/gpt-4"
+critic = "anthropic/claude-3-5-sonnet"
+discussion_rounds = 2
+parallel_responses = false
+timeout_seconds = 30
+use_role_based_prompting = true
+role_rotation = true
+
+[ui]
+theme = "dark"
+streaming = true
+format = "markdown"
+show_model_icons = true
+
+# Example usage:
+# ai chat --roundtable "What are the pros and cons of remote work?"
+# ai chat --roundtable "Help me plan a marketing strategy for a new product"
