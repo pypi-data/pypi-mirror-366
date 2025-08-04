@@ -1,0 +1,118 @@
+Metadata-Version: 2.4
+Name: digout
+Version: 0.1.1
+Summary: Pipeline framework to dump analysis-ready data from LHCb grid-based files
+Project-URL: Homepage, https://gitlab.cern.ch/particlepredatorinvasion/digout
+Project-URL: Documentation, https://digout.docs.cern.ch
+Project-URL: Repository, https://gitlab.cern.ch/particlepredatorinvasion/digout
+Project-URL: Issues, https://gitlab.cern.ch/particlepredatorinvasion/digout/issues
+Project-URL: Changelog, https://gitlab.cern.ch/particlepredatorinvasion/digout/-/blob/master/CHANGELOG.md
+Author-email: anthonyc <anthony.correia@cern.ch>
+License: Apache License (2.0)
+License-File: LICENSE
+Keywords: DAG,cern,computation,graph,grid,lhcb,pipeline,workflow
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.11
+Requires-Dist: click>=8.2.1
+Requires-Dist: networkx>=3.5
+Requires-Dist: omegaconf>=2.3.0
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: tqdm>=4.67.1
+Provides-Extra: fastparquet
+Requires-Dist: fastparquet>=2024.11.0; extra == 'fastparquet'
+Provides-Extra: root2df
+Requires-Dist: pandas>=2.3.1; extra == 'root2df'
+Requires-Dist: pandera[mypy]>=0.25.0; extra == 'root2df'
+Requires-Dist: pyarrow>=20.0.0; extra == 'root2df'
+Requires-Dist: uproot>=5.6.3; extra == 'root2df'
+Description-Content-Type: text/markdown
+
+
+<picture align="center">
+  <img alt="Digout logo" src="https://gitlab.cern.ch/particlepredatorinvasion/digout/raw/master/docs/source/_static/digout.svg">
+</picture>
+
+<p align="center">
+  <a href="https://gitlab.cern.ch/particlepredatorinvasion/digout/-/pipelines/">
+    <img alt="Pipeline Status" src="https://gitlab.cern.ch/particlepredatorinvasion/digout/badges/master/pipeline.svg" />
+  </a>
+  <a href="https://gitlab.cern.ch/particlepredatorinvasion/digout/-/blob/master/LICENSE">
+    <img alt="License" src="https://img.shields.io/pypi/l/digout" />
+  </a>
+  <a href="https://gitlab.cern.ch/particlepredatorinvasion/digout/-/releases">
+    <img alt="Latest Release" src="https://gitlab.cern.ch/particlepredatorinvasion/digout/-/badges/release.svg" />
+  </a>
+  <a href="https://pypi.org/project/digout/">
+    <img alt="PyPI - Version" src="https://img.shields.io/pypi/v/digout" />
+  </a>
+  <a href="https://pypi.org/project/digout/">
+    <img alt="Python Version" src="https://img.shields.io/pypi/pyversions/digout" />
+  </a>
+  <a href="https://digout.docs.cern.ch">
+    <img alt="Documentation Status" src="https://img.shields.io/badge/documentation-view-blue.svg" />
+  </a>
+  <a href="https://digout.docs.cern.ch/master/development/contributing.html">
+    <img alt="Contributing Guide" src="https://img.shields.io/badge/contributing-guide-blue.svg" />
+  </a>
+</p>
+
+`digout` is a Python library purpose-built to execute the multi-stage workflow
+of converting raw LHCb `DIGI` files into analysis-ready `parquet` dataframes
+of particles and hits.
+
+To manage this process in a scalable and reproducible manner,
+it implements a workflow framework organized around configurable **steps**
+(e.g., `digi2root`, `root2df`).
+The framework operates on a two-phase execution model:
+a **stream phase** runs once to prepare the dataset from a bookkeeping path,
+and a **chunk phase** processes each input file in parallel.
+This parallel execution is managed by swappable **schedulers**
+(such as `local` for local processing or `htcondor` for cluster submission),
+with the entire workflow being defined through YAML configuration files
+to ensure complete reproducibility.
+
+## Resources
+
+| Link                                                                                          | Description                                                                  |
+|:----------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------|
+| 📖 **[Full Documentation](https://digout.docs.cern.ch)**                                      | The complete guide to installation, configuration, and concepts.             |
+| 🚀 **[Quickstart Guide](https://digout.docs.cern.ch/master/getstarted/quickstart.html)**      | The fastest way to get a working example running.                            |
+| 💡 **[Contributing Guide](https://digout.docs.cern.ch/master/development/contributing.html)** | Learn how to set up a development environment and contribute to the project. |
+| 🐛 **[Report a Bug](https://gitlab.cern.ch/particlepredatorinvasion/digout/-/issues)**        | Found an issue? Let us know by creating a bug report.                        |
+| 📜 **[Changelog](https://gitlab.cern.ch/particlepredatorinvasion/digout/-/releases)**         | See the latest changes from the release page                                 |
+
+## Core Features
+
+- **Automated Metadata Discovery**:
+  Automatically queries the LHCb bookkeeping system to retrieve necessary
+  metadata (`dddb_tag`, `conddb_tag`, etc.), eliminating manual lookup.
+- **Scalable Parallel Processing**:
+  Built-in support for processing large datasets in parallel on a local machine
+  or on a distributed cluster like HTCondor.
+- **Configuration-Driven and Reproducible**:
+  Define your entire workflow in YAML files.
+  `digout` saves the final, resolved configuration for every run,
+  ensuring any result can be reproduced.
+- **Idempotent Execution**:
+  Automatically detects and skips steps that have already been completed.
+- **Extensible Architecture**: Easily define new steps or schedulers.
+
+## Main Workflows
+
+- **DIGI to DataFrame Conversion**:
+  Produce analysis-ready `parquet` dataframes from LHCb `DIGI` files.
+  The available output dataframes are detailed
+  on the [DataFrames Page](https://digout.docs.cern.ch/master/concepts/dataframes.html).
+
+- **DIGI to MDF Conversion**:
+  Convert LHCb `DIGI` files into the `.mdf` format required as input
+  for the [Allen framework](https://gitlab.cern.ch/lhcb/Allen).

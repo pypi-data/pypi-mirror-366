@@ -1,0 +1,126 @@
+# Default configuration for the digout workflow
+# Don't edit this file.
+# Instead, create a new configuration file, typically in the conf/ directory,
+# and override the necessary parameters.
+_c:
+  # constant section. Will be dropped in the final configuration
+  # Elements you need to define in your configuration
+  # production: <production name>
+  # base_datadir: <base data directory>
+  # base_logdir: <base log directory>
+
+  tag: v${oc.env:DIGOUT_VERSION}
+  subdir: ${_c.production}/${_c.tag}/
+  datadir: ${_c.base_datadir}/${_c.subdir}
+  logdir: ${_c.base_logdir}/${_c.subdir}
+
+steps:
+  generate_grid_proxy:
+    duration: "48:00" # for long HTCondor jobs
+    timeout: 5 # seconds to wait for the proxy check
+    proxy_path: ~/.grid.proxy
+  create_moore_stream:
+    output: ${_c.datadir}/bk_info.yaml
+    step_path: ${_c.datadir}/create_moore_stream.yaml
+    environment:
+      type: dirac
+      version: null # last version
+    select: null # no selection
+    n_files_per_chunk: 1
+    log:
+      stdout: ${_c.logdir}/create_moore_stream.stdout
+      stderr: ${_c.logdir}/create_moore_stream.stderr
+  generate_xml_catalog:
+    output: ${_c.datadir}/{name}/catalog.xml
+    step_path: ${_c.datadir}/{name}/generate_xml_catalog.yaml
+    environment:
+      type: dirac
+      version: null # last version
+    on_chunk: true
+    log:
+      stdout: ${_c.logdir}/{name}/generate_xml_catalog.stdout
+      stderr: ${_c.logdir}/{name}/generate_xml_catalog.stderr
+  digi2root:
+    # Output in a temporary directory by default
+    output: "/{tmpdir}/${_c.subdir}/{name}/digi2root"
+    step_path: ${_c.datadir}/{name}/digi2root.yaml
+    moore_options_path: ${_c.datadir}/{name}/digi2root/options.yaml
+    digi2root_config_path: ${_c.datadir}/{name}/digi2root/config.yaml
+    environment:
+      type: run
+      name: moore
+      version: null # last version
+      platform: "x86_64_v3-el9-gcc13+detdesc-opt+g" # detdesc is required for MC
+    with_retina_clusters: true
+    log:
+      stdout: ${_c.logdir}/{name}/digi2root.stdout
+      stderr: ${_c.logdir}/{name}/digi2root.stderr
+  digi2mdf:
+    output: ${_c.datadir}/{name}/digi2mdf/output.mdf
+    step_path: ${_c.datadir}/{name}/digi2mdf.yaml
+    geometry_dir: ${_c.datadir}/{name}/digi2mdf/geometry/
+    moore_options_path: ${_c.datadir}/{name}/digi2mdf/options.yaml
+    digi2mdf_config_path: ${_c.datadir}/{name}/digi2mdf/config.yaml
+    environment:
+      type: run
+      name: moore
+      version: null # last version
+    with_retina_clusters: true
+    log:
+      stdout: ${_c.logdir}/{name}/digi2mdf.stdout
+      stderr: ${_c.logdir}/{name}/digi2mdf.stderr
+  root2df:
+    output: ${_c.datadir}/{name}/root2df/{dfname}
+    step_path: ${_c.datadir}/{name}/root2df.yaml
+    done_path: ${_c.datadir}/{name}/root2df/done
+    dfio:
+      type: parquet
+      compression: lz4
+      engine: pyarrow
+    dfname_to_columns:
+      particles: null
+      velo_hits_particles: null
+      scifi_hits_particles: null
+      ut_hits_particles: null
+      events: [] # drop events dataframe by default
+    log:
+      stdout: ${_c.logdir}/{name}/root2df.stdout
+      stderr: ${_c.logdir}/{name}/root2df.stderr
+
+orchestrators:
+  simple: {} # no parameters
+  debug: {} # no parameters
+
+schedulers:
+  local:
+    n_workers: null # all available CPU cores
+    log_level: DEBUG
+  simple:
+    n_workers: null # all available CPU cores
+    return_output: false
+  htcondor:
+    submit_path: ${_c.logdir}/htcondor/submit
+    script_path: ${_c.logdir}/htcondor/script.sh
+    log_dir: ${_c.logdir}/htcondor
+    workflow_path: ${_c.datadir}/chunk_workflow.yaml
+    only_missing: true
+    params:
+      universe: vanilla
+      notification: never
+      "+MaxRuntime": 1800 # 30 minutes
+  debug:
+    show_context: true
+
+workflow_path: ${_c.datadir}/workflow.yaml
+
+runtime:
+  stream_orchestrator_key: simple
+  chunk_orchestrator_key: simple
+  scheduler_key: local
+
+context:
+  registries:
+    step: digout.step.STEP_REGISTRY
+    stream: digout.step.STREAM_REGISTRY
+    scheduler: digout.scheduler.SCHEDULER_REGISTRY
+    orchestrator: digout.orchestrator.ORCHESTRATOR_REGISTRY

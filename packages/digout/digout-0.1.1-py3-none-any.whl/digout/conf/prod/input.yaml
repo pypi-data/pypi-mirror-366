@@ -1,0 +1,35 @@
+# Input configuration for a workflow.
+_c:
+  # Define the name of the production here
+  production: Beam6800GeV-2024.Q1.2-MagDown-Nu7.6-25ns-Pythia8-Sim10d
+  # Optionally, set the tag for the production.
+  # If not set, the tag will be derived from the environment variable DIGOUT_VERSION
+  # which corresponds to the version of digout used.
+  # tag: ...
+
+
+# Either specify the bookkeeping path here -------------------------
+steps:
+  create_moore_stream:
+    input: /MC/Dev/Beam6800GeV-expected-2025-MagUp-Nu7.6-25ns-Pythia8/Sim10f/30000000/XDIGI
+    n_files_per_chunk: 1
+    # no need to specify the moore options
+    # since they are automatically determined from the bookkeeping path using DIRAC
+
+
+# Or provide a list of LFNs or PFNs here --------------------------
+# streams:
+#   create_moore_stream:
+#     # The input path for the stream
+#     paths:
+#     - /lhcb/MC/Dev/XDIGI/00295443/0000/00295443_00000001_1.xdigi
+#     - /lhcb/MC/Dev/XDIGI/00295443/0000/00295443_00000012_1.xdigi
+#     moore_options:
+#       # you also need to provide the moore options
+#       simulation: true
+#       input_type: ROOT
+#       dddb_tag: 2025-v00.02
+#       conddb_tag: sim10-2025-v00.01-mu100
+
+#     # Number of files per chunk
+#     n_files_per_chunk: 1
