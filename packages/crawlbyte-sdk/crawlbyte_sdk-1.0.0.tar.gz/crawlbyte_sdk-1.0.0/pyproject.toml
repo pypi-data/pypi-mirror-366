@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crawlbyte-sdk"
+version = "1.0.0"
+description = "Official Python SDK for Crawlbyte – create tasks, poll results, and integrate data scraping into your Python applications."
+authors = [{ name = "Crawlbyte", email = "marek@crawlbyte.ai" }]
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["crawlbyte", "scraping", "sdk"]
+license = { text = "MIT" }
+
+[project.urls]
+Homepage = "https://crawlbyte.ai"
+Documentation = "https://developers.crawlbyte.ai"
