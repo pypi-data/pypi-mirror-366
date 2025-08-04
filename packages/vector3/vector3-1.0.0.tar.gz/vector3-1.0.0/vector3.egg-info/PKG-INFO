@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: vector3
+Version: 1.0.0
+Summary: A flexible 3D vector math library supporting lower dimensions
+Author-email: Bhavesh Ganolia <ganoliabhavesh@gmail.com>
+License: MIT
+Keywords: vector,math,geometry,linear-algebra,3d
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# vector3
+
+**A lightweight and Pythonic 3D vector math library**  
+Supports 3D, 2D, 1D, and even 0D vector operations with clean syntax and full documentation.
+
+---
+
+## 🚀 Features
+
+- Arithmetic: `+`, `-`, `*`, `/`, `==`, `-vector`, `abs(vector)`
+- Access: indexing `[0]`, unpacking, `to_tuple()`
+- Dot & cross product
+- Unit vector, projection
+- Angle between vectors (cos, sin, degrees)
+- Scalar & vector triple products
+- Parallelepiped volume calculation
+- Auto-detect dimension (0D–3D support)
+
+---
+
+## 📦 Installation
+
+```bash
+pip install vector3
+```

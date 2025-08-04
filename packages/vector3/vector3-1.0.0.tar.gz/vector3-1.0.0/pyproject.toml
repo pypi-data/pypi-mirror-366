@@ -1,0 +1,21 @@
+[project]
+name = "vector3"
+version = "1.0.0"
+description = "A flexible 3D vector math library supporting lower dimensions"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Bhavesh Ganolia", email = "ganoliabhavesh@gmail.com"}
+]
+keywords = ["vector", "math", "geometry", "linear-algebra", "3d"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Mathematics"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
