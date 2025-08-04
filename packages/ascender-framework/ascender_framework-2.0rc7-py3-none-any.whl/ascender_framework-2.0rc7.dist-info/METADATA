@@ -1,0 +1,106 @@
+Metadata-Version: 2.3
+Name: ascender-framework
+Version: 2.0rc7
+Summary: The Ascender Framework is a sophisticated and structured FastAPI-based framework, inspired by the principles of NestJS. It stands out for its modular and organized architecture, offering developers a streamlined and efficient way to build web applications
+Author: AscenderTeam
+Requires-Python: >=3.11,<3.14
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: aerich (>=0.7.2,<0.8.0)
+Requires-Dist: chardet (>=5.2.0,<6.0.0)
+Requires-Dist: click (>=8.1.7,<9.0.0)
+Requires-Dist: fastapi (>=0.115)
+Requires-Dist: httpx (>=0.28.1,<0.29.0)
+Requires-Dist: inflection (>=0.5.1,<0.6.0)
+Requires-Dist: jinja2 (>=3.1.4,<4.0.0)
+Requires-Dist: pydantic[email] (>=2.7.4)
+Requires-Dist: pyinstaller (>=6.11.1,<7.0.0)
+Requires-Dist: python-dotenv (>=1.0.0,<2.0.0)
+Requires-Dist: python-minifier (>=2.11.3,<3.0.0)
+Requires-Dist: reactivex (>=4.0.4)
+Requires-Dist: readchar (>=4.0.5,<5.0.0)
+Requires-Dist: requests (>=2.31.0)
+Requires-Dist: rich (>=13.6.0,<14.0.0)
+Requires-Dist: rich-click (>=1.7.2,<2.0.0)
+Requires-Dist: sqlalchemy[asyncio] (>=2.0.31)
+Requires-Dist: uvicorn (>=0.25)
+Requires-Dist: watchfiles (>=1.0.5,<2.0.0)
+Project-URL: Homepage, https://ascender-framework.com
+Project-URL: Repository, https://github.com/ascender-team/ascenderframework
+Description-Content-Type: text/markdown
+
+<h1 align="center">Ascender Framework - The modern, powerful API framework</h1>
+
+
+<p align="center">
+<img src="logo.png" height="150px" />
+<br>
+<em>
+Ascender Framework is a powerful, FastAPI-based framework designed to streamline the development of web applications. <br>
+Inspired by NestJS and some parts of other DI frameworks, it combines the simplicity of Python with the robust architecture of modern web frameworks.</em>
+</p>
+
+<p align="center">
+    <a href="https://framework.ascender.space">Official Website</a>
+</p>
+
+
+## Documentation
+
+Get started! Learn the basics of framework and explore more advanced features and topics.
+
+- [Getting Started](https://framework.ascender.space/introduction/installation)
+- [Architecture](https://framework.ascender.space/introduction/overview)
+- [Controllers](https://framework.ascender.space/essentials/controllers)
+- [Validators](https://framework.ascender.space/essentials/data-validation)
+- [Modular Design](https://framework.ascender.space/essentials/dependency-injection)
+
+### Advanced level
+
+- [Database](https://framework.ascender.space/tutorials/databases)
+- [Providers](https://framework.ascender.space/di/dependency-providers)
+- [Custom CLI](https://framework.ascender.space/cli/custom)
+- [API](https://framework.ascender.space/api-references)
+
+
+## Getting Started
+
+Install Ascender Framework (with it's CLI) globally:
+```
+pip install ascender-framework
+```
+Initialize project workspace:
+```
+ascender new --name <project-name> --orm-mode <tortoise|sqlalchemy>
+```
+Run the first development server:
+```
+cd <project-name>
+ascender serve
+```
+or use local CLI:
+```
+ascender run serve
+```
+
+## Project Structure
+
+- `bootstrap.py`: For framework and server configuration.
+- `controllers/`: Contains the controllers with main controller.
+- `start.py`: Contains initialization and bootstrap entrypoint for entire application.
+
+## Contributing
+
+Contributions are welcome! Please read through our [contributing guidelines](https://framework.ascender.space/guidelines/contributions).
+
+## Need a help?
+
+If you need any help, report bug, improve documentation or contribute, please read our guidelines for [contributing](CONTRIBUTING.md) and then head out into issues of this repository.
+
+## License
+
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
+
