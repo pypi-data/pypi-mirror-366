@@ -1,0 +1,31 @@
+{% load static %}
+
+<footer id="footer">
+  <div class="container d-md-flex py-4">
+    <div class="me-md-auto text-center text-md-start">
+      <div class="copyright">
+        &copy; Copyright <a href="https://demiansoft.co.kr" target="_blank"><strong><span>Demiansoft</span></strong></a><a href="https://map.naver.com/v5/entry/place/13289684?c=15,0,0,0,dh" target="_blank">.</a> All Rights Reserved
+      </div>
+      <div class="credits">
+        {{ basic_info.company_name }} | {{ basic_info.owner}} | {{ basic_info.addr }} | 사업자등록번호: {{ basic_info.business_reg_number }}
+      </div>
+    </div>
+    <div class="social-links text-center text-md-right pt-3 pt-md-0">
+      {% if social.twitter %}
+      <a href="{{ social.twitter }}" class="twitter" title="{{ basic_info.company_name }} 트위터 바로가기" target="_blank"><i class="bx bxl-twitter"></i></a>
+      {% endif %}
+      {% if social.facebook %}
+      <a href="{{ social.facebook }}" class="facebook" title="{{ basic_info.company_name }} 페이스북 바로가기" target="_blank"><i class="bx bxl-facebook"></i></a>
+      {% endif %}
+      {% if social.instagram %}
+      <a href="{{ social.instagram }}" class="instagram" title="{{ basic_info.company_name }} 인스타그램 바로가기" target="_blank"><i class="bx bxl-instagram"></i></a>
+      {% endif %}
+      {% if social.youtube %}
+      <a href="{{ social.youtube }}" class="youtube" title="{{ basic_info.company_name }} 유튜브 바로가기" target="_blank"><i class="bx bxl-youtube"></i></a>
+      {% endif %}
+      {% if social.blog %}
+        <a href="{{ social.blog }}" class="blog" title="{{ basic_info.company_name }} 블로그 바로가기" target="_blank"><i class="bi bi-bootstrap-fill"></i></a>
+      {% endif %}
+    </div>
+  </div>
+</footer>
