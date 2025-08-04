@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  qa:
+    name: Check code and test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        python-version: [3.12, 3.13]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install project dependencies
+        run: uv sync --locked
+
+      - name: Run ruff
+        run: uv run ruff check --no-fix
+
+      - name: Run basedpyright
+        run: uv run basedpyright
+
+      - name: Run pytest (non-e2e)
+        run: uv run coverage run -m pytest
+
+      - name: Check coverage
+        run: uv run coverage report
