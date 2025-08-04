@@ -1,0 +1,31 @@
+"""
+SCSU byte tags.
+"""
+
+
+# Single-byte mode tags.
+SQn = (0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08)
+SDX = 0x0B
+SXR = 0x0C  # Reserved but not used.
+SQU = 0x0E
+SCU = 0x0F
+SCn = (0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17)
+SDn = (0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F)
+
+# Unicode tags.
+UCn = (0xE0, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7)
+UDn = (0xE8, 0xE9, 0xEA, 0xEB, 0xEC, 0xED, 0xEE, 0xEF)
+UQU = 0xF0
+UDX = 0xF1
+UXR = 0xF2  # Reserved but not used.
+
+
+def is_single_byte_tag(b: int) -> bool:
+    """Determine if a character encoded in single-byte mode is an instruction byte."""
+    return b in SQn or b in (SDX, SXR, SQU, SCU) or b in SCn or b in SDn
+
+
+def is_unicode_tag(s: bytes) -> bool:
+    """Determine if the first character of a character encoded in Unicode mode is an instruction byte."""
+    assert len(s) >= 1
+    return s[0] in UCn or s[0] in UDn or s[0] in (UQU, UDX, UXR)
