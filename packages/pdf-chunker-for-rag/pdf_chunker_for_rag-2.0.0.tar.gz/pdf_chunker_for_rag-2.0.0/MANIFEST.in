@@ -1,0 +1,9 @@
+include README.md
+include requirements.txt
+include LICENSE
+recursive-include pdf_chunker_for_rag *.py
+recursive-include pdf_chunker_for_rag *.md
+recursive-include pdf_chunker_for_rag *.txt
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
