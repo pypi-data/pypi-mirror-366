@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "containerizedcodeexecutermcp"
+version = "0.1.0"
+description = "An MCP server that executes Python code in containerized environments."
+readme = "README.md"
+authors = [{name="Efe Caliskan"}]
+requires-python = ">=3.11"
+dependencies = [
+    "docker>=7.1.0",
+    "fastmcp>=2.10.6",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.12.2",
+]
+
+[project.scripts]
+containerizedcodeexecutermcp = "containerizedcodeexecutermcp:main"
+
+[tool.hatch.build.targets.wheel]
+packages = [".","./code_executer"]
