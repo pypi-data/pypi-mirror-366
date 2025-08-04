@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tests.testdata.ping.v1;
+
+option cc_enable_arenas = true;
+option go_package = "tests/testdata/ping/v1";
+option java_multiple_files = true;
+option java_outer_classname = "PingProto";
+option java_package = "ping.v1";
+option objc_class_prefix = "PP";
+
+/**
+ * PingService defines example RPCs.
+ */
+service PingService {
+  rpc Ping(PingRequest) returns (PingResponse) {}
+  rpc PingServerStream(PingRequest) returns (stream PingResponse) {}
+  rpc PingClientStream(stream PingRequest) returns (PingResponse) {}
+  rpc PingBidiStream(stream PingRequest) returns (stream PingResponse) {}
+}
+
+// PingRequest request of Ping.
+message PingRequest {
+  string name = 1;
+}
+
+// PingResponse response of Ping.
+message PingResponse {
+  string name = 1;
+}
