@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Wrapper script for running mux on NixOS with proper library paths
+export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+exec /home/logan/workspace/mcp/mux/.direnv/python-3.13/bin/mux "$@"

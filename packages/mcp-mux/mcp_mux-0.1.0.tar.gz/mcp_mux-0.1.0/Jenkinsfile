@@ -1,0 +1,171 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins: agent
+spec:
+  containers:
+  - name: python
+    image: python:3.13-slim
+    command:
+    - sleep
+    args:
+    - infinity
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1"
+"""
+        }
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+        ansiColor('xterm')
+    }
+
+    environment {
+        // Python environment
+        PYTHONUNBUFFERED = '1'
+        UV_SYSTEM_PYTHON = '1'
+
+        // Test environment
+        MUX_CONFIG_PATH = "${WORKSPACE}/test_config.json"
+    }
+
+    stages {
+        stage('Setup') {
+            steps {
+                container('python') {
+                    echo "Setting up Python environment..."
+                    sh '''
+                        # Install system dependencies
+                        apt-get update && apt-get install -y git curl gcc g++
+
+                        # Install uv
+                        curl -LsSf https://astral.sh/uv/install.sh | sh
+                        export PATH="$HOME/.local/bin:$PATH"
+
+                        # Verify installation
+                        uv --version
+                        python --version
+
+                        # Create virtual environment and install dependencies
+                        uv venv
+                        uv pip install -e .[dev]
+                    '''
+                }
+            }
+        }
+
+        stage('Lint & Format Check') {
+            steps {
+                container('python') {
+                    echo "Running linters and format checks..."
+                    sh '''
+                        export PATH="$HOME/.local/bin:$PATH"
+
+                        # Run ruff linter
+                        uv run ruff check .
+
+                        # Check formatting
+                        uv run ruff format --check .
+
+                        # Run type checking
+                        uv run pyright
+                    '''
+                }
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                container('python') {
+                    echo "Running unit tests..."
+                    sh '''
+                        export PATH="$HOME/.local/bin:$PATH"
+
+                        # Run unit tests with coverage
+                        uv run pytest tests/unit/ \
+                            --cov=mux \
+                            --cov-report=html \
+                            --cov-report=xml \
+                            --cov-report=term \
+                            --junit-xml=test-results/junit.xml \
+                            -v
+
+                        # Check coverage threshold (adjusted for __main__.py not being covered)
+                        uv run coverage report --fail-under=75
+                    '''
+                }
+            }
+            post {
+                always {
+                    // Archive test results
+                    junit 'test-results/junit.xml'
+
+                    // Publish coverage reports
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'htmlcov',
+                        reportFiles: 'index.html',
+                        reportName: 'Coverage Report'
+                    ])
+                }
+            }
+        }
+
+        stage('Integration Tests') {
+            steps {
+                container('python') {
+                    echo "Running integration tests..."
+                    sh '''
+                        export PATH="$HOME/.local/bin:$PATH"
+
+                        # Run all integration tests
+                        uv run pytest tests/integration/ \
+                            --junit-xml=test-results/integration-junit.xml \
+                            -v
+                    '''
+                }
+            }
+            post {
+                always {
+                    junit 'test-results/integration-junit.xml'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            container('python') {
+                // Clean up
+                sh '''
+                    # Remove test artifacts
+                    rm -rf .pytest_cache
+                    rm -rf htmlcov
+                    rm -rf .coverage
+                    rm -f coverage.xml
+                '''
+            }
+        }
+        success {
+            echo "CI Pipeline completed successfully! ✅"
+        }
+        failure {
+            echo "CI Pipeline failed! ❌"
+        }
+    }
+}
