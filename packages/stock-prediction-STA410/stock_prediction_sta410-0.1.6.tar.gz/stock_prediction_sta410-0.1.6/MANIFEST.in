@@ -1,0 +1,9 @@
+exclude aptos_wallet.json
+exclude aptos_integration.log
+prune transaction_logs
+prune stock_prediction/logs
+prune stock_prediction/aptos
+prune .aptos
+prune model_cache
+exclude stock_prediction/core/autotrade.py
+exclude stock_prediction/docs/API_KEYs.json
