@@ -1,0 +1,45 @@
+include README.md
+include LICENSE
+include requirements.txt
+include setup.py
+include pyproject.toml
+include package.json
+include setup.bash
+include main.py
+
+# Include all Python packages
+recursive-include converters *.py
+recursive-include vox_parser *.py
+recursive-include wallet *.py *.js
+
+# Include documentation
+recursive-include *.md
+
+# Include test assets (but not the actual test files)
+include test_assets/README.md
+
+# Include configuration files
+include .gitignore
+
+# Exclude development files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude .git
+global-exclude .gitignore
+global-exclude .vscode
+global-exclude .idea
+global-exclude *.log
+global-exclude .pytest_cache
+global-exclude .mypy_cache
+global-exclude .coverage
+global-exclude htmlcov
+global-exclude dist
+global-exclude build
+global-exclude *.egg-info
+global-exclude venv
+global-exclude node_modules
+global-exclude output
+global-exclude temp
+global-exclude cache 

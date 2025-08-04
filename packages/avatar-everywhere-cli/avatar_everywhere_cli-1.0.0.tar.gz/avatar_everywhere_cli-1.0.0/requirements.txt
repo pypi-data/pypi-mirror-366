@@ -1,0 +1,25 @@
+# Avatar Everywhere CLI - Python Dependencies
+# Milestone 1: NFT Ownership Verification + Avatar Export to VRM
+
+# Core CLI framework
+typer==0.9.0
+rich==13.6.0
+click==8.0.4
+
+# 3D file processing
+pygltflib==1.16.1
+trimesh==4.0.5
+numpy==1.24.3
+pillow==10.0.1
+
+# Optional mesh processing
+# assimp==5.2.5  # Alternative mesh loader (uncomment if needed)
+
+# Development dependencies
+pytest==7.4.3
+black==23.9.1
+isort==5.12.0
+mypy==1.6.1
+
+# Additional utilities
+typing-extensions==4.8.0

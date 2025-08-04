@@ -1,0 +1,96 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "avatar-everywhere-cli"
+version = "1.0.0"
+description = "Portable Sandbox Identity Toolkit - NFT verification and VRM avatar conversion"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Abdulkareem Oyeneye/Dapps over Apps.", email = "team@dappsoverapps.com"}
+]
+maintainers = [
+    {name = "Abdulkareem Oyeneye/Dapps over Apps.", email = "team@dappsoverapps.com"}
+]
+keywords = ["sandbox", "avatar", "nft", "vrm", "metaverse", "polygon", "walletconnect"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "typer==0.9.0",
+    "rich==13.6.0",
+    "click==8.0.4",
+    "pygltflib==1.16.1",
+    "trimesh==4.0.5",
+    "numpy==1.24.3",
+    "pillow==10.0.1",
+    "typing-extensions==4.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "black>=23.9.1",
+    "isort>=5.12.0",
+    "mypy>=1.6.1",
+    "memory-profiler>=0.61.0",
+    "psutil>=5.9.0",
+]
+performance = [
+    "memory-profiler>=0.61.0",
+    "psutil>=5.9.0",
+]
+
+[project.scripts]
+avatar-everywhere = "main:main"
+avatar-cli = "main:main"
+
+[project.urls]
+Homepage = "https://github.com/Supercoolkayy/avatar-everywhere-cli"
+Documentation = "https://github.com/Supercoolkayy/avatar-everywhere-cli#readme"
+Repository = "https://github.com/Supercoolkayy/avatar-everywhere-cli"
+"Bug Tracker" = "https://github.com/Supercoolkayy/avatar-everywhere-cli/issues"
+
+[tool.setuptools.packages.find]
+include = ["converters*", "vox_parser*", "wallet*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true 
