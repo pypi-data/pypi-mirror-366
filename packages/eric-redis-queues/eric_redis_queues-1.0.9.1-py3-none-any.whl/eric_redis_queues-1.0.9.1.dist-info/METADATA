@@ -1,0 +1,32 @@
+Metadata-Version: 2.3
+Name: eric-redis-queues
+Version: 1.0.9.1
+Summary: Redis support for eric-sse
+License: MIT
+Keywords: sse,server sent events,queue,concurrency
+Author: Luca Stretti
+Author-email: laxertu@gmail.com
+Requires-Python: >=3.10, <3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: asyncio (>=3.4.3,<3.4.4)
+Requires-Dist: eric-sse (==1.5.2.1)
+Requires-Dist: redis (==6.2.0)
+Project-URL: Homepage, https://laxertu.github.io/eric-redis-queues
+Project-URL: Issues, https://github.com/laxertu/eric/issues
+Project-URL: Repository, https://github.com/laxertu/eric-redis-queues
+Description-Content-Type: text/markdown
+
+Redis support for eric-sse
+
+Example of usage:
+
+    from eric_sse.prefabs import SSEChannel
+    from eric_redis_queues import RedisConnectionsRepository
+    
+    c = SSEChannel(connections_repository=RedisConnectionsRepository())
+
+Documentation: https://laxertu.github.io/eric-redis-queues/
+
