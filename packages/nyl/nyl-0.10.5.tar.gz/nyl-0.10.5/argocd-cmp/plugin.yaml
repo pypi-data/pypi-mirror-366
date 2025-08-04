@@ -1,0 +1,47 @@
+# To be put in /home/argocd/cmp-server/config/plugin.yaml
+# Read also https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/#sidecar-plugin
+
+apiVersion: argoproj.io/v1alpha1
+kind: ConfigManagementPlugin
+metadata:
+  name: nyl
+spec:
+  # note: Plugin name in ArgoCD will be `nyl-v1`.
+  version: v1
+
+  discover:
+    find:
+      command:
+        - sh
+        - -c
+        - |
+          cd $(git rev-parse --show-toplevel)
+          (find . -name 'nyl-secrets.*' | grep .) || (find . -name 'nyl-project.*' | grep .)
+
+  # init:
+  #   command:
+  #     - sh
+  #     - -c
+  #     - |
+  #       nyl version >&2
+  #       argocd version --client >&2
+
+  # We expect that the NYL_CMP_TEMPLATE_INPUT environment variable points to the file to be templated
+  # for the current invocation. This is necessary because Argo CD lacks native support for referring to a single file;
+  # it only supports directories via the `.spec.source.path` field in the Application resource.
+  generate:
+    command:
+      - sh
+      - -c
+      - |
+        if [ -n "${NYL_DAEMON_SOCK:-}" ]; then
+          nyl-daemon --socket=${NYL_DAEMON_SOCK:-} template --in-cluster .
+        else
+          nyl template --in-cluster .
+        fi
+
+  parameters: {}
+
+  # If set to `true` then the plugin receives repository files with original file mode. Dangerous since the repository
+  # might have executable files. Set to true only if you trust the CMP plugin authors.
+  preserveFileMode: false
