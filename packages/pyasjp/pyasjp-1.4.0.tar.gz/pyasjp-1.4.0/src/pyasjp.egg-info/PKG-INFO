@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: pyasjp
+Version: 1.4.0
+Summary: programmatic access to ASJP data
+Home-page: https://github.com/dlce-eva/pyasjp
+Author: Robert Forkel
+Author-email: robert_forkel@eva.mpg.de
+License: Apache 2.0
+Keywords: linguistics
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: License :: OSI Approved :: Apache Software License
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: attrs>=19.3
+Requires-Dist: csvw
+Requires-Dist: clldutils>=3.5
+Provides-Extra: dev
+Requires-Dist: tox; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: wheel>=0.36; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest>=5; extra == "test"
+Requires-Dist: pytest-mock; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: coverage>=4.2; extra == "test"
+Dynamic: license-file
+
+# pyasjp
+Programmatic access to data in ASJP's text format
+
+[![Build Status](https://github.com/shh-dlce/pyasjp/workflows/tests/badge.svg)](https://github.com/shh-dlce/pyasjp/actions?query=workflow%3Atests)
+[![PyPI](https://img.shields.io/pypi/v/pyasjp.svg)](https://pypi.org/project/pyasjp)
+

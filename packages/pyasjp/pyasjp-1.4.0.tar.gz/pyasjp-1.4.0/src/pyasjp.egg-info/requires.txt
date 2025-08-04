@@ -1,0 +1,15 @@
+attrs>=19.3
+csvw
+clldutils>=3.5
+
+[dev]
+tox
+flake8
+wheel>=0.36
+twine
+
+[test]
+pytest>=5
+pytest-mock
+pytest-cov
+coverage>=4.2
