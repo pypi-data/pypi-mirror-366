@@ -1,0 +1,25 @@
+[project]
+name = "FlcatBrowser"
+dynamic = ["version", "readme"]
+description = "flcat browser"
+authors = [
+    { name="yhhit", email="827077539@qq.com" }
+]
+urls = { Homepage = "https://github.com/yhhit/FlcatBrowser" }
+dependencies = [
+    "FlcatDrissionPage>=0.1.15",
+]
+
+[tool.setuptools]
+packages = ["FlcatBrowser", "FlcatBrowser.utils", "FlcatBrowser.utils.FingerPrint", "FlcatBrowser.plugin", "FlcatBrowser._js"]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "FlcatDrissionPage>=0.1.15", "wakepy", "pyperclip", "pillow", "pywin32"]
+build-backend = "setuptools.build_meta"
+[tool.setuptools.dynamic]
+# 对应 `from FlcatBrowser import __version__` 和 `version=__version__`。
+# 它告诉 setuptools 从 `FlcatBrowser` 包的 `__version__` 属性中读取版本号。
+version = { attr = "FlcatBrowser.__version__" }
+# 对应从 `README.md` 文件中读取 `long_description`。
+# 它告诉 setuptools 读取 `README.md` 文件的内容，并将其内容类型设置为 Markdown。
+readme = { file = ["README.md"], content-type = "text/markdown" }
