@@ -1,0 +1,29 @@
+{% load static %}
+
+<section id="about" class="about">
+  <div class="container" data-aos="fade-up">
+
+    <div class="row">
+      <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
+        <img src="{% static 'mentor/img/about/'|add:about.image_filename %}" class="img-fluid" alt="">
+      </div>
+      <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+        {% autoescape off %}
+        <h3>{{ about.title }}</h3>
+        <p>
+          {{ about.head }}
+        </p>
+        <ul>
+          {% for li in about.contents %}
+          <li><i class="bi bi-check-circle"></i> {{ li }}</li>
+          {% endfor %}
+        </ul>
+        <p>
+          {{ about.tail }}
+        </p>
+        {% endautoescape %}
+      </div>
+    </div>
+
+  </div>
+</section>
