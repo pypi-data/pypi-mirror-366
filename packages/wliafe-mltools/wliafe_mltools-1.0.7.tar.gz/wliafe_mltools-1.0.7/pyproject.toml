@@ -1,0 +1,35 @@
+[project]
+name = "wliafe-mltools"
+version = "1.0.7"
+authors = [
+    {name = "wliafe", email = "914099435@qq.com"},
+]
+description = "A machine learning tools library"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Operating System :: OS Independent",
+]
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+dependencies = [
+    "httpx>=0.28.1",
+    "jupyter>=1.0.0",
+    "matplotlib>=3.5.1",
+    "pandas>=1.2.4",
+    "tqdm>=4.67.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/wliafe/mltools"
+Issues = "https://github.com/wliafe/mltools/issues"
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "mltools"
