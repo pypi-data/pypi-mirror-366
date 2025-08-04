@@ -1,0 +1,38 @@
+{% load static %}
+
+<section id="testimonials" class="testimonials">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Testimonials</h2>
+      <p>{{ testimonials.subtitle }}</p>
+    </div>
+
+    <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+      <div class="swiper-wrapper">
+
+        {% for item in testimonials.stories %}
+        <div class="swiper-slide">
+          <div class="testimonial-wrap">
+            <div class="testimonial-item">
+              <img src="{% static 'mentor/img/testimonials/'|add:item.photo|add:'.jpg' %}" class="testimonial-img" alt="">
+              {% autoescape off %}
+              <h3>{{ item.name }}</h3>
+              <h4>{{ item.job }}</h4>
+              <p>
+                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                {{ item.desc }}
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              {% endautoescape %}
+            </div>
+          </div>
+        </div><!-- End testimonial item -->
+        {% endfor %}
+
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+</section>

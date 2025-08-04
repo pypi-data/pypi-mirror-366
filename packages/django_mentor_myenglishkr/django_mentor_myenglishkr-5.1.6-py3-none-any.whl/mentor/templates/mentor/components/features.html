@@ -1,0 +1,29 @@
+
+<section id="features" class="features">
+  <div class="container" data-aos="fade-up">
+    {% if features.subtitle %}
+    <div class="section-title">
+      <p>{{ features.subtitle }}</p>
+    </div>
+    {% endif %}
+    <div class="row" data-aos="zoom-in" data-aos-delay="100">
+      {% for item in features.items %}
+        {% if forloop.counter0 == 0 %}
+        <div class="col-lg-3 col-md-4">
+        {% elif forloop.counter0 < 3 %}
+        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+        {% elif forloop.counter0 == 3 %}
+        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+        {% else %}
+        <div class="col-lg-3 col-md-4 mt-4">
+        {% endif %}
+          <div class="icon-box">
+            {% cycle '#ffbb2c;' '#5578ff;' '#e80368;' '#e361ff;' '#47aeff;' '#ffa76e;' '#11dbcf;' '#4233ff;' '#b2904f;' '#b20969;' '#ff5828;' '#29cc61;' as color silent %}
+            <i class="{{ item.icon }}" style="color: {{ color }}"></i>
+            <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
