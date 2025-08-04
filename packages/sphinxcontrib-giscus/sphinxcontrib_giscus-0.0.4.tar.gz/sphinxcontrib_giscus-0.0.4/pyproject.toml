@@ -1,0 +1,19 @@
+[project]
+name = "sphinxcontrib-giscus"
+version = "0.0.4"
+description = "A sphinx extension that integrate Giscus to your sphinx doc"
+authors = [
+    {name = "un4gt", email = "mt3085570450@outlook.com"},
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "sphinx>=7.1.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.urls]
+homepage = "https://github.com/un4gt/sphinxcontrib-giscus"
