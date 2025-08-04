@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ztxexp"
+version = "0.1.0"
+authors = [
+    { name = "ztxtech", email = "ztxtech@foxmail.com" },
+]
+description = "一个轻量、强大的Python库，旨在简化计算实验的管理、执行和分析。"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+keywords = [
+    "experiment management",
+    "machine learning",
+    "deep learning",
+    "reproducibility",
+    "parameter search",
+    "data science",
+    "pytorch"
+]
+
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+
+
+dependencies = [
+    "torch",
+    "numpy",
+    "psutil",
+    "dill",
+    "joblib",
+    "pandas",
+]
+
+
+[project.urls]
+Homepage = "https://ztxtech.github.io/ztxexp/"
+Repository = "https://github.com/ztxtech/ztxexp"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
