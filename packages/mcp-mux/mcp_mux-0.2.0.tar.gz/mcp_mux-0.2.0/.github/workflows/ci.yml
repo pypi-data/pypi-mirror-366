@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+
+jobs:
+  test-all-pythons:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+        cache-dependency-glob: "pyproject.toml"
+
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: |
+        uv sync --all-extras --dev
+
+    - name: Run linters
+      run: |
+        uv run ruff check .
+        uv run ruff format --check .
+        uv run pyright
+
+    - name: Run unit tests
+      run: |
+        uv run pytest tests/unit/ -v --tb=short
+
+    - name: Run integration tests
+      run: |
+        uv run pytest tests/integration/ -v --tb=short
+
+    - name: Run all tests with coverage
+      run: |
+        uv run pytest --cov=mux --cov-report=xml --cov-report=term-missing
+
+  test-platforms:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        python-version: ["3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+        cache-dependency-glob: "pyproject.toml"
+
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: |
+        uv sync --all-extras --dev
+
+    - name: Run tests
+      run: |
+        uv run pytest tests/ -v --tb=short
