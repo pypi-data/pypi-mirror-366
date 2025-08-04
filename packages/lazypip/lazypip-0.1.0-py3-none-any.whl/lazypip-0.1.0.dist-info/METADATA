@@ -1,0 +1,276 @@
+Metadata-Version: 2.4
+Name: lazypip
+Version: 0.1.0
+Summary: A lazygit-style TUI for Python package management using pip
+Author-email: playfairs <root@playfairs.cc>
+Maintainer-email: playfairs <root@playfairs.cc>
+License: MIT
+Project-URL: Homepage, https://github.com/playfairs/lazypip
+Project-URL: Repository, https://github.com/playfairs/lazypip
+Project-URL: Documentation, https://github.com/playfairs/lazypip#readme
+Project-URL: Bug Tracker, https://github.com/playfairs/lazypip/issues
+Keywords: pip,tui,package-manager,python,lazygit,terminal
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Software Distribution
+Classifier: Topic :: Terminals
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: textual>=0.45.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: click>=8.1.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest>=7.0.0; extra == "test"
+Requires-Dist: pytest-cov>=4.0.0; extra == "test"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "test"
+Dynamic: license-file
+
+# LazyPip 🐍⚡
+
+A **lazygit-style TUI** for Python package management using pip. Navigate, install, upgrade, and manage your Python packages with an intuitive terminal interface.
+
+[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## 🚀 Features
+
+- **Intuitive TUI** - Navigate packages with vim-like keybindings
+- **Real-time Package Status** - See installed, outdated, and available packages
+- **Quick Actions** - Install, upgrade, uninstall with single keystrokes
+- **Package Details** - View comprehensive package information
+- **Bulk Operations** - Upgrade all outdated packages at once
+- **Requirements Management** - Install from requirements.txt
+- **Search & Filter** - Find packages quickly
+- **Keyboard-First** - Designed for efficiency and speed
+
+## Example
+
+```
+┌─ LazyPip - Python Package Manager ─────────────────────────────┐
+│ Installed (142)        │ Package Details                       │
+├────────────────────────┼───────────────────────────────────────┤
+│ Status │ Package       │ requests ✓                            │
+│   ✓    │ requests      │                                       │
+│   ↑    │ numpy         │ Version: 2.31.0                       │
+│   ✓    │ flask         │ Latest: 2.31.0                        │
+│   ↑    │ django        │                                       │
+│   ✓    │ pytest        │ Summary: Python HTTP for Humans.      │
+│        │               │                                       │
+│        │               │ Location: /usr/local/lib/python3.11   │
+│        │               │                                       │
+│        │               │ Requires:                             │
+│        │               │   • urllib3>=1.21.1,<3                │
+│        │               │   • idna>=2.5,<4                      │
+│        │               │   • certifi>=2017.4.17                │
+├────────────────────────┼───────────────────────────────────────┤
+│ [16:30:15] Ready       │ [i]nstall [u]pgrade [d]elete [s]how   │
+└────────────────────────┴───────────────────────────────────────┘
+```
+
+## Installation
+
+### Prerequisites
+
+- Python 3.8 or higher
+- pip (Python package installer)
+
+### Install from PyPI (Recommended)
+
+```bash
+pip install lazypip
+```
+
+### Install from Source
+
+```bash
+git clone https://github.com/playfairs/lazypip.git
+cd lazypip
+pip install -e .
+```
+
+### Development Installation
+
+```bash
+git clone https://github.com/playfairs/lazypip.git
+cd lazypip
+pip install -e ".[dev]"
+```
+
+## Usage
+
+Start LazyPip from your terminal:
+
+```bash
+lazypip
+```
+
+### Keyboard Shortcuts
+
+#### Navigation
+- `↑↓` or `jk` - Navigate package list
+- `Tab` - Switch between panels
+- `Enter` or `Space` - Select package
+
+#### Package Management
+- `i` - Install new package
+- `u` - Upgrade selected package
+- `d` - Uninstall selected package
+- `s` - Show package details
+- `Ctrl+A` - Upgrade all outdated packages
+
+#### Application
+- `r` - Refresh package lists
+- `/` - Search packages
+- `f` - Show freeze output (requirements)
+- `Ctrl+R` - Install from requirements.txt
+- `q` or `Ctrl+C` - Quit
+
+### Tabs
+
+LazyPip organizes packages into three main tabs:
+
+1. **Installed** - All currently installed packages
+2. **Outdated** - Packages with available updates
+3. **Search** - Search for new packages to install
+
+### Package Status Indicators
+
+- `✓` - Package is installed and up-to-date
+- `↑` - Package is installed but outdated
+- `✗` - Package is not installed
+- `?` - Package status unknown
+
+## Themes
+
+LazyPip supports multiple themes:
+
+- **Dark Theme** (default) - Easy on the eyes for long sessions
+- **Light Theme** - For bright environments
+- **High Contrast** - Accessibility-focused theme
+
+## Project Structure
+
+```
+lazypip/
+├── src/
+│   └── lazypip/
+│       ├── __init__.py
+│       ├── __main__.py          # Application entry point
+│       ├── app.py               # Main Textual app
+│       ├── theme.py             # CSS styling
+│       ├── core/
+│       │   ├── pip_api.py       # Pip command wrapper
+│       │   ├── installer.py     # Package installation logic
+│       │   └── parser.py        # Output parsing utilities
+│       └── tui/
+│           ├── screens/
+│           │   ├── main.py      # Main application screen
+│           │   ├── install_dialog.py
+│           │   └── confirmation_dialog.py
+│           └── widgets/
+│               ├── package_list.py    # Package list widget
+│               ├── package_details.py # Package details panel
+│               └── status_bar.py      # Status bar widget
+├── tests/                       # Test suite
+├── requirements.txt
+├── pyproject.toml
+└── README.md
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+# Install test dependencies
+pip install -e ".[test]"
+
+# Run tests
+pytest
+
+# Run with coverage
+pytest --cov=lazypip
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Development Setup
+
+1. Fork the repository
+2. Clone your fork: `git clone https://github.com/yourusername/lazypip.git`
+3. Create a virtual environment: `python -m venv venv`
+4. Activate it: `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows)
+5. Install in development mode: `pip install -e ".[dev]"`
+6. Run tests: `pytest`
+
+### Code Style
+
+This project uses:
+- [Black](https://github.com/psf/black) for code formatting
+- [Flake8](https://flake8.pycqa.org/) for linting
+- [MyPy](https://mypy.readthedocs.io/) for type checking
+
+Format code before committing:
+```bash
+black src/ tests/
+flake8 src/ tests/
+mypy src/
+```
+
+## Bug Reports & Feature Requests
+
+Please use the [GitHub Issues](https://github.com/playfairs/lazypip/issues) page to report bugs or request features.
+
+## Acknowledgments
+
+- Inspired by [lazygit](https://github.com/jesseduffield/lazygit) - The best git TUI
+- Built with [Textual](https://github.com/Textualize/textual) - Amazing Python TUI framework
+- Styled with [Rich](https://github.com/Textualize/rich) - Beautiful terminal formatting
+
+## Roadmap
+
+- [ ] Package dependency visualization
+- [ ] Virtual environment management
+- [ ] Package vulnerability scanning
+- [ ] Custom package sources support
+- [ ] Export/import package lists
+- [ ] Package usage statistics
+- [ ] Plugin system
+- [ ] Configuration file support
+
+## Similar Projects
+
+- [lazygit](https://github.com/jesseduffield/lazygit) - Git TUI (Inspiration to the TUI)
+- [lazyvim](https://www.lazyvim.org/) - Lazy Vim (Inspiration to the name)
+- [pip-tools](https://github.com/jazzband/pip-tools) - pip dependency management
+- [pipx](https://github.com/pypa/pipx) - Install Python applications in isolated environments
+- [pypi](https://pypi.org/) - Python Package Index - pip itself
+
+---
+
+**Made with ❤️ for the Python community**
+
+If you find LazyPip useful, please consider giving it a ⭐ on GitHub!# -lazypip
