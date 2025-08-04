@@ -1,0 +1,53 @@
+[project]
+name = "pyfunc-pipeline"
+version = "0.3.0"
+description = "Functional programming pipeline for Python with chainable operations, lazy evaluation, and elegant placeholder syntax"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Alex", email = "alex@example.com" }
+]
+maintainers = [
+    { name = "Alex", email = "alex@example.com" }
+]
+keywords = ["functional", "pipeline", "data", "transformation", "lazy", "evaluation", "placeholder"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/alexzzzs/PyFunc"
+"Documentation" = "https://github.com/alexzzzs/PyFunc/blob/master/DOCUMENTATION.md"
+"Repository" = "https://github.com/alexzzzs/PyFunc"
+"Bug Tracker" = "https://github.com/alexzzzs/PyFunc/issues"
+"Changelog" = "https://github.com/alexzzzs/PyFunc/blob/master/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "mypy>=0.900",
+    "black>=21.0",
+    "flake8>=3.8",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."] # Search for packages in the current directory
+include = ["pyfunc*"] # Include packages starting with "pyfunc"
