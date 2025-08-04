@@ -1,0 +1,8 @@
+
+[conservation-mode.turn.on]
+label = "Turn on battery conservation mode (stop charging past 60%)"
+exec = 'echo 1 >/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode'
+
+[conservation-mode.turn.off]
+label = "Turn off battery conservation mode (stop charging past 60%)"
+exec = 'echo 0 >/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode'

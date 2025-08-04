@@ -1,0 +1,8 @@
+[env]
+PROJECT_FILE = "$HOME/.charm/vscode-projects"
+
+[open.project]
+label = "Open vscode project"
+exec = "code "
+prefix = "vsc "
+populate_options = "cat $PROJECT_FILE"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+hyprshot -m region -o "/tmp" -f "ocr-shot.png" 
+tesseract "/tmp/ocr-shot.png" "/tmp/ocr" -l eng+hun
+
+bat /tmp/ocr.txt

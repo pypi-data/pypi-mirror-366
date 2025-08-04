@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+dconf write "$TOGGLE_KEY" "true"
+hyprsunset -t 5000

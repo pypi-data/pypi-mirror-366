@@ -1,0 +1,5 @@
+[brightness.set]
+label="Set brightness"
+prefix=""
+exec="brightnessctl s "
+populate_options="echo -e '2%\n4%\n10%\n30%\n50%\n70%\n80%\n90%'"

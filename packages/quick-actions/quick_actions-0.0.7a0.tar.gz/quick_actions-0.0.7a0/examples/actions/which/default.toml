@@ -1,0 +1,6 @@
+[home-manager]
+label = "Which program, recursively canonicalize"
+script = "readlink -f $(which {...})"
+prefix = ""
+populate_options = ""
+show_response = true

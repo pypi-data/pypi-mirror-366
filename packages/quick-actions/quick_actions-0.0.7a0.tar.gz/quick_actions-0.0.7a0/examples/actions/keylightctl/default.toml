@@ -1,0 +1,43 @@
+display_prefix = "[keyboard] "
+
+[toggle]
+label = "Toggle Keyboard Lightning"
+exec = "keylightctl toggle"
+
+[preset]
+label = "Activate keylight preset"
+exec = "keylightctl template"
+prefix = ""
+populate_options = "keylightctl list | cut -f1"
+
+[turn.on]
+label = "Turn on keylight"
+exec = "keylightctl turn on"
+
+[turn.off]
+label = "Turn off keylight"
+exec = "keylightctl turn off"
+
+[set.effect]
+label = "Set keylight effect"
+exec = "keylightctl set --effect"
+prefix = ""
+populate_options = "echo -e 'static\nbreath\nwave\nhue\n'"
+
+[set.color]
+label = "Set keylight color(s)"
+exec = "keylightctl set --colors"
+prefix = ""
+# populate_options = ""
+
+[set.brightness]
+label = "Set keylight color(s)"
+exec = "keylightctl set --brightness"
+prefix = ""
+populate_options = "echo -e '1\n2'"
+
+[set.speed]
+label = "Set keylight speed"
+exec = "keylightctl set --speed"
+prefix = ""
+populate_options = "echo -e '1\n2\n3\n4'"

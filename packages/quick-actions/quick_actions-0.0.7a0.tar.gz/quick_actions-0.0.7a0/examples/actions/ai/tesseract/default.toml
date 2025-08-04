@@ -1,0 +1,8 @@
+[screenshot.ocr]
+label = "Copy text from a screen region"
+# exec = 'echo om ; echo ha; tesseract "/tmp/ocr-shot.png" - -l eng+hun'
+script = './ocr-screenregion'
+show_response = true
+copy=true
+# capture_output=false
+# use_shell = false

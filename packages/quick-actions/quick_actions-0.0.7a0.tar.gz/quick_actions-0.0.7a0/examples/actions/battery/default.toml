@@ -1,0 +1,8 @@
+[env]
+BATTERY_UPOWER = '/org/freedesktop/UPower/devices/battery_BAT1'
+
+[upower.battery-health]
+label = "Check your battery health"
+exec = 'upower -i $BATTERY_UPOWER | grep "energy-full" | tr -s " " |cut -d ":" -f2  | paste -sd/ - | qalc | sed -r "s/\x1B\[[0-9;]*[mK]//g"'
+show_response = true
+copy = true

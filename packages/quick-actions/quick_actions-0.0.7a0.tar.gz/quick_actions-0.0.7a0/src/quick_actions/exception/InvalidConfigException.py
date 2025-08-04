@@ -1,0 +1,2 @@
+class InvalidConfigException(RuntimeError):
+    pass
