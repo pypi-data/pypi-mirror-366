@@ -1,0 +1,671 @@
+# Vector DB Query
+
+<div align="center">
+  <h3>🚀 Semantic Search for Your Documents with AI Integration</h3>
+  <p>A powerful CLI tool that indexes your documents and enables natural language search with LLM integration via MCP</p>
+  
+  [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+  [![Documentation Status](https://readthedocs.org/projects/vector-db-query/badge/?version=latest)](https://vector-db-query.readthedocs.io/en/latest/?badge=latest)
+</div>
+
+## 🌟 Key Features
+
+Vector DB Query is a comprehensive solution for building searchable knowledge bases from your documents:
+
+### 📄 Enhanced Document Processing
+- **40+ File Formats**: PDF, Word, Excel, PowerPoint, HTML, Markdown, JSON, XML, Images (with OCR), and more
+- **OCR Support**: Extract text from images (PNG, JPG, TIFF, BMP) with configurable languages and confidence thresholds
+- **Archive Support**: Process ZIP, TAR, and compressed archives automatically
+- **Smart Chunking**: Multiple strategies including sliding window, semantic, and paragraph-based
+- **Metadata Extraction**: Preserve document structure, authorship, dates, and custom tags
+- **Format-Specific Processing**: Tailored extraction for each file type (formulas from Excel, speaker notes from PowerPoint, etc.)
+
+### 🔍 Advanced Semantic Search
+- Natural language queries with vector similarity
+- Hybrid search combining keyword and semantic matching
+- Advanced filtering by file type, date, score, and metadata
+- Result reranking and highlighting
+- Export results in multiple formats (JSON, CSV, Markdown)
+
+### 🎨 Rich Interactive CLI
+- Beautiful terminal UI powered by Rich and Textual
+- Visual file browser with real-time preview
+- Interactive query builder with autocomplete
+- Live progress tracking with detailed statistics
+- Customizable themes and output formats
+
+### 🤖 AI Integration
+- MCP server for Claude and other AI assistants
+- Secure API with JWT authentication
+- Rate limiting and request monitoring
+- Standardized tool interface for document operations
+- Real-time processing feedback
+
+### ⚙️ Flexible Configuration
+- YAML-based configuration with environment overrides
+- CLI commands for configuration management
+- Support for multiple configuration profiles
+- Validation and health checks
+- Hot-reloading of settings
+
+### 📊 Monitoring & Management
+- Real-time monitoring dashboard (Streamlit)
+- System metrics and resource usage tracking
+- Processing queue management
+- Log aggregation and analysis
+- PM2 integration for process management
+
+### ⚡ Performance & Scalability
+- Parallel processing with configurable workers
+- Memory-efficient chunking and streaming
+- Smart caching system
+- Connection pooling for database operations
+- Batch processing optimization
+
+### 🔗 Data Source Integration (New!)
+- **Gmail Integration**: Sync emails via IMAP/OAuth2 with folder selection and filtering
+- **Fireflies.ai Integration**: Automatic meeting transcript sync via API and webhooks
+- **Google Drive Integration**: Search and sync Gemini transcripts and documents
+- **Smart Deduplication**: Cross-source duplicate detection using content hashing
+- **NLP Processing**: Entity extraction, sentiment analysis, and key phrase detection
+- **Selective Processing**: Configurable filters for targeted content processing
+- **Real-time Monitoring**: Dashboard integration for tracking sync status
+- **Setup Wizard**: Interactive configuration for easy onboarding
+
+## 📋 Requirements
+
+- Python 3.9 or higher
+- 4GB RAM minimum (8GB recommended)
+- Qdrant vector database (local or cloud)
+- API key for embeddings (Google, OpenAI, etc.)
+- Optional: Tesseract for OCR support
+- Optional: Docker for containerized deployment
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Install from PyPI
+pip install vector-db-query
+
+# Or install from source
+git clone https://github.com/your-org/vector-db-query.git
+cd vector-db-query
+pip install -e .
+
+# Install with OCR support
+pip install vector-db-query[ocr]
+# Also install Tesseract:
+# macOS: brew install tesseract
+# Ubuntu: sudo apt-get install tesseract-ocr
+# Windows: Download from https://github.com/UB-Mannheim/tesseract/wiki
+
+# Install with all features
+pip install vector-db-query[all]
+
+# Install additional language packs for OCR
+# Ubuntu/Debian:
+sudo apt-get install tesseract-ocr-fra  # French
+sudo apt-get install tesseract-ocr-deu  # German
+sudo apt-get install tesseract-ocr-spa  # Spanish
+
+# macOS:
+brew install tesseract-lang
+```
+
+### Setup
+
+```bash
+# 1. Start Qdrant (using Docker)
+docker run -p 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+
+# 2. Configure the application
+vector-db-query config setup
+
+# 3. Process your first documents
+vector-db-query process ~/Documents/my-files --recursive
+
+# 4. Search your documents
+vector-db-query query "machine learning algorithms"
+
+# 5. Or use interactive mode for the full experience
+vector-db-query interactive start
+```
+
+## 📖 Usage
+
+### Interactive Mode (Recommended)
+
+The interactive mode provides a rich terminal interface:
+
+```bash
+vector-db-query interactive start
+```
+
+Features:
+- 📁 Visual file browser with multi-format preview
+- 🔍 Interactive query builder with AI suggestions
+- 📊 Beautiful result viewer with syntax highlighting
+- ⚙️ Settings editor with live validation
+- 📚 Built-in tutorials and examples
+- 🎯 Format-specific processing options
+
+### Command Line Mode
+
+#### Processing Documents
+
+```bash
+# Process all supported formats
+vector-db-query process /path/to/documents --recursive
+
+# Process specific formats only
+vector-db-query process /path/to/docs --formats pdf,docx,xlsx
+
+# Process with OCR for images
+vector-db-query process /path/to/images --ocr --ocr-lang eng
+
+# Show all supported formats
+vector-db-query formats
+
+# Check format support for specific files
+vector-db-query formats /path/to/file.xyz
+
+# Process only Excel and PowerPoint files
+vector-db-query process /path/to/docs --formats xlsx,pptx --recursive
+
+# Dry run to see what would be processed
+vector-db-query process /path/to/docs --dry-run --verbose
+```
+
+#### Querying Documents
+
+```bash
+# Simple natural language query
+vector-db-query query "explain the authentication flow"
+
+# Advanced search with filters
+vector-db-query query "Python async" --filter file_type=py --limit 20
+
+# Hybrid search with keyword weight
+vector-db-query query "API endpoints" --hybrid --keyword-weight 0.4
+
+# Export results in different formats
+vector-db-query query "documentation" --export results.json --format json
+vector-db-query query "configuration" --export results.md --format markdown
+
+# Show query statistics
+vector-db-query query "machine learning" --stats
+```
+
+#### Configuration Management
+
+```bash
+# Show current configuration
+vector-db-query config show
+vector-db-query config show --format table
+vector-db-query config show --section document_processing
+
+# Get/Set configuration values
+vector-db-query config get document_processing.chunk_size
+vector-db-query config set document_processing.chunk_size 2000 --type int
+
+# Validate configuration
+vector-db-query config validate
+
+# Show supported file formats
+vector-db-query config formats
+
+# Add custom format
+vector-db-query config add-format .custom
+
+# Export/Import configuration
+vector-db-query config export --output my-config.yaml
+vector-db-query config load custom-config.yaml --merge
+
+# Show environment variable mappings
+vector-db-query config env
+```
+
+#### Monitoring and Management
+
+```bash
+# Start monitoring dashboard (requires monitoring dependencies)
+vector-db-query monitor
+# Or install monitoring dependencies first:
+# pip install vector-db-query[monitoring]
+
+# View system status
+vector-db-query status
+
+# View processing logs
+vector-db-query logging show --tail 100
+vector-db-query logging search "ERROR" --context 5
+
+# Manage processes with PM2
+./scripts/pm2-manage.sh start all
+./scripts/pm2-manage.sh status
+./scripts/pm2-manage.sh logs mcp-server
+```
+
+### MCP Server for AI Assistants
+
+Enable AI assistants like Claude to search your documents:
+
+```bash
+# Initialize MCP configuration
+vector-db-query mcp init
+
+# Start MCP server
+vector-db-query mcp start
+
+# Create API client
+vector-db-query mcp auth create-client "claude-assistant"
+
+# Check server status
+vector-db-query mcp status
+
+# Test with sample query
+vector-db-query mcp test --query "find Python examples"
+```
+
+The MCP server provides tools for:
+- Searching documents with natural language
+- Processing new files in real-time
+- Getting collection statistics
+- Managing the vector database
+- Monitoring system health
+
+## ⚙️ Configuration
+
+The application uses a flexible YAML-based configuration system:
+
+```yaml
+# config.yaml example
+app:
+  name: "Vector DB Query System"
+  log_level: "INFO"
+
+document_processing:
+  chunk_size: 1000
+  chunk_overlap: 200
+  max_file_size_mb: 100
+  
+  file_formats:
+    documents: [".pdf", ".doc", ".docx", ".txt", ".md"]
+    spreadsheets: [".xlsx", ".xls", ".csv"]
+    images: [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
+    # ... more formats
+  
+  ocr:
+    enabled: true
+    language: "eng"
+    confidence_threshold: 60.0
+
+vector_db:
+  host: "localhost"
+  port: 6333
+  collection_name: "documents"
+
+embedding:
+  model: "embedding-001"
+  dimensions: 768
+
+# ... more settings
+```
+
+### Environment Variables
+
+Override configuration with environment variables:
+
+```bash
+export VECTOR_DB_LOG_LEVEL=DEBUG
+export QDRANT_HOST=remote-server.com
+export QDRANT_PORT=6334
+export EMBEDDING_MODEL=text-embedding-ada-002
+export OCR_LANGUAGE=eng+fra+deu
+export CHUNK_SIZE=1500
+```
+
+## 🧩 Supported File Formats
+
+### Documents
+- **PDF** (`.pdf`) - Full text extraction with layout preservation
+- **Microsoft Word** (`.doc`, `.docx`) - Text, tables, headers/footers, and comments
+- **OpenDocument Text** (`.odt`) - ODT format support
+- **Rich Text Format** (`.rtf`) - RTF document processing
+- **Plain Text** (`.txt`, `.text`) - With encoding detection
+- **Markdown** (`.md`, `.markdown`) - Preserves structure and formatting
+
+### Spreadsheets
+- **Microsoft Excel** (`.xlsx`, `.xls`) - Extracts:
+  - Cell values and formulas
+  - Comments and notes
+  - Multiple sheets
+  - Table structures
+- **CSV** (`.csv`, `.tsv`) - Tabular data processing
+- **OpenDocument Spreadsheet** (`.ods`) - ODS format support
+
+### Presentations
+- **Microsoft PowerPoint** (`.pptx`, `.ppt`) - Extracts:
+  - Slide content and titles
+  - Speaker notes
+  - Table data
+  - Slide numbers and structure
+- **OpenDocument Presentation** (`.odp`) - ODP format support
+
+### Email
+- **Email Messages** (`.eml`) - Extracts:
+  - Headers (From, To, Subject, Date)
+  - Body content (text/HTML)
+  - Attachments (processed recursively)
+  - Thread detection
+- **Mailbox** (`.mbox`) - Multi-message archive support
+- **Outlook Message** (`.msg`) - MSG format support
+
+### Web & Markup
+- **HTML** (`.html`, `.htm`, `.xhtml`) - Features:
+  - Script/style removal
+  - Text extraction with structure
+  - Link preservation
+  - Optional markdown conversion
+- **XML** (`.xml`) - Structured data extraction
+
+### Configuration & Data
+- **JSON** (`.json`) - Pretty-printed extraction
+- **YAML** (`.yaml`, `.yml`) - Multi-document support
+- **INI/Config** (`.ini`, `.cfg`, `.conf`) - Section-based extraction
+- **TOML** (`.toml`) - TOML format support
+- **Log Files** (`.log`) - Features:
+  - Pattern extraction
+  - Summary generation
+  - Configurable line limits
+
+### Images (with OCR)
+Requires Tesseract installation:
+- **PNG** (`.png`) - Lossless image format
+- **JPEG** (`.jpg`, `.jpeg`) - Common photo format
+- **TIFF** (`.tiff`, `.tif`) - Multi-page support
+- **BMP** (`.bmp`) - Bitmap images
+- **GIF** (`.gif`) - Graphics format
+
+### Archives
+- **ZIP** (`.zip`)
+- TAR (`.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`)
+- 7-Zip (`.7z`)
+
+### Logs
+- Log Files (`.log`)
+
+## 🔧 Advanced Features
+
+### OCR Configuration
+
+```bash
+# Install Tesseract
+# macOS
+brew install tesseract
+
+# Ubuntu/Debian
+sudo apt-get install tesseract-ocr
+
+# Install additional languages
+sudo apt-get install tesseract-ocr-fra tesseract-ocr-deu
+
+# Configure OCR in vector-db-query
+vector-db-query config set document_processing.ocr.enabled true
+vector-db-query config set document_processing.ocr.language "eng"
+vector-db-query config set document_processing.ocr.confidence_threshold 60.0
+```
+
+### Format-Specific Configuration
+
+Configure processing behavior for each file format:
+
+```yaml
+# config/default.yaml
+document_processing:
+  format_settings:
+    excel:
+      extract_formulas: true
+      extract_comments: true
+      process_all_sheets: true
+      max_rows_per_sheet: 10000
+    
+    powerpoint:
+      extract_speaker_notes: true
+      extract_slide_numbers: true
+      include_master_slides: false
+    
+    email:
+      extract_attachments: true
+      thread_detection: true
+      sanitize_content: true
+      include_headers: true
+    
+    html:
+      remove_scripts: true
+      remove_styles: true
+      convert_to_markdown: false
+      preserve_links: true
+    
+    logs:
+      summarize: true
+      extract_patterns: true
+      max_lines: 10000
+```
+
+Or use environment variables:
+
+```bash
+export VECTOR_DB_EXCEL_EXTRACT_FORMULAS=true
+export VECTOR_DB_EXCEL_MAX_ROWS=5000
+export VECTOR_DB_EMAIL_EXTRACT_ATTACHMENTS=true
+export VECTOR_DB_HTML_CONVERT_MARKDOWN=true
+export VECTOR_DB_LOG_SUMMARIZE=true
+```
+
+### Batch Processing
+
+```python
+# Python script for batch processing
+from vector_db_query import DocumentProcessor
+
+processor = DocumentProcessor(
+    chunk_size=1500,
+    chunk_overlap=300,
+    parallel_workers=8
+)
+
+# Process with progress callback
+def on_progress(current, total, file_name):
+    print(f"Processing {file_name}: {current}/{total}")
+
+documents = processor.process_directory(
+    "/path/to/documents",
+    recursive=True,
+    progress_callback=on_progress
+)
+```
+
+### Custom Embeddings
+
+```python
+# Use custom embedding models
+from vector_db_query import EmbeddingService
+
+# Configure custom model
+embedding_service = EmbeddingService(
+    model="custom-model",
+    api_key="your-api-key",
+    dimensions=1536
+)
+
+# Process with custom embeddings
+processor = DocumentProcessor(
+    embedding_service=embedding_service
+)
+```
+
+## 📊 Monitoring Dashboard
+
+The built-in monitoring dashboard provides real-time insights:
+
+```bash
+# Start the dashboard
+vector-db-query monitor start
+
+# Access at http://localhost:8501
+```
+
+Features:
+- System resource usage (CPU, Memory, Disk)
+- Processing queue status
+- Document processing statistics
+- Error logs and alerts
+- Performance metrics
+
+## 🐳 Docker Support
+
+Run everything in containers:
+
+```bash
+# Build the image
+docker build -t vector-db-query .
+
+# Run with docker-compose
+docker-compose up -d
+
+# Access services
+# - API: http://localhost:5000
+# - Qdrant: http://localhost:6333
+# - Dashboard: http://localhost:8501
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test categories
+pytest tests/test_readers/
+pytest tests/test_cli/
+
+# Run with coverage
+pytest --cov=vector_db_query
+
+# Run integration tests
+pytest tests/integration/ --integration
+```
+
+## 📚 Documentation
+
+### Guides
+- [Getting Started Guide](docs/getting-started.md)
+- [File Formats Guide](docs/file-formats-guide.md) - Detailed information about all supported formats
+- [Usage Examples](docs/usage-examples.md) - Practical examples for common use cases
+- [Configuration Guide](docs/configuration-guide.md)
+- [CLI Features Guide](docs/enhanced-cli-features.md)
+
+### API Documentation
+- [Document Readers API](docs/api/readers.md) - API reference for all document readers
+- [Full API Reference](https://vector-db-query.readthedocs.io)
+
+### Integration & Deployment
+- [MCP Integration Guide](docs/mcp_integration_guide.md)
+- [Monitoring Setup Guide](docs/monitoring-setup.md)
+- [Monitoring System Guide](docs/monitoring-system.md)
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📊 Data Sources
+
+The Data Sources feature enables automatic synchronization of content from multiple external sources into your vector database:
+
+### Quick Start
+```bash
+# Run interactive setup wizard
+vdq setup
+
+# Or use quick start guide
+vdq quickstart
+
+# Start syncing data
+vdq datasources sync
+
+# Monitor sync status
+vdq monitor
+```
+
+### Key Capabilities
+
+#### Gmail Integration
+- OAuth2 authentication for secure access
+- Folder selection (INBOX, Sent, Drafts, etc.)
+- Advanced filtering (sender whitelist/blacklist, patterns)
+- Attachment processing
+- Thread detection and grouping
+
+#### Fireflies.ai Integration
+- API-based transcript sync
+- Real-time webhook support
+- Meeting duration and platform filters
+- Speaker identification
+- Automatic summary extraction
+
+#### Google Drive Integration
+- OAuth2 authentication
+- Pattern-based file search (e.g., "Notes by Gemini")
+- Folder-specific sync
+- Shared drive support
+- File type filtering
+
+#### Advanced Processing
+- **Deduplication**: Content-based hashing to prevent duplicates
+- **NLP Analysis**: Extract entities, sentiment, and key phrases
+- **Selective Processing**: Rule-based filtering system
+- **Performance**: Parallel processing with rate limiting
+- **Monitoring**: Real-time dashboard with metrics
+
+### Configuration
+
+The system can be configured via:
+- Interactive setup wizard: `vdq setup`
+- Configuration file: `config/default.yaml`
+- Environment variables for sensitive data
+- Web UI through monitoring dashboard
+
+### Documentation
+- [Setup Wizard Guide](docs/setup-wizard.md)
+- [Data Sources Operations Guide](docs/data-sources-operations.md)
+- [Troubleshooting Guide](docs/troubleshooting-guide.md)
+- [Deployment Guide](docs/deployment-guide.md)
+- [Maintenance Procedures](docs/maintenance-procedures.md)
+
+## 🙏 Acknowledgments
+
+- [Qdrant](https://qdrant.tech/) for the excellent vector database
+- [Rich](https://github.com/Textualize/rich) for beautiful terminal formatting
+- [Textual](https://github.com/Textualize/textual) for the interactive TUI
+- [MCP](https://modelcontextprotocol.io/) for AI integration standards
+- All our contributors and users!
+
+---
+
+<div align="center">
+  <p>Built with ❤️ by the Vector DB Query Team</p>
+  <p>
+    <a href="https://github.com/your-org/vector-db-query">GitHub</a> •
+    <a href="https://vector-db-query.readthedocs.io">Documentation</a> •
+    <a href="https://github.com/your-org/vector-db-query/issues">Issues</a>
+  </p>
+</div>
