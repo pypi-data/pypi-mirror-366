@@ -1,0 +1,77 @@
+name: Build
+
+on: 
+  push:
+    paths:
+      - 'src/**'
+      - 'libcachesim/**'
+      - 'tests/**'
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'libcachesim/**'
+      - 'tests/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, macos-14]
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install system dependencies
+        run: |
+          bash src/libCacheSim/scripts/install_dependency.sh
+
+      - name: Build and test with uv
+        run: |
+          uv venv --python ${{ matrix.python-version }}
+          uv pip install -e .[dev] -vvv
+          uv run python -c "import libcachesim; print('✓ Import successful for Python ${{ matrix.python-version }} on ${{ matrix.os }}')"
+
+      - name: Run tests
+        run: |
+          if [ -d "tests" ]; then
+            uv run python -m pytest tests/ -v -m "not optional"
+          else
+            echo "No tests directory found, skipping tests"
+          fi
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Install documentation dependencies and build
+        run: |
+          # Install MkDocs and dependencies using pip in a temporary venv
+          python3 -m venv temp-docs-env
+          source temp-docs-env/bin/activate
+          pip install -r docs/requirements.txt
+          cd docs
+          mkdocs build --clean --strict
