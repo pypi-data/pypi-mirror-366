@@ -1,0 +1,24 @@
+[project]
+name = "rpmdyn"
+description = "Alternative dynamic RPM bindings for Python"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Rohan McGovern", email = "rohan@mcgovern.id.au" }]
+maintainers = [{ name = "Rohan McGovern", email = "rohan@mcgovern.id.au" }]
+requires-python = ">= 3.8"
+dynamic = ["version", "dependencies"]
+
+[project.urls]
+homepage = "https://github.com/rohanpm/rpmdyn"
+
+[tool.setuptools.dynamic]
+version = { attr = "rpmdyn.__version__" }
+dependencies = { file = "requirements.in" }
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel", "buildsys-dateversion"]
+backend-path = ["custom_build"]
+build-backend = "backend"
