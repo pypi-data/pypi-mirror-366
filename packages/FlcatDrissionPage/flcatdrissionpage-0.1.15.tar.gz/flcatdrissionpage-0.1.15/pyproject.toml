@@ -1,0 +1,79 @@
+# pyproject.toml
+
+# 此为必需部分，用于告知构建工具（如 pip）本项目需要使用 setuptools 进行构建。
+# 这遵循 PEP 517/518 标准。
+[build-system]
+requires = ["setuptools>=61.0", 
+    "requests",
+    "lxml",
+    "requests",
+    "cssselect",
+    "DownloadKit>=2.0.7",
+    "websocket-client",
+    "click",
+    "tldextract>=3.4.4",
+    "psutil",
+    "loguru",
+    ]
+build-backend = "setuptools.build_meta"
+
+# `project` 区段包含了你包的核心元数据。
+# 它取代了 setup.py 中 setup() 函数的大部分参数。
+[project]
+name = "FlcatDrissionPage"
+# 将 version 和 readme 声明为动态字段，意味着它们的值将在构建时从其他地方获取。
+# 具体的获取方式在文件末尾的 `[tool.setuptools.dynamic]` 部分定义。
+dynamic = ["version", "readme"]
+authors = [
+    { name = "yhhit", email = "827077539@qq.com" },
+]
+description = "Python based web automation tool. It can control the browser and send and receive data packets."
+keywords = ["FlcatDrissionPage"]
+# 对应 setup() 中的 `python_requires`
+requires-python = ">=3.6"
+# 对应 setup() 中的 `classifiers`
+classifiers = [
+    "Programming Language :: Python :: 3.6",
+    "Development Status :: 4 - Beta",
+    "Topic :: Utilities",
+    # "License :: OSI Approved :: BSD License", # 许可证在 setup.py 中被注释掉了
+]
+# 对应 setup() 中的 `install_requires`
+dependencies = [
+    "lxml",
+    "requests",
+    "cssselect",
+    "DownloadKit>=2.0.7",
+    "websocket-client",
+    "click",
+    "tldextract>=3.4.4",
+    "psutil",
+    "loguru",
+]
+
+# 对应 setup() 中 `entry_points` 的 `console_scripts` 部分。
+# 这是定义命令行工具的新标准方式。
+[project.scripts]
+dp = "DrissionPage._functions.cli:main"
+
+
+# `tool.setuptools` 区段用于存放 setuptools 的特定配置，
+# 这些配置没有被 PEP 621 的 `[project]` 标准完全覆盖。
+[tool.setuptools]
+# 对应 setup() 中的 `include_package_data=True`
+include-package-data = true
+# 对应 setup() 中的 `zip_safe=False`
+zip-safe = false
+
+# 此部分替代了 `packages=find_packages()` 的功能。
+# 空的花括号 {} 表示使用 setuptools 的默认发现机制，即自动查找项目中的所有包。
+[tool.setuptools.packages.find]
+
+# 此部分定义了 `setuptools` 应如何获取在 `[project]` 区段中声明的动态元数据。
+[tool.setuptools.dynamic]
+# 对应 `from DrissionPage import __version__` 和 `version=__version__`。
+# 它告诉 setuptools 从 `DrissionPage` 包的 `__version__` 属性中读取版本号。
+version = { attr = "DrissionPage.__version__" }
+# 对应从 `README.md` 文件中读取 `long_description`。
+# 它告诉 setuptools 读取 `README.md` 文件的内容，并将其内容类型设置为 Markdown。
+readme = { file = ["README.md"], content-type = "text/markdown" }
