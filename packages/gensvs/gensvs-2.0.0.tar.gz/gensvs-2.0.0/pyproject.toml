@@ -1,0 +1,62 @@
+[project]
+name = "gensvs"
+version = "2.0.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Paul A. Bereuter", email = "paul.bereuter@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "auraloss>=0.4.0",
+    "beartype>=0.21.0",
+    "cmake>=4.0.3",
+    "demucs>=4.0.1",
+    "einops>=0.8.1",
+    "huggingface-hub>=0.23.4",
+    "hypy-utils>=1.0.29",
+    "librosa>=0.8.1",
+    "matplotlib>=3.10.3",
+    "ml-collections>=1.1.0",
+    "music2latent>=0.1.6",
+    "ninja>=1.11.1.4",
+    "nnaudio>=0.3.3",
+    "numpy<2",
+    "omegaconf>=2.3.0",
+    "openunmix>=1.3.0",
+    "pesq>=0.0.4",
+    "ptflops>=0.7.4",
+    "pytorch-lightning>=2.5.2",
+    "rotary-embedding-torch>=0.8.8",
+    "scipy>=1.16.0",
+    "setuptools>=80.9.0",
+    "soundfile>=0.13.1",
+    "tensorboard>=2.20.0",
+    "torch>=2.7.1",
+    "torch-ema>=0.3",
+    "torchaudio>=2.7.1",
+    "torchmetrics>=1.7.4",
+    "tqdm>=4.67.1",
+    "transformers>=4.53.3",
+    "wandb>=0.21.0",
+]
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["gensvs*","baseline_models*", "bigvgan_utils*", "eval_utils*", "sgmsvs*"]
+namespaces = true
+
+[project.scripts]
+gensvs = "gensvs.cli:main"
+gensvs-eval = "gensvs.evaluate:main"
+
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
