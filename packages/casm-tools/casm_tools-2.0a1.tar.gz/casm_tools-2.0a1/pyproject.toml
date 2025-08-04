@@ -1,0 +1,61 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "casm-tools"
+version = "2.0a1"
+authors = [
+  { name="CASM developers", email="casm-developers@lists.engr.ucsb.edu" },
+]
+description = "CASM command line tools"
+readme = "README.md"
+requires-python = ">=3.9,<3.14"
+license = "LGPL-2.1-or-later"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "libcasm-xtal>=2.2.0",
+    "libcasm-mapping>=2.2.0",
+    "libcasm-configuration>=2.2.0",
+    "numpy",
+    "tabulate",
+]
+
+[project.optional-dependencies]
+ase = ["ase"]
+
+[project.urls]
+Homepage = "https://prisms-center.github.io/CASMcode_docs/"
+Repository = "https://github.com/prisms-center/CASMcode_tools"
+
+[project.scripts]
+casm-map = "casm.tools.map.commands.main:main"
+casm-calc = "casm.tools.calc.commands.main:main"
+
+[build_sphinx]
+source-dir = "doc"
+build-dir  = "doc/build"
+all_files  = 1
+
+[tool.ruff.lint]
+select = ["NPY201", "E", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["libcasm", "casm"]
+
+[tool.pytest.ini_options]
+markers = [
+    "requires_ase: marks tests requiring ase (deselect with '-m \"not requires_ase\"')",
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "very_slow: marks tests as very slow (deselect with '-m \"not very_slow\"')",
+]
