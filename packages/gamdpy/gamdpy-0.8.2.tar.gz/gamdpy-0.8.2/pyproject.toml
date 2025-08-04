@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gamdpy"
+version = "0.8.2"
+authors = [
+    {name="Thomas Schrøder", email="tbs@ruc.dk" },
+    {name="Ulf R. Pedersen"},
+    {name="Nick Bailey"},
+    {name="Jesper Schmidt Hansen"},
+    {name="Lorenzo Costigliola"},
+]
+maintainers = [
+  { name="Thomas Schrøder", email="tbs@ruc.dk" }
+]
+description = "GPU Accelerated Molecular Dynamics in Python "
+readme = "READMEpypi.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "numba",
+    "h5py",
+    "pandas",
+    "matplotlib",
+]
+license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+license-files = ["LICENSE*"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "Environment :: GPU",
+    "Framework :: Jupyter",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    'Topic :: Scientific/Engineering',
+    'Topic :: Scientific/Engineering :: Chemistry',
+    'Topic :: Scientific/Engineering :: Physics',
+]
+
+[project.urls]
+Repository = "https://github.com/ThomasBechSchroeder/gamdpy"
+Issues = "https://github.com/ThomasBechSchroeder/gamdpy/issues"
