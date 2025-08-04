@@ -1,0 +1,64 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyectool"
+version = "0.2.0"
+description="Pyectool provides Python bindings for interacting with the Embedded Controller (EC) on ChromeOS and Framework devices, enabling seamless integration with other applications"
+readme = "README.md"
+authors = [
+  { name = "Ahmed Gamea", email = "ahmed.gamea@ejust.edu.eg" },
+]
+license = {file = "LICENSE"}
+keywords = ["ectool", "embedded controller", "EC", "pybind11", "bindings"]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+Homepage = "https://github.com/CCExtractor/libectool"
+Issues = "https://github.com/CCExtractor/libectool/issues"
+
+[tool.scikit-build]
+minimum-version = "0.10"
+
+[tool.cibuildwheel]
+build-frontend = "build[uv]"
+
+[tool.ruff.lint]
+extend-select = [
+  "B",           # flake8-bugbear
+  "I",           # isort
+  "ARG",         # flake8-unused-arguments
+  "C4",          # flake8-comprehensions
+  "EM",          # flake8-errmsg
+  "ICN",         # flake8-import-conventions
+  "G",           # flake8-logging-format
+  "PGH",         # pygrep-hooks
+  "PIE",         # flake8-pie
+  "PL",          # pylint
+  "PT",          # flake8-pytest-style
+  "PTH",         # flake8-use-pathlib
+  "RET",         # flake8-return
+  "RUF",         # Ruff-specific
+  "SIM",         # flake8-simplify
+  "T20",         # flake8-print
+  "UP",          # pyupgrade
+  "YTT",         # flake8-2020
+  "EXE",         # flake8-executable
+  "NPY",         # NumPy specific rules
+  "PD",          # pandas-vet
+]
+ignore = [
+  "PLR09",    # Too many X
+  "PLR2004",  # Magic comparison
+]
+isort.required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["T20"]
