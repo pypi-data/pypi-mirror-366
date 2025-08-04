@@ -1,0 +1,57 @@
+.. This file is part of pdfposter.
+   Copyright (C) 2008-2025 Hartmut Goebel
+   Licensed under the GNU Free Documentation License v1.3 or any later version.
+   SPDX-License-Identifier: GFDL-1.3-or-later
+
+Box Definition
+-----------------
+
+The *BOX* mentioned above is a specification of horizontal and
+vertical size. The syntax is as follows (with multiplier being
+specified optionally):
+
+  *box* = [ *multiplier* ] *unit*
+
+  *multiplier* = *number* "x" *number*
+
+  *unit* = *medianame* or *distancename*
+
+..
+   Only in combination with the *-i* option, the program
+   also understands the offset specification in the *BOX*.
+    <offset> = +<number>,<number>
+    [<offset>]
+    and offset
+
+Many international media names are recognised by the program, in upper
+and lower case, and can be shortened to their first few characters, as
+long as unique. For instance 'A0', 'Let'. Distance names are like
+'cm', 'inch', 'ft'.
+
+Medias are typically not quadratic but rectangular, which means width
+and height differ. Thus using media names is a bit tricky:
+
+:10x20cm: obvious: 10 cm x 20 cm (portrait)
+:20x10cm: same as 10x20cm, since all boxes are rotated to portrait
+          format
+
+Now when using media names it gets tricky:
+
+:1x1a4: same as approx. 21x29cm (21 cm x 29 cm, portrait)
+:1x2a4: same as approx. 21x58cm (21 cm x 58 cm, portrait)
+
+        This are two a4 pages put together at the *small* side: One
+        portrait page wide and two portrait pages high.
+
+:2x1a4: same as approx. 42x29cm, which is rotated to portrait and is
+        (approx.) the same as 29x42cm (29 cm x 42 cm)
+
+        This are two a4 pages put together at the *long* side: Two
+        portrait pages wide and one portrait page high.
+
+
+
+.. Emacs config:
+ Local Variables:
+ mode: rst
+ End:

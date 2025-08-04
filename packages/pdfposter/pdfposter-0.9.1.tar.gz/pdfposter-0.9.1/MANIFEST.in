@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: NONE
+# SPDX-License-Identifier: CC0-1.0
+
+graft docs
+prune docs/_build
+include CHANGES
+include INSTALL
+include README.txt
+include pdfposter.rst
+include */locale/*.pot
+include */locale/*/*/*.po
+global-exclude SConstruct SConscript

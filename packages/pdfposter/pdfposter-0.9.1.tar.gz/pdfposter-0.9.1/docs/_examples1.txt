@@ -1,0 +1,46 @@
+.. This file is part of pdfposter.
+   Copyright (C) 2008-2025 Hartmut Goebel
+   Licensed under the GNU Free Documentation License v1.3 or any later version.
+   SPDX-License-Identifier: GFDL-1.3-or-later
+
+:pdfposter -mA3 -pA0 a4.pdf out.pdf:
+       Prints an A4 input file on 8 A3 pages, forming an A0 poster.
+
+:pdfposter -p3x3Let a4.pdf out.pdf:
+       Prints an inputfile on a poster of 3x3 Letter pages.
+
+..
+  not yet implemented: margins
+  :pdfposter -mA0 -w2x2i input.pdf out.pdf:
+       Enlarges an inputfile to print on a large-media A0 capable
+       device, maintaining 2 inch margins:
+
+:pdfposter -mA0 input.pdf out.pdf:
+       Enlarges an inputfile to print on a large-media A0 capable
+       device.
+
+:pdfposter -s4 input.pdf out.pdf:
+       Enlarge an inputfile exactly 4 times, print on the default A4
+       media, and let ``pdfposter`` determine the number of pages
+       required.
+
+..
+   not yet implemented
+   :pdfposter -mLegal -p1x1m -w10% -C5 input.pdf out.pdf:
+       Scale a postscript image to a poster of about 1 square meter,
+       printing on 'Legal' media, maintaining a 10% of 'Legal' size
+       as white margin around the poster. Print cutmark lines and grid
+       labels, but don't print cut mark arrow heads.
+
+
+:pdfposter -m10x10cm -pa0 a4.pdf out.pdf:
+  Just to show how efficient ``pdfposter`` is: This will create a file
+  containing 192 pages, but only 15 times as big as the single page.
+  With a4.pdf being a quite empty page, this ratio should be even
+  better for filled pages.
+
+
+.. Emacs config:
+ Local Variables:
+ mode: rst
+ End:

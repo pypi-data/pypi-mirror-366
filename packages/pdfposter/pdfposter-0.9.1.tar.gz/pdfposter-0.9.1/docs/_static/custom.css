@@ -1,0 +1,57 @@
+/*
+ * Copyright (C) 2008-2025 Hartmut Goebel <h.goebel@crazy-compilers.com>
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+div#examples.section table.docutils.field-list .field-body {
+	padding-top: 0.25em;
+	padding-bottom: 1em;
+	padding-left: 2em;
+}
+
+div#examples.section #id1.figure { float: left }
+div#examples.section #id2.figure { float: right }
+div#examples.section #id2.figure img { padding: 66pt 0; }
+div#examples.section #id2.figure + * { clear: left }
+
+
+div.sphinxsidebar li.toctree-l1 ~ li.toctree-l1 {
+    border-top: dotted thin #AAA;
+	margin-top: 0.3em;
+	padding-top: 0.3em;
+}
+div.sphinxsidebar a {
+    text-decortation: none;
+    border-bottom: none;
+}
+
+/* make refs, which are links, visible as being links */
+a.reference.internal code span.pre {
+    border-bottom: dotted 1px #004B6B; /* same as for "a.reference" */
+}
+
+div#donations.section > .box1 {
+    width: 50%;
+    border: solid thin lightseagreen;
+    border-radius: 1em;
+    float: right;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+}
+
+div#donations.section > .box1 > .centered {
+    color: seagreen;
+}
+
+div#donations.section > .box2 + * {
+    clear: both;
+}
+
+div#donations.section >ul li {
+    margin-bottom: 0.5em
+}
+
+div#donations.section .figure.align-center {
+	float: left;
+	padding: 0 3em;
+}

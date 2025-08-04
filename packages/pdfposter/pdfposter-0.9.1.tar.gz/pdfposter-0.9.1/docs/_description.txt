@@ -1,0 +1,37 @@
+.. This file is part of pdfposter.
+   Copyright (C) 2008-2025 Hartmut Goebel
+   Licensed under the GNU Free Documentation License v1.3 or any later version.
+   SPDX-License-Identifier: GFDL-1.3-or-later
+
+
+``pdfposter`` can be used to create a large poster by building it from
+multiple pages and/or printing it on large media. It expects as input a
+PDF file, normally printing on a single page. The output is again a
+PDF file, maybe containing multiple pages together building the
+poster.
+The input page will be scaled to obtain the desired size.
+
+.. comment
+  The output pages bear cutmarks and have slightly overlapping
+  images for easier assembling.
+
+The program uses a simple but efficient method which is possible with
+PDF: All new pages share the same data stream of the scaled page. Thus
+resulting file grows moderately.
+
+To control its operation, you need to specify either the size of the
+desired poster or a scale factor for the image:
+
+- Given the poster size, it calculates the required number of sheets
+  to print on, and from that a scale factor to fill these sheets
+  optimally with the input image.
+
+- Given a scale factor, it derives the required number of pages from
+  the input image size, and positions the scaled image centered on
+  this area.
+
+
+.. Emacs config:
+ Local Variables:
+ mode: rst
+ End:

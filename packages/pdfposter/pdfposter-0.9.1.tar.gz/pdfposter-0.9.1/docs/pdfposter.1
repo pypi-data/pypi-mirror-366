@@ -1,0 +1,327 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "PDFPOSTER" "1" "" "Version 0.9.1"
+.SH NAME
+pdfposter \- Scale and tile PDF images/pages to print on multiple pages.
+.\" disable justification (adjust text to left margin only)
+.ad l
+.SH SYNOPSIS
+.sp
+\fBpdfposter\fP <options> infile outfile
+.SH DESCRIPTION
+.\" This file is part of pdfposter.
+.\" Copyright (C) 2008-2025 Hartmut Goebel
+.\" Licensed under the GNU Free Documentation License v1.3 or any later version.
+.\" SPDX-License-Identifier: GFDL-1.3-or-later
+.
+.sp
+\fBpdfposter\fP can be used to create a large poster by building it from
+multiple pages and/or printing it on large media. It expects as input a
+PDF file, normally printing on a single page. The output is again a
+PDF file, maybe containing multiple pages together building the
+poster.
+The input page will be scaled to obtain the desired size.
+.\" comment
+.\" The output pages bear cutmarks and have slightly overlapping
+.\" images for easier assembling.
+.
+.sp
+The program uses a simple but efficient method which is possible with
+PDF: All new pages share the same data stream of the scaled page. Thus
+resulting file grows moderately.
+.sp
+To control its operation, you need to specify either the size of the
+desired poster or a scale factor for the image:
+.INDENT 0.0
+.IP \(bu 2
+Given the poster size, it calculates the required number of sheets
+to print on, and from that a scale factor to fill these sheets
+optimally with the input image.
+.IP \(bu 2
+Given a scale factor, it derives the required number of pages from
+the input image size, and positions the scaled image centered on
+this area.
+.UNINDENT
+.\" Emacs config:
+.\" Local Variables:
+.\" mode: rst
+.\" End:
+.
+.SH OPTIONS
+.\" This file is part of pdfposter.
+.\" Copyright (C) 2008-2025 Hartmut Goebel
+.\" Licensed under the GNU Free Documentation License v1.3 or any later version.
+.\" SPDX-License-Identifier: GFDL-1.3-or-later
+.
+.SS General Options
+.INDENT 0.0
+.TP
+.B  \-h\fP,\fB  \-\-help
+Show help message and exit
+.TP
+.B  \-\-help\-media\-names
+List available media and distance names and exit
+.TP
+.B  \-\-help\-box\-definitions
+Show help about specifying BOX for \fI\-\-media\-size\fP
+and \fI\-\-poster\-size\fP and exit
+.TP
+.B  \-\-version
+Show program\(aqs version number and exit
+.TP
+.B  \-v\fP,\fB  \-\-verbose
+Be verbose. Tell about scaling, rotation and number of
+pages. Can be used more than once to increase the
+verbosity.
+.TP
+.B  \-n\fP,\fB  \-\-dry\-run
+Show what would have been done, but do not generate files.
+.UNINDENT
+.SS Defining Input
+.INDENT 0.0
+.TP
+.B  \-f\fP,\fB  \-\-first
+First page to convert (default: first page).
+.TP
+.B  \-l\fP,\fB  \-\-last
+Last page to convert (default: last page).
+.TP
+.B  \-A\fP,\fB  \-\-art\-box
+Use the content area defined by the ArtBox (default:
+use the area defined by the TrimBox)
+.UNINDENT
+.SS Defining Output
+.INDENT 0.0
+.TP
+.BI \-m \ BOX\fR,\fB \ \-\-media\-size\fB= BOX
+Specify the desired media size to print on.
+See below for \fIBOX\fP\&. The default is A4 in the standard
+package.
+.TP
+.BI \-p \ BOX\fR,\fB \ \-\-poster\-size\fB= BOX
+Specify the poster size. See below for \fIBOX\fP\&.
+pdfposter will autonomously choose scaling and rotation to
+best fit the input onto the poster (see EXAMPLES below).
+.sp
+If you give neither the \fI\-s\fP nor the \fI\-p\fP option, the default
+poster size is identical to the media size.
+.TP
+.BI \-s \ NUMBER
+Specify a linear scaling factor to produce the poster.
+Together with the input image size and optional margins,
+this induces an output poster size. So don\(aqt specify both \fI\-s\fP
+and \fI\-p\fP\&.
+.sp
+The scaling factor is applied to the width and height
+of the input image size. Thus, a scaling factor of 2
+results in a poster 4 times the area compared to the
+original.
+.sp
+Default is deriving the scale factor to fit a given poster
+size.
+.UNINDENT
+.\" This file is part of pdfposter.
+.\" Copyright (C) 2008-2025 Hartmut Goebel
+.\" Licensed under the GNU Free Documentation License v1.3 or any later version.
+.\" SPDX-License-Identifier: GFDL-1.3-or-later
+.
+.SS Box Definition
+.sp
+The \fIBOX\fP mentioned above is a specification of horizontal and
+vertical size. The syntax is as follows (with multiplier being
+specified optionally):
+.INDENT 0.0
+.INDENT 3.5
+\fIbox\fP = [ \fImultiplier\fP ] \fIunit\fP
+.sp
+\fImultiplier\fP = \fInumber\fP \(dqx\(dq \fInumber\fP
+.sp
+\fIunit\fP = \fImedianame\fP or \fIdistancename\fP
+.UNINDENT
+.UNINDENT
+.\" Only in combination with the *-i* option, the program
+.\" also understands the offset specification in the *BOX*.
+.\"  <offset> = +<number>,<number>
+.\"  [<offset>]
+.\"  and offset
+.
+.sp
+Many international media names are recognised by the program, in upper
+and lower case, and can be shortened to their first few characters, as
+long as unique. For instance \(aqA0\(aq, \(aqLet\(aq. Distance names are like
+\(aqcm\(aq, \(aqinch\(aq, \(aqft\(aq.
+.sp
+Medias are typically not quadratic but rectangular, which means width
+and height differ. Thus using media names is a bit tricky:
+.INDENT 0.0
+.TP
+.B 10x20cm
+obvious: 10 cm x 20 cm (portrait)
+.TP
+.B 20x10cm
+same as 10x20cm, since all boxes are rotated to portrait
+format
+.UNINDENT
+.sp
+Now when using media names it gets tricky:
+.INDENT 0.0
+.TP
+.B 1x1a4
+same as approx. 21x29cm (21 cm x 29 cm, portrait)
+.TP
+.B 1x2a4
+same as approx. 21x58cm (21 cm x 58 cm, portrait)
+.sp
+This are two a4 pages put together at the \fIsmall\fP side: One
+portrait page wide and two portrait pages high.
+.TP
+.B 2x1a4
+same as approx. 42x29cm, which is rotated to portrait and is
+(approx.) the same as 29x42cm (29 cm x 42 cm)
+.sp
+This are two a4 pages put together at the \fIlong\fP side: Two
+portrait pages wide and one portrait page high.
+.UNINDENT
+.\" Emacs config:
+.\" Local Variables:
+.\" mode: rst
+.\" End:
+.
+.SH EXAMPLES
+.\" This file is part of pdfposter.
+.\" Copyright (C) 2008-2025 Hartmut Goebel
+.\" Licensed under the GNU Free Documentation License v1.3 or any later version.
+.\" SPDX-License-Identifier: GFDL-1.3-or-later
+.
+.INDENT 0.0
+.TP
+.B pdfposter \-mA3 \-pA0 a4.pdf out.pdf
+Prints an A4 input file on 8 A3 pages, forming an A0 poster.
+.TP
+.B pdfposter \-p3x3Let a4.pdf out.pdf
+Prints an inputfile on a poster of 3x3 Letter pages.
+.UNINDENT
+.\" not yet implemented: margins
+.\" :pdfposter -mA0 -w2x2i input.pdf out.pdf:
+.\"      Enlarges an inputfile to print on a large-media A0 capable
+.\"      device, maintaining 2 inch margins:
+.
+.INDENT 0.0
+.TP
+.B pdfposter \-mA0 input.pdf out.pdf
+Enlarges an inputfile to print on a large\-media A0 capable
+device.
+.TP
+.B pdfposter \-s4 input.pdf out.pdf
+Enlarge an inputfile exactly 4 times, print on the default A4
+media, and let \fBpdfposter\fP determine the number of pages
+required.
+.UNINDENT
+.\" not yet implemented
+.\" :pdfposter -mLegal -p1x1m -w10% -C5 input.pdf out.pdf:
+.\"     Scale a postscript image to a poster of about 1 square meter,
+.\"     printing on 'Legal' media, maintaining a 10% of 'Legal' size
+.\"     as white margin around the poster. Print cutmark lines and grid
+.\"     labels, but don't print cut mark arrow heads.
+.
+.INDENT 0.0
+.TP
+.B pdfposter \-m10x10cm \-pa0 a4.pdf out.pdf
+Just to show how efficient \fBpdfposter\fP is: This will create a file
+containing 192 pages, but only 15 times as big as the single page.
+With a4.pdf being a quite empty page, this ratio should be even
+better for filled pages.
+.UNINDENT
+.\" Emacs config:
+.\" Local Variables:
+.\" mode: rst
+.\" End:
+.
+.sp
+More examples including sample pictures can be found at
+ <https://pdfposter.readthedocs.io/en/latest/Examples.html> 
+.\" This file is part of pdfposter.
+.\" Copyright (C) 2008-2025 Hartmut Goebel
+.\" Licensed under the GNU Free Documentation License v1.3 or any later version.
+.\" SPDX-License-Identifier: GFDL-1.3-or-later
+.
+.SS Examples for automatic scaling
+.INDENT 0.0
+.IP \(bu 2
+For printing 2 \fIportrait\fP A4 pages high (approx. 58cm) and let
+pdfposter determine how many portrait pages wide, specify a large
+number of \fIvertical\fP pages. eg:
+.INDENT 2.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B pdfposter \-p999x2a4 testpage\-wide.pdf out.pdf
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+For printing 2 \fIlandscape\fP A4 pages high (approx. 20cm) and let
+pdfposter determine how many landscape pages wide, specify a large
+number of \fIhorizontal\fP pages. eg:
+.INDENT 2.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B pdfposter \-p2x999a4 testpage\-wide.pdf out.pdf
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.\" Emacs config:
+.\" Local Variables:
+.\" mode: rst
+.\" End:
+.
+.SH SEE ALSO
+.sp
+\fBposter\fP(1),
+\fBpdfnup\fP(1)  <https://pypi.org/project/pdfnup/> ,
+\fBpdfsplit\fP(1)  <https://pypi.org/project/pdfsplit/> ,
+\fBpdfgrid\fP(1)  <https://pypi.org/project/pdfgrid/> 
+.sp
+Project Homepage  <https://pdfposter.readthedocs.io/> 
+.\" This file is part of pdfposter.
+.\" Copyright (C) 2008-2025 Hartmut Goebel
+.\" Licensed under the GNU Free Documentation License v1.3 or any later version.
+.\" SPDX-License-Identifier: GFDL-1.3-or-later
+.
+.SH AUTHOR
+Hartmut Goebel <h.goebel@crazy-compilers.com>
+
+License: GNU Public License v3 or later (GPL-3.0-or-later)
+.SH COPYRIGHT
+2008-2025 by Hartmut Goebel
+.\" Generated by docutils manpage writer.
+.

@@ -1,0 +1,56 @@
+.. This file is part of pdfposter.
+   Copyright (C) 2008-2025 Hartmut Goebel
+   Licensed under the GNU Free Documentation License v1.3 or any later version.
+   SPDX-License-Identifier: GFDL-1.3-or-later
+
+General Options
+--------------------
+
+-h, --help            Show help message and exit
+--help-media-names    List available media and distance names and exit
+--help-box-definitions
+                      Show help about specifying BOX for `--media-size`
+                      and `--poster-size` and exit
+--version             Show program's version number and exit
+-v, --verbose         Be verbose. Tell about scaling, rotation and number of
+                      pages. Can be used more than once to increase the
+                      verbosity.
+-n, --dry-run     Show what would have been done, but do not generate files.
+
+
+Defining Input
+-----------------
+
+-f, --first       First page to convert (default: first page).
+-l, --last        Last page to convert (default: last page).
+
+-A, --art-box     Use the content area defined by the ArtBox (default:
+                  use the area defined by the TrimBox)
+
+
+Defining Output
+-----------------
+
+-m BOX, --media-size=BOX  Specify the desired media size to print on.
+          See below for *BOX*. The default is A4 in the standard
+          package.
+
+-p BOX, --poster-size=BOX    Specify the poster size. See below for *BOX*.
+         pdfposter will autonomously choose scaling and rotation to
+         best fit the input onto the poster (see EXAMPLES below).
+
+         If you give neither the *-s* nor the *-p* option, the default
+         poster size is identical to the media size.
+
+-s NUMBER   Specify a linear scaling factor to produce the poster.
+            Together with the input image size and optional margins,
+            this induces an output poster size. So don't specify both *-s*
+            and *-p*.
+
+            The scaling factor is applied to the width and height
+            of the input image size. Thus, a scaling factor of 2
+            results in a poster 4 times the area compared to the
+            original.
+
+            Default is deriving the scale factor to fit a given poster
+            size.
