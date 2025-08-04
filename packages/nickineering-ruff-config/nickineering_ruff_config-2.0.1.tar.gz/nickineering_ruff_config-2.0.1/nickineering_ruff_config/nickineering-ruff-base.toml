@@ -1,0 +1,45 @@
+# Automatically generated file. Do not edit outside of the ruff-config repo.
+# This serves as a base Ruff configuration which should be extended like so:
+# extend = "nickineering-ruff-base.toml"
+
+extend-include = ["*.ipynb"]
+
+[format]
+docstring-code-format = true
+
+[lint]
+select = [
+    "ALL", # Default to all new rules. More maintenance, but more features
+]
+unfixable = [
+    "ERA001", # Commented out code
+]
+ignore = [
+    "COM812", # Conflicts with formatter
+    "D100",   # Docs
+    "D101",   # Docs
+    "D102",   # Docs
+    "D103",   # Docs
+    "D104",   # Docs
+    "D105",   # Docs
+    "D106",   # Docs
+    "D107",   # Docs
+    "D203",   # Conflicts with formatter
+    "D211",   # Docs
+    "D213",   # Docs
+    "E501",   # Line length (otherwise enforced by formatter)
+    "FIX002", # Prevents TODO comments, which are useful
+    "ISC001", # Conflicts with formatter
+    "TD002",  # Prevents authorless TODO comments, which is annoying
+]
+
+[lint.extend-per-file-ignores]
+"test_*" = [
+    "ANN201", # Require function return types
+    "ANN202", # Require inner function return types
+    "S101",   # Prohibit assert keyword
+    "TID252", # Prohibit relative imports
+]
+"*.pyi" = [
+    "ANN401", # Require argument annotations
+]

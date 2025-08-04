@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nickineering-ruff-config"
+version = "v2.0.1"
+description = "A shareable Ruff starting config designed to get as much as possibly from Ruff quickly."
+authors = [{ name = "Nicholas Ferrara", email = "git@nicholasferrara.net" }]
+requires-python = "~=3.7"
+readme = "README.md"
+license = "MIT"
+keywords = [
+    "config",
+    "configuration",
+    "dotfiles",
+    "formatting",
+    "linting",
+    "ruff",
+    "templates",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+]
+
+[project.urls]
+Repository = "https://github.com/nickineering/ruff-config.git"
