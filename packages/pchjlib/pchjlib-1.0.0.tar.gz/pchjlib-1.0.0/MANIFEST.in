@@ -1,0 +1,17 @@
+# Metadata & docs
+include README.md
+include LICENSE.txt
+include COPYRIGHT.txt
+
+# Build configs
+include pyproject.toml
+include setup.cfg
+include setup.py
+
+# Python source code
+recursive-include src *.py
+
+# Exclude OS/cache files
+exclude desktop.ini
+prune __pycache__
+global-exclude *.py[cod]
