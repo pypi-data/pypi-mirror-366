@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ciofecaforensics.com)",
+      "Bash(uv init:*)",
+      "Bash(uv add:*)",
+      "Bash(cp:*)",
+      "Bash(protoc:*)",
+      "Bash(brew install:*)",
+      "Bash(ls:*)",
+      "Bash(python test:*)",
+      "Bash(uv run:*)",
+      "Bash(source:*)",
+      "Bash(python:*)",
+      "Bash(find:*)",
+      "Bash(uv sync:*)",
+      "Bash(grep:*)",
+      "Bash(sqlite3:*)",
+      "Bash(uv pip:*)",
+      "Bash(brew upgrade:*)",
+      "Bash(chmod:*)",
+      "Bash(echo:*)",
+      "Bash(echo \"  def get_notes(self) -> List[Note]:\")",
+      "Bash(ruff check:*)",
+      "Bash(diff:*)",
+      "Bash(rm:*)",
+      "Bash(./scripts/check.sh:*)",
+      "Bash(./check --help)",
+      "Bash(./check --check-only)",
+      "WebFetch(domain:www.ciofecaforensics.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(./check)",
+      "Check(check:*)"
+    ],
+    "deny": []
+  }
+}
