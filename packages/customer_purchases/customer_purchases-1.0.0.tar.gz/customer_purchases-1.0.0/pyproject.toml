@@ -1,0 +1,24 @@
+[project]
+name = "customer_purchases"
+version = "1.0.0"
+description = "Customer purchases large dataset"
+authors = [
+    {name = "Slimane Rhaytou"}
+]
+license = {text = "MIT License Copyright (c)"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "pandas (>=2.3.1,<3.0.0)",
+    "numpy (>=2.3.2,<3.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+jupyterlab = "^4.4.5"
+
