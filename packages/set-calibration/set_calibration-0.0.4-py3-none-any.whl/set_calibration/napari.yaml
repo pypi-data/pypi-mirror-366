@@ -1,0 +1,16 @@
+name: set-calibration
+display_name: "Calibration Tool"
+# use 'hidden' to remove plugin from napari hub search results
+visibility: public
+# see https://napari.org/stable/plugins/manifest.html for valid categories
+categories: ["Measurement", "Transformations", "Visualization"]
+
+
+contributions:
+  commands:
+    - id: set-calibration.create_scale_panel
+      python_name: set_calibration:LayerScaleWidget
+      title: Instanciate a scale-edition panel.
+  widgets:
+    - command: set-calibration.create_scale_panel
+      display_name: Scale Tool
