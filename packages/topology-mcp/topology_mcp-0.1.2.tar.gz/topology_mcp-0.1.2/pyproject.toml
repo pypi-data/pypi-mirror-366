@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "twine"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topology-mcp"
+version = "0.1.2"
+description = "A command-line interface for accessing topology data"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "twine>=4.0.0",
+    "build>=0.10.0",
+]
+
+[project.scripts]
+topology-cli = "src.topology_cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/topology-mcp"
+Repository = "https://github.com/yourusername/topology-mcp"
+Issues = "https://github.com/yourusername/topology-mcp/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src" 
