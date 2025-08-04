@@ -1,0 +1,412 @@
+# Copyright: (c) 2023, Félix Medrano
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+msgid ""
+msgstr ""
+"Project-Id-Version: tarumba\n"
+"POT-Creation-Date: 2023-10-01 19:27+0200\n"
+"PO-Revision-Date: 2023-10-01 19:27+0200\n"
+"Last-Translator: Félix Medrano\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "The universal archive manager"
+msgstr "El gestor de archivos universal"
+
+msgid "command: (l)list, (a)add, (e)(x)extract, (d)delete, (r)rename or (t)test"
+msgstr "commando: (l)listar, (a)añadir, (e)(x)extraer, (d)borrar, (r)renombrar o (t)comprobar"
+
+msgid "archive file to process"
+msgstr "fichero de archivo a procesar"
+
+msgid "list of files to operate with"
+msgstr "lista de ficheros con los que operar"
+
+msgid "always overwrite existing files"
+msgstr "sobreescribe siempre los archivos existentes"
+
+msgid "force a specific backend"
+msgstr "fuerza un backend específico"
+
+msgid "comma separated columns to include in the listing"
+msgstr "columnas separadas por comas a incluir en el listado"
+
+msgid "show debugging information"
+msgstr "muestra la información de depuración"
+
+msgid "encrypt the archive contents using a password"
+msgstr "encripta los contendos del archivo bajo una contraseña"
+
+msgid "follow symbolic links. WARNING: MAY CREATE INIFINITE PATHS"
+msgstr "sigue los enlaces simbólicos. AVISO: PUEDE CREAR RUTAS INFINITAS"
+
+msgid "creates a root folder with the archive name when extracting files"
+msgstr "crea una carpeta raíz con el nombre del archivo al extraer ficheros"
+
+msgid "compression level [0-9]"
+msgstr "nivel de compresión [0-9]"
+
+msgid "disable colored output"
+msgstr "desactiva la salida en color"
+
+msgid "never overwrite existing files"
+msgstr "nunca sobreescribe los archivos existentes"
+
+msgid "process only the Nth occurrence of each file in the archive"
+msgstr "procesa solo la enésima ocurrencia de cada fichero en el archivo"
+
+msgid "modify the file paths in the archive using this reference"
+msgstr "modifica las rutas de ficheros en el archivo utilizando esta referencia"
+
+msgid "verbosely list processed files"
+msgstr "lista el detalle de ficheros procesados"
+
+msgid "show Tarumba's installed version and exit"
+msgstr "muestra la versión instalada de Tarumba y termina"
+
+msgid "preserve the owner user and group when possible"
+msgstr "conserva el usuario y grupo propietario cuando sea posible"
+
+msgid "%(prog)s: warning: %(message)s\n"
+msgstr "%(prog)s: aviso: %(message)s\n"
+
+msgid "detected archive type and extension don't match"
+msgstr "el tipo de archivo detectado y la extensión no coinciden"
+
+msgid "thin archives are not supported"
+msgstr "los archivos ligeros no están soportados"
+
+msgid "can't create folder %(path)s"
+msgstr "no se puede crear la carpeta %(path)s"
+
+msgid "can't read %(filename)s"
+msgstr "no se puede leer %(filename)s"
+
+msgid "can't write %(filename)s"
+msgstr "no se puede escribir %(filename)s"
+
+msgid "%(filename)s is not a file"
+msgstr "%(filename)s no es un fichero"
+
+msgid "%(filename)s already exists"
+msgstr "%(filename)s ya existe"
+
+msgid "%(filename)s doesn't exist"
+msgstr "%(filename)s no existe"
+
+msgid "%(filename)s is not a folder"
+msgstr "%(filename)s no es una carpeta"
+
+msgid "operation not available because the %(executable)s program "
+      "can't be found, please make sure it's installed and available in the $PATH or "
+      "enter the full path to the program in the configuration"
+msgstr "operación no disponible porque no se encuentra el programa %(executable)s, "
+       "por favor compruebe que está instalado y disponible en el $PATH o introduzca "
+       "la ruta completa al programa en la configuración"
+
+msgid "a program compatible with this archive format can't be found, "
+      "please make sure it's installed and available in the $PATH or enter the full path "
+      "to the program in the configuration"
+msgstr "no se encuentra un programa compatible con este formato de archivo, "
+       "por favor compruebe que está instalado y disponible en el $PATH o introduzca "
+       "la ruta completa al programa en la configuración"
+
+msgid "%(format)s is a proprietary archive format, we recommend using an open format for your archives"
+msgstr "%(format)s es un formato de archivo propietario, recomendamos utilizar un formato abierto para sus archivos"
+
+msgid "we are sorry but the free version of unrar is not supported, because it is not "
+      "compatible with modern archives. We recommend using the unar backend instead."
+msgstr "lo sentimos pero la versión libre de unrar no está soportada, porque no es compatible "
+       "con archivos modernos. Le recomendamos que utilice el backend unar en su lugar."
+
+msgid "%(backend)s backend not available"
+msgstr "el backend %(backend)s no está disponible"
+
+msgid "this archive format can't store the special file %(filename)s"
+msgstr "este formato de archivo no puede almacenar el fichero especial %(filename)s"
+
+msgid "%(filename)s already exists. Do you want to overwrite?"
+msgstr "%(filename)s ya existe. Quiere sobrescribirlo?"
+
+msgid "%(filename)s already exists in %(archive)s. Do you want to overwrite?"
+msgstr "%(filename)s ya existe en %(archive)s. Quiere sobrescribirlo?"
+
+msgid "path modification %(path)s can't be applied to %(filename)s"
+msgstr "la modificación de ruta %(path)s no se puede aplicar a %(filename)s"
+
+msgid "yes"
+msgstr "sí"
+
+msgid "no"
+msgstr "no"
+
+msgid "all"
+msgstr "todos"
+
+msgid "none"
+msgstr "ninguno"
+
+msgid "invalid column name: %(column)s"
+msgstr "nombre de columna inválido: %(column)s"
+
+msgid "invalid compression level: %(level)s"
+msgstr "nivel de compresión inválido: %(level)s"
+
+msgid "invalid occurrence value: %(occurrence)s"
+msgstr "valor de ocurrencia inválido: %(occurrence)s"
+
+msgid "the occurrence argument can only be used with a list of files"
+msgstr "el argumento ocurrencia solo se puede usar con una lista de archivos"
+
+msgid "reading"
+msgstr "leyendo"
+
+msgid "adding"
+msgstr "añadiendo"
+
+msgid "adding files to"
+msgstr "añadiendo ficheros a"
+
+msgid "extracting"
+msgstr "extrayendo"
+
+msgid "extracting files from"
+msgstr "extrayendo ficheros de"
+
+msgid "deleting files from"
+msgstr "borrando ficheros de"
+
+msgid "testing"
+msgstr "comprobando"
+
+msgid "renaming files in"
+msgstr "renombrando ficheros en"
+
+msgid "compressing"
+msgstr "comprimiendo"
+
+msgid "decompressing"
+msgstr "descomprimiendo"
+
+msgid "expected a list of files to add"
+msgstr "se espera la lista de ficheros a añadir"
+
+msgid "expected a list of files to delete"
+msgstr "se espera la lista de ficheros a borrar"
+
+msgid "renaming requires pairs of file names, the current name and the new name"
+msgstr "para renombrar se necesitan pares de nombres de fichero, el nombre actual y el nuevo"
+
+msgid "this archive format can't encrypt contents"
+msgstr "este formato de archivo no puede encriptar contenidos"
+
+msgid "this archive format can't store more than one file"
+msgstr "este formato de archivo no puede almacenar más de un fichero"
+
+msgid "this archive format can't store file paths"
+msgstr "este formato de archivo no puede almacenar rutas de fichero"
+
+msgid "this archive format can't store links"
+msgstr "este formato de archivo no puede almacenar enlaces"
+
+msgid "this archive format can't store folders"
+msgstr "este formato de archivo no puede almacenar carpetas"
+
+msgid "files can't be deleted from this archive format, delete the archive instead"
+msgstr "no se pueden borrar ficheros de este formato de archivo, borre el archivo en su lugar"
+
+msgid "files can't be renamed in this archive format, rename the archive instead"
+msgstr "no se pueden renombrar ficheros en este formato de archivo, renombre el archivo en su lugar"
+
+msgid "the %(back)s backend cannot delete files"
+msgstr "el backend %(back)s no puede borrar ficheros"
+
+msgid "the %(back)s backend cannot rename files"
+msgstr "el backend %(back)s no puede renombrar ficheros"
+
+msgid "the %(back1)s backend cannot rename files, but you can use %(back2)s instead"
+msgstr "el backend %(back1)s no puede renombrar archivos, pero puede utilizar %(back2)s en su lugar"
+
+msgid "you are using a standalone version of 7-Zip, some features will be missing"
+msgstr "está utilizando una versión autónoma de 7-Zip, algunas funcionalidades no estarán disponibles"
+
+msgid "a progress bar is already running"
+msgstr "ya se ejecuta una barra de progreso"
+
+msgid "a progress bar is not running"
+msgstr "no se ejecuta ninguna barra de progreso"
+
+msgid "an archiver process is not running"
+msgstr "no se ejecuta ningún proceso de archivado"
+
+msgid "failure in program %(program)s"
+msgstr "fallo en el programa %(program)s"
+
+msgid "invalid configuration key: %(key)s"
+msgstr "clave de configuración inválida: %(key)s"
+
+msgid "Enter a password for %(archive)s"
+msgstr "Introduzca una contraseña para %(archive)s"
+
+msgid "Reenter the password"
+msgstr "Introduzca de nuevo la contraseña"
+
+msgid "the passwords don't match, please try again"
+msgstr "las contraseñas no coinciden, por favor inténtelo de nuevo"
+
+msgid "wrong password, please try again"
+msgstr "contraseña incorrecta, por favor inténtelo de nuevo"
+
+msgid "%(archive)s is encrypted, enter the password"
+msgstr "%(archive)s está encriptado, introduzca la contraseña"
+
+msgid "%(file)s is encrypted, enter the password"
+msgstr "%(file)s está encriptado, introduzca la contraseña"
+
+msgid "enter the password"
+msgstr "introduzca la contraseña"
+
+msgid "CRC"
+msgstr "CRC"
+
+msgid "DATE"
+msgstr "FECHA"
+
+msgid "ENCRYPTED"
+msgstr "ENCRIPTADO"
+
+msgid "METHOD"
+msgstr "MÉTODO"
+
+msgid "NAME"
+msgstr "NOMBRE"
+
+msgid "OWNER"
+msgstr "PROPIETARIO"
+
+msgid "PACKED"
+msgstr "COMPRIMIDO"
+
+msgid "PERMISSIONS"
+msgstr "PERMISOS"
+
+msgid "SIZE"
+msgstr "TAMAÑO"
+
+############
+# argparse #
+############
+
+msgid "usage: "
+msgstr "uso: "
+
+msgid "argument %(argument_name)s: %(message)s"
+msgstr "argumento %(argument_name)s: %(message)s"
+
+msgid ".__call__() not defined"
+msgstr ".__call__() no definido"
+
+msgid "conflicting subparser: %s"
+msgstr "subanalizador en conflicto: %s"
+
+msgid "conflicting subparser alias: %s"
+msgstr "alias de subanalizador en conflicto: %s"
+
+msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+msgstr "analizador %(parser_name)r desconocido (opciones: %(choices)s)"
+
+msgid "argument \"-\" with mode %r"
+msgstr "argumento \"-\" con modo %r"
+
+msgid "can't open '%(filename)s': %(error)s"
+msgstr "no se puede abrir '%(filename)s': %(error)s"
+
+msgid "cannot merge actions - two groups are named %r"
+msgstr "no se pueden unir las acciones - dos grupos se llaman %r"
+
+msgid "'required' is an invalid argument for positionals"
+msgstr "'required' es un argumento inválido para posicionales"
+
+msgid ""
+"invalid option string %(option)r: must start with a character "
+"%(prefix_chars)r"
+msgstr ""
+"literal de opción inválido %(option)r: debe empezar con un carácter "
+"%(prefix_chars)r"
+
+msgid "dest= is required for options like %r"
+msgstr "dest= es necesario en opciones como %r"
+
+msgid "invalid conflict_resolution value: %r"
+msgstr "valor inválido para conflict_resolution: %r"
+
+msgid "conflicting option string: %s"
+msgid_plural "conflicting option strings: %s"
+msgstr[0] "literal de opción en conflicto: %s"
+msgstr[1] "literales de opción en conflicto: %s"
+
+msgid "mutually exclusive arguments must be optional"
+msgstr "los argumentos mutuamente exclusivos deben ser opcionales"
+
+msgid "positional arguments"
+msgstr "argumentos posicionales"
+
+msgid "options"
+msgstr "opciones"
+
+msgid "show this help message and exit"
+msgstr "muestra este mensaje de ayuda y termina"
+
+msgid "cannot have multiple subparser arguments"
+msgstr "no puede haber múltiples argumentos de subanalizador"
+
+msgid "unrecognized arguments: %s"
+msgstr "argumentos no conocidos: %s"
+
+msgid "not allowed with argument %s"
+msgstr "no se permite con el argumento %s"
+
+msgid "ignored explicit argument %r"
+msgstr "argumento explícito %r ignorado"
+
+msgid "the following arguments are required: %s"
+msgstr "los siguientes argumentos son necesarios: %s"
+
+msgid "one of the arguments %s is required"
+msgstr "uno de los argumentos %s es necesario"
+
+msgid "expected one argument"
+msgstr "se espera un argumento"
+
+msgid "expected at most one argument"
+msgstr "se espera a lo sumo un argumento"
+
+msgid "expected at least one argument"
+msgstr "se espera al menos un argumento"
+
+msgid "expected %s argument"
+msgid_plural "expected %s arguments"
+msgstr[0] "se espera el argumento %s"
+msgstr[1] "se esperan los argumentos %s"
+
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr "opción ambigua: %(option)s podría corresponder con %(matches)s"
+
+msgid "unexpected option string: %s"
+msgstr "literal de opción inesperado: %s"
+
+msgid "%r is not callable"
+msgstr "%r no es invocable"
+
+msgid "invalid %(type)s value: %(value)r"
+msgstr "valor %(type)s inválido: %(value)r"
+
+msgid "invalid choice: %(value)r (choose from %(choices)s)"
+msgstr "opción inválida: %(value)r (elegir entre %(choices)s)"
+
+msgid "%(prog)s: error: %(message)s\n"
+msgstr "%(prog)s: error: %(message)s\n"
