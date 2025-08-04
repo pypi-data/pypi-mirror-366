@@ -1,0 +1,36 @@
+[project]
+name = "ragkitx"
+version = "0.1.1"
+description = "Modular RAG toolkit"
+authors = [
+    { name = "Jan Kristanto Wibisono", email = "jan.nctu@gmail.com" }
+]
+dependencies = [
+    "pydantic>=2.0",
+    "python-dotenv>=1.0",
+    "qdrant-client>=1.6",
+    "openai>=1.0",
+    "sentence-transformers>=2.2",
+    "scikit-learn>=1.5",
+    "nltk>=3.8",
+    "tiktoken>=0.5.1"
+]
+requires-python = ">=3.9"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+env_files = [".env"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
