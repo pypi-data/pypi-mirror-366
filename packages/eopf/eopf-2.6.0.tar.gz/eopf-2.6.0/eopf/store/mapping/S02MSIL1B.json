@@ -1,0 +1,184 @@
+{
+    "recognition": {
+        "filename_pattern": "S2[A-Z].*_MSIL1B_.*SAFE",
+        "product_type": "S02MSIL1B",
+        "processing_version": "TODO"
+    },
+    "init_function": {
+        "module": "eopf.store.sentineltoolbox_bindings",
+        "class": "SentinelToolBoxSafeInit"
+    },
+    "data_mapping": [
+        {
+            "source_path": "@#find{'product_url': '<URL>','pattern':'GRANULE/.*/.*MTD.*xml'}#@",
+            "target_path": "attrs:/:stac_discovery",
+            "accessor_id": "xmlmetadata",
+            "accessor_config": {
+                "mapping": "@#copy{'map':'<SELF[stac_discovery]>'}#@",
+                "namespaces": "@#copy{'map':'<SELF[tile_namespaces]>'}#@"
+            }
+        },
+        {
+            "source_path": "@#find{'product_url': '<URL>','pattern':'GRANULE/.*/.*MTD.*xml'}#@",
+            "target_path": "attrs:/:other_metadata",
+            "accessor_id": "xmlmetadata",
+            "accessor_config": {
+                "mapping": "@#copy{'map':'<SELF[stac_discovery]>'}#@",
+                "namespaces": "@#copy{'map':'<SELF[tile_namespaces]>'}#@"
+            }
+        },
+        {
+            "source_path": "@#find{'product_url': '<URL>','pattern':'DATASTRIP/.*/.*MTD.*DS.*xml'}#@",
+            "target_path": "attrs:/:stac_discovery",
+            "accessor_id": "xmlmetadata",
+            "accessor_config": {
+                "mapping": "@#copy{'map':'<SELF[stac_discovery]>'}#@",
+                "namespaces": "@#copy{'map':'<SELF[datastrip_namespaces]>'}#@"
+            }
+        },
+        {
+            "source_path": "@#find{'product_url': '<URL>','pattern':'DATASTRIP/.*/.*MTD.*DS.*xml'}#@",
+            "target_path": "attrs:/:other_metadata",
+            "accessor_id": "xmlmetadata",
+            "accessor_config": {
+                "mapping": "@#copy{'map':'<SELF[other_metadata]>'}#@",
+                "namespaces": "@#copy{'map':'<SELF[datastrip_namespaces]>'}#@"
+            }
+        },
+        {
+            "target_path": "attrs:/:stac_discovery",
+            "source_path": "@#find{'product_url': '<URL>','pattern':'DATASTRIP/.*/manifest.safe'}#@",
+            "accessor_id": "xmlmetadata",
+            "accessor_config": {
+                "mapping": "@#copy{'map':'<SELF[stac_discovery]>'}#@",
+                "namespaces": "@#copy{'map':'<SELF[product_namespaces]>'}#@"
+            }
+        },
+        {
+            "target_path": "attrs:/:other_metadata",
+            "source_path": "@#find{'product_url': '<URL>','pattern':'DATASTRIP/.*/manifest.safe'}#@",
+            "accessor_id": "xmlmetadata",
+            "accessor_config": {
+                "mapping": "@#copy{'map':'<SELF[other_metadata]>'}#@",
+                "namespaces": "@#copy{'map':'<SELF[product_namespaces]>'}#@"
+            }
+        }
+    ],
+    "stac_discovery": {
+        "type": "Text(Feature)",
+        "stac_version": "Text(1.1.0)",
+        "stac_extensions": [
+            "Text(https://stac-extensions.github.io/eopf/v1.2.0/schema.json)",
+            "Text(https://stac-extensions.github.io/eo/v1.1.0/schema.json)",
+            "Text(https://stac-extensions.github.io/sat/v1.1.0/schema.json)",
+            "Text(https://stac-extensions.github.io/view/v1.0.0/schema.json)",
+            "Text(https://stac-extensions.github.io/scientific/v1.0.0/schema.json)",
+            "Text(https://stac-extensions.github.io/processing/v1.2.0/schema.json)",
+            "Text(https://stac-extensions.github.io/product/v0.1.0/schema.json)"
+        ],
+        "properties": {
+            "start_datetime": "n1:General_Info/Datastrip_Time_Info/DATASTRIP_SENSING_START",
+            "end_datetime": "n1:General_Info/Datastrip_Time_Info/DATASTRIP_SENSING_STOP",
+            "platform": "to_str_lower(n1:General_Info/Datatake_Info/SPACECRAFT_NAME)",
+            "sat:relative_orbit": "to_int(n1:General_Info/Datatake_Info/SENSING_ORBIT_NUMBER)",
+            "datetime": "to_datetime(n1:General_Info/Datastrip_Time_Info/*[contains(local-name(), 'DATASTRIP_SENSING_ST')])",
+            "instruments": [
+                "msi"
+            ],
+            "constellation": "Text(sentinel-2)",
+            "mission": "Text(copernicus)",
+            "providers": [
+                {
+                    "name": "Text(L1B Processor)",
+                    "roles": [
+                        "Text(processor)"
+                    ]
+                },
+                {
+                    "name": "Text(ESA)",
+                    "roles": [
+                        "Text(producer)"
+                    ]
+                }
+            ],
+            "product:timeliness_category": "Text(NRT)",
+            "product:timeliness": "Text(PT3H)",
+            "product:type": "Text(S02MSIL1B)",
+            "sat:platform_international_designator": "Text(2015-028A)",
+            "processing:expression": "Text(systematic)",
+            "processing:lineage": "Text(IPF L1B processor)",
+            "processing:facility": "Text(ESA)",
+            "processing:software": {
+                "Sentinel-2 IPF": "Text( )"
+            },
+            "processing:level": "Text(L1B)"
+        },
+        "links": [
+            {
+                "rel": "Text(self)",
+                "href": "Text(./.zattrs.json)",
+                "type": "Text(application/json)"
+            }
+        ]
+    },
+    "other_metadata": {
+        "eopf_category": "Text(eoproduct)",
+        "meteo": {
+            "source": "Text(ECMWF)",
+            "type": "Text(FORECAST)"
+        },
+        "history": [
+            {
+                "type": "Text(Raw Data)",
+                "output": "Text(Downlinked Stream)"
+            },
+            {
+                "type": "Text(Level-0 Product)",
+                "processor": "Text(L0)",
+                "version": "Text(???)",
+                "organisation": "Text(ESA)",
+                "inputs": "Text(Downlinked Stream)",
+                "output": "Text(S2MSIL0__etc)"
+            }
+        ]
+    },
+    "xml_mapping": {
+        "namespace": {
+            "n1": "https://psd-14.sentinel2.eo.esa.int/PSD/S2_PDI_Level-1B_Tile_Metadata.xsd"
+        },
+        "xmltp_angles": {
+            "step_x_angle": "n1:Geometric_Info/Tile_Angles/Sun_Angles_Grid/Zenith/COL_STEP",
+            "step_y_angle": "n1:Geometric_Info/Tile_Angles/Sun_Angles_Grid/Zenith/ROW_STEP",
+            "angle_values": "n1:Geometric_Info/Tile_Angles/Sun_Angles_Grid/Zenith/Values_List/VALUES"
+        }
+    },
+    "product_namespaces": {
+        "xfdu": "urn:ccsds:schema:xfdu:1",
+        "gml": "http://www.opengis.net/gml",
+        "safe": "http://www.esa.int/safe/sentinel/1.1",
+        "sentinel-safe": "http://www.esa.int/safe/sentinel/1.1",
+        "n1": "https://psd-14.sentinel2.eo.esa.int/PSD/User_Product_Level-1B.xsd",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    "tile_namespaces": {
+        "n1": "https://psd-14.sentinel2.eo.esa.int/PSD/S2_PDI_Level-1B_Tile_Metadata.xsd",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    "datastrip_namespaces": {
+        "xfdu": "urn:ccsds:schema:xfdu:1",
+        "gml": "http://www.opengis.net/gml",
+        "safe": "http://www.esa.int/safe/sentinel/1.1",
+        "sentinel-safe": "http://www.esa.int/safe/sentinel/1.1",
+        "n1": "https://psd-14.sentinel2.eo.esa.int/PSD/S2_PDI_Level-1B_Datastrip_Metadata.xsd",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    "manifest_namespaces": {
+        "xfdu": "urn:ccsds:schema:xfdu:1",
+        "gml": "http://www.opengis.net/gml",
+        "safe": "http://www.esa.int/safe/sentinel/1.0",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    "mtd_namespaces": {
+        "n1": "https://psd-14.sentinel2.eo.esa.int/PSD/S2_PDI_Level-1B_Datastrip_Metadata.xsd"
+    }
+}
