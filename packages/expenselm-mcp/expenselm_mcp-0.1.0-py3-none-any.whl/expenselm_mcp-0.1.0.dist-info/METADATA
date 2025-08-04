@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: expenselm-mcp
+Version: 0.1.0
+Summary: ExpenseLM MCP Server
+Requires-Python: >=3.12
+Requires-Dist: fastmcp>=2.10.6
+Requires-Dist: httpx>=0.28.1
+Description-Content-Type: text/markdown
+
+# ExpenseLM MCP Server
+
+## Build
+
+```bash
+uv build
+```
+
+## Publish (to PyPI)
+
+```bash
+uv publish --token pypi-...
+
+# where pypi- is your PyPI API token
+```
