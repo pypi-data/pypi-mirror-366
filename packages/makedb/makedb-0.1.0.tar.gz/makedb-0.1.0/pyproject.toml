@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "makedb"
+version = "0.1.0"
+description = "makedb is the first Python library built to create and continuously evolve relational database schemas through live, incrementally completed ER diagrams. It transforms traditional database modeling into an iterative, automated, and developer-friendly process. Whether you're prototyping fast, managing complex migrations, or building low-code tools, makedb doesn’t just draw your data—it evolves it with you."
+authors = [
+    { name="Adriana Abad"}
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+
+[tool.setuptools]
+packages = ["makedb"]
