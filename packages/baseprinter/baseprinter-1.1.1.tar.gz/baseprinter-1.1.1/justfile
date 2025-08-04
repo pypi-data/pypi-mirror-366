@@ -1,0 +1,12 @@
+#!/usr/bin/env -S just --justfile
+
+default:
+    just --list
+
+test-runtime:
+    time python3 -m pytest tests  # -m "not slow"
+
+test: && test-runtime
+    ruff check baseprinter || true
+    mypy --strict baseprinter
+    cd tests && mypy --ignore-missing-imports .  # cd for separate mypy cache+config
