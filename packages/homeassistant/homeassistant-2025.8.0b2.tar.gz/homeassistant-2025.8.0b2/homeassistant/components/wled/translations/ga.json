@@ -1,0 +1,53 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "data_description": {
+                    "host": "Ainm \u00f3stach n\u00f3 seoladh IP do ghl\u00e9is WLED."
+                }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "firmware": {
+                "name": "Dochtearra\u00ed"
+            }
+        },
+        "light": {
+            "segment": {
+                "name": "Deighleog {segment}"
+            }
+        },
+        "number": {
+            "intensity": {
+                "name": "D\u00e9ine"
+            },
+            "segment_intensity": {
+                "name": "D\u00e9ine na coda {segment}"
+            },
+            "segment_speed": {
+                "name": "Luas na coda {segment}"
+            },
+            "speed": {
+                "name": "Luas"
+            }
+        },
+        "select": {
+            "color_palette": {
+                "name": "Pail\u00e9ad dathanna"
+            },
+            "segment_color_palette": {
+                "name": "Pail\u00e9ad dathanna deighleog {segment}"
+            }
+        },
+        "switch": {
+            "reverse": {
+                "name": "Droim ar ais"
+            },
+            "segment_reverse": {
+                "name": "Deighleog {segment} droim ar ais"
+            }
+        }
+    }
+}

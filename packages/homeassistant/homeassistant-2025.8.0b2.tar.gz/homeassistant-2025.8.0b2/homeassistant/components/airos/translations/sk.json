@@ -1,0 +1,61 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Zariadenie u\u017e je nakonfigurovan\u00e9"
+        },
+        "error": {
+            "cannot_connect": "Nepodarilo sa pripoji\u0165",
+            "invalid_auth": "Neplatn\u00e9 overenie",
+            "key_data_missing": "O\u010dak\u00e1van\u00e9 \u00fadaje sa zo zariadenia nevr\u00e1tili, skontrolujte dokument\u00e1ciu k podporovan\u00fdm zariadeniam",
+            "unknown": "Neo\u010dak\u00e1van\u00e1 chyba"
+        },
+        "flow_title": "Zariadenie Ubiquiti airOS",
+        "step": {
+            "user": {
+                "data": {
+                    "host": "Hostite\u013e",
+                    "password": "Heslo",
+                    "username": "Pou\u017e\u00edvate\u013esk\u00e9 meno"
+                },
+                "data_description": {
+                    "host": "IP adresa alebo n\u00e1zov hostite\u013ea zariadenia airOS",
+                    "password": "Heslo nakonfigurovan\u00e9 prostredn\u00edctvom aplik\u00e1cie UISP alebo webov\u00e9ho rozhrania"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "host_cpuload": {
+                "name": "CPU za\u0165a\u017eenie"
+            },
+            "host_netrole": {
+                "name": "Sie\u0165ov\u00e1 rola",
+                "state": {
+                    "bridge": "Bridge",
+                    "router": "Router"
+                }
+            },
+            "wireless_antenna_gain": {
+                "name": "Zisk ant\u00e9ny"
+            },
+            "wireless_essid": {
+                "name": "Wireless SSID"
+            },
+            "wireless_mode": {
+                "state": {
+                    "ap_ptp": "Pr\u00edstupov\u00fd bod",
+                    "sta_ptp": "Stanica"
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "Nepodarilo sa pripoji\u0165"
+        },
+        "invalid_auth": {
+            "message": "Neplatn\u00e9 overenie"
+        }
+    }
+}

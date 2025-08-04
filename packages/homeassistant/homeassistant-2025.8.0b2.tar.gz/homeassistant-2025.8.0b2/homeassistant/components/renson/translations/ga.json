@@ -1,0 +1,80 @@
+{
+    "entity": {
+        "switch": {
+            "breeze": {
+                "name": "Leoithne"
+            }
+        },
+        "time": {
+            "day_time": {
+                "name": "Am tosaithe an lae"
+            },
+            "night_time": {
+                "name": "Am tosaithe na ho\u00edche"
+            }
+        }
+    },
+    "services": {
+        "set_breeze": {
+            "fields": {
+                "breeze_level": {
+                    "description": "Leibh\u00e9al aer\u00e1la nuair a bh\u00edonn feidhm Breeze gn\u00edomhachtaithe",
+                    "name": "Leibh\u00e9al"
+                },
+                "temperature": {
+                    "description": "An teocht nuair ba ch\u00f3ir an fheidhm Breeze a ghn\u00edomhacht\u00fa",
+                    "name": "Teocht"
+                }
+            },
+            "name": "Socraigh Gaoth"
+        },
+        "set_pollution_settings": {
+            "description": "Socra\u00edonn s\u00e9 gach socr\u00fa truaillithe sa ch\u00f3ras aer\u00e1la",
+            "fields": {
+                "airquality_control": {
+                    "description": "Gn\u00edomhachtaigh n\u00f3 d\u00edchumasaigh rial\u00fa c\u00e1il\u00edochta aeir",
+                    "name": "Cumasaigh rial\u00fa c\u00e1il\u00edochta aeir"
+                },
+                "co2_control": {
+                    "description": "Gn\u00edomhachtaigh n\u00f3 d\u00edchumasaigh an rial\u00fa CO2",
+                    "name": "Cumasaigh rial\u00fa CO2"
+                },
+                "co2_hysteresis": {
+                    "description": "Leibh\u00e9al hysteresis tairs\u00ed truaillithe CO2 i ppm",
+                    "name": "Hist\u00e9ir\u00e9is CO2"
+                },
+                "co2_threshold": {
+                    "description": "An leibh\u00e9al tairs\u00ed truaillithe CO2 i ppm",
+                    "name": "Tairseach CO2"
+                },
+                "day_pollution_level": {
+                    "description": "Leibh\u00e9al aer\u00e1la nuair a bhraitear truailli\u00fa i rith an lae",
+                    "name": "Leibh\u00e9al truaillithe lae"
+                },
+                "humidity_control": {
+                    "description": "Gn\u00edomhachtaigh n\u00f3 d\u00edchumasaigh an rial\u00fa taise",
+                    "name": "Cumasaigh rial\u00fa taise"
+                },
+                "night_pollution_level": {
+                    "description": "Leibh\u00e9al aer\u00e1la nuair a bhraitear truailli\u00fa san o\u00edche",
+                    "name": "Leibh\u00e9al truaillithe o\u00edche"
+                }
+            },
+            "name": "Socraigh socruithe truaillithe"
+        },
+        "set_timer_level": {
+            "description": "Socra\u00edonn an lasc ama aer\u00e1la",
+            "fields": {
+                "minutes": {
+                    "description": "Fad an lasc ama (d\u00edchumas\u00f3idh 0 an lasc ama)",
+                    "name": "Am"
+                },
+                "timer_level": {
+                    "description": "Leibh\u00e9al aer\u00e1la",
+                    "name": "Leibh\u00e9al"
+                }
+            },
+            "name": "Socraigh an lasc ama"
+        }
+    }
+}

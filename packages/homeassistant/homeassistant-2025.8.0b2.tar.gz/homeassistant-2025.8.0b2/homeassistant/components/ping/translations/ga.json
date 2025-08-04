@@ -1,0 +1,39 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "data_description": {
+                    "host": "Ainm \u00f3stach n\u00f3 seoladh IP na feiste ar mhaith leat ping a dh\u00e9anamh uirthi."
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "round_trip_time_avg": {
+                "name": "Me\u00e1n-am an turais fillte"
+            },
+            "round_trip_time_max": {
+                "name": "Uasmh\u00e9id ama turais fillte"
+            },
+            "round_trip_time_mdev": {
+                "name": "Me\u00e1n-diall ama turais bhabhta"
+            },
+            "round_trip_time_min": {
+                "name": "\u00cdosmh\u00e9id ama turais fillte"
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "consider_home": "Smaoinigh ar an eatramh baile"
+                },
+                "data_description": {
+                    "consider_home": "Soicind\u00ed le fanacht sula marc\u00e1lann t\u00fa rianaitheoir gl\u00e9is mar neamhbhaile tar \u00e9is gan a bheith feicthe."
+                }
+            }
+        }
+    }
+}

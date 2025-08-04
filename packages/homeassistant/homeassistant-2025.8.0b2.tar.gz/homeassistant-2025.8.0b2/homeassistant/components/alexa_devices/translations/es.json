@@ -1,0 +1,122 @@
+{
+    "common": {
+        "data_code": "Contrase\u00f1a de un solo uso (c\u00f3digo OTP)",
+        "data_description_code": "La contrase\u00f1a de un solo uso para iniciar sesi\u00f3n en tu cuenta. Actualmente, solo se admiten tokens de aplicaciones OTP.",
+        "data_description_country": "El pa\u00eds donde est\u00e1 registrada tu cuenta de Amazon.",
+        "data_description_password": "La contrase\u00f1a de tu cuenta de Amazon.",
+        "data_description_username": "La direcci\u00f3n de correo electr\u00f3nico de tu cuenta de Amazon."
+    },
+    "config": {
+        "abort": {
+            "already_configured": "El servicio ya est\u00e1 configurado",
+            "cannot_connect": "No se pudo conectar",
+            "invalid_auth": "Autenticaci\u00f3n no v\u00e1lida",
+            "reauth_successful": "La autenticaci\u00f3n se volvi\u00f3 a realizar correctamente",
+            "unknown": "Error inesperado"
+        },
+        "error": {
+            "cannot_connect": "No se pudo conectar",
+            "cannot_retrieve_data": "No se pueden recuperar los datos de Amazon. Por favor, int\u00e9ntalo de nuevo m\u00e1s tarde.",
+            "invalid_auth": "Autenticaci\u00f3n no v\u00e1lida",
+            "unknown": "Error inesperado",
+            "wrong_country": "Se seleccion\u00f3 un pa\u00eds incorrecto. Por favor, selecciona el pa\u00eds donde est\u00e1 registrada tu cuenta de Amazon."
+        },
+        "flow_title": "{username}",
+        "step": {
+            "reauth_confirm": {
+                "data": {
+                    "code": "Contrase\u00f1a de un solo uso (c\u00f3digo OTP)",
+                    "password": "Contrase\u00f1a"
+                },
+                "data_description": {
+                    "code": "La contrase\u00f1a de un solo uso para iniciar sesi\u00f3n en tu cuenta. Actualmente, solo se admiten tokens de aplicaciones OTP.",
+                    "password": "La contrase\u00f1a de tu cuenta de Amazon."
+                }
+            },
+            "user": {
+                "data": {
+                    "code": "Contrase\u00f1a de un solo uso (c\u00f3digo OTP)",
+                    "country": "Pa\u00eds",
+                    "password": "Contrase\u00f1a",
+                    "username": "Nombre de usuario"
+                },
+                "data_description": {
+                    "code": "La contrase\u00f1a de un solo uso para iniciar sesi\u00f3n en tu cuenta. Actualmente, solo se admiten tokens de aplicaciones OTP.",
+                    "country": "El pa\u00eds donde est\u00e1 registrada tu cuenta de Amazon.",
+                    "password": "La contrase\u00f1a de tu cuenta de Amazon.",
+                    "username": "La direcci\u00f3n de correo electr\u00f3nico de tu cuenta de Amazon."
+                }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "baby_cry_detection": {
+                "name": "Beb\u00e9 llorando"
+            },
+            "beeping_appliance_detection": {
+                "name": "Electrodom\u00e9stico pitando"
+            },
+            "bluetooth": {
+                "name": "Bluetooth"
+            },
+            "cough_detection": {
+                "name": "Tos"
+            },
+            "dog_bark_detection": {
+                "name": "Ladridos de perros"
+            },
+            "water_sounds_detection": {
+                "name": "Sonidos del agua"
+            }
+        },
+        "notify": {
+            "announce": {
+                "name": "Anunciar"
+            },
+            "speak": {
+                "name": "Hablar"
+            }
+        },
+        "switch": {
+            "do_not_disturb": {
+                "name": "No molestar"
+            }
+        }
+    },
+    "exceptions": {
+        "cannot_connect_with_error": {
+            "message": "Error de conexi\u00f3n: {error}"
+        },
+        "cannot_retrieve_data_with_error": {
+            "message": "Error al recuperar datos: {error}"
+        }
+    },
+    "services": {
+        "send_sound": {
+            "fields": {
+                "device_id": {
+                    "name": "Dispositivo"
+                },
+                "sound_variant": {
+                    "description": "La variante del sonido a reproducir.",
+                    "name": "Variante de sonido"
+                }
+            },
+            "name": "Enviar sonido"
+        },
+        "send_text_command": {
+            "description": "Env\u00eda un comando de texto a un dispositivo",
+            "fields": {
+                "device_id": {
+                    "name": "Dispositivo"
+                },
+                "text_command": {
+                    "description": "El comando de texto a enviar.",
+                    "name": "Comando de texto de Alexa"
+                }
+            },
+            "name": "Enviar comando de texto"
+        }
+    }
+}

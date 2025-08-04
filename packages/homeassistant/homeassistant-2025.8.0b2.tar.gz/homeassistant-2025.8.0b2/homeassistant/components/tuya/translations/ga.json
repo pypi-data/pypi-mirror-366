@@ -1,0 +1,187 @@
+{
+    "config": {
+        "step": {
+            "reauth_user_code": {
+                "data": {
+                    "user_code": "C\u00f3d \u00fas\u00e1ideora"
+                },
+                "description": "\u00das\u00e1ideann comhth\u00e1th\u00fa Tuya modh log\u00e1la isteach feabhsaithe anois. Chun athfh\u00edordheimhni\u00fa le do chuntas Smart Life n\u00f3 Tuya Smart, n\u00ed m\u00f3r duit do ch\u00f3d \u00fas\u00e1ideora a iontr\u00e1il.\n\nIs f\u00e9idir leat an c\u00f3d seo a fh\u00e1il san aip Smart Life n\u00f3 san aip Tuya Smart i **Socruithe** > **Cuntas agus Sl\u00e1nd\u00e1il** an sc\u00e1ile\u00e1n, agus an c\u00f3d a thaispe\u00e1ntar sa r\u00e9imse **C\u00f3d \u00das\u00e1ideora** a iontr\u00e1il. T\u00e1 an c\u00f3d \u00fas\u00e1ideora \u00edogair \u00f3 thaobh c\u00e1s de, d\u00e9an cinnte \u00e9 a iontr\u00e1il d\u00edreach mar a thaispe\u00e1ntar san aip."
+            },
+            "scan": {
+                "description": "Bain \u00fas\u00e1id as an aip Smart Life n\u00f3 as an aip Tuya Smart chun an c\u00f3d QR seo a leanas a scanadh chun an log\u00e1il isteach a chr\u00edochn\u00fa.\n\nLean ar aghaidh go dt\u00ed an ch\u00e9ad ch\u00e9im eile a luaithe a bheidh an ch\u00e9im seo cr\u00edochnaithe agat san aip."
+            },
+            "user": {
+                "data": {
+                    "user_code": "C\u00f3d \u00fas\u00e1ideora"
+                }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "defrost": {
+                "name": "D\u00edreoite"
+            },
+            "tankfull": {
+                "name": "Umar l\u00e1n"
+            },
+            "wet": {
+                "name": "Fliuch"
+            }
+        },
+        "cover": {
+            "indexed_curtain": {
+                "name": "Cuirt\u00edn {index}"
+            },
+            "indexed_door": {
+                "name": "Doras {index}"
+            }
+        },
+        "event": {
+            "numbered_button": {
+                "name": "Cnaipe {button_number}",
+                "state_attributes": {
+                    "event_type": {
+                        "state": {
+                            "click": "Clice\u00e1ladh",
+                            "double_click": "Clice\u00e1il faoi dh\u00f3",
+                            "press": "Br\u00faite go fada"
+                        }
+                    }
+                }
+            }
+        },
+        "light": {
+            "indexed_light": {
+                "name": "Solas {index}"
+            }
+        },
+        "number": {
+            "alarm_delay": {
+                "name": "Moill al\u00e1raim"
+            },
+            "alarm_duration": {
+                "name": "Fad an al\u00e1raim"
+            },
+            "arm_delay": {
+                "name": "Moill l\u00e1imhe"
+            },
+            "indexed_maximum_brightness": {
+                "name": "Uasmh\u00e9id gile {index}"
+            },
+            "indexed_minimum_brightness": {
+                "name": "\u00cdosmh\u00e9id gile {index}"
+            },
+            "siren_duration": {
+                "name": "Fad na sir\u00e9ine"
+            },
+            "target_dis_closest": {
+                "name": "An fad sprice is gaire"
+            },
+            "temp_correction": {
+                "name": "Ceart\u00fa teochta"
+            }
+        },
+        "select": {
+            "blanket_level": {
+                "state": {
+                    "level_1": "\u00cdseal",
+                    "level_10": "Ard",
+                    "level_2": "Leibh\u00e9al 2",
+                    "level_3": "Leibh\u00e9al 4",
+                    "level_4": "Leibh\u00e9al 4",
+                    "level_5": "Leibh\u00e9al 5",
+                    "level_6": "Leibh\u00e9al 6",
+                    "level_7": "Leibh\u00e9al 7",
+                    "level_8": "Leibh\u00e9al 8",
+                    "level_9": "Leibh\u00e9al 9"
+                }
+            },
+            "indexed_led_type": {
+                "name": "Cine\u00e1l foinse solais {index}"
+            },
+            "odor_elimination_mode": {
+                "name": "M\u00f3d deireadh a chur le boladh",
+                "state": {
+                    "interim": "Eatramhach",
+                    "smart": "Cliste"
+                }
+            }
+        },
+        "sensor": {
+            "air_quality_index": {
+                "name": "Inn\u00e9acs c\u00e1il\u00edochta aeir",
+                "state": {
+                    "level_1": "Leibh\u00e9al 1",
+                    "level_2": "Leibh\u00e9al 2",
+                    "level_3": "Leibh\u00e9al 3",
+                    "level_4": "Leibh\u00e9al 4",
+                    "level_5": "Leibh\u00e9al 5",
+                    "level_6": "Leibh\u00e9al 6"
+                }
+            },
+            "filter_duration": {
+                "name": "Fad an scagaire"
+            },
+            "odor_elimination_status": {
+                "name": "St\u00e1das",
+                "state": {
+                    "charge_done": "Muirear d\u00e9anta",
+                    "charging": "Muirear\u00fa",
+                    "work": "Ag obair"
+                }
+            },
+            "pump_time": {
+                "name": "Fad an chaid\u00e9il uisce"
+            },
+            "temperature_external": {
+                "name": "Teocht an t\u00f3iread\u00f3ra"
+            },
+            "total_production": {
+                "name": "T\u00e1irgeadh ioml\u00e1n"
+            },
+            "uv_runtime": {
+                "name": "Am rith UV"
+            },
+            "water_level_state": {
+                "name": "Leibh\u00e9al an uisce",
+                "state": {
+                    "level_1": "\u00cdseal",
+                    "level_2": "Me\u00e1nach",
+                    "level_3": "L\u00e1n"
+                }
+            },
+            "water_time": {
+                "name": "Fad \u00fas\u00e1ide uisce"
+            }
+        },
+        "switch": {
+            "arm_beep": {
+                "name": "Arm\u00e1il b\u00edp"
+            },
+            "indexed_alarm": {
+                "name": "Al\u00e1ram {index}"
+            },
+            "indexed_socket": {
+                "name": "Soic\u00e9ad {index}"
+            },
+            "indexed_switch": {
+                "name": "Athraigh {index}"
+            },
+            "indexed_usb": {
+                "name": "USB {index}"
+            },
+            "pump": {
+                "name": "Caid\u00e9al"
+            },
+            "siren": {
+                "name": "Bonn\u00e1n"
+            }
+        }
+    },
+    "exceptions": {
+        "action_dpcode_not_found": {
+            "message": "N\u00ed f\u00e9idir an gn\u00edomh a phr\u00f3ise\u00e1il mar nach sol\u00e1thra\u00edonn an gl\u00e9as c\u00f3d feidhme comhfhreagrach (bh\u00edothas ag s\u00fail le ceann de {expected} i {available})."
+        }
+    }
+}

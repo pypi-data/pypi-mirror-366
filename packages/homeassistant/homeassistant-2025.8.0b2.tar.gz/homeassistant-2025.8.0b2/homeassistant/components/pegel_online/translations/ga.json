@@ -1,0 +1,22 @@
+{
+    "config": {
+        "step": {
+            "select_station": {
+                "data_description": {
+                    "station": "Roghnaigh an st\u00e1isi\u00fan tomhais uisce is mian leat a chur le Home Assistant."
+                }
+            },
+            "user": {
+                "data_description": {
+                    "location": "Roghnaigh an \u00e1it inar mian leat st\u00e1isi\u00fain tomhais uisce a chuardach.",
+                    "radius": "An ga chun st\u00e1isi\u00fain tomhais uisce a chuardach timpeall an tsu\u00edmh roghnaithe."
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "communication_error": {
+            "message": "Theip ar chumars\u00e1id leis an API: {error}"
+        }
+    }
+}
