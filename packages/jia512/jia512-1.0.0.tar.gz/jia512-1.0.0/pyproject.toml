@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jia512"
+version = "1.0.0"
+description = "轻量级加密解密框架，提供RSA-AES混合加密功能"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "夏云龙", email = "xiayunlong@example.com"}
+]
+maintainers = [
+    {name = "夏云龙", email = "xiayunlong@example.com"}
+]
+keywords = ["encryption", "cryptography", "rsa", "aes", "hmac", "security", "async"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "cryptography>=3.4.8",
+]
+
+[project.optional-dependencies]
+redis = ["redis>=4.0.0"]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-asyncio>=0.18.0",
+    "black>=21.0.0",
+    "flake8>=3.8.0",
+    "mypy>=0.800",
+    "twine>=3.4.0",
+    "wheel>=0.37.0",
+]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/xiayunlong/jia"
+Documentation = "https://github.com/xiayunlong/jia/blob/main/README.md"
+Repository = "https://github.com/xiayunlong/jia"
+"Bug Tracker" = "https://github.com/xiayunlong/jia/issues"
+
+[project.scripts]
+jia = "jia.cli:main"
+
+# 移除动态版本配置，使用静态版本
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto" 
