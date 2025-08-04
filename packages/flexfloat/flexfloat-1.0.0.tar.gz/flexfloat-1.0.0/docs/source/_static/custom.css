@@ -1,0 +1,148 @@
+/* Custom CSS for FlexFloat documentation */
+
+/* Enhanced code block styling */
+.highlight {
+    border-radius: 4px;
+    margin: 1em 0;
+}
+
+.highlight pre {
+    padding: 1em;
+    overflow-x: auto;
+}
+
+/* Custom admonition styling */
+.admonition {
+    border-radius: 4px;
+    padding: 12px;
+    margin: 1em 0;
+}
+
+.admonition.note {
+    border-left: 4px solid #3498db;
+    background-color: #ebf5ff;
+}
+
+.admonition.warning {
+    border-left: 4px solid #f39c12;
+    background-color: #fef9e7;
+}
+
+.admonition.tip {
+    border-left: 4px solid #27ae60;
+    background-color: #eafaf1;
+}
+
+/* Table styling improvements */
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal;
+}
+
+.rst-content table.docutils thead th {
+    background-color: #f8f9fa;
+}
+
+/* Navigation improvements */
+.wy-nav-side {
+    background: #2c3e50;
+}
+
+.wy-nav-top {
+    background: #2980b9;
+}
+
+/* Search box styling */
+.wy-side-nav-search {
+    background: #2c3e50;
+}
+
+.wy-side-nav-search input[type=text] {
+    border-radius: 4px;
+}
+
+/* Logo spacing */
+.wy-side-nav-search .wy-dropdown > a img.logo,
+.wy-side-nav-search > a img.logo {
+    max-height: 50px;
+    margin: 0.85em auto;
+}
+
+/* API documentation improvements */
+.rst-content dl:not(.docutils) dt {
+    background: #f8f9fa;
+    color: #2c3e50;
+    border-top: 3px solid #3498db;
+}
+
+/* Signature improvements */
+.rst-content .viewcode-link,
+.rst-content .viewcode-back {
+    float: right;
+    font-size: 0.8em;
+}
+
+/* Method and class signature styling */
+.sig-name {
+    font-weight: bold;
+}
+
+.sig-paren {
+    color: #7f8c8d;
+}
+
+/* Footer improvements */
+.rst-footer-buttons {
+    margin-top: 2em;
+}
+
+/* Custom button styling */
+.btn-neutral {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-neutral:hover {
+    background-color: #7f8c8d;
+    color: white;
+}
+
+/* Copy button improvements */
+.copybtn {
+    opacity: 0.3;
+    transition: opacity 0.3s;
+}
+
+.copybtn:hover {
+    opacity: 1;
+}
+
+/* Sidebar improvements */
+.wy-menu-vertical li.toctree-l1 > a {
+    font-weight: bold;
+}
+
+.wy-menu-vertical li.toctree-l2 > a {
+    padding-left: 2.4em;
+}
+
+.wy-menu-vertical li.toctree-l3 > a {
+    padding-left: 3.6em;
+}
+
+/* GitHub edit link styling */
+.edit-github {
+    float: right;
+    margin-top: -20px;
+}
+
+.edit-github a {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.edit-github a:hover {
+    color: #2c3e50;
+    text-decoration: underline;
+}

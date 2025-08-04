@@ -1,0 +1,146 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_version_bump:
+        description: "Skip version bump and release with current version"
+        required: false
+        default: false
+        type: boolean
+      version_bump:
+        description: "Version bump type"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      custom_version:
+        description: "Custom version (optional, overrides version bump)"
+        required: false
+        type: string
+      release_notes:
+        description: "Release notes (optional)"
+        required: false
+        type: string
+
+jobs:
+  manual-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write # For trusted publishing to PyPI
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine bump2version
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Get current version
+        id: current_version
+        run: |
+          VERSION=$(grep -E '^version = ' pyproject.toml | cut -d'"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Set new version
+        id: set_new_version
+        run: |
+          if [ -n "${{ github.event.inputs.custom_version }}" ]; then
+            echo "new_version=${{ github.event.inputs.custom_version }}" >> $GITHUB_OUTPUT
+            echo "Using custom version: ${{ github.event.inputs.custom_version }}"
+          else
+            echo "new_version=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump or set version
+        id: bump_version
+        run: |
+          if [ "${{ github.event.inputs.skip_version_bump }}" = "true" ]; then
+            # Skip version bump, use current version
+            CURRENT_VERSION=$(grep -E '^version = ' pyproject.toml | cut -d'"' -f2)
+            echo "new_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+            echo "Skipping version bump, using current version: $CURRENT_VERSION"
+          elif [ -n "${{ steps.set_new_version.outputs.new_version }}" ]; then
+            # Set version directly
+            bump2version --new-version ${{ steps.set_new_version.outputs.new_version }} patch
+            NEW_VERSION=$(grep -E '^version = ' pyproject.toml | cut -d'"' -f2)
+            echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "New version: $NEW_VERSION"
+          else
+            # Bump version as per input
+            bump2version ${{ github.event.inputs.version_bump }}
+            NEW_VERSION=$(grep -E '^version = ' pyproject.toml | cut -d'"' -f2)
+            echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "New version: $NEW_VERSION"
+          fi
+
+      - name: Run tests
+        run: |
+          pip install -e ".[dev]"
+          pytest tests/
+
+      - name: Build package
+        run: |
+          python -m build
+
+      - name: Commit version bump
+        if: ${{ github.event.inputs.skip_version_bump != 'true' }}
+        run: |
+          git add pyproject.toml flexfloat/__init__.py .bumpversion.cfg
+          git commit -m "Bump version to ${{ steps.bump_version.outputs.new_version }} [skip ci]"
+          git push origin main
+
+      - name: Create Git tag
+        run: |
+          git tag -a "v${{ steps.bump_version.outputs.new_version }}" -m "Release v${{ steps.bump_version.outputs.new_version }}"
+          git push origin "v${{ steps.bump_version.outputs.new_version }}"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.bump_version.outputs.new_version }}"
+          name: "Release v${{ steps.bump_version.outputs.new_version }}"
+          body: |
+            ## Changes in v${{ steps.bump_version.outputs.new_version }}
+
+            This is a manual release triggered by: ${{ github.actor }}
+
+            ### Release Notes
+            ${{ github.event.inputs.release_notes || 'No release notes provided.' }}
+
+            ### Artifacts
+            - **Python Wheel**: `flexfloat-${{ steps.bump_version.outputs.new_version }}-py3-none-any.whl`
+            - **Source Distribution**: `flexfloat-${{ steps.bump_version.outputs.new_version }}.tar.gz`
+
+            The package has been automatically published to [PyPI](https://pypi.org/project/flexfloat/${{ steps.bump_version.outputs.new_version }}/).
+          draft: false
+          prerelease: false
+          files: |
+            ./dist/flexfloat-${{ steps.bump_version.outputs.new_version }}-py3-none-any.whl
+            ./dist/flexfloat-${{ steps.bump_version.outputs.new_version }}.tar.gz
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.12.4
+        with:
+          verbose: true

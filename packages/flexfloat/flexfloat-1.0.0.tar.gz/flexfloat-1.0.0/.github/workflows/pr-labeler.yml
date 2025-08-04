@@ -1,0 +1,138 @@
+name: PR Labeler
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  label-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Analyze commits for version bump
+        id: analyze
+        run: |
+          # Get commits in this PR
+          git fetch origin main
+          COMMITS=$(git rev-list origin/main..HEAD --oneline)
+
+          echo "Commits in PR:"
+          echo "$COMMITS"
+
+          # Analyze commit messages for conventional commit patterns
+          BUMP_TYPE="patch"  # default
+
+          # Check for breaking changes or major updates
+          if echo "$COMMITS" | grep -iE "(BREAKING CHANGE|breaking:)" || \
+             echo "${{ github.event.pull_request.title }}" | grep -iE "(BREAKING|major:)" || \
+             echo "${{ github.event.pull_request.body }}" | grep -iE "BREAKING CHANGE"; then
+            BUMP_TYPE="major"
+          # Check for new features
+          elif echo "$COMMITS" | grep -iE "(feat:|feature:)" || \
+               echo "${{ github.event.pull_request.title }}" | grep -iE "(feat:|feature:|minor:)"; then
+            BUMP_TYPE="minor"
+          # Everything else is a patch (fix:, docs:, style:, refactor:, test:, chore:)
+          fi
+
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "Recommended version bump: $BUMP_TYPE"
+
+      - name: Add version bump label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const bumpType = '${{ steps.analyze.outputs.bump_type }}';
+
+            // Remove existing version bump labels
+            const existingLabels = ['major', 'minor', 'patch'];
+            for (const label of existingLabels) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: label
+                });
+              } catch (error) {
+                // Label might not exist, ignore
+              }
+            }
+
+            // Add only the version bump label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: [bumpType]
+            });
+
+            console.log(`Added label: ${bumpType}`);
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const bumpType = '${{ steps.analyze.outputs.bump_type }}';
+
+            const body = `**Automatic Version Bump Detection**
+
+            Based on the commit messages and PR title, this PR will trigger a **${bumpType}** version bump when merged to main.
+
+            | Bump Type | Description |
+            |-----------|-------------|
+            | patch | Bug fixes, documentation updates, code style changes |
+            | minor | New features, non-breaking changes |
+            | major | Breaking changes, major updates |
+
+            **🚀 Release Status**: This PR is labeled with the recommended version bump type. To trigger a release:
+            1. **Add the \`release\` label** to this PR when ready
+            2. The version will be automatically bumped when the \`release\` label is added
+            3. When merged, it will automatically create a Git tag, GitHub release, and publish to PyPI
+
+            **To prevent release**: Simply don\'t add the \`release\` label.
+
+            **To change version bump**: You can manually change the version bump label:
+            - Add \`major\` label for breaking changes
+            - Add \`minor\` label for new features  
+            - Add \`patch\` label for bug fixes
+
+            The version will be automatically updated when the \`release\` label is added to this PR.`;
+
+            // Check if we already commented
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.data.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Automatic Version Bump Detection')
+            );
+
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
