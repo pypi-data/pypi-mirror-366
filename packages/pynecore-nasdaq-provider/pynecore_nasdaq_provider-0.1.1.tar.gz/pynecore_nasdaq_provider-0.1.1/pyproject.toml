@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pynecore-nasdaq-provider"
+version = "0.1.1"
+description = "Nasdaq data provider plugin for PyneCore"
+authors = [
+    {name = "Mahadi Hassan", email = "mh@mahadihassan.com"},
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Environment :: Plugins",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+keywords = ["trading", "finance", "data", "provider", "pynecore"]
+
+dependencies = [
+    "pynesys-pynecore>=6.1.2",
+    # NASDAQ Data Link API access uses built-in urllib, no additional dependencies needed
+    # Note: Use only raw Python and PyneCore methods, avoid pandas/numpy
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "isort>=5.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+]
+
+[project.urls]
+Homepage = "https://github.com/pynecore/pynecore-nasdaq-provider"
+Repository = "https://github.com/pynecore/pynecore-nasdaq-provider"
+Issues = "https://github.com/pynecore/pynecore-nasdaq-provider/issues"
+Documentation = "https://github.com/pynecore/pynecore-nasdaq-provider#readme"
+
+# Entry point for PyneCore plugin discovery
+[project.entry-points."pynecore.providers"]
+nasdaq = "nasdaq_provider:NasdaqProvider"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.toml", "*.yaml", "*.yml", "*.json"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
