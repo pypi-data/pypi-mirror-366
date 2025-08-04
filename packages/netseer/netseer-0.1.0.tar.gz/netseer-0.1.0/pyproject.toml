@@ -1,0 +1,32 @@
+[project]
+name = "netseer"
+version = "0.1.0"
+description = "Predicting graph structure from a time series of graphs"
+readme = "README.md"
+authors = [{ name = "Brodie Oldfield", email = "Brodie.Oldfield@gmail.com" }]
+requires-python = ">=3.12"
+dependencies = [
+  "igraph>=0.11.9",
+  "pulp>=3.2.1",
+  "statsforecast>=2.0.2",
+  "statsmodels>=0.14.5",
+]
+
+[project.scripts]
+random = "netseer.netseer:random"
+
+[project.urls]
+Homepage = "https://github.com/sevvandi/netseer-python"
+Issues = "https://github.com/sevvandi/netseer-python/issues"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+  "mkdocs>=1.6.1",
+  "mkdocs-material>=9.6.15",
+  "mkdocstrings[python]>=0.29.1",
+]
