@@ -1,0 +1,763 @@
+------------------------------------------------------------------------------------------
+file: C:\Users\Franco\Documents\Proyectos\videoai\pyvidtor\pictex\README.md
+------------------------------------------------------------------------------------------
+# PicTex
+
+[![PyPI version](https://badge.fury.io/py/pictex.svg?v=2)](https://pypi.org/project/pictex/)
+[![CI Status](https://github.com/francozanardi/pictex/actions/workflows/test.yml/badge.svg)](https://github.com/francozanardi/pictex/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/francozanardi/pictex/branch/main/graph/badge.svg)](https://codecov.io/gh/francozanardi/pictex)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A powerful Python library to create beautifully styled text images with a simple, fluent API. Powered by Skia.
+
+![PicTex](https://raw.githubusercontent.com/francozanardi/pictex/main/docs/assets/readme-1.png)
+
+**`PicTex`** makes it easy to generate styled text images for social media, video overlays, digital art, or any application where stylized text is needed. It abstracts away the complexity of graphics libraries, offering a declarative and chainable interface inspired by CSS.
+
+## Features
+
+-   **Fluent & Reusable API**: Build styles declaratively and reuse them.
+-   **Rich Styling**: Gradients, multiple shadows, outlines, and text decorations.
+-   **Advanced Typography**: Custom fonts, variable fonts, line height, and alignment.
+-   **Automatic Font Fallback**: Seamlessly render emojis and special characters even if your main font doesn't support them.
+-   **Flexible Output**: 
+    -   **Raster**: Save as PNG/JPEG/WebP, or convert to NumPy/Pillow.
+    -   **Vector**: Export to a clean, scalable SVG file with font embedding.
+-   **High-Quality Rendering**: Powered by Google's Skia graphics engine.
+
+## Installation
+
+```bash
+pip install pictex
+```
+
+## Quickstart
+
+Creating a stylized text image is as simple as building a `Canvas` and calling `.render()`.
+
+```python
+from pictex import Canvas
+
+# 1. Create a style template using the fluent API
+canvas = (
+    Canvas()
+    .font_family("path/to/font.ttf")
+    .font_size(60)
+    .color("white")
+    .padding(20)
+    .background_color(LinearGradient(["#2C3E50", "#FD746C"]))
+    .background_radius(10)
+    .add_shadow(offset=(2, 2), blur_radius=3, color="black")
+)
+
+# 2. Render some text using the template
+image = canvas.render("Hello, PicTex! 🎨✨")
+
+# 3. Save or show the result
+image.save("hello.png")
+
+```
+
+![Quickstart result](https://raw.githubusercontent.com/francozanardi/pictex/main/docs/assets/readme-2.png)
+
+You can also render it as SVG using `Canvas.render_as_svg()`.
+```
+image = canvas.render_as_svg("Hello, PicTex! 🎨✨")
+image.save("hello.svg")
+```
+
+![Quickstart SVG result](https://raw.githubusercontent.com/francozanardi/pictex/main/docs/assets/readme-3.svg)
+
+## 📚 Dive Deeper
+
+For a complete guide on all features, including text decorations, advanced gradients, and more, check out our full documentation:
+
+-   [**Getting Started & Core Concepts**](https://pictex.readthedocs.io/en/latest/getting_started/)
+-   [**Styling Guide: Colors & Gradients**](https://pictex.readthedocs.io/en/latest/colors/)
+-   [**Styling Guide: Text & Fonts**](https://pictex.readthedocs.io/en/latest/text/)
+-   [**Styling Guide: Containers & Effects**](https://pictex.readthedocs.io/en/latest/effects/)
+
+## Featured On
+
+[<img alt="Python Weekly Logo" src="https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/publication/logo/0dfe72e1-380f-4399-a50e-134919512092/Python-Weekly-Square-Logo.jpg" width="80">](https://www.pythonweekly.com/p/python-weekly-issue-707-july-17-2025-0b345aeeec65adb3)
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/francozanardi/pictex/issues).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+
+------------------------------------------------------------------------------------------
+file: C:\Users\Franco\Documents\Proyectos\videoai\pyvidtor\pictex\mkdocs.yml
+------------------------------------------------------------------------------------------
+site_name: PicTex
+site_description: 'A powerful Python library to create beautifully styled text images.'
+repo_url: https://github.com/francozanardi/pictex
+repo_name: francozanardi/pictex
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+    - content.tabs.link
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.tracking
+    - navigation.tabs
+    - content.tooltips
+    - content.action.edit
+    - navigation.top
+    - toc.integrate
+    - content.code.annotate
+    - search.highlight
+
+nav:
+  - 'Home': index.md
+  - 'Guides':
+    - 'Getting Started': getting_started.md
+    - 'Colors & Gradients': colors.md
+    - 'Text & Fonts': text.md
+    - 'Containers & Effects': effects.md
+    - 'Sizing & Cropping': crop.md
+    - 'Exporting to SVG': exporting_svg.md
+  - 'API Reference': api_reference.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            merge_init_into_class: true
+            show_if_no_docstring: false
+            members_order: source
+            heading_level: 2
+            show_signature_annotations: false
+            filters:
+              - "!^_"
+
+
+------------------------------------------------------------------------------------------
+file: docs\api_reference.md
+------------------------------------------------------------------------------------------
+# API Reference
+
+This section provides a detailed reference for `PicTex`'s public API.
+
+::: pictex.Canvas
+
+::: pictex.Image
+
+::: pictex.VectorImage
+
+## Model Classes & Enums
+
+These are the data classes and enumerations used for configuration.
+
+#### ::: pictex.LinearGradient
+    options:
+      filters:
+        - "!apply_to_paint"
+#### ::: pictex.SolidColor
+    options:
+      filters:
+        - "!apply_to_paint"
+        - "!_from_hex"
+#### ::: pictex.models.Shadow
+#### ::: pictex.models.Alignment
+#### ::: pictex.models.FontWeight
+#### ::: pictex.models.FontStyle
+#### ::: pictex.models.CropMode
+
+
+
+------------------------------------------------------------------------------------------
+file: docs\colors.md
+------------------------------------------------------------------------------------------
+# Styling Guide: Colors & Gradients
+
+Anywhere a `color` is required, you can use a **Solid Color** or a **Gradient**.
+
+## Solid Colors
+
+They can be specified using the `SolidColor` class or using a string in different formats:
+
+| Format           | Example         | Description                               |
+| ---------------- | --------------- | ----------------------------------------- |
+| Named Color      | `"red"`, `"gold"` | Common CSS color names.                   |
+| 6-digit Hex      | `"#FF5733"`     | Standard RRGGBB format.                   |
+| 3-digit Hex      | `"#F53"`         | Shorthand for `"#FF5533"`.                |
+| 8-digit Hex (HexA) | `"#FF573380"`   | RRGGBBAA, where AA is the alpha/opacity. |
+
+For example, all these are valid ways to set the color to red:
+
+```python
+from pictex import Canvas, SolidColor
+
+Canvas().color("#FF0000FF")
+Canvas().color("#FF0000")
+Canvas().color("#F00")
+Canvas().color("red")
+Canvas().color(SolidColor(255, 0, 0, 255))
+Canvas().color(SolidColor(255, 0, 0))
+```
+
+## Linear Gradients
+
+**You can use a `LinearGradient` object anywhere a color is accepted**: in `.color()`, `.outline_stroke()`, `.background_color()`, and even in text decorations like `.underline()`. Only shadow colors must be solid.
+
+A `LinearGradient` has a few key parameters:
+-   `colors`: A list of color strings.
+-   `stops` (Optional): A list of floats (0.0 to 1.0) specifying the position of each color.
+-   `start_point` & `end_point` (Optional): Define the direction of the gradient. `(0,0)` is top-left, `(1,1)` is bottom-right.
+
+### Example: Gradient on a Background
+
+```python
+from pictex import Canvas, LinearGradient
+
+gradient = LinearGradient(
+    colors=["#43C6AC", "#191654"],
+    start_point=(0.0, 0.0), # Top-left
+    end_point=(1.0, 1.0)   # Bottom-right
+)
+
+canvas = (
+    Canvas()
+    .font_size(90)
+    .color("white")
+    .padding(40)
+    .background_color(gradient)
+    .background_radius(25)
+)
+
+canvas.render("Gradient BG").save("gradient_bg.png")
+```
+
+![Background gradient result](assets/colors-1.png)
+
+### Showcase: Gradients Everywhere
+
+Let's combine everything. Here, we apply different gradients to the text fill, its outline, and its underline.
+
+```python
+from pictex import Canvas, LinearGradient
+
+text_gradient = LinearGradient(colors=["#FFD700", "#FF6B6B"])
+stroke_gradient = LinearGradient(colors=["#4A00E0", "#8E2DE2"])
+underline_gradient = LinearGradient(
+    colors=["#00F260", "#0575E6"],
+    start_point=(0.5, 0.0),
+    end_point=(0.5, 1.0)
+)
+
+canvas = (
+    Canvas()
+    .font_family("Impact")
+    .font_size(150)
+    .color(text_gradient)
+    .text_stroke(width=10, color=stroke_gradient)
+    .underline(thickness=15, color=underline_gradient)
+)
+
+canvas.render("GRADIENTS!").save("gradients_everywhere.png")
+```
+
+![Gradients everywhere result](assets/colors-2.png)
+
+
+------------------------------------------------------------------------------------------
+file: docs\crop.md
+------------------------------------------------------------------------------------------
+## Smart Sizing and Cropping
+
+By default, `PicTex` automatically calculates the smallest possible canvas size to fit your text and all its effects (like shadows). Sometimes, you may want more control. The `render()` method accepts a `crop_mode` argument:
+
+-   `CropMode.NONE` (Default): The canvas will be large enough to include all effects, including the full extent of shadows.
+-   `CropMode.CONTENT_BOX`: The canvas will be cropped to the "content box" (the text area plus its padding). This is useful if you want to ignore shadows for layout purposes.
+-   `CropMode.SMART`: A smart crop that trims all fully transparent pixels from the edges of the image. This is often the best choice for the tightest possible output.
+
+```python
+from pictex import Canvas, CropMode
+
+canvas = Canvas().font_size(100).add_shadow(offset=(10,10), blur_radius=20, color="white")
+canvas.background_color("blue")
+
+# Render with different crop modes
+img_none = canvas.render("Test", crop_mode=CropMode.NONE)
+img_smart = canvas.render("Test", crop_mode=CropMode.SMART)
+img_content_box = canvas.render("Test", crop_mode=CropMode.CONTENT_BOX)
+
+# We save them as JPG images to force a black background instead of transparent, so it's easier to see the difference
+img_none.save("test_none.jpg")
+img_smart.save("test_smart.jpg")
+img_content_box.save("test_content_box.jpg")
+```
+
+**`CropMode.NONE`** (default):
+
+![None crop result](assets/crop-1-none.jpg)
+
+**`CropMode.SMART`**:
+
+![Smart crop result](assets/crop-1-smart.jpg)
+
+**`CropMode.CONTENT_BOX`**:
+
+![Content-box crop result](assets/crop-1-cb.jpg)
+
+
+
+------------------------------------------------------------------------------------------
+file: docs\effects.md
+------------------------------------------------------------------------------------------
+# Styling Guide: Containers & Effects
+
+This guide covers backgrounds, padding, shadows, and outlines.
+
+## The Container: Background & Padding
+
+The container is the box model around your text.
+
+-   `.padding()`: Sets the space between the text and the edge of the background. Accepts 1, 2, or 4 values, just like in CSS.
+-   `.background_color()`: Sets the background fill (can be a color or gradient).
+-   `.background_radius()`: Creates rounded corners for the background.
+
+## Shadows: `add_shadow` and `add_box_shadow`
+
+`PicTex` supports two types of shadows, and you can add multiple of each to create complex, layered effects.
+
+1.  **Text Shadow (`.add_shadow()`)**: A shadow applied directly to the text glyphs.
+2.  **Box Shadow (`.add_box_shadow()`)**: A shadow applied to the background container.
+
+### Text Shadow (`.add_shadow()`)
+
+You can add multiple shadows to create complex effects. The method is chainable.
+
+-   `offset`: A tuple `(x, y)` for the shadow's position.
+-   `blur_radius`: The amount of blur to apply.
+-   `color`: The color of the shadow.
+
+```python
+from pictex import Canvas
+
+canvas = (
+    Canvas()
+    .font_size(120)
+    .font_family("Arial Black")
+    .color("#FFFFFF")
+    .add_shadow(offset=(3, 3), blur_radius=0, color="blue")
+    .add_shadow(offset=(0, 0), blur_radius=10, color="#FFD700")
+)
+
+canvas.render("Layered").save("layered_shadow.png")
+```
+
+![Text shadow result](assets/effects-1.png)
+
+### Box Shadow (`.add_box_shadow()`)
+
+This applies a shadow to the background box, not the text itself. It shares the same parameters as `.add_shadow()`.
+
+```python
+from pictex import Canvas
+
+canvas = (
+    Canvas()
+    .font_size(100)
+    .padding(40)
+    .background_color("white")
+    .background_radius(20)
+    .add_box_shadow(offset=(10, 10), blur_radius=3, color="black")
+)
+
+canvas.render("Floating").save("box_shadow.png")
+```
+
+![Box shadow result](assets/effects-2.png)
+
+## Outline Stroke
+
+The `.outline_stroke()` method adds a contour around the text. This is great for creating impactful, cartoon-style, or sticker-like text.
+
+```python
+from pictex import Canvas
+
+canvas = (
+    Canvas()
+    .font_size(150)
+    .font_family("Impact")
+    .color("yellow")
+    .text_stroke(width=14, color="black")
+)
+
+canvas.render("COMIC").save("comic_style.png")
+```
+
+![Outline stroke result](assets/effects-3.png)
+
+
+
+------------------------------------------------------------------------------------------
+file: docs\exporting_svg.md
+------------------------------------------------------------------------------------------
+# Exporting to SVG
+
+`PicTex` provides powerful support for exporting your styled text to a Scalable Vector Graphic (SVG) file. This is ideal for web applications, logos, and any use case where resolution-independent images are required.
+
+## Basic Usage
+
+To generate an SVG, simply use the `.render_as_svg()` method on your `Canvas`. This returns a `VectorImage` object.
+
+```python
+from pictex import Canvas
+
+canvas = Canvas().font_size(100).color("purple")
+
+vector_image = canvas.render_as_svg("Hello, SVG!")
+vector_image.save("output.svg")
+```
+
+## Understanding Font Handling in SVG
+
+Handling fonts is the most critical aspect of creating portable SVGs. `PicTex` gives you precise control over this via the `embed_font` parameter in the `render_as_svg()` method.
+
+The behavior changes depending on whether you are using a **font file** (e.g., from a `.ttf` path) or a **system font** (e.g., `"Arial"`).
+
+### Scenario 1: Using a Font File (e.g., `.font_family("path/to/font.ttf")`)
+
+This is the recommended approach for achieving consistent visual results.
+
+#### `embed_font=True` (default)
+-   **What it does:** The entire font file is encoded in Base64 and embedded directly within the SVG file using a `@font-face` rule.
+-   **Result:** The SVG is **fully self-contained and portable**. It will render identically on any device, regardless of a user's installed fonts.
+-   **Trade-off:** The file size of the SVG will increase by roughly 133% of the original font file's size.
+
+```python
+# This creates a completely portable SVG
+vector_image = canvas.render_as_svg("Portable & Perfect", embed_font=True)
+vector_image.save("portable_text.svg")
+```
+
+#### `embed_font=False`
+-   **What it does:** The SVG will still contain a `@font-face` rule, but instead of embedding the font data, it will reference the font file using a relative path (e.g., `src: url('path/to/font.ttf')`).
+-   **Result:** The SVG file itself is very small. However, for it to render correctly, the font file **must be distributed alongside the SVG** and kept in the same relative path. This is useful for web projects where you manage fonts and SVGs as separate assets.
+-   **Trade-off:** The SVG is no longer self-contained.
+
+```python
+# This creates a lightweight SVG that depends on an external font file
+vector_image = canvas.render_as_svg("Linked Font", embed_font=False)
+vector_image.save("linked_text.svg")
+# You must also provide the font file for "linked_text.svg" to work correctly.
+```
+
+### Scenario 2: Using a System Font (e.g., `.font_family("Arial")`)
+
+This applies when you specify a font by name or when `PicTex` uses a system font as a fallback (e.g., for an emoji).
+
+-   **What it does:** In this case, the `embed_font` parameter has **no effect**, as `PicTex` does not have access to the font's file path to be able to read and embed it.
+-   **Result:** The SVG will always reference the font by its family name (e.g., `font-family: 'Arial'`). The rendering completely relies on the viewing system having that specific font installed. If the font is not found, the viewer will substitute it with a default, which may alter the appearance.
+-   **Warning:** If you use `embed_font=True` with a system font, `PicTex` will issue a warning to inform you that the font could not be embedded.
+
+### Summary of Font Handling
+
+| Font Source          | `embed_font=True` (Default)                                   | `embed_font=False`                                         |
+| -------------------- | ------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Font from File**   | **Fully Portable SVG.** Font is embedded (Base64).            | **Linked SVG.** Relies on external font file at a relative path. |
+| **System Font**      | **System-Dependent SVG.** Font is referenced by name. (Warning issued) | **System-Dependent SVG.** Font is referenced by name.      |
+
+
+
+------------------------------------------------------------------------------------------
+file: docs\getting_started.md
+------------------------------------------------------------------------------------------
+# Getting Started & Core Concepts
+
+Welcome to the `PicTex` documentation! This guide will walk you through the core concepts of the library.
+
+## The Core Idea: Canvas and Image
+
+The two most important classes in `PicTex` are `Canvas` and `Image`.
+
+1.  **`Canvas`**: Think of a `Canvas` as a **reusable style template**. You use its fluent methods (`.font_size()`, `.color()`, etc.) to build up a set of styling rules. You create a `Canvas` once and can use it many times.
+
+2.  **`Image`**: An `Image` is the **final rendered product** when you use `Canvas.render(...)`. This object holds the pixel data and provides helpful methods to save, display, or convert it.
+
+3.  **`VectorImage`**: This is a **vector image** containing SVG data, returned by `Canvas.render_as_svg(...)`.
+
+This separation allows for clean and efficient code:
+
+```python
+# Create one builders template
+my_template = Canvas().font_size(80).color("blue")
+
+# Render multiple images from the same template
+raster_image = my_template.render("First Text")
+vector_image = my_template.render_as_svg("Second Text")
+
+raster_image.save("first.png")
+vector_image.save("second.svg")
+```
+
+## Working with the `Image` Object
+
+```python
+image = canvas.render("Hello")
+
+# Save to a file
+image.save("hello.png")
+
+# Get a Pillow Image object (requires `pip install Pillow`)
+pil_image = image.to_pillow()
+pil_image.show()
+
+# Get a NumPy array for use with OpenCV or other libraries
+# Default is BGRA format for OpenCV
+numpy_array_bgra = image.to_numpy()
+# Get in RGBA format for Matplotlib, etc.
+numpy_array_rgba = image.to_numpy(rgba=True)
+```
+
+## Working with the `VectorImage` Object
+
+The `VectorImage` object is simple. It holds the SVG content as a string.
+
+```python
+vector_image = canvas.render_as_svg("Hello SVG")
+
+# Save to a file
+vector_image.save("hello.svg")
+
+# Get the raw SVG string
+svg_string = vector_image.svg
+print(svg_string)
+```
+
+## What's Next?
+
+You now understand the basic workflow of `PicTex`. The real power of the library lies in its rich styling capabilities. We recommend you explore the guides in the following order:
+
+1.  **[Text & Fonts](./text.md)**
+    *Learn how to use custom fonts, variable fonts, set weights and styles, and master the automatic font fallback system for emojis and special characters.*
+
+2.  **[Colors & Gradients](./colors.md)**
+    *Discover how to use solid colors and apply beautiful linear gradients to text, backgrounds, and even decorations.*
+
+3.  **[Containers & Effects](./effects.md)**
+    *Dive into creating backgrounds, padding, outlines, and adding depth with multiple text and box shadows.*
+
+4.  **[Smart Sizing & Cropping](./crop.md)**
+    *Take full control over the final image dimensions with different cropping strategies.*
+
+5.  **[Exporting to SVG](./exporting_svg.md)**
+    *Export your canvas as an SVG image.*
+
+
+------------------------------------------------------------------------------------------
+file: docs\index.md
+------------------------------------------------------------------------------------------
+# Welcome to PicTex
+
+![PicTex](https://raw.githubusercontent.com/francozanardi/pictex/main/docs/assets/readme-1.png)
+
+**`PicTex` is a Python library for creating beautifully styled text images with a simple, fluent API.**
+
+Whether you're generating dynamic images for social media, creating video overlays, or building tools for digital art, `PicTex` simplifies the process of text rendering. It abstracts away the complexity of low-level graphics engines, offering a declarative and chainable interface inspired by modern web standards.
+
+This documentation will guide you through everything `PicTex` has to offer. You'll learn how to leverage its powerful styling engine to create rich text with gradients and shadows, how to use custom and variable fonts for advanced typography, and how to export your creations to both raster and vector formats.
+
+## Where to Go Next
+
+Whether you're new to `PicTex` or an experienced user, here's where to find what you need.
+
+-   __Getting Started__
+
+    New to `PicTex`? This is the place to start. Learn the core concepts of `Canvas` and `Image`.
+
+    [Go to Getting Started](./getting_started.md)
+
+-   __API Reference__
+
+    Need the technical details? Jump straight into the full API reference for all classes, methods, and parameters.
+
+    [Go to the API Reference](./api_reference.md)
+
+### More Guides
+
+To master specific features, explore our detailed guides:
+
+-   [Colors & Gradients](./colors.md)
+-   [Text & Fonts](./text.md)
+-   [Containers & Effects](./effects.md)
+-   [Exporting to SVG](./exporting_svg.md)
+
+
+
+------------------------------------------------------------------------------------------
+file: docs\text.md
+------------------------------------------------------------------------------------------
+# Styling Guide: Text & Fonts
+
+This guide covers all options related to fonts, typography, and text decorations.
+
+## Font Family, Size, Weight, and Style
+
+You can use system-installed fonts by name or provide a path to a `.ttf` or `.otf` file.
+
+```python
+from pictex import Canvas, FontWeight, FontStyle
+
+# Using a system font
+canvas_system = (
+    Canvas()
+    .font_family("Georgia")
+    .font_size(80)
+    .font_weight(FontWeight.BOLD)
+    .font_style(FontStyle.ITALIC)
+)
+
+# Using a local font file
+canvas_local = Canvas().font_family("assets/fonts/Inter-Variable.ttf").font_size(80)
+```
+
+## Font Fallbacks and Emoji Support
+
+One of `PicTex`'s most powerful features is its automatic font fallback system. If your primary font doesn't support a specific character (like an emoji `✨` or a symbol `→`), `PicTex` will automatically search through a list of fallback fonts to find one that does.
+
+This means you can render complex, multi-lingual text and emojis without worrying about missing characters (often shown as `□`).
+
+### How It Works
+
+The fallback chain is:
+1.  Your primary font set with `.font_family()`.
+2.  Any custom fallback fonts you provide with `.font_fallbacks()`.
+3.  A list of default system emoji fonts (`Segoe UI Emoji` on Windows, `Apple Color Emoji` on macOS, `Noto Color Emoji` on Linux).
+
+If a provided font is not found, a warning message is displayed and the font is ignored.
+
+### Providing Custom Fallbacks
+
+You can specify your own list of fallback fonts. This is useful if you are working with multiple languages and want to ensure a specific look.
+
+```python
+from pictex import Canvas
+
+# A font that doesn't support Japanese or emojis
+primary_font = "Lato-BoldItalic.ttf" 
+
+# A Japanese font
+japanese_font = "NotoSansJP-Regular.ttf"
+
+canvas = (
+    Canvas()
+    .font_family(primary_font)
+    .font_fallbacks(japanese_font)
+    .font_size(80)
+    .color("olive")
+    .padding(20)
+)
+
+text = "Hello, 世界 ✨"
+canvas.render(text).save("font_fallback_example.png")
+```
+
+![Font fallback result](assets/text-0.png)
+
+## Variable Fonts
+
+`PicTex` has support for **Variable Fonts**. If you provide a variable font file, it will automatically apply the `weight` and `style` settings to the font's variation axes (`wght`, `ital`, `slnt`).
+
+```python
+from pictex import Canvas, FontWeight, FontStyle
+
+# Using a variable font file and setting its axes
+canvas = (
+    Canvas()
+    .font_family("assets/Variable-Font.ttf")
+    .font_size(80)
+    .font_weight(FontWeight.BLACK) # Sets 'wght' axis to 900
+    .font_style(FontStyle.ITALIC)  # Sets 'ital' axis to 1
+    .color("orange")
+)
+
+canvas.render("Variable Font").save("variable_font.png")
+```
+
+![Variable font result](assets/text-1.png)
+
+`FontWeight` can be an enum member (e.g., `FontWeight.BOLD`) or an integer from 100 to 900.
+
+## Multi-line Text and Alignment
+
+`PicTex` fully supports multi-line text using newline characters (`\n`).
+
+-   `.alignment()`: Controls how text lines are aligned within the text block. Accepts `Alignment.LEFT`, `Alignment.CENTER`, or `Alignment.RIGHT`.
+-   `.line_height()`: Sets the spacing between lines as a multiplier of the font size. A value of `1.5` means 150% spacing.
+
+```python
+from pictex import Canvas, Alignment
+
+canvas = (
+    Canvas()
+    .font_family("Times New Roman")
+    .font_weight(700)
+    .font_size(50)
+    .color("magenta")
+    .text_align(Alignment.CENTER)  # a string is also accepted ("center")
+    .line_height(1.2)
+    .padding(20)
+)
+
+text = "This is an example of centered,\nmulti-line text\nwith custom line spacing."
+canvas.render(text).save("alignment_example.png")
+```
+
+![Multiline result](assets/text-2.png)
+
+## Text Decorations
+
+You can add `underline` and `strikethrough` decorations. As shown in the Gradients guide, the `color` for a decoration can also be a `LinearGradient`.
+
+If the `color` is not defined, it will use the font color.
+
+```python
+from pictex import Canvas
+
+# Simple underline
+canvas1 = Canvas().font_size(80).color("blue").underline(10)
+canvas1.render("Underlined").save("underline.png")
+
+# Styled strikethrough
+canvas2 = Canvas().font_size(80).color("blue").strikethrough(thickness=10, color="red")
+canvas2.render("Strikethrough").save("strikethrough.png")
+```
+
+![Underline result](assets/text-3-u.png)
+
+
+![Strikethrough result](assets/text-3-s.png)
+
+
