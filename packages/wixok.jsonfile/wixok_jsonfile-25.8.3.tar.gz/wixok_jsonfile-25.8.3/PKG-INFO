@@ -1,0 +1,80 @@
+Metadata-Version: 2.4
+Name: wixok.jsonfile
+Version: 25.8.3
+Summary: Simple Python package for text file operations.
+Author-email: Wixok <contact@wixok.com>
+Maintainer-email: Mohammed Dellihr <mohammeddellihr@maildoo.com>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2025 Mohammed Dellihr
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+Project-URL: Repository, https://github.com/wixok/jsonfile
+Project-URL: Issues, https://github.com/wixok/jsonfile/issues
+Keywords: text,file,io,toolkit,jsonfile
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
+
+# JSONFile
+
+Simple Python package for JSON file operations.
+
+## Install
+
+```bash
+pip install wixok.jsonfile
+```
+
+## Usage
+
+```python
+from wixok.jsonfile import JSONFile
+
+# Load JSON data
+items = JSONFile.load("data.json")
+print(items)  # [{'id': 1, 'name': 'Alice'}, {'id': 2, 'name': 'Bob'}, ...]
+
+# Append to existing file (list or dict)
+success = JSONFile.append("data.json", {"id": 3, "name": "Charlie"})
+print(success)  # True
+
+# Save (overwrite) JSON data
+saved = JSONFile.save("output.json", [{"a": 1}, {"b": 2}])
+print(saved)  # True
+```
+
+## Methods
+
+| Method               | Description                                                      | Returns        |
+|----------------------|------------------------------------------------------------------|----------------|
+| `load(path)`         | Load JSON content. Wraps dicts as `[dict]`, returns empty list on error. | `list`         |
+| `append(path, data)` | Append a dict or list item to an existing JSON list/dict file.   | `bool`         |
+| `save(path, data)`   | Overwrite file with JSON-serializable `data`.                    | `bool`         |
+
+## Debug Mode
+
+```python
+JSONFile.debug = True  # Enable error messages
+```
