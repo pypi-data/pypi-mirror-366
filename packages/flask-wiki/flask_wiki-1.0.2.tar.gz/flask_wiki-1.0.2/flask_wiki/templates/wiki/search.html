@@ -1,0 +1,68 @@
+<!--
+  This file is part of Flask-Wiki
+  Copyright (C) 2020 RERO
+
+  Flask-Wiki is free software; you can redistribute it and/or modify
+  it under the terms of the Revised BSD License; see LICENSE file for
+  more details
+-->
+
+{% from 'bootstrap4/form.html' import render_form_row %}
+
+{% extends config.get('WIKI_BASE_TEMPLATE') %}
+{% set active_page = "search" %}
+
+{% block content %}
+{{ super() }}
+<main class="row mt-4 wiki-page">
+    <div class="col-md-7 offset-md-2">
+        <header>
+            <div class="pb-3">
+                {{ results | length }} {{ ngettext('result', 'results', results | length) }}
+                </div>
+        </header>
+        <div>
+            <ul class="list-group list-group-flush">
+                {%- for result in results -%}
+                <li class="list-group-item">
+                    <div class="d-lg-flex justify-content-lg-between">
+                        <article class="mb-2 col-10">
+                            <h5 class="m-0">
+                                <a class="mr-2" href="{{ url_for('wiki.page', url=result.url) }}">
+                                    {{ result.title }}
+                                </a>
+                            </h5>
+                            <p>{{ result.highlights("body", top=3) | safe }}</p>
+                            <ul class="m-0 p-0">
+                                <li class="badge badge-secondary">
+                                    {{ result.language | upper }}
+                                </li>
+                                {% if result.tags %}
+                                {% for tag in result.tags.split(',') %}
+                                <li class="badge badge-primary">{{ tag }}</li>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </article>
+                        {% if can_edit_wiki %}
+                        <footer class="ml-3 col-4">
+                            <button data-name="{{ result.title }}"
+                                    data-link="{{ url_for('wiki.page', url=result.url) }}"
+                                    class="copy-file-code btn btn-sm btn-outline-primary">
+                                <i class="fa fa-clipboard"></i> {{ _('Copy link') }}
+                            </button>
+                            <a class="btn btn-outline-primary btn-sm"
+                               href="{{ url_for('wiki.edit', url=result.url) }}">
+                                <i class="fa fa-pencil"></i> {{ _('Edit') }}
+                            </a>
+                        </footer>
+                        {% endif %}
+                    </div>
+                </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

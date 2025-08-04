@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: flask-wiki
+Version: 1.0.2
+Summary: Simple file-based wiki for Flask
+Author-email: RERO+ <software@rero.ch>
+License-Expression: BSD-3-Clause
+Requires-Python: <3.13,>=3.9.2
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: bootstrap-flask
+Requires-Dist: Flask
+Requires-Dist: flask-wtf
+Requires-Dist: babel>=2.9.1
+Requires-Dist: flask-babel>=3.0.0
+Requires-Dist: wtforms
+Requires-Dist: werkzeug>=0.15
+Requires-Dist: jinja2>=3.0.0
+Requires-Dist: markdown<3.4.0
+Requires-Dist: py<2.0.0
+Requires-Dist: beautifulsoup4<5.0.0
+Requires-Dist: click<9.0.0
+Requires-Dist: whoosh-reloaded>=2.7.5
+Dynamic: license-file
+
+# Flask-Wiki
+
+## About
+
+Simple file based wiki for Flask.
+
+## Getting started
+
+### Requirements
+
+* Python >=3.9.2,<3.13
+* [uv](https://docs.astral.sh/uv/)
+
+### Install dev environment
+
+- Clone the git repository
+- run `uv sync --frozen`
+- `cd examples`
+- `uv run flask flask_wiki init-index`
+- `uv run flask flask_wiki index`
+- then `uv run flask run --debug`
+- go to http://localhost:5000/help
+
+## Configuration
+
+### Templates
+
+- WIKI_BASE_TEMPLATE = 'wiki/base.html'
+- WIKI_SEARCH_TEMPLATE = 'wiki/search.html'
+- WIKI_NOT_FOUND_TEMPLATE = 'wiki/404.html'
+- WIKI_FORBIDDEN_TEMPLATE = 'wiki/403.html'
+- WIKI_EDITOR_TEMPLATE = 'wiki/editor.html'
+- WIKI_FILES_TEMPLATE = 'wiki/files.html'
+- WIKI_PAGE_TEMPLATE = 'wiki/page.html'
+
+### Miscs
+
+- WIKI_HOME = 'home'
+- WIKI_CURRENT_LANGUAGE = lambda: 'en'
+- WIKI_LANGUAGES = {'en': 'English', 'fr': 'French', 'de': 'German', 'it': 'Italian'}
+- WIKI_URL_PREFIX = '/help'
+- WIKI_CONTENT_DIR = './data'
+- WIKI_INDEX_DIR = './index'
+- WIKI_UPLOAD_FOLDER = os.path.join(WIKI_CONTENT_DIR, 'files')
+- WIKI_ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg'}
+- WIKI_MARKDOWN_EXTENSIONS = set(('codehilite', 'fenced_code'))
+
+### Permissions
+
+- WIKI_EDIT_VIEW_PERMISSION = lambda: True
+- WIKI_READ_VIEW_PERMISSION = lambda: True
+- WIKI_EDIT_UI_PERMISSION = WIKI_EDIT_VIEW_PERMISSION
+- WIKI_READ_UI_PERMISSION = WIKI_READ_VIEW_PERMISSION

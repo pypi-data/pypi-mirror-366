@@ -1,0 +1,69 @@
+[project]
+name = "flask-wiki"
+version = "1.0.2"
+description = "Simple file-based wiki for Flask"
+readme = "README.md"
+authors = [{name = "RERO+", email = "software@rero.ch"}]
+license = "BSD-3-Clause"
+requires-python = ">= 3.9.2, <3.13"
+
+dependencies = [
+    "bootstrap-flask",
+    "Flask",
+    "flask-wtf",
+    "babel (>=2.9.1)",
+    "flask-babel (>=3.0.0)",
+    "wtforms",
+    "werkzeug (>=0.15)",
+    "jinja2 (>=3.0.0)",
+    "markdown (<3.4.0)",
+    "py (<2.0.0)",
+    "beautifulsoup4 (<5.0.0)",
+    "click (<9.0.0)",
+    "whoosh-reloaded>=2.7.5",
+]
+
+[dependency-groups]
+dev = [
+    "check-manifest",
+    "ipython",
+    "pip-audit",
+    "poethepoet",
+    "pytest",
+    "ruff>=0.12.3",
+]
+
+[project.entry-points."flask.commands"]
+flask_wiki = "flask_wiki.cli:flask_wiki"
+
+[tool.pytest.ini_options]
+addopts = "--color=yes --doctest-modules --ignore=flask_wiki/config.py"
+testpaths = "tests flask_wiki"
+
+[tool.ruff]
+extend-exclude = ["config.py"]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ["A", "C4", "DTZ", "INT", "ISC", "T20", "PIE", "Q", "RET", "SIM", "I", "N", "PERF", "W", "D", "F", "UP", "RUF"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.poe.tasks]
+compile_catalog = "pybabel compile -d flask_wiki/translations"
+extract_messages = "pybabel extract --project Flask-Wiki -F babel.cfg -k gettext -k lazy_gettext -o flask_wiki/translations/messages.pot flask_wiki"
+format =  {cmd = "ruff format .", help = "Formats all files"}
+init_catalog = "pybabel init -i flask_wiki/translations/messages.pot -d flask_wiki/translations -l"
+lint = {cmd = "ruff check", help = "Checks linting"}
+run_tests = {cmd = "./scripts/test", help = "Runs all tests"}
+update_catalog = "pybabel update -i flask_wiki/translations/messages.pot -d flask_wiki/translations --no-fuzzy-matching --ignore-obsolete true"
+
+[build-system]
+requires = ["setuptools"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.uv]
+package = true
