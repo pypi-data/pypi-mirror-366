@@ -1,0 +1,49 @@
+[project]
+authors = [{ name = "Allen Chou", email = "f1470891079@gmail.com" }]
+dependencies = ["dictpress (>=0.3.0)", "pydantic (>=2)", "rich", "str-or-none"]
+description = "Simple Data URL Model"
+license = { text = "MIT" }
+name = "durl-py"
+readme = "README.md"
+requires-python = ">=3.11,<4"
+version = "0.1.0"
+
+[project.urls]
+Homepage = "https://github.com/allen2c/durl-py"
+"PyPI" = "https://pypi.org/project/durl-py/"
+Repository = "https://github.com/allen2c/durl-py"
+
+[tool.poetry]
+packages = [{ include = "durl" }]
+
+[tool.poetry.extras]
+all = []
+
+[tool.poetry.group.dev.dependencies]
+black = { extras = ["jupyter"], version = "*" }
+codepress = "*"
+isort = "*"
+poetry-plugin-export = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+pytest-env = "*"
+pytest-xdist = "*"
+rich = "*"
+rich-color-support = "*"
+setuptools = "*"
+twine = "*"
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+ignore = ["E203", "E704", "W503"]
+max-line-length = 88
+
+[tool.pytest.ini_options]
+env = ["ENVIRONMENT=test", "PYTEST_IS_RUNNING=true"]
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=2.0.0,<3.0.0"]
