@@ -1,0 +1,23 @@
+[project]
+name = "zq145-mcp-server-ex0804"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "zqovo", email = "1285626696@qq.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "mcp[cli]>=1.12.3",
+]
+
+[project.scripts]
+zq145-mcp-server-ex0804 = "zq145_mcp_server_ex0804:main"
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+
+[build-system]
+requires = ["uv_build>=0.8.4,<0.9.0"]
+build-backend = "uv_build"
