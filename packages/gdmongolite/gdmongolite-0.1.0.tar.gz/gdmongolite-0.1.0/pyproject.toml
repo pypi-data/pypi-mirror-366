@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "gdmongolite"
+version = "0.1.0"
+description = "gdmongolite: lightweight, auto-maintained all-in-one MongoDB toolkit by Ganeshdatta"
+authors = ["Ganeshdatta"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "gdmongolite", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8, <4.0"
+click = "^8.0"
+motor = "^3.3.2"
+python-dotenv = "^1.0.0"
+pydantic = {version = "^2.5.3", extras = ["email"]}
+aioconsole = "^0.6.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.0"
+black = "^23.0"
+ruff = "^0.1"
+
+[tool.poetry.scripts]
+gdmongolite = "gdmongolite.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
