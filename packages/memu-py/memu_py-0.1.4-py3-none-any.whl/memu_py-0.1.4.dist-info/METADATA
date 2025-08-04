@@ -1,0 +1,436 @@
+Metadata-Version: 2.1
+Name: memu-py
+Version: 0.1.4
+Summary: AI Memory and Conversation Management Framework - Simple as mem0, Powerful as MemU
+Author-email: MemU Team <support@memu.ai>
+License: Apache License
+                                   Version 2.0, January 2004
+                                http://www.apache.org/licenses/
+        
+           TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+        
+           1. Definitions.
+        
+              "License" shall mean the terms and conditions for use, reproduction,
+              and distribution as defined by Sections 1 through 9 of this document.
+        
+              "Licensor" shall mean the copyright owner or entity granting the License.
+        
+              "Legal Entity" shall mean the union of the acting entity and all
+              other entities that control, are controlled by, or are under common
+              control with that entity. For the purposes of this definition,
+              "control" means (i) the power, direct or indirect, to cause the
+              direction or management of such entity, whether by contract or
+              otherwise, or (ii) ownership of fifty percent (50%) or more of the
+              outstanding shares, or (iii) beneficial ownership of such entity.
+        
+              "You" (or "Your") shall mean an individual or Legal Entity
+              exercising permissions granted by this License.
+        
+              "Source" form shall mean the preferred form for making modifications,
+              including but not limited to software source code, documentation
+              source, and configuration files.
+        
+              "Object" form shall mean any form resulting from mechanical
+              transformation or translation of a Source form, including but
+              not limited to compiled object code, generated documentation,
+              and conversions to other media types.
+        
+              "Work" shall mean the work of authorship, whether in Source or
+              Object form, made available under the License, as indicated by a
+              copyright notice that is included in or attached to the work
+              (which shall not include communication that is conspicuously
+              marked or otherwise designated in writing by the copyright owner
+              as "Not a Contribution").
+        
+              "Derivative Works" shall mean any work, whether in Source or Object
+              form, that is based upon (or derived from) the Work and for which the
+              editorial revisions, annotations, elaborations, or other modifications
+              represent, as a whole, an original work of authorship. For the purposes
+              of this License, Derivative Works shall not include works that remain
+              separable from, or merely link (or bind by name) to the interfaces of,
+              the Work and derivative works thereof.
+        
+              "Contribution" shall mean any work of authorship, including
+              the original version of the Work and any modifications or additions
+              to that Work or Derivative Works thereof, that is intentionally
+              submitted to Licensor for inclusion in the Work by the copyright owner
+              or by an individual or Legal Entity authorized to submit on behalf of
+              the copyright owner. For the purposes of this definition, "submitted"
+              means any form of electronic, verbal, or written communication sent
+              to the Licensor or its representatives, including but not limited to
+              communication on electronic mailing lists, source code control
+              systems, and issue tracking systems that are managed by, or on behalf
+              of, the Licensor for the purpose of discussing and improving the Work,
+              but excluding communication that is conspicuously marked or otherwise
+              designated in writing by the copyright owner as "Not a Contribution".
+        
+              "Contributor" shall mean Licensor and any individual or Legal Entity
+              on behalf of whom a Contribution has been received by Licensor and
+              subsequently incorporated within the Work.
+        
+           2. Grant of Copyright License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              copyright license to use, reproduce, modify, merge, publish,
+              distribute, sublicense, and/or sell copies of the Work, and to
+              permit persons to whom the Work is furnished to do so, subject to
+              the following conditions:
+        
+              The above copyright notice and this permission notice shall be
+              included in all copies or substantial portions of the Work.
+        
+           3. Grant of Patent License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              (except as stated in this section) patent license to make, have made,
+              use, offer to sell, sell, import, and otherwise transfer the Work,
+              where such license applies only to those patent claims licensable
+              by such Contributor that are necessarily infringed by their
+              Contribution(s) alone or by combination of their Contribution(s)
+              with the Work to which such Contribution(s) was submitted. If You
+              institute patent litigation against any entity (including a
+              cross-claim or counterclaim in a lawsuit) alleging that the Work
+              or a Contribution incorporated within the Work constitutes direct
+              or contributory patent infringement, then any patent licenses
+              granted to You under this License for that Work shall terminate
+              as of the date such litigation is filed.
+        
+           4. Redistribution. You may reproduce and distribute copies of the
+              Work or Derivative Works thereof in any medium, with or without
+              modifications, and in Source or Object form, provided that You
+              meet the following conditions:
+        
+              (a) You must give any other recipients of the Work or
+                  Derivative Works a copy of this License; and
+        
+              (b) You must cause any modified files to carry prominent notices
+                  stating that You changed the files; and
+        
+              (c) You must retain, in the Source form of any Derivative Works
+                  that You distribute, all copyright, trademark, patent,
+                  attribution and other notices from the Source form of the Work,
+                  excluding those notices that do not pertain to any part of
+                  the Derivative Works; and
+        
+              (d) If the Work includes a "NOTICE" text file as part of its
+                  distribution, then any Derivative Works that You distribute must
+                  include a readable copy of the attribution notices contained
+                  within such NOTICE file, excluding those notices that do not
+                  pertain to any part of the Derivative Works, in at least one
+                  of the following places: within a NOTICE text file distributed
+                  as part of the Derivative Works; within the Source form or
+                  documentation, if provided along with the Derivative Works; or,
+                  within a display generated by the Derivative Works, if and
+                  wherever such third-party notices normally appear. The contents
+                  of the NOTICE file are for informational purposes only and
+                  do not modify the License. You may add Your own attribution
+                  notices within Derivative Works that You distribute, alongside
+                  or as an addendum to the NOTICE text from the Work, provided
+                  that such additional attribution notices cannot be construed
+                  as modifying the License.
+        
+              You may add Your own copyright notice to Your modifications and
+              may provide additional or different license terms and conditions
+              for use, reproduction, or distribution of Your modifications, or
+              for any such Derivative Works as a whole, provided Your use,
+              reproduction, and distribution of the Work otherwise complies with
+              the conditions stated in this License.
+        
+           5. Submission of Contributions. Unless You explicitly state otherwise,
+              any Contribution intentionally submitted for inclusion in the Work
+              by You to the Licensor shall be under the terms and conditions of
+              this License, without any additional terms or conditions.
+              Notwithstanding the above, nothing herein shall supersede or modify
+              the terms of any separate license agreement you may have executed
+              with Licensor regarding such Contributions.
+        
+           6. Trademarks. This License does not grant permission to use the trade
+              names, trademarks, service marks, or product names of the Licensor,
+              except as required for reasonable and customary use in describing the
+              origin of the Work and reproducing the content of the NOTICE file.
+        
+           7. Disclaimer of Warranty. Unless required by applicable law or
+              agreed to in writing, Licensor provides the Work (and each
+              Contributor provides its Contributions) on an "AS IS" BASIS,
+              WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+              implied, including, without limitation, any warranties or conditions
+              of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+              PARTICULAR PURPOSE. You are solely responsible for determining the
+              appropriateness of using or redistributing the Work and assume any
+              risks associated with Your exercise of permissions under this License.
+        
+           8. Limitation of Liability. In no event and under no legal theory,
+              whether in tort (including negligence), contract, or otherwise,
+              unless required by applicable law (such as deliberate and grossly
+              negligent acts) or agreed to in writing, shall any Contributor be
+              liable to You for damages, including any direct, indirect, special,
+              incidental, or consequential damages of any character arising as a
+              result of this License or out of the use or inability to use the
+              Work (including but not limited to damages for loss of goodwill,
+              work stoppage, computer failure or malfunction, or any and all
+              other commercial damages or losses), even if such Contributor
+              has been advised of the possibility of such damages.
+        
+           9. Accepting Warranty or Support. You may choose to offer, and to
+              charge a fee for, warranty, support, indemnity or other liability
+              obligations and/or rights consistent with this License. However, in
+              accepting such obligations, You may act only on Your own behalf and
+              on Your sole responsibility, not on behalf of any other Contributor,
+              and only if You agree to indemnify, defend, and hold each Contributor
+              harmless for any liability incurred by, or claims asserted against,
+              such Contributor by reason of your accepting any such warranty or
+              support.
+        
+           END OF TERMS AND CONDITIONS
+        
+           Copyright 2024 PersonaLab Team
+        
+           Licensed under the Apache License, Version 2.0 (the "License");
+           you may not use this file except in compliance with the License.
+           You may obtain a copy of the License at
+        
+               http://www.apache.org/licenses/LICENSE-2.0
+        
+           Unless required by applicable law or agreed to in writing, software
+           distributed under the License is distributed on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+           See the License for the specific language governing permissions and
+           limitations under the License. 
+Project-URL: Homepage, https://github.com/NevaMind-AI/MemU
+Project-URL: Bug Tracker, https://github.com/NevaMind-AI/MemU/issues
+Project-URL: Documentation, https://github.com/NevaMind-AI/MemU#readme
+Keywords: ai,memory,conversation,llm,chatbot,persona,agent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.31.0
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: json5>=0.9.0
+Requires-Dist: openai>=1.60.0
+Requires-Dist: httpx<0.28,>=0.23
+Requires-Dist: pydantic>=2.7.5
+Requires-Dist: starlette>=0.40.0
+Requires-Dist: fastapi>=0.115.2
+Requires-Dist: cachetools>=5.0.0
+Provides-Extra: ai
+Requires-Dist: openai>=1.60.0; extra == "ai"
+Requires-Dist: sentence-transformers>=2.2.0; extra == "ai"
+Provides-Extra: all
+Requires-Dist: openai>=1.0.0; extra == "all"
+Requires-Dist: sentence-transformers>=2.2.0; extra == "all"
+Requires-Dist: anthropic>=0.7.0; extra == "all"
+Requires-Dist: google-generativeai>=0.3.0; extra == "all"
+Requires-Dist: cohere>=4.0.0; extra == "all"
+Requires-Dist: boto3>=1.26.0; extra == "all"
+Requires-Dist: together>=0.2.0; extra == "all"
+Requires-Dist: replicate>=0.15.0; extra == "all"
+Requires-Dist: transformers>=4.21.0; extra == "all"
+Requires-Dist: torch>=1.12.0; extra == "all"
+Requires-Dist: psycopg2-binary>=2.9.9; extra == "all"
+Provides-Extra: database
+Requires-Dist: psycopg2-binary>=2.9.9; extra == "database"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: black>=22.0; extra == "dev"
+Requires-Dist: flake8>=5.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0; extra == "dev"
+Requires-Dist: twine>=4.0; extra == "dev"
+Requires-Dist: build>=0.10; extra == "dev"
+Provides-Extra: llm
+Requires-Dist: openai>=1.60.0; extra == "llm"
+Requires-Dist: anthropic>=0.54.0; extra == "llm"
+Requires-Dist: google-generativeai>=0.3.0; extra == "llm"
+Requires-Dist: cohere>=4.0.0; extra == "llm"
+Requires-Dist: boto3>=1.26.0; extra == "llm"
+Requires-Dist: together>=0.2.0; extra == "llm"
+Requires-Dist: replicate>=0.15.0; extra == "llm"
+Provides-Extra: local
+Requires-Dist: transformers>=4.21.0; extra == "local"
+Requires-Dist: torch>=1.12.0; extra == "local"
+Requires-Dist: sentence-transformers>=2.2.0; extra == "local"
+
+<div align="center">
+
+![MemU Banner](assets/banner.png)
+
+<h3>memU: The Next-Gen Memory Framework for AI Companions</h3>
+
+[![PyPI version](https://badge.fury.io/py/memu.svg)](https://badge.fury.io/py/memu)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-5865F2?logo=discord&logoColor=white)](https://discord.gg/hQZntfGsbJ)
+[![Twitter](https://img.shields.io/badge/Twitter-Follow-1DA1F2?logo=x&logoColor=white)](https://x.com/Nevamind_ai)
+[![Reddit](https://img.shields.io/badge/Reddit-Join%20Community-FF4500?logo=reddit&logoColor=white)](https://reddit.com/r/MemU)
+[![WeChat](https://img.shields.io/badge/WeChat-微信群-07C160?logo=wechat&logoColor=white)](#)
+</div>
+
+**MemU** is an open-source memory framework for AI companions—high accuracy, fast retrieval, low cost. It acts as an intelligent "memory folder" that adapts to different scenarios, from different companions senarios.
+
+With **memU**, you can build AI companions that truly remember you. They learn who you are, what you care about, and grow alongside you through every interaction.
+
+### 🥇 92.9% Accuracy - 💰 90% Cost Reduction - 🤖 AI Companion Specialized
+- ✅ **AI Companion Specialization** - Adapt to AI companions application
+- ✅ **92.9% Accuracy** - State-of-the-art score in Locomo benchmark
+- ✅ **Up to 70% Cost Reduction** - Through optimized infrastructure
+- ✅ **Advanced Retrieval Strategies** - Multiple methods including semantic search, hybrid search, contextual retrieval
+- ✅ **24/7 Support** - For enterprise customers
+
+---
+
+## ⭐ Star Us on GitHub
+
+![star-us](./assets/star.gif)
+
+**🚀 Join 1,000+ developers building the future of AI memory**
+
+Star MemU to get notified about new releases and join our growing community of AI developers building intelligent agents with persistent memory capabilities.
+
+**💬 Join our Discord community:** [https://discord.gg/hQZntfGsbJ](https://discord.gg/hQZntfGsbJ)
+
+---
+
+## 🚀Get Started
+
+There are three ways to get started with MemU:
+
+### ☁️ Cloud Version ([Online Platform](https://memu.so))
+
+The fastest way to integrate your application with memU. Perfect for teams and individuals who want immediate access without setup complexity. We host the models, APIs, and cloud storage, ensuring your application gets the best quality AI memory.
+
+- **Instant Access** - Start integrating AI memories in minutes
+- **Managed Infrastructure** - We handle scaling, updates, and maintenance for optimal memory quality
+- **Premium Support** - Subscribe and get priority assistance from our engineering team
+
+#### Step-by-step
+
+**Step 1:** Create account & get your API key
+
+**Step 2:** Add three lines to your code
+```python
+pip install memu-py
+
+# Example usage
+from memu.memory import MemoryAgent
+from memu.llm import OpenAIClient
+
+memory_agent = MemoryAgent()
+```
+
+
+### 🏢 Enterprise Edition
+
+For organizations requiring maximum security, customization, control and best quality:
+
+- **Commercial License** - Full proprietary features, commercial usage rights, white-labeling options
+- **Custom Development** - SSO/RBAC integration, dedicated algorithm team for scenario-specific framework optimization
+- **Intelligence & Analytics** - User behavior analysis, real-time production monitoring, automated agent optimization
+- **Premium Support** - 24/7 dedicated support, custom SLAs, professional implementation services
+
+📧 **Enterprise Inquiries:** [contact@nevamind.ai](mailto:contact@nevamind.ai)
+
+
+### 🏠 Self-Hosting (Community Edition)
+For users and developers who prefer local control, data privacy, or customization:
+
+* **Data Privacy** - Keep sensitive data within your infrastructure
+* **Customization** - Modify and extend the platform to fit your needs
+* **Cost Control** - Avoid recurring cloud fees for large-scale deployments
+
+🚀 **Coming Soon!**
+
+
+
+---
+
+
+## ✨ Key Features
+
+### Autonomous Memory Management System
+
+![features](./assets/workflow.png)
+
+### **Organize** - Autonomous Memory Management
+Your memories are structured as intelligent folders managed by a dedicated memory agent. We do not do explicit modeling for memories. The memory agent automatically decides what to record, modify, or archive based on relevance and usage patterns. Think of it as having a personal librarian who knows exactly how to organize your thoughts.
+
+### **Link** - Interconnected Knowledge Graph
+Memories don't exist in isolation. Our system automatically creates meaningful connections between related memories, building a rich network of hyperlinked documents. As your knowledge base grows, so does the web of relationships, making information discovery intuitive and contextual.
+
+### **Evolve** - Continuous Self-Improvement
+Even when offline, your memory system keeps working. It generates new insights by analyzing existing memories, identifies patterns, and creates summary documents through self-reflection. Your knowledge base becomes smarter over time, not just larger.
+
+### **Never Forget** - Intelligent Retention System
+We've revolutionized memory persistence with a dynamic importance algorithm. Recently referenced memories gain higher priority, ensuring that what matters most to you now stays readily accessible. The system adapts to your changing needs, keeping relevant information at your fingertips while gracefully archiving what's no longer critical.
+
+---
+
+## 🤫 Advantages
+
+### Higher Memory Accuracy
+MemU achieves 92.09% average accuracy across all reasoning tasks, significantly outperforming competitors. Techical Report will be published soon!
+
+![Memory Accuracy Comparison](assets/benchmark.png)
+
+### Flexible Retrieval Strategies
+
+MemU provides a comprehensive suite of retrieval strategies, allowing you to choose the optimal approach for your specific scenario. From semantic similarity to category search, our flexible system adapts to your needs.
+
+### Human-Readable & Analyzable Memory Architecture
+
+Unlike other memory frameworks that store information as fragmented sentences, MemU organizes memories as coherent, readable documents while simultaneously transforming raw data into structured, analyzable datasets. While competitors break down information into scattered fragments, MemU maintains complete context and relationships, enabling easy debugging, manual editing, seamless analytics, and effortless integration with existing workflows.
+
+
+
+---
+## 📚 Usage Guide & Research Highlights
+
+![Use Cases Demo](assets/use-cases-demo.gif)
+
+### 🎓 **Use Cases**
+| Use Case | Description |
+|:--------:|:------------|
+| ![AI Companion](assets/ai_companion.gif) | **AI Companion** |
+| ![AI Role Play](assets/ai_role_play.gif) | **AI Role Play**|
+| ![AI Education](assets/ai_edu.gif) | **AI Education** |
+| ![AI Therapy](assets/ai_therapy.gif) | **AI Therapy**|
+| ![AI Robot](assets/ai_robot.gif) | **AI Robot** |
+| ![AI Creation](assets/ai_creation.gif) | **AI Creation**|
+
+---
+
+## 🤝 Contributing
+
+We build trust through open-source collaboration. Your creative contributions drive memU's innovation forward. Explore our GitHub issues and projects to get started and make your mark on the future of memU.
+
+📋 **[Read our detailed Contributing Guide →](CONTRIBUTING.md)**
+
+
+### **📄 License**
+
+By contributing to MemU, you agree that your contributions will be licensed under the **Apache License 2.0**.
+
+---
+
+## 🌍 Community
+For more information please contact info@nevamind.ai
+
+- **GitHub Issues:** Report bugs, request features, and track development. [Submit an issue]()
+
+- **Discord:** Get real-time support, chat with the community, and stay updated. [Join us](https://discord.camel-ai.org/)
+
+- **X (Twitter):** Follow for updates, AI insights, and key announcements. [Follow us]()
+
+
+
