@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include nova.bat
+include requirements.txt
+include *.nova
+recursive-include syntaxes *
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .git*
+global-exclude test-app
+global-exclude *.md
+include README.md
+include RELEASE_NOTES.md
