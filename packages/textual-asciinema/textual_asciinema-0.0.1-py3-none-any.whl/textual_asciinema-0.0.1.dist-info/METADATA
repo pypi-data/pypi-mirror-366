@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: textual-asciinema
+Version: 0.0.1
+Summary: asciinema widget for textual
+Author-email: Gareth Davidson <gaz@bitplane.net>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: textual
+Requires-Dist: textual-tty
+Requires-Dist: pre-commit ; extra == "dev"
+Requires-Dist: pytest ; extra == "dev"
+Requires-Dist: coverage ; extra == "dev"
+Requires-Dist: pytest-cov ; extra == "dev"
+Requires-Dist: build ; extra == "dev"
+Requires-Dist: twine ; extra == "dev"
+Requires-Dist: ruff ; extra == "dev"
+Provides-Extra: dev
+
+# Textual Asciinema Player
+
+A widget for playing asciinema .cast files
+
+## Try
+
+```bash
+uvx textual-asciinema my-file.cast
+```
+
+## See
+
+* [📺 youtube](https://youtu.be/2fMZmxsm5ZM)
+
+## Read
+
+* [🏠 home](https://ttygroup.github.io/textual-asciinema)
+* [🐱 src](https://github.com/ttygroup/textual-asciinema)
+* [🐍 pypi](https://pypi.org/project/textual-asciinema)
+
+## Also
+
+* [🎬 asciinema](https://bitplan.net/dev/python/tvmux) - terminal recorder
+* [🗔 ](https://bitplane.net/dev/python/bittty) - a pure python tty
+* [🎥 tvmux](https://bitplane.net/dev/python/tvmux) - record your tmux projects
+
+
