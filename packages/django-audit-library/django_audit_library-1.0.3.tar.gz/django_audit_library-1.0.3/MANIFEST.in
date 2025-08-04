@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+include requirements.txt
+recursive-include audit/migrations *.py
+recursive-include audit/templates *.html
+recursive-include audit/static *
+global-exclude __pycache__
+global-exclude *.py[co]
