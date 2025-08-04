@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobotlab"
+version = "0.1.2"
+description = "CLI tool for processing robot dataset selections from lerobotlab.com"
+readme = "README.md"
+authors = [
+    { name = "LeRobotLab", email = "contact@lerobotlab.com" }
+]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+dependencies = [
+    "h5py>=3.0.0",
+    "pandas>=1.0.0",
+    "numpy>=1.19.0",
+    # "lerobot>=0.3.2",  # Uncomment when ready to include lerobot
+]
+keywords = ["robotics", "datasets", "cli", "machine-learning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.scripts]
+lerobotlab = "lerobotlab.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/newtechmitch/lerobotlab-tools"
+Repository = "https://github.com/newtechmitch/lerobotlab-tools"
+Issues = "https://github.com/newtechmitch/lerobotlab-tools/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
