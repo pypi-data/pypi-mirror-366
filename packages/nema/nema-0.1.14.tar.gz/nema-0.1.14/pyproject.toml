@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "nema"
+version = "0.1.14"
+description = "Interact with the Nema data collaboration platform"
+authors = ["Max Opgenoord <max@nemasystems.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pandas = [
+    {version = "2.0.3", python = "3.8"},
+    {version = "^2.2", python = ">=3.9"}
+]
+toml = "^0.10.2"
+requests = "^2.32.3"
+click = "^8.1.7"
+pint = [
+    {version = "0.21.1", python = "3.8"},
+    {version = "^0.24.3", python = ">=3.9"}
+]
+
+[tool.poetry.scripts]
+nema-python = "nema.cli:cli"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
