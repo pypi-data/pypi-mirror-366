@@ -1,0 +1,38 @@
+networks:
+  test:
+    external: false
+
+services:
+  db:
+    image: mongo:latest
+    restart: always
+    volumes:
+        - mongodb_pandahub:/data/db
+    ports:
+        - "127.0.0.1:27017:27017"
+
+  pandahub-dev:
+    image: dev/pandahub
+    build:
+        context: .
+        dockerfile: Dockerfile
+    command: ["fastapi", "dev", "--host", "0.0.0.0", "pandahub/api/main.py"]
+    env_file:
+        - .env
+    environment:
+        - MONGODB_URL=${MONGODB_URL:-mongodb://db:27017}
+        - PYTHONPYCACHEPREFIX=/pycache
+    ports:
+        - "127.0.0.1:8002:8000"
+    volumes:
+        -   type: bind
+            source: pandahub
+            target: /app/pandahub
+        - pycache:/pycache
+    depends_on:
+        - db
+
+volumes:
+  pycache:
+  mongodb_pandahub:
+
