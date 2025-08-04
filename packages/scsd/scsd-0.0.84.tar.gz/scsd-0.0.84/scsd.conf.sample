@@ -1,0 +1,18 @@
+[General]
+save_dir = ./data
+
+[Log]
+log_level = 2
+
+[Rotation]
+rotation = 15
+
+[Notifier]
+notifier = discord
+webhook = https://discord.gg/some_webhook
+notify_if_no_change = false
+level = 1
+
+[Target]
+mode = exclude
+list = 7, 12
