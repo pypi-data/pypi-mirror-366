@@ -1,0 +1,28 @@
+[project]
+name = "beta-cynosure"
+version = "0.1.2"
+description = "Extrator de dados financeiros da CVM (DFP e ITR) para todas as empresas"
+authors = [
+  { name = "Diego Silva Pinto", email = "diegosilva@engineer.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+dependencies = [
+  "pandas>=2.0.0",
+  "requests>=2.25.0"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+"Source" = "https://github.com/diehgosp/beta-cynosure"
+
+[project.scripts]
+b-cynosure = "beta_cynosure.__main__:cli"
+
+[build-system]
+requires = ["setuptools>=61.0", "build"]
+build-backend = "setuptools.build_meta"
