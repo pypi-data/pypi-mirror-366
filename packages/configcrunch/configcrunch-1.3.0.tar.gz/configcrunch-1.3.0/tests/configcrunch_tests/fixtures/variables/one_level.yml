@@ -1,0 +1,9 @@
+base:
+  str_field: "{{ more.a }}"
+  int_field: 12
+  more:
+    a: "{{ more.b }}"
+    b: b
+    c: "{{ int_field }}"
+    d: "{{ int_field|str }}"
+    in_text: "This is the alphabet: a {{ more.a }} c d"
