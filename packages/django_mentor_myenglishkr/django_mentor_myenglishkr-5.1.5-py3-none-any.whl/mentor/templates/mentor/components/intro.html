@@ -1,0 +1,104 @@
+{% load static %}
+
+<style>
+.paddsection {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.paddsections {
+  padding-top: 90px;
+  padding-bottom: 90px !important;
+}
+/*-----------------------------------------------------------------------------------*/
+/*  Intro - folio 템플릿의 about에서 가져옴
+/*-----------------------------------------------------------------------------------*/
+#intro {
+  width: 100%;
+  height: auto;
+  background: #f7f7f7;
+  padding-top: 120px;
+  font-family: "Gabarito", "Noto Sans KR",  serif;
+}
+
+#intro .div-img-bg {
+  padding-bottom: 30px;
+  border: 20px solid #5fcf80;
+}
+
+#intro .div-img-bg .intro-img img {
+  width: 100%;
+  box-shadow: 0 0 85px 0 rgba(0, 0, 0, 0.14);
+  margin-top: -60px;
+  margin-left: 40px;
+  height: 400px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+#intro .intro-descr .p-heading {
+  font-size: 28px;
+  text-align: left;
+}
+
+#intro .intro-descr .separator {
+  max-width: 80%;
+  margin-bottom: 0;
+  text-align: left;
+  font-size: 18px;
+}
+
+#intro .intro-descr p {
+  font-size: 20px;
+}
+#intro .intro-descr ul {
+  list-style: none;
+  padding: 0;
+  font-size: 18px;
+}
+#intro .intro-descr ul li {
+  padding: 10px 0 0 28px;
+  position: relative;
+}
+#intro .intro-descr ul i {
+  left: 0;
+  top: 7px;
+  position: absolute;
+  font-size: 18px;
+  color: #009970;
+}
+</style>
+
+<div id="intro" class="paddsection">
+  <div class="container">
+    <div class="row justify-content-between">
+
+      <div class="col-lg-4 ">
+        <div class="div-img-bg">
+          <div class="intro-img">
+            <img src="{% static 'mentor/img/intro/me.jpg' %}" class="img-responsive" alt="me">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="intro-descr">
+          {% autoescape off%}
+          <p class="p-heading">{{ intro.heading }}</p>
+          <p class="separator">{{ intro.desc }}</p>
+          {% endautoescape %}
+        </div>
+        <div class="intro-descr mt-3">
+          <p class="fst-italic">
+          {{ intro.career_title }}
+          </p>
+          <ul>
+            {% for li in intro.career %}
+            <li><i class="bi bi-check-circle"></i> {{ li }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

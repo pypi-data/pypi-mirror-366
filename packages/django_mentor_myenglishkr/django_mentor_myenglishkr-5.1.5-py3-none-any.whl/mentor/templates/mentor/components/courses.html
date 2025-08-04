@@ -1,0 +1,38 @@
+{% load static %}
+
+<section id="courses" class="courses">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+          <h2>{{ courses.title }}</h2>
+          <p>{{ courses.subtitle }}</p>
+    </div>
+    <div class="row" data-aos="zoom-in" data-aos-delay="100">
+      {% for item in courses.items %}
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch {% cycle '' 'mt-4 mt-md-0' 'mt-4 mt-lg-0' 'mt-4' 'mt-4' 'mt-4' %}">
+        <div class="course-item">
+          <img src="{% static 'mentor/img/courses/'|add:item.photo|add:'.jpg' %}" class="img-fluid" alt="...">
+          <div class="course-content">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4>{{ item.field }}</h4>
+              <p class="price">{{ item.price }}</p>
+            </div>
+            <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>
+            <p>{{ item.desc }}</p>
+            <div class="trainer d-flex justify-content-between align-items-center">
+              <div class="trainer-profile d-flex align-items-center">
+                <img src="{% static 'mentor/img/members/'|add:item.member.0|add:'/profile.jpg' %}" class="img-fluid" alt="">
+                <span>{{ item.member.1 }}</span>
+              </div>
+              <div class="trainer-rank d-flex align-items-center">
+                <i class="bx bx-user"></i>&nbsp;{{ item.user }}
+                &nbsp;&nbsp;
+                <i class="bx bx-heart"></i>&nbsp;{{ item.heart }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- End Course Item-->
+      {% endfor %}
+    </div>
+  </div>
+</section>

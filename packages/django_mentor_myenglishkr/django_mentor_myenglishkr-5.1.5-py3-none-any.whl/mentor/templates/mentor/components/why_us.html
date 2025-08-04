@@ -1,0 +1,53 @@
+{% load static %}
+
+<section id="why-us" class="why-us">
+  <div class="container" data-aos="fade-up">
+    <div class="row">
+      {% if whyus.major %}
+      <div class="col-lg-4 d-flex align-items-stretch">
+        <div class="content">
+          {% autoescape off %}
+          <h3>{{ whyus.major.title }}</h3>
+          {% for p in whyus.major.contents %}
+            <p>{{ p }}</p>
+          {% endfor %}
+          {% endautoescape %}
+          <div class="text-center">
+            <a href="{{ whyus.major.link }}" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+      {% else %}
+      <div class="col d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+      {% endif %}
+        <div class="icon-boxes d-flex flex-column justify-content-center">
+          <div class="row">
+            {% for item in whyus.minor %}
+            {% if whyus.major %}
+            <div class="col-xl-4 d-flex align-items-stretch">
+            {% else %}
+            <div class="col-xl-3 d-flex align-items-stretch">
+            {% endif %}
+              <div class="icon-box mt-4 mt-xl-0">
+                {% if whyus.type == 'icon' %}
+                <i class="bx {{ item.icon }}"></i>
+                {% elif whyus.type == 'image' %}
+                  {% with counter=forloop.counter|stringformat:"s" %}
+                  <img src="{% static 'mentor/img/whyus/minor'|add:counter|add:'.jpg' %}" class="img-fluid" alt="">
+                  {% endwith %}
+                {% endif %}
+                {% autoescape off %}
+                <h4>{{ item.title }}</h4>
+                <p>{{ item.contents }}</p>
+                {% endautoescape %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div><!-- End .content-->
+      </div>
+    </div>
+
+  </div>
+</section>
