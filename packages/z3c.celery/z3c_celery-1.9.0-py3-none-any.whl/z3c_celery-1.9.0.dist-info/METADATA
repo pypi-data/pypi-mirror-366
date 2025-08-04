@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: z3c.celery
+Version: 1.9.0
+Summary: Integration of Celery 4 with Zope 3
+Project-URL: repository, https://github.com/ZeitOnline/z3c.celery
+Author-email: "DIE ZEIT, gocept" <zon-backend@zeit.de>
+License: BSD-3-Clause
+License-File: LICENSE.txt
+Keywords: Zope,celery,transaction
+Classifier: Development Status :: 6 - Mature
+Classifier: Framework :: Zope3
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Database
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Testing
+Requires-Python: >=3.13
+Requires-Dist: celery>=4.0.2
+Requires-Dist: transaction
+Requires-Dist: zope-app-publication
+Requires-Dist: zope-app-wsgi
+Requires-Dist: zope-authentication
+Requires-Dist: zope-component
+Requires-Dist: zope-exceptions
+Requires-Dist: zope-interface
+Requires-Dist: zope-publisher
+Requires-Dist: zope-security
+Provides-Extra: layer
+Requires-Dist: plone-testing; extra == 'layer'
+Provides-Extra: test
+Requires-Dist: plone-testing; extra == 'test'
+Requires-Dist: pytest; extra == 'test'
+Requires-Dist: pytest-celery; extra == 'test'
+Requires-Dist: redis; extra == 'test'
+Requires-Dist: tblib; extra == 'test'
+Requires-Dist: zodb; extra == 'test'
+Requires-Dist: zope-principalregistry; extra == 'test'
+Requires-Dist: zope-pytestlayer; extra == 'test'
+Requires-Dist: zope-traversing; extra == 'test'
