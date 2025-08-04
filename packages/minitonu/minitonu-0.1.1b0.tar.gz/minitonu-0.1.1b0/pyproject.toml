@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minitonu"
+version = "0.1.1b0"
+description = "Microbiblioteca pura en Python, inspirada en Torch y Numpy. Sin dependencias, simple pero robusta."
+authors = [
+  { name = "Luis Fernando Montaño", email = "tucorreo@example.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]

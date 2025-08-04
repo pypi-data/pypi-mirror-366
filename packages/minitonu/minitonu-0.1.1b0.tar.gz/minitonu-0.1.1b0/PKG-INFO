@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: minitonu
+Version: 0.1.1b0
+Summary: Microbiblioteca pura en Python, inspirada en Torch y Numpy. Sin dependencias, simple pero robusta.
+Author-email: Luis Fernando Montaño <tucorreo@example.com>
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+minitonu
+
+**minitonu** es una microbiblioteca experimental sin dependencias, inspirada en `torch` y `numpy`.
+
+- Compatible con Pydroid3, Termux y otros entornos Python puros.
+- Incluye operaciones básicas tensoriales y conexiones de red neuronal simplificadas.
+- No requiere instalación de dependencias externas.
+- Ideal para pruebas educativas, CLI o entornos limitados.
+
+## Instalación
+
+```bash
+pip install minitonu --upgrade
