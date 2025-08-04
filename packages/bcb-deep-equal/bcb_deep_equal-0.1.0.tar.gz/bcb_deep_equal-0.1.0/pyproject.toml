@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bcb-deep-equal"
+version = "0.1.0"
+description = "Floating-point tolerant comparison for BigCodeBench"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Aaron Sandoval"},
+]
+maintainers = [
+    {name = "Aaron Sandoval"},
+]
+keywords = [
+    "bigcodebench", 
+    "bcb", 
+    "floating-point", 
+    "comparison", 
+    "testing",
+    "deep-equal",
+    "tolerance"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+# No required dependencies - works out of the box!
+dependencies = []
+
+[project.optional-dependencies]
+numpy = ["numpy>=1.19.0"]
+pandas = ["pandas>=1.0.0"]
+all = ["numpy>=1.19.0", "pandas>=1.0.0"]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "numpy>=1.19.0",
+    "pandas>=1.0.0",
+    "black>=22.0",
+    "mypy>=0.950",
+    "ruff>=0.0.261",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mushu-dev/bcb-deep-equal"
+"Bug Reports" = "https://github.com/mushu-dev/bcb-deep-equal/issues"
+"Source" = "https://github.com/mushu-dev/bcb-deep-equal"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["bcb_deep_equal*"]
+
+[tool.setuptools.package-data]
+bcb_deep_equal = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --cov=bcb_deep_equal --cov-report=term-missing"
