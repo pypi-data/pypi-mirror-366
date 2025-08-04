@@ -1,0 +1,34 @@
+## {{ project_name }}
+
+Django Project with Hexagonal Architecture
+
+---
+
+### Description
+This project uses the hexagonal architecture (ports and adapters) to separate business logic from the framework and external dependencies, making maintenance, scalability, and testing easier.
+
+### Project Structure
+
+- `apps/` — Domain applications and business logic
+- `config/` — Global project configuration
+- `manage.py` — Django's main command
+- `pyproject.toml` — Project dependencies
+
+### Useful Commands
+
+- Create a new app:
+  ```bash
+  django-admin-hex startapp pools
+  ```
+- Create a superuser:
+  ```bash
+  django-admin-he createsuperuser
+  ```
+
+### Resources
+- [Official Django documentation](https://docs.djangoproject.com/en/__django_version__/)
+- [About hexagonal architecture](https://alistair.cockburn.us/hexagonal-architecture/)
+
+---
+
+> Automatically generated with the hexagonal template
