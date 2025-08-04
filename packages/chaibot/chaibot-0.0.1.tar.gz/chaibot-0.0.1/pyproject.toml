@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chaibot"
+version = "0.0.1"
+description = "CLI chatbot using Copilot or a local LLM"
+authors = [{name = "Francis Peck", email = "frncspeck@gmail.com"}]
+dependencies = [
+  "openai>=0.27.0",
+  "llama-cpp-python>=0.1.77"
+]

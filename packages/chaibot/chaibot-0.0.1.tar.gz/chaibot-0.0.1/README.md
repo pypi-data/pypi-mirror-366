@@ -1,0 +1,2 @@
+# chaibot
+CLI AI chatbot
