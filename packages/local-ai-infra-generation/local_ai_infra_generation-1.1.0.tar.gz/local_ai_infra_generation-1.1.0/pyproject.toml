@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-ai-infra-generation"
+# The version is managed by semantic-release
+version = "1.1.0"
+authors = [
+  { name="Lishuai Jing", email="lishuai@syncable.dev" },
+]
+description = "A tool to generate infrastructure files (Dockerfile, etc.) for codebases using local LLMs."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: System :: Systems Administration",
+]
+dependencies = [
+    "chromadb",
+    "langchain",
+    "langchain-community",
+    "pyyaml",
+    "requests",
+    "tqdm",
+    "tree-sitter-languages",
+    "typing-extensions",
+    "langchain-ollama",
+    "uv",
+    "gitingest"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/LishuaiJing3/local-AI-infra-generation"
+"Bug Tracker" = "https://github.com/LishuaiJing3/local-AI-infra-generation/issues"
+
+[project.scripts]
+infra-gen = "infra_generator.main:main"
+
+[project.optional-dependencies]
+dev = [
+    "python-semantic-release",
+    "pytest",
+    "build",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"infra_generator" = ["config.yaml"]
+
+# --- Tool Configurations ---
+
+[tool.semantic_release]
+version_source = "toml"
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+changelog_file = "CHANGELOG.md"
+build_command = "pip install build && python -m build"
+repository_url = "https://github.com/LishuaiJing3/local-AI-infra-generation"
+tag_format = "v{version}"
+major_on_zero = false
+upload_to_pypi = true
+upload_to_release = true
+dist_path = "dist/"
+commit_author = "github-actions[bot] <actions@github.com>"
+commit_parser = "conventional"
+github_token = "env:GITHUB_TOKEN"
+pypi_token = "env:PYPI_TOKEN"
+
