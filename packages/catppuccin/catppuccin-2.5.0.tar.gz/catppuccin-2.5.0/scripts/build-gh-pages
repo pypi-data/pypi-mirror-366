@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+from pathlib import Path
+
+import tinycss2
+from pygments.formatters.html import HtmlFormatter
+
+from catppuccin import PALETTE
+from catppuccin.extras.pygments import (
+    FrappeStyle,
+    LatteStyle,
+    MacchiatoStyle,
+    MochaStyle,
+)
+
+OUT_DIR = Path("gh-pages")
+PYGMENTS_DIR = OUT_DIR / "pygments"
+
+PYGMENTS_STYLES = {
+    PALETTE.latte.identifier: LatteStyle,
+    PALETTE.frappe.identifier: FrappeStyle,
+    PALETTE.macchiato.identifier: MacchiatoStyle,
+    PALETTE.mocha.identifier: MochaStyle,
+}
+
+BANNED_DECLARATIONS = {"padding", "line-height"}
+
+
+def write(content: str, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content)
+
+
+def postprocess_css(content: str, important: bool) -> str:
+    rules = tinycss2.parse_stylesheet(content, skip_comments=True, skip_whitespace=True)
+    for rule in rules:
+        declarations = tinycss2.parse_declaration_list(
+            rule.content, skip_comments=True, skip_whitespace=True
+        )
+
+        # remove padding
+        declarations = [
+            declaration
+            for declaration in declarations
+            if declaration.lower_name not in BANNED_DECLARATIONS
+        ]
+
+        # add !important if needed
+        for declaration in declarations:
+            declaration.important = important
+
+        rule.content = declarations
+
+    return tinycss2.serialize(rules)
+
+
+def flavor_css(flavor: str) -> str:
+    style = PYGMENTS_STYLES[flavor]
+    formatter = HtmlFormatter(style=style)
+    return formatter.get_style_defs(["pre", "code"])
+
+
+def variable_css() -> str:
+    flavor = PALETTE.latte
+    css = flavor_css(flavor.identifier)
+    for color in flavor.colors:
+        css = css.replace(color.hex, f"var(--ctp-{color.identifier})")
+        # pygments emits *some* colours (but not all) in uppercase now...
+        # https://github.com/pygments/pygments/commit/0853028bfe180b7c56ef20502f44a5d8d340216c
+        css = css.replace(color.hex.upper(), f"var(--ctp-{color.identifier})")
+    return css
+
+
+def build_css(*, important: bool) -> None:
+    # build individual CSS files for each flavor
+    for flavor in PALETTE:
+        if important:
+            filename = f"catppuccin-{flavor.identifier}.important.css"
+        else:
+            filename = f"catppuccin-{flavor.identifier}.css"
+        path = PYGMENTS_DIR / filename
+        write(postprocess_css(flavor_css(flavor.identifier), important), path)
+
+    # build a variable CSS file
+    if important:
+        path = PYGMENTS_DIR / "catppuccin-variables.important.css"
+    else:
+        path = PYGMENTS_DIR / "catppuccin-variables.css"
+    write(postprocess_css(variable_css(), important), path)
+
+
+if __name__ == "__main__":
+    build_css(important=False)
+    build_css(important=True)

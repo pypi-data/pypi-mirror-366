@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+name: "gh-pages"
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "actions/checkout@v4"
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.3"
+          python-version: "3.13"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+      - uses: "actions/setup-node@v4"
+        with:
+          node-version: "latest"
+      - run: "mkdir -p gh-pages/docs/assets/ && cp assets/pepperjack.webp gh-pages/docs/assets/"
+      - run: "uv sync --all-extras"
+      - run: "uv run pdoc catppuccin --no-include-undocumented --favicon https://catppuccin.com/favicon.png --logo https://python.catppuccin.com/docs/assets/pepperjack.webp --logo-link /docs --template-directory pdoc --output-directory gh-pages/docs"
+      - run: "uv run scripts/build-gh-pages"
+      - run: "npx lightningcss-cli --minify gh-pages/pygments/*.css --output-dir gh-pages/pygments/"
+      - uses: "peaceiris/actions-gh-pages@v4"
+        with:
+          enable_jekyll: false
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          publish_branch: "gh-pages"
+          publish_dir: "./gh-pages"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          user_name: "github-actions[bot]"
+          cname: "python.catppuccin.com"
