@@ -1,0 +1,275 @@
+{
+    "config": {
+        "step": {
+            "reauth_confirm": {
+                "description": "Cuir isteach do chomhartha rochtana \u00f3 {url}."
+            },
+            "user": {
+                "description": "Cuir isteach do chomhartha rochtana \u00f3 {url}."
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "backup_capable": {
+                "name": "C\u00faltaca in ann"
+            },
+            "charge_state_conn_charge_cable": {
+                "name": "C\u00e1bla muirir"
+            },
+            "climate_state_auto_seat_climate_right": {
+                "name": "Aer\u00e1id su\u00edoch\u00e1n uathoibr\u00edoch ar dheis"
+            },
+            "climate_state_auto_steering_wheel_heat": {
+                "name": "T\u00e9itheoir roth sti\u00fartha uathoibr\u00edoch"
+            },
+            "climate_state_battery_heater": {
+                "name": "T\u00e9itheoir ceallra\u00ed"
+            },
+            "climate_state_cabin_overheat_protection": {
+                "name": "Cosaint r\u00f3th\u00e9amh c\u00e1b\u00e1in"
+            },
+            "climate_state_cabin_overheat_protection_actively_cooling": {
+                "name": "Cosaint r\u00f3th\u00e9imh c\u00e1b\u00e1in ag fuar\u00fa go gn\u00edomhach"
+            },
+            "components_grid_services_enabled": {
+                "name": "Seirbh\u00eds\u00ed eanga\u00ed cumasaithe"
+            },
+            "grid_services_active": {
+                "name": "Seirbh\u00eds\u00ed eanga\u00ed gn\u00edomhacha"
+            },
+            "state": {
+                "name": "St\u00e1das"
+            },
+            "storm_mode_active": {
+                "name": "Faire stoirme gn\u00edomhach"
+            },
+            "vehicle_state_dashcam_state": {
+                "name": "Daischeamara"
+            },
+            "vehicle_state_df": {
+                "name": "Doras tiom\u00e1na\u00ed tosaigh"
+            },
+            "vehicle_state_dr": {
+                "name": "Doras tiom\u00e1na\u00ed c\u00fail"
+            },
+            "vehicle_state_is_user_present": {
+                "name": "\u00das\u00e1ideoir i l\u00e1thair"
+            },
+            "vehicle_state_pf": {
+                "name": "Doras paisin\u00e9ara tosaigh"
+            },
+            "vehicle_state_pr": {
+                "name": "Doras paisin\u00e9ara c\u00fail"
+            },
+            "vehicle_state_tpms_soft_warning_fl": {
+                "name": "Rabhadh br\u00fa na mbonn tosaigh ar chl\u00e9"
+            },
+            "vehicle_state_tpms_soft_warning_fr": {
+                "name": "Rabhadh br\u00fa na mbonn tosaigh ar dheis"
+            },
+            "vehicle_state_tpms_soft_warning_rl": {
+                "name": "Rabhadh br\u00fa na mbonn c\u00fail ar chl\u00e9"
+            },
+            "vehicle_state_tpms_soft_warning_rr": {
+                "name": "Rabhadh br\u00fa na mbonn c\u00fail ar dheis"
+            }
+        },
+        "climate": {
+            "primary": {
+                "state_attributes": {
+                    "preset_mode": {
+                        "state": {
+                            "off": "Gn\u00e1th"
+                        }
+                    }
+                }
+            }
+        },
+        "cover": {
+            "vehicle_state_sun_roof_state": {
+                "name": "D\u00edon gr\u00e9ine"
+            }
+        },
+        "device_tracker": {
+            "location": {
+                "state_attributes": {
+                    "heading": {
+                        "name": "Ceannteideal"
+                    },
+                    "speed": {
+                        "name": "Luas"
+                    }
+                }
+            },
+            "route": {
+                "name": "R\u00f3daigh"
+            }
+        },
+        "number": {
+            "backup_reserve_percent": {
+                "name": "C\u00faltaca c\u00faltaca"
+            },
+            "off_grid_vehicle_charging_reserve_percent": {
+                "name": "C\u00falchiste lasmuigh den ghreille"
+            }
+        },
+        "select": {
+            "climate_state_seat_fan_front_left": {
+                "name": "Fuaraitheoir su\u00edoch\u00e1in ar chl\u00e9",
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_fan_front_right": {
+                "name": "Fuaraitheoir su\u00edoch\u00e1in ar dheis",
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_left": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_rear_center": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_rear_left": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_rear_right": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_right": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "components_customer_preferred_export_rule": {
+                "name": "Ceadaigh onnmhairi\u00fa",
+                "state": {
+                    "battery_ok": "Ceallra\u00ed",
+                    "never": "Riamh",
+                    "pv_only": "Gr\u00e9ine amh\u00e1in"
+                }
+            },
+            "default_real_mode": {
+                "name": "M\u00f3d oibr\u00edochta",
+                "state": {
+                    "autonomous": "Uathrialach",
+                    "backup": "C\u00faltaca",
+                    "self_consumption": "F\u00e9in-thomhaltas"
+                }
+            }
+        },
+        "sensor": {
+            "battery_power": {
+                "name": "Cumhacht ceallra\u00ed"
+            },
+            "charge_state_battery_range": {
+                "name": "Raon ceallra\u00ed"
+            },
+            "charge_state_charging_state": {
+                "name": "Ag muirear\u00fa",
+                "state": {
+                    "charging": "Muirear\u00fa"
+                }
+            },
+            "charge_state_est_battery_range": {
+                "name": "Meastach\u00e1n ar raon na ceallra\u00ed"
+            },
+            "charge_state_ideal_battery_range": {
+                "name": "Raon ceallra\u00ed id\u00e9alach"
+            },
+            "drive_state_active_route_minutes_to_arrival": {
+                "name": "Am teachta"
+            },
+            "energy_left": {
+                "name": "Fuinneamh f\u00e1gtha"
+            },
+            "generator_power": {
+                "name": "Cumhacht ginead\u00f3ra"
+            },
+            "grid_power": {
+                "name": "Cumhacht an ghreille"
+            },
+            "grid_services_power": {
+                "name": "Cumhacht seirbh\u00eds\u00ed eanga\u00ed"
+            },
+            "load_power": {
+                "name": "Cumhacht ualaigh"
+            },
+            "percentage_charged": {
+                "name": "C\u00e9atad\u00e1n muirearaithe"
+            },
+            "solar_power": {
+                "name": "Cumhacht gr\u00e9ine"
+            },
+            "total_pack_energy": {
+                "name": "Fuinneamh ioml\u00e1n an phac\u00e1iste"
+            },
+            "vin": {
+                "name": "Feithicil"
+            },
+            "vpp_backup_reserve_percent": {
+                "name": "C\u00faltaca c\u00faltaca VPP"
+            },
+            "wall_connector_fault_state": {
+                "name": "C\u00f3d staid locht"
+            },
+            "wall_connector_power": {
+                "name": "Cumhacht"
+            },
+            "wall_connector_state": {
+                "name": "St\u00e1t",
+                "state": {
+                    "booting": "Ag tosaithe",
+                    "charging": "Muirear\u00fa",
+                    "charging_finished": "Muirear\u00fa cr\u00edochnaithe",
+                    "charging_reduced": "Laghda\u00edodh an muirear",
+                    "error": "Earr\u00e1id",
+                    "negotiating": "Ag idirbhearta\u00edocht",
+                    "scheduled": "Sceidealaithe",
+                    "waiting_car": "Carr at\u00e1 ag fanacht"
+                }
+            }
+        },
+        "switch": {
+            "charge_state_charging_state": {
+                "name": "Muirear"
+            },
+            "components_disallow_charge_from_grid_with_solar_installed": {
+                "name": "Ceadaigh muirear\u00fa \u00f3n eangach"
+            },
+            "user_settings_storm_mode_enabled": {
+                "name": "Faire stoirme"
+            }
+        }
+    },
+    "exceptions": {
+        "command_failed": {
+            "message": "Theip ar an ord\u00fa, {message}"
+        }
+    }
+}

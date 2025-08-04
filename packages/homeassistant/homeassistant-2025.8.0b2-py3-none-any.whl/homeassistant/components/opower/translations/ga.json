@@ -1,0 +1,84 @@
+{
+    "config": {
+        "step": {
+            "mfa": {
+                "data_description": {
+                    "password": "An focal faire do do chuntas f\u00f3ntais",
+                    "totp_secret": "An r\u00fan TOTP do do chuntas f\u00f3ntais, a \u00fas\u00e1idtear le haghaidh f\u00edordheimhni\u00fa ilfhacht\u00f3ireach (MFA).",
+                    "username": "Ainm \u00fas\u00e1ideora do chuntais f\u00f3ntais"
+                }
+            },
+            "reauth_confirm": {
+                "data_description": {
+                    "password": "An focal faire do do chuntas f\u00f3ntais",
+                    "totp_secret": "An r\u00fan TOTP do do chuntas f\u00f3ntais, a \u00fas\u00e1idtear le haghaidh f\u00edordheimhni\u00fa ilfhacht\u00f3ireach (MFA).",
+                    "username": "Ainm \u00fas\u00e1ideora do chuntais f\u00f3ntais"
+                }
+            },
+            "user": {
+                "data_description": {
+                    "password": "An focal faire do do chuntas f\u00f3ntais",
+                    "username": "Ainm \u00fas\u00e1ideora do chuntais f\u00f3ntais",
+                    "utility": "Ainm do shol\u00e1thra\u00ed f\u00f3ntais"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "elec_cost_to_date": {
+                "name": "Costas leictreachais an bhille reatha go dt\u00ed seo"
+            },
+            "elec_end_date": {
+                "name": "D\u00e1ta deiridh an bhille leictreachais reatha"
+            },
+            "elec_forecasted_cost": {
+                "name": "Costas r\u00e9amh-mheasta leictreachais an bhille reatha"
+            },
+            "elec_forecasted_usage": {
+                "name": "\u00das\u00e1id leictreachais r\u00e9amh-mheasta ar an mbille reatha"
+            },
+            "elec_start_date": {
+                "name": "D\u00e1ta tosaithe an bhille leictreachais reatha"
+            },
+            "elec_typical_cost": {
+                "name": "Costas tipici\u00fail leictreachais m\u00edos\u00fail"
+            },
+            "elec_typical_usage": {
+                "name": "\u00das\u00e1id leictreachais mh\u00edos\u00fail tipici\u00fail"
+            },
+            "elec_usage_to_date": {
+                "name": "\u00das\u00e1id leictreachais an bhille reatha go dt\u00ed seo"
+            },
+            "gas_cost_to_date": {
+                "name": "Costas g\u00e1is an bhille reatha go dt\u00ed seo"
+            },
+            "gas_end_date": {
+                "name": "D\u00e1ta deiridh an bhille g\u00e1is reatha"
+            },
+            "gas_forecasted_cost": {
+                "name": "Costas r\u00e9amh-mheasta g\u00e1is an bhille reatha"
+            },
+            "gas_forecasted_usage": {
+                "name": "\u00das\u00e1id r\u00e9amh-mheasta g\u00e1is ar an mbille reatha"
+            },
+            "gas_start_date": {
+                "name": "D\u00e1ta tosaithe g\u00e1is an bhille reatha"
+            },
+            "gas_typical_cost": {
+                "name": "Costas tipici\u00fail m\u00edos\u00fail g\u00e1is"
+            },
+            "gas_typical_usage": {
+                "name": "\u00das\u00e1id gh\u00e1is mh\u00edos\u00fail tipici\u00fail"
+            },
+            "gas_usage_to_date": {
+                "name": "\u00das\u00e1id g\u00e1is reatha an bhille go dt\u00ed seo"
+            }
+        }
+    },
+    "issues": {
+        "return_to_grid_migration": {
+            "title": "Fill ar staitistic\u00ed eanga\u00ed don chuntas: {utility_account_id}"
+        }
+    }
+}

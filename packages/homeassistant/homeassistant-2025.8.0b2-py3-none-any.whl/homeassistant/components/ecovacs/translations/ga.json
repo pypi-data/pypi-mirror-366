@@ -1,0 +1,185 @@
+{
+    "config": {
+        "error": {
+            "invalid_url_schema_override_rest_url": "Sc\u00e9im URL REST neamhbhail\u00ed. Ba ch\u00f3ir go dtos\u00f3dh an URL le `http://` n\u00f3 `https://`."
+        },
+        "step": {
+            "auth": {
+                "data": {
+                    "country": "T\u00edr",
+                    "override_mqtt_url": "URL MQTT",
+                    "override_rest_url": "URL REST",
+                    "verify_mqtt_certificate": "F\u00edoraigh teastas SSL MQTT"
+                },
+                "data_description": {
+                    "override_mqtt_url": "Cuir isteach URL MQTT d\u2019eisp\u00e9ireas f\u00e9in\u00f3st\u00e1ilte lena n-\u00e1ir\u00edtear an sc\u00e9im (mqtt/mqtts).",
+                    "override_rest_url": "Cuir isteach URL REST d\u2019eisp\u00e9ireas f\u00e9in\u00f3st\u00e1ilte lena n-\u00e1ir\u00edtear an sc\u00e9im (http/https)."
+                }
+            },
+            "user": {
+                "data_description": {
+                    "mode": "Roghnaigh an modh is mian leat a \u00fas\u00e1id chun ceangal le Ecovacs. Mura bhfuil t\u00fa cinnte, roghnaigh **Scamall**.\n\nN\u00e1 roghnaigh **F\u00e9in\u00f3st\u00e1ilte** ach amh\u00e1in m\u00e1 t\u00e1 c\u00e1s f\u00e9in\u00f3st\u00e1ilte ag obair agat."
+                }
+            }
+        }
+    },
+    "entity": {
+        "button": {
+            "relocate": {
+                "name": "Athlonn\u00fa"
+            },
+            "reset_lifespan_base_station_filter": {
+                "name": "Athshocraigh saolr\u00e9 scagaire an st\u00e1isi\u00fain"
+            },
+            "reset_lifespan_blade": {
+                "name": "Athshocraigh saolr\u00e9 an lann"
+            },
+            "reset_lifespan_brush": {
+                "name": "Athshocraigh saolr\u00e9 an phr\u00edomhscuib"
+            },
+            "reset_lifespan_filter": {
+                "name": "Athshocraigh saolr\u00e9 an scagaire"
+            },
+            "reset_lifespan_lens_brush": {
+                "name": "Athshocraigh saolr\u00e9 scuab lionsa"
+            },
+            "reset_lifespan_round_mop": {
+                "name": "Athshocraigh saolr\u00e9 mopa babhta"
+            },
+            "reset_lifespan_side_brush": {
+                "name": "Athshocraigh saolr\u00e9 an scuab taobh"
+            },
+            "reset_lifespan_unit_care": {
+                "name": "Athshocraigh saolr\u00e9 c\u00faraim an aonaid"
+            },
+            "station_action_empty_dustbin": {
+                "name": "Bosca bruscair folamh"
+            }
+        },
+        "event": {
+            "last_job": {
+                "name": "An post deireanach",
+                "state_attributes": {
+                    "event_type": {
+                        "state": {
+                            "finished": "Cr\u00edochnaithe",
+                            "finished_with_warnings": "Cr\u00edochnaithe le rabhaidh",
+                            "manually_stopped": "Stoptha de l\u00e1imh"
+                        }
+                    }
+                }
+            }
+        },
+        "number": {
+            "clean_count": {
+                "name": "L\u00edon glan"
+            },
+            "cut_direction": {
+                "name": "Treo gearrtha"
+            },
+            "volume": {
+                "name": "Toirt"
+            }
+        },
+        "select": {
+            "water_amount": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            }
+        },
+        "sensor": {
+            "error": {
+                "name": "Earr\u00e1id",
+                "state_attributes": {
+                    "description": {
+                        "name": "Cur s\u00edos"
+                    }
+                }
+            },
+            "lifespan_base_station_filter": {
+                "name": "Saolr\u00e9 scagaire st\u00e1isi\u00fain"
+            },
+            "lifespan_blade": {
+                "name": "Saolr\u00e9 na lanna"
+            },
+            "lifespan_brush": {
+                "name": "Saolr\u00e9 an phr\u00edomhscuab"
+            },
+            "lifespan_filter": {
+                "name": "Saolr\u00e9 an scagaire"
+            },
+            "lifespan_lens_brush": {
+                "name": "Saolr\u00e9 scuab lionsa"
+            },
+            "lifespan_main_brush": {
+                "name": "Saolr\u00e9 an phr\u00edomhscuab"
+            },
+            "lifespan_round_mop": {
+                "name": "Saolr\u00e9 mopa babhta"
+            },
+            "lifespan_side_brush": {
+                "name": "Saolr\u00e9 scuab taobh"
+            },
+            "lifespan_unit_care": {
+                "name": "Saolr\u00e9 c\u00faraim aonaid"
+            },
+            "network_ip": {
+                "name": "Seoladh IP"
+            },
+            "network_rssi": {
+                "name": "Wi-Fi RSSI"
+            },
+            "station_state": {
+                "name": "St\u00e1t an st\u00e1isi\u00fain",
+                "state": {
+                    "emptying_dustbin": "Bosca bruscair a fholmh\u00fa"
+                }
+            }
+        },
+        "switch": {
+            "border_switch": {
+                "name": "Lasc teorann"
+            },
+            "child_lock": {
+                "name": "Glas leana\u00ed"
+            },
+            "continuous_cleaning": {
+                "name": "Glanadh lean\u00fanach"
+            },
+            "cross_map_border_warning": {
+                "name": "Rabhadh teorainn tras-l\u00e9arsc\u00e1ile"
+            },
+            "move_up_warning": {
+                "name": "Rabhadh bog suas"
+            },
+            "safe_protect": {
+                "name": "Cosaint sh\u00e1bh\u00e1ilte"
+            },
+            "true_detect": {
+                "name": "Brath f\u00edor"
+            }
+        }
+    },
+    "exceptions": {
+        "vacuum_raw_get_positions_not_supported": {
+            "message": "N\u00ed thaca\u00edtear le su\u00edomhanna na luchtair\u00ed agus an fheiste f\u00e9in a aisghabh\u00e1il"
+        }
+    },
+    "selector": {
+        "installation_mode": {
+            "options": {
+                "cloud": "N\u00e9al",
+                "self_hosted": "F\u00e9in\u00f3st\u00e1ilte"
+            }
+        }
+    },
+    "services": {
+        "raw_get_positions": {
+            "description": "Aisghabhann s\u00e9 freagra amh ina bhfuil su\u00edomhanna na luchtair\u00ed agus an fheiste f\u00e9in.",
+            "name": "Faigh su\u00edomhanna amha"
+        }
+    }
+}
