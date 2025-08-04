@@ -1,0 +1,71 @@
+[project]
+name = "nonebot-plugin-prometheus"
+version = "0.3.17"
+description = "为 NoneBot 和其他插件提供 Prometheus 监控支持"
+readme = "README.md"
+requires-python = ">=3.9, <4.0"
+license = { file = "LICENSE" }
+keywords = ["nonebot", "nonebot2", "nonebot-plugin", "prometheus"]
+authors = [
+    { name = "suyiiyii", email = "suyiiyii@gmail.com" }
+]
+maintainers = [
+    { name = "suyiiyii", email = "suyiiyii@gmail.com" }
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "nonebot2>=2.2.1",
+    "prometheus-client>=0.21.1",
+    "nonebot-plugin-alconna>=0.55.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/suyiiyii/nonebot-plugin-prometheus"
+"Repository" = "https://github.com/suyiiyii/nonebot-plugin-prometheus"
+"Bug Tracker" = "https://github.com/suyiiyii/nonebot-plugin-prometheus/issues"
+
+[tool.nonebot]
+adapters = [
+
+]
+plugins = ["nonebot_plugin_prometheus"]
+plugin_dirs = []
+builtin_plugins = []
+
+[dependency-groups]
+dev = [
+    "nonebot-adapter-onebot>=2.4.6",
+    "nonebot-adapter-telegram>=0.1.0b20",
+    "nonebot2[fastapi,httpx]>=2.3.3,<3.0.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.8.4",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff.lint]
+ignore = ["E402"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["nonebot_plugin_prometheus"]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["nonebot_plugin_prometheus"]
