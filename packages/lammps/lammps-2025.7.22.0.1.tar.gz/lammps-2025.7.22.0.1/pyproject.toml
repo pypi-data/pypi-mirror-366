@@ -1,0 +1,73 @@
+[build-system]
+requires = ["scikit-build-core>=0.3.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "lammps"
+dynamic = ["version"]
+description = "unoffical LAMMPS Molecular Dynamics Python package"
+authors = [
+  {name = "The LAMMPS Developers", email = "developers@lammps.org"},
+  {name = "Jinzhe Zeng", email = "jinzhe.zeng@ustc.edu.cn"},
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'importlib_metadata>=1.4; python_version < "3.8"',
+]
+requires-python = ">=3.7"
+readme = "README.md"
+keywords = ["lammps"]
+
+[project.urls]
+repository = "https://github.com/njzjz/lammps-wheel"
+lammps_repository = "https://github.com/lammps/lammps"
+lammps_documentation = "https://docs.lammps.org/"
+
+[project.scripts]
+lmp = "lammps.executable:lmp"
+
+[tool.scikit-build]
+wheel.install-dir = "lammps"
+wheel.py-api = "py2.py3"
+cmake.args = [
+    "-D LAMMPS_VERSION=stable_22Jul2025",
+    "-D LAMMPS_EXCEPTIONS=ON",
+    "-D BUILD_SHARED_LIBS=ON",
+]
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
+
+[tool.setuptools_scm]
+
+[tool.cibuildwheel]
+build = ["cp311-*"]
+skip = ["*-win32", "*-manylinux_i686", "*-musllinux*"]
+build-verbosity = "1"
+test-command = "lmp -h && python {project}/tests/test_import.py"
+
+[tool.cibuildwheel.linux]
+before-all = [
+    "yum install -y wget libpng12 zlib-devel libjpeg-turbo-devel",
+    '''/opt/python/cp38-cp38/bin/python -m pip install mpich''',
+]
+repair-wheel-command = [
+    "uvx --with 'patchelf<0.17' auditwheel repair -w {dest_dir} {wheel}",
+]
+[tool.cibuildwheel.linux.environment]
+CMAKE_PREFIX_PATH="/opt/python/cp38-cp38/"
+
+[tool.cibuildwheel.macos]
+
+before-all = [
+    '''pip install mpich''',
+]
+environment.MACOSX_DEPLOYMENT_TARGET = "11.0"
+
+[tool.cibuildwheel.windows]
+test-command = "python {project}/tests/test_import.py"
