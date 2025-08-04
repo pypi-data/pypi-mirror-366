@@ -1,0 +1,45 @@
+[build-system]
+requires = [ "setuptools>=42", "wheel",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyflexweb"
+version = "0.2.0"
+description = "Download IBKR Flex reports using the Interactive Brokers flex web service"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [ "Programming Language :: Python :: 3", "Programming Language :: Python :: 3.12", "Programming Language :: Python :: 3.13", "Programming Language :: Python :: 3.14", "Operating System :: OS Independent",]
+dependencies = [ "requests>=2.25.0", "platformdirs>=2.0.0", "click>=8.1.8",]
+[[project.authors]]
+name = "Vishal Doshi"
+email = "vishal.doshi@gmail.com"
+
+[dependency-groups]
+dev = [ "pytest>=8.3.5",]
+
+[project.license]
+text = "GPL-3.0-or-later"
+
+[project.optional-dependencies]
+dev = [ "pytest>=6.0.0", "ruff>=0.0.240", "isort>=5.0.0", "toml>=0.10.0", "pre-commit>=3.0.0",]
+
+[project.scripts]
+pyflexweb = "pyflexweb.cli:main"
+
+[tool.setuptools]
+packages = [ "pyflexweb",]
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+
+[tool.pytest]
+testpaths = [ "tests",]
+
+[tool.ruff.lint]
+select = [ "E", "W", "F", "I", "B", "C4", "UP",]
+ignore = [ "B008", "C901",]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [ "F401",]
+"tests/*" = [ "S101",]
