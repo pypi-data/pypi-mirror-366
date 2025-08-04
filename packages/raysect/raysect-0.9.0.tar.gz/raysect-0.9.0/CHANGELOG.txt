@@ -1,0 +1,290 @@
+Raysect Changelog
+=================
+
+Release 0.9.0 (30 Jul 2025)
+---------------------------
+
+Build changes:
+* The legacy setuptools build system has been replaced with meson-python.
+  - The dev/build.sh and dev/clean.sh scripts have been updated to work with the new build system.
+  - A meson.build generator script is provided to automate the discovery of pyx, pxd,py and data files. Please see dev/generate_meson_files.py.
+  - When installed in editable mode, any modified pyx files will automatically trigger a rebuild when python attempts to import from the package. Please be aware that (as with the previous build system) changes to pxd files will require a clean rebuild of the project.
+  - A dev/install_editable.sh script is provided to simplify the installation of the package in editable mode with verbose build output enabled.
+  - Meson-python performs the build out of the project folder, so the project source folders will no longer be polluted with build artefacts.
+  - Cython build annotations are now always enabled, the annotation files can be found in the build folder under the build artefacts folder associated with each so file (*.so.p folder).
+* The codebase has been migrated to Cython 3.
+  - This migration was made possible due to the contributions of Koyo Munechika (@munechika-koyo).
+
+Python support:
+* Raysect now requires Python v3.9 and above.
+  - From version v0.9.0 Raysect is dropping support for Python versions older than v3.9.
+  - Users of older versions of Python should remain using Raysect v0.8.1 and plan for a migration to v0.9.0+.
+
+API changes:
+* Corrected spelling of all classes, methods and functions where "targeted" was incorrectly spelt "targetted".
+
+New:
+* Added a torus primitive (contribute by Koyo Munechika).
+
+Known issues:
+* Compiling raysect current produces a large number of Cython deprecation warnings. These will be resolved in a future release.
+
+
+Release 0.8.1 (12 Feb 2023)
+---------------------------
+
+API changes:
+* Both extract_rotation() and extract_translation() now return ctuples in cython.
+* The extract_rotation() string z_axis parameter has been replaced with a boolean z_up parameter for switching coordinate systems.
+
+Bug fixes:
+* extract_rotation() now returns the correct values for yaw, pitch and roll in the z axis up coordinate system (Jamie Bayne).
+* The quiet parameter is now correctly handled by Observer1D and Observer2D.
+* Fixed Ray.extinction_min_depth bug that prevented the attribute being set to 1.
+* Fixed pipeline figure title rendering due to matplotlib canvas.set_window_title() deprecation.
+* Fixed __setstate__() bug in SpectralPowerPipeline that prevented unpickling.
+
+New:
+* Added cython pxd files for all observers.
+
+
+Release 0.8.0 (26 May 2022)
+---------------------------
+
+API changes:
+* Intersection object is now passed to evaluate_surface, user code will need to be updated to include the additional parameter.
+
+Bug fixes:
+* Spectrum samples attribute is now readonly to prevent users replacing the array and potentially causing a segfault.
+
+New:
+* Added pyproject.toml (Jack Lovell)
+* Mesh returns a specialised MeshIntersection object that exposes the triangle and barycentric coordinates of the intersection.
+
+
+Release 0.7.1 (6 Nov 2021)
+--------------------------
+
+Bug fixes:
+* MulticoreEngine fixes for MacOS and python 3.8+
+* The spectral pipeline 'display_progress' attribute was not accessible from python.
+* The pipeline line 'name' attribute was not accessible from python.
+* Fixed half-pixel offset in multiple cameras due to an index offset error.
+* Improved normalisation in quaternion_to().
+
+New:
+* Added cython factory functions for quaternions.
+* Tetrahedral mesh interpolation function.
+* 1D, 2D and 3D array interpolation functions.
+* 1D, 2D and 3D blend functions.
+
+
+Release 0.7.0 (7 Nov 2020)
+--------------------------
+
+Bug fixes:
+* Fixed the last integration segment not contributing to the integral in NumericalIntegrator.
+* Incorrect construction of lens primitives when lens long barrels are requested.
+
+API Changes:
+* The core.math.function package has been redesigned to introduce functions with different return types. The existing FunctionXD classes now live under core.math.function.float.
+
+New:
+* Added core.math.function.vector3d.FunctionXD objects which return Vector3D objects.
+* Added Quaternions and associated transform utility functions.
+* Added utility functions for extracting the rotation and translation from an AffineMatrix3D.
+* A new Cornell Box demo with a virtual camera with a Cooke triplet lens assembly and a simulated CCD.
+
+
+Release 0.6.1 (2 Feb 2019)
+--------------------------
+
+New:
+* Added relational operators to the FunctionXD objects.
+* Added abs() operator to FunctionXD objects.
+* Square root (SqrtXD) and error functions (ErfXD) added to FunctionXD package.
+* Added SpectralAdaptiveSampler1D and SpectralAdaptiveSampler2D.
+* FullFrameSampler2D, RGBAdaptiveSampler2D, MonoAdaptiveSampler2D now supports pixel masks directly.
+
+Bug fixes:
+* MulticoreEngine render engine now passes back exceptions from worker processes and correctly terminates the render.
+
+
+Release 0.6.0 (13 Nov 2019)
+---------------------------
+
+API Changes:
+* Blend material modifier now blends the surface and volume by default. Use the surface_only and volume_only options to configure.
+* Cython minimum, maximum and peak to peak methods can now cope with arbitrary strides.
+* Interpolator2DMesh and Discrete2DMesh have import has changed from raysect.core.math.interpolators to raysect.core.math.function.
+
+New:
+* Added an Add material modifier than sums the contributions from two materials.
+* Added emissivity function to BlackBody.
+* Extended Spectrum cython mathematical methods to simplify combining Spectrum objects.
+* Expanded the function framework:
+  - Constants are now autowrapped as ConstantXD objects automatically.
+  - Added PowXD, ExpXD, SinXD, CosXD, TanXD, AsinXD, AcosXD, AtanXD, Atan4QXD functions.
+  - Argument pass-through supported with ArgXD functions.
+  - Interpolation functions moved under raysect.core.math.function.
+* Improved the Multicore render engine by batching work to reduce IPC overhead. Renders with smaller amounts of work per pixel are now substantially quicker.
+* Improved multiple demos and related documentation.
+
+
+Release 0.5.6 (24 Aug 2019)
+---------------------------
+
+Bug fixes:
+* Surface normal calculation for the Cone primitive was incorrect, this has been fixed.
+* Parabola tip intersection case was not handled fully, this has been fixed
+* Increased size of integers holding ray counts as they could overflow for extremely long renders.
+
+New:
+* Added quaternions to the core math package.
+* Added low level cython functions to calculate mininum, maximum and peak_to_peak for memoryviews. (contributor: Dr Jack Lovell)
+* Added a material blending modifier to the raysect.optical.material.modifiers package.relational
+
+
+Release 0.5.5 (4 Mar 2019)
+--------------------------
+
+API Changes:
+* LoggingRay now logs the full intersection object, not just the hit point.
+
+Bug fixes:
+* Fixed recursive call bug triggered by inspecting the process attribute of MulticoreEngine.
+* Added zip_safe=False to setup.py as installing Raysect as a zip file prevents access to cython .pxd files.
+
+New:
+* Improved behaviour of pipeline displays when raysect used in a jupyter notebook.
+* Added ability to directly sample the BSDF of ContinuousBSDF materials.
+* Added to_cylindrical and from_cylindrical coordinate system conversion functions.
+* All spectral functions are now callable. Calling a spectral function evaluates it at the specified wavelength.
+
+
+Release 0.5.4 (1 Oct 2018)
+--------------------------
+
+Bug Fixes:
+* Spectrum class samples attribute is now publically accessible again, not readonly.
+
+New:
+* Optimised materials significantly by avoiding unnecessary memoryview creation, ~10-20% speedups depending on material.
+* Optimised observers leading to less overhead per pixel.
+* Added caching to 2D mesh interpolator evaluations.
+
+
+Release 0.5.3 (30 Aug 2018)
+---------------------------
+
+Bug Fixes:
+* Mesh load() not correctly populating vertex and triangle data arrays.
+* Missing import guard for OpenCV camera, users no longer forced to install OpenCV!
+* VTK importer no longer crashes when mesh name is None.
+
+New:
+* Pickle support added to all scenegraph objects. It is now possible to pickle a scenegraph.
+* Mesh normals can be flipped during import/creation with new flip_normals argument.
+* Optimised ImportanceManager gaining a 7% speedup for Cornell Box test case.
+* Optimised method call in optical.Ray gaining a 2% speedup for Cornell Box test case.
+
+
+Release 0.5.2 (7 Aug 2018)
+--------------------------
+
+API Changes:
+* Etendue replaced with sensitivity in the observers. [#202]
+
+Bug Fixes:
+* Raysect now builds with Cython 0.28.
+* Fixed pixel geometry changes not triggering a recalculation of the TargettedCCD pixel sensitivity. [#219]
+
+New:
+* Added MeshCamera. A camera that uses the triangles of a mesh as pixels. [#204]
+* Added Spectral and Monochromatic 1D pipelines. [supporting #204]
+* Added STL and OBJ mesh exporters. [#176]
+* Added limited support for PLY and VTK mesh importing/exporting. [#209, #224]
+* Added OpenCV camera. [#109]
+* Added sub-sampling (anti-aliasing) to VectorCamera. [#222]
+* Added masked samplers that allow users to limit the region being rendered. [#223]
+* Added meta dictionary attribute to scene-graph nodes to allow users to attach their own data. [#218]
+* Added is_identity() and is_close() comparison methods to AffineMatrix3D. [#199]
+* Added angle() to vector objects to compute angle between vectors. [#205]
+
+
+Release 0.5.0, 0.5.1 (7 Aug 2018)
+---------------------------------
+
+Bug Fixes:
+* setup.py broke installation in pip.
+
+
+Release 0.4.0 (11 Dec 2017)
+---------------------------
+
+API Changes:
+* VolumeEmitterHomogeneous renamed HomogeneousVolumeEmitter.
+* VolumeEmitterInhomogeneous renamed InhomogeneousVolumeEmitter.
+
+Bug Fixes:
+* Fixed normalisation bug in FibreOptic observer.
+
+New:
+* InhomogeneousVolumeEmitter integrator now pluggable.
+* Added cosine weighted cone random vector sampler.
+* Added cython utility for determining polygon winding order for n-sided polygons.
+* Added triangulate2d function for splitting N-sided polygon into triangles.
+* Added lerp and slerp functions to Vector3D.
+* Added new utility methods to BoundingBox2D and 3D.
+* Added AnisotropicSurfaceEmitter material.
+* Added BoundingSphere3D.
+* Added MeshPixel. A pixel that uses a mesh as a collecting surface.
+* Added TargettedPixel. A pixel that fires additional samples at specific target primitives.
+* Added TargettedCCDArray. A CCD that fires additional samples at specific target primitives.
+* Added radiance pipelines.
+* Added instancing to primitives.
+* Added bounding sphere to primitives.
+* Tidied up samplers.
+
+
+Release 0.3.1 (17 Mar 2017)
+---------------------------
+
+Fixed:
+* max_wavelength property of optical ray was broken.
+
+New:
+* Diamond demo.
+
+
+Release 0.3.0 (8 Mar 2017)
+--------------------------
+
+New:
+* Added multiple importance sampling (MIS).
+* Added micro-facet based materials.
+* Added 2D kd-tree and 2D mesh utilities
+* Added parabola primitive.
+* Added spherical lens primitives.
+* Added render engine workflow model with engines targetting single core and multicore rendering.
+* Added StatsBin and StatsArray objects.
+* Added a set of utility containers (linked-lists etc..) for use in cython.
+* Added metals and coloured emission spectra to the optical library.
+
+Changes:
+* Completely re-engineered optical observers.
+  - New pipeline architecture.
+  - Adaptive sampling.
+  - Framework simplifies development of new observers.
+* Re-engineered spectral functions (API changes are minimal).
+* Renamed num_samples and spectral_samples to bins and spectral_bins.
+* Renamed ray_min_depth to ray_extinction_min_depth.
+* Optimised the codebase for greater rendering performance.
+* Updated lambert material to support MIS.
+* Tidied up numerous internal interfaces.
+
+
+Release 0.1.0 (16 Aug 2015) / Release 0.2.0 (2 Feb 2016)
+--------------------------------------------------------
+
+* initial development releases
