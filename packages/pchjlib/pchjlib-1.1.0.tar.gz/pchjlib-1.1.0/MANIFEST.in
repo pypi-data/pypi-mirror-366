@@ -1,0 +1,10 @@
+# MANIFEST.in
+# Documentation and license
+include *.md *.txt
+
+# Include all files under src/
+graft src
+
+# Make sure the icon and desktop.ini are included
+include src/pchjlib/logo.ico
+include src/pchjlib/desktop.ini
