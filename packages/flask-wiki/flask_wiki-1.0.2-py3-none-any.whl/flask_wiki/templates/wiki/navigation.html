@@ -1,0 +1,41 @@
+<!--
+  This file is part of Flask-Wiki
+  Copyright (C) 2020 RERO
+
+  Flask-Wiki is free software; you can redistribute it and/or modify
+  it under the terms of the Revised BSD License; see LICENSE file for
+  more details
+-->
+
+<header class="row">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light col-lg-12 justify-content-end">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('wiki.index') }}">{{ _('Home') }}</a>
+            </li>
+            {% if can_edit_wiki %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('wiki.files') }}">{{ _('Files') }}</a>
+            </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline" action="{{ url_for('wiki.search') }}">
+            <div class="input-group">
+            <input class="form-control"
+                   type="search" value="{{ query }}"
+                   name="q" placeholder="{{ _('Search') }}"
+                   aria-label="{{ _('Search') }}" />
+            <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+            </div>
+            </div>
+        </form>
+      </div>
+    </nav>
+</header>

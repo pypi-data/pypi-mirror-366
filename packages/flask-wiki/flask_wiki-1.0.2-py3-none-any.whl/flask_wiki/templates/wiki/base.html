@@ -1,0 +1,89 @@
+<!--
+  This file is part of Flask-Wiki
+  Copyright (C) 2023 RERO
+
+  Flask-Wiki is free software; you can redistribute it and/or modify
+  it under the terms of the Revised BSD License; see LICENSE file for
+  more details
+-->
+
+{% from 'bootstrap4/utils.html' import render_messages %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block head %}
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  {% block styles %}
+  <!-- Bootstrap CSS -->
+  {{ bootstrap.load_css() }}
+  <!--font awesome -->
+  <link href="{{ url_for('wiki.static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('wiki.static', filename='css/wiki.css') }}" rel="stylesheet" />
+  <!-- EasyMDE -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.16.1/dist/easymde.min.css">
+  {% endblock %}
+
+  <title>{{ _('Flask-Wiki') }}</title>
+  {% endblock %}
+</head>
+
+<body>
+  <nav class="navbar navbar-expand navbar-light bg-light">
+    <a class="navbar-brand" href="#">{{ _('Flask-Wiki') }}</a>
+  </nav>
+
+  <div class="container-fluid py-4">
+    {{ render_messages(dismissible=True, dismiss_animate=True) }}
+    {% block navigation %} {%- include "wiki/navigation.html" %} {% endblock %}
+    {% block content %}
+    <div data-delay="2500" id="copy-success" class="toast hide">
+      <div class="toast-header text-primary font-weight-bold">
+          Markdown
+      </div>
+      <div class="toast-body">
+          {{ _('Link copied to your clipboard') }}
+      </div>
+    </div>
+    <div data-delay="2500" id="copy-error" class="toast hide">
+      <div class="toast-header text-primary font-weight-bold">
+          Markdown
+      </div>
+      <div class="toast-body">
+          {{ _('Failed to copy link to your clipboard') }}
+      </div>
+    </div>
+    {% endblock %}
+  </div>
+
+  <footer class="container py-5">
+    <div class="row">
+      <div class="col-md-6">
+        <small class="d-block mb-3 text-muted">RERO &copy; 2023</small>
+      </div>
+      <div class="col-md-6">
+        {% for language in g._wiki.languages.items() %}
+          {% if CURRENT_LANGUAGE == language[0] %}
+            {{ language[1] }}
+          {% else %}
+            <a class="ml-2" href="{{ url_for('change_language', ln=language[0]) }}" >{{ language[1] }}</a>
+          {%  endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </footer>
+
+  {% block scripts %}
+  <!-- EasyMDE -->
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <!-- Optional JavaScript -->
+  {{ bootstrap.load_js() }}
+  <script type="text/javascript" src="{{ url_for('wiki.static', filename='js/wiki.js') }}"></script>
+  {% endblock %}
+</body>
+
+</html>
