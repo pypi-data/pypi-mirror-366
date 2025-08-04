@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: printout
+Version: 1.2.8
+Summary: This print utility allows you to print information to the console and file in one call.  You don't need to use logger and print anymore.  With this tool, you can perform both actions using only printout
+Author-email: Jelani Jenkins <jj@jenkinscode.com>
+License: MIT
+Project-URL: Homepage, https://github.com/jenkinscode1/printout
+Project-URL: Documentation, https://printout.readthedocs.io
+Project-URL: Source, https://github.com/jenkinscode1/printout
+Project-URL: Issues, https://github.com/jenkinscode1/printout/issues
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+Simple library that allows you to print message to the console and to any file you want. 
+```
+
+import printout
+
+try:
+    r = requests.get('https://httpbin.org/basic-auth/user/pass', auth=('user', 'pass'))
+    r.status_code
+    printout(f"{printout(r.text)}", "page_results.txt")
+except Exception as ex:
+    printout(f"Error: {ex}", ""error_log.txt")
+
+```
