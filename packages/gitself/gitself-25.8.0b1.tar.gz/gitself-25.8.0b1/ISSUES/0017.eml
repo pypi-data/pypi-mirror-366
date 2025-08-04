@@ -1,0 +1,31 @@
+From: Wayne Werner <wayne@waynewerner.com>
+To: issues+gitself@waynewerner.com
+Date: Mon, 21 Jul 2025 18:24:41 -0000
+X-Gitself-Type: issue
+Subject: Rewrite to class-based approach
+Message-ID: 0017@yourproject
+
+I think it's pretty obvious to myself at this point that the class-based
+approach is a good one. Something like:
+
+
+    class Issue:
+        def __init__(self, path):
+            self.path = path
+            self._parsed = HEADER_PARSER.parse(self.path)
+
+        @property
+        def number(self):
+            return int(self._parsed['Message-ID'])
+
+        def edit(self, autocommit=False):
+            ...
+
+        def close(self):
+            ...
+
+        def reply(self):
+            ...
+
+Might want to include `attrs` but not positive. Would make sorting less
+writing but not sure if it would be better to skip the extra dependency.

@@ -1,0 +1,43 @@
+From: Wayne Werner <wayne@waynewerner.com>
+To: issues+gitself@waynewerner.com
+Date: Thu, 03 Jul 2025 20:11:01 -0000
+X-Gitself-Type: issue
+Subject: Quick reply
+Message-ID: 0010@yourproject
+X-Gitself-Status: closed
+
+We should be able to do `gitself reply #`  and quickly reply to an
+issue.
+
+From: Wayne Werner <wayne@waynewerner.com>
+Date: Thu, 03 Jul 2025 20:11:01 -0000
+
+I'm pretty sure that I want to make the reply use a from/date header. I
+might be able to use a multipart email instead of mbox format? I'm not
+really sure which one will work better. I don't think that I really need
+anything more than From/Date. Other header values are fine I just don't
+really /need/ them. Multipart would avoid some shenanigans. And I guess
+you *could* have multipart within the multipart...
+
+
+From: TODO
+Date: Mon, 21 Jul 2025 13:03:57 -0000
+
+Okay so now I'm getting the right file but... why are the line endings
+all weird? Because it's technically a message? But... I don't think
+that's right...
+
+From: TODO
+Date: Mon, 21 Jul 2025 17:59:59 -0000
+
+Okay so I think I got this sorted in that it was the editing. Or I guess
+more accurately: Linux line endings are `\n` while RFC2822 line endings
+are `\r\n` and that's what was causing the hinkiness. We'll see if I can
+write the file as-is or if I have to use a temp file, read/parse the
+email(s) and move them into the new issue. Let's try!
+
+From: TODO
+Date: Mon, 21 Jul 2025 18:01:41 -0000
+
+Okay cool, looks like that worked! I think the 'print' commands were
+doing some silliness.

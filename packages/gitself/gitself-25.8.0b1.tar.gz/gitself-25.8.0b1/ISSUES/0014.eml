@@ -1,0 +1,32 @@
+From: Wayne Werner <wayne@waynewerner.com>
+To: issues+gitself@waynewerner.com
+Date: Thu, 17 Jul 2025 19:11:34 -0000
+X-Gitself-Type: issue
+Subject: Add tests
+Message-ID: 0014@yourproject
+
+I think we're probably at a point where I can go ahead and add tests. I
+think that the flow that I want to do is an overall test flow; might be
+some particulars, but something like:
+
+- start with no files
+- gitself init should create gitself/INBOX and gitself/ISSUES, though
+  the INBOX and ISSUES path(s) should be configured via settings. There
+  should also be a `closed_path` if we want to hide those. If closing
+  is moving to a different path then we should change the status in one
+  commit and then move in a second commit.
+- creating new issues should put them in the INBOX with commit
+- accepting issue should change the id in a commit and move to the ISSUES
+  folder in a second commit
+- closing an issue should set the status to closed
+- replying to an issue should add the other parts -- maybe multipart?
+  maybe mbox?
+- issues without closed status should be open
+- when there are more issues that zfill, we should be able to
+  bulk-rename all the issues.
+- html rendering should filter by inbox, open, and closed
+
+I think that's mainly it? Maybe have some `gitself contributor` urls or
+something for doing a `git fetch remote-1 remote-2` something like that.
+
+
