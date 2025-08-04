@@ -1,0 +1,381 @@
+[project]
+name = "micoo"
+description = "micoo is a command-line tool for easily accessing mise cookbooks"
+license = "MIT"
+authors = [{ name = "Hasan Sezer Taşan", email = "hasansezertasan@gmail.com" }]
+maintainers = [
+  { name = "hasansezertasan", email = "hasansezertasan@gmail.com" },
+]
+dynamic = ["version", "readme"]
+keywords = [
+  "command-line",
+  "cli",
+  "mise",
+  "boilerplate",
+  "template",
+  "cookbook",
+  "scaffold",
+  # TODO @hasansezertasan: Fill in keywords
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Programming Language :: Python",
+  "Topic :: Internet",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development",
+  "Topic :: Terminals",
+  "Typing :: Typed",
+  # TODO @hasansezertasan: Fill in classifiers
+]
+requires-python = ">=3.8"
+dependencies = [
+  "gitpython>=3.0.0",
+  "platformdirs>=4.0.0",
+  "pydantic-settings>=2.8.1",
+  "typer>=0.16.0",
+]
+
+
+[project.urls]
+changelog = "https://github.com/hasansezertasan/micoo/blob/main/CHANGELOG.md"
+documentation = "https://github.com/hasansezertasan/micoo#readme"
+homepage = "https://github.com/hasansezertasan/micoo"
+issues = "https://github.com/hasansezertasan/micoo/issues"
+releasenotes = "https://github.com/hasansezertasan/micoo/releases"
+source = "https://github.com/hasansezertasan/micoo.git"
+
+
+[project.scripts]
+micoo = "micoo.main:app"
+
+
+[dependency-groups]
+dev = [
+  "tox>=4.25.0",
+  "tox-uv>=1.13.1",
+  { include-group = "lint" },
+  { include-group = "test" },
+  { include-group = "tool" },
+]
+lint = [
+  "mypy>=1.14.1",
+  "pyright>=1.1.403",
+  "ty==0.0.1a16",
+  "pyrefly==0.25.1",
+  "ruff>=0.12.7",
+  "taplo>=0.9.3",
+  "typos>=1.34.0",
+  "validate-pyproject[all]>=0.24.1",
+  "vulture>=2.14",
+  "slotscheck>=0.16.5",
+  "actionlint-py>=1.7.7.23",
+  "google-yamlfmt>=0.16.0.post1",
+]
+test = [
+  "coverage-enable-subprocess==1.0",
+  "coverage[toml]~=7.4",
+  "pytest-dependency>=0.6.0",
+  "pytest-mock~=3.12",
+  "pytest-rerunfailures~=14.0",
+  "pytest-xdist[psutil]~=3.5",
+  "pytest~=8.1",
+]
+tool = [
+  "hatch-fancy-pypi-readme>=25.1.0",
+  "poethepoet>=0.30.0",
+  "pre-commit==3.5.0",
+  # "bump-my-version==1.2.1",
+  # "git-cliff==2.9.1",
+  # "prospector>=1.10.3",
+  # "pyprojectx>=3.2.4",
+  # "rust-just>=1.41.0",
+  # "pdbpp>=0.11.6",
+  # "commitizen>=3.31.0",
+  # "yamllint>=1.35.1",
+  # "yamlfix>=1.16.0",
+  # "mdformat>=0.7.17",
+  # "markdown-format-ruff>=1.0.0",
+  # "bandit>=1.7.10",
+]
+
+
+[tool.uv]
+cache-keys = [
+  { file = "pyproject.toml" },
+  { git = { commit = true, tags = true } },
+]
+# reinstall-package = ["micoo"]
+trusted-publishing = "always"
+
+
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.1.0"
+
+
+[tool.hatch.build]
+hooks.vcs.version-file = "src/micoo/_version.py"
+
+
+[tool.hatch.version.raw-options]
+version_scheme = "only-version"
+local_scheme = "no-local-version"
+
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+# Literal TOML strings (single quotes) need no escaping of backslashes.
+pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
+replacement = '[\1](https://github.com/hasansezertasan/micoo/tree/main/\g<2>)'
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = "#(\\d+)"
+replacement = "[#\\1](https://github.com/hasansezertasan/micoo/issues/\\1)"
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = "@(\\w+)"
+replacement = "[@\\1](https://github.com/\\1)"
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]'
+replacement = '**\1**:'
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\nFor a detailed list of changes, please refer to the \[CHANGELOG\]\(https:\/\/github\.com\/[^\/]+\/[^\/]+\/tree\/[^\/]+\/\.\/CHANGELOG\.md\)\.'
+replacement = ''
+
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "CHANGELOG.md"
+start-after = "<!-- changelog-start -->\n\n"
+end-before = "\n\n<!-- changelog-end -->"
+
+
+[tool.pytest.ini_options]
+addopts = "-v --tb=short"
+testpaths = ["tests"]
+
+
+[tool.coverage.run]
+source_pkgs = ["micoo", "tests"]
+branch = true
+parallel = true
+omit = ["src/micoo/_version.py"]
+
+
+[tool.coverage.paths]
+micoo = ["src/micoo", "*/micoo/src/micoo"]
+tests = ["tests", "*/micoo/tests"]
+
+
+[tool.coverage.report]
+# fail_under = 99
+# omit = ["src/**/_version.py"]
+# show_missing = true
+# skip_covered = true
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+
+[tool.vulture]
+ignore_decorators = ["@app.command"]
+min_confidence = 60
+paths = ["src", "tests"]
+
+
+[tool.slotscheck]
+strict-imports = false
+
+
+[tool.ruff]
+fix = true
+preview = true
+show-fixes = true
+src = ["src", "tests"]
+target-version = "py38"
+unsafe-fixes = true
+
+
+[tool.ruff.analyze]
+detect-string-imports = true
+preview = true
+
+
+[tool.ruff.format]
+docstring-code-format = true
+line-ending = "lf"
+preview = true
+
+
+[tool.ruff.lint]
+ignore = ["COM812", "CPY", "D203", "D213", "FIX", "TD"]
+fixable = ["ALL"]
+logger-objects = ["logging_setup.logger"]
+preview = true
+select = ["ALL"]
+
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ['S101']
+
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+
+[tool.ruff.lint.pycodestyle]
+ignore-overlong-task-comments = true
+
+
+[tool.ruff.lint.flake8-copyright]
+author = "Hasan Sezer Taşan <hasansezertasan@gmail.com>"
+
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+
+[tool.ruff.lint.ruff]
+parenthesize-tuple-in-subscript = true
+
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5
+
+
+[tool.mypy]
+files = ["src"]
+pretty = true
+python_version = "3.8"
+show_error_codes = true
+strict = true
+
+[tool.pyright]
+include = ["src/micoo"]
+
+
+[tool.ty.src]
+include = ["src"]
+respect-ignore-files = false
+
+
+[tool.ty.environment]
+python-version = "3.8"
+
+
+[tool.ty.terminal]
+error-on-warning = true
+
+
+[tool.pyrefly]
+python-version = "3.8"
+project-includes = ["src"]
+
+
+[tool.poe]
+executor.type = "uv"
+
+
+[tool.poe.tasks.test]
+help = "Run tests"
+cmd = "tox run"
+
+
+[tool.poe.tasks.style]
+help = "Run Style"
+cmd = "tox run -e style"
+
+
+[tool.poe.tasks.pypi-readme]
+help = "Generate Fancy PyPI README"
+shell = "hatch-fancy-pypi-readme -o PyPI.md && open PyPI.md"
+
+[tool.tox]
+env_list = ["style", "run", "3.13", "3.12", "3.11", "3.10", "3.9", "3.8"]
+requires = ["tox>=4"]
+
+
+[tool.tox.env_run_base]
+commands = [
+  [
+    "pytest",
+    "-v",
+    "--tb=short",
+    "--basetemp={env_tmp_dir}",
+    { replace = "posargs", default = [
+    ], extend = true },
+  ],
+]
+constrain_package_deps = true
+dependency_groups = ["test"]
+description = "Run the tests under {base_python}"
+env_tmp_dir = "{toxworkdir}/tmp/{envname}"
+package = "wheel"
+runner = "uv-venv-runner"
+use_frozen_constraints = true
+wheel_build_env = ".pkg"
+
+
+[tool.tox.env.style]
+base_python = ["3.8"]
+commands = [
+  ["ruff", "check"],
+  ["ruff", "format"],
+  ["mypy", "--python-version", "3.9"],
+  ["mypy", "--python-version", "3.13"],
+  ["pyright"],
+  ["ty", "check"],
+  ["pyrefly", "check"],
+  ["vulture"],
+  # ["slotscheck", "src"],
+  ["taplo", "lint"],
+  ["taplo", "format"],
+  ["validate-pyproject", "pyproject.toml"],
+  ["typos", "--diff"],
+  ["actionlint"],
+  # ["yamlfmt", "."],
+]
+runner = "uv-venv-runner"
+dependency_groups = ["lint"]
+description = "Run Linters and Formatters"
+
+
+[tool.tox.env.run]
+commands = [["micoo", "version", { replace = "posargs", extend = true }]]
+description = "Run the application"
