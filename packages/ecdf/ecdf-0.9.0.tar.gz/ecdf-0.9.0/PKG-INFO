@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: ecdf
+Version: 0.9.0
+Summary: Visualize dataframes with echarts
+Author-email: Shel Kong <kongscn@gmail.com>
+Requires-Python: >= 3.8
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+License-File: LICENSE
+Requires-Dist: python-dateutil ~= 2.8
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: loguru
+Project-URL: Repository, https://github.com/kongscn/ecdf
+
+# ecdf
+
+Visualize pandas [**d**ata**f**rames](https://github.com/pandas-dev/pandas) with [**ec**harts](http://echarts.baidu.com/).
+
+![a ecdf demo](https://raw.githubusercontent.com/kongscn/ecdf/master/doc/demo.png)
+
+
+Note:
+
+* It is designed to visualize dataframe in wide format, e.g. every column of a dataframe is a series in a echart.
+
+*  Still in very early experimental stage, everything may change.
+
+
