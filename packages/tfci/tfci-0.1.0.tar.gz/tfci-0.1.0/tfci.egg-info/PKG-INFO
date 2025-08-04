@@ -1,0 +1,139 @@
+Metadata-Version: 2.4
+Name: tfci
+Version: 0.1.0
+Summary: Time Forecasting CI - 시간 예측 CI 라이브러리
+Author-email: rosci671233 <rosci671233@gmail.com>
+Maintainer-email: rosci671233 <rosci671233@gmail.com>
+License: rosci671233
+Project-URL: Homepage, https://github.com/rosci671233/tfci
+Project-URL: Repository, https://github.com/rosci671233/tfci
+Project-URL: Documentation, https://github.com/rosci671233/tfci#readme
+Project-URL: Bug Tracker, https://github.com/rosci671233/tfci/issues
+Keywords: forecasting,time-series,prediction,ci
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: seaborn>=0.11.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: optuna>=3.0.0
+Requires-Dist: plotly>=5.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+
+# TFCI (Time Forecasting CI)
+
+간단한 시계열 예측 라이브러리입니다.
+
+## 특징
+
+- ✅ **진짜 간단한 사용법**
+- ✅ **여러 config 파일로 여러 예측**
+- ✅ **DB2, PostgreSQL, MongoDB 지원**
+- ✅ **Prophet + LightGBM 시계열 예측**
+
+## 설치
+
+```bash
+pip install tfci
+```
+
+## 사용법
+
+### **진짜 간단한 사용법**
+
+```python
+from tfci import predict
+
+# 한 줄로 예측
+predict("config.yaml")
+predict("config1.yaml")
+predict("config2.yaml")
+predict("config3.yaml")
+```
+
+### **설정 파일 예시**
+
+```yaml
+# config.yaml
+input:
+  source_type: "db"
+  db_type: "db2"
+  connection:
+    host: "host"
+    port: 1111
+    user: "user"
+    password: "pwd!"
+    database: "DBNAME"
+  table: "TABLE_NAME"
+  features: ["RGN_CD", "CRTR_YR"]
+  target: ["GRDR1_STDNT_NOPE", "GRDR2_STDNT_NOPE"]
+
+prediction:
+  task_type: "timeseries"
+  future_steps: 5
+  time_col: "CRTR_YR"
+  group_key: "RGN_CD"
+
+output:
+  source_type: "db"
+  db_type: "db2"
+  connection:
+    host: "host"
+    port: 1111
+    user: "user"
+    password: "pwd!"
+    database: "DBNAME"
+  table: "TABLE_NAME"
+```
+
+## 프로젝트 구조
+
+```
+tfci/
+├── core/
+│   └── predictor.py          # 핵심 예측 로직
+├── data/
+│   ├── csv.py               # CSV 데이터 처리
+│   ├── data.py              # 데이터 전처리
+│   └── db.py                # 데이터베이스 연결
+├── model/
+│   └── model.py             # Prophet + LightGBM 모델
+├── config/
+│   └── config.py            # 설정 파일 로더
+├── tfci.py                  # 라이브러리 메인
+├── lib_tfci.py              # 라이브러리 배포용
+├── mcp_tfci.py              # MCP 서버 배포용
+├── main.py                  # 직접 실행용
+├── config.yaml              # 설정 파일
+└── requirements.txt         # 의존성
+```
+
+## 라이브러리 배포
+
+```bash
+# PyPI에 업로드
+pip install build twine
+python -m build
+twine upload dist/*
+```
+
+## 라이센스
+
+MIT License
