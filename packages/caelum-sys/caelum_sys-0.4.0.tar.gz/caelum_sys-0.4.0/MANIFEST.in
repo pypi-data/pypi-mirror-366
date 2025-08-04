@@ -1,0 +1,27 @@
+# Include important documentation files
+include README.md
+include LICENSE
+include CHANGELOG.md
+include pyproject.toml
+
+# Include example files
+recursive-include examples *.py
+
+# Include package data
+recursive-include caelum_sys *.py
+
+# Exclude development and build artifacts
+exclude setup.py.old
+exclude README_old.md
+
+# Exclude build and cache files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude *.so
+global-exclude .DS_Store
+global-exclude *.log
+
+# Exclude development artifacts
+exclude .gitignore
+exclude screenshot.png
+exclude example_*.txt
