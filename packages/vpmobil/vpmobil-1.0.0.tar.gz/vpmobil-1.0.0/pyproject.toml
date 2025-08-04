@@ -1,0 +1,29 @@
+[project]
+name = "vpmobil"
+version = "1.0.0"
+description = "A python API wrapper package for interacting with a stundenplan24.de substitution plan"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "GPL-3.0"
+authors = [
+  { name = "Annhilati"},
+  { name = "Joshi"}
+]
+dependencies = [
+  "requests",
+  "yarl"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/annhilati/vpmobil"
+"Documentation" = "https://annhilati.gitbook.com/vpmobil"
+"Repository" = "https://github.com/annhilati/vpmobil"
+"Bug Tracker" = "https://github.com/annhilati/vpmobil/issues"
+"Download" = "https://pypi.org/project/vpmobil/"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["vpmobil"]
