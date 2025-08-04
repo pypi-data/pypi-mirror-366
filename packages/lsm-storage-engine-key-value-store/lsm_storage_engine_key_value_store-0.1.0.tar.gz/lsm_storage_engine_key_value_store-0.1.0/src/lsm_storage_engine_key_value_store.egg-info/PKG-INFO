@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: lsm-storage-engine-key-value-store
+Version: 0.1.0
+Summary: A persistent key-value storage engine based on LSM-tree architecture.
+Author-email: Shashank <shashankshashidhar73@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Shashank1985/storage-engine
+Project-URL: Issues, https://github.com/Shashank1985/storage-engine/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Database
+Classifier: Topic :: System :: Filesystems
+Classifier: Environment :: Console
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# **Simple Python Storage Engine**
+
+## What?
+Simple storage engine built as a learning project after reading chapter 3 of the book Designing Data Intensive Applications, where the author talks about different schools of thought of the internal workings of the storage engine and this project aims to implement both the LSMTree and B-tree implementation of storage at a very simple level in Python.
+
+*side note* I wanted to build a storage engine that provides flexibility for the user to choose between LSMtree or Btree implementation based on their application requirements (read heavy or write heavy task)
+
+Simple CLI based interface, nothing too crazy
