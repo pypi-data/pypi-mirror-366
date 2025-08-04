@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crossroad-cli"
+version = "0.3.4"
+description = "A tool for analyzing SSRs in genomic data"
+readme = "README.md"
+authors = [
+    { name = "Pranjal Pruthi, Preeti Agarwal", email = "jnlab.igib@gmail.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy",
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    "pandas",
+    "pydantic",
+    "requests",
+    "perf_ssr",
+    "plotly>=5.18.0",
+    "plotly-upset-hd>=0.0.2",
+    "rich", # Added for rich TUI elements and logging
+    "colorlog>=6.8.2", # Re-added, will be replaced by RichHandler later
+    "typer>=0.9.0",      # Typer CLI framework
+    "rich-click>=1.7.0",      # Rich-enhanced Click help (Updated version)
+    "argcomplete>=3.1.1",     # Shell tab-completion
+    "pyarrow", # <-- Add pyarrow here
+    "upsetplot", # <-- Add upsetplot here
+]
+
+[project.scripts]
+crossroad = "crossroad.cli.typer_main:app"
+
+[tool.setuptools]
+packages = ["crossroad", "crossroad.cli", "crossroad.api", "crossroad.core"]
+package-dir = { "" = "." }
+
+[tool.setuptools.package-data]
+crossroad = ["**/*.py"]
