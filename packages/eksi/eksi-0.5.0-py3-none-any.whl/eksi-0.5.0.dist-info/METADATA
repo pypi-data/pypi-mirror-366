@@ -1,0 +1,88 @@
+Metadata-Version: 2.4
+Name: eksi
+Version: 0.5.0
+Summary: Komut satırında Ekşisözlük!
+Author-email: Furkan Onder <furkanonder@protonmail.com>
+Maintainer-email: Furkan Onder <furkanonder@protonmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/furkanonder/eksigundem
+Project-URL: Documentation, https://github.com/furkanonder/eksigundem#readme
+Project-URL: Repository, https://github.com/furkanonder/eksigundem
+Project-URL: Bug Reports, https://github.com/furkanonder/eksigundem/issues
+Project-URL: Changelog, https://github.com/furkanonder/eksigundem/CHANGELOG.md
+Project-URL: Funding, https://github.com/sponsors/furkanonder
+Keywords: ekşisözlük,ekşi,eksi,sözlük,eksisozluk,cli,turkish
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Utilities
+Classifier: Topic :: Internet :: WWW/HTTP :: Browsers
+Classifier: Topic :: Terminals
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: Turkish
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beautifulsoup4>=4.12.0
+Requires-Dist: lxml>=4.9.0
+Provides-Extra: dev
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Requires-Dist: tox>=4.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Dynamic: license-file
+
+<div align="center">
+  <a href="https://github.com/furkanonder/eksigundem/actions"><img alt="Actions Status" src="https://github.com/furkanonder/eksigundem/workflows/Test/badge.svg"></a>
+  <a href="https://github.com/furkanonder/eksigundem/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/furkanonder/eksigundem"></a>
+  <a href="https://github.com/furkanonder/eksigundem/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/furkanonder/eksigundem"></a>
+  <a href="https://github.com/furkanonder/eksigundem/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/furkanonder/eksigundem"></a>
+  <a href="https://pepy.tech/project/eksi"><img alt="Downloads" src="https://pepy.tech/badge/eksi"></a>
+</div>
+
+# EkşiGündem
+
+Turkish is the only language available on the [ekisozluk.com](https://eksisozluk.com/),
+so the readme file is written in Turkish. In a nutshell, the project helps you browse
+popular trending topics and read them on the command line.
+
+Ekşi Gündem, komut satırından [Ekşi Sözlük'ün](https://eksisozluk.com/) gündem
+başlıklarını ve entrylerini okumanıza yarayan bir araçtır.
+
+# Kurulum
+
+Python paket yöneticisi ile kolayca kurabilirsiniz.
+
+```python
+pip install eksi
+```
+
+Paket yöneticisi olmadan, bu şekilde de kurabilirsiniz.
+
+```python
+python setup.py install
+```
+
+# Çalıştırma
+
+Terminalinize
+
+```bash
+eksi
+```
+
+yazarak kullanabilirsiniz. Ek olarak, -b parametresini kullanarak okumak istediğiniz
+başlık sayısını belirtebilirsiniz.
+
+```bash
+eksi -b 10
+```
