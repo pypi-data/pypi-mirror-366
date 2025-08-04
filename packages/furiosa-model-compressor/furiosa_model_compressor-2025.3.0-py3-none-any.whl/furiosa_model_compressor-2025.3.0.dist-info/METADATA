@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: furiosa-model-compressor
+Version: 2025.3.0
+Author-email: "FuriosaAI Inc." <pkg@furiosa.ai>
+Requires-Python: >=3.9
+Requires-Dist: furiosa-model-compressor-impl==2025.3.0
+Provides-Extra: nstest
+Requires-Dist: pandas; extra == 'nstest'
