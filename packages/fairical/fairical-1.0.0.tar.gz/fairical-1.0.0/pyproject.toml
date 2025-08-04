@@ -1,0 +1,240 @@
+# SPDX-FileCopyrightText: Copyright © 2025 Idiap Research Institute <contact@idiap.ch>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[build-system]
+requires = ["hatchling", "versioningit"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fairical"
+dynamic = ["version"]
+requires-python = ">=3.11"
+description = "Fairical is a Python library to assess adjustable demographically fair Machine Learning (ML) systems"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+authors = [{ name = "Gokhan Ozbulak", email = "gokhan.ozbulak@idiap.ch" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "click",
+  "numpy",
+  "matplotlib",
+  "scikit-learn",
+  "fairlearn",
+  "pydantic>=2",
+  "pymoo",
+  "tabulate",
+  "compact-json",
+]
+
+[project.urls]
+documentation = "https://fairical.readthedocs.io/en/v1.0.0/"
+homepage = "https://pypi.org/project/fairical"
+repository = "https://gitlab.idiap.ch/medai/software/fairical"
+changelog = "https://gitlab.idiap.ch/medai/software/fairical/-/releases"
+
+[project.optional-dependencies]
+qa = ["pre-commit"]
+doc = [
+  "auto-intersphinx",
+  "sphinx",
+  "furo",
+  "sphinx-autodoc-typehints",
+  "sphinx-click",
+  "sphinx-copybutton",
+  "sphinx-inline-tabs",
+  "sphinxcontrib-bibtex",
+]
+test = ["pytest", "pytest-cov"]
+
+[project.scripts]
+fairical = "fairical.scripts.cli:cli"
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64"]
+
+[tool.pixi.dependencies]
+python = ">=3.11"
+click = "*"
+numpy = "*"
+matplotlib-base = "*"
+scikit-learn = "*"
+fairlearn = "*"
+pydantic = ">=2"
+pymoo = "*"
+tabulate = "*"
+compact-json = "*"
+
+[tool.pixi.feature.py312.dependencies]
+python = "~=3.12.0"
+
+[tool.pixi.feature.py313.dependencies]
+python = "~=3.13.0"
+
+[tool.pixi.feature.self.pypi-dependencies]
+fairical = { path = ".", editable = true }
+
+[tool.pixi.feature.qa.dependencies]
+pre-commit = "*"
+ruff = "*"
+reuse = "*"
+
+[tool.pixi.feature.qa.tasks]
+qa-install = "pre-commit install"
+qa = "pre-commit run --all-files"
+qa-ci = "pre-commit run --all-files --show-diff-on-failure --verbose"
+
+[tool.pixi.feature.doc.dependencies]
+auto-intersphinx = "*"
+graphviz = "*"
+sphinx = "*"
+furo = "*"
+sphinx-autodoc-typehints = "*"
+sphinx-click = "*"
+sphinx-copybutton = "*"
+sphinx-inline-tabs = "*"
+sphinxcontrib-bibtex = "*"
+sphobjinv = "*"
+
+[tool.pixi.feature.doc.tasks]
+doc-clean-static = { cmd = ["rm", "-rf", "doc/usage/_static"] }
+doc-clean-api = { cmd = ["rm", "-rf", "doc/api"] }
+doc-clean-html = { cmd = ["rm", "-rf", "html"] }
+doc-clean-doctest = { cmd = ["rm", "-rf", "html"] }
+doc-create-static = { cmd = ["mkdir", "doc/usage/_static"], depends-on = ["doc-clean-static"] }
+doc-copy-samples = { cmd = ["cp", "-r", "tests/data/sample", "doc/usage/_static"], depends-on = ["doc-create-static"] }
+doc-copy-empirical = { cmd = ["cp", "-r", "tests/data/empirical", "doc/usage/_static"], depends-on = ["doc-create-static"] }
+doc = { cmd = ["sphinx-build", "-aEW", "doc", "html"], depends-on = ["doc-clean-api", "doc-clean-html", "doc-copy-samples", "doc-copy-empirical"] }
+doctest = { cmd = ["sphinx-build", "-b", "doctest", "doc", "doctest"], depends-on = ["doc-clean-api", "doc-clean-doctest", "doc-copy-samples", "doc-copy-empirical"] }
+
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+
+[tool.pixi.feature.test.tasks]
+test = "pytest -sv tests/"
+test-ci = "pytest -sv --cov-report 'html:html/coverage' --cov-report 'xml:coverage.xml' --junitxml 'junit-coverage.xml' --ignore '.profile' tests/"
+
+[tool.pixi.feature.build.dependencies]
+hatch = "*"
+versioningit = "*"
+twine = "*"
+
+[tool.pixi.feature.build.tasks]
+build = "hatch build"
+check = "twine check dist/*"
+upload = "twine upload dist/*"
+
+[tool.pixi.feature.dev.dependencies]
+pdbpp = "*"
+
+[tool.pixi.environments]
+default = { features = ["qa", "doc", "build", "test", "py313", "dev", "self"] }
+alternative = { features = ["qa", "doc", "build", "test", "py312", "dev", "self"] }
+qa-ci = { features = ["qa", "py313"], no-default-feature = true }
+build-ci = { features = ["build", "py313"], no-default-feature = true }
+test-ci-alternative = { features = ["test", "py312", "self"] }
+
+[tool.hatch.version]
+source = "versioningit"
+
+[tool.versioningit.vcs]
+default-tag = "0.0.0"
+
+[tool.versioningit.next-version]
+method = "smallest"
+
+[tool.versioningit.format]
+# Example formatted version: 1.2.4.dev42+ge174a1f
+distance = "{next_version}.dev{distance}+{vcs}{rev}"
+# Example formatted version: 1.2.4.dev42+ge174a1f.d20230922
+distance-dirty = "{next_version}.dev{distance}+{vcs}{rev}.d{build_date:%Y%m%d}"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/**/*.py",
+  "src/**/config/**",
+  "src/**/data/**/*.json",
+  "src/**/output/**/*.rst",
+  "src/**/output/**/*.pdf",
+  "tests/**/*.py",
+  "doc/conf.py",
+  "doc/**/*.rst",
+  "LICENSES/*.txt",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fairical"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+  "A",   # https://docs.astral.sh/ruff/rules/#flake8-builtins-a
+  "COM", # https://docs.astral.sh/ruff/rules/#flake8-commas-com
+  "D",   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
+  "E",   # https://docs.astral.sh/ruff/rules/#error-e
+  "F",   # https://docs.astral.sh/ruff/rules/#pyflakes-f
+  "I",   # https://docs.astral.sh/ruff/rules/#isort-i
+  "ISC", # https://docs.astral.sh/ruff/rules/#flake8-implicit-str-concat-isc
+  "LOG", # https://docs.astral.sh/ruff/rules/#flake8-logging-log
+  "N",   # https://docs.astral.sh/ruff/rules/#pep8-naming-n
+  "NPY", # https://docs.astral.sh/ruff/rules/#numpy-specific-rules-npy
+  "PTH", # https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth
+  "Q",   # https://docs.astral.sh/ruff/rules/#flake8-quotes-q
+  "RET", # https://docs.astral.sh/ruff/rules/#flake8-return-ret
+  "T10", # https://docs.astral.sh/ruff/rules/#flake8-debugger-t10
+  "UP",  # https://docs.astral.sh/ruff/rules/#pyupgrade-up
+  "W",   # https://docs.astral.sh/ruff/rules/#warning-w
+  #"G",   # https://docs.astral.sh/ruff/rules/#flake8-logging-format-g
+  #"ICN", # https://docs.astral.sh/ruff/rules/#flake8-import-conventions-icn
+]
+ignore = [
+  "COM812", # https://docs.astral.sh/ruff/rules/missing-trailing-comma/
+  "D202",   # https://docs.astral.sh/ruff/rules/no-blank-line-after-function/
+  "D205",   # https://docs.astral.sh/ruff/rules/blank-line-after-summary/
+  #"D407",   # https://docs.astral.sh/ruff/rules/missing-dashed-underline-after-section/
+  "E302",   # https://docs.astral.sh/ruff/rules/blank-lines-top-level/
+  "E402",   # https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file/
+  "E501",   # https://docs.astral.sh/ruff/rules/line-too-long/
+  "ISC001", # https://docs.astral.sh/ruff/rules/single-line-implicit-string-concatenation/
+  "T20",    # https://docs.astral.sh/ruff/rules/#flake8-print-t20
+  "SLF",    # https://docs.astral.sh/ruff/rules/#flake8-self-slf
+]
+
+[tool.ruff.lint.isort]
+# Use a single line between direct and from import.
+lines-between-types = 1
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["D", "E501"]
+"doc/conf.py" = ["D"]
+
+[tool.mdformat]
+wrap = 88
+extensions = ["gfm"]
+
+[tool.pytest.ini_options]
+addopts = [
+  "--cov=fairical",
+  "--cov-report=term-missing",
+  "--import-mode=append",
+]
+junit_logging = "all"
+junit_log_passing_tests = false
