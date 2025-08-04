@@ -1,0 +1,5 @@
+[console_scripts]
+
+[pyinstaller40]
+hook-dirs = ocr_hooks._pyinstaller:get_hook_dirs
+
