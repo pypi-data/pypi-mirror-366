@@ -1,0 +1,47 @@
+{
+    "nodes": {
+        "n246002_eb7374": {
+            "x": 600,
+            "y": 340,
+            "node_type": "numbergraph:number_input_node",
+            "metadata": {
+                "name": "Number Input Node",
+                "description": "Define an integer value",
+                "rotation": 0
+            }
+        },
+        "n246453_0b53f3": {
+            "x": 940,
+            "y": 340,
+            "node_type": "numbergraph:prime_factors_node",
+            "metadata": {
+                "name": "Prime Factors Node",
+                "description": "Calculate the prime factors of each input number",
+                "rotation": 0
+            }
+        },
+        "n246d5b_9122b4": {
+            "x": 1240,
+            "y": 340,
+            "node_type": "numbergraph:number_display_node",
+            "metadata": {
+                "name": "Number Display Node",
+                "description": "Display all input numbers",
+                "rotation": 0
+            }
+        }
+    },
+    "links": {
+        "l2476f2_34f9ad": {
+            "from_port": "n246002_eb7374:data_out",
+            "to_port": "n246453_0b53f3:data_in",
+            "link_type": "numbergraph:integer"
+        },
+        "l248014_75985b": {
+            "from_port": "n246453_0b53f3:data_out",
+            "to_port": "n246d5b_9122b4:data_in",
+            "link_type": "numbergraph:integerlist"
+        }
+    },
+    "metadata": {}
+}

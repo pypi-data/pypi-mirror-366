@@ -1,0 +1,105 @@
+{
+    "id": "textgraph",
+    "metadata": {
+        "name": "Text Graph",
+        "version": "0.0.1",
+        "description": "a toy example package for analysing text"
+    },
+    "node_types": {
+        "text_input_node": {
+            "metadata": {
+                "name": "Text Input",
+                "description": "Input a text document to be analysed"
+            },
+            "output_ports": {
+                "data_out": {
+                    "link_type": "textgraph:text",
+                    "allow_multiple_connections": true
+                }
+            },
+            "display": {
+                "corners": 8,
+                "icon": "icons/text_input_node.svg"
+            },
+            "clients": {
+                "default": {
+                    "menu_label":"Open...",
+                    "title": "Input Text",
+                    "url": "html/text_input_node.html",
+                    "window_width": 500,
+                    "window_height": 300
+                }
+            }
+        },
+        "word_frequency_node": {
+            "metadata": {
+                "name": "Word Frequency",
+                "description": "Calculate the frequencies of words in the input text"
+            },
+            "input_ports": {
+                "data_in": {
+                    "link_type": "textgraph:text",
+                    "allow_multiple_connections": false
+                }
+            },
+            "output_ports": {
+                "data_out": {
+                    "link_type": "textgraph:table",
+                    "allow_multiple_connections": true
+                }
+            },
+            "display": {
+                "corners": 8,
+                "icon": "icons/word_frequency_node.svg"
+            },
+            "clients": {
+                "default": {
+                    "menu_label":"Open...",
+                    "title": "Word Frequency Node",
+                    "url": "html/word_frequency_node.html",
+                    "window_width": 500,
+                    "window_height": 300
+                }
+            }
+        },
+        "table_display_node": {
+            "metadata": {
+                "name": "Table Display",
+                "description": "Display tabular data containing the results of analysing text"
+            },
+            "input_ports": {
+                "data_in": {
+                    "link_type": "textgraph:table",
+                    "allow_multiple_connections": false
+                }
+            },
+            "display": {
+                "corners": 8,
+                "icon": "icons/table_display_node.svg"
+            },
+            "clients": {
+                "default": {
+                    "menu_label":"Open...",
+                    "title": "Table Display",
+                    "url": "html/table_display_node.html",
+                    "window_width": 500,
+                    "window_height": 300
+                }
+            }
+        }
+    },
+    "link_types": {
+        "text": {
+            "metadata": {
+                "name": "Text",
+                "description": "This type of link carries text values"
+            }
+        },
+        "table": {
+            "metadata": {
+                "name": "Table",
+                "description": "This type of link carries values that are tables (lists of lists)"
+            }
+        }
+    }
+}

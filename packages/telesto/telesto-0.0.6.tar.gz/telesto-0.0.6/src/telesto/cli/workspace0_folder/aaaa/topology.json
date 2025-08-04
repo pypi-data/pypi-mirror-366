@@ -1,0 +1,62 @@
+{
+    "nodes": {
+        "n26248c_b8539b": {
+            "x": 740,
+            "y": 380,
+            "node_type": "numbergraph:number_input_node",
+            "metadata": {
+                "name": "Number Input Node",
+                "description": "Define an integer value",
+                "rotation": 0
+            }
+        },
+        "n2629ac_c0d16f": {
+            "x": 1040,
+            "y": 380,
+            "node_type": "numbergraph:prime_factors_node",
+            "metadata": {
+                "name": "Prime Factors Node",
+                "description": "Calculate the prime factors of each input number",
+                "rotation": 0
+            }
+        },
+        "n26312f_6d0e97": {
+            "x": 1340,
+            "y": 380,
+            "node_type": "numbergraph:number_display_node",
+            "metadata": {
+                "name": "Number Display Node",
+                "description": "Display all input numbers",
+                "rotation": 0
+            }
+        },
+        "nb35d8c_b87279": {
+            "x": 1240,
+            "y": 200,
+            "node_type": "numbergraph:number_display_node",
+            "metadata": {
+                "name": "Number Display Node",
+                "description": "Display all input numbers",
+                "rotation": 0
+            }
+        }
+    },
+    "links": {
+        "l263930_022fdf": {
+            "from_port": "n26248c_b8539b:data_out",
+            "to_port": "n2629ac_c0d16f:data_in",
+            "link_type": "numbergraph:integer"
+        },
+        "l2640e1_df2f00": {
+            "from_port": "n2629ac_c0d16f:data_out",
+            "to_port": "n26312f_6d0e97:data_in",
+            "link_type": "numbergraph:integerlist"
+        },
+        "lb36766_cb749b": {
+            "from_port": "n2629ac_c0d16f:data_out",
+            "to_port": "nb35d8c_b87279:data_in",
+            "link_type": "numbergraph:integerlist"
+        }
+    },
+    "metadata": {}
+}
