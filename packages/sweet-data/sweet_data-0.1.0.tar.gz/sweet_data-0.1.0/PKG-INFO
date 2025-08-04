@@ -1,0 +1,224 @@
+Metadata-Version: 2.4
+Name: sweet-data
+Version: 0.1.0
+Summary: An interactive console application for data manipulation
+Author-email: Richard Iannone <riannone@me.com>
+License: MIT License
+        
+        Copyright (c) 2025 Richard Iannone
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: homepage, https://github.com/rich-iannone/sweet-data
+Keywords: data-engineering,textual,polars,cli,interactive,data-manipulation
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: textual>=0.41.0
+Requires-Dist: polars>=0.20.0
+Requires-Dist: duckdb>=0.9.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: click>=8.0.0
+Requires-Dist: tree-sitter-python>=0.23.6
+Provides-Extra: excel
+Requires-Dist: polars[xlsx]>=0.20.0; extra == "excel"
+Provides-Extra: parquet
+Requires-Dist: pyarrow>=10.0.0; extra == "parquet"
+Dynamic: license-file
+
+![Sweet: Interactive Data Engineering CLI](sweet-logo.png)
+
+_Fun, interactive data manipulation in your terminal_
+
+Sweet is a speedy and fun terminal-based data manipulation tool that transforms how you work with tabular data. With its intuitive interface and real-time feedback, you can quickly explore, transform, and manipulate data using interactive Polars expressions.
+
+Whether you're a data scientist, data engineer, or analyst, Sweet helps you bridge the gap between spreadsheet-like exploration and code-based data workflows.
+
+## See Sweet in Action
+
+### Loading Data and Making Changes
+![Sweet: Loading data and editing values](sweet-open-load-data-change-values.gif)
+
+### Modifying Rows and Columns
+![Sweet: Modifying rows and columns](sweet-modify-rows-and-columns.gif)
+
+### Working with Column Types and Saving
+![Sweet: Changing column types and saving data](change-column-type-save-data.gif)
+
+### Polars Data Manipulation
+![Sweet: Loading data and modifying with Polars](load-data-modify-with-polars.gif)
+
+### Copy-Paste from Web Sources
+![Sweet: Copy-paste data from Wikipedia](copy-paste-from-wikipedia.gif)
+
+## Getting Started in 30 Seconds
+
+```python
+# Launch Sweet from the command line
+sweet
+
+# Or load data directly
+sweet --file data.csv
+
+# Or pipe data in
+echo "data.csv" | sweet
+cat data.csv | sweet
+```
+
+Once in Sweet's interactive interface:
+
+1. Load your data using the file browser or paste tabular data directly
+2. Write Polars expressions with syntax highlighting: `df = df.filter(pl.col("age") > 25)`
+3. See results instantly in the data preview
+4. Track your transformation history for reproducible workflows
+
+## Why Choose Sweet?
+
+- **Interactive terminal interface**: Modern TUI with syntax highlighting and real-time feedback
+- **Intuitive navigation**: Use keyboard shortcuts or mouse/pointer interactions for seamless control
+- **Reproducible workflows**: Track transformation history for repeatable data exploration
+- **Flexible data loading**: Files, stdin piping, or paste data directly from spreadsheets/web tables
+- **Multiple export formats**: Save your transformed data as CSV, TSV, Parquet, JSON, or JSONL
+- **Fast operations**: Built on Polars for high-performance data processing
+- **Accessible**: Perfect for both small datasets and quick exploration tasks
+
+## Real-World Example
+
+```bash
+# Start with a CSV file
+sweet --file sales_data.csv
+
+# In Sweet's interface, build transformations step by step:
+# 1. Filter recent sales
+df = df.filter(pl.col("date") > pl.date(2024, 1, 1))
+
+# 2. Calculate revenue
+df = df.with_columns((pl.col("price") * pl.col("quantity")).alias("revenue"))
+
+# 3. Group by category
+df = df.group_by("category").agg([
+    pl.col("revenue").sum().alias("total_revenue"),
+    pl.col("quantity").sum().alias("total_quantity")
+])
+
+# See results immediately in the data preview
+```
+
+Sweet tracks your transformation history, making it easy to understand and reproduce your data exploration workflow. The interactive interface lets you experiment with different approaches and see results instantly.
+
+## Installation
+
+You can install Sweet by cloning the repository and installing in development mode:
+
+```bash
+# Clone the repository
+git clone https://github.com/rich-iannone/sweet-data.git
+cd sweet-data
+
+# Install in development mode
+pip install -e ".[dev]"
+```
+
+Once published to PyPI, you'll be able to install with:
+
+```bash
+# Install from PyPI (coming soon)
+pip install sweet-data
+```
+
+## Usage
+
+```bash
+# Launch the interactive application
+sweet
+
+# Load a specific data file
+sweet --file data.csv
+
+# Pipe filename as a string (note the echo command)
+echo "data.csv" | sweet
+
+# Or pipe file content directly
+cat data.csv | sweet
+```
+
+## Features That Set Sweet Apart
+
+- **Complete exploration workflow**: From data loading to transformation to results visualization in a single interface
+- **Built for experimentation**: Interactive environment perfect for data exploration and hypothesis testing
+- **Practical outputs**: Get exactly what you need: transformed data, clear results, and transformation tracking
+- **Flexible deployment**: Use for quick exploration or as a foundation for building data workflows
+- **Modern interface**: Terminal-based UI with syntax highlighting, keyboard shortcuts, and mouse support for intuitive navigation
+- **No vendor lock-in**: Uses standard Polars expressions that work in any Python environment
+
+## Technical Details
+
+Sweet is built on modern Python libraries for optimal performance and developer experience:
+
+- **Textual**: Provides the modern terminal UI framework for interactive components
+- **Polars**: High-performance DataFrame library for fast data operations
+- **Rich**: Terminal formatting and beautiful display components
+- **Click**: Command-line interface for seamless CLI integration
+
+The application architecture separates data models from UI components, making it extensible and maintainable.
+
+## Contributing to Sweet
+
+There are many ways to contribute to the ongoing development of Sweet. Some contributions can be simple (like fixing typos, improving documentation, filing issues for feature requests or problems, etc.) and others might take more time and care (like answering questions and submitting PRs with code changes). Just know that anything you can do to help would be very much appreciated!
+
+## Roadmap
+
+We're actively working on enhancing Sweet with:
+
+1. **Automatic code generation**: Export transformation history as clean Python/Polars scripts
+2. Additional data format support (Excel, JSON, Arrow, etc.)
+3. Advanced transformation templates and snippets
+4. Integration with cloud data sources
+5. Export to multiple formats and destinations
+6. Enhanced branching and workflow management
+7. LLM-powered transformation suggestions
+
+If you have any ideas for features or improvements, don't hesitate to share them with us! We are always looking for ways to make Sweet better.
+
+## Code of Conduct
+
+Please note that the sweet-data project is released with a [contributor code of conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/). <br>By participating in this project you agree to abide by its terms.
+
+## 📄 License
+
+sweet-data is licensed under the MIT license.
+
+© sweet-data authors
+
+## 🏛️ Governance
+
+This project is primarily maintained by
+[Rich Iannone](https://bsky.app/profile/richmeister.bsky.social). Other authors may occasionally
+assist with some of these duties.

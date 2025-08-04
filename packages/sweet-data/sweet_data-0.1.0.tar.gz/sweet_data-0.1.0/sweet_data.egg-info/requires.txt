@@ -1,0 +1,12 @@
+textual>=0.41.0
+polars>=0.20.0
+duckdb>=0.9.0
+rich>=13.0.0
+click>=8.0.0
+tree-sitter-python>=0.23.6
+
+[excel]
+polars[xlsx]>=0.20.0
+
+[parquet]
+pyarrow>=10.0.0
