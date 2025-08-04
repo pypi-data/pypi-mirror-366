@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "karddex-scanner"
+version = "0.1.1"
+description = "Biblioteca para extrair dados estruturados de cartas Pokémon via OpenAI a partir de JSON de OCR."
+authors = ["Seu Nome <luiz.juventi@karddex.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+openai = "^0.27.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
