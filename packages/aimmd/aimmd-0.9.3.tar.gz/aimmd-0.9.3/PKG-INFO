@@ -1,0 +1,88 @@
+Metadata-Version: 2.4
+Name: aimmd
+Version: 0.9.3
+Summary: aimmd (AI for Molecular Mechanism Discovery) autonomously steers (a large number of) molecular dynamics simulations to efficiently sampleand understand rare transition events.
+Author-email: Hendrik Jung <hendrik.jung@biophys.mpg.de>
+Maintainer-email: Hendrik Jung <hendrik.jung@biophys.mpg.de>
+Project-URL: Documentation, https://aimmd.readthedocs.io/en/latest/
+Project-URL: Repository, https://github.com/bio-phys/aimmd.git
+Project-URL: Issues, https://github.com/bio-phys/aimmd/issues
+Keywords: science,MD,Molecular Dynamics,molecular-dynamics,Path Sampling,Transition Path Sampling,TPS,Machine Learning,ML,Artificial Intelligence,AI,committor,commitment probability,reaction coordinate,RC,high performance computing,HPC
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Chemistry
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.17
+Requires-Dist: cython
+Requires-Dist: openpathsampling
+Requires-Dist: mdtraj>=1.11
+Requires-Dist: networkx
+Requires-Dist: h5py>=3
+Requires-Dist: asyncmd>=0.4.1
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: myst-nb; extra == "docs"
+Requires-Dist: sphinx-book-theme; extra == "docs"
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-asyncio; extra == "tests"
+Provides-Extra: tests-all
+Requires-Dist: aimmd[tests]; extra == "tests-all"
+Requires-Dist: coverage; extra == "tests-all"
+Requires-Dist: pytest-cov; extra == "tests-all"
+Provides-Extra: examples
+Requires-Dist: jupyterlab; extra == "examples"
+Requires-Dist: ipywidgets; extra == "examples"
+Requires-Dist: tqdm; extra == "examples"
+Requires-Dist: pooch; extra == "examples"
+Requires-Dist: mdanalysis; extra == "examples"
+Provides-Extra: dev
+Requires-Dist: aimmd[docs,examples,tests-all]; extra == "dev"
+Requires-Dist: pylint; extra == "dev"
+Dynamic: license-file
+
+# aimmd
+
+[![codecov][codecov-badge]][codecov-link] [![Documentation Status][rtd-badge]][rtd-link] [![PyPI][pypi-badge]][pypi-link]
+
+aimmd (AI for Molecular Mechanism Discovery) autonomously steers (a large number of) molecular dynamics simulations to efficiently sample and understand rare transition events.
+
+## Installation
+
+Installing aimmd from [PyPi][pypi-link] is as easy as:
+
+```bash
+pip install aimmd
+```
+
+For more see the [documentation](rtd-link).
+
+## Documentation and Code Examples
+
+Please see the [documentation](rt-link) for more information on aimmd and/or the jupyter notebooks in the `examples` folder for code examples.
+
+## Contributing
+
+All contributions are appreciated! Please refer to the [documentation][rtd-link] for information.
+
+---
+<sub>This README.md is printed from 100% recycled electrons.</sub>
+
+[codecov-link]: https://app.codecov.io/gh/bio-phys/aimmd
+[codecov-badge]: https://img.shields.io/codecov/c/github/bio-phys/aimmd
+
+[rtd-link]: https://aimmd.readthedocs.io/en/latest/
+[rtd-badge]: https://readthedocs.org/projects/aimmd/badge/?version=latest
+
+[pypi-link]: https://pypi.org/project/aimmd/
+[pypi-badge]: https://img.shields.io/pypi/v/aimmd
