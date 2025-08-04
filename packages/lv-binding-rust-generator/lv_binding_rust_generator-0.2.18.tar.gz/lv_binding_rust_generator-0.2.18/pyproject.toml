@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lv_binding_rust_generator"
+version = "0.2.18"
+description = "Unofficial, non-intrusive Lvgl binding generator for Rust"
+authors = [{ name = "Junkang Yuan", email = "yuanjunkang@gmail.com" }]
+readme = "README.md"
+license = "GPL-2.0-only"
+requires-python = ">=3.8"
+dependencies = [
+  "fire>=0.5.0",
+  "toolz>=1.0.0",
+]
+
+[tool.setuptools]
+packages = ["lv_binding_rust_generator"]
+
+[project.scripts]
+lv_binding_rust_generator = "lv_binding_rust_generator.__main__:main"
