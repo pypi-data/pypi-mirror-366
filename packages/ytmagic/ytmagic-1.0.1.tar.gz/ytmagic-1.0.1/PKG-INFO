@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: ytmagic
+Version: 1.0.1
+Summary: Download YouTube videos or audio easily from the command line.
+Author-email: Meowahaha <owais786549@gmail.com>
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: yt-dlp
+Requires-Dist: rich
+Dynamic: license-file
+
+# ytmagic
+
+A simple CLI tool to download YouTube videos or audio using `yt-dlp`, built for all users.
+
+## Usage
+
+````bash
+ytmagic -a https://youtu.be/video -p ~/Music
+
+---
+
+### 5. 🧪 Test Locally with pipx
+
+```bash
+pipx install --force --editable .
+
+##This installs your project in an isolated environment using the local directory. If it works, your ytmagic CLI is now usable anywhere.
+````
