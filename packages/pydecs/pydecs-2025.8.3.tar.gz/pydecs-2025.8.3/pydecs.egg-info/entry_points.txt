@@ -1,0 +1,20 @@
+[console_scripts]
+pydecs = pydecs.pydecs:pydecs_main
+pydecs-EdefCorrect-ExtFNV-VASP = pydecs.aux_EdefCorrection_VASP:calcEdefCorrectionVASP
+pydecs-checkEqPhases = pydecs.aux_check_equilibrium_phases:check_equilibrium_phases_0K
+pydecs-convDOS-VASP = pydecs.aux_convDOS:convDOSfromVASP
+pydecs-convGasEne-JANAF = pydecs.aux_convGasEne:convGasEneFromJANAF
+pydecs-dpath-long = pydecs.aux_dpath:search_diffpath_long
+pydecs-dpath-mkimages-pathsFile = pydecs.aux_dpath:mkimages_from_pathsfile
+pydecs-dpath-mkimages-twoPOSCARs = pydecs.aux_dpath:mkimages_from_twoposcars
+pydecs-getGasEne-JANAF = pydecs.aux_convGasEne:getGasEneFromJANAF
+pydecs-plot-densities = pydecs.aux_plot_defectdata:plot_defect_data
+pydecs-prep-chkDupl-POSCARs = pydecs.aux_prep:check_duplication
+pydecs-prep-cif2pocar = pydecs.aux_prep:cif_to_poscar
+pydecs-prep-findInt-CHGCAR = pydecs.aux_prep:find_interstitial_from_CHGCAR
+pydecs-prep-genDefectModels = pydecs.aux_prep:generate_defect_models
+pydecs-prep-grouping-POSCAR = pydecs.aux_prep:group_by_symmetry
+pydecs-prep-poscar2cif = pydecs.aux_prep:poscar_to_cif
+pydecs-run-autoFNV = pydecs.aux_runSupport:apply_extFNV_to_all
+pydecs-run-collectEnergies = pydecs.aux_runSupport:collect_energies_vasp
+pydecs-run-setupFolders = pydecs.aux_runSupport:setup_folders_vasp
