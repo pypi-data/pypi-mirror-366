@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "RubigramClient"
+version = "1.1.1"
+description = "A Python library for connect to Rubika API"
+readme = "README.md"
+authors = [
+    { name = "Javad RJ", email = "Javad.Py1385@gmail.com" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+
+[tool.setuptools.packages.find]
+where = ["."]

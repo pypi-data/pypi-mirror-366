@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: RubigramClient
+Version: 1.1.1
+Summary: A Python library for connect to Rubika API
+Author-email: Javad RJ <Javad.Py1385@gmail.com>
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+Rubigram
+
+```python
+from rubigram import Client, filter
+from rubigram.types import Message
+
+client = Client("Your_Bot_Token")
+
+@bot.on_message(filter.command("start"))
+async def start(client: Client, message: Message):
+    chat_id = message.chat_id
+    await message.reply("Hi, {}".format(chat_id))
+
+client.run()
