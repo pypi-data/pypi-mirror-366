@@ -1,0 +1,5 @@
+========
+``docs``
+========
+
+.. automodule:: invocations.docs
