@@ -1,0 +1,29 @@
+{
+    "jupyter.interactiveWindow.cellMarker.codeRegex": "^# COMMAND ----------|^# Databricks notebook source|^(#\\s*%%|#\\s*\\<codecell\\>|#\\s*In\\[\\d*?\\]|#\\s*In\\[ \\])",
+    "jupyter.interactiveWindow.cellMarker.default": "# COMMAND ----------",
+    "dbt.installDepsOnProjectInitialization":false,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.autoClosingBrackets": "always",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.codeActionsOnSave": {"source.fixAll": "always", "source.organizeImports": "always"},
+    // Customizations
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#323ab1"
+    },
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/.venv/Lib/site-packages"
+    ],
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "files.associations": {
+    "*.sql": "jinja-sql"
+    },
+    "[jinja-sql]": {
+    "editor.defaultFormatter": "innoverio.vscode-dbt-power-user",
+    "editor.formatOnSave": true
+    }
+}
