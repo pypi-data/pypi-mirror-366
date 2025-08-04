@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: furiosa-model-compressor-impl
+Version: 2025.3.0
+Author-email: "FuriosaAI Inc." <pkg@furiosa.ai>
+Requires-Python: >=3.9
+Requires-Dist: furiosa-llm-models~=2025.3.0
+Requires-Dist: graphviz==0.20.3
+Requires-Dist: parse==1.20.2
+Requires-Dist: pydot==2.0.0
+Requires-Dist: ruamel-yaml>=0.17.21
+Requires-Dist: scipy<1.12,>=1.10.1
+Requires-Dist: torch==2.5.1
+Requires-Dist: torchvision==0.20.1
+Requires-Dist: tqdm==4.67.1
+Requires-Dist: transformers==4.48.1
+Provides-Extra: nstest
+Requires-Dist: pandas; extra == 'nstest'
+Description-Content-Type: text/markdown
+
+# Model Compressor Private Implementation
+
+# Build
+First, check [hatch build environments](https://hatch.pypa.io/1.8/config/environment/advanced/). These defined in `pyproject.toml`.
+```bash
+hatch env show --ascii
+     Standalone      
+┏━━━━━━━━━┳━━━━━━━━━┓
+┃ Name    ┃ Type    ┃
+┡━━━━━━━━━╇━━━━━━━━━┩
+│ default │ virtual │
+└─────────┴─────────┘
+                        Matrices                         
+┏━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━┓
+┃ Name ┃ Type    ┃ Envs        ┃ Dependencies ┃ Scripts ┃
+┡━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━┩
+│ pack │ virtual │ pack.py3.8  │ build        │ build   │
+│      │         │ pack.py3.10 │              │         │
+│      │         │ pack.py3.11 │              │         │
+└──────┴─────────┴─────────────┴──────────────┴─────────┘
+```
+
+Then, build the wheel manually. For example, build the wheel for python 3.11 as follows.
+```bash
+hatch run pack.py3.11:build
+# or
+hatch run pack.py3.11:python -m build --wheel 
+# or
+hatch env run -i py=3.11 -e pack python -- -m build --wheel
+```
+If you want to build wheels for all python versions, run the following command.
+```bash
+hatch run pack:build
+```
