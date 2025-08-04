@@ -1,0 +1,218 @@
+Metadata-Version: 2.4
+Name: xsigma
+Version: 1.1.4.dev0
+Summary: XSIGMA pricing library
+Home-page: https://xsigma.org
+Download-URL: https://xsigma.org/download/
+Author: XSIGMA developers
+License: BSD
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: C++
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: numpy
+Requires-Dist: numpy>=1.9; extra == "numpy"
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: summary
+
+Introduction:
+============
+PRETORIAN is a sophisticated quantitative analysis and financial modeling system written in modern C++. It provides a comprehensive suite of tools for financial computations, mathematical modeling, and high-performance computing.
+
+Documentation:
+============
+* Win32:
+<ul>
+<li>install doxygen</li>
+<li>install perl</li>
+<li>install graphviz</li>
+</ul>
+
+* Unix:
+<ol>
+<li>sudo apt install doxygen</li>
+<li>sudo apt install graphviz</li>
+<li>sudo apt install html</li>
+</ol>
+
+Features:
+============
+* High-Performance Computing
+  - Vectorized computations for optimal performance
+  - Parallel processing support via MPI
+  - CUDA GPU acceleration capabilities
+  - Multi-threading support
+
+* Quantitative Analysis
+  - Advanced mathematical modeling
+  - Financial instrument pricing
+  - Market data analysis
+  - Statistical computations
+  - Monte Carlo simulations
+
+* Core Libraries
+  - Analytics: Statistical and data analysis
+  - Core: Foundation components
+  - Engine: Main computational engine
+  - Instrument: Financial instruments handling
+  - Market: Market data processing
+  - Math: Mathematical utilities
+  - PDE: Partial Differential Equations solver
+  - Random: Stochastic processes
+  - Serialization: Data persistence
+  - Vectorization: Optimized computations
+
+* Development Features
+  - Comprehensive test suite
+  - Performance benchmarking
+  - Python bindings
+  - Documentation generation
+  - Code quality tools
+
+Project Structure:
+============
+* Library/: Core libraries and components
+  - Analytics/: Data analysis tools
+  - Core/: Base functionality
+  - Engine/: Computational engine
+  - Instrument/: Financial instruments
+  - Market/: Market data handling
+  - Math/: Mathematical utilities
+  - PDE/: PDE solvers
+  - Random/: Random number generation
+  - Serialization/: Data persistence
+  - Util/: Utility functions
+  - Vectorization/: Optimized computing
+
+* Parallel/: Parallel processing support
+  - MPI/: Message Passing Interface
+  - System/: System-level parallelization
+  - DIY/: Do-it-yourself parallel primitives
+
+* Documentation/: Project documentation
+  - Doxygen/: API documentation
+  - dev/: Developer guides
+  - docs/: User documentation
+
+Dependencies:
+============
+* Required:
+  - CMake 3.x+
+  - Modern C++ compiler (C++17 support)
+  - Python 3.x (for building and Python bindings)
+  - MPI implementation
+  - CUDA Toolkit (for GPU support)
+
+* Documentation:
+  - Doxygen
+  - Graphviz
+  - Perl
+
+Build Configuration:
+============
+* Development Build Setup:
+To configure and build the project with Ninja, Clang, Python bindings, Clang-Tidy checks, and Include-What-You-Use analysis:
+
+```bash
+python setup.py config.build.ninja.clang.python.clangtidy.iwyu.test
+```
+
+This configuration:
+- Uses Ninja as the build system generator
+- Uses Clang compiler
+- Enables Python bindings
+- Enables Clang-Tidy code analysis
+- Enables Include-What-You-Use analysis
+- Includes test builds
+
+Building the Project:
+============
+1. Create a build directory:
+```bash
+mkdir build
+cd build
+```
+
+2. Configure with CMake:
+```bash
+cmake ..
+```
+
+3. Build the project:
+```bash
+cmake --build .
+```
+
+4. Run tests (optional):
+```bash
+ctest
+```
+
+Usage:
+============
+1. Include the required headers for the components you need:
+```cpp
+#include <PRETORIAN/Analytics/Statistics.hpp>
+#include <PRETORIAN/Market/Data.hpp>
+#include <PRETORIAN/Math/Optimization.hpp>
+```
+
+2. Link against the appropriate libraries in your CMake project:
+```cmake
+find_package(PRETORIAN REQUIRED)
+target_link_libraries(your_target PRIVATE 
+    PRETORIAN::Analytics
+    PRETORIAN::Market
+    PRETORIAN::Math
+)
+```
+
+For detailed usage examples, please refer to the Examples/ directory.
+
+Xsigma IndexCodebase - AI Assistant Integration:
+============
+PRETORIAN includes a comprehensive Xsigma indexcodebase system to facilitate usage with Augment and other AI coding assistants:
+
+**Quick Start:**
+```bash
+# Windows (PowerShell)
+.\Xsigma_indexcodebase\scripts\generate_codebase_index.ps1
+
+# Linux/macOS
+./Xsigma_indexcodebase/scripts/generate_codebase_index.sh
+
+# Or simply double-click generate_xsigma_index.bat on Windows
+```
+
+**CMake Integration:**
+```bash
+# Enable indexing during configuration
+cmake -DPRETORIAN_ENABLE_INDEXING=ON ..
+
+# Generate index manually
+cmake --build . --target xsigma_generate_codebase_index
+```
+
+The Xsigma indexing system creates detailed JSON files in `Xsigma_indexcodebase/output/` containing:
+- Project structure and organization
+- File metadata and statistics
+- Build system configuration
+- Dependencies and features
+- AI assistant context hints
+
+This index helps AI assistants understand the project context and provide more accurate assistance. Share the generated index files with other team members using Augment.
+
+For detailed information, see [Xsigma_indexcodebase/docs/README.md](Xsigma_indexcodebase/docs/README.md).
