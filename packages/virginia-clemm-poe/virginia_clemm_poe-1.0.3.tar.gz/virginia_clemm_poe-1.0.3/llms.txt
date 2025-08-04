@@ -1,0 +1,3171 @@
+Project Structure:
+📁 virginia-clemm-poe
+├── 📁 src
+│   └── 📁 virginia_clemm_poe
+│       ├── 📁 utils
+│       │   ├── 📄 __init__.py
+│       │   ├── 📄 logger.py
+│       │   └── 📄 paths.py
+│       ├── 📄 __init__.py
+│       ├── 📄 __main__.py
+│       ├── 📄 api.py
+│       ├── 📄 browser_manager.py
+│       ├── 📄 config.py
+│       ├── 📄 exceptions.py
+│       ├── 📄 models.py
+│       ├── 📄 types.py
+│       ├── 📄 updater.py
+│       └── 📄 utils.py
+├── 📄 .gitignore
+├── 📄 AGENTS.md
+├── 📄 CHANGELOG.md
+├── 📄 CLAUDE.md
+├── 📄 GEMINI.md
+├── 📄 LICENSE
+├── 📄 PLAN.md
+├── 📄 publish.sh
+├── 📄 pyproject.toml
+├── 📄 README.md
+├── 📄 TODO.md
+└── 📄 WORK.md
+
+
+<documents>
+<document index="1">
+<source>.cursorrules</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# virginia-clemm-poe
+
+A Python package providing programmatic access to Poe.com model data with pricing information.
+
+## 1. Overview
+
+Virginia Clemm Poe is a companion tool for Poe.com's API (introduced August 25, 2024) that fetches and maintains comprehensive model data including pricing information. The package provides both a Python API for querying model data and a CLI for updating the dataset.
+
+## 2. Features
+
+- **Model Data Access**: Query Poe.com models by various criteria including ID, name, and other attributes
+- **Pricing Information**: Automatically scrapes and syncs pricing data for all available models
+- **Pydantic Models**: Fully typed data models for easy integration
+- **CLI Interface**: Fire-based CLI for updating data and searching models
+- **Browser Automation**: Uses external PlaywrightAuthor package for reliable web scraping
+
+## 3. Installation
+
+```bash
+pip install virginia-clemm-poe
+```
+
+## 4. Usage
+
+### 4.1. Python API
+
+```python
+from virginia_clemm_poe import api
+
+# Search for models
+models = api.search_models(query="claude")
+
+# Get model by ID
+model = api.get_model_by_id("claude-3-opus")
+
+# Access pricing information
+if model.pricing:
+    print(f"Input cost: {model.pricing.details['Input (text)']}")
+```
+
+### 4.2. CLI
+
+```bash
+# Set up browser for web scraping
+virginia-clemm-poe setup
+
+# Update model data with pricing information
+POE_API_KEY=your_key virginia-clemm-poe update --pricing
+
+# Update all model data
+POE_API_KEY=your_key virginia-clemm-poe update --all
+
+# Search for models
+virginia-clemm-poe search "gpt-4"
+```
+
+## 5. Data Structure
+
+Model data includes:
+- Basic model information (ID, name, capabilities)
+- Detailed pricing structure:
+  - Input costs (text and image)
+  - Bot message costs
+  - Chat history pricing
+  - Cache discount information
+- Timestamps for data freshness
+
+## 6. Requirements
+
+- Python 3.12+
+- Chrome or Chromium browser (automatically managed by PlaywrightAuthor)
+- Poe API key (set as `POE_API_KEY` environment variable)
+
+## 7. Development
+
+This package uses:
+- `uv` for dependency management
+- `httpx` for API requests
+- `playwrightauthor` for browser automation (external package)
+- `pydantic` for data models
+- `fire` for CLI interface
+- `rich` for terminal UI
+- `loguru` for logging
+
+# OLD CODE
+
+```bash
+# Update models without existing pricing data
+POE_API_KEY=your_key ./old/poe_models_updater.py
+
+# Force update all models (including those with pricing)
+POE_API_KEY=your_key ./old/poe_models_updater.py --force
+
+# Use custom output file
+POE_API_KEY=your_key ./old/poe_models_updater.py --output custom_models.json
+
+# Enable verbose logging
+POE_API_KEY=your_key ./old/poe_models_updater.py --verbose
+```
+
+
+1. **Chrome/Chromium Required**: The scraper requires Chrome or Chromium to be installed for web scraping via Chrome DevTools Protocol (CDP). This is now handled automatically by PlaywrightAuthor.
+
+2. **API Key**: Requires a Poe API key set as `POE_API_KEY` environment variable.
+
+3. **File Locations**: The old code is currently in the `old/` folder
+
+4. **PlaywrightAuthor**: This package now uses the external PlaywrightAuthor package located at `external/playwrightauthor/` for all browser management functionality.
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TLDR: `virginia-clemm-poe`**
+
+This repository contains the source code for `virginia-clemm-poe`, a Python package designed to provide programmatic access to a comprehensive dataset of AI models available on Poe.com. Its primary function is to act as a companion tool to the official Poe API by fetching, maintaining, and enriching model data, with a special focus on scraping and storing detailed pricing information, which is not available through the API alone.
+
+**Core Functionality:**
+
+1.  **Data Aggregation:** It fetches the list of all available models from the Poe.com API.
+2.  **Web Scraping:** It uses `playwright` to control a headless Chrome/Chromium browser to navigate to each model's page on Poe.com and scrape detailed information that isn't in the API response. This includes:
+    *   **Pricing Data:** Captures the cost for various operations (e.g., per-message, text input, image input).
+    *   **Bot Metadata:** Extracts the bot's creator, description, and other descriptive text.
+3.  **Local Dataset:** It stores this aggregated and scraped data in a local JSON file (`src/virginia_clemm_poe/data/poe_models.json`). This allows the package's API to provide instant access to the data without needing to perform network requests for every query.
+4.  **Data Access:** It provides two primary ways for users to interact with the data:
+    *   A **Python API** (`api.py`) for developers to programmatically search, filter, and retrieve model information within their own applications.
+    *   A **Command-Line Interface (CLI)** (`__main__.py`) for end-users to easily update the local dataset, search for models, and list model information directly from the terminal.
+
+**Technical Architecture:**
+
+*   **Language:** Python 3.12+
+*   **Data Modeling:** `pydantic` is used extensively in `models.py` to define strongly-typed and validated data structures for models, pricing, and bot information (`PoeModel`, `Pricing`, `BotInfo`).
+*   **HTTP Requests:** `httpx` is used for efficient asynchronous communication with the Poe API.
+*   **Web Scraping:** `playwright` automates the browser to handle dynamic web content and extract data from the Poe website. `browser_manager.py` handles the setup and management of the browser instance.
+*   **CLI:** `python-fire` is used to create the user-friendly command-line interface from the methods in the `updater.py` and `api.py` modules.
+*   **UI/Output:** `rich` is used to provide formatted and colorized output in the terminal, enhancing readability.
+*   **Dependency Management:** The project uses `uv` for fast and modern package management, configured in `pyproject.toml`.
+*   **Logging:** `loguru` provides flexible and powerful logging.
+
+**Key Modules:**
+
+*   `src/virginia_clemm_poe/api.py`: The main entry point for the Python API. Provides functions like `search_models()`, `get_model_by_id()`, etc.
+*   `src/virginia_cĺemm_poe/updater.py`: Contains the core logic for updating the model database. It orchestrates fetching data from the API, scraping the website, and saving the results.
+*   `src/virginia_clemm_poe/models.py`: Defines the Pydantic models that structure the entire dataset.
+*   `src/virginia_clemm_poe/__main__.py`: The entry point that exposes the functionality to the command line via `fire`.
+*   `src/virginia_clemm_poe/browser_manager.py`: Manages the lifecycle of the Playwright browser used for scraping.
+*   `src/virginia_clemm_poe/data/poe_models.json`: The canonical, version-controlled dataset that the package reads from.
+
+</document_content>
+</document>
+
+<document index="2">
+<source>.gitignore</source>
+<document_content>
+__marimo__/
+__pycache__/
+__pypackages__/
+._*
+.abstra/
+.apdisk
+.AppleDB
+.AppleDesktop
+.AppleDouble
+.cache
+.com.apple.timemachine.donotpresent
+.coverage
+.coverage.*
+.cursorignore
+.cursorindexingignore
+.directory
+.dmypy.json
+.DocumentRevisions-V100
+.DS_Store
+.eggs/
+.env
+.envrc
+.fseventsd
+.fuse_hidden*
+.hypothesis/
+.idea_modules/
+.idea/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/dataSources.xml
+.idea/**/dataSources/
+.idea/**/dynamic.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/mongoSettings.xml
+.idea/**/sqlDataSources.xml
+.idea/**/tasks.xml
+.idea/**/uiDesigner.xml
+.idea/**/workspace.xml
+.idea/dictionaries
+.idea/replstate.xml
+.idea/sonarlint
+.installed.cfg
+.ipynb_checkpoints
+.LSOverride
+.mypy_cache/
+.nfs*
+.nox/
+.pdm-build/
+.pdm-python
+.pixi
+.pybuilder/
+.pypirc
+.pyre/
+.pytest_cache/
+.Python
+.python-version
+.pytype/
+.ropeproject
+.ruff_cache/
+.scrapy
+.Spotlight-V100
+.spyderproject
+.spyproject
+.streamlit/secrets.toml
+.TemporaryItems
+.tox/
+.Trash-*
+.Trashes
+.venv
+.VolumeIcon.icns
+.webassets-cache
+*,cover
+*.cover
+*.DS_Store
+*.egg
+*.egg-info/
+*.iws
+*.log
+*.manifest
+*.mo
+*.pdb
+*.pot
+*.py.cover
+*.py[cod]
+*.py[codz]
+*.pyc
+*.sage.py
+*.so
+*.spec
+**/*.rs.bk
+**/mutants.out*/
+*~
+*$py.class
+atlassian-ide-plugin.xml
+build/
+celerybeat-schedule
+celerybeat.pid
+cmake-build-debug/
+com_crashlytics_export_strings.xml
+cover/
+coverage.xml
+crashlytics-build.properties
+crashlytics.properties
+cython_debug/
+db.sqlite3
+db.sqlite3-journal
+debug
+develop-eggs/
+dist/
+dmypy.json
+docs/_build/
+downloads/
+eggs/
+env.bak/
+env/
+ENV/
+fabric.properties
+htmlcov/
+Icon
+instance/
+ipython_config.py
+lib/
+lib64/
+local_settings.py
+MANIFEST
+marimo/_lsp/
+marimo/_static/
+media
+Network Trash Folder
+nosetests.xml
+old
+parts/
+pip-delete-this-directory.txt
+pip-log.txt
+profile_default/
+sdist/
+share/python-wheels/
+src/virginia_clemm_poe/_version.py
+target
+target/
+Temporary Items
+var/
+venv.bak/
+venv/
+wheels/
+external/
+</document_content>
+</document>
+
+<document index="3">
+<source>AGENTS.md</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# virginia-clemm-poe
+
+A Python package providing programmatic access to Poe.com model data with pricing information.
+
+## 1. Overview
+
+Virginia Clemm Poe is a companion tool for Poe.com's API (introduced August 25, 2024) that fetches and maintains comprehensive model data including pricing information. The package provides both a Python API for querying model data and a CLI for updating the dataset.
+
+## 2. Features
+
+- **Model Data Access**: Query Poe.com models by various criteria including ID, name, and other attributes
+- **Pricing Information**: Automatically scrapes and syncs pricing data for all available models
+- **Pydantic Models**: Fully typed data models for easy integration
+- **CLI Interface**: Fire-based CLI for updating data and searching models
+- **Browser Automation**: Uses external PlaywrightAuthor package for reliable web scraping
+
+## 3. Installation
+
+```bash
+pip install virginia-clemm-poe
+```
+
+## 4. Usage
+
+### 4.1. Python API
+
+```python
+from virginia_clemm_poe import api
+
+# Search for models
+models = api.search_models(query="claude")
+
+# Get model by ID
+model = api.get_model_by_id("claude-3-opus")
+
+# Access pricing information
+if model.pricing:
+    print(f"Input cost: {model.pricing.details['Input (text)']}")
+```
+
+### 4.2. CLI
+
+```bash
+# Set up browser for web scraping
+virginia-clemm-poe setup
+
+# Update model data with pricing information
+POE_API_KEY=your_key virginia-clemm-poe update --pricing
+
+# Update all model data
+POE_API_KEY=your_key virginia-clemm-poe update --all
+
+# Search for models
+virginia-clemm-poe search "gpt-4"
+```
+
+## 5. Data Structure
+
+Model data includes:
+- Basic model information (ID, name, capabilities)
+- Detailed pricing structure:
+  - Input costs (text and image)
+  - Bot message costs
+  - Chat history pricing
+  - Cache discount information
+- Timestamps for data freshness
+
+## 6. Requirements
+
+- Python 3.12+
+- Chrome or Chromium browser (automatically managed by PlaywrightAuthor)
+- Poe API key (set as `POE_API_KEY` environment variable)
+
+## 7. Development
+
+This package uses:
+- `uv` for dependency management
+- `httpx` for API requests
+- `playwrightauthor` for browser automation (external package)
+- `pydantic` for data models
+- `fire` for CLI interface
+- `rich` for terminal UI
+- `loguru` for logging
+
+# OLD CODE
+
+```bash
+# Update models without existing pricing data
+POE_API_KEY=your_key ./old/poe_models_updater.py
+
+# Force update all models (including those with pricing)
+POE_API_KEY=your_key ./old/poe_models_updater.py --force
+
+# Use custom output file
+POE_API_KEY=your_key ./old/poe_models_updater.py --output custom_models.json
+
+# Enable verbose logging
+POE_API_KEY=your_key ./old/poe_models_updater.py --verbose
+```
+
+
+1. **Chrome/Chromium Required**: The scraper requires Chrome or Chromium to be installed for web scraping via Chrome DevTools Protocol (CDP). This is now handled automatically by PlaywrightAuthor.
+
+2. **API Key**: Requires a Poe API key set as `POE_API_KEY` environment variable.
+
+3. **File Locations**: The old code is currently in the `old/` folder
+
+4. **PlaywrightAuthor**: This package now uses the external PlaywrightAuthor package located at `external/playwrightauthor/` for all browser management functionality.
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TLDR: `virginia-clemm-poe`**
+
+This repository contains the source code for `virginia-clemm-poe`, a Python package designed to provide programmatic access to a comprehensive dataset of AI models available on Poe.com. Its primary function is to act as a companion tool to the official Poe API by fetching, maintaining, and enriching model data, with a special focus on scraping and storing detailed pricing information, which is not available through the API alone.
+
+**Core Functionality:**
+
+1.  **Data Aggregation:** It fetches the list of all available models from the Poe.com API.
+2.  **Web Scraping:** It uses `playwright` to control a headless Chrome/Chromium browser to navigate to each model's page on Poe.com and scrape detailed information that isn't in the API response. This includes:
+    *   **Pricing Data:** Captures the cost for various operations (e.g., per-message, text input, image input).
+    *   **Bot Metadata:** Extracts the bot's creator, description, and other descriptive text.
+3.  **Local Dataset:** It stores this aggregated and scraped data in a local JSON file (`src/virginia_clemm_poe/data/poe_models.json`). This allows the package's API to provide instant access to the data without needing to perform network requests for every query.
+4.  **Data Access:** It provides two primary ways for users to interact with the data:
+    *   A **Python API** (`api.py`) for developers to programmatically search, filter, and retrieve model information within their own applications.
+    *   A **Command-Line Interface (CLI)** (`__main__.py`) for end-users to easily update the local dataset, search for models, and list model information directly from the terminal.
+
+**Technical Architecture:**
+
+*   **Language:** Python 3.12+
+*   **Data Modeling:** `pydantic` is used extensively in `models.py` to define strongly-typed and validated data structures for models, pricing, and bot information (`PoeModel`, `Pricing`, `BotInfo`).
+*   **HTTP Requests:** `httpx` is used for efficient asynchronous communication with the Poe API.
+*   **Web Scraping:** `playwright` automates the browser to handle dynamic web content and extract data from the Poe website. `browser_manager.py` handles the setup and management of the browser instance.
+*   **CLI:** `python-fire` is used to create the user-friendly command-line interface from the methods in the `updater.py` and `api.py` modules.
+*   **UI/Output:** `rich` is used to provide formatted and colorized output in the terminal, enhancing readability.
+*   **Dependency Management:** The project uses `uv` for fast and modern package management, configured in `pyproject.toml`.
+*   **Logging:** `loguru` provides flexible and powerful logging.
+
+**Key Modules:**
+
+*   `src/virginia_clemm_poe/api.py`: The main entry point for the Python API. Provides functions like `search_models()`, `get_model_by_id()`, etc.
+*   `src/virginia_cĺemm_poe/updater.py`: Contains the core logic for updating the model database. It orchestrates fetching data from the API, scraping the website, and saving the results.
+*   `src/virginia_clemm_poe/models.py`: Defines the Pydantic models that structure the entire dataset.
+*   `src/virginia_clemm_poe/__main__.py`: The entry point that exposes the functionality to the command line via `fire`.
+*   `src/virginia_clemm_poe/browser_manager.py`: Manages the lifecycle of the Playwright browser used for scraping.
+*   `src/virginia_clemm_poe/data/poe_models.json`: The canonical, version-controlled dataset that the package reads from.
+
+</document_content>
+</document>
+
+<document index="4">
+<source>CHANGELOG.md</source>
+<document_content>
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Fixed
+- **CRITICAL RESOLVED**: PyPI publishing failure due to local file dependency on playwrightauthor package
+  - ✅ Updated pyproject.toml to use official PyPI `playwrightauthor>=1.0.6` package
+  - ✅ Removed entire `external/playwrightauthor` directory from codebase  
+  - ✅ Verified all functionality works with PyPI version of playwrightauthor
+  - ✅ Package now builds successfully and can be published to PyPI
+  - ✅ Clean installation flow tested and confirmed working
+  - **Impact**: Package can now be distributed publicly via `pip install virginia-clemm-poe`
+
+### Improved
+- **Code Quality Standards**: Major improvements to type safety and maintainability (Session 2025-01-04)
+  - ✅ **Modern Type Hints**: Systematic update of all core modules to Python 3.12+ type hint forms
+    - `models.py`: Complete conversion of 263 lines - all Pydantic models now use `list[T]`, `dict[K,V]`, `A | B` union syntax
+    - `api.py`: All 15 public API functions updated with modern return type annotations
+    - `updater.py`: All async methods (fetch_models_from_api, scrape_model_info, sync_models, update_all) use current standards
+    - `browser_manager.py`: All public methods properly typed with modern async patterns
+    - **Result**: 100% modern type coverage across core API surface
+  - ✅ **Production Logging Infrastructure**: Leveraged existing comprehensive structured logging system
+    - Context managers for operation tracking (`log_operation`, `log_api_request`, `log_browser_operation`)
+    - Performance metrics logging with `log_performance_metric` for optimization insights
+    - User action tracking via `log_user_action` for CLI usage analytics  
+    - Centralized logger configuration in `utils/logger.py` with verbose mode support
+    - **Verification**: Confirmed all logging patterns already implemented and actively used in updater.py
+  - **Impact**: Codebase now meets modern Python 3.12+ standards with production-ready observability
+
+### Added
+- **Architecture Modernization**: Comprehensive refactoring following PlaywrightAuthor patterns
+- **Exception Hierarchy**: Full exception system in `exceptions.py` with:
+  - Base `VirginiaPoeError` class for all package exceptions
+  - Browser-specific exceptions: `BrowserManagerError`, `ChromeNotFoundError`, `ChromeLaunchError`, `CDPConnectionError`
+  - Data-specific exceptions: `ModelDataError`, `ModelNotFoundError`, `DataUpdateError`
+  - API-specific exceptions: `APIError`, `AuthenticationError`, `RateLimitError`
+  - Network and scraping exceptions: `NetworkError`, `ScrapingError`
+- **Utilities Module**: New `utils/` package with modular components:
+  - `utils/logger.py` - Centralized loguru configuration
+  - `utils/paths.py` - Cross-platform path management utilities
+- **File Navigation**: `this_file:` comments in all source files showing relative paths
+- **CLI Commands**: Three new diagnostic and maintenance commands:
+  - `status` - Comprehensive system health checks (browser installation, data freshness, API key validation)
+  - `clear-cache` - Selective cache clearing with granular options (data, browser, or both)
+  - `doctor` - Advanced diagnostics with issue detection and actionable solution suggestions
+- **Enhanced Logging**: Verbose flag support across all CLI commands with consistent logger configuration
+- **Rich UI**: Color-coded console output with formatting for enhanced user experience
+
+### Changed
+- **BREAKING**: Replaced entire internal browser management system with external PlaywrightAuthor package
+  - Removed ~500+ lines of browser-related code
+  - Simplified architecture by delegating complex browser operations to proven external package
+  - Maintained API compatibility while dramatically reducing maintenance burden
+- **BREAKING**: CLI class renamed from `CLI` to `Cli` following PlaywrightAuthor naming conventions
+- **Browser Management**: Complete rewrite of browser orchestration:
+  - `browser_manager.py` now uses PlaywrightAuthor's `ensure_browser()` for setup
+  - Direct Playwright CDP connection for actual browser operations
+  - Async context manager support for resource cleanup
+  - Robust error handling with specific exception types
+- **CLI Architecture**: Modernized command-line interface:
+  - Centralized logger configuration with verbose mode support
+  - All commands now use `console.print()` for consistent rich formatting
+  - Enhanced error messages with actionable solutions and recovery guidance
+  - Improved user onboarding with clearer setup instructions
+- **Error Handling**: Comprehensive upgrade across entire codebase:
+  - Custom exception types for specific error scenarios
+  - Better error messages with context and suggested solutions
+  - Graceful degradation for non-critical failures
+
+### Removed
+- **Internal Browser System**: Eliminated entire `browser/` module hierarchy:
+  - `browser/finder.py` - Chrome executable detection (now in PlaywrightAuthor)
+  - `browser/installer.py` - Chrome for Testing installation (now in PlaywrightAuthor)
+  - `browser/launcher.py` - Chrome process launching (now in PlaywrightAuthor)
+  - `browser/process.py` - Process management utilities (now in PlaywrightAuthor)
+- **Legacy Browser Interface**: Removed `browser.py` compatibility module
+- **Dependencies**: No longer directly depends on `psutil` and `platformdirs` (provided by PlaywrightAuthor)
+
+### Technical Improvements
+- **Codebase Reduction**: Eliminated ~500+ lines while maintaining full functionality
+- **Dependency Simplification**: Reduced direct dependencies by leveraging PlaywrightAuthor's mature browser management
+- **Architecture Clarity**: Cleaner separation of concerns with focused modules
+- **Maintenance Reduction**: Browser management complexity delegated to external, well-maintained package
+
+### From Previous Release
+### Added
+- Enhanced bot information capture from Poe.com bot info cards
+- New `bot_info` field in PoeModel with BotInfo model containing:
+  - `creator`: Bot creator handle (e.g., "@openai")
+  - `description`: Main bot description text
+  - `description_extra`: Additional disclaimer text (e.g., "Powered by...")
+- `initial_points_cost` field in PricingDetails model for upfront point costs
+- Improved web scraper with automatic "View more" button clicking for expanded descriptions
+- Robust CSS selector fallbacks for all bot info extraction (future-proofing against class name changes)
+- CLI enhancement: `--show_bot_info` flag for search command to display bot creators and descriptions
+- CLI enhancement: `--info` flag for update command to update only bot information
+- Display initial points cost alongside regular pricing in CLI output
+- Comprehensive test suite for bot info extraction functionality
+- Test results documentation in TEST_RESULTS.md
+
+### Changed
+- **BREAKING**: CLI `update` command now defaults to `--all` (updates both bot info and pricing)
+- **BREAKING**: Previous `--pricing` flag now only updates pricing (use `--all` or no flags for full update)
+- **BREAKING**: New `--info` flag updates only bot information
+- Renamed `scrape_model_pricing()` to `scrape_model_info()` to reflect expanded functionality
+- Bot info data is now preserved when syncing models (similar to pricing data)
+- Type annotations updated to Python 3.12+ style (using `|` union syntax)
+- Import optimizations and code formatting improvements via ruff
+- `update_all()` and `sync_models()` methods now accept `update_info` and `update_pricing` parameters
+- Updated README.md with new CLI examples and BotInfo model documentation
+- Updated all documentation to reflect new bot info feature
+
+## [0.1.0] - 2025-08-03
+
+### Added
+- Initial release of Virginia Clemm Poe
+- Python API for querying Poe.com model data
+- CLI interface for updating and searching models
+- Comprehensive Pydantic data models for type safety
+- Web scraping functionality for pricing information
+- Browser automation setup command
+- Flexible pricing structure support for various model types
+- Model search capabilities by ID and name
+- Caching mechanism for improved performance
+- Rich terminal output for better user experience
+- Comprehensive README with examples and documentation
+
+### Technical Details
+- Built with Python 3.12+ support
+- Uses httpx for API requests
+- Uses playwright for web scraping
+- Uses pydantic for data validation
+- Uses fire for CLI framework
+- Uses rich for terminal formatting
+- Uses loguru for logging
+- Automatic versioning with hatch-vcs
+
+### Data
+- Includes initial dataset of 240 Poe.com models
+- Pricing data for 238 models (98% coverage)
+- Support for various pricing structures (standard, total cost, image/video output, etc.)
+
+[0.1.0]: https://github.com/twardoch/virginia-clemm-poe/releases/tag/v0.1.0
+</document_content>
+</document>
+
+<document index="5">
+<source>CLAUDE.md</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# virginia-clemm-poe
+
+A Python package providing programmatic access to Poe.com model data with pricing information.
+
+## 1. Overview
+
+Virginia Clemm Poe is a companion tool for Poe.com's API (introduced August 25, 2024) that fetches and maintains comprehensive model data including pricing information. The package provides both a Python API for querying model data and a CLI for updating the dataset.
+
+## 2. Features
+
+- **Model Data Access**: Query Poe.com models by various criteria including ID, name, and other attributes
+- **Pricing Information**: Automatically scrapes and syncs pricing data for all available models
+- **Pydantic Models**: Fully typed data models for easy integration
+- **CLI Interface**: Fire-based CLI for updating data and searching models
+- **Browser Automation**: Uses external PlaywrightAuthor package for reliable web scraping
+
+## 3. Installation
+
+```bash
+pip install virginia-clemm-poe
+```
+
+## 4. Usage
+
+### 4.1. Python API
+
+```python
+from virginia_clemm_poe import api
+
+# Search for models
+models = api.search_models(query="claude")
+
+# Get model by ID
+model = api.get_model_by_id("claude-3-opus")
+
+# Access pricing information
+if model.pricing:
+    print(f"Input cost: {model.pricing.details['Input (text)']}")
+```
+
+### 4.2. CLI
+
+```bash
+# Set up browser for web scraping
+virginia-clemm-poe setup
+
+# Update model data with pricing information
+POE_API_KEY=your_key virginia-clemm-poe update --pricing
+
+# Update all model data
+POE_API_KEY=your_key virginia-clemm-poe update --all
+
+# Search for models
+virginia-clemm-poe search "gpt-4"
+```
+
+## 5. Data Structure
+
+Model data includes:
+- Basic model information (ID, name, capabilities)
+- Detailed pricing structure:
+  - Input costs (text and image)
+  - Bot message costs
+  - Chat history pricing
+  - Cache discount information
+- Timestamps for data freshness
+
+## 6. Requirements
+
+- Python 3.12+
+- Chrome or Chromium browser (automatically managed by PlaywrightAuthor)
+- Poe API key (set as `POE_API_KEY` environment variable)
+
+## 7. Development
+
+This package uses:
+- `uv` for dependency management
+- `httpx` for API requests
+- `playwrightauthor` for browser automation (external package)
+- `pydantic` for data models
+- `fire` for CLI interface
+- `rich` for terminal UI
+- `loguru` for logging
+
+# OLD CODE
+
+```bash
+# Update models without existing pricing data
+POE_API_KEY=your_key ./old/poe_models_updater.py
+
+# Force update all models (including those with pricing)
+POE_API_KEY=your_key ./old/poe_models_updater.py --force
+
+# Use custom output file
+POE_API_KEY=your_key ./old/poe_models_updater.py --output custom_models.json
+
+# Enable verbose logging
+POE_API_KEY=your_key ./old/poe_models_updater.py --verbose
+```
+
+
+1. **Chrome/Chromium Required**: The scraper requires Chrome or Chromium to be installed for web scraping via Chrome DevTools Protocol (CDP). This is now handled automatically by PlaywrightAuthor.
+
+2. **API Key**: Requires a Poe API key set as `POE_API_KEY` environment variable.
+
+3. **File Locations**: The old code is currently in the `old/` folder
+
+4. **PlaywrightAuthor**: This package now uses the external PlaywrightAuthor package located at `external/playwrightauthor/` for all browser management functionality.
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TLDR: `virginia-clemm-poe`**
+
+This repository contains the source code for `virginia-clemm-poe`, a Python package designed to provide programmatic access to a comprehensive dataset of AI models available on Poe.com. Its primary function is to act as a companion tool to the official Poe API by fetching, maintaining, and enriching model data, with a special focus on scraping and storing detailed pricing information, which is not available through the API alone.
+
+**Core Functionality:**
+
+1.  **Data Aggregation:** It fetches the list of all available models from the Poe.com API.
+2.  **Web Scraping:** It uses `playwright` to control a headless Chrome/Chromium browser to navigate to each model's page on Poe.com and scrape detailed information that isn't in the API response. This includes:
+    *   **Pricing Data:** Captures the cost for various operations (e.g., per-message, text input, image input).
+    *   **Bot Metadata:** Extracts the bot's creator, description, and other descriptive text.
+3.  **Local Dataset:** It stores this aggregated and scraped data in a local JSON file (`src/virginia_clemm_poe/data/poe_models.json`). This allows the package's API to provide instant access to the data without needing to perform network requests for every query.
+4.  **Data Access:** It provides two primary ways for users to interact with the data:
+    *   A **Python API** (`api.py`) for developers to programmatically search, filter, and retrieve model information within their own applications.
+    *   A **Command-Line Interface (CLI)** (`__main__.py`) for end-users to easily update the local dataset, search for models, and list model information directly from the terminal.
+
+**Technical Architecture:**
+
+*   **Language:** Python 3.12+
+*   **Data Modeling:** `pydantic` is used extensively in `models.py` to define strongly-typed and validated data structures for models, pricing, and bot information (`PoeModel`, `Pricing`, `BotInfo`).
+*   **HTTP Requests:** `httpx` is used for efficient asynchronous communication with the Poe API.
+*   **Web Scraping:** `playwright` automates the browser to handle dynamic web content and extract data from the Poe website. `browser_manager.py` handles the setup and management of the browser instance.
+*   **CLI:** `python-fire` is used to create the user-friendly command-line interface from the methods in the `updater.py` and `api.py` modules.
+*   **UI/Output:** `rich` is used to provide formatted and colorized output in the terminal, enhancing readability.
+*   **Dependency Management:** The project uses `uv` for fast and modern package management, configured in `pyproject.toml`.
+*   **Logging:** `loguru` provides flexible and powerful logging.
+
+**Key Modules:**
+
+*   `src/virginia_clemm_poe/api.py`: The main entry point for the Python API. Provides functions like `search_models()`, `get_model_by_id()`, etc.
+*   `src/virginia_cĺemm_poe/updater.py`: Contains the core logic for updating the model database. It orchestrates fetching data from the API, scraping the website, and saving the results.
+*   `src/virginia_clemm_poe/models.py`: Defines the Pydantic models that structure the entire dataset.
+*   `src/virginia_clemm_poe/__main__.py`: The entry point that exposes the functionality to the command line via `fire`.
+*   `src/virginia_clemm_poe/browser_manager.py`: Manages the lifecycle of the Playwright browser used for scraping.
+*   `src/virginia_clemm_poe/data/poe_models.json`: The canonical, version-controlled dataset that the package reads from.
+
+</document_content>
+</document>
+
+<document index="6">
+<source>GEMINI.md</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# virginia-clemm-poe
+
+A Python package providing programmatic access to Poe.com model data with pricing information.
+
+## 1. Overview
+
+Virginia Clemm Poe is a companion tool for Poe.com's API (introduced August 25, 2024) that fetches and maintains comprehensive model data including pricing information. The package provides both a Python API for querying model data and a CLI for updating the dataset.
+
+## 2. Features
+
+- **Model Data Access**: Query Poe.com models by various criteria including ID, name, and other attributes
+- **Pricing Information**: Automatically scrapes and syncs pricing data for all available models
+- **Pydantic Models**: Fully typed data models for easy integration
+- **CLI Interface**: Fire-based CLI for updating data and searching models
+- **Browser Automation**: Uses external PlaywrightAuthor package for reliable web scraping
+
+## 3. Installation
+
+```bash
+pip install virginia-clemm-poe
+```
+
+## 4. Usage
+
+### 4.1. Python API
+
+```python
+from virginia_clemm_poe import api
+
+# Search for models
+models = api.search_models(query="claude")
+
+# Get model by ID
+model = api.get_model_by_id("claude-3-opus")
+
+# Access pricing information
+if model.pricing:
+    print(f"Input cost: {model.pricing.details['Input (text)']}")
+```
+
+### 4.2. CLI
+
+```bash
+# Set up browser for web scraping
+virginia-clemm-poe setup
+
+# Update model data with pricing information
+POE_API_KEY=your_key virginia-clemm-poe update --pricing
+
+# Update all model data
+POE_API_KEY=your_key virginia-clemm-poe update --all
+
+# Search for models
+virginia-clemm-poe search "gpt-4"
+```
+
+## 5. Data Structure
+
+Model data includes:
+- Basic model information (ID, name, capabilities)
+- Detailed pricing structure:
+  - Input costs (text and image)
+  - Bot message costs
+  - Chat history pricing
+  - Cache discount information
+- Timestamps for data freshness
+
+## 6. Requirements
+
+- Python 3.12+
+- Chrome or Chromium browser (automatically managed by PlaywrightAuthor)
+- Poe API key (set as `POE_API_KEY` environment variable)
+
+## 7. Development
+
+This package uses:
+- `uv` for dependency management
+- `httpx` for API requests
+- `playwrightauthor` for browser automation (external package)
+- `pydantic` for data models
+- `fire` for CLI interface
+- `rich` for terminal UI
+- `loguru` for logging
+
+# OLD CODE
+
+```bash
+# Update models without existing pricing data
+POE_API_KEY=your_key ./old/poe_models_updater.py
+
+# Force update all models (including those with pricing)
+POE_API_KEY=your_key ./old/poe_models_updater.py --force
+
+# Use custom output file
+POE_API_KEY=your_key ./old/poe_models_updater.py --output custom_models.json
+
+# Enable verbose logging
+POE_API_KEY=your_key ./old/poe_models_updater.py --verbose
+```
+
+
+1. **Chrome/Chromium Required**: The scraper requires Chrome or Chromium to be installed for web scraping via Chrome DevTools Protocol (CDP). This is now handled automatically by PlaywrightAuthor.
+
+2. **API Key**: Requires a Poe API key set as `POE_API_KEY` environment variable.
+
+3. **File Locations**: The old code is currently in the `old/` folder
+
+4. **PlaywrightAuthor**: This package now uses the external PlaywrightAuthor package located at `external/playwrightauthor/` for all browser management functionality.
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TLDR: `virginia-clemm-poe`**
+
+This repository contains the source code for `virginia-clemm-poe`, a Python package designed to provide programmatic access to a comprehensive dataset of AI models available on Poe.com. Its primary function is to act as a companion tool to the official Poe API by fetching, maintaining, and enriching model data, with a special focus on scraping and storing detailed pricing information, which is not available through the API alone.
+
+**Core Functionality:**
+
+1.  **Data Aggregation:** It fetches the list of all available models from the Poe.com API.
+2.  **Web Scraping:** It uses `playwright` to control a headless Chrome/Chromium browser to navigate to each model's page on Poe.com and scrape detailed information that isn't in the API response. This includes:
+    *   **Pricing Data:** Captures the cost for various operations (e.g., per-message, text input, image input).
+    *   **Bot Metadata:** Extracts the bot's creator, description, and other descriptive text.
+3.  **Local Dataset:** It stores this aggregated and scraped data in a local JSON file (`src/virginia_clemm_poe/data/poe_models.json`). This allows the package's API to provide instant access to the data without needing to perform network requests for every query.
+4.  **Data Access:** It provides two primary ways for users to interact with the data:
+    *   A **Python API** (`api.py`) for developers to programmatically search, filter, and retrieve model information within their own applications.
+    *   A **Command-Line Interface (CLI)** (`__main__.py`) for end-users to easily update the local dataset, search for models, and list model information directly from the terminal.
+
+**Technical Architecture:**
+
+*   **Language:** Python 3.12+
+*   **Data Modeling:** `pydantic` is used extensively in `models.py` to define strongly-typed and validated data structures for models, pricing, and bot information (`PoeModel`, `Pricing`, `BotInfo`).
+*   **HTTP Requests:** `httpx` is used for efficient asynchronous communication with the Poe API.
+*   **Web Scraping:** `playwright` automates the browser to handle dynamic web content and extract data from the Poe website. `browser_manager.py` handles the setup and management of the browser instance.
+*   **CLI:** `python-fire` is used to create the user-friendly command-line interface from the methods in the `updater.py` and `api.py` modules.
+*   **UI/Output:** `rich` is used to provide formatted and colorized output in the terminal, enhancing readability.
+*   **Dependency Management:** The project uses `uv` for fast and modern package management, configured in `pyproject.toml`.
+*   **Logging:** `loguru` provides flexible and powerful logging.
+
+**Key Modules:**
+
+*   `src/virginia_clemm_poe/api.py`: The main entry point for the Python API. Provides functions like `search_models()`, `get_model_by_id()`, etc.
+*   `src/virginia_cĺemm_poe/updater.py`: Contains the core logic for updating the model database. It orchestrates fetching data from the API, scraping the website, and saving the results.
+*   `src/virginia_clemm_poe/models.py`: Defines the Pydantic models that structure the entire dataset.
+*   `src/virginia_clemm_poe/__main__.py`: The entry point that exposes the functionality to the command line via `fire`.
+*   `src/virginia_clemm_poe/browser_manager.py`: Manages the lifecycle of the Playwright browser used for scraping.
+*   `src/virginia_clemm_poe/data/poe_models.json`: The canonical, version-controlled dataset that the package reads from.
+
+</document_content>
+</document>
+
+<document index="7">
+<source>LICENSE</source>
+<document_content>
+MIT License
+
+Copyright (c) 2025 Adam Twardoch
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+</document_content>
+</document>
+
+<document index="8">
+<source>PLAN.md</source>
+<document_content>
+# this_file: PLAN.md
+
+# Virginia Clemm Poe - Development Plan
+
+## ✅ Phase 0: Critical Publishing Issue (🎯 COMPLETED)
+
+### 0.1 Fix PyPI Publishing Dependency Issue
+**Objective**: Resolve critical PyPI publishing failure blocking public distribution
+
+**Background**: Package currently cannot be published to PyPI due to local file dependency:
+```
+playwrightauthor@ file:///Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/external/playwrightauthor
+```
+
+**Impact**: 
+- Blocks all public distribution via `pip install virginia-clemm-poe`
+- Users cannot install package from PyPI
+- Package appears incomplete/unprofessional
+- Violates PyPI packaging standards
+
+**Core Tasks**:
+- **Priority 1**: Update pyproject.toml dependency to use official PyPI playwrightauthor package (>=1.0.6)
+- **Priority 1**: Test package builds correctly with new dependency
+- **Priority 1**: Verify all functionality works with PyPI version of playwrightauthor
+- **Priority 1**: Remove external/playwrightauthor directory from codebase
+- **Priority 1**: Update .gitignore if needed to prevent accidental local dependency re-introduction
+- **Priority 2**: Test complete installation flow from scratch in clean environment
+- **Priority 2**: Build and publish test package to TestPyPI
+- **Priority 3**: Create release and publish to PyPI
+
+**Quality Targets**:
+- Package successfully builds and publishes to PyPI
+- All functionality preserved with external dependency
+- Clean installation via `pip install virginia-clemm-poe`
+
+## ✅ Phase 4: Code Quality Standards (🎯 Core Foundation Complete)
+
+### ✅ 4.1 Type Hints Enhancement (COMPLETED 2025-01-04)
+**Objective**: Achieve 100% type coverage with modern Python 3.12+ type hints ✅
+
+**Completed Tasks**:
+- ✅ **Priority 1**: Updated all type hints to Python 3.12+ simple forms:
+  - ✅ Replaced `List[T]` with `list[T]` across all modules
+  - ✅ Replaced `Dict[K, V]` with `dict[K, V]` across all modules  
+  - ✅ Replaced `Union[A, B]` with `A | B` across all modules
+  - ✅ Replaced `Optional[T]` with `T | None` across all modules
+- ✅ **Priority 1**: Created comprehensive type coverage for public APIs:
+  - ✅ `api.py`: All 15 search, filter, and retrieval functions properly typed
+  - ✅ `models.py`: All Pydantic models (PoeModel, Architecture, Pricing, etc.) with proper field types
+  - ✅ `updater.py`: All async update and sync methods properly typed
+  - ✅ `browser_manager.py`: All public browser management methods properly typed
+
+**Quality Targets Achieved**:
+- ✅ 100% modern type coverage on core API surface
+- ✅ Consistent type annotation patterns across all core modules
+
+### ✅ 4.2 Enhanced Logging & Debugging Infrastructure (COMPLETED - Already Implemented)
+**Objective**: Comprehensive logging system for debugging, monitoring, and user feedback ✅
+
+**Verified Implementation**:
+- ✅ **Structured logging with contextual information** (utils/logger.py):
+  - ✅ Operation context via `log_operation()` context manager
+  - ✅ Request/response logging via `log_api_request()` context manager
+  - ✅ Timing information automatic with all context managers
+  - ✅ User action tracking via `log_user_action()` function
+- ✅ **Debug logging throughout critical paths**:
+  - ✅ Browser operations via `log_browser_operation()` context manager
+  - ✅ Model data fetching and parsing in updater.py
+  - ✅ Web scraping operations with detailed context
+  - ✅ Error scenarios with full context and correlation
+- ✅ **Performance monitoring logging**:
+  - ✅ Performance metrics via `log_performance_metric()` function
+  - ✅ Operation timing built into all context managers
+  - ✅ Memory and resource tracking capabilities
+- ✅ **Consistent logging patterns**:
+  - ✅ Standardized context managers and log message formats
+  - ✅ Proper log levels (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  - ✅ Centralized configuration in utils/logger.py
+
+**Quality Targets Achieved**:
+- ✅ Debug logs available for all critical operations
+- ✅ Performance metrics infrastructure for optimization
+- ✅ Clear audit trail for troubleshooting user issues
+
+### 🚀 4.3 Enhanced Task Planning (User-Centered Development Focus)
+
+### 4.3 Documentation Excellence (Developer & User Experience)
+**Objective**: Create comprehensive documentation that empowers users and reduces support burden
+
+**User Impact**: Enable developers to integrate confidently and troubleshoot independently
+
+**Core Tasks**:
+- **Priority 1**: **API Documentation with Real-World Examples**:
+  - Comprehensive docstrings for all 15 public API functions in api.py
+  - Include practical usage scenarios (e.g., "Find all Claude models with pricing under X points")
+  - Document error scenarios with recovery strategies (e.g., "What to do when model data is missing")
+  - Add performance characteristics (e.g., "This function may take 2-5 seconds for large datasets")
+  - Cross-reference related functions and alternatives (e.g., "For batch operations, see also...")
+- **Priority 1**: **CLI User Experience Documentation**:
+  - Enhanced help text for each command with context about when to use it
+  - Step-by-step workflows for common user journeys (first-time setup, regular updates, troubleshooting)
+  - Troubleshooting guide with specific error messages and solutions
+  - Integration examples with development workflows (CI/CD, automation scripts)
+- **Priority 2**: **Architecture Decision Documentation**:
+  - Document PlaywrightAuthor integration rationale and patterns for contributors
+  - Explain module relationships with dependency graphs
+  - Document performance trade-offs and optimization strategies
+  - Include extension points for future features
+
+**Success Metrics**:
+- New users can complete first successful API call within 5 minutes
+- 90% of common error scenarios have documented solutions
+- Zero ambiguity in public API contracts
+- Contributors can understand architecture within 15 minutes of reading docs
+
+### 4.4 Code Organization & Standards (Professional Quality)
+**Objective**: Ensure enterprise-grade code quality that scales with team growth
+
+**User Impact**: Enable confident contributions from new developers and reliable long-term maintenance
+
+**Core Tasks**:
+- **Priority 1**: **Production-Ready Code Standards**:
+  - Comprehensive ruff formatting across entire codebase for consistent style
+  - Standardize error message patterns with actionable solutions ("Try running X to fix this")
+  - Extract magic numbers to named constants with clear business meaning
+  - Implement proper exception chaining with context preservation
+- **Priority 1**: **Developer Experience Optimization**:
+  - Optimize import statements (remove unused, logical grouping, specific imports)
+  - Break down complex functions (>50 lines) into focused, testable units
+  - Improve variable and function naming for self-documenting code
+  - Add type guards for runtime safety in critical paths
+- **Priority 2**: **Maintainability Infrastructure**:
+  - Document complex business logic and architectural decisions
+  - Create clear contribution guidelines for external developers
+  - Establish code review checklist for consistency
+  - Add linting rules for automatic quality enforcement
+
+**Success Metrics**:
+- Zero linting violations across entire codebase
+- New contributors can make productive changes within 1 hour of onboarding
+- 95% of error messages include specific next steps for resolution
+- Code review time reduced to <15 minutes per PR due to consistency
+
+### 4.5 Performance & Resource Management (Production Reliability)
+**Objective**: Deliver consistently fast, memory-efficient operation under real-world usage
+
+**User Impact**: Reliable performance for CI/CD pipelines, bulk operations, and resource-constrained environments
+
+**Core Tasks**:
+- **Priority 1**: **Browser Resource Optimization**:
+  - Implement connection pooling to reuse browser instances (target: 50% faster for bulk operations)
+  - Add comprehensive timeout handling with graceful degradation (no hanging operations)
+  - Memory cleanup for long-running operations (target: <200MB steady-state usage)
+  - Automatic recovery from browser crashes with exponential backoff
+- **Priority 1**: **API Performance Optimization**:
+  - Request caching with configurable TTL to reduce API calls (target: 80% cache hit rate)
+  - Intelligent request batching for bulk model queries (target: 5x faster for >10 models)
+  - Exponential backoff for rate limiting with user feedback
+  - Connection pooling for HTTP requests to improve throughput
+- **Priority 2**: **Scalability Improvements**:
+  - Streaming JSON parsing for large datasets (>1000 models) to reduce memory footprint
+  - Lazy loading of model data with on-demand fetching
+  - Memory-efficient data structures for large collections
+  - Optional parallel processing for independent scraping operations
+
+**Success Metrics**:
+- <2 seconds response time for common operations (search, get_by_id)
+- <500MB memory usage during full dataset updates
+- 99% operation success rate under normal network conditions
+- Zero memory leaks during 24-hour continuous operation
+
+## Phase 5: Testing Infrastructure
+
+### 5.1 Test Structure
+Create comprehensive test suite:
+- `tests/test_browser/` - Browser management tests
+- `tests/test_api.py` - API functionality tests
+- `tests/test_models.py` - Data model tests
+- `tests/test_cli.py` - CLI command tests
+- `tests/test_integration.py` - End-to-end tests
+
+### 5.2 Test Utilities
+- Mock browser operations for CI
+- Fixture data for model testing
+- Async test support with pytest-asyncio
+
+### 5.3 CI/CD Pipeline
+- Multi-platform testing (Windows, macOS, Linux)
+- Coverage reporting
+- Automated releases
+
+## Phase 6: Error Handling & Resilience
+
+### 6.1 Graceful Degradation
+- Fallback mechanisms for all external operations
+- Clear error messages with recovery suggestions
+- Automatic retry with exponential backoff
+
+### 6.2 User Guidance
+- Onboarding flow for first-time users
+- Troubleshooting documentation
+- Common issues FAQ
+
+## Phase 7: Performance Optimization
+
+### 7.1 Browser Launch
+- Optimize Chrome startup time
+- Reuse existing debug sessions
+- Lazy loading of browser resources
+
+### 7.2 Data Operations
+- Efficient model data loading
+- Caching for frequently accessed data
+- Async operations where beneficial
+
+## Technical Debt from Porting
+- Update all imports to new module structure
+- Ensure backward compatibility for existing users
+- Migration guide for breaking changes
+
+## Future Enhancements (Post-Porting)
+- API rate limiting with backoff
+- Webhook support for real-time updates
+- Export to multiple formats (CSV, Excel, JSON)
+- Model comparison and diff features
+- Historical pricing tracking with trends
+- Plugin system for custom scrapers
+</document_content>
+</document>
+
+<document index="9">
+<source>README.md</source>
+<document_content>
+# Virginia Clemm Poe
+
+[![PyPI version](https://badge.fury.io/py/virginia-clemm-poe.svg)](https://badge.fury.io/py/virginia-clemm-poe) [![Python Support](https://img.shields.io/pypi/pyversions/virginia-clemm-poe.svg)](https://pypi.org/project/virginia-clemm-poe/) [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+A Python package providing programmatic access to Poe.com model data with pricing information.
+
+## [∞](#overview) Overview
+
+Virginia Clemm Poe is a companion tool for Poe.com's API (introduced August 25, 2024) that fetches and maintains comprehensive model data including pricing information. The package provides both a Python API for querying model data and a CLI for updating the dataset.
+
+This link points to the data file that is updated by the `virginia-clemm-poe` CLI tool. Note: this is a static copy, does not reflect the latest data from Poe’s API. 
+
+### [∞](#) 
+
+## [∞](#features) Features
+
+- **Model Data Access**: Query Poe.com models by various criteria including ID, name, and other attributes
+- **Bot Information**: Captures bot creator, description, and additional metadata
+- **Pricing Information**: Automatically scrapes and syncs pricing data for all available models
+- **Pydantic Models**: Fully typed data models for easy integration
+- **CLI Interface**: Fire-based CLI for updating data and searching models
+- **Browser Automation**: Powered by PlaywrightAuthor for reliable web scraping
+
+## [∞](#installation) Installation
+
+```bash
+pip install virginia-clemm-poe
+```
+
+## [∞](#quick-start) Quick Start
+
+### [∞](#python-api) Python API
+
+```python
+from virginia_clemm_poe import api
+
+# Search for models
+models = api.search_models("claude")
+for model in models:
+    print(f"{model.id}: {model.get_primary_cost()}")
+
+# Get model by ID
+model = api.get_model_by_id("claude-3-opus")
+if model and model.pricing:
+    print(f"Cost: {model.get_primary_cost()}")
+    print(f"Updated: {model.pricing.checked_at}")
+
+# Get all models with pricing
+priced_models = api.get_models_with_pricing()
+print(f"Found {len(priced_models)} models with pricing")
+```
+
+### [∞](#command-line-interface) Command Line Interface
+
+```bash
+# Set up browser for web scraping
+virginia-clemm-poe setup
+
+# Update model data (bot info + pricing) - default behavior
+export POE_API_KEY=your_api_key
+virginia-clemm-poe update
+
+# Update only bot info (creator, description)
+virginia-clemm-poe update --info
+
+# Update only pricing information
+virginia-clemm-poe update --pricing
+
+# Force update all data even if it exists
+virginia-clemm-poe update --force
+
+# Search for models
+virginia-clemm-poe search "gpt-4"
+
+# Search with bot info displayed
+virginia-clemm-poe search "claude" --show-bot-info
+
+# List all models with summary
+virginia-clemm-poe list
+
+# List only models with pricing
+virginia-clemm-poe list --with-pricing
+```
+
+## [∞](#api-reference) API Reference
+
+### [∞](#core-functions) Core Functions
+
+#### [∞](#apisearch_modelsquery-str---listpoemodel) `api.search_models(query: str) -> List[PoeModel]`
+
+Search for models by ID or name (case-insensitive).
+
+#### [∞](#apiget_model_by_idmodel_id-str---optionalpoemodel) `api.get_model_by_id(model_id: str) -> Optional[PoeModel]`
+
+Get a specific model by its ID.
+
+#### [∞](#apiget_all_models---listpoemodel) `api.get_all_models() -> List[PoeModel]`
+
+Get all available models.
+
+#### [∞](#apiget_models_with_pricing---listpoemodel) `api.get_models_with_pricing() -> List[PoeModel]`
+
+Get all models that have pricing information.
+
+#### [∞](#apiget_models_needing_update---listpoemodel) `api.get_models_needing_update() -> List[PoeModel]`
+
+Get models that need pricing update.
+
+#### [∞](#apireload_models---modelcollection) `api.reload_models() -> ModelCollection`
+
+Force reload models from disk.
+
+### [∞](#data-models) Data Models
+
+#### [∞](#poemodel) PoeModel
+
+```python
+class PoeModel:
+    id: str
+    created: int
+    owned_by: str
+    root: str
+    parent: Optional[str]
+    architecture: Architecture
+    pricing: Optional[Pricing]
+    pricing_error: Optional[str]
+    bot_info: Optional[BotInfo]
+
+    def has_pricing() -> bool
+    def needs_pricing_update() -> bool
+    def get_primary_cost() -> Optional[str]
+```
+
+#### [∞](#architecture) Architecture
+
+```python
+class Architecture:
+    input_modalities: List[str]
+    output_modalities: List[str]
+    modality: str
+```
+
+#### [∞](#botinfo) BotInfo
+
+```python
+class BotInfo:
+    creator: Optional[str]        # e.g., "@openai"
+    description: Optional[str]    # Main bot description
+    description_extra: Optional[str]  # Additional disclaimer text
+```
+
+#### [∞](#pricing) Pricing
+
+```python
+class Pricing:
+    checked_at: datetime
+    details: PricingDetails
+```
+
+#### [∞](#pricingdetails) PricingDetails
+
+Flexible pricing details supporting various cost structures:
+
+- Standard fields: `input_text`, `input_image`, `bot_message`, `chat_history`
+- Alternative fields: `total_cost`, `image_output`, `video_output`, etc.
+- Bot info field: `initial_points_cost` (e.g., "206+ points")
+
+## [∞](#cli-commands) CLI Commands
+
+### [∞](#setup) setup
+
+Set up browser for web scraping (handled automatically by PlaywrightAuthor).
+
+```bash
+virginia-clemm-poe setup
+```
+
+### [∞](#update) update
+
+Update model data from Poe API and scrape additional information.
+
+```bash
+virginia-clemm-poe update [--info] [--pricing] [--all] [--force] [--verbose]
+```
+
+Options:
+
+- `--info`: Update only bot info (creator, description)
+- `--pricing`: Update only pricing information
+- `--all`: Update both info and pricing (default: True)
+- `--api_key`: Override POE_API_KEY environment variable
+- `--force`: Force update even if data exists
+- `--debug_port`: Chrome debug port (default: 9222)
+- `--verbose`: Enable verbose logging
+
+By default, the update command updates both bot info and pricing. Use `--info` or `--pricing` to update only specific data.
+
+### [∞](#search) search
+
+Search for models by ID or name.
+
+```bash
+virginia-clemm-poe search "claude" [--show-pricing] [--show-bot-info]
+```
+
+Options:
+
+- `--show-pricing`: Show pricing information if available (default: True)
+- `--show-bot-info`: Show bot info (creator, description) (default: False)
+
+### [∞](#list) list
+
+List all available models.
+
+```bash
+virginia-clemm-poe list [--with-pricing] [--limit 10]
+```
+
+Options:
+
+- `--with-pricing`: Only show models with pricing information
+- `--limit`: Limit number of results
+
+## [∞](#requirements) Requirements
+
+- Python 3.12+
+- Chrome or Chromium browser (automatically managed by PlaywrightAuthor)
+- Poe API key (set as `POE_API_KEY` environment variable)
+
+## [∞](#data-storage) Data Storage
+
+Model data is stored in `src/virginia_clemm_poe/data/poe_models.json` within the package directory. The data includes:
+
+- Basic model information (ID, name, capabilities)
+- Detailed pricing structure
+- Timestamps for data freshness
+
+## [∞](#development) Development
+
+### [∞](#setting-up-development-environment) Setting Up Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/twardoch/virginia-clemm-poe.git
+cd virginia-clemm-poe
+
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create virtual environment and install dependencies
+uv venv --python 3.12
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv pip install -e ".[dev]"
+
+# Set up browser for development
+virginia-clemm-poe setup
+```
+
+### [∞](#running-tests) Running Tests
+
+```bash
+# Run all tests
+python -m pytest
+
+# Run with coverage
+python -m pytest --cov=virginia_clemm_poe
+```
+
+### [∞](#dependencies) Dependencies
+
+This package uses:
+
+- `uv` for dependency management
+- `httpx` for API requests
+- `playwrightauthor` for browser automation
+- `pydantic` for data models
+- `fire` for CLI interface
+- `rich` for terminal UI
+- `loguru` for logging
+- `hatch-vcs` for automatic versioning from git tags
+
+## [∞](#api-examples) API Examples
+
+### [∞](#get-model-information) Get Model Information
+
+```python
+from virginia_clemm_poe import api
+
+# Get a specific model
+model = api.get_model_by_id("claude-3-opus")
+if model:
+    print(f"Model: {model.id}")
+    print(f"Input modalities: {model.architecture.input_modalities}")
+    if model.pricing:
+        primary_cost = model.get_primary_cost()
+        print(f"Cost: {primary_cost}")
+        print(f"Last updated: {model.pricing.checked_at}")
+
+# Search for models
+gpt_models = api.search_models("gpt")
+for model in gpt_models:
+    print(f"- {model.id}: {model.architecture.modality}")
+```
+
+### [∞](#filter-models-by-criteria) Filter Models by Criteria
+
+```python
+from virginia_clemm_poe import api
+
+# Get all models with pricing
+priced_models = api.get_models_with_pricing()
+print(f"Models with pricing: {len(priced_models)}")
+
+# Get models needing pricing update
+need_update = api.get_models_needing_update()
+print(f"Models needing update: {len(need_update)}")
+
+# Get models with specific modality
+all_models = api.get_all_models()
+text_to_image = [m for m in all_models if m.architecture.modality == "text->image"]
+print(f"Text-to-image models: {len(text_to_image)}")
+```
+
+### [∞](#working-with-pricing-data) Working with Pricing Data
+
+```python
+from virginia_clemm_poe import api
+
+# Get pricing details for a model
+model = api.get_model_by_id("claude-3-haiku")
+if model and model.pricing:
+    details = model.pricing.details
+
+    # Access standard pricing fields
+    if details.input_text:
+        print(f"Text input: {details.input_text}")
+    if details.bot_message:
+        print(f"Bot message: {details.bot_message}")
+
+    # Alternative pricing formats
+    if details.total_cost:
+        print(f"Total cost: {details.total_cost}")
+
+    # Get primary cost (auto-detected)
+    print(f"Primary cost: {model.get_primary_cost()}")
+```
+
+## [∞](#contributing) Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## [∞](#author) Author
+
+Adam Twardoch <adam+github@twardoch.com>
+
+## [∞](#license) License
+
+Licensed under the Apache License 2.0. See LICENSE file for details.
+
+## [∞](#acknowledgments) Acknowledgments
+
+Named after Virginia Clemm Poe (1822–1847), wife of Edgar Allan Poe, reflecting the connection to Poe.com.
+
+## [∞](#disclaimer) Disclaimer
+
+This is an unofficial companion tool for Poe.com's API. It is not affiliated with or endorsed by Poe.com or Quora, Inc.
+
+</document_content>
+</document>
+
+<document index="10">
+<source>TODO.md</source>
+<document_content>
+# this_file: TODO.md
+
+# Virginia Clemm Poe - Next Development Tasks
+
+## ✅ Recently Completed (2025-01-04)
+- [x] **CRITICAL**: Fixed PyPI publishing issue - updated to official playwrightauthor>=1.0.6 package ✅
+- [x] **Phase 4.1 & 4.2**: Modern type hints and logging infrastructure across all core modules ✅ 
+
+## 🚀 Current Focus: Phase 4 - Code Quality Standards (Remaining Tasks)
+
+### 4.2 Type System Completion (Developer Safety & IDE Support)
+- [ ] **Create types.py module** - Define shared complex types (ModelFilter, SearchCriteria, BrowserConfig, APIResponse) for better IDE autocomplete and validation
+- [ ] **Complete return type annotations** - Add missing return types to utility functions and CLI commands for 100% mypy coverage
+- [ ] **Run mypy validation** - Implement strict mypy configuration and fix all type issues for runtime safety
+- [ ] **Add runtime type guards** - Implement type checking for critical data validation points (API responses, user inputs)
+
+### 4.3 Documentation Excellence (User Empowerment)
+- [ ] **API function docstrings** - Document all 15 public API functions with real-world examples, error scenarios, and performance notes
+- [ ] **CLI command help enhancement** - Add comprehensive help text with common workflows and troubleshooting steps
+- [ ] **PlaywrightAuthor integration guide** - Document browser management patterns for future contributors
+- [ ] **Cross-reference documentation** - Add "See also" sections connecting related functions and workflows
+- [ ] **Architecture overview** - Create module relationship documentation with data flow diagrams
+
+### 4.4 Code Organization & Standards (Enterprise Quality)
+- [ ] **Code formatting standardization** - Run ruff format across entire codebase for consistent professional appearance
+- [ ] **Error message improvement** - Standardize all error messages with specific next steps ("Try running 'virginia-clemm-poe setup'")
+- [ ] **Import optimization** - Clean up imports, remove unused, group logically for better maintainability
+- [ ] **Magic number elimination** - Replace hardcoded values with named constants (TIMEOUT_MS, MAX_RETRIES, etc.)
+- [ ] **Exception handling consistency** - Ensure proper exception chaining and context preservation throughout
+
+### 4.5 Performance & Resource Management (Production Ready) 
+- [ ] **Browser connection pooling** - Implement reusable browser instances for 50% faster bulk operations
+- [ ] **Comprehensive timeout handling** - Add graceful degradation for all browser operations (no hanging processes)
+- [ ] **API request caching** - Implement TTL-based caching to reduce redundant API calls (target: 80% cache hit rate)
+- [ ] **Rate limiting with backoff** - Add exponential backoff for API rate limits with user feedback
+- [ ] **Memory optimization** - Implement cleanup for long-running operations (target: <200MB steady-state usage)
+
+## Phase 5: Testing Infrastructure
+
+- [ ] Create tests/test_browser/ directory
+- [ ] Create tests/test_browser/test_finder.py
+- [ ] Create tests/test_browser/test_installer.py
+- [ ] Create tests/test_browser/test_launcher.py
+- [ ] Create tests/test_browser/test_process.py
+- [ ] Update tests/test_api.py for new structure
+- [ ] Update tests/test_models.py for new structure
+- [ ] Create tests/test_cli.py for CLI commands
+- [ ] Update tests/test_integration.py for end-to-end tests
+- [ ] Add mock browser operations for CI
+- [ ] Create fixture data for model testing
+- [ ] Ensure async test support with pytest-asyncio
+- [ ] Set up multi-platform CI testing
+- [ ] Add coverage reporting to CI
+- [ ] Configure automated releases
+
+## Phase 6: Error Handling & Resilience
+
+- [ ] Add fallback mechanisms for all external operations
+- [ ] Improve error messages with recovery suggestions
+- [ ] Implement automatic retry with exponential backoff
+- [ ] Create onboarding flow for first-time users
+- [ ] Write troubleshooting documentation
+- [ ] Create common issues FAQ
+
+## Phase 7: Performance Optimization
+
+- [ ] Optimize Chrome startup time
+- [ ] Implement reuse of existing debug sessions
+- [ ] Add lazy loading of browser resources
+- [ ] Optimize model data loading
+- [ ] Add caching for frequently accessed data
+- [ ] Implement async operations where beneficial
+
+## Migration & Compatibility
+
+- [ ] Update all imports to new module structure
+- [ ] Test backward compatibility
+- [ ] Create migration guide for breaking changes
+- [ ] Update README with new architecture
+- [ ] Update CHANGELOG with porting changes
+
+## Final Testing & Release
+
+- [ ] Run full test suite on all platforms
+- [ ] Test CLI commands on Windows, macOS, Linux
+- [ ] Test browser automation on all platforms
+- [ ] Test package installation in clean virtualenv
+- [ ] Update version and create release
+- [ ] Publish to PyPI
+
+</document_content>
+</document>
+
+<document index="11">
+<source>WORK.md</source>
+<document_content>
+# this_file: WORK.md
+
+# Work Progress - Virginia Clemm Poe
+
+## Completed Work Summary
+
+### Phase 0: Critical PyPI Publishing Issue ✅ (2025-01-04)
+**CRITICAL FIX COMPLETED**: Resolved PyPI publishing failure that blocked public distribution:
+- ✅ Updated pyproject.toml to use official PyPI `playwrightauthor>=1.0.6` instead of local file dependency
+- ✅ Successfully built package with new dependency using `uv build`
+- ✅ Verified all functionality works correctly with PyPI version of playwrightauthor
+- ✅ Completely removed `external/playwrightauthor` directory from codebase
+- ✅ Tested complete installation flow from scratch in clean environment
+- **Result**: Package can now be successfully published to PyPI and installed via `pip install virginia-clemm-poe`
+
+### Phase 1: Architecture Alignment ✅
+Successfully created the modular directory structure:
+- Created `utils/` module with logger.py and paths.py
+- Created exceptions.py with comprehensive exception hierarchy
+- Added this_file comments to all Python files
+
+### Phase 2: Browser Management Refactoring ✅
+Initially refactored browser management into modular architecture.
+
+### Phase 2.5: Integration with External PlaywrightAuthor Package ✅
+**Major architecture change**: Instead of reimplementing PlaywrightAuthor patterns, now using the external package directly:
+- Added playwrightauthor as local path dependency in pyproject.toml
+- Created simplified browser_manager.py that uses playwrightauthor.browser_manager.ensure_browser()
+- Removed entire internal browser/ directory and all browser modules
+- Removed browser.py compatibility shim
+- Removed psutil and platformdirs dependencies (now provided by playwrightauthor)
+- Successfully tested integration with CLI search command
+- Updated all documentation (README.md, CHANGELOG.md, CLAUDE.md) to reflect simplified architecture
+
+### Phase 3: CLI Enhancement ✅
+**Completed CLI modernization following PlaywrightAuthor patterns**:
+- Refactored CLI class name from `CLI` to `Cli` to match PlaywrightAuthor convention
+- Added verbose flag support to all commands with consistent logger configuration
+- Added status command for comprehensive system health checks (browser, data, API key status)
+- Added clear-cache command with selective clearing options (data, browser, or both)
+- Added doctor command for diagnostics with detailed issue detection and solutions
+- Improved error messages throughout with actionable solutions
+- Enhanced all commands with rich console output for better UX
+- Added consistent verbose logging support across all CLI operations
+
+## Architecture Benefits
+- Reduced codebase by ~500+ lines
+- Delegated all browser management complexity to playwrightauthor
+- Maintained API compatibility for existing code
+- Simplified maintenance and updates
+
+### Phase 4: Code Quality Standards ✅ (Core Tasks Completed 2025-01-04)
+**MAJOR PROGRESS**: Core type hints and logging infrastructure completed:
+- ✅ **Type Hints Modernized**: Updated all core modules (models.py, api.py, updater.py, browser_manager.py) to use Python 3.12+ type hint forms (list instead of List, dict instead of Dict, | instead of Union)
+- ✅ **Structured Logging Infrastructure**: Comprehensive logging system already implemented in utils/logger.py with context managers for operations, API requests, browser operations, performance metrics, and user actions
+- **Result**: Codebase now has modern type hints and production-ready logging infrastructure
+
+## Next Steps
+
+### Phase 4: Code Quality Standards (🚀 CURRENT FOCUS - Remaining Tasks)
+**Ready to continue with documentation and validation**
+
+### Phase 5: Testing Infrastructure
+- Create comprehensive test suite
+- Add mock browser operations for CI
+- Set up multi-platform CI testing
+
+## Notes
+Successfully pivoted from reimplementing PlaywrightAuthor architecture to using it as an external dependency. This dramatically simplified the codebase while maintaining all functionality. The integration is working well, with browser automation confirmed via CLI search command.
+</document_content>
+</document>
+
+<document index="12">
+<source>publish.sh</source>
+<document_content>
+#!/usr/bin/env bash
+llms . "*.txt"
+uvx hatch clean
+gitnextver .
+uvx hatch build
+uvx hatch publish
+
+</document_content>
+</document>
+
+<document index="13">
+<source>pyproject.toml</source>
+<document_content>
+# this_file: pyproject.toml
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "virginia-clemm-poe"
+dynamic = ["version"]
+description = "A Python package providing programmatic access to Poe.com model data with pricing information"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Adam Twardoch", email = "adam+github@twardoch.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "httpx>=0.24.0",
+    "playwrightauthor>=1.0.6",
+    "beautifulsoup4>=4.12.0",
+    "pydantic>=2.5.0",
+    "fire>=0.5.0",
+    "rich>=13.0.0",
+    "loguru>=0.7.0",
+    "aiohttp>=3.9.0",
+]
+
+[project.scripts]
+virginia-clemm-poe = "virginia_clemm_poe.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/twardoch/virginia-clemm-poe"
+Repository = "https://github.com/twardoch/virginia-clemm-poe"
+Issues = "https://github.com/twardoch/virginia-clemm-poe/issues"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/virginia_clemm_poe/_version.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+    "types-beautifulsoup4",
+]
+
+[tool.mypy]
+# Strict type checking configuration
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+show_error_codes = true
+
+# Handle missing imports for external packages without stubs
+[[tool.mypy.overrides]]
+module = [
+    "playwrightauthor.*",
+    "fire",
+]
+ignore_missing_imports = true
+
+# Allow some flexibility for specific patterns
+[[tool.mypy.overrides]]
+module = "virginia_clemm_poe.*"
+# Allow Any for external API responses and complex data structures
+disallow_any_expr = false
+</document_content>
+</document>
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/__init__.py
+# Language: python
+
+from ._version import __version__, __version_tuple__
+from . import api
+from .models import Architecture, ModelCollection, PoeModel, Pricing, PricingDetails
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/__main__.py
+# Language: python
+
+import asyncio
+import os
+import shutil
+import sys
+import fire
+from rich.console import Console
+from rich.table import Table
+from . import api
+from .browser_manager import BrowserManager
+from .config import DATA_FILE_PATH
+from .updater import ModelUpdater
+from .utils.logger import configure_logger, log_operation, log_user_action
+from playwrightauthor.browser_manager import ensure_browser
+import json
+from datetime import datetime
+from playwrightauthor.utils.paths import install_dir
+import sys
+import httpx
+from .config import API_TIMEOUT_SECONDS
+from playwrightauthor.browser_manager import ensure_browser
+import httpx
+from .config import NETWORK_TIMEOUT_SECONDS
+import importlib
+import importlib.util
+import json
+
+class Cli:
+    """Virginia Clemm Poe - Poe.com model data management CLI."""
+    def setup((self, verbose: bool = False)) -> None:
+        """Initialize browser environment for Virginia Clemm Poe web scraping operations."""
+    def status((self, verbose: bool = False)) -> None:
+        """Check browser and data status."""
+    def clear_cache((self, data: bool = False, browser: bool = False, all: bool = True, verbose: bool = False)) -> None:
+        """Clear cache and stored data."""
+    def doctor((self, verbose: bool = False)) -> None:
+        """Diagnose common issues and provide solutions."""
+    def update((
+        self,
+        info: bool = False,
+        pricing: bool = False,
+        all: bool = True,
+        api_key: str | None = None,
+        force: bool = False,
+        debug_port: int = 9222,
+        verbose: bool = False,
+    )) -> None:
+        """Update Poe model data with pricing and bot information from web scraping."""
+    def search((self, query: str, show_pricing: bool = True, show_bot_info: bool = False, verbose: bool = False)) -> None:
+        """Search and display Poe models by ID or name with flexible filtering."""
+    def list((self, with_pricing: bool = False, limit: int | None = None, verbose: bool = False)) -> None:
+        """List all available models."""
+
+def setup((self, verbose: bool = False)) -> None:
+    """Initialize browser environment for Virginia Clemm Poe web scraping operations."""
+
+def run_setup(()) -> None:
+
+def status((self, verbose: bool = False)) -> None:
+    """Check browser and data status."""
+
+def clear_cache((self, data: bool = False, browser: bool = False, all: bool = True, verbose: bool = False)) -> None:
+    """Clear cache and stored data."""
+
+def doctor((self, verbose: bool = False)) -> None:
+    """Diagnose common issues and provide solutions."""
+
+def update((
+        self,
+        info: bool = False,
+        pricing: bool = False,
+        all: bool = True,
+        api_key: str | None = None,
+        force: bool = False,
+        debug_port: int = 9222,
+        verbose: bool = False,
+    )) -> None:
+    """Update Poe model data with pricing and bot information from web scraping."""
+
+def run_update(()) -> None:
+
+def search((self, query: str, show_pricing: bool = True, show_bot_info: bool = False, verbose: bool = False)) -> None:
+    """Search and display Poe models by ID or name with flexible filtering."""
+
+def list((self, with_pricing: bool = False, limit: int | None = None, verbose: bool = False)) -> None:
+    """List all available models."""
+
+def main(()) -> None:
+    """Main CLI entry point."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/api.py
+# Language: python
+
+import json
+from loguru import logger
+from .config import DATA_FILE_PATH
+from .models import ModelCollection, PoeModel
+
+def load_models((force_reload: bool = False)) -> ModelCollection:
+    """Load model collection from the data file with caching."""
+
+def get_all_models(()) -> list[PoeModel]:
+    """Get all available Poe models from the dataset."""
+
+def get_model_by_id((model_id: str)) -> PoeModel | None:
+    """Get a specific model by its unique identifier."""
+
+def search_models((query: str)) -> list[PoeModel]:
+    """Search models by ID or name using case-insensitive matching."""
+
+def get_models_with_pricing(()) -> list[PoeModel]:
+    """Get all models that have valid pricing information."""
+
+def get_models_needing_update(()) -> list[PoeModel]:
+    """Get models that need pricing information updated."""
+
+def reload_models(()) -> ModelCollection:
+    """Force reload models from disk, bypassing cache."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/browser_manager.py
+# Language: python
+
+from typing import Any
+from loguru import logger
+from playwright.async_api import Browser, BrowserContext, Page, Playwright, async_playwright
+from .exceptions import BrowserManagerError, CDPConnectionError
+from playwrightauthor.browser_manager import ensure_browser
+from playwrightauthor.browser_manager import ensure_browser
+
+class BrowserManager:
+    """Manages browser lifecycle using playwrightauthor for setup."""
+    def __init__((self, debug_port: int = 9222, verbose: bool = False)):
+        """Initialize the browser manager."""
+    def connect((self)) -> Browser:
+        """Connect to browser using CDP."""
+    def new_page((self)) -> Page:
+        """Create a new page. ..."""
+    def close((self)) -> None:
+        """Close browser connection and clean up resources."""
+    def __aenter__((self)) -> "BrowserManager":
+        """Async context manager entry."""
+    def __aexit__((self, exc_type: Any, exc_val: Any, exc_tb: Any)) -> None:
+        """Async context manager exit."""
+
+def __init__((self, debug_port: int = 9222, verbose: bool = False)):
+    """Initialize the browser manager."""
+
+def connect((self)) -> Browser:
+    """Connect to browser using CDP."""
+
+def new_page((self)) -> Page:
+    """Create a new page. ..."""
+
+def close((self)) -> None:
+    """Close browser connection and clean up resources."""
+
+def __aenter__((self)) -> "BrowserManager":
+    """Async context manager entry."""
+
+def __aexit__((self, exc_type: Any, exc_val: Any, exc_tb: Any)) -> None:
+    """Async context manager exit."""
+
+def setup_chrome(()) -> bool:
+    """Setup Chrome for the system."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/config.py
+# Language: python
+
+from pathlib import Path
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/exceptions.py
+# Language: python
+
+class VirginiaPoeError(E, x, c, e, p, t, i, o, n):
+    """Base exception for all Virginia Clemm Poe errors."""
+
+class BrowserManagerError(V, i, r, g, i, n, i, a, P, o, e, E, r, r, o, r):
+    """Exception raised for browser management related errors."""
+
+class ChromeNotFoundError(B, r, o, w, s, e, r, M, a, n, a, g, e, r, E, r, r, o, r):
+    """Exception raised when Chrome executable cannot be found."""
+
+class ChromeLaunchError(B, r, o, w, s, e, r, M, a, n, a, g, e, r, E, r, r, o, r):
+    """Exception raised when Chrome fails to launch properly."""
+
+class CDPConnectionError(B, r, o, w, s, e, r, M, a, n, a, g, e, r, E, r, r, o, r):
+    """Exception raised when connection to Chrome DevTools Protocol fails."""
+
+class ModelDataError(V, i, r, g, i, n, i, a, P, o, e, E, r, r, o, r):
+    """Exception raised for model data related errors."""
+
+class ModelNotFoundError(M, o, d, e, l, D, a, t, a, E, r, r, o, r):
+    """Exception raised when a requested model cannot be found."""
+
+class DataUpdateError(M, o, d, e, l, D, a, t, a, E, r, r, o, r):
+    """Exception raised when model data update fails."""
+
+class APIError(V, i, r, g, i, n, i, a, P, o, e, E, r, r, o, r):
+    """Exception raised for Poe API related errors."""
+
+class AuthenticationError(A, P, I, E, r, r, o, r):
+    """Exception raised when Poe API authentication fails."""
+
+class RateLimitError(A, P, I, E, r, r, o, r):
+    """Exception raised when Poe API rate limit is exceeded."""
+
+class ScrapingError(V, i, r, g, i, n, i, a, P, o, e, E, r, r, o, r):
+    """Exception raised during web scraping operations."""
+
+class NetworkError(V, i, r, g, i, n, i, a, P, o, e, E, r, r, o, r):
+    """Exception raised for network-related errors."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/models.py
+# Language: python
+
+from datetime import datetime
+from typing import Any
+from pydantic import BaseModel, Field
+
+class Architecture(B, a, s, e, M, o, d, e, l):
+    """Model architecture information describing input/output capabilities."""
+
+class PricingDetails(B, a, s, e, M, o, d, e, l):
+    """Detailed pricing information scraped from Poe.com model pages."""
+
+class Config:
+
+class Pricing(B, a, s, e, M, o, d, e, l):
+    """Pricing information with timestamp for tracking data freshness."""
+
+class BotInfo(B, a, s, e, M, o, d, e, l):
+    """Bot information scraped from Poe.com bot info cards."""
+
+class PoeModel(B, a, s, e, M, o, d, e, l):
+    """Complete Poe model representation combining API data with scraped information."""
+    def has_pricing((self)) -> bool:
+        """Check if model has valid pricing information."""
+    def needs_pricing_update((self)) -> bool:
+        """Check if model needs pricing information updated."""
+    def get_primary_cost((self)) -> str | None:
+        """Get the most relevant cost information for display."""
+
+class ModelCollection(B, a, s, e, M, o, d, e, l):
+    """Collection of Poe models with query and search capabilities."""
+    def get_by_id((self, model_id: str)) -> PoeModel | None:
+        """Get a specific model by its unique identifier."""
+    def search((self, query: str)) -> list[PoeModel]:
+        """Search models by ID or name using case-insensitive matching."""
+
+def has_pricing((self)) -> bool:
+    """Check if model has valid pricing information."""
+
+def needs_pricing_update((self)) -> bool:
+    """Check if model needs pricing information updated."""
+
+def get_primary_cost((self)) -> str | None:
+    """Get the most relevant cost information for display."""
+
+def get_by_id((self, model_id: str)) -> PoeModel | None:
+    """Get a specific model by its unique identifier."""
+
+def search((self, query: str)) -> list[PoeModel]:
+    """Search models by ID or name using case-insensitive matching."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/types.py
+# Language: python
+
+from collections.abc import Callable
+from typing import Any, Literal, NotRequired, TypedDict
+
+class PoeApiModelData(T, y, p, e, d, D, i, c, t):
+    """Type definition for model data from Poe API response."""
+
+class PoeApiResponse(T, y, p, e, d, D, i, c, t):
+    """Type definition for Poe API /models endpoint response."""
+
+class ModelFilterCriteria(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Filter criteria for model search and filtering operations."""
+
+class SearchOptions(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Options for model search operations."""
+
+class BrowserConfig(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Configuration options for browser management."""
+
+class ScrapingResult(T, y, p, e, d, D, i, c, t):
+    """Result of web scraping operations."""
+
+class LogContext(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Context information for structured logging."""
+
+class ApiLogContext(L, o, g, C, o, n, t, e, x, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Extended context for API operation logging."""
+
+class BrowserLogContext(L, o, g, C, o, n, t, e, x, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Extended context for browser operation logging."""
+
+class PerformanceMetric(T, y, p, e, d, D, i, c, t):
+    """Performance metric data structure."""
+
+class CliCommand(T, y, p, e, d, D, i, c, t):
+    """CLI command execution context."""
+
+class DisplayOptions(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Options for controlling CLI output display."""
+
+class ErrorContext(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Context information for error reporting and debugging."""
+
+class UpdateOptions(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Options for model data update operations."""
+
+class SyncProgress(T, y, p, e, d, D, i, c, t):
+    """Progress tracking for synchronization operations."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/updater.py
+# Language: python
+
+import asyncio
+import json
+import re
+from datetime import datetime
+from typing import Any
+import httpx
+from bs4 import BeautifulSoup, Tag
+from loguru import logger
+from playwright.async_api import Page
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+from .browser_manager import BrowserManager
+from .config import (
+    DATA_FILE_PATH,
+    DIALOG_WAIT_SECONDS,
+    EXPANSION_WAIT_SECONDS,
+    LOAD_TIMEOUT_MS,
+    MODAL_CLOSE_WAIT_SECONDS,
+    PAUSE_SECONDS,
+    POE_API_URL,
+    POE_BASE_URL,
+    TABLE_TIMEOUT_MS,
+)
+from .models import BotInfo, ModelCollection, PoeModel, Pricing, PricingDetails
+from .utils.logger import log_api_request, log_browser_operation, log_performance_metric
+
+class ModelUpdater:
+    """Updates Poe model data with pricing information."""
+    def __init__((self, api_key: str, debug_port: int = 9222, verbose: bool = False)):
+    def fetch_models_from_api((self)) -> dict[str, Any]:
+        """Fetch models from Poe API with structured logging and performance tracking."""
+    def parse_pricing_table((self, html: str)) -> dict[str, Any | None]:
+        """Parse pricing table HTML into structured data."""
+    def scrape_model_info((
+        self, model_id: str, page: Page
+    )) -> tuple[dict[str, Any] | None, BotInfo | None, str | None]:
+        """Scrape pricing and bot info data for a single model with detailed logging."""
+    def sync_models((
+        self, force: bool = False, update_info: bool = True, update_pricing: bool = True
+    )) -> ModelCollection:
+        """Sync models with API and update pricing/info data."""
+    def update_all((self, force: bool = False, update_info: bool = True, update_pricing: bool = True)) -> None:
+        """Update model data and save to file."""
+
+def __init__((self, api_key: str, debug_port: int = 9222, verbose: bool = False)):
+
+def fetch_models_from_api((self)) -> dict[str, Any]:
+    """Fetch models from Poe API with structured logging and performance tracking."""
+
+def parse_pricing_table((self, html: str)) -> dict[str, Any | None]:
+    """Parse pricing table HTML into structured data."""
+
+def scrape_model_info((
+        self, model_id: str, page: Page
+    )) -> tuple[dict[str, Any] | None, BotInfo | None, str | None]:
+    """Scrape pricing and bot info data for a single model with detailed logging."""
+
+def sync_models((
+        self, force: bool = False, update_info: bool = True, update_pricing: bool = True
+    )) -> ModelCollection:
+    """Sync models with API and update pricing/info data."""
+
+def update_all((self, force: bool = False, update_info: bool = True, update_pricing: bool = True)) -> None:
+    """Update model data and save to file."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/utils/__init__.py
+# Language: python
+
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/utils/logger.py
+# Language: python
+
+import sys
+import time
+from contextlib import contextmanager
+from typing import Any
+from loguru import logger
+
+def configure_logger((verbose: bool = False, log_file: str | None = None, format_string: str | None = None)) -> None:
+    """Configure loguru logger with consistent settings."""
+
+def get_logger((name: str)) -> Any:
+    """Get a logger instance with the given name."""
+
+def log_operation((operation_name: str, context: dict[str, Any] | None = None, log_level: str = "INFO")) -> Any:
+    """Context manager for logging operations with timing and context."""
+
+def log_api_request((method: str, url: str, headers: dict[str, str] | None = None)) -> Any:
+    """Context manager for logging API requests with timing and response info."""
+
+def log_browser_operation((operation: str, model_id: str | None = None, debug_port: int | None = None)) -> Any:
+    """Context manager for logging browser operations with model context."""
+
+def log_performance_metric((
+    metric_name: str, value: float, unit: str = "seconds", context: dict[str, Any] | None = None
+)) -> None:
+    """Log performance metrics for monitoring and optimization."""
+
+def log_user_action((action: str, command: str | None = None, **kwargs: Any)) -> None:
+    """Log user actions for CLI usage tracking and debugging."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/utils/paths.py
+# Language: python
+
+import platform
+from pathlib import Path
+from loguru import logger
+import platformdirs
+import platformdirs
+import platformdirs
+
+def get_app_name(()) -> str:
+    """Get the application name for directory creation."""
+
+def get_cache_dir(()) -> Path:
+    """Get the platform-appropriate cache directory."""
+
+def get_data_dir(()) -> Path:
+    """Get the platform-appropriate data directory."""
+
+def get_config_dir(()) -> Path:
+    """Get the platform-appropriate config directory."""
+
+def _get_fallback_cache_dir(()) -> Path:
+    """Get fallback cache directory when platformdirs is not available."""
+
+def _get_fallback_data_dir(()) -> Path:
+    """Get fallback data directory when platformdirs is not available."""
+
+def _get_fallback_config_dir(()) -> Path:
+    """Get fallback config directory when platformdirs is not available."""
+
+def get_chrome_install_dir(()) -> Path:
+    """Get the directory for Chrome for Testing installations."""
+
+def get_models_data_path(()) -> Path:
+    """Get the path to the models data file."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/virginia-clemm-poe/src/virginia_clemm_poe/utils.py
+# Language: python
+
+from datetime import datetime
+from typing import Any
+
+def json_serializer((obj: Any)) -> Any:
+    """Custom JSON serializer for datetime objects."""
+
+def format_points_cost((points: str)) -> str:
+    """Format points cost string for display."""
+
+
+</documents>
