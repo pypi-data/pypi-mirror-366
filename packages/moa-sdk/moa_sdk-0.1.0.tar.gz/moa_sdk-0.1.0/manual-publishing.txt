@@ -1,0 +1,28 @@
+=== MANUAL PUBLISHING COMMANDS ===
+
+## Method 1: Using .pypirc file (recommended)
+# After setting up ~/.pypirc with your tokens:
+
+# Test on TestPyPI first:
+/Users/akhshy/.pyenv/versions/3.13.5/bin/python -m twine upload --repository testpypi dist/*
+
+# If successful, publish to production PyPI:
+/Users/akhshy/.pyenv/versions/3.13.5/bin/python -m twine upload dist/*
+
+## Method 2: Using environment variables (alternative)
+# Set your tokens as environment variables:
+export TWINE_USERNAME=__token__
+export TWINE_PASSWORD=your_pypi_token_here
+
+# Test on TestPyPI:
+/Users/akhshy/.pyenv/versions/3.13.5/bin/python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+# Publish to production PyPI:
+/Users/akhshy/.pyenv/versions/3.13.5/bin/python -m twine upload dist/*
+
+## Method 3: Interactive (will prompt for credentials)
+# Test on TestPyPI:
+/Users/akhshy/.pyenv/versions/3.13.5/bin/python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+# Publish to production PyPI:
+/Users/akhshy/.pyenv/versions/3.13.5/bin/python -m twine upload dist/*
