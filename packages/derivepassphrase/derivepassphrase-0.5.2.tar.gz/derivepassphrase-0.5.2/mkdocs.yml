@@ -1,0 +1,167 @@
+site_name: derivepassphrase
+site_url: 'https://the13thletter.info/derivepassphrase/'
+repo_url: 'https://git.schokokeks.org/derivepassphrase.git'
+edit_uri: 'raw/master/docs/'
+repo_name: the-13th-letter/derivepassphrase
+site_description: An almost faithful Python reimplementation of James Coglan's vault.
+site_author: Marco Ricci
+copyright: Copyright &copy; 2025 Marco Ricci (the-13th-letter)
+
+remote_branch: documentation-tree
+remote_name: '.'
+
+docs_dir: docs
+site_dir: html
+extra_css:
+  - mkdocstrings_recommended_styles.css
+  - wishlist_styling.css
+
+theme:
+  name: "material"
+  #font: false
+  font:
+    text: Noto Sans
+    code: Noto Mono
+    #code: Inconsolata
+  #palette:
+  #  - media: "(prefers-color-scheme)"
+  #    toggle:
+  #      icon: material/brightness-auto
+  #      name: Switch to light mode
+  #  - media: "(prefers-color-scheme: light)"
+  #    scheme: default
+  #    toggle:
+  #      icon: material/brightness-7
+  #      name: Switch to dark mode
+  #  - media: "(prefers-color-scheme: dark)"
+  #    scheme: slate
+  #    toggle:
+  #      icon: material/brightness-4
+  #      name: Switch to system preference
+  icon:
+    logo: material/library
+    repo: fontawesome/brands/git-alt
+  features:
+    - content.action.view
+    - content.code.annotate
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.footer
+  custom_dir: docs-overrides
+
+plugins:
+  offline:
+    enabled: false  # Use mkdocs_offline.yml for offline versions instead!
+  #privacy:
+  #  enabled: true
+  mkdocstrings:
+    handlers:
+      python:
+        inventories:
+          - 'https://docs.python.org/3/objects.inv'
+          - 'https://click.palletsprojects.com/en/stable/objects.inv'
+          - 'https://typing-extensions.readthedocs.io/en/latest/objects.inv'
+          - 'https://cryptography.readthedocs.io/en/latest/objects.inv'
+          - 'https://hypothesis.readthedocs.io/en/latest/objects.inv'
+        options:
+          docstring_options:
+            ignore_init_summary: true
+            returns_multiple_items: false
+          merge_init_into_class: true
+          show_source: false
+          heading_level: 2
+          show_object_full_path: false
+          show_root_members_full_path: false
+          show_root_heading: true
+          show_symbol_type_heading: true
+          show_symbol_type_toc: true
+          members_order: 'source'
+          show_signature_annotations: true
+          separate_signature: true
+          signature_crossrefs: true
+          unwrap_annotated: true
+          scoped_crossrefs: true
+        paths:
+          - src
+          - .
+  mike:
+    alias_type: symlink
+    canonical_version: '0.x'
+    version_selector: false
+
+nav:
+  - Overview: index.md
+  - Tutorials & Examples:
+    - tutorials/index.md
+    - tutorials/basic-setup-passphrase.md
+  - How-Tos:
+    - how-tos/index.md
+    - how-tos/ssh-key.md
+  - Reference:
+    - reference/index.md
+    - Man pages:
+      - 'derivepassphrase(1)': reference/derivepassphrase.1.md
+      - 'derivepassphrase-vault(1)': reference/derivepassphrase-vault.1.md
+      - 'derivepassphrase-export(1)': reference/derivepassphrase-export.1.md
+      - 'derivepassphrase-export-vault(1)': reference/derivepassphrase-export-vault.1.md
+    - 'API docs: Module derivepassphrase':
+      - Submodule cli: reference/derivepassphrase.cli.md
+      - Subpackage exporter: reference/derivepassphrase.exporter.md
+      - Submodule sequin: reference/derivepassphrase.sequin.md
+      - Submodule ssh_agent: reference/derivepassphrase.ssh_agent.md
+      - Submodule _types: reference/derivepassphrase._types.md
+      - Submodule vault: reference/derivepassphrase.vault.md
+    - Technical prerequisites:
+      - 'Using derivepassphrase vault with an SSH key': reference/prerequisites-ssh-key.md
+  - Design & Background:
+    - explanation/index.md
+    - '"altered versions" license requirement': explanation/faq-altered-versions.md
+    - '"interchangable passphrases" in vault': explanation/faq-vault-interchangable-passphrases.md
+  - Changelog:
+    - Changelog: changelog.md
+    - Upgrade notes: upgrade-notes.md
+    - Python compatibility: pycompatibility.md
+  - Wishlist:
+    - wishlist/index.md
+not_in_nav: |
+  wishlist/*.md
+  !wishlist/index.md
+draft_docs: |
+  changelog.d
+  _future.md
+  reference/derivepassphrase._internals.*
+  reference/tests.*
+  _release_checklist.md
+
+markdown_extensions:
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - admonition
+  - smarty
+  - toc:
+      permalink: true
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.snippets:
+      base_path:
+        - 'docs'
+        - '.'
+      check_paths: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  version:
+    provider: mike
+    default:
+      - latest
+      - stable

@@ -1,0 +1,15 @@
+INHERIT: mkdocs.yml
+
+draft_docs: |
+  _future.md
+  reference/derivepassphrase._internals.*
+  reference/tests.*
+  _release_checklist.md
+not_in_nav: |
+  changelog.d
+  wishlist/*.md
+  !wishlist/index.md
+
+plugins:
+  offline:
+    enabled: true

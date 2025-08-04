@@ -1,0 +1,570 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "derivepassphrase"
+description = "An almost faithful Python reimplementation of James Coglan's vault."
+readme = "README.md"
+version = "0.5.2"
+requires-python = ">= 3.9"
+license = { text = "zlib/libpng" }
+keywords = []
+authors = [
+    { name = "Marco Ricci", email = "software@the13thletter.info" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "License :: OSI Approved :: zlib/libpng License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    # We use click for the command-line interface.  We require version
+    # 8.1.0 or higher due to click issue #1985.
+    "click >= 8.1",
+    # We include type annotations, and use facilities that are not
+    # readily available in older Pythons (such as typing.Self).  These
+    # are loaded from typing_extensions, instead of using explicit
+    # version guards.
+    "typing_extensions",
+    # We read configuration files in JSON and TOML format.  The latter
+    # is unavailable in the Python standard library until Python 3.11.
+    'tomli; python_version < "3.11"'
+]
+
+[project.optional-dependencies]
+dev = [
+    # dev - developers' setup
+    #
+    # Development uses the hatch build system, to isolate all tools in
+    # their own virtual environment...
+    "hatch >= 1.10",
+    # ...but it is still sensible to have most static analysis tools
+    # available in the main virtual environment as well, so that your
+    # editor/IDE setup can access them as well.
+    "mypy >= 1.0",
+    "ruff >= 0.9.0",
+    # Test dependencies should be installed as well, to have static
+    # analysis in the test suite working too.
+    #
+    # `packaging` is needed because the test suite compares version
+    # numbers.
+    #
+    # `pytest-xdist` is used by `hatch test -p`, but for the `psutil`
+    # extra, the `psutil` package provides no wheels for PyPy.  Users on
+    # The Annoying OS are especially screwed if they lack the admin
+    # priviledges necessary to install the developers' tools.  So skip
+    # the extra, and accept that for PyPy environments, `hatch test -p`
+    # will not be able to distinguish logical and physical CPU core
+    # counts.
+    "coverage[toml] >= 7.4",
+    "coverage-enable-subprocess >= 1.0",
+    "hypothesis >= 6.0",
+    "packaging",
+    "pytest >= 8.1",
+    "pytest-randomly >= 3.15",
+    "pytest-xdist >= 3.6.0",
+    'pytest-xdist[psutil] >= 3.6.0; platform_python_implementation != "PyPy"',
+    # Versions 6.130.13 through 6.135.1 of `hypothesis` use syntax only
+    # available on Python 3.10 and later: `with (x as y, a as b)`
+    'hypothesis != 6.130.13, != 6.131.*, != 6.132.*, != 6.133.*, != 6.134.*, != 6.135.0, != 6.135.1 ; python_version < "3.10"',
+]
+export = [
+    # export - additional dependencies for `derivepassphrase export`
+    #
+    # The vault configuration exporter relies on cryptography.
+    # Version 38 was the first to include the `algorithms.AES256`
+    # interface, instead of only the `algorithms.AES` interface, but
+    # this was never tested, so we require the earliest cryptography
+    # version we tested on.
+    "cryptography >= 42.0.0",
+]
+export-dev-wheels = [
+    # export-dev-wheels - wheel requirements for "export" in the "dev"
+    # setup
+    #
+    # `cryptography` 44.0.0 does not publish wheels for PyPy 3.9
+    # anymore.
+    'cryptography < 44 ; python_version < "3.10" and platform_python_implementation == "PyPy"',
+    # `cryptography` 44.0.1 is the first version to publish wheels for
+    # PyPy 3.11.
+    'cryptography > 44.0.1 ; python_version >= "3.11" and platform_python_implementation == "PyPy"',
+]
+
+[project.scripts]
+derivepassphrase = "derivepassphrase.cli:derivepassphrase"
+
+[project.urls]
+Documentation = "https://the13thletter.info/derivepassphrase/"
+Issues = "https://the13thletter.info/derivepassphrase/latest/wishlist/"
+Source = "https://git.schokokeks.org/derivepassphrase.git"
+
+[tool.bumpversion]
+current_version = "0.5.2"
+# As of bump-my-version 0.32.0, version components are strictly
+# hierarchical in the order of occurrence, and there is no support for
+# pre-release markers.  The documentation suggests a fake "dev/rc/final"
+# marker, with "final" being suppressed on output; effectively, it's
+# major.minor.patch-n.m, where -n.m is suppressed if n is some maximum
+# value and m is zero.  This sort of scales to multiple levels of pre-
+# oder development releases (e.g. distinguished alpha versions and
+# development versions in between alpha versions) if you manually
+# increment the lower markers manually, in descending order, while no
+# committing the result... but at that point you're not really gaining
+# that much over calculating the new version number yourself and forcing
+# that.
+#
+# The primary reason to still fill out these templates is to ensure that
+# the version number correctly round-trips within bump-my-version.
+parse = '''(?x)
+    (?P<major>\d+)
+    \.(?P<minor>\d+)
+    (?:\.(?P<patch>\d+))?
+    (?:
+        (?P<pre_l>-dev|a|b|rc|)
+        (?P<pre_n>[1-9][0-9]*)
+    )?
+    (?:
+        [-.]
+        (?P<dev_t>dev|final)
+        (?P<dev_n>[1-9][0-9]*)
+    )?
+'''
+serialize = [
+    '{major}.{minor}.{patch}{pre_l}{pre_n}.{dev_t}{dev_n}',
+    '{major}.{minor}.{patch}{pre_l}{pre_n}',
+    '{major}.{minor}.{patch}',
+    '{major}.{minor}{pre_l}{pre_n}.{dev_t}{dev_n}',
+    '{major}.{minor}{pre_l}{pre_n}',
+    '{major}.{minor}',
+]
+search = '{current_version}'
+replace = '{new_version}'
+regex = false
+ignore_missing_version = false
+ignore_missing_files = false
+tag = true
+sign_tags = false
+tag_name = '{new_version}'
+tag_message = 'Release derivepassphrase v{new_version}'
+allow_dirty = true
+commit = true
+message = 'Release {new_version}'
+moveable_tags = []
+commit_args = ""
+setup_hooks = []
+pre_commit_hooks = []
+post_commit_hooks = []
+
+[tool.bumpversion.parts.dev_t]
+values = ['dev', '']
+optional_value = ''
+
+[tool.bumpversion.parts.dev_n]
+values = []
+first_value = '1'
+
+[tool.bumpversion.parts.pre_l]
+values = ['-dev', 'a', 'b', 'rc', '']
+optional_value = ''
+
+[tool.bumpversion.parts.pre_n]
+values = []
+first_value = '1'
+
+[[tool.bumpversion.files]]
+filename = 'src/derivepassphrase/__init__.py'
+search = "^ *__version__ *= *'{current_version}'"
+replace = "__version__ = '{new_version}'"
+regex = true
+
+[[tool.bumpversion.files]]
+glob = 'src/derivepassphrase/*.py'
+search = '# SPDX-FileCopyrightText: \d\d\d\d'
+replace = '# SPDX-FileCopyrightText: {now:%Y}'
+regex = true
+
+[[tool.bumpversion.files]]
+glob = 'src/derivepassphrase/*/*.py'
+search = '# SPDX-FileCopyrightText: \d\d\d\d'
+replace = '# SPDX-FileCopyrightText: {now:%Y}'
+regex = true
+
+[[tool.bumpversion.files]]
+glob = 'tests/*.py'
+search = '# SPDX-FileCopyrightText: \d\d\d\d'
+replace = '# SPDX-FileCopyrightText: {now:%Y}'
+regex = true
+
+[[tool.bumpversion.files]]
+filename = 'pyproject.toml'
+search = '^ *version *= *"{current_version}"'
+replace = 'version = "{new_version}"'
+regex = true
+
+[[tool.bumpversion.files]]
+filename = 'pyproject.toml'
+search = '^ *current_version *= *"{current_version}"'
+replace = 'current_version = "{new_version}"'
+regex = true
+
+[[tool.bumpversion.files]]
+glob = 'share/man/man1/derivepassphrase*.1'
+regex = true
+search = '^\.Dd +\d\d\d\d-\d\d-\d\d'
+replace = '.Dd {now:%Y-%m-%d}'
+
+[[tool.bumpversion.files]]
+glob = 'share/man/man1/derivepassphrase*.1'
+regex = true
+search = '^\.Os +derivepassphrase +{current_version}'
+replace = '.Os derivepassphrase {new_version}'
+
+[tool.coverage.html]
+directory = "html/coverage"
+
+[tool.coverage.paths]
+src = ["src"]
+tests = ["tests"]
+
+[tool.coverage.report]
+skip_covered = false
+skip_empty = true
+precision = 3
+partial_branches = [
+    'pragma: no branch',
+]
+exclude_also = [
+    "if __name__ == .__main__.:",
+    'if (?:typing\.)?TYPE_CHECKING:',
+    "raise AssertionError",
+    "raise NotImplementedError",
+    'assert False',
+    '(?:typing\.)?assert_never\(',
+    '@overload',
+    'class .*\(Protocol\):',
+    'pytest\.fail\(',
+    '@(?:(?:pytest\.)?mark\.)?xfail\(',
+    'class _Omitted:',
+    'class _DummyModule:',
+]
+
+# We use a bunch of "codes", similar to the "type: ignore" comments, as
+# shorthand notation for why we are excluding a certain piece of code
+# manually from coverage, instead of writing a verbose explanation at each
+# call site:
+#
+# "external-api" and "unused": The code is defined by an external API not
+# under our control, or it implements an external interface, and some of the
+# branches of that code we do not yet use ("unused") or don't ever intend to
+# use ("external-api").  In particular, in production and in testing use, we
+# do not expect to hit these code branches unless there are errors in our
+# code.
+#
+# "external": Whether or not we hit this code branch is non-deterministic,
+# and dependent on external factors that are difficult or impossible for us
+# to control, predict, or simulate.  We therefore categorically exclude all
+# branches from coverage.  (Typically though, one particular branch *will*
+# actually run.  We just don't know ahead of time which one.)  (While this
+# applies to "choice of operating system" and "installed Python/library
+# version" as well, these cases are usually tagged with more specific codes,
+# or explained in long-form commentary.)
+#
+# "failsafe": Akin to assertions, these are used to catch "impossible"
+# situations and to still fail in a controlled manner.  We do not expect to
+# hit these code branches during production or testing.
+#
+# "debug", "internal" and "interactive": These code branches are not
+# intended to be called by the general public ("debug", "internal"), or they
+# are only intended to be called interactively ("interactive").  We do not
+# expect to hit these code branches during production or testing.
+
+[tool.coverage.run]
+source_pkgs = ["derivepassphrase", "tests"]
+branch = true
+parallel = true
+omit = [
+    "__main__.py",
+]
+dynamic_context = 'test_function'
+concurrency = ['thread', 'multiprocessing']
+sigterm = true
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    'docs/changelog.d/*.md',
+]
+
+[tool.hatch.build.targets.wheel]
+include = [
+    'src/derivepassphrase',
+    'share/locale/',
+    'share/man/',
+]
+sources = ['src']
+
+[tool.hatch.env]
+requires = [
+    "hatch-mkdocs",
+]
+
+[tool.hatch.env.collectors.mkdocs.docs]
+path = "mkdocs.yml"
+
+[tool.hatch.envs.docs]
+extra-dependencies = [
+    # Our documentation uses formatted function signatures (i.e. with
+    # formatted type annotations), which requires `black`.
+    "black",
+    # We actually use functionality from MkDocs 1.6, so ensure the
+    # version is at least this high.
+    "mkdocs >= 1.6",
+    # Our changelog is assembled from singular entries, orchestrated by
+    # `scriv`.
+    "scriv >= 1.4",
+]
+detached = false
+
+[tool.hatch.envs.hatch-static-analysis]
+config-path = "/dev/null"
+dependencies = [
+    # Override the default dependencies, lest the ruff requirements
+    # conflict.
+]
+features = [
+    "dev",
+]
+
+[tool.hatch.envs.hatch-test]
+default-args = ['src', 'tests']
+# See "dev" extra in main project section for commentary on the
+# dependencies.  We override them here because hatch is too restrictive
+# by default.
+dependencies = [
+    "coverage[toml] >= 7.4",
+    "coverage-enable-subprocess >= 1.0",
+    "hypothesis >= 6.0",
+    "packaging",
+    "pytest >= 8.1",
+    "pytest-randomly >= 3.15",
+    "pytest-xdist >= 3.6.0",
+    'pytest-xdist[psutil] >= 3.6.0; platform_python_implementation != "PyPy"',
+    'hypothesis != 6.130.13, != 6.131.*, != 6.132.*, != 6.133.*, != 6.134.*, != 6.135.0, != 6.135.1 ; python_version < "3.10"',
+]
+matrix-name-format = '{variable}_{value}'
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.13", "3.12", "3.11", "3.10", "3.9", "pypy3.11", "pypy3.10", "pypy3.9"]
+cryptography = ["no", "yes"]
+parser-version = ["PEG"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.9", "pypy3.9"]
+cryptography = ["no", "yes"]
+parser-version = ["LL1"]
+
+[tool.hatch.envs.hatch-test.overrides]
+matrix.cryptography.features = [
+    { value = "export", if = ["yes"] },
+    { value = "export-dev-wheels", if = ["yes"] },
+]
+matrix.parser-version.env-vars = [
+    { key = "PYTHONOLDPARSER", value = "1", if = ["LL1"] },
+]
+
+[tool.hatch.envs.hatch-test.scripts]
+run = "pytest --hypothesis-profile={env:HYPOTHESIS_PROFILE:default}{env:HATCH_TEST_ARGS:} {args}"
+run-cov = "coverage run -m pytest --hypothesis-profile={env:HYPOTHESIS_PROFILE:default}{env:HATCH_TEST_ARGS:} {args}"
+cov-combine = "coverage combine"
+cov-report = "coverage report"
+
+[tool.hatch.envs.types]
+features = [
+    "dev",
+    "export",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/derivepassphrase tests}"
+
+[tool.hatch.version]
+path = "src/derivepassphrase/__init__.py"
+
+[tool.mypy]
+files = ['src/**/*.py', 'tests/**/*.py']
+mypy_path = '$MYPY_CONFIG_FILE_DIR/src:$MYPY_CONFIG_FILE_DIR/other-stubs'
+explicit_package_bases = true
+implicit_reexport = false
+sqlite_cache = true
+enable_error_code = ['ignore-without-code']
+
+[tool.pytest.ini_options]
+addopts = '--doctest-modules --dist=worksteal'
+pythonpath = ['src']
+testpaths = ['src', 'tests']
+xfail_strict = true
+
+[tool.ruff]
+line-length = 79
+src = ["src"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+preview = true
+quote-style = 'single'
+
+[tool.ruff.lint]
+ignore = [
+    # Suggested ignore by ruff when also using ruff to format.  We *do*
+    # check for E501, because this usually only happens when there is
+    # a text string that should be manually broken.  However, for
+    # automated quality control, that specific check is turned off so
+    # that the linting and formatting can proceed, and then *afterwards*
+    # the files are re-linted.  We hope that any *true* E501 errors left
+    # over from this *are* text strings that should be manually broken.
+    'W191', 'E111', 'E114', 'E117', 'D206', 'D300', 'Q000', 'Q001',
+    'Q002', 'Q003', 'COM812', 'COM819', 'ISC001', 'ISC002',
+    # We use `assert` regularly to appease the type checker, and because
+    # it is the right language tool for this job.
+    'S101',
+    # The formatter takes care of trailing commas and docstring code
+    # automatically.
+    'COM812', 'W505',
+    # We document transitive exceptions as well (if we feel they would
+    # be surprising to the user otherwise).
+    'DOC502',
+    # We currently don't have issues for every TODO.  Forcing an issue
+    # also goes against the philosophy of TODOs as low-overhead markers
+    # for future work; see
+    # https://gist.github.com/dmnd/ed5d8ef8de2e4cfea174bd5dafcda382 .
+    'TD003',
+    # We somewhat regularly use loops where each iteration needs
+    # a separate try-except block.
+    'PERF203',
+    # We do not currently use pathlib.  The PTH rules are unselected,
+    # but FURB includes several pathlib-related rules.
+    'FURB101', 'FURB103',
+    # We catch type-ignore comments without specific code via the mypy
+    # configuration, not via ruff.
+    'PGH003',
+]
+preview = true
+# We select here in the order of presentation on the ruff documentation
+# website.  ruff default selection (v0.6.2) is merely E4, E7, E9 and F.
+select = [
+    'F', 'E', 'W', 'C90', 'I', 'N', 'D', 'UP', 'YTT',
+    'ANN', 'ASYNC', 'S', 'BLE', 'FBT', 'B', 'A', 'COM',
+    'CPY', 'C4', 'DTZ', 'T10', 'DJ', 'EM', 'EXE', 'FA',
+    'ISC', 'ICN', 'LOG', 'G', 'INP', 'PIE', 'T20', 'PYI',
+    'PT', 'Q', 'RET', 'SLF', 'SLOT', 'SIM', 'TID', 'TC',
+    'INT', 'ARG', 'PTH', 'TD',
+    # We use TODOs and FIXMEs as notes for later, and don't want the
+    # linter to nag about every occurrence.  Disable 'FIX'.
+    #
+    # The "eradicate" rule is prone to a lot of false positives, and it
+    # is unclear to me, and probably confusing to read, where to apply
+    # a noqa marker.  Instead, disable 'ERA', and if necessary, specify
+    # it on the command-line.
+    'PD', 'PGH', 'PL', 'TRY', 'FLY', 'NPY', 'FAST',
+    'AIR', 'PERF', 'FURB', 'DOC', 'RUF',
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/scripts/*" = [
+    # Suggested by hatch.
+    'INP',
+    # Suggested by hatch.
+    'T20',
+]
+"**/tests/**/*" = [
+    # Suggested by hatch, assumingly because it may be important to
+    # verify that the value is exactly the empty string, and not just
+    # any falsy value.
+    'PLC1901',
+    # Suggested by hatch, assumingly because tests may use "magic
+    # values".
+    'PLR2004',
+    # Suggested by hatch, because tests are typically organized as
+    # classes and instance methods but may not really be using the
+    # `self` argument.
+    'PLR6301',
+    # Suggested by hatch, because these warnings may be precisely what
+    # the tests are supposed to test.
+    'S',
+    # Suggested by hatch, because pytest-style tests conventionally
+    # import code from each other via relative imports.
+    'TID252',
+    # Our tests regularly use arguments named `input` to store an input
+    # (text-/byte-)string.
+    'A002',
+    # We regularly annotate pytest fixtures like monkeypatch as `Any`.
+    'ANN401',
+    # Our tests generally don't contain docstrings.
+    'D', 'DOC',
+    # Our tests are regularly parametrized with booleans, for benign
+    # purposes.
+    'FBT',
+    # One of our standard modules is called `derivepassphrase._types`.
+    # Importing this from the tests directory would then automatically
+    # trigger `PLC2701`.
+    'PLC2701',
+    # Too many public methods/arguments/returns/branches/locals doesn't
+    # really apply here.
+    'PLR0904', 'PLR0911', 'PLR0912', 'PLR0913', 'PLR0914', 'PLR0915',
+    'PLR0916', 'PLR0917',
+    # To fully test the `derivepassphrase.cli` module (and a couple
+    # other things), we need to call and to mock several internal
+    # functions, which would automatically trigger `SLF001`.
+    'SLF001',
+    # pytest does not support sensible introspection of
+    # `assert all(...)` expressions in tests the same way it supports
+    # introspection in `asssert all([...])`.  So the extra list
+    # comprehension actually improves debuggability in this case.
+    'C419',
+    # The tests sometimes include long strings (in non-Python formats)
+    # that should be included verbatim, without artificial line
+    # breaking, so they can be grepped for.
+    'E501',
+]
+
+[tool.ruff.lint.flake8-copyright]
+# Include hatch-enforced SPDX-FileCopyrightText in check.
+notice-rgx = '(?i)(?:Copyright\s+((?:\(C\)|©)\s+)?|SPDX-FileCopyrightText:\s+)\d{4}((-|,\s)\d{4})*'
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+parametrize-names-type = 'list'
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.isort]
+known-first-party = ["derivepassphrase"]
+
+[tool.ruff.lint.pycodestyle]
+ignore-overlong-task-comments = true  # for E501
+max-doc-length = 72  # for W505
+
+[tool.ruff.lint.pydocstyle]
+convention = 'google'
+
+[tool.scriv]
+version = "literal: pyproject.toml: project.version"
+format = "md"
+fragment_directory = "docs/changelog.d"
+output_file = "docs/changelog.md"
+insert_marker = "<!-- scriv changelog start -->"
+end_marker = "<!-- scriv changelog end -->"
+md_header_level = "2"
+entry_title_template = "{% if version %}{{ version }} ({% endif %}{{ date.strftime('%Y-%m-%d') }}{% if version %}){% endif %}"
