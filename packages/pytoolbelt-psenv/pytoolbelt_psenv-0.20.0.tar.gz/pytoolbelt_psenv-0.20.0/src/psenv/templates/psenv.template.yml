@@ -1,0 +1,29 @@
+# This is a base template for a psenv configuration file. Edit as needed
+# Environment variables are supported using the ${ENV_VAR} syntax.
+# paths are constructed as follows:
+#   - root_path + path where path is optional
+#   - paths must start with a slash (/)
+# Kms keys can be specified at the root level and overridden in environments.
+#   - kms keys must be referenced by their alias and must start with "alias/"
+#   - if no kms key is specified, the default KMS key for the account will be used.
+
+
+envfile: .env                          # OPTIONAL: this will be loaded for use by the tool
+root_path: /some/param/path            # REQUIRED: the root path for the parameters in the aws parameter store.
+root_kms_key: "alias/root-key"         # OPTIONAL: kms key id. This will be used in all accounts unless overridden in environments
+environments:
+  - name: dev                         # REQUIRED: the name of the environment as a reference in the CLI.
+    kms-key: "alias/some-kms-key-id"  # OPTIONAL: this will override the root kms_key
+    account: "${AWS_ACCOUNT_ID}"      # REQUIRED: environment variables are supported in config files to keep things secret.
+    envfile: environments/dev.env     # REQUIRED: where to find the env file for this environment
+    path: /optional/env/dev           # OPTIONAL: a path suffix that will be appended to the root_path
+
+  - name: test
+    account: "${AWS_ACCOUNT_ID}"
+    envfile: environments/test.env
+    path: /optional/env/path/here
+
+  - name: prod
+    account: "${AWS_ACCOUNT_ID}"
+    envfile: environments/prd.env
+    path: /optional/env/path/here
