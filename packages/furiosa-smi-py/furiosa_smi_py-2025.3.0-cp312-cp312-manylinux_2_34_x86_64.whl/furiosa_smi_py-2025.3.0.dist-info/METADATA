@@ -1,0 +1,73 @@
+Metadata-Version: 2.1
+Name: furiosa-smi-py
+Version: 2025.3.0
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+
+# Furiosa System Management Interface Python Binding
+
+## Overview
+Furiosa System Management Interface, is a programmatic interface for managing and monitoring FuriosaAI NPUs.
+
+The interface provides the following API modules, each designed to offer distinct functionalities for managing and monitoring NPU devices.
+These modules enable developers to access essential hardware information, topology details, system-wide information, and performance metrics.
+
+Each module provides the following features:
+- **Initialize module** handles initialization of the Furiosa SMI library.
+
+- **Device module** provides NPU device discovery and information including *device specification* and *liveness*.
+
+- **Topology module** provides the topology status within a system including *device-to-device link type* and *p2p accessibility*.
+
+- **System module** provides system-wide information of each NPU device, including *firmware version* and *driver version*.
+
+- **Performance module** provides the device performance metrics including *power consumption*, *temperature*, and *utilization*.
+
+## Installation
+
+Furiosa-smi-py is available on the Python Package Index (PyPI). We recommend installing `furiosa-smi-py` via pip:
+
+```
+pip install furiosa-smi-py
+```
+
+Once installed, you can import the `furiosa_smi_py` module:
+
+```python
+import furiosa_smi_py
+```
+
+## Usage
+
+To get started with Furiosa-smi-py, simply import the `furiosa_smi_py` module and utilize its functions to interact with NPU devices. The package provides various methods to access the NPU device information and status.
+For more detailed documentation, check out the [API documentation](https://furiosa-ai.github.io/furiosa-smi-py).
+
+```python
+from furiosa_smi_py import init, list_devices
+
+init() # Initialize the Furiosa SMI library.
+
+devices = list_devices() # Retrieve a list of NPU devices in the system.
+
+for device in devices:
+    device_info = device.device_info() # Acquire information about the NPU device.
+    print("Device Info")
+    print(f"\t\tDevice Arch: {device_info.arch()}")
+    print(f"\t\tDevice Cores: {device_info.core_num()}")
+
+    ... # You can use other APIs. Please refer to the documentation.
+```
+
+The expected output is as below.
+
+```
+Device Info
+		Device Arch: Rngd
+		Device Cores: 8
+
+		...
+```
+
