@@ -1,0 +1,296 @@
+# 📦 Panduan Upload Library ke PyPI
+
+Berikut adalah langkah-langkah lengkap untuk mengupload library **Indo Scraper** ke PyPI agar bisa diinstall dengan `pip install indo-scraper`.
+
+## 🛠️ Persiapan
+
+### 1. Struktur Folder Project
+
+Pastikan struktur folder Anda seperti ini:
+
+```
+indo-scraper/
+├── indo_scraper/
+│   ├── __init__.py
+│   ├── scraper.py
+│   ├── utils.py
+│   └── cli.py
+├── setup.py
+├── README.md
+├── requirements.txt
+├── MANIFEST.in
+├── LICENSE
+└── example.py
+```
+
+### 2. Install Tools yang Diperlukan
+
+```bash
+pip install setuptools wheel twine
+```
+
+### 3. Buat Akun PyPI
+
+1. Daftar di [https://pypi.org/account/register/](https://pypi.org/account/register/)
+2. Verifikasi email Anda
+3. (Opsional) Daftar juga di [https://test.pypi.org/](https://test.pypi.org/) untuk testing
+
+## 📝 Langkah-langkah Upload
+
+### Step 1: Persiapan File
+
+1. **Pastikan `setup.py` sudah benar**:
+   - Ganti `name="indo-scraper"` dengan nama unik jika sudah ada
+   - Update informasi author dan email
+   - Pastikan versi sudah benar
+
+2. **Buat file `LICENSE`**:
+```text
+MIT License
+
+Copyright (c) 2024 Your Name
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### Step 2: Test Locally
+
+```bash
+# Test instalasi local
+pip install -e .
+
+# Test command line
+indo-scraper --help
+
+# Test import
+python -c "from indo_scraper import IndoScraper; print('OK')"
+```
+
+### Step 3: Build Package
+
+```bash
+# Hapus build lama jika ada
+rm -rf build/ dist/ *.egg-info/
+
+# Build package
+python setup.py sdist bdist_wheel
+```
+
+Setelah berhasil, akan ada folder `dist/` dengan file:
+- `indo-scraper-1.0.0.tar.gz` (source distribution)
+- `indo_scraper-1.0.0-py3-none-any.whl` (wheel distribution)
+
+### Step 4: Test Upload ke TestPyPI (Opsional)
+
+```bash
+# Upload ke TestPyPI
+twine upload --repository testpypi dist/*
+
+# Test install dari TestPyPI
+pip install --index-url https://test.pypi.org/simple/ indo-scraper
+```
+
+### Step 5: Upload ke PyPI Production
+
+```bash
+# Upload ke PyPI resmi
+twine upload dist/*
+```
+
+Anda akan diminta username dan password PyPI.
+
+### Step 6: Verifikasi
+
+```bash
+# Install dari PyPI
+pip install indo-scraper
+
+# Test
+indo-scraper --version
+```
+
+## 🔐 Menggunakan API Token (Recommended)
+
+Untuk keamanan yang lebih baik, gunakan API token:
+
+### 1. Buat API Token
+
+1. Login ke [https://pypi.org/](https://pypi.org/)
+2. Masuk ke Account Settings > API tokens
+3. Klik "Add API token"
+4. Berikan nama dan scope
+5. Copy token yang dihasilkan
+
+### 2. Konfigurasi `~/.pypirc`
+
+Buat file `~/.pypirc`:
+
+```ini
+[distutils]
+index-servers = pypi
+
+[pypi]
+  repository = https://upload.pypi.org/legacy/
+  username = __token__
+  password = pypi-your-api-token-here
+```
+
+### 3. Upload dengan Token
+
+```bash
+twine upload dist/*
+```
+
+## 📋 Checklist Sebelum Upload
+
+- [ ] ✅ Nama package unik di PyPI
+- [ ] ✅ Version number yang benar
+- [ ] ✅ README.md informatif dengan contoh penggunaan
+- [ ] ✅ requirements.txt lengkap
+- [ ] ✅ License file ada
+- [ ] ✅ Test package berjalan dengan baik
+- [ ] ✅ Semua dependencies bisa diinstall
+- [ ] ✅ Command line interface berfungsi
+- [ ] ✅ No sensitive information (API keys, passwords)
+
+## 🔄 Update Version
+
+Untuk update library:
+
+### 1. Update Version
+
+Edit `setup.py`:
+```python
+version="1.0.1",  # Increment version
+```
+
+Edit `indo_scraper/__init__.py`:
+```python
+__version__ = "1.0.1"
+```
+
+### 2. Update Changelog
+
+Tambahkan di README.md:
+```markdown
+### v1.0.1
+- 🐛 Fix bug dalam ekstraksi email
+- ✨ Tambah support untuk domain .ponpes.id
+- 📚 Update dokumentasi
+```
+
+### 3. Build dan Upload
+
+```bash
+# Clean build lama
+rm -rf build/ dist/ *.egg-info/
+
+# Build ulang
+python setup.py sdist bdist_wheel
+
+# Upload
+twine upload dist/*
+```
+
+## 🚀 Promote Library Anda
+
+### 1. GitHub Repository
+
+Buat repository GitHub dengan:
+- README yang menarik
+- Examples yang jelas
+- Issues template
+- Contributing guidelines
+
+### 2. Documentation
+
+Buat dokumentasi lengkap:
+- GitHub Wiki
+- GitHub Pages
+- ReadTheDocs
+
+### 3. Marketing
+
+- Post di forum Python Indonesia
+- Share di social media
+- Buat tutorial blog post
+- Submit ke awesome-python lists
+
+## 🛠️ Maintenance
+
+### Regular Tasks
+
+- Monitor issues di GitHub
+- Update dependencies
+- Fix bugs
+- Add new features
+- Keep documentation updated
+
+### Security
+
+- Scan dependencies untuk vulnerabilities
+- Update ke Python version terbaru
+- Review code untuk security issues
+
+## 📞 Troubleshooting
+
+### Error "Package already exists"
+
+```bash
+# Ganti nama di setup.py
+name="indo-scraper-yourname",
+```
+
+### Error "Invalid wheel filename"
+
+```bash
+# Rebuild dengan nama yang benar
+python setup.py bdist_wheel
+```
+
+### Error "Upload failed"
+
+```bash
+# Cek API token
+twine check dist/*
+
+# Upload dengan verbose
+twine upload --verbose dist/*
+```
+
+### Permission Error
+
+```bash
+# Pastikan Anda owner/maintainer package
+# Atau gunakan API token dengan scope yang benar
+```
+
+## 🎉 Selesai!
+
+Setelah berhasil upload, library Anda bisa diinstall dengan:
+
+```bash
+pip install indo-scraper
+```
+
+Dan siap digunakan oleh developer di seluruh dunia! 🌍
+
+---
+
+**Selamat! Library Indo Scraper Anda sudah online di PyPI!** 🎊
