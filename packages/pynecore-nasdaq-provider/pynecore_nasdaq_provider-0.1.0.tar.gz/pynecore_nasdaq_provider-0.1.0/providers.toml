@@ -1,0 +1,37 @@
+# NASDAQ Data Link Provider Configuration
+# Add this configuration to your PyneCore providers.toml file
+
+[nasdaq]
+# NASDAQ Data Link API configuration
+# Get your API key from: https://data.nasdaq.com/account/profile
+api_key = "__token__"
+
+# Base URL for NASDAQ Data Link API (formerly Quandl)
+base_url = "https://data.nasdaq.com/api/v3"
+
+# Default database to use for symbol lookups
+# Common databases: WIKI (Wiki EOD Stock Prices), FRED (Federal Reserve Economic Data)
+default_database = "WIKI"
+
+# Rate limiting delay between API calls (in seconds)
+# Free accounts have rate limits, premium accounts have higher limits
+rate_limit_delay = "0.1"
+
+# Example usage:
+# 1. Get your free API key from https://data.nasdaq.com/account/profile
+# 2. Replace "your_nasdaq_api_key_here" with your actual API key
+# 3. Save this file and restart PyneCore
+# 4. Use: pyne data download nasdaq WIKI/AAPL --from 2023-01-01 --to 2023-12-31
+
+# Popular symbol examples:
+# - WIKI/AAPL (Apple Inc.)
+# - WIKI/GOOGL (Alphabet Inc.)
+# - WIKI/MSFT (Microsoft Corporation)
+# - WIKI/TSLA (Tesla Inc.)
+# - WIKI/AMZN (Amazon.com Inc.)
+
+# Notes:
+# - NASDAQ Data Link provides primarily daily data
+# - Some datasets may require premium subscriptions
+# - Symbol format is typically DATABASE/SYMBOL (e.g., WIKI/AAPL)
+# - Free accounts have usage limits, check your account for details

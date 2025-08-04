@@ -1,0 +1,318 @@
+# PyneCore NASDAQ Provider
+
+A PyneCore plugin that provides access to financial data from NASDAQ Data Link (formerly Quandl) API.
+
+## Features
+
+- Access to thousands of financial datasets from NASDAQ Data Link
+- Support for stocks, economic indicators, and other financial instruments
+- Daily, weekly, monthly, quarterly, and annual data frequencies
+- Automatic rate limiting and error handling
+- Full integration with PyneCore's CLI and backtesting framework
+
+## Installation
+
+### From PyPI (when published)
+
+```bash
+pip install pynecore-nasdaq-provider
+```
+
+### From Source
+
+```bash
+git clone https://github.com/pynecore/pynecore-nasdaq-provider.git
+cd pynecore-nasdaq-provider
+pip install -e .
+```
+
+## Configuration
+
+1. **Get your NASDAQ Data Link API key:**
+   - Visit [https://data.nasdaq.com/account/profile](https://data.nasdaq.com/account/profile)
+   - Sign up for a free account or log in
+   - Copy your API key from the account settings
+
+2. **Configure PyneCore:**
+   Create or update your `providers.toml` file in the `workdir/config/` folder of your PyneCore working directory (where you run `pyne` commands) with the following configuration:
+
+   ```toml
+   [nasdaq]
+   api_key = "your_actual_api_key_here"
+   base_url = "https://data.nasdaq.com/api/v3"
+   default_database = "WIKI"
+   rate_limit_delay = "0.1"
+   ```
+
+   **Note**: The `providers.toml` file should be placed in:
+   - Your current working directory when running PyneCore commands, OR
+   - Your PyneCore project directory (same location as your strategy files)
+   - You can also specify a custom config path using `pyne --config-path /path/to/config/`
+
+## Usage
+
+### Command Line Interface
+
+#### Check Available Symbols First
+
+```bash
+# List available symbols (works with any API key)
+pyne data download nasdaq --list-symbols
+```
+
+#### Download Stock Data
+
+**Note:** Test with small date ranges first to verify database access with your API key.
+
+```bash
+# Example downloads (may require subscription)
+pyne data download nasdaq --symbol BCHAIN/MKPRU --from 2023-01-01 --to 2023-01-31
+
+# Download US GDP data (test access first)
+pyne data download nasdaq --symbol FRED/GDP --from 2020-01-01 --to 2020-01-31
+
+# Get symbol information
+pyne data download nasdaq --symbol BCHAIN/MKPRU --info
+
+# Enable verbose logging
+pyne data download nasdaq --symbol BCHAIN/MKPRU --from 2023-01-01 --to 2023-01-31 --verbose
+```
+
+#### Get Symbol Information
+```bash
+pyne data download nasdaq --symbol BCHAIN/MKPRU --symbol-info
+```
+
+## Database Access Limitations
+
+**Important:** Most databases on NASDAQ Data Link, including BCHAIN and FRED, may require premium subscriptions or have access limitations even with a free API key.
+
+### Free API Key Limitations
+
+With a free NASDAQ Data Link API key, you may encounter:
+- **403 Forbidden errors** when trying to access databases that require subscriptions
+- **Limited access** to most datasets, as the majority are premium
+- **Rate limits** of 2,000 calls per 10 minutes and 50,000 calls per day
+
+### Finding Free Databases
+
+To find databases accessible with your API key:
+1. Visit [data.nasdaq.com/search](https://data.nasdaq.com/search)
+2. Filter by "free" data only
+3. Test access with small date ranges first
+4. Check the product page for subscription requirements
+
+**Note:** The examples below may not work with all free API keys. Please verify access to specific databases through the NASDAQ Data Link website.
+
+### Example Symbols (Access May Vary)
+
+**BCHAIN Database (Bitcoin/Blockchain data):**
+- `BCHAIN/MKPRU` - Bitcoin Market Price USD
+- `BCHAIN/TOTBC` - Total Bitcoins
+- `BCHAIN/MKTCP` - Bitcoin Market Capitalization
+- `BCHAIN/ETRAV` - Bitcoin Estimated Transaction Volume
+- `BCHAIN/HRATE` - Bitcoin Hash Rate
+
+**FRED Database (Federal Reserve Economic Data):**
+- `FRED/GDP` - US Gross Domestic Product
+- `FRED/UNRATE` - US Unemployment Rate
+- `FRED/FEDFUNDS` - Federal Funds Rate
+- `FRED/CPIAUCSL` - Consumer Price Index
+- `FRED/DGS10` - 10-Year Treasury Rate
+
+### Supported Timeframes
+
+- `daily` or `1D` - Daily data (default)
+- `weekly` or `1W` - Weekly data
+- `monthly` or `1M` - Monthly data
+- `quarterly` or `3M` - Quarterly data
+- `annual` or `12M` - Annual data
+
+### Python API
+
+```python
+from nasdaq_provider import NasdaqProvider
+
+# Initialize provider
+provider = NasdaqProvider()
+
+# Check available symbols first
+symbols = provider.list_symbols()
+print("Available symbols:", symbols[:10])  # Show first 10
+
+# Test database access with small date ranges first
+try:
+    # Download Bitcoin price data (may require subscription)
+    data = provider.download_ohlcv(
+        symbol="BCHAIN/MKPRU",
+        timeframe="1d",
+        start_date="2023-01-01",
+        end_date="2023-01-31"  # Small range for testing
+    )
+    print("BCHAIN data access: Success")
+    print(data.head())
+except Exception as e:
+    print(f"BCHAIN access error: {e}")
+
+try:
+    # Download US GDP data (may require subscription)
+    gdp_data = provider.download_ohlcv(
+        symbol="FRED/GDP",
+        timeframe="1d",
+        start_date="2020-01-01",
+        end_date="2020-01-31"  # Small range for testing
+    )
+    print("FRED data access: Success")
+    print(gdp_data.head())
+except Exception as e:
+    print(f"FRED access error: {e}")
+
+# Get symbol information
+try:
+    symbol_info = provider.get_symbol_info('BCHAIN/MKPRU')
+    print(f"Symbol: {symbol_info['name']}")
+    print(f"Description: {symbol_info['description']}")
+except Exception as e:
+    print(f"Symbol info error: {e}")
+```
+
+## Data Sources
+
+NASDAQ Data Link provides access to numerous databases:
+
+- **WIKI**: End-of-day stock prices (free)
+- **FRED**: Federal Reserve Economic Data (free)
+- **EOD**: End-of-day stock prices (premium)
+- **SF1**: Fundamental data (premium)
+- **ZACKS**: Analyst recommendations (premium)
+- And many more...
+
+## Rate Limits
+
+- **Free accounts**: 50 calls per day
+- **Premium accounts**: Higher limits based on subscription
+- The provider automatically handles rate limiting with configurable delays
+
+## Error Handling
+
+The provider handles common API errors:
+
+- **401 Unauthorized**: Invalid API key
+- **404 Not Found**: Symbol not found
+- **429 Too Many Requests**: Rate limit exceeded
+- **Network errors**: Connection timeouts and retries
+
+## Troubleshooting
+
+### 403 Forbidden Errors
+
+If you encounter `RuntimeError: NASDAQ Data Link API error 403: Forbidden`, this typically means: <mcreference link="https://docs.data.nasdaq.com/docs/error-codes" index="4">4</mcreference>
+
+1. **Database requires subscription** - Most databases on NASDAQ Data Link are premium
+2. **API key lacks permissions** - Your free API key may not have access to the requested database  
+3. **Exceeded free trial quota** - Some databases allow limited free access before requiring subscription
+4. **Missing API key** - Code QEPx01: "You have attempted to view a protected resource in anonymous mode" <mcreference link="https://docs.data.nasdaq.com/docs/error-codes" index="4">4</mcreference>
+5. **Premium dataset access** - Code QEPx04: "You do not have permission to view this dataset OR you have exceeded your quota of free trials" <mcreference link="https://docs.data.nasdaq.com/docs/error-codes" index="4">4</mcreference>
+
+### Solutions
+
+1. **Use the list-symbols command** to see what's available with your API key:
+   ```bash
+   pyne data download nasdaq --list-symbols
+   ```
+
+2. **Check database pricing** at [data.nasdaq.com](https://data.nasdaq.com/search) <mcreference link="https://help.data.nasdaq.com/article/497-the-api-is-not-working-for-me-what-should-i-do" index="5">5</mcreference>
+
+3. **Test with small date ranges** to avoid hitting data limits
+
+4. **Verify your API key** is correctly configured in `workdir/config/providers.toml` <mcreference link="https://help.data.nasdaq.com/article/497-the-api-is-not-working-for-me-what-should-i-do" index="5">5</mcreference>
+
+5. **Check API usage limits** - Free users have 50,000 calls/day and 2,000 calls/10 minutes <mcreference link="https://help.data.nasdaq.com/article/497-the-api-is-not-working-for-me-what-should-i-do" index="5">5</mcreference>
+
+6. **Contact NASDAQ Data Link support** if you believe you should have access to a database
+
+### Alternative: Nasdaq Cloud Data Service
+
+**Note:** This provider currently uses the legacy NASDAQ Data Link API (formerly Quandl). NASDAQ also offers a newer [Cloud Data Service REST API](https://github.com/Nasdaq/NasdaqCloudDataService-REST-API) for real-time data, which uses OAuth 2.0 authentication instead of API keys. <mcreference link="https://github.com/Nasdaq/NasdaqCloudDataService-REST-API" index="3">3</mcreference>
+
+The Cloud Data Service provides:
+- Real-time and delayed market data
+- OAuth 2.0 authentication (client_id/client_secret)
+- Different pricing and access model
+- Separate API endpoints and data structure
+
+If you need real-time data or are experiencing persistent issues with Data Link, consider exploring the Cloud Data Service API.
+
+### Common Error Codes
+
+NASDAQ Data Link returns specific error codes to help diagnose issues: <mcreference link="https://docs.data.nasdaq.com/docs/error-codes" index="4">4</mcreference>
+
+- **QEPx01 (401)**: Anonymous access to protected resource - API key required
+- **QEPx02 (403)**: No permission to use endpoint
+- **QEPx04 (403)**: No permission to view dataset or exceeded free trial quota
+- **QEPx05 (403)**: Premium dataset accessed without API key
+- **QELx01 (429)**: Exceeded daily call limit as anonymous user
+- **QELx02 (429)**: Exceeded daily call limit as registered user
+- **QEAx01 (400)**: Unrecognized API key
+
+### Common Issues
+
+1. **"Invalid API key" error**
+   - Verify your API key is correct in `providers.toml`
+   - Ensure you're using the key from your NASDAQ Data Link account
+
+2. **"Symbol not found" error**
+   - Check the symbol format (e.g., `WIKI/AAPL` not just `AAPL`)
+   - Verify the symbol exists in the specified database
+   - Use `--list-symbols` to see available symbols
+
+3. **"Rate limit exceeded" error**
+   - Increase the `rate_limit_delay` in your configuration
+   - Consider upgrading to a premium account for higher limits
+   - Wait for your rate limit to reset (daily for free accounts)
+
+4. **No data returned**
+   - Check if the date range is valid for the symbol
+   - Some symbols may have limited historical data
+   - Verify the symbol is active during the requested period
+
+### Debug Mode
+
+For debugging, you can enable verbose logging:
+
+```bash
+pyne data download nasdaq --symbol WIKI/AAPL --from 2023-01-01 --to 2023-12-31 --verbose
+```
+
+## Development
+
+```bash
+# Install in development mode
+pip install -e .
+
+# Run tests
+pytest
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+- **Documentation**: [PyneCore Documentation](https://docs.pynecore.com)
+- **Issues**: [GitHub Issues](https://github.com/pynecore/pynecore-nasdaq-provider/issues)
+- **NASDAQ Data Link**: [Official Documentation](https://docs.data.nasdaq.com/)
+
+## Changelog
+
+### v0.1.0
+- Initial release
+- Support for NASDAQ Data Link API
+- Daily, weekly, monthly, quarterly, and annual data
+- Full PyneCore integration
+- Automatic rate limiting and error handling
