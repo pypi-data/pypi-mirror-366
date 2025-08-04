@@ -1,0 +1,8 @@
+include README.md
+include LICENSE.md
+recursive-include thoth_vdbmanager *.py
+recursive-include thoth_vdbmanager *.typed
+exclude tests/*
+exclude test_*
+exclude docker-compose*.yml
+exclude test_config.yaml
