@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: colbertfinance
+Version: 0.1.8
+Summary: Librería educativa para análisis de portafolios (Markowitz paso a paso)
+Home-page: https://pypi.org/project/colbertfinance/
+Author: Jesús Colbert
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Education
+Requires-Python: >=3.8
+Description-Content-Type: text/plain
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: yfinance
+Requires-Dist: xlsxwriter
+
+Funciones sencillas para descargar precios, calcular mu, Sigma y portafolio eficiente.
