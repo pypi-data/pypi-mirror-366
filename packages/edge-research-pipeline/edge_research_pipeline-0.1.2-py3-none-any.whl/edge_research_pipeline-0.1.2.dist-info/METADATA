@@ -1,0 +1,221 @@
+Metadata-Version: 2.4
+Name: edge-research-pipeline
+Version: 0.1.2
+Summary: Modular pipeline for quantitative signal discovery and validation
+Author-email: Kalle Fischer <contact@khf-research.com>
+License: Edge Research Pipeline — Personal Use License (ERPUL)
+        
+        Copyright (c) \Kalle Fischer
+        
+        Permission is hereby granted to individuals to use, modify, and explore this software **for personal, non-commercial, and academic learning purposes** free of charge, subject to the following conditions:
+        
+        ---
+        
+        ## 1. Personal and Student Use
+        
+        * You may use this software for personal projects, learning, and experimentation.
+        * Students may use this software in academic coursework, theses, and research projects without payment.
+        
+        ## 2. Academic Publication Use
+        
+        * Academic researchers may use this software in published work **free of charge**, provided that the publication explicitly refers to this project (via citation, footnote, or GitHub link).
+        * If a citation is not included, a license fee **would normally apply**.
+        * However, **for now**, all academic license fees are **waived until a formal payment process is in place**.
+        
+        ## 3. Commercial and Professional Use
+        
+        * Use of this software in a commercial setting (including internal research at a for-profit company, paid consulting, or use in a production environment) requires a paid commercial license.
+        * **At this time**, no payment system is implemented, so fees are **temporarily waived**.
+        * You are still required to contact the author to disclose commercial use and agree to future terms.
+        
+        ## 4. Redistribution
+        
+        * Redistribution of this code or derivatives, whether modified or unmodified, is **not allowed** without written permission.
+        
+        ## 5. Disclaimer
+        
+        This software is provided "as is", without warranty of any kind, express or implied. Use it at your own risk.
+        
+        ---
+        
+        ## Contact
+        
+        To notify of commercial use or request academic waiver confirmation, please contact:
+        
+        **\Kalle Fischer**
+        **Email:** \[kallefischer@outlook.com](mailto:kallefischer@outlook.com)]
+        **Project URL:** \[[https://github.com/KHFischer/edge-research-pipeline](https://github.com/KHFischer/edge-research-pipeline)]
+        
+        You may also submit licensing questions or intent to use commercially through the project issue tracker.
+        
+        ---
+        
+        This license may be updated or replaced in future versions of the project. Any changes will be clearly documented and versioned.
+        
+Project-URL: Homepage, https://github.com/KHFischer/edge-research-pipeline
+Project-URL: Documentation, https://github.com/KHFischer/edge-research-pipeline/tree/main/docs
+Project-URL: Source, https://github.com/KHFischer/edge-research-pipeline
+Project-URL: Issues, https://github.com/KHFischer/edge-research-pipeline/issues
+Keywords: quantitative,trading,feature engineering,rule mining,backtesting
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: badgers<0.1,>=0.0.10
+Requires-Dist: google_auth<3.0,>=2.40.3
+Requires-Dist: imodels<3.0,>=2.0.0
+Requires-Dist: joblib<2.0,>=1.4.2
+Requires-Dist: mlxtend<0.24,>=0.23.4
+Requires-Dist: numpy<2.0,>=1.26.0
+Requires-Dist: orange3<4.0,>=3.39.0
+Requires-Dist: pandas<2.4,>=2.3.1
+Requires-Dist: params<1.0,>=0.9.0
+Requires-Dist: pysubgroup<0.9,>=0.8.0
+Requires-Dist: PyYAML<7.0,>=6.0.2
+Requires-Dist: scikit_eLCS<1.3,>=1.2.4
+Requires-Dist: scikit-learn<2.0,>=1.7.1
+Requires-Dist: scipy<2.0,>=1.16.1
+Requires-Dist: sdv<1.25,>=1.24.1
+Requires-Dist: statsmodels<0.15,>=0.14.4
+Requires-Dist: synthcity<0.3,>=0.2.12
+Requires-Dist: tqdm<5.0,>=4.67.1
+Dynamic: license-file
+
+# 🧠 Edge Research Pipeline
+
+The **Edge Research Pipeline** is a modular, privacy-first research toolkit designed for discovering, validating, and analyzing patterns in tabular datasets. Originally built for **quantitative finance**, its techniques are broadly applicable to any domain involving structured data and statistical rule discovery.
+
+---
+
+## 🚀 Key Features
+
+A flexible, modular Python library enabling you to:
+
+* **Clean, normalize, and transform** tabular datasets
+* **Engineer features** relevant to finance, statistics, and other structured-data domains
+* **Generate and label custom targets** for supervised tasks
+* **Discover signals** using rule mining and pattern search methods
+* **Perform robust validation tests** (e.g., train/test splits, bootstrap, walk-forward analysis, false discovery rate)
+* **Reproduce results** with complete configuration export and local-only processing
+* **Efficiently execute parameter grids** via function calls or a CLI
+
+---
+
+## 🔒 Privacy by Design
+
+All computations run **locally**—no data ever leaves your environment. Designed explicitly for regulated industries, confidential research, and reproducible workflows.
+
+---
+
+## 📦 Installation
+
+Install required dependencies using:
+
+```bash
+pip install -r ./requirements.txt
+```
+
+**Note:** Dependencies were generated via `pipreqs` and may need further validation.
+
+---
+
+## 🧩 Quick Start Example
+
+Run a full pipeline example via the command line:
+
+```bash
+python edge_research/pipeline/main.py params/grid_params.yaml
+```
+
+Or check the ready-to-run examples in the [`examples/`](./examples/) directory.
+
+---
+
+## 📁 Project Structure
+
+```text
+edge-research-pipeline
+├── data/                  # Sample datasets (sandbox only)
+├── docs/                  # Documentation per module
+├── edge_research/         # Core logic modules
+│   ├── logger/
+│   ├── pipeline/
+│   ├── preprocessing/
+│   ├── rules_mining/
+│   ├── statistics/
+│   ├── utils/
+│   └── validation_tests/
+├── examples/              # Copy-pasteable usage examples
+├── params/                # Configuration files
+├── tests/                 # Unit tests for major functions
+├── LICENSE
+├── README.md
+└── requirements.txt
+```
+
+Detailed explanations for each subfolder are available within their respective READMEs.
+
+---
+
+## ⚙️ Configuration Philosophy
+
+Configuration files are managed via YAML files within `./params/`:
+
+* **`default_params.yaml`**: Base configuration with mandatory default values (do not modify)
+* **`custom_params.yaml`**: Override specific parameters from defaults
+* **`grid_params.yaml`**: Parameters specifically for orchestrating grid pipeline runs
+
+**Precedence hierarchy:**
+
+* For pipeline runs (`pipeline.py` or CLI):
+  `grid_params > custom_params > default_params`
+* For direct function calls:
+  `custom_params > default_params`
+
+Parameters can also be directly overridden by passing a Python dictionary at runtime.
+
+---
+
+## 🧪 Testing
+
+Unit tests cover all major logical functions, ensuring correctness and robustness. Tests are written using `pytest`. Short utility functions, simple wrappers, and internal helpers are generally not included.
+
+Run tests via:
+
+```bash
+pytest tests/
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Follow these guidelines:
+
+* Keep your commits focused and atomic
+* Always provide clear, descriptive commit messages
+* Add or update tests for any new feature or bug fix
+* Follow existing code style (e.g., use `black` and `flake8` for Python formatting)
+* Document new functionality thoroughly within the relevant `.md` file in `docs/`
+* Respect privacy-by-design principles—no logging or external data exposure
+
+Feel free to open issues for discussions or submit pull requests directly.
+
+---
+
+## 📄 License
+
+This project is licensed under the **Edge Research Personal Use License (ERPUL)**.
+
+- ✅ Free for personal, student, and academic use (with citation)
+- 💼 Commercial use requires approval (temporarily waived)
+- 🔒 No redistribution without permission
+
+See [`LICENSE`](./LICENSE) for full terms.
+
+![License: ERPUL](https://img.shields.io/badge/license-ERPUL-blue)
