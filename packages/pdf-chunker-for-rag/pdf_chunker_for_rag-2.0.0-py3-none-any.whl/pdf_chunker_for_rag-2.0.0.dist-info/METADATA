@@ -1,0 +1,327 @@
+Metadata-Version: 2.1
+Name: pdf_chunker_for_rag
+Version: 2.0.0
+Summary: Production-ready PDF chunking library with intelligent content filtering and strategic header detection
+Home-page: https://github.com/your-username/chunk_creation
+Author: AI Assistant
+Author-email: assistant@example.com
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Text Processing
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: PyMuPDF>=1.23.0
+Requires-Dist: pypdf>=3.0.0
+Provides-Extra: nlp
+Requires-Dist: spacy>=3.5.0; extra == "nlp"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+
+# PDF Chunker Library v2.0
+
+A production-ready Python library for intelligently chunking PDF documents using sophisticated font analysis, enhanced content filtering, and strategic header detection.
+
+## 🚀 Features
+
+- **Strategic Header Chunking**: Advanced font-size analysis with frequency-based header selection
+- **Enhanced Meaning Detection**: AI-powered content analysis with metadata pattern filtering  
+- **Multi-Level Processing**: Undersized → Oversized → Hierarchical sub-chunking pipeline
+- **Robust Content Filtering**: Removes document metadata, page markers, and meaningless fragments
+- **Smart Chunk Processing**: Intelligent merging of meaningful short chunks
+- **Professional Summarization**: Extractive summaries with rich metadata output
+- **Dual Usage Modes**: Simple convenience methods AND advanced custom processing
+- **Multiple Output Formats**: JSON, CSV, and custom formats with rich metadata
+
+## 📦 Installation
+
+### Basic Installation
+```bash
+pip install PyMuPDF pypdf
+```
+
+## 🎯 Quick Start - Two Approaches
+
+### 🟢 Approach 1: Simple Convenience (Recommended for Most Users)
+
+Perfect for: Quick prototyping, standard use cases, minimal configuration
+
+```python
+from pdf_chunker_for_rag.chunk_creator import CleanHybridPDFChunker
+
+# Initialize and process in one line
+chunker = CleanHybridPDFChunker()
+output_file = chunker.process_and_save('document.pdf')
+print(f"✅ Chunks saved to: {output_file}")
+```
+
+**Run the example:**
+```bash
+cd examples/
+python simple_usage.py
+```
+
+**What you get:**
+- Automatic header detection and chunking
+- JSON output with metadata
+- Multiple format options (JSON/CSV)
+- Error handling and validation
+
+### 🔵 Approach 2: Advanced Custom Processing
+
+Perfect for: Custom applications, data analysis, integration with other systems
+
+```python
+from pdf_chunker_for_rag.chunk_creator import CleanHybridPDFChunker
+
+# Get raw chunk data for custom processing
+chunker = CleanHybridPDFChunker()
+chunks, headers = chunker.strategic_header_chunking('document.pdf')
+
+# Now you have direct access to chunk data
+for chunk in chunks:
+    topic = chunk['topic']
+    content = chunk['content'] 
+    word_count = chunk['word_count']
+    # Your custom logic here...
+
+# Save however you want
+import json
+with open('my_chunks.json', 'w') as f:
+    json.dump({'chunks': chunks}, f, indent=2)
+```
+# Your own save logic here
+```
+
+**Run the example:**
+```bash
+cd examples/
+python advanced_usage.py
+```
+
+**What you get:**
+- Direct access to chunk data and headers
+- Custom filtering and analysis
+- Multiple output formats with custom metadata
+- Advanced statistics and reporting
+
+### With Enhanced NLP (recommended)
+```bash
+pip install PyMuPDF pypdf spacy
+python -m spacy download en_core_web_sm
+```
+
+### Development Installation
+```bash
+pip install -e .[dev,nlp]
+```
+
+## Quick Start
+
+```python
+from pdf_chunker_for_rag import CleanHybridPDFChunker
+
+# Initialize the production chunker
+chunker = CleanHybridPDFChunker()
+
+# Process PDF with strategic header chunking
+chunks = chunker.strategic_header_chunking(
+    pdf_path="your_document.pdf",
+    target_words_per_chunk=200
+)
+
+print(f"✅ Created {len(chunks)} structured chunks")
+print(f"📊 Average chunk size: {sum(c.get('word_count', 0) for c in chunks) // len(chunks)} words")
+
+# Access chunk data
+for chunk in chunks:
+    print(f"📖 {chunk['topic']} ({chunk['word_count']} words)")
+    print(f"📋 {chunk['summary']}")
+    print()
+```
+
+## Advanced Usage
+
+```python
+from pdf_chunker_for_rag import PDFChunker, ChunkingConfig, SummarizationMethod
+
+# Custom configuration
+config = ChunkingConfig(
+    target_words_per_chunk=300,
+    min_header_occurrences=2,
+    oversized_threshold=600,
+    critical_threshold=1000,
+    min_meaningful_words=30,
+    summarization_method=SummarizationMethod.EXTRACTIVE
+)
+
+chunker = PDFChunker(config)
+result = chunker.chunk_pdf("your_document.pdf")
+```
+
+## Key Classes
+
+### PDFChunker
+Main interface for PDF chunking operations.
+
+**Methods:**
+- `chunk_pdf(pdf_path)`: Complete chunking process
+- `detect_headers(pdf_path)`: Header detection only
+- `extract_text(pdf_path)`: Text extraction only
+- `get_font_analysis(pdf_path)`: Font analysis only
+
+### ChunkingConfig
+Configuration for chunking behavior.
+
+**Parameters:**
+- `target_words_per_chunk`: Target words per chunk (default: 200)
+- `min_header_occurrences`: Minimum header occurrences for selection (default: 3)
+- `font_size_tolerance`: Tolerance for font size grouping (default: 2.0)
+- `oversized_threshold`: Word count threshold for oversized chunks (default: 500)
+- `critical_threshold`: Critical threshold requiring forced splitting (default: 800)
+- `min_meaningful_words`: Minimum words for meaningful chunks (default: 50)
+
+### Data Structures
+
+**ChunkData**: Represents a processed chunk
+- `chunk_id`: Unique identifier
+- `topic`: Header/topic text
+- `content`: Chunk content
+- `word_count`: Number of words
+- `summary`: Generated summary
+- `parent_chunk_info`: Information about parent chunk (for split chunks)
+
+**HeaderData**: Represents a detected header
+- `text`: Header text
+- `font_size`: Font size in points
+- `page`: Page number
+- `is_bold`: Whether header is bold
+
+## Processing Pipeline
+
+1. **Font Analysis**: Analyze document fonts and determine normal text size
+2. **Header Detection**: Identify potential headers based on font size
+3. **Strategic Selection**: Select optimal header level using frequency analysis
+4. **Text Extraction**: Extract text with proper reading order
+5. **Chunk Creation**: Create initial chunks based on headers
+6. **Content Filtering**: Remove meaningless content and merge short meaningful chunks
+7. **Summarization**: Generate summaries for all chunks
+8. **Oversized Processing**: Handle large chunks through sub-header detection or forced splitting
+
+## Content Quality Features
+
+### Meaningless Content Detection
+- Version numbers and dates
+- Page markers and formatting artifacts
+- Low meaningful word ratios
+- Incomplete sentences and titles
+
+### Smart Merging
+- Preserves short but meaningful content
+- Forward-direction merging with adjacent chunks
+- Maintains topic coherence
+
+### NLP-Enhanced Analysis (with spaCy)
+- Sentence structure analysis
+- Named entity recognition
+- Vocabulary diversity scoring
+- Professional content detection
+
+## Library Architecture
+
+```
+pdf_chunker_for_rag/
+├── core/           # Core types and main chunker class
+├── analysis/       # Font analysis and header detection
+├── filtering/      # Content quality filtering and merging
+├── processing/     # Summarization and oversized chunk handling
+└── utils/          # Text extraction and utility functions
+```
+
+## Examples
+
+### Processing Multiple PDFs
+```python
+import os
+from pdf_chunker_for_rag import PDFChunker
+
+chunker = PDFChunker()
+results = {}
+
+for filename in os.listdir("pdfs/"):
+    if filename.endswith(".pdf"):
+        pdf_path = os.path.join("pdfs", filename)
+        results[filename] = chunker.chunk_pdf(pdf_path)
+
+# Analyze results
+for filename, result in results.items():
+    print(f"{filename}: {len(result.chunks)} chunks, "
+          f"avg {result.average_chunk_size:.0f} words")
+```
+
+### Custom Content Filtering
+```python
+from pdf_chunker_for_rag.filtering import ContentFilter
+
+# Create custom filter
+filter = ContentFilter(min_meaningful_words=30)
+
+# Check if content is meaningful
+is_meaningful = filter.has_meaningful_sentence_structure("Your text here")
+is_meaningless = filter.is_meaningless_content("Your text here")
+```
+
+### Font Analysis Only
+```python
+from pdf_chunker_for_rag.analysis import FontAnalyzer
+
+analyzer = FontAnalyzer()
+font_info = analyzer.analyze_document_fonts("document.pdf")
+
+print(f"Normal text size: {font_info['normal_font_size']:.1f}pt")
+print(f"Header threshold: {font_info['min_header_threshold']:.1f}pt")
+print(f"Unique font sizes: {len(font_info['all_font_sizes'])}")
+```
+
+## Requirements
+
+- Python 3.8+
+- PyMuPDF (fitz) >= 1.20.0
+- pypdf >= 3.0.0
+- spaCy >= 3.4.0 (optional, for enhanced NLP features)
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## Changelog
+
+### Version 1.0.0
+- Initial release
+- Complete modular architecture
+- Font-based header detection
+- Content quality filtering
+- Smart chunk merging
+- Multiple summarization methods
+- Oversized chunk processing
