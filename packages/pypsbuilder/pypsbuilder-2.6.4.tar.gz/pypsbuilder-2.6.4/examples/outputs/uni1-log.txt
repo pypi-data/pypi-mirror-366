@@ -1,0 +1,1706 @@
+[display/print with fixed width font (eg Monaco)]
+
+
+
+THERMOCALC 3.50  running at 1.40 on Fri 29 Jan,2021
+summary output in the file, "tc-avgpelite-o.txt"
+other (eg drawpd) output in the file, "tc-avgpelite-dr.txt"
+details of calc results in the file, "tc-avgpelite-ic.txt"
+initial tables in the file, "tc-avgpelite-it.txt"
+csv format in the file, "tc-avgpelite.csv"
+more csv format in the file, "tc-avgpelite2.csv"
+(these files may not all be populated yet, depending on the calcs;
+ thermocalc should delete empty files at the end of each run)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+THERMOCALC 3.50 running at 1.40 on Fri 29 Jan,2021
+using tc-ds62.txt produced at 20.08 on Mon 6 Feb,2012
+with axfile tc-mp50MnNCKFMASHTO.txt and scriptfile tc-avgpelite.txt
+
+reading ax: g L plc ksp ep ma mu bi opx sa cd st chl ctd sp ilmm ilm mt1 ksp0 heme 
+            mt0 ilm0 ab Ni NiO ru sill and ky q H2O abh sph cz ta law 
+
+phases ignored this run: plc opx sp ilmm hemm mt1 ksp0 heme mt0 ilm0 Ni NiO abh ta  (from script)
+
+
+with: g ep mu pa bi chl q H2O sph  (from script)
+fluid is just H2O
+in excess: q H2O
+
+specification of xyz starting guesses of phases
+in the scriptfile: g ep mu pa bi chl; not in the scriptfile: none
+
+specification of overall PT window:
+overall PT window is P: 5.0 to 16.0 kbar, and T: 350 to 700¡C (from script)
+
+accepting the calculated variance (from script)
+
+specification of mode isopleths
+mode of chl set to zero
+
+original variance = 4, effective variance = 1  (1, 0)
+
+specification of PT calcs:
+P at which T of reactions to be calculated: 5.000 to 16.000 kbar (from script)
+using overall T window for the T window within which reactions expected to lie
+P interval = 0.22 kbar (from script)
+
+specification of bulk composition
+composition (from bulk script)
+      H2O     SiO2    Al2O3      CaO      MgO     FeOt      K2O     Na2O     TiO2      MnO        O
+   49.998   35.563    5.805    0.695    2.325    2.890    1.340    0.995    0.335    0.050    0.005
+<==========================================================>
+phases: g ep mu pa bi chl sph (q, fluid) 
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   5.000    480.31    0.9118    0.3317    0.3336  0.002454   0.01498   0.01458    0.3930    0.9436 0.0001710    0.2372  0.007685    0.3930    0.9988  2.337e-5    0.8632   0.05948    0.5546  0.008153   0.08961  0.002626   0.05890    0.1778    0.4040
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5576  0.007816   0.01105    0.4346    0.1029   0.06849
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+      0.0003560   0.01198   0.06367    0.1409    0.1304              0.2028    0.4439  0.005960  -663.03997  -576.84371    0.1144    2.1184    1.9769
+
+% ----------------------------------------------------------
+% at P = 5.0, T = 480, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 5.000 480.31
+% ----------------------------------------------------------
+xyzguess x(g)          0.911793
+xyzguess z(g)          0.331658
+xyzguess m(g)          0.333629
+xyzguess f(g)        0.00245355
+% -----------------------------
+xyzguess f(ep)        0.0149780
+xyzguess Q(ep)        0.0145831  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.393011
+xyzguess y(mu)         0.943576
+xyzguess f(mu)      0.000170954
+xyzguess n(mu)         0.237185
+xyzguess c(mu)       0.00768506
+% -----------------------------
+xyzguess x(pa)         0.393011
+xyzguess y(pa)         0.998839
+xyzguess f(pa)       2.33714e-5
+xyzguess n(pa)         0.863174
+xyzguess c(pa)        0.0594843
+% -----------------------------
+xyzguess x(bi)         0.554637
+xyzguess m(bi)       0.00815311
+xyzguess y(bi)        0.0896055
+xyzguess f(bi)       0.00262565
+xyzguess t(bi)        0.0588986
+xyzguess Q(bi)         0.177780
+% -----------------------------
+xyzguess x(chl)        0.404000
+xyzguess y(chl)        0.557558
+xyzguess f(chl)      0.00781620
+xyzguess m(chl)       0.0110484
+xyzguess QAl(chl)      0.434584  range -1.000 1.000
+xyzguess Q1(chl)       0.102856  range -1.000 1.000
+xyzguess Q4(chl)      0.0684916  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   5.220    483.00    0.9112    0.3311    0.3244  0.002488   0.01501   0.01461    0.3946    0.9411 0.0001766    0.2339  0.007697    0.3946    0.9988  2.428e-5    0.8641   0.05958    0.5546  0.007904   0.08911  0.002619   0.05969    0.1768    0.4053
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5572  0.007876   0.01061    0.4349    0.1028   0.06864
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+      0.0004607   0.01196   0.06374    0.1410    0.1303              0.2028    0.4439  0.005925  -662.88323  -576.30734    0.1145    2.1114    1.9834
+
+% ----------------------------------------------------------
+% at P = 5.2, T = 483, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 5.220 483.00
+% ----------------------------------------------------------
+xyzguess x(g)          0.911200
+xyzguess z(g)          0.331148
+xyzguess m(g)          0.324424
+xyzguess f(g)        0.00248803
+% -----------------------------
+xyzguess f(ep)        0.0150053
+xyzguess Q(ep)        0.0146052  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.394613
+xyzguess y(mu)         0.941073
+xyzguess f(mu)      0.000176566
+xyzguess n(mu)         0.233875
+xyzguess c(mu)       0.00769696
+% -----------------------------
+xyzguess x(pa)         0.394613
+xyzguess y(pa)         0.998780
+xyzguess f(pa)       2.42814e-5
+xyzguess n(pa)         0.864077
+xyzguess c(pa)        0.0595779
+% -----------------------------
+xyzguess x(bi)         0.554573
+xyzguess m(bi)       0.00790362
+xyzguess y(bi)        0.0891069
+xyzguess f(bi)       0.00261905
+xyzguess t(bi)        0.0596916
+xyzguess Q(bi)         0.176776
+% -----------------------------
+xyzguess x(chl)        0.405261
+xyzguess y(chl)        0.557169
+xyzguess f(chl)      0.00787635
+xyzguess m(chl)       0.0106075
+xyzguess QAl(chl)      0.434912  range -1.000 1.000
+xyzguess Q1(chl)       0.102779  range -1.000 1.000
+xyzguess Q4(chl)      0.0686356  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   5.440    485.67    0.9106    0.3306    0.3150  0.002523   0.01503   0.01463    0.3962    0.9385 0.0001823    0.2306  0.007709    0.3962    0.9987  2.521e-5    0.8650   0.05965    0.5545  0.007648   0.08860  0.002612   0.06048    0.1758    0.4065
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5568  0.007937   0.01017    0.4352    0.1027   0.06877
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+      0.0005740   0.01193   0.06382    0.1410    0.1301              0.2027    0.4439  0.005890  -662.72496  -575.77070    0.1146    2.1046    1.9898
+
+% ----------------------------------------------------------
+% at P = 5.4, T = 486, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 5.440 485.67
+% ----------------------------------------------------------
+xyzguess x(g)          0.910614
+xyzguess z(g)          0.330627
+xyzguess m(g)          0.314997
+xyzguess f(g)        0.00252291
+% -----------------------------
+xyzguess f(ep)        0.0150343
+xyzguess Q(ep)        0.0146291  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.396179
+xyzguess y(mu)         0.938518
+xyzguess f(mu)      0.000182266
+xyzguess n(mu)         0.230625
+xyzguess c(mu)       0.00770887
+% -----------------------------
+xyzguess x(pa)         0.396179
+xyzguess y(pa)         0.998718
+xyzguess f(pa)       2.52145e-5
+xyzguess n(pa)         0.864996
+xyzguess c(pa)        0.0596501
+% -----------------------------
+xyzguess x(bi)         0.554493
+xyzguess m(bi)       0.00764850
+xyzguess y(bi)        0.0886032
+xyzguess f(bi)       0.00261241
+xyzguess t(bi)        0.0604844
+xyzguess Q(bi)         0.175781
+% -----------------------------
+xyzguess x(chl)        0.406489
+xyzguess y(chl)        0.556780
+xyzguess f(chl)      0.00793684
+xyzguess m(chl)       0.0101674
+xyzguess QAl(chl)      0.435239  range -1.000 1.000
+xyzguess Q1(chl)       0.102698  range -1.000 1.000
+xyzguess Q4(chl)      0.0687699  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   5.660    488.31    0.9100    0.3301    0.3053  0.002558   0.01507   0.01466    0.3977    0.9359 0.0001881    0.2274  0.007721    0.3977    0.9987  2.617e-5    0.8659   0.05970    0.5544  0.007388   0.08809  0.002606   0.06128    0.1748    0.4077
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5564  0.007998  0.009728    0.4356    0.1026   0.06889
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+      0.0006968   0.01191   0.06392    0.1411    0.1300              0.2026    0.4439  0.005856  -662.56504  -575.23587    0.1147    2.0982    1.9959
+
+% ----------------------------------------------------------
+% at P = 5.7, T = 488, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 5.660 488.31
+% ----------------------------------------------------------
+xyzguess x(g)          0.910033
+xyzguess z(g)          0.330100
+xyzguess m(g)          0.305349
+xyzguess f(g)        0.00255826
+% -----------------------------
+xyzguess f(ep)        0.0150655
+xyzguess Q(ep)        0.0146550  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.397709
+xyzguess y(mu)         0.935913
+xyzguess f(mu)      0.000188058
+xyzguess n(mu)         0.227433
+xyzguess c(mu)       0.00772053
+% -----------------------------
+xyzguess x(pa)         0.397709
+xyzguess y(pa)         0.998654
+xyzguess f(pa)       2.61709e-5
+xyzguess n(pa)         0.865933
+xyzguess c(pa)        0.0596983
+% -----------------------------
+xyzguess x(bi)         0.554396
+xyzguess m(bi)       0.00738814
+xyzguess y(bi)        0.0880925
+xyzguess f(bi)       0.00260572
+xyzguess t(bi)        0.0612763
+xyzguess Q(bi)         0.174795
+% -----------------------------
+xyzguess x(chl)        0.407680
+xyzguess y(chl)        0.556388
+xyzguess f(chl)      0.00799781
+xyzguess m(chl)      0.00972847
+xyzguess QAl(chl)      0.435567  range -1.000 1.000
+xyzguess Q1(chl)       0.102615  range -1.000 1.000
+xyzguess Q4(chl)      0.0688936  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   5.880    490.92    0.9095    0.3296    0.2955  0.002594   0.01510   0.01468    0.3992    0.9333 0.0001939    0.2243  0.007732    0.3992    0.9986  2.715e-5    0.8669   0.05972    0.5543  0.007123   0.08757  0.002599   0.06207    0.1738    0.4088
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5560  0.008059  0.009291    0.4359    0.1025   0.06901
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+      0.0008303   0.01188   0.06403    0.1411    0.1298              0.2026    0.4439  0.005822  -662.40333  -574.70115    0.1148    2.0920    2.0018
+
+% ----------------------------------------------------------
+% at P = 5.9, T = 491, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 5.880 490.92
+% ----------------------------------------------------------
+xyzguess x(g)          0.909459
+xyzguess z(g)          0.329569
+xyzguess m(g)          0.295483
+xyzguess f(g)        0.00259416
+% -----------------------------
+xyzguess f(ep)        0.0150989
+xyzguess Q(ep)        0.0146832  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.399200
+xyzguess y(mu)         0.933255
+xyzguess f(mu)      0.000193943
+xyzguess n(mu)         0.224299
+xyzguess c(mu)       0.00773163
+% -----------------------------
+xyzguess x(pa)         0.399200
+xyzguess y(pa)         0.998589
+xyzguess f(pa)       2.71508e-5
+xyzguess n(pa)         0.866891
+xyzguess c(pa)        0.0597196
+% -----------------------------
+xyzguess x(bi)         0.554280
+xyzguess m(bi)       0.00712297
+xyzguess y(bi)        0.0875728
+xyzguess f(bi)       0.00259899
+xyzguess t(bi)        0.0620664
+xyzguess Q(bi)         0.173820
+% -----------------------------
+xyzguess x(chl)        0.408832
+xyzguess y(chl)        0.555992
+xyzguess f(chl)      0.00805942
+xyzguess m(chl)      0.00929133
+xyzguess QAl(chl)      0.435900  range -1.000 1.000
+xyzguess Q1(chl)       0.102530  range -1.000 1.000
+xyzguess Q4(chl)      0.0690061  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   6.100    493.49    0.9089    0.3290    0.2854  0.002631   0.01514   0.01471    0.4006    0.9305 0.0001999    0.2212  0.007742    0.4006    0.9985  2.815e-5    0.8679   0.05971    0.5541  0.006853   0.08704  0.002592   0.06285    0.1729    0.4099
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5556  0.008122  0.008856    0.4362    0.1024   0.06911
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+      0.0009754   0.01185   0.06417    0.1412    0.1296              0.2025    0.4439  0.005789  -662.23965  -574.16833    0.1149    2.0861    2.0075
+
+% ----------------------------------------------------------
+% at P = 6.1, T = 493, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 6.100 493.49
+% ----------------------------------------------------------
+xyzguess x(g)          0.908890
+xyzguess z(g)          0.329037
+xyzguess m(g)          0.285401
+xyzguess f(g)        0.00263072
+% -----------------------------
+xyzguess f(ep)        0.0151352
+xyzguess Q(ep)        0.0147142  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.400650
+xyzguess y(mu)         0.930545
+xyzguess f(mu)      0.000199926
+xyzguess n(mu)         0.221220
+xyzguess c(mu)       0.00774178
+% -----------------------------
+xyzguess x(pa)         0.400650
+xyzguess y(pa)         0.998521
+xyzguess f(pa)       2.81544e-5
+xyzguess n(pa)         0.867875
+xyzguess c(pa)        0.0597105
+% -----------------------------
+xyzguess x(bi)         0.554141
+xyzguess m(bi)       0.00685340
+xyzguess y(bi)        0.0870417
+xyzguess f(bi)       0.00259218
+xyzguess t(bi)        0.0628537
+xyzguess Q(bi)         0.172856
+% -----------------------------
+xyzguess x(chl)        0.409942
+xyzguess y(chl)        0.555588
+xyzguess f(chl)      0.00812188
+xyzguess m(chl)      0.00885646
+xyzguess QAl(chl)      0.436239  range -1.000 1.000
+xyzguess Q1(chl)       0.102443  range -1.000 1.000
+xyzguess Q4(chl)      0.0691063  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   6.320    496.04    0.9083    0.3285    0.2751  0.002668   0.01517   0.01475    0.4021    0.9278 0.0002060    0.2182  0.007751    0.4021    0.9985  2.918e-5    0.8689   0.05967    0.5540  0.006580   0.08650  0.002585   0.06364    0.1719    0.4110
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5552  0.008185  0.008424    0.4366    0.1024   0.06919
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.001134   0.01181   0.06432    0.1412    0.1294              0.2024    0.4440  0.005756  -662.07375  -573.63531    0.1150    2.0803    2.0131
+
+% ----------------------------------------------------------
+% at P = 6.3, T = 496, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 6.320 496.04
+% ----------------------------------------------------------
+xyzguess x(g)          0.908327
+xyzguess z(g)          0.328508
+xyzguess m(g)          0.275111
+xyzguess f(g)        0.00266805
+% -----------------------------
+xyzguess f(ep)        0.0151746
+xyzguess Q(ep)        0.0147482  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.402056
+xyzguess y(mu)         0.927780
+xyzguess f(mu)      0.000206013
+xyzguess n(mu)         0.218195
+xyzguess c(mu)       0.00775052
+% -----------------------------
+xyzguess x(pa)         0.402056
+xyzguess y(pa)         0.998451
+xyzguess f(pa)       2.91816e-5
+xyzguess n(pa)         0.868889
+xyzguess c(pa)        0.0596671
+% -----------------------------
+xyzguess x(bi)         0.553978
+xyzguess m(bi)       0.00657989
+xyzguess y(bi)        0.0864965
+xyzguess f(bi)       0.00258530
+xyzguess t(bi)        0.0636368
+xyzguess Q(bi)         0.171906
+% -----------------------------
+xyzguess x(chl)        0.411006
+xyzguess y(chl)        0.555175
+xyzguess f(chl)      0.00818541
+xyzguess m(chl)      0.00842440
+xyzguess QAl(chl)      0.436587  range -1.000 1.000
+xyzguess Q1(chl)       0.102355  range -1.000 1.000
+xyzguess Q4(chl)      0.0691931  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   6.540    498.55    0.9078    0.3280    0.2646  0.002706   0.01522   0.01479    0.4034    0.9250 0.0002122    0.2152  0.007757    0.4034    0.9984  3.023e-5    0.8699   0.05958    0.5538  0.006303   0.08593  0.002578   0.06441    0.1710    0.4120
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5547  0.008250  0.007996    0.4369    0.1023   0.06927
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.001307   0.01177   0.06450    0.1412    0.1292              0.2023    0.4440  0.005724  -661.90534  -573.10538    0.1151    2.0748    2.0184
+
+% ----------------------------------------------------------
+% at P = 6.5, T = 499, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 6.540 498.55
+% ----------------------------------------------------------
+xyzguess x(g)          0.907769
+xyzguess z(g)          0.327988
+xyzguess m(g)          0.264620
+xyzguess f(g)        0.00270629
+% -----------------------------
+xyzguess f(ep)        0.0152176
+xyzguess Q(ep)        0.0147858  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.403416
+xyzguess y(mu)         0.924960
+xyzguess f(mu)      0.000212211
+xyzguess n(mu)         0.215218
+xyzguess c(mu)       0.00775732
+% -----------------------------
+xyzguess x(pa)         0.403416
+xyzguess y(pa)         0.998378
+xyzguess f(pa)       3.02325e-5
+xyzguess n(pa)         0.869939
+xyzguess c(pa)        0.0595849
+% -----------------------------
+xyzguess x(bi)         0.553785
+xyzguess m(bi)       0.00630292
+xyzguess y(bi)        0.0859341
+xyzguess f(bi)       0.00257833
+xyzguess t(bi)        0.0644143
+xyzguess Q(bi)         0.170970
+% -----------------------------
+xyzguess x(chl)        0.412022
+xyzguess y(chl)        0.554748
+xyzguess f(chl)      0.00825028
+xyzguess m(chl)      0.00799568
+xyzguess QAl(chl)      0.436946  range -1.000 1.000
+xyzguess Q1(chl)       0.102267  range -1.000 1.000
+xyzguess Q4(chl)      0.0692652  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   6.760    501.02    0.9072    0.3275    0.2539  0.002746   0.01527   0.01483    0.4047    0.9221 0.0002185    0.2123  0.007762    0.4047    0.9983  3.131e-5    0.8710   0.05946    0.5536  0.006023   0.08535  0.002571   0.06518    0.1701    0.4130
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5543  0.008317  0.007571    0.4373    0.1022   0.06932
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.001497   0.01172   0.06470    0.1412    0.1290              0.2022    0.4440  0.005693  -661.73409  -572.57856    0.1152    2.0694    2.0237
+
+% ----------------------------------------------------------
+% at P = 6.8, T = 501, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 6.760 501.02
+% ----------------------------------------------------------
+xyzguess x(g)          0.907217
+xyzguess z(g)          0.327482
+xyzguess m(g)          0.253939
+xyzguess f(g)        0.00274560
+% -----------------------------
+xyzguess f(ep)        0.0152650
+xyzguess Q(ep)        0.0148276  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.404725
+xyzguess y(mu)         0.922079
+xyzguess f(mu)      0.000218527
+xyzguess n(mu)         0.212288
+xyzguess c(mu)       0.00776153
+% -----------------------------
+xyzguess x(pa)         0.404725
+xyzguess y(pa)         0.998304
+xyzguess f(pa)       3.13069e-5
+xyzguess n(pa)         0.871032
+xyzguess c(pa)        0.0594586
+% -----------------------------
+xyzguess x(bi)         0.553560
+xyzguess m(bi)       0.00602300
+xyzguess y(bi)        0.0853509
+xyzguess f(bi)       0.00257125
+xyzguess t(bi)        0.0651844
+xyzguess Q(bi)         0.170052
+% -----------------------------
+xyzguess x(chl)        0.412982
+xyzguess y(chl)        0.554304
+xyzguess f(chl)      0.00831680
+xyzguess m(chl)      0.00757088
+xyzguess QAl(chl)      0.437322  range -1.000 1.000
+xyzguess Q1(chl)       0.102179  range -1.000 1.000
+xyzguess Q4(chl)      0.0693211  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   6.980    503.45    0.9067    0.3270    0.2431  0.002786   0.01532   0.01487    0.4060    0.9191 0.0002250    0.2094  0.007762    0.4060    0.9982  3.240e-5    0.8722   0.05928    0.5533  0.005741   0.08474  0.002564   0.06595    0.1692    0.4139
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5538  0.008385  0.007151    0.4377    0.1021   0.06936
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.001706   0.01166   0.06493    0.1412    0.1287              0.2021    0.4440  0.005662  -661.55956  -572.05259    0.1153    2.0642    2.0288
+
+% ----------------------------------------------------------
+% at P = 7.0, T = 503, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 6.980 503.45
+% ----------------------------------------------------------
+xyzguess x(g)          0.906669
+xyzguess z(g)          0.326996
+xyzguess m(g)          0.243081
+xyzguess f(g)        0.00278617
+% -----------------------------
+xyzguess f(ep)        0.0153175
+xyzguess Q(ep)        0.0148744  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.405978
+xyzguess y(mu)         0.919137
+xyzguess f(mu)      0.000224972
+xyzguess n(mu)         0.209399
+xyzguess c(mu)       0.00776240
+% -----------------------------
+xyzguess x(pa)         0.405978
+xyzguess y(pa)         0.998228
+xyzguess f(pa)       3.24045e-5
+xyzguess n(pa)         0.872174
+xyzguess c(pa)        0.0592821
+% -----------------------------
+xyzguess x(bi)         0.553297
+xyzguess m(bi)       0.00574071
+xyzguess y(bi)        0.0847429
+xyzguess f(bi)       0.00256405
+xyzguess t(bi)        0.0659451
+xyzguess Q(bi)         0.169153
+% -----------------------------
+xyzguess x(chl)        0.413883
+xyzguess y(chl)        0.553839
+xyzguess f(chl)      0.00838534
+xyzguess m(chl)      0.00715064
+xyzguess QAl(chl)      0.437716  range -1.000 1.000
+xyzguess Q1(chl)       0.102092  range -1.000 1.000
+xyzguess Q4(chl)      0.0693590  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   7.200    505.84    0.9061    0.3265    0.2321  0.002828   0.01538   0.01493    0.4072    0.9161 0.0002316    0.2065  0.007759    0.4072    0.9982  3.352e-5    0.8734   0.05905    0.5530  0.005457   0.08411  0.002557   0.06669    0.1683    0.4147
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5533  0.008456  0.006736    0.4381    0.1020   0.06938
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.001936   0.01159   0.06519    0.1411    0.1285              0.2020    0.4440  0.005633  -661.38125  -571.52872    0.1153    2.0591    2.0338
+
+% ----------------------------------------------------------
+% at P = 7.2, T = 506, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 7.200 505.84
+% ----------------------------------------------------------
+xyzguess x(g)          0.906127
+xyzguess z(g)          0.326540
+xyzguess m(g)          0.232066
+xyzguess f(g)        0.00282822
+% -----------------------------
+xyzguess f(ep)        0.0153759
+xyzguess Q(ep)        0.0149270  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.407171
+xyzguess y(mu)         0.916126
+xyzguess f(mu)      0.000231557
+xyzguess n(mu)         0.206547
+xyzguess c(mu)       0.00775905
+% -----------------------------
+xyzguess x(pa)         0.407171
+xyzguess y(pa)         0.998150
+xyzguess f(pa)       3.35250e-5
+xyzguess n(pa)         0.873375
+xyzguess c(pa)        0.0590486
+% -----------------------------
+xyzguess x(bi)         0.552991
+xyzguess m(bi)       0.00545671
+xyzguess y(bi)        0.0841053
+xyzguess f(bi)       0.00255672
+xyzguess t(bi)        0.0666939
+xyzguess Q(bi)         0.168277
+% -----------------------------
+xyzguess x(chl)        0.414716
+xyzguess y(chl)        0.553349
+xyzguess f(chl)      0.00845636
+xyzguess m(chl)      0.00673565
+xyzguess QAl(chl)      0.438133  range -1.000 1.000
+xyzguess Q1(chl)       0.102007  range -1.000 1.000
+xyzguess Q4(chl)      0.0693767  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   7.420    508.18    0.9056    0.3261    0.2209  0.002872   0.01544   0.01499    0.4083    0.9130 0.0002383    0.2037  0.007750    0.4083    0.9981  3.467e-5    0.8746   0.05875    0.5526  0.005172   0.08343  0.002549   0.06743    0.1674    0.4155
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5528  0.008530  0.006327    0.4386    0.1019   0.06937
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.002192   0.01152   0.06548    0.1411    0.1282              0.2019    0.4441  0.005606  -661.19855  -571.00826    0.1154    2.0542    2.0387
+
+% ----------------------------------------------------------
+% at P = 7.4, T = 508, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 7.420 508.18
+% ----------------------------------------------------------
+xyzguess x(g)          0.905591
+xyzguess z(g)          0.326122
+xyzguess m(g)          0.220915
+xyzguess f(g)        0.00287204
+% -----------------------------
+xyzguess f(ep)        0.0154413
+xyzguess Q(ep)        0.0149865  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.408295
+xyzguess y(mu)         0.913042
+xyzguess f(mu)      0.000238300
+xyzguess n(mu)         0.203724
+xyzguess c(mu)       0.00775045
+% -----------------------------
+xyzguess x(pa)         0.408295
+xyzguess y(pa)         0.998070
+xyzguess f(pa)       3.46677e-5
+xyzguess n(pa)         0.874644
+xyzguess c(pa)        0.0587502
+% -----------------------------
+xyzguess x(bi)         0.552635
+xyzguess m(bi)       0.00517171
+xyzguess y(bi)        0.0834327
+xyzguess f(bi)       0.00254923
+xyzguess t(bi)        0.0674279
+xyzguess Q(bi)         0.167427
+% -----------------------------
+xyzguess x(chl)        0.415474
+xyzguess y(chl)        0.552827
+xyzguess f(chl)      0.00853041
+xyzguess m(chl)      0.00632668
+xyzguess QAl(chl)      0.438577  range -1.000 1.000
+xyzguess Q1(chl)       0.101924  range -1.000 1.000
+xyzguess Q4(chl)      0.0693719  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   7.640    510.46    0.9051    0.3258    0.2097  0.002918   0.01552   0.01505    0.4093    0.9099 0.0002452    0.2009  0.007735    0.4093    0.9980  3.583e-5    0.8760   0.05838    0.5522  0.004887   0.08272  0.002542   0.06814    0.1666    0.4161
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5523  0.008608  0.005925    0.4391    0.1018   0.06934
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.002476   0.01143   0.06580    0.1410    0.1279              0.2018    0.4441  0.005580  -661.01073  -570.49098    0.1155    2.0493    2.0435
+
+% ----------------------------------------------------------
+% at P = 7.6, T = 510, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 7.640 510.46
+% ----------------------------------------------------------
+xyzguess x(g)          0.905060
+xyzguess z(g)          0.325753
+xyzguess m(g)          0.209656
+xyzguess f(g)        0.00291795
+% -----------------------------
+xyzguess f(ep)        0.0155152
+xyzguess Q(ep)        0.0150541  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.409343
+xyzguess y(mu)         0.909877
+xyzguess f(mu)      0.000245217
+xyzguess n(mu)         0.200925
+xyzguess c(mu)       0.00773539
+% -----------------------------
+xyzguess x(pa)         0.409343
+xyzguess y(pa)         0.997989
+xyzguess f(pa)       3.58320e-5
+xyzguess n(pa)         0.875995
+xyzguess c(pa)        0.0583779
+% -----------------------------
+xyzguess x(bi)         0.552222
+xyzguess m(bi)       0.00488654
+xyzguess y(bi)        0.0827188
+xyzguess f(bi)       0.00254157
+xyzguess t(bi)        0.0681435
+xyzguess Q(bi)         0.166607
+% -----------------------------
+xyzguess x(chl)        0.416147
+xyzguess y(chl)        0.552269
+xyzguess f(chl)      0.00860813
+xyzguess m(chl)      0.00592460
+xyzguess QAl(chl)      0.439055  range -1.000 1.000
+xyzguess Q1(chl)       0.101846  range -1.000 1.000
+xyzguess Q4(chl)      0.0693416  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   7.860    512.68    0.9045    0.3254    0.1983  0.002966   0.01560   0.01513    0.4103    0.9066 0.0002523    0.1981  0.007713    0.4103    0.9979  3.702e-5    0.8774   0.05792    0.5517  0.004602   0.08196  0.002534   0.06884    0.1658    0.4167
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5517  0.008690  0.005530    0.4396    0.1018   0.06928
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.002792   0.01133   0.06617    0.1409    0.1275              0.2017    0.4441  0.005556  -660.81692  -569.97725    0.1156    2.0446    2.0482
+
+% ----------------------------------------------------------
+% at P = 7.9, T = 513, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 7.860 512.68
+% ----------------------------------------------------------
+xyzguess x(g)          0.904535
+xyzguess z(g)          0.325449
+xyzguess m(g)          0.198326
+xyzguess f(g)        0.00296635
+% -----------------------------
+xyzguess f(ep)        0.0155990
+xyzguess Q(ep)        0.0151315  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.410306
+xyzguess y(mu)         0.906621
+xyzguess f(mu)      0.000252334
+xyzguess n(mu)         0.198141
+xyzguess c(mu)       0.00771250
+% -----------------------------
+xyzguess x(pa)         0.410306
+xyzguess y(pa)         0.997906
+xyzguess f(pa)       3.70173e-5
+xyzguess n(pa)         0.877439
+xyzguess c(pa)        0.0579215
+% -----------------------------
+xyzguess x(bi)         0.551743
+xyzguess m(bi)       0.00460216
+xyzguess y(bi)        0.0819564
+xyzguess f(bi)       0.00253373
+xyzguess t(bi)        0.0688369
+xyzguess Q(bi)         0.165822
+% -----------------------------
+xyzguess x(chl)        0.416725
+xyzguess y(chl)        0.551668
+xyzguess f(chl)      0.00869033
+xyzguess m(chl)      0.00553038
+xyzguess QAl(chl)      0.439572  range -1.000 1.000
+xyzguess Q1(chl)       0.101773  range -1.000 1.000
+xyzguess Q4(chl)      0.0692827  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   8.080    514.83    0.9040    0.3252    0.1870  0.003018   0.01569   0.01522    0.4112    0.9033 0.0002597    0.1954  0.007680    0.4112    0.9978  3.822e-5    0.8790   0.05737    0.5512  0.004320   0.08114  0.002526   0.06950    0.1651    0.4172
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5510  0.008778  0.005145    0.4401    0.1017   0.06919
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.003146   0.01122   0.06659    0.1407    0.1271              0.2015    0.4441  0.005535  -660.61613  -569.46722    0.1157    2.0400    2.0528
+
+% ----------------------------------------------------------
+% at P = 8.1, T = 515, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 8.080 514.83
+% ----------------------------------------------------------
+xyzguess x(g)          0.904017
+xyzguess z(g)          0.325224
+xyzguess m(g)          0.186964
+xyzguess f(g)        0.00301774
+% -----------------------------
+xyzguess f(ep)        0.0156947
+xyzguess Q(ep)        0.0152205  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.411173
+xyzguess y(mu)         0.903263
+xyzguess f(mu)      0.000259681
+xyzguess n(mu)         0.195363
+xyzguess c(mu)       0.00768021
+% -----------------------------
+xyzguess x(pa)         0.411173
+xyzguess y(pa)         0.997822
+xyzguess f(pa)       3.82227e-5
+xyzguess n(pa)         0.878992
+xyzguess c(pa)        0.0573700
+% -----------------------------
+xyzguess x(bi)         0.551186
+xyzguess m(bi)       0.00431964
+xyzguess y(bi)        0.0811373
+xyzguess f(bi)       0.00252570
+xyzguess t(bi)        0.0695031
+xyzguess Q(bi)         0.165077
+% -----------------------------
+xyzguess x(chl)        0.417194
+xyzguess y(chl)        0.551015
+xyzguess f(chl)      0.00877797
+xyzguess m(chl)      0.00514513
+xyzguess QAl(chl)      0.440134  range -1.000 1.000
+xyzguess Q1(chl)       0.101706  range -1.000 1.000
+xyzguess Q4(chl)      0.0691913  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   8.300    516.90    0.9035    0.3251    0.1756  0.003073   0.01580   0.01532    0.4119    0.8998 0.0002673    0.1926  0.007637    0.4119    0.9977  3.945e-5    0.8807   0.05671    0.5505  0.004040   0.08025  0.002517   0.07014    0.1644    0.4175
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5503  0.008872  0.004770    0.4407    0.1016   0.06906
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.003543   0.01108   0.06706    0.1406    0.1267              0.2014    0.4442  0.005517  -660.40716  -568.96448    0.1157    2.0355    2.0574
+
+% ----------------------------------------------------------
+% at P = 8.3, T = 517, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 8.300 516.90
+% ----------------------------------------------------------
+xyzguess x(g)          0.903505
+xyzguess z(g)          0.325098
+xyzguess m(g)          0.175624
+xyzguess f(g)        0.00307271
+% -----------------------------
+xyzguess f(ep)        0.0158046
+xyzguess Q(ep)        0.0153234  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.411930
+xyzguess y(mu)         0.899789
+xyzguess f(mu)      0.000267292
+xyzguess n(mu)         0.192579
+xyzguess c(mu)       0.00763675
+% -----------------------------
+xyzguess x(pa)         0.411930
+xyzguess y(pa)         0.997738
+xyzguess f(pa)       3.94477e-5
+xyzguess n(pa)         0.880671
+xyzguess c(pa)        0.0567111
+% -----------------------------
+xyzguess x(bi)         0.550542
+xyzguess m(bi)       0.00404024
+xyzguess y(bi)        0.0802522
+xyzguess f(bi)       0.00251746
+xyzguess t(bi)        0.0701367
+xyzguess Q(bi)         0.164379
+% -----------------------------
+xyzguess x(chl)        0.417540
+xyzguess y(chl)        0.550303
+xyzguess f(chl)      0.00887224
+xyzguess m(chl)      0.00477013
+xyzguess QAl(chl)      0.440750  range -1.000 1.000
+xyzguess Q1(chl)       0.101647  range -1.000 1.000
+xyzguess Q4(chl)      0.0690632  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   8.520    518.87    0.9030    0.3251    0.1644  0.003132   0.01593   0.01544    0.4126    0.8962 0.0002752    0.1898  0.007580    0.4126    0.9977  4.069e-5    0.8825   0.05593    0.5498  0.003765   0.07929  0.002509   0.07073    0.1637    0.4177
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5495  0.008975  0.004407    0.4414    0.1016   0.06889
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.003990   0.01093   0.06759    0.1404    0.1262              0.2012    0.4442  0.005501  -660.18868  -568.46659    0.1158    2.0310    2.0619
+
+% ----------------------------------------------------------
+% at P = 8.5, T = 519, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 8.520 518.87
+% ----------------------------------------------------------
+xyzguess x(g)          0.903001
+xyzguess z(g)          0.325093
+xyzguess m(g)          0.164362
+xyzguess f(g)        0.00313200
+% -----------------------------
+xyzguess f(ep)        0.0159317
+xyzguess Q(ep)        0.0154429  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.412565
+xyzguess y(mu)         0.896183
+xyzguess f(mu)      0.000275216
+xyzguess n(mu)         0.189778
+xyzguess c(mu)       0.00758020
+% -----------------------------
+xyzguess x(pa)         0.412565
+xyzguess y(pa)         0.997652
+xyzguess f(pa)       4.06918e-5
+xyzguess n(pa)         0.882492
+xyzguess c(pa)        0.0559321
+% -----------------------------
+xyzguess x(bi)         0.549796
+xyzguess m(bi)       0.00376535
+xyzguess y(bi)        0.0792909
+xyzguess f(bi)       0.00250904
+xyzguess t(bi)        0.0707314
+xyzguess Q(bi)         0.163736
+% -----------------------------
+xyzguess x(chl)        0.417746
+xyzguess y(chl)        0.549522
+xyzguess f(chl)      0.00897456
+xyzguess m(chl)      0.00440675
+xyzguess QAl(chl)      0.441426  range -1.000 1.000
+xyzguess Q1(chl)       0.101597  range -1.000 1.000
+xyzguess Q4(chl)      0.0688935  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   8.740    520.74    0.9025    0.3252    0.1532  0.003196   0.01608   0.01558    0.4131    0.8924 0.0002835    0.1869  0.007509    0.4131    0.9976  4.196e-5    0.8845   0.05502    0.5489  0.003497   0.07824  0.002500   0.07128    0.1632    0.4178
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5487  0.009087  0.004057    0.4422    0.1016   0.06868
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.004493   0.01074   0.06818    0.1402    0.1257              0.2010    0.4442  0.005490  -659.95915  -567.97561    0.1159    2.0266    2.0664
+
+% ----------------------------------------------------------
+% at P = 8.7, T = 521, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 8.740 520.74
+% ----------------------------------------------------------
+xyzguess x(g)          0.902506
+xyzguess z(g)          0.325235
+xyzguess m(g)          0.153250
+xyzguess f(g)        0.00319647
+% -----------------------------
+xyzguess f(ep)        0.0160792
+xyzguess Q(ep)        0.0155824  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.413060
+xyzguess y(mu)         0.892423
+xyzguess f(mu)      0.000283507
+xyzguess n(mu)         0.186945
+xyzguess c(mu)       0.00750852
+% -----------------------------
+xyzguess x(pa)         0.413060
+xyzguess y(pa)         0.997567
+xyzguess f(pa)       4.19554e-5
+xyzguess n(pa)         0.884474
+xyzguess c(pa)        0.0550204
+% -----------------------------
+xyzguess x(bi)         0.548933
+xyzguess m(bi)       0.00349653
+xyzguess y(bi)        0.0782424
+xyzguess f(bi)       0.00250045
+xyzguess t(bi)        0.0712800
+xyzguess Q(bi)         0.163153
+% -----------------------------
+xyzguess x(chl)        0.417795
+xyzguess y(chl)        0.548663
+xyzguess f(chl)      0.00908666
+xyzguess m(chl)      0.00405654
+xyzguess QAl(chl)      0.442170  range -1.000 1.000
+xyzguess Q1(chl)       0.101559  range -1.000 1.000
+xyzguess Q4(chl)      0.0686771  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   8.960    522.50    0.9020    0.3256    0.1424  0.003267   0.01625   0.01575    0.4134    0.8885 0.0002922    0.1841  0.007420    0.4134    0.9975  4.324e-5    0.8866   0.05396    0.5479  0.003235   0.07710  0.002492   0.07177    0.1626    0.4177
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5477  0.009211  0.003721    0.4430    0.1015   0.06841
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.005060   0.01053   0.06885    0.1399    0.1251              0.2008    0.4443  0.005483  -659.71691  -567.49289    0.1159    2.0222    2.0709
+
+% ----------------------------------------------------------
+% at P = 9.0, T = 522, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 8.960 522.50
+% ----------------------------------------------------------
+xyzguess x(g)          0.902020
+xyzguess z(g)          0.325552
+xyzguess m(g)          0.142362
+xyzguess f(g)        0.00326721
+% -----------------------------
+xyzguess f(ep)        0.0162513
+xyzguess Q(ep)        0.0157458  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.413400
+xyzguess y(mu)         0.888488
+xyzguess f(mu)      0.000292237
+xyzguess n(mu)         0.184066
+xyzguess c(mu)       0.00741964
+% -----------------------------
+xyzguess x(pa)         0.413400
+xyzguess y(pa)         0.997482
+xyzguess f(pa)       4.32396e-5
+xyzguess n(pa)         0.886635
+xyzguess c(pa)        0.0539641
+% -----------------------------
+xyzguess x(bi)         0.547938
+xyzguess m(bi)       0.00323548
+xyzguess y(bi)        0.0770955
+xyzguess f(bi)       0.00249175
+xyzguess t(bi)        0.0717748
+xyzguess Q(bi)         0.162641
+% -----------------------------
+xyzguess x(chl)        0.417667
+xyzguess y(chl)        0.547716
+xyzguess f(chl)      0.00921063
+xyzguess m(chl)      0.00372113
+xyzguess QAl(chl)      0.442991  range -1.000 1.000
+xyzguess Q1(chl)       0.101533  range -1.000 1.000
+xyzguess Q4(chl)      0.0684083  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   9.180    524.12    0.9015    0.3261    0.1318  0.003345   0.01645   0.01594    0.4136    0.8844 0.0003015    0.1811  0.007312    0.4136    0.9974  4.455e-5    0.8890   0.05275    0.5468  0.002984   0.07584  0.002483   0.07221    0.1622    0.4173
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5467  0.009349  0.003402    0.4439    0.1015   0.06808
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.005698   0.01029   0.06960    0.1396    0.1244              0.2006    0.4443  0.005481  -659.46023  -567.01859    0.1159    2.0178    2.0754
+
+% ----------------------------------------------------------
+% at P = 9.2, T = 524, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 9.180 524.12
+% ----------------------------------------------------------
+xyzguess x(g)          0.901545
+xyzguess z(g)          0.326074
+xyzguess m(g)          0.131782
+xyzguess f(g)        0.00334546
+% -----------------------------
+xyzguess f(ep)        0.0164527
+xyzguess Q(ep)        0.0159378  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.413565
+xyzguess y(mu)         0.884352
+xyzguess f(mu)      0.000301490
+xyzguess n(mu)         0.181126
+xyzguess c(mu)       0.00731165
+% -----------------------------
+xyzguess x(pa)         0.413565
+xyzguess y(pa)         0.997397
+xyzguess f(pa)       4.45473e-5
+xyzguess n(pa)         0.888990
+xyzguess c(pa)        0.0527536
+% -----------------------------
+xyzguess x(bi)         0.546795
+xyzguess m(bi)       0.00298397
+xyzguess y(bi)        0.0758391
+xyzguess f(bi)       0.00248304
+xyzguess t(bi)        0.0722075
+xyzguess Q(bi)         0.162207
+% -----------------------------
+xyzguess x(chl)        0.417341
+xyzguess y(chl)        0.546671
+xyzguess f(chl)      0.00934893
+xyzguess m(chl)      0.00340220
+xyzguess QAl(chl)      0.443895  range -1.000 1.000
+xyzguess Q1(chl)       0.101520  range -1.000 1.000
+xyzguess Q4(chl)      0.0680818  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   9.400    525.59    0.9011    0.3268    0.1216  0.003433   0.01669   0.01616    0.4135    0.8800 0.0003114    0.1781  0.007183    0.4135    0.9973  4.588e-5    0.8915   0.05138    0.5455  0.002744   0.07446  0.002474   0.07257    0.1619    0.4168
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5455  0.009504  0.003101    0.4449    0.1015   0.06769
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.006416  0.009998   0.07044    0.1393    0.1236              0.2004    0.4444  0.005484  -659.18737  -566.55405    0.1160    2.0135    2.0798
+
+% ----------------------------------------------------------
+% at P = 9.4, T = 526, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 9.400 525.59
+% ----------------------------------------------------------
+xyzguess x(g)          0.901083
+xyzguess z(g)          0.326833
+xyzguess m(g)          0.121596
+xyzguess f(g)        0.00343272
+% -----------------------------
+xyzguess f(ep)        0.0166890
+xyzguess Q(ep)        0.0161637  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.413540
+xyzguess y(mu)         0.879985
+xyzguess f(mu)      0.000311369
+xyzguess n(mu)         0.178108
+xyzguess c(mu)       0.00718294
+% -----------------------------
+xyzguess x(pa)         0.413540
+xyzguess y(pa)         0.997314
+xyzguess f(pa)       4.58836e-5
+xyzguess n(pa)         0.891549
+xyzguess c(pa)        0.0513832
+% -----------------------------
+xyzguess x(bi)         0.545487
+xyzguess m(bi)       0.00274376
+xyzguess y(bi)        0.0744637
+xyzguess f(bi)       0.00247446
+xyzguess t(bi)        0.0725699
+xyzguess Q(bi)         0.161860
+% -----------------------------
+xyzguess x(chl)        0.416800
+xyzguess y(chl)        0.545521
+xyzguess f(chl)      0.00950445
+xyzguess m(chl)      0.00310135
+xyzguess QAl(chl)      0.444887  range -1.000 1.000
+xyzguess Q1(chl)       0.101523  range -1.000 1.000
+xyzguess Q4(chl)      0.0676922  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   9.620    526.90    0.9006    0.3279    0.1119  0.003531   0.01697   0.01643    0.4133    0.8754 0.0003220    0.1750  0.007033    0.4133    0.9972  4.726e-5    0.8943   0.04985    0.5440  0.002517   0.07296  0.002466   0.07285    0.1616    0.4160
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5443  0.009681  0.002820    0.4460    0.1015   0.06724
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.007220  0.009663   0.07137    0.1389    0.1228              0.2001    0.4444  0.005493  -658.89672  -566.10056    0.1160    2.0092    2.0843
+
+% ----------------------------------------------------------
+% at P = 9.6, T = 527, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 9.620 526.90
+% ----------------------------------------------------------
+xyzguess x(g)          0.900635
+xyzguess z(g)          0.327858
+xyzguess m(g)          0.111885
+xyzguess f(g)        0.00353073
+% -----------------------------
+xyzguess f(ep)        0.0169663
+xyzguess Q(ep)        0.0164295  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.413308
+xyzguess y(mu)         0.875360
+xyzguess f(mu)      0.000322000
+xyzguess n(mu)         0.174999
+xyzguess c(mu)       0.00703252
+% -----------------------------
+xyzguess x(pa)         0.413308
+xyzguess y(pa)         0.997231
+xyzguess f(pa)       4.72572e-5
+xyzguess n(pa)         0.894318
+xyzguess c(pa)        0.0498523
+% -----------------------------
+xyzguess x(bi)         0.543999
+xyzguess m(bi)       0.00251652
+xyzguess y(bi)        0.0729621
+xyzguess f(bi)       0.00246625
+xyzguess t(bi)        0.0728545
+xyzguess Q(bi)         0.161605
+% -----------------------------
+xyzguess x(chl)        0.416026
+xyzguess y(chl)        0.544260
+xyzguess f(chl)      0.00968057
+xyzguess m(chl)      0.00282000
+xyzguess QAl(chl)      0.445969  range -1.000 1.000
+xyzguess Q1(chl)       0.101539  range -1.000 1.000
+xyzguess Q4(chl)      0.0672351  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+   9.840    528.03    0.9002    0.3292    0.1027  0.003641   0.01729   0.01674    0.4129    0.8704 0.0003335    0.1718  0.006860    0.4129    0.9971  4.868e-5    0.8973   0.04817    0.5423  0.002304   0.07133  0.002459   0.07305    0.1614    0.4150
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5429  0.009881  0.002559    0.4471    0.1016   0.06671
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.008115  0.009274   0.07240    0.1385    0.1219              0.1998    0.4445  0.005509  -658.58698  -565.65789    0.1160    2.0049    2.0888
+
+% ----------------------------------------------------------
+% at P = 9.8, T = 528, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 9.840 528.03
+% ----------------------------------------------------------
+xyzguess x(g)          0.900201
+xyzguess z(g)          0.329178
+xyzguess m(g)          0.102723
+xyzguess f(g)        0.00364149
+% -----------------------------
+xyzguess f(ep)        0.0172920
+xyzguess Q(ep)        0.0167423  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.412857
+xyzguess y(mu)         0.870447
+xyzguess f(mu)      0.000333530
+xyzguess n(mu)         0.171789
+xyzguess c(mu)       0.00686017
+% -----------------------------
+xyzguess x(pa)         0.412857
+xyzguess y(pa)         0.997150
+xyzguess f(pa)       4.86807e-5
+xyzguess n(pa)         0.897293
+xyzguess c(pa)        0.0481676
+% -----------------------------
+xyzguess x(bi)         0.542319
+xyzguess m(bi)       0.00230363
+xyzguess y(bi)        0.0713309
+xyzguess f(bi)       0.00245874
+xyzguess t(bi)        0.0730547
+xyzguess Q(bi)         0.161448
+% -----------------------------
+xyzguess x(chl)        0.415006
+xyzguess y(chl)        0.542886
+xyzguess f(chl)      0.00988115
+xyzguess m(chl)      0.00255925
+xyzguess QAl(chl)      0.447140  range -1.000 1.000
+xyzguess Q1(chl)       0.101569  range -1.000 1.000
+xyzguess Q4(chl)      0.0667071  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  10.060    528.99    0.8998    0.3308   0.09417  0.003767   0.01767   0.01711    0.4122    0.8652 0.0003461    0.1685  0.006667    0.4122    0.9971  5.017e-5    0.9005   0.04634    0.5404  0.002106   0.06957  0.002452   0.07317    0.1614    0.4137
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5414   0.01011  0.002320    0.4484    0.1016   0.06611
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+       0.009107  0.008827   0.07353    0.1381    0.1209              0.1995    0.4445  0.005531  -658.25727  -565.22913    0.1160    2.0006    2.0933
+
+% ----------------------------------------------------------
+% at P = 10.1, T = 529, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 10.060 528.99
+% ----------------------------------------------------------
+xyzguess x(g)          0.899783
+xyzguess z(g)          0.330813
+xyzguess m(g)         0.0941671
+xyzguess f(g)        0.00376727
+% -----------------------------
+xyzguess f(ep)        0.0176738
+xyzguess Q(ep)        0.0171097  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.412179
+xyzguess y(mu)         0.865219
+xyzguess f(mu)      0.000346134
+xyzguess n(mu)         0.168471
+xyzguess c(mu)       0.00666668
+% -----------------------------
+xyzguess x(pa)         0.412179
+xyzguess y(pa)         0.997070
+xyzguess f(pa)       5.01720e-5
+xyzguess n(pa)         0.900461
+xyzguess c(pa)        0.0463431
+% -----------------------------
+xyzguess x(bi)         0.540437
+xyzguess m(bi)       0.00210610
+xyzguess y(bi)        0.0695716
+xyzguess f(bi)       0.00245239
+xyzguess t(bi)        0.0731662
+xyzguess Q(bi)         0.161391
+% -----------------------------
+xyzguess x(chl)        0.413731
+xyzguess y(chl)        0.541401
+xyzguess f(chl)       0.0101106
+xyzguess m(chl)      0.00231971
+xyzguess QAl(chl)      0.448394  range -1.000 1.000
+xyzguess Q1(chl)       0.101611  range -1.000 1.000
+xyzguess Q4(chl)      0.0661064  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  10.280    529.76    0.8994    0.3328   0.08625  0.003911   0.01812   0.01754    0.4113    0.8597 0.0003600    0.1650  0.006454    0.4113    0.9970  5.176e-5    0.9038   0.04440    0.5383  0.001924   0.06769  0.002448   0.07319    0.1614    0.4122
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5398   0.01037  0.002101    0.4497    0.1017   0.06543
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01020  0.008314   0.07476    0.1376    0.1197              0.1992    0.4446  0.005560  -657.90726  -564.81062    0.1159    1.9962    2.0978
+
+% ----------------------------------------------------------
+% at P = 10.3, T = 530, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 10.280 529.76
+% ----------------------------------------------------------
+xyzguess x(g)          0.899380
+xyzguess z(g)          0.332777
+xyzguess m(g)         0.0862527
+xyzguess f(g)        0.00391069
+% -----------------------------
+xyzguess f(ep)        0.0181209
+xyzguess Q(ep)        0.0175404  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.411269
+xyzguess y(mu)         0.859653
+xyzguess f(mu)      0.000360019
+xyzguess n(mu)         0.165043
+xyzguess c(mu)       0.00645384
+% -----------------------------
+xyzguess x(pa)         0.411269
+xyzguess y(pa)         0.996990
+xyzguess f(pa)       5.17555e-5
+xyzguess n(pa)         0.903797
+xyzguess c(pa)        0.0443999
+% -----------------------------
+xyzguess x(bi)         0.538347
+xyzguess m(bi)       0.00192446
+xyzguess y(bi)        0.0676909
+xyzguess f(bi)       0.00244779
+xyzguess t(bi)        0.0731869
+xyzguess Q(bi)         0.161434
+% -----------------------------
+xyzguess x(chl)        0.412196
+xyzguess y(chl)        0.539809
+xyzguess f(chl)       0.0103739
+xyzguess m(chl)      0.00210144
+xyzguess QAl(chl)      0.449720  range -1.000 1.000
+xyzguess Q1(chl)       0.101661  range -1.000 1.000
+xyzguess Q4(chl)      0.0654326  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  10.500    530.35    0.8990    0.3351   0.07899  0.004075   0.01864   0.01804    0.4101    0.8537 0.0003754    0.1615  0.006224    0.4101    0.9969  5.346e-5    0.9073   0.04237    0.5360  0.001759   0.06570  0.002446   0.07312    0.1616    0.4104
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5381   0.01068  0.001904    0.4511    0.1017   0.06469
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01139  0.007729   0.07607    0.1372    0.1185              0.1988    0.4447  0.005595  -657.53721  -564.40658    0.1159    1.9919    2.1024
+
+% ----------------------------------------------------------
+% at P = 10.5, T = 530, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 10.500 530.35
+% ----------------------------------------------------------
+xyzguess x(g)          0.898991
+xyzguess z(g)          0.335076
+xyzguess m(g)         0.0789934
+xyzguess f(g)        0.00407479
+% -----------------------------
+xyzguess f(ep)        0.0186433
+xyzguess Q(ep)        0.0180443  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.410128
+xyzguess y(mu)         0.853733
+xyzguess f(mu)      0.000375431
+xyzguess n(mu)         0.161510
+xyzguess c(mu)       0.00622442
+% -----------------------------
+xyzguess x(pa)         0.410128
+xyzguess y(pa)         0.996910
+xyzguess f(pa)       5.34624e-5
+xyzguess n(pa)         0.907271
+xyzguess c(pa)        0.0423651
+% -----------------------------
+xyzguess x(bi)         0.536045
+xyzguess m(bi)       0.00175872
+xyzguess y(bi)        0.0657007
+xyzguess f(bi)       0.00244569
+xyzguess t(bi)        0.0731175
+xyzguess Q(bi)         0.161572
+% -----------------------------
+xyzguess x(chl)        0.410405
+xyzguess y(chl)        0.538122
+xyzguess f(chl)       0.0106770
+xyzguess m(chl)      0.00190396
+xyzguess QAl(chl)      0.451102  range -1.000 1.000
+xyzguess Q1(chl)       0.101715  range -1.000 1.000
+xyzguess Q4(chl)      0.0646867  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  10.720    530.77    0.8986    0.3377   0.07238  0.004263   0.01925   0.01863    0.4088    0.8474 0.0003927    0.1579  0.005982    0.4088    0.9968  5.533e-5    0.9108   0.04027    0.5335  0.001608   0.06362  0.002447   0.07296    0.1618    0.4084
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5364   0.01103  0.001726    0.4525    0.1018   0.06387
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01268  0.007069   0.07748    0.1367    0.1172              0.1985    0.4448  0.005637  -657.14798  -564.01264    0.1159    1.9876    2.1070
+
+% ----------------------------------------------------------
+% at P = 10.7, T = 531, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 10.720 530.77
+% ----------------------------------------------------------
+xyzguess x(g)          0.898613
+xyzguess z(g)          0.337706
+xyzguess m(g)         0.0723799
+xyzguess f(g)        0.00426312
+% -----------------------------
+xyzguess f(ep)        0.0192530
+xyzguess Q(ep)        0.0186328  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.408760
+xyzguess y(mu)         0.847445
+xyzguess f(mu)      0.000392667
+xyzguess n(mu)         0.157883
+xyzguess c(mu)       0.00598190
+% -----------------------------
+xyzguess x(pa)         0.408760
+xyzguess y(pa)         0.996830
+xyzguess f(pa)       5.53324e-5
+xyzguess n(pa)         0.910845
+xyzguess c(pa)        0.0402692
+% -----------------------------
+xyzguess x(bi)         0.533529
+xyzguess m(bi)       0.00160842
+xyzguess y(bi)        0.0636171
+xyzguess f(bi)       0.00244706
+xyzguess t(bi)        0.0729614
+xyzguess Q(bi)         0.161799
+% -----------------------------
+xyzguess x(chl)        0.408360
+xyzguess y(chl)        0.536350
+xyzguess f(chl)       0.0110268
+xyzguess m(chl)      0.00172628
+xyzguess QAl(chl)      0.452521  range -1.000 1.000
+xyzguess Q1(chl)       0.101766  range -1.000 1.000
+xyzguess Q4(chl)      0.0638709  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  10.940    531.03    0.8982    0.3407   0.06638  0.004480   0.01996   0.01932    0.4072    0.8408 0.0004121    0.1542  0.005730    0.4072    0.9967  5.741e-5    0.9145   0.03814    0.5308  0.001473   0.06146  0.002453   0.07272    0.1621    0.4061
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5345   0.01143  0.001567    0.4540    0.1018   0.06299
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01408  0.006327   0.07897    0.1362    0.1159              0.1981    0.4448  0.005684  -656.74089  -563.62895    0.1158    1.9832    2.1116
+
+% ----------------------------------------------------------
+% at P = 10.9, T = 531, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 10.940 531.03
+% ----------------------------------------------------------
+xyzguess x(g)          0.898241
+xyzguess z(g)          0.340657
+xyzguess m(g)         0.0663846
+xyzguess f(g)        0.00448004
+% -----------------------------
+xyzguess f(ep)        0.0199644
+xyzguess Q(ep)        0.0193198  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.407172
+xyzguess y(mu)         0.840785
+xyzguess f(mu)      0.000412094
+xyzguess n(mu)         0.154177
+xyzguess c(mu)       0.00573014
+% -----------------------------
+xyzguess x(pa)         0.407172
+xyzguess y(pa)         0.996747
+xyzguess f(pa)       5.74146e-5
+xyzguess n(pa)         0.914479
+xyzguess c(pa)        0.0381433
+% -----------------------------
+xyzguess x(bi)         0.530800
+xyzguess m(bi)       0.00147270
+xyzguess y(bi)        0.0614596
+xyzguess f(bi)       0.00245305
+xyzguess t(bi)        0.0727240
+xyzguess Q(bi)         0.162106
+% -----------------------------
+xyzguess x(chl)        0.406070
+xyzguess y(chl)        0.534508
+xyzguess f(chl)       0.0114318
+xyzguess m(chl)      0.00156700
+xyzguess QAl(chl)      0.453957  range -1.000 1.000
+xyzguess Q1(chl)       0.101808  range -1.000 1.000
+xyzguess Q4(chl)      0.0629877  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  11.160    531.14    0.8979    0.3439   0.06097  0.004731   0.02080   0.02012    0.4054    0.8338 0.0004342    0.1504  0.005473    0.4054    0.9967  5.977e-5    0.9181   0.03602    0.5279  0.001350   0.05925  0.002465   0.07241    0.1625    0.4035
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5326   0.01190  0.001425    0.4554    0.1018   0.06204
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01557  0.005499   0.08054    0.1357    0.1144              0.1976    0.4449  0.005736  -656.31767  -563.25668    0.1157    1.9789    2.1162
+
+% ----------------------------------------------------------
+% at P = 11.2, T = 531, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 11.160 531.14
+% ----------------------------------------------------------
+xyzguess x(g)          0.897871
+xyzguess z(g)          0.343910
+xyzguess m(g)         0.0609662
+xyzguess f(g)        0.00473093
+% -----------------------------
+xyzguess f(ep)        0.0207953
+xyzguess Q(ep)        0.0201227  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.405372
+xyzguess y(mu)         0.833752
+xyzguess f(mu)      0.000434171
+xyzguess n(mu)         0.150412
+xyzguess c(mu)       0.00547312
+% -----------------------------
+xyzguess x(pa)         0.405372
+xyzguess y(pa)         0.996663
+xyzguess f(pa)       5.97706e-5
+xyzguess n(pa)         0.918134
+xyzguess c(pa)        0.0360171
+% -----------------------------
+xyzguess x(bi)         0.527857
+xyzguess m(bi)       0.00135046
+xyzguess y(bi)        0.0592490
+xyzguess f(bi)       0.00246511
+xyzguess t(bi)        0.0724129
+xyzguess Q(bi)         0.162485
+% -----------------------------
+xyzguess x(chl)        0.403541
+xyzguess y(chl)        0.532606
+xyzguess f(chl)       0.0119025
+xyzguess m(chl)      0.00142453
+xyzguess QAl(chl)      0.455385  range -1.000 1.000
+xyzguess Q1(chl)       0.101834  range -1.000 1.000
+xyzguess Q4(chl)      0.0620394  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  11.380    531.12    0.8975    0.3474   0.05608  0.005023   0.02177   0.02106    0.4034    0.8264 0.0004595    0.1466  0.005215    0.4034    0.9966  6.248e-5    0.9218   0.03392    0.5247  0.001240   0.05701  0.002485   0.07204    0.1629    0.4008
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5307   0.01245  0.001297    0.4568    0.1018   0.06103
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01716  0.004580   0.08218    0.1353    0.1128              0.1972    0.4450  0.005792  -655.88030  -562.89258    0.1156    1.9746    2.1208
+
+% ----------------------------------------------------------
+% at P = 11.4, T = 531, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 11.380 531.12
+% ----------------------------------------------------------
+xyzguess x(g)          0.897493
+xyzguess z(g)          0.347445
+xyzguess m(g)         0.0560763
+xyzguess f(g)        0.00502267
+% -----------------------------
+xyzguess f(ep)        0.0217685
+xyzguess Q(ep)        0.0210632  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.403367
+xyzguess y(mu)         0.826352
+xyzguess f(mu)      0.000459488
+xyzguess n(mu)         0.146609
+xyzguess c(mu)       0.00521461
+% -----------------------------
+xyzguess x(pa)         0.403367
+xyzguess y(pa)         0.996574
+xyzguess f(pa)       6.24775e-5
+xyzguess n(pa)         0.921773
+xyzguess c(pa)        0.0339170
+% -----------------------------
+xyzguess x(bi)         0.524695
+xyzguess m(bi)       0.00124045
+xyzguess y(bi)        0.0570065
+xyzguess f(bi)       0.00248504
+xyzguess t(bi)        0.0720367
+xyzguess Q(bi)         0.162923
+% -----------------------------
+xyzguess x(chl)        0.400779
+xyzguess y(chl)        0.530657
+xyzguess f(chl)       0.0124524
+xyzguess m(chl)      0.00129716
+xyzguess QAl(chl)      0.456783  range -1.000 1.000
+xyzguess Q1(chl)       0.101835  range -1.000 1.000
+xyzguess Q4(chl)      0.0610278  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  11.600    530.98    0.8971    0.3512   0.05166  0.005364   0.02291   0.02217    0.4012    0.8186 0.0004888    0.1428  0.004958    0.4012    0.9965  6.563e-5    0.9254   0.03187    0.5213  0.001141   0.05475  0.002515   0.07160    0.1634    0.3978
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5287   0.01310  0.001183    0.4581    0.1018   0.05995
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.01886  0.003566   0.08390    0.1348    0.1112              0.1967    0.4451  0.005853  -655.43092  -562.53532    0.1155    1.9703    2.1254
+
+% ----------------------------------------------------------
+% at P = 11.6, T = 531, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 11.600 530.98
+% ----------------------------------------------------------
+xyzguess x(g)          0.897099
+xyzguess z(g)          0.351233
+xyzguess m(g)         0.0516633
+xyzguess f(g)        0.00536418
+% -----------------------------
+xyzguess f(ep)        0.0229137
+xyzguess Q(ep)        0.0221701  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.401162
+xyzguess y(mu)         0.818594
+xyzguess f(mu)      0.000488812
+xyzguess n(mu)         0.142792
+xyzguess c(mu)       0.00495803
+% -----------------------------
+xyzguess x(pa)         0.401162
+xyzguess y(pa)         0.996480
+xyzguess f(pa)       6.56337e-5
+xyzguess n(pa)         0.925364
+xyzguess c(pa)        0.0318653
+% -----------------------------
+xyzguess x(bi)         0.521309
+xyzguess m(bi)       0.00114142
+xyzguess y(bi)        0.0547526
+xyzguess f(bi)       0.00251507
+xyzguess t(bi)        0.0716048
+xyzguess Q(bi)         0.163412
+% -----------------------------
+xyzguess x(chl)        0.397787
+xyzguess y(chl)        0.528665
+xyzguess f(chl)       0.0130992
+xyzguess m(chl)      0.00118322
+xyzguess QAl(chl)      0.458125  range -1.000 1.000
+xyzguess Q1(chl)       0.101803  range -1.000 1.000
+xyzguess Q4(chl)      0.0599540  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  11.820    530.76    0.8967    0.3552   0.04768  0.005767   0.02427   0.02348    0.3988    0.8105 0.0005232    0.1390  0.004706    0.3988    0.9964  6.937e-5    0.9289   0.02988    0.5177  0.001052   0.05251  0.002558   0.07113    0.1639    0.3946
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5266   0.01387  0.001081    0.4594    0.1017   0.05882
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.02066  0.002450   0.08569    0.1344    0.1095              0.1962    0.4452  0.005917  -654.97180  -562.18437    0.1154    1.9660    2.1300
+
+% ----------------------------------------------------------
+% at P = 11.8, T = 531, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 11.820 530.76
+% ----------------------------------------------------------
+xyzguess x(g)          0.896679
+xyzguess z(g)          0.355245
+xyzguess m(g)         0.0476771
+xyzguess f(g)        0.00576726
+% -----------------------------
+xyzguess f(ep)        0.0242699
+xyzguess Q(ep)        0.0234810  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.398761
+xyzguess y(mu)         0.810490
+xyzguess f(mu)      0.000523163
+xyzguess n(mu)         0.138985
+xyzguess c(mu)       0.00470631
+% -----------------------------
+xyzguess x(pa)         0.398761
+xyzguess y(pa)         0.996381
+xyzguess f(pa)       6.93669e-5
+xyzguess n(pa)         0.928880
+xyzguess c(pa)        0.0298795
+% -----------------------------
+xyzguess x(bi)         0.517691
+xyzguess m(bi)       0.00105214
+xyzguess y(bi)        0.0525066
+xyzguess f(bi)       0.00255807
+xyzguess t(bi)        0.0711275
+xyzguess Q(bi)         0.163941
+% -----------------------------
+xyzguess x(chl)        0.394566
+xyzguess y(chl)        0.526635
+xyzguess f(chl)       0.0138662
+xyzguess m(chl)      0.00108114
+xyzguess QAl(chl)      0.459386  range -1.000 1.000
+xyzguess Q1(chl)       0.101730  range -1.000 1.000
+xyzguess Q4(chl)      0.0588181  range -1.000 1.000
+% ----------------------------------------------------------
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)    x(chl)
+  12.040    530.46    0.8962    0.3594   0.04407  0.006248   0.02589   0.02505    0.3962    0.8021 0.0005639    0.1352  0.004462    0.3962    0.9963  7.385e-5    0.9323   0.02797    0.5138 0.0009715   0.05029  0.002618   0.07062    0.1645    0.3911
+                      y(chl)    f(chl)    m(chl)  QAl(chl)   Q1(chl)   Q4(chl)
+                      0.5246   0.01478 0.0009895    0.4605    0.1016   0.05762
+
+ mode         g        ep        mu        pa        bi       chl         q       H2O       sph           G           H         S         V       rho
+        0.02257  0.001229   0.08755    0.1340    0.1077              0.1957    0.4453  0.005984  -654.50529  -561.83733    0.1153    1.9618    2.1347
+
+% ----------------------------------------------------------
+% at P = 12.0, T = 530, for: g ep mu pa bi chl q H2O sph  with chl = 0
+% ----------------------------------------------------------
+ptguess 12.040 530.46
+% ----------------------------------------------------------
+xyzguess x(g)          0.896219
+xyzguess z(g)          0.359445
+xyzguess m(g)         0.0440715
+xyzguess f(g)        0.00624773
+% -----------------------------
+xyzguess f(ep)        0.0258893
+xyzguess Q(ep)        0.0250462  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.396167
+xyzguess y(mu)         0.802059
+xyzguess f(mu)      0.000563910
+xyzguess n(mu)         0.135210
+xyzguess c(mu)       0.00446186
+% -----------------------------
+xyzguess x(pa)         0.396167
+xyzguess y(pa)         0.996275
+xyzguess f(pa)       7.38458e-5
+xyzguess n(pa)         0.932300
+xyzguess c(pa)        0.0279729
+% -----------------------------
+xyzguess x(bi)         0.513829
+xyzguess m(bi)      0.000971524
+xyzguess y(bi)        0.0502860
+xyzguess f(bi)       0.00261775
+xyzguess t(bi)        0.0706156
+xyzguess Q(bi)         0.164497
+% -----------------------------
+xyzguess x(chl)        0.391113
+xyzguess y(chl)        0.524561
+xyzguess f(chl)       0.0147849
+xyzguess m(chl)     0.000989526
+xyzguess QAl(chl)      0.460539  range -1.000 1.000
+xyzguess Q1(chl)       0.101605  range -1.000 1.000
+xyzguess Q4(chl)      0.0576196  range -1.000 1.000
+% ----------------------------------------------------------
+
+888888888881111111
+============================================================

@@ -1,0 +1,94 @@
+[display/print with fixed width font (eg Monaco)]
+
+
+
+THERMOCALC 3.50  running at 1.39 on Fri 29 Jan,2021
+summary output in the file, "tc-avgpelite-o.txt"
+other (eg drawpd) output in the file, "tc-avgpelite-dr.txt"
+details of calc results in the file, "tc-avgpelite-ic.txt"
+initial tables in the file, "tc-avgpelite-it.txt"
+csv format in the file, "tc-avgpelite.csv"
+more csv format in the file, "tc-avgpelite2.csv"
+(these files may not all be populated yet, depending on the calcs;
+ thermocalc should delete empty files at the end of each run)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+THERMOCALC 3.50 running at 1.39 on Fri 29 Jan,2021
+using tc-ds62.txt produced at 20.08 on Mon 6 Feb,2012
+with axfile tc-mp50MnNCKFMASHTO.txt and scriptfile tc-avgpelite.txt
+
+reading ax: g L plc ksp ep ma mu bi opx sa cd st chl ctd sp ilmm ilm mt1 ksp0 heme 
+            mt0 ilm0 ab Ni NiO ru sill and ky q H2O abh sph cz ta law 
+
+phases ignored this run: plc opx sp ilmm hemm mt1 ksp0 heme mt0 ilm0 Ni NiO abh ta  (from script)
+
+
+with: g ep mu pa bi ab q H2O sph  (from script)
+fluid is just H2O
+in excess: q H2O
+
+specification of xyz starting guesses of phases
+in the scriptfile: g ep mu pa bi; not in the scriptfile: none
+
+specification of overall PT window:
+overall PT window is P: 5.0 to 16.0 kbar, and T: 350 to 700¡C (from script)
+
+accepting the calculated variance (from script)
+
+specification of mode isopleths
+mode of ab set to zero
+
+original variance = 4, effective variance = 0  (2, 0)
+
+specification of PT calcs:
+using overall PT window for the PT window within which invariant points expected to lie
+
+specification of bulk composition
+composition (from bulk script)
+      H2O     SiO2    Al2O3      CaO      MgO     FeOt      K2O     Na2O     TiO2      MnO        O
+   49.998   35.563    5.805    0.695    2.325    2.890    1.340    0.995    0.335    0.050    0.005
+<==========================================================>
+phases: g ep mu pa bi ab sph (q, fluid) 
+
+------------------------------------------------------------
+ P(kbar)     T(¡C)      x(g)      z(g)      m(g)      f(g)     f(ep)     Q(ep)     x(mu)     y(mu)     f(mu)     n(mu)     c(mu)     x(pa)     y(pa)     f(pa)     n(pa)     c(pa)     x(bi)     m(bi)     y(bi)     f(bi)     t(bi)     Q(bi)
+  11.908    561.42    0.8873    0.3868   0.04138  0.006797   0.02317   0.02234    0.4087    0.8042 0.0005964    0.1522  0.005365    0.4087    0.9951  8.957e-5    0.9253   0.02915    0.5141  0.001128   0.05761  0.002740   0.08111    0.1573
+
+ mode         g        ep        mu        pa        bi        ab         q       H2O       sph           G           H         S         V       rho
+        0.02365             0.08781    0.1333    0.1082              0.1959    0.4455  0.005552  -658.37673  -559.95081    0.1179    1.9758    2.1196
+
+% ----------------------------------------------------------
+% at P = 11.9, T = 561, for: g ep mu pa bi ab q H2O sph  with ep = 0, ab = 0
+% ----------------------------------------------------------
+ptguess 11.908 561.42
+% ----------------------------------------------------------
+xyzguess x(g)          0.887305
+xyzguess z(g)          0.386828
+xyzguess m(g)         0.0413841
+xyzguess f(g)        0.00679737
+% -----------------------------
+xyzguess f(ep)        0.0231735
+xyzguess Q(ep)        0.0223410  range  0.000 0.500
+% -----------------------------
+xyzguess x(mu)         0.408691
+xyzguess y(mu)         0.804168
+xyzguess f(mu)      0.000596375
+xyzguess n(mu)         0.152169
+xyzguess c(mu)       0.00536458
+% -----------------------------
+xyzguess x(pa)         0.408691
+xyzguess y(pa)         0.995077
+xyzguess f(pa)       8.95735e-5
+xyzguess n(pa)         0.925315
+xyzguess c(pa)        0.0291502
+% -----------------------------
+xyzguess x(bi)         0.514126
+xyzguess m(bi)       0.00112802
+xyzguess y(bi)        0.0576139
+xyzguess f(bi)       0.00273970
+xyzguess t(bi)        0.0811079
+xyzguess Q(bi)         0.157263
+% ----------------------------------------------------------
+
+
+============================================================

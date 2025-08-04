@@ -1,0 +1,15 @@
+# run: conda env create --file environment.yml
+name: pyps
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python>=3.8
+  - pyqt=5
+  - numpy
+  - matplotlib>=3.3
+  - scipy
+  - networkx
+  - shapely>=2
+  - tqdm
+  - jupyterlab
