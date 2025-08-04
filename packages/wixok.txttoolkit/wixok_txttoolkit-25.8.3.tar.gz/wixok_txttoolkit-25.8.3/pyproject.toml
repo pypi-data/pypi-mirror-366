@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wixok.txttoolkit"
+version = "25.08.03"
+description = "Simple Python utility for text file operations."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+
+authors = [
+  { name = "Wixok", email = "contact@wixok.com" }
+]
+
+maintainers = [
+  { name = "Mohammed Dellihr", email = "mohammeddellihr@maildoo.com" }
+]
+
+keywords = ["text", "file", "io", "toolkit", "txttoolkit"]
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12"
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "black", "mypy"]
+docs = ["mkdocs", "mkdocs-material"]
+
+[project.urls]
+Homepage = "https://txttoolkit.wixok.com"
+Repository = "https://github.com/wixok/txttoolkit"
+Issues = "https://github.com/wixok/txttoolkit/issues"
+
+[project.scripts]
+txttoolkit = "txttoolkit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["wixok*"]
+exclude = ["tests*"]
+
+[tool.wixok]
+company = "Wixok"
+website = "https://wixok.com"
