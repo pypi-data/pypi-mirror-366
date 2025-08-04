@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: linalg-zero
+Version: 0.2.0
+Summary: This repository provides tools to generate a linear algebra dataset and code to train an open-source pre-trained model. Our goal is to explore the model's potential for emergent reasoning, inspired by the Deepseek-R1 paper.
+Project-URL: Homepage, https://atomwalk12.github.io/linalg-zero/
+Project-URL: Repository, https://github.com/atomwalk12/linalg-zero
+Project-URL: Documentation, https://atomwalk12.github.io/linalg-zero/
+Author-email: Razvan Florian Vasile <atomwalk@duck.com>
+License-File: LICENSE
+Keywords: python
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: <3.13,>=3.10
+Requires-Dist: anyio>=4.9.0
+Requires-Dist: argilla>=2.8.0
+Requires-Dist: bitsandbytes>=0.46.1
+Requires-Dist: bs4>=0.0.2
+Requires-Dist: datasets>=4.0.0
+Requires-Dist: deepspeed>=0.17.3
+Requires-Dist: distilabel[instructor,openai,outlines]>=1.5.3
+Requires-Dist: fastapi>=0.116.1
+Requires-Dist: huggingface-hub>=0.33.4
+Requires-Dist: instructor>=1.9.2
+Requires-Dist: ipykernel>=6.29.5
+Requires-Dist: liger-kernel>=0.6.1
+Requires-Dist: llama-cpp-python==0.3.13
+Requires-Dist: math-verify>=0.8.0
+Requires-Dist: outlines>=0.1.0
+Requires-Dist: pydantic-settings>=2.10.1
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: sse-starlette>=2.4.1
+Requires-Dist: starlette-context>=0.4.0
+Requires-Dist: starlette>=0.47.1
+Requires-Dist: transformers>=4.53.1
+Requires-Dist: trl>=0.19.1
+Requires-Dist: typing-extensions>=4.14.1
+Requires-Dist: uvicorn>=0.35.0
+Requires-Dist: verl>=0.5.0
+Requires-Dist: vllm>=0.9.2
+Description-Content-Type: text/markdown
+
+# linalg-zero
+
+[![Release](https://img.shields.io/github/v/release/atomwalk12/linalg-zero)](https://img.shields.io/github/v/release/atomwalk12/linalg-zero)
+[![Build status](https://img.shields.io/github/actions/workflow/status/atomwalk12/linalg-zero/main.yml?branch=main)](https://github.com/atomwalk12/linalg-zero/actions/workflows/main.yml?query=branch%3Amain)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/atomwalk12/linalg-zero)](https://img.shields.io/github/commit-activity/m/atomwalk12/linalg-zero)
+[![License](https://img.shields.io/github/license/atomwalk12/linalg-zero)](https://img.shields.io/github/license/atomwalk12/linalg-zero)
+
+This repository offers tools for generating a linear algebra problem dataset and training an open-source base model, aiming to explore its potential for emergent reasoning as inspired by the Deepseek-R1 paper.
+
+## Installation
+
+### PyTorch Configuration
+
+This project is configured with PyTorch defaults that work for most users:
+- **Linux**: CUDA 12.8 builds (for GPU acceleration)
+- **macOS/Windows**: CPU builds
+
+#### For Different CUDA Versions
+
+If you need a different CUDA version, run the following commands:
+
+```bash
+# To automatically detect and install dependencies:
+UV_TORCH_BACKEND=auto uv sync
+
+# Alternatively, to install Pytorch with a specific CUDA version:
+nvidia-smi                      # check your CUDA version
+UV_TORCH_BACKEND=cu121 uv sync  # for CUDA 12.1
+UV_TORCH_BACKEND=cu124 uv sync  # for CUDA 12.4
+UV_TORCH_BACKEND=cpu uv sync    # for CPU-only
+```
+
+For the available CUDA versions see the [official documentation](https://pytorch.org/get-started/locally/).
+
+#### Installation
+```bash
+uv venv --python 3.11
+source .venv/bin/activate.fish
+make install
+```
