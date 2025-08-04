@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "pypformat"
+version = "1.2.4"
+description = "Python pretty formatting package"
+authors = [
+  {name = "SpectraL519"}
+]
+readme = {file = "README_pypi.md", content-type = "text/markdown; charset=UTF-8; variant=GFM"}
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">= 3.9"
+dependencies = ["colored==2.2.*"]
+keywords = ["string", "format", "formatting", "pretty", "print"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+
+[project.optional-dependencies]
+dev = ["pytest", "tox", "ruff", "icecream"]
+
+
+[project.urls]
+Repository = "https://github.com/SpectraL519/pypformat.git"
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["pformat"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+pythonpath = ["src"]
