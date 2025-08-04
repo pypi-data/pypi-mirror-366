@@ -1,0 +1,1 @@
+from .cropper import crop_passport_photo
