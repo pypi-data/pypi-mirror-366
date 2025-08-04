@@ -1,0 +1,23 @@
+Metadata-Version: 2.3
+Name: python-event-sourcery
+Version: 0.4.0a15
+Summary: 
+License: MIT
+Author: Your Name
+Author-email: you@example.com
+Requires-Python: >=3.10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: django
+Provides-Extra: esdb
+Provides-Extra: sqlalchemy
+Requires-Dist: SQLAlchemy (>=2.0) ; extra == "sqlalchemy"
+Requires-Dist: django (>=4,<6) ; extra == "django"
+Requires-Dist: esdbclient (>=1.0b3) ; extra == "esdb"
+Requires-Dist: more-itertools
+Requires-Dist: psycopg2-binary (>2,<3)
+Requires-Dist: pydantic (>=2.0,<3)
