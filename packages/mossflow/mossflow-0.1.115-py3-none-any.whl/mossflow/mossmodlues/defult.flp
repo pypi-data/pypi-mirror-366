@@ -1,0 +1,265 @@
+{
+    "language": "zh",
+    "background_color": [
+        0.11,
+        0.13,
+        0.22,
+        1.0
+    ],
+    "scale": 1.0,
+    "offset_x": 0,
+    "offset_y": 0,
+    "rotation_angle": 0,
+    "modlues": {
+        "loadrgbimg": {
+            "class": "Graphics_RGBImageModule",
+            "x": -241.54545454545453,
+            "y": -146.90909090909096,
+            "radius": 10,
+            "text": "loadrgbimg",
+            "normalcolor": [
+                0.0,
+                0.5,
+                0.5,
+                1.0
+            ],
+            "selectedcolor": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "font_path": "C:\\Windows\\Fonts\\msyh.ttc",
+            "font_size": 16,
+            "textcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parameters": {
+                "filename": null,
+                "image": null,
+                "lastrunstatus": false
+            },
+            "breifimagewidth": 112,
+            "breifimageheight": 82,
+            "status": "Normal",
+            "language": "zh",
+            "breifimage_visible": 1,
+            "imreadflag": "IMREAD_ANYDEPTH",
+            "lastrunstatus": true
+        },
+        "openfile": {
+            "class": "Graphics_OpenFileModule",
+            "x": -227.36363636363652,
+            "y": -258.4545454545455,
+            "radius": 10,
+            "text": "openfile",
+            "normalcolor": [
+                0.0,
+                0.5,
+                0.5,
+                1.0
+            ],
+            "selectedcolor": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "font_path": "C:\\Windows\\Fonts\\msyh.ttc",
+            "font_size": 16,
+            "textcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parameters": {
+                "filename": null,
+                "lastrunstatus": false
+            },
+            "breifimagewidth": 86,
+            "breifimageheight": 84,
+            "status": "Normal",
+            "language": "zh",
+            "breifimage_visible": 1,
+            "lastrunstatus": true
+        },
+        "cvtcolor": {
+            "class": "Graphics_ConvertColorModule",
+            "x": -373.36363636363654,
+            "y": 15.72727272727272,
+            "radius": 10,
+            "text": "cvtcolor",
+            "normalcolor": [
+                0.0,
+                0.5,
+                0.5,
+                1.0
+            ],
+            "selectedcolor": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "font_path": "C:\\Windows\\Fonts\\msyh.ttc",
+            "font_size": 16,
+            "textcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parameters": {
+                "originalimage": null,
+                "resimage": null,
+                "lastrunstatus": false
+            },
+            "breifimagewidth": 84,
+            "breifimageheight": 74,
+            "status": "Normal",
+            "language": "zh",
+            "breifimage_visible": 1,
+            "lastrunstatus": true
+        }
+    },
+    "linemodules": {
+        "BaseLine": {
+            "class": "Grpahics_WrapLineModule",
+            "x": -184.9545454545455,
+            "y": -181.68181818181824,
+            "radius": 10,
+            "text": "BaseLine",
+            "normalcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "selectedcolor": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "font_path": "C:\\Windows\\Fonts\\msyh.ttc",
+            "font_size": 16,
+            "textcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parameters": {
+                "ValueModule": false
+            },
+            "breifimagewidth": 90,
+            "breifimageheight": 74,
+            "language": "zh",
+            "status": "Normal",
+            "KeyA": "filename",
+            "KeyB": "filename",
+            "A": "openfile",
+            "B": "loadrgbimg"
+        },
+        "1": {
+            "class": "Grpahics_WrapLineModule",
+            "x": -258.45454545454555,
+            "y": -45.09090909090912,
+            "radius": 10,
+            "text": "1",
+            "normalcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "selectedcolor": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "font_path": "C:\\Windows\\Fonts\\msyh.ttc",
+            "font_size": 16,
+            "textcolor": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parameters": {
+                "ValueModule": false
+            },
+            "breifimagewidth": 33,
+            "breifimageheight": 72,
+            "language": "zh",
+            "status": "Normal",
+            "KeyA": "image",
+            "KeyB": "originalimage",
+            "A": "loadrgbimg",
+            "B": "cvtcolor"
+        }
+    },
+    "texts": {
+        "zh": {
+            "update_drawobjects_msg_title": "更新模块",
+            "update_drawobjects_msg_content": "模块已存在，是否覆盖？",
+            "update_drawobjects_msg_error": "模块名称不能为空。",
+            "on_confirmbuttonclick_errormsg_title": "错误",
+            "on_confirmbuttonclick_errormsg_content": "设置输入失败，请检查参数。",
+            "module": "模块",
+            "langeuage": "语言",
+            "setting": "设置",
+            "link": "链接",
+            "basicline": "链接",
+            "ifline": "条件分支",
+            "script": "脚本",
+            "tool": "工具",
+            "calculator": "计算器",
+            "numberkeyboard": "数字键盘",
+            "imageviewer": "图像查看器",
+            "defaulttask": "默认任务",
+            "save": "保存任务",
+            "cv": "图像处理",
+            "loadimg": "加载",
+            "loadrgbimg": "加载RGB",
+            "tiff": "加载TIFF",
+            "file": "文件",
+            "openfile": "打开文件",
+            "IFLINE": "判断分支",
+            "BaseLine": "链接"
+        },
+        "en": {
+            "update_drawobjects_msg_title": "Update Module",
+            "update_drawobjects_msg_content": "Module already exists. Overwrite?",
+            "update_drawobjects_msg_error": "Module name cannot be empty.",
+            "on_confirmbuttonclick_errormsg_title": "Error",
+            "on_confirmbuttonclick_errormsg_content": "Failed to set input, please check parameters.",
+            "module": "Module",
+            "langeuage": "Language",
+            "setting": "Settings",
+            "link": "Link",
+            "basicline": "Basic Line",
+            "ifline": "If Line",
+            "script": "Script",
+            "tool": "Tool",
+            "calculator": "Calculator",
+            "numberkeyboard": "Numeric Pad",
+            "imageviewer": "Image Viewer",
+            "defaulttask": "Default Task",
+            "save": "Save Task",
+            "cv": "CV",
+            "loadimg": "LoadImg",
+            "loadrgbimg": "LoadRGB",
+            "tiff": "LoadTIFF",
+            "file": "File",
+            "openfile": "OpenFile",
+            "IFLINE": "IfLine",
+            "BaseLine": "Link"
+        }
+    }
+}
