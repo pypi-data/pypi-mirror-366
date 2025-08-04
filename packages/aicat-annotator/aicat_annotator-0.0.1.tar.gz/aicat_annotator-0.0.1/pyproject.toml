@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aicat"]
+
+[project]
+name = "aicat-annotator"
+version = "0.0.1"
+authors = [
+  { name="Dailin Gan", email="dailin.raven.gan@gmail.com" },
+  { name="Jun Li", email="jun.li@nd.edu" }
+]
+description = "Agentic-AI Cell-type Annotation Tool"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License"
+]
+dependencies = [
+    "langchain == 0.1.20",
+    "langchain-core >= 0.1.36",
+    "langchain-openai == 0.1.7",
+    "pydantic >= 2.10.6",
+    "pydantic-settings >= 2.2.1",
+    "scanpy >= 1.11.0",
+    "python-dotenv >=1.0.1",
+    "pandas >= 2.2.3",
+    "argparse",
+    "requests<2.32",
+    "urllib3<2.1",
+    "charset-normalizer<3",
+    "python-igraph >= 0.11.5",
+    "leidenalg >= 0.10.1"
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort"
+]
+
+[project.urls]
+Homepage = "https://github.com/RavenGan/AICAT"
+Issues = "https://github.com/RavenGan/AICAT/issues"
+
+[project.scripts]
+aicat-indepth = "aicat.cli_indepth:main"
+aicat-subcluster = "aicat.cli_subcluster:main"
+aicat-scoring = "aicat.cli_scoring:main"
