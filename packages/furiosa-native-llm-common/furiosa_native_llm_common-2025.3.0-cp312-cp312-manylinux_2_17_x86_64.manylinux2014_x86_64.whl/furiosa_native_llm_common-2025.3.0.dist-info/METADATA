@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: furiosa-native-llm-common
+Version: 2025.3.0
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Dist: pyyaml==6.0.1
+Requires-Dist: pytest~=8.3 ; extra == 'test'
+Requires-Dist: requests==2.29.0 ; extra == 'test'
+Provides-Extra: test
+Requires-Python: >=3.9
+Project-URL: Home, https://furiosa.ai
+Project-URL: Documentation, https://furiosa-ai.github.io/docs
