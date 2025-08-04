@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minitonu"
+version = "0.1.0"
+description = "Microbiblioteca sin dependencias inspirada en torch y numpy."
+authors = [
+    {name = "Luis Fernando Montaño", email = "tucorreo@example.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["tensor", "neuralnet", "educational", "minimal", "python-puro"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+"Homepage" = "https://pypi.org/project/minitonu/"
