@@ -1,0 +1,241 @@
+# To specify more entries, have a look at your generated testssl.sh JSON file.
+# Lookup you new entry and decide if you want to match based on the 'finding'
+# key, or the 'severity' key. If you wish to match based on 'finding', then
+# specify 'key: finding'. 'value' must then be an exact match. Or, if you wish
+# to match based on the 'severity' field, then specify 'key: severity'.
+# 'not_value' must NOT match in this case.
+
+---
+anon_dh:
+  key: severity
+  id: cipherlist_aNULL
+  not_value: "OK"
+  column: "Anonymous DH"
+
+beast:
+  key: severity
+  id: BEAST
+  not_value: "OK"
+  column: "BEAST"
+
+breach:
+  key: severity
+  id: BREACH
+  not_value: "OK"
+  column: "BEAST"
+
+ca:
+  key: severity
+  id: cert_caIssuers
+  not_value: "INFO"
+  column: "No trusted CA"
+
+caa:
+  key: finding
+  id: DNS_CAArecord
+  value: "--"
+  column: "No CAA RR"
+
+cn:
+  key: severity
+  id: cert_commonName
+  not_value: "OK"
+  column: "Incorrect CN"
+
+crime:
+  key: severity
+  id: CRIME_TLS
+  not_value: "OK"
+  column: "CRIME"
+
+css:
+  key: severity
+  id: CSS
+  not_value: "OK"
+  column: "CSS"
+
+drown:
+  key: severity
+  id: DROWN
+  not_value: "OK"
+  column: "DROWN"
+
+expired:
+  key: severity
+  id: cert_expirationStatus
+  not_value: "OK"
+  column: "Expired"
+
+freak:
+  key: severity
+  id: FREAK
+  not_value: "OK"
+  column: "FREAK"
+
+heartbleed:
+  key: severity
+  id: heartbleed
+  not_value: "OK"
+  column: "Heartbleed"
+
+hsts:
+  key: severity
+  id: HSTS
+  not_value: "OK"
+  column: "No HSTS"
+
+http_2:
+  key: severity
+  id: ALPN_HTTP2
+  not_value: "OK"
+  column: "No HTTP/2"
+
+logjam:
+  key: severity
+  id: LOGJAM
+  not_value: "OK"
+  column: "LOGJAM"
+
+lucky13:
+  key: severity
+  id: LUCKY13
+  not_value: "OK"
+  column: "LUCKY13"
+
+missing_san:
+  key: severity
+  id: cert_subjectAltName
+  not_value: "INFO"
+  column: "Missing SAN"
+
+ocsp_must_staple:
+  key: finding
+  id: cert_mustStapleExtension
+  value: "--"
+  column: "No OCSP Must-Staple"
+
+ocsp_stapling:
+  key: finding
+  id: OCSP_stapling
+  value: "not offered"
+  column: "No OCSP stapling"
+
+pfs:
+  key: severity
+  id: PFS
+  not_value: "OK"
+  column: "PFS"
+
+poodle:
+  key: severity
+  id: POODLE_SSL
+  not_value: "OK"
+  column: "POODLE"
+
+rc4:
+  key: severity
+  id: RC4
+  not_value: "OK"
+  column: "RC4"
+
+renego:
+  key: severity
+  id: secure_renego
+  not_value: "OK"
+  column: "Insecure renegotiation"
+
+renego_client:
+  key: severity
+  id: secure_client_renego
+  not_value: "OK"
+  column: "Insecure client renegotiation"
+
+revocation:
+  key: finding
+  id: cert_revocation
+  value: "Neither CRL nor OCSP URI provided"
+  column: "No revocation checking"
+
+robot:
+  key: severity
+  id: ROBOT
+  not_value: "OK"
+  column: "ROBOT"
+
+self_signed:
+  key: finding
+  id: cert_chain_of_trust
+  value: "self signed"
+  column: "Self signed"
+
+sslv2:
+  key: severity
+  id: SSLv2
+  not_value: "OK"
+  column: "SSLv2"
+
+sslv3:
+  key: severity
+  id: SSLv3
+  not_value: "OK"
+  column: "SSLv3"
+
+sweet32:
+  key: severity
+  id: SWEET32
+  not_value: "OK"
+  column: "SWEET32"
+
+ticketbleed:
+  key: severity
+  id: ticketbleed
+  not_value: "OK"
+  column: "Ticketbleed"
+
+tlsv1.0:
+  key: finding
+  id: TLS1
+  value: "offered"
+  column: "TLSv1.0"
+
+tlsv1.1:
+  key: finding
+  id: TLS1_1
+  value: "offered"
+  column: "TLSv1.1"
+
+tlsv1.2:
+  key: finding
+  id: TLS1_2
+  value: "not offered"
+  column: "No TLSv1.2"
+
+tlsv1.3:
+  key: finding
+  id: TLS1_3
+  value: "not offered"
+  column: "No TLSv1.3"
+
+tls_fallback_scsv:
+  key: finding
+  id: fallback_SCSV
+  value: "offered"
+  column: "TLS_FALLBACK_SCSV"
+
+weak_hash:
+  key: severity
+  id: cert_signatureAlgorithm
+  not_value: "OK"
+  column: "Weak hash"
+
+weak_key:
+  key: severity
+  id: cert_keySize
+  not_value: "INFO"
+  column: "Weak key size"
+
+wildcard:
+  key: finding
+  id: cert_commonName
+  value: "*"
+  column: "Wildcard"
