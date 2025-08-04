@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qode-task-worker"
+version = "1.0.3"
+description = "A Python library for task management with RabbitMQ and polling support"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Bao Ninh", email = "bao.ninh@qode.world"}
+]
+maintainers = [
+    {name = "Bao Ninh", email = "bao.ninh@qode.world"}
+]
+keywords = ["task", "worker", "rabbitmq", "polling", "queue"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.0",
+    "pika>=1.2.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["task_worker*"] 
