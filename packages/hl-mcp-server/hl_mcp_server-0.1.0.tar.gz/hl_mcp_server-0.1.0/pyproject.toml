@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hl-mcp-server"
+version = "0.1.0"
+description = "Model Context Protocol (MCP) server for Hyperliquid DEX trading"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+keywords = ["hyperliquid", "mcp", "trading", "defi", "fastmcp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "fastmcp",
+    "hyperliquid-python-sdk",
+    "eth-account>=0.11.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+]
+
+
+[project.scripts]
+hyperliquid_server = "hyperliquid_mcp.__main__:main"
+
+[tool.setuptools]
+packages = ["hyperliquid_mcp"]
+
+[tool.setuptools.package-data]
+hyperliquid_mcp = ["py.typed"]
