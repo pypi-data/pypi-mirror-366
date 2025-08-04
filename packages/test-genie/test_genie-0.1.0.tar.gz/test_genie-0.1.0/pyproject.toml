@@ -1,0 +1,16 @@
+[project]
+name = "test_genie" 
+version = "0.1.0"
+description = "CLI tool to auto-generate test cases from your code"
+authors = [{ name = "Kushagra Wadhwa", email = "wadhwakushagra01@gmail.com" }]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = []
+
+[project.scripts]
+test-genie = "cli.main:cli"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
