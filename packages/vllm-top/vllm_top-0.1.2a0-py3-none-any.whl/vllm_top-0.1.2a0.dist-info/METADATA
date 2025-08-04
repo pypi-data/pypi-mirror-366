@@ -1,0 +1,88 @@
+Metadata-Version: 2.4
+Name: vllm-top
+Version: 0.1.2a0
+Summary: A monitoring tool for vLLM metrics.
+Author-email: Yeok Tatt Cheah <yeokch@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yeok-c/vllm-top
+Project-URL: Documentation, https://github.com/yeok-c/vllm-top#readme
+Project-URL: Repository, https://github.com/yeok-c/vllm-top
+Project-URL: Issues, https://github.com/yeok-c/vllm-top/issues
+Keywords: vllm,monitoring,metrics
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: prometheus_client
+Dynamic: license-file
+
+# vllm-top
+
+[![PyPI version](https://img.shields.io/pypi/v/vllm-top.svg)](https://pypi.org/project/vllm-top/)
+
+<p align="center">
+  <img src="demo/demo.gif" alt="Demo" width="600"/>
+</p>
+
+**vllm-top** is a Python package for monitoring and displaying metrics from the [vLLM](https://github.com/vllm-project/vllm) service. It provides a comprehensive dashboard to visualize both current state and historical performance, making it easy to track and analyze service behavior over time.
+
+---
+
+## 🚀 Features
+
+- **Task State Visibility:** Instantly see GPU Cache Usage, Running and Waiting requests to help debug bottlenecks and improve throughput.
+- **Minimalist Monitoring:** Lightweight dashboard that parses metrics directly from Prometheus.
+- **Quick Setup:** No extra configuration — just pip install and run.
+
+---
+
+## 📦 Installation
+
+Install via pip:
+
+```bash
+pip install vllm-top
+```
+
+---
+
+## 🛠️ Usage
+
+Start monitoring:
+
+```bash
+vllm-top
+```
+
+Change update interval (in seconds):
+
+```bash
+vllm-top --interval 5
+```
+
+Get a one-time snapshot:
+
+```bash
+vllm-top --snapshot
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue for enhancements or bug fixes.
+
+---
+
+## 📄 License
+
+Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📜 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed
