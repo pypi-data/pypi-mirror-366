@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: abu_color
+Version: 0.1
+Summary: Terminal color formatter with foreground, background, and style support
+Author: Abujelal Man
+Classifier: Programming Language :: Python :: 3
+Classifier: Environment :: Console
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+Dynamic: summary
+
+# abu_colors
+
+Format your terminal output with foreground, background, and text styles (bold, underline, etc.).
+
+## Example
+
+```python
+from abu_colors import AbuAll
+
+print(AbuAll("Hello!", fg="red", bg="bright_white", sty=["bold", "underline"]))
