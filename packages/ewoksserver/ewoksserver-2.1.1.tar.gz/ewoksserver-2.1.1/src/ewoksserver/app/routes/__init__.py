@@ -1,0 +1,2 @@
+BACKEND_PREFIX = "/api"
+FRONTEND_PREFIX = ""

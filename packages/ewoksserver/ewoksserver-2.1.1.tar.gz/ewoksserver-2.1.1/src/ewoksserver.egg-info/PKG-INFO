@@ -1,0 +1,157 @@
+Metadata-Version: 2.4
+Name: ewoksserver
+Version: 2.1.1
+Summary: Backend for ewoksweb
+Author-email: ESRF <dau-pydev@esrf.fr>
+License: # MIT License
+        
+        **Copyright (c) 2021 European Synchrotron Radiation Facility**
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of
+        this software and associated documentation files (the "Software"), to deal in
+        the Software without restriction, including without limitation the rights to
+        use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+        the Software, and to permit persons to whom the Software is furnished to do so,
+        subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+        FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+        COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+        IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+        CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        
+Project-URL: Homepage, https://gitlab.esrf.fr/workflow/ewoks/ewoksserver
+Project-URL: Documentation, https://workflow.gitlab-pages.esrf.fr/ewoks/ewoksserver
+Project-URL: Repository, https://gitlab.esrf.fr/workflow/ewoks/ewoksserver
+Project-URL: Issues, https://gitlab.esrf.fr/workflow/ewoks/ewoksserver/issues
+Project-URL: Changelog, https://gitlab.esrf.fr/workflow/ewoks/ewoksserver/-/blob/main/CHANGELOG.md
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: python-socketio
+Requires-Dist: ewoksjob[worker]<2,>=1.1
+Requires-Dist: ewokscore>=1.0.0
+Requires-Dist: pydantic-settings
+Provides-Extra: frontend
+Requires-Dist: ewoksjob[sql]; extra == "frontend"
+Provides-Extra: test
+Requires-Dist: pytest>=7; extra == "test"
+Requires-Dist: pytest-celery; extra == "test"
+Requires-Dist: ewoksserver[frontend]; extra == "test"
+Requires-Dist: pytest-mock; extra == "test"
+Requires-Dist: httpx!=1.0.dev1; extra == "test"
+Provides-Extra: dev
+Requires-Dist: ewoksserver[test]; extra == "dev"
+Requires-Dist: black>=25; extra == "dev"
+Requires-Dist: flake8>=4; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: ewoksserver[test]; extra == "doc"
+Requires-Dist: sphinx>=4.5; extra == "doc"
+Requires-Dist: sphinx-autodoc-typehints>=1.16; extra == "doc"
+Requires-Dist: sphinxcontrib-redoc; extra == "doc"
+Requires-Dist: sphinx_design; extra == "doc"
+Requires-Dist: pydata_sphinx_theme; extra == "doc"
+Dynamic: license-file
+
+# ewoksserver
+
+ewoksserver is a REST server to manage and execute [ewoks](https://ewoks.readthedocs.io/) workflows.
+
+It serves as a backend for [ewoksweb](https://ewoksweb.readthedocs.io/) and emits ewoks execution events over Socket.IO.
+
+## Getting started
+
+Install the [ewoksserver](https://ewoksserver.readthedocs.io/en/latest/) Python package
+
+```
+pip install ewoksserver
+```
+
+## Development
+
+Install from source
+
+```bash
+pip install -e .[dev]
+```
+
+Run tests
+
+```bash
+pytest
+```
+
+Launch the backend
+
+```bash
+ewoks-server
+```
+
+or for an installation with the system python
+
+```bash
+python3 -m ewoksserver.server
+```
+
+## Configuration
+
+The configuration keys are uppercase variables in a python script:
+
+```python
+# /tmp/config.py
+RESOURCE_DIRECTORY = "/path/to/resource/directory/"
+
+EWOKS_EXECUTION = {"handlers": ...}
+
+CELERY = {"broker_url":...}
+```
+
+Specify the configuration file through the CLI
+
+```bash
+ewoks-server --config /tmp/config.py
+```
+
+or using the environment variable EWOKSSERVER_SETTINGS
+
+```bash
+export EWOKSSERVER_SETTINGS=/tmp/config.py
+ewoks-server
+```
+
+### Example
+
+```python
+import os
+
+_SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
+
+RESOURCE_DIRECTORY = os.path.join(_SCRIPT_DIR, "resources")
+
+EWOKS_EXECUTION = {
+    "handlers": [
+        {
+            "class": "ewokscore.events.handlers.Sqlite3EwoksEventHandler",
+            "arguments": [
+                {
+                    "name": "uri",
+                    "value": "file:" + os.path.join(_SCRIPT_DIR, "ewoks_events.db"),
+                }
+            ],
+        }
+    ]
+}
+```
+
+## Documentation
+
+https://ewoksserver.readthedocs.io/
