@@ -1,0 +1,41 @@
+numpy>=1.14.3
+monty
+scipy
+h5py
+wcmatch
+
+[:python_version < "3.8"]
+importlib_metadata>=1.4
+typing_extensions
+
+[amber]
+
+[amber:python_version < "3.8"]
+parmed<4
+
+[amber:python_version >= "3.8"]
+parmed
+
+[ase]
+ase
+
+[benchmark]
+pytest
+pytest-codspeed
+
+[docs]
+sphinx
+recommonmark
+sphinx-book-theme
+numpydoc
+myst-parser
+deepmodeling-sphinx>=0.3.0
+sphinx-argparse<0.5.0
+rdkit
+jupyterlite-sphinx
+jupyterlite-xeus
+
+[pymatgen]
+pymatgen
+
+[test]
