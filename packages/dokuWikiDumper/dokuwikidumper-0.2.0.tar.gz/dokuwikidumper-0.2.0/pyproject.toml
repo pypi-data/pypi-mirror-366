@@ -1,0 +1,47 @@
+[project]
+name = "dokuWikiDumper"
+version = "0.2.0"
+description = "A tool for archiving DokuWiki"
+authors = [
+    { name = "yzqzss", email = "yzqzss@yandex.com" },
+]
+requires-python = "<4.0,>=3.9"
+dependencies = [
+    "requests<3.0.0,>=2.32.2",
+    "beautifulsoup4<5.0.0,>=4.13.4",
+    "lxml<6.0.0,>=5.4.0",
+    "internetarchive<6.0.0,>=5.4.0",
+    "rich<15.0.0,>=14.0.0",
+    "python-slugify<9.0.0,>=8.0.4",
+    "typing-extensions<5.0.0,>=4.13.2",
+]
+readme = "README.md"
+
+[project.license]
+text = "GPL-3.0"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/saveweb/dokuwiki-dumper/issues"
+repository = "https://github.com/saveweb/dokuwiki-dumper/"
+
+[project.scripts]
+dokuWikiDumper = "dokuWikiDumper:main"
+dokuWikiUploader = "dokuWikiUploader:main"
+
+[dependency-groups]
+dev = [
+    "pytest<9.0.0,>=8.3.0",
+    "flake8<8.0.0,>=7.0.0",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm.build]
+includes = [
+    "dokuWikiDumper",
+    "dokuWikiUploader",
+]
