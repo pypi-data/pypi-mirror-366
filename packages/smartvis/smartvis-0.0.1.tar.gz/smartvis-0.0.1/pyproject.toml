@@ -1,0 +1,27 @@
+[build-system]
+requires=["hatchling"]
+build-backend="hatchling.build"
+
+[project]
+name="smartvis"
+version="0.0.1"
+authors=[
+    {name="Shidhin Varghese Philip"}
+]
+description="Package to Visualize Relationships in Ease."
+readme="README.md"
+requires-python=">=3.10"    
+classifiers=[
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+
+dependencies=[
+    "pandas",
+    "plotly",
+]
+
+[project.urls]
+Homepage="https://github.com/Shidhin-VP/SmartVis"
+Issues="https://github.com/Shidhin-VP/SmartVis/issues"
