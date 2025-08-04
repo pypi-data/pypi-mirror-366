@@ -1,0 +1,37 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  test:
+    name: Automated checks
+    strategy:
+      matrix:
+        python-version: [3.8]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Cache .venv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-uv-${{ hashFiles('**/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+      - name: Install dependencies with uv
+        run: |
+          uv venv
+          uv sync
+      - name: Test Source
+        run: |
+          make format-check type-check lint-check test
