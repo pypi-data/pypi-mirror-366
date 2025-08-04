@@ -1,0 +1,8 @@
+packages = [
+    'primary',
+]
+
+external_packages = [
+    releng_env('RELENG_TOOL_TEST_NEED1'),
+    releng_env('RELENG_TOOL_TEST_NEED2'),
+]

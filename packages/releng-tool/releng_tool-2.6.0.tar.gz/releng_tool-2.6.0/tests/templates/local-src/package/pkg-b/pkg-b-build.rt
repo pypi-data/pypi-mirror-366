@@ -1,0 +1,9 @@
+import json
+import os
+
+target = TARGET_DIR / 'metadata-b'
+releng_copy('metadata', target)
+
+fname = os.path.join(TARGET_DIR, 'invoke-env-b.json')
+with open(fname, 'w') as f:
+    json.dump(dict(os.environ), f)

@@ -1,0 +1,143 @@
+function __fish__releng_tool_has_action
+    set opts \
+        -build \
+        -clean \
+        -configure \
+        -distclean \
+        -exec \
+        -extract \
+        -fetch \
+        -fetch-full \
+        -fresh \
+        -install \
+        -license \
+        -patch \
+        -rebuild \
+        -rebuild-only \
+        -reconfigure \
+        -reconfigure-only \
+        -reinstall \
+        clean \
+        distclean \
+        extract \
+        fetch \
+        fetch-full \
+        init \
+        licenses \
+        mrproper \
+        patch \
+        punch \
+        sbom \
+        state
+
+    set cmd (commandline -poc)
+    set -e cmd[1]
+
+    for c in $cmd
+        for o in $opts
+            switch $c
+            case "*$o"
+                return 1
+            end
+        end
+    end
+
+    return 0
+end
+
+complete --command releng-tool --no-files
+
+complete --command releng-tool --arguments 'clean' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'clean extracted/build content from the output directory'
+complete --command releng-tool --arguments 'distclean' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description \
+    'pristine clean of cache, download, output directories and file flags'
+complete --command releng-tool --arguments 'extract' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'process all packages up to the extraction phase'
+complete --command releng-tool --arguments 'fetch' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'ensure all packages have been fetched'
+complete --command releng-tool --arguments 'fetch-full' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'ensure all packages have been fetched (post-fetch)'
+complete --command releng-tool --arguments 'init' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'initialize a sample project'
+complete --command releng-tool --arguments 'licenses' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'generate license information for a project'
+complete --command releng-tool --arguments 'mrproper' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'pristine clean of output directory and file flags'
+complete --command releng-tool --arguments 'patch' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'process all packages up to the patch phase'
+complete --command releng-tool --arguments 'punch' \
+    --no-files --condition __fish__releng_tool_has_action \
+    --description 'full run with a forced re-run on all processed packages'
+
+complete --command releng-tool --long-option='assets-dir' \
+    --require-parameter \
+    --description 'container directory for assets (cache-dir/dl-dir)'
+complete --command releng-tool --long-option='cache-dir' \
+    --require-parameter \
+    --description 'directory for distributed version control cache'
+complete --command releng-tool --long-option='config' \
+    --require-parameter \
+    --description 'configuration file to load'
+complete --command releng-tool --long-option='debug' \
+    --no-files \
+    --description 'show debug-related messages'
+complete --command releng-tool --long-option='development' \
+    --no-files \
+    --description 'enables development mode'
+complete --command releng-tool --long-option='dl-dir' \
+    --require-parameter \
+    --description 'directory for download archives'
+complete --command releng-tool --long-option='force' --short-option=F \
+    --no-files \
+    --description 'trigger a forced request'
+complete --command releng-tool --long-option='help' --short-option=h \
+    --no-files \
+    --description 'show help'
+complete --command releng-tool --long-option='help-quirks' \
+    --no-files \
+    --description 'show available quirks'
+complete --command releng-tool --long-option='jobs' --short-option=j \
+    --no-files --require-parameter \
+    --description 'numbers of jobs to handle'
+complete --command releng-tool --long-option='images-dir' \
+    --require-parameter \
+    --description 'directory for generated images'
+complete --command releng-tool --long-option='local-sources' \
+    --no-files \
+    --description 'enables local-sources mode'
+complete --command releng-tool --long-option='nocolorout' \
+    --no-files \
+    --description 'explicitly disable colorized output'
+complete --command releng-tool --long-option='out-dir' \
+    --require-parameter \
+    --description 'directory for output'
+complete --command releng-tool --long-option='profile' \
+    --no-files \
+    --description 'run with a profile'
+complete --command releng-tool --long-option='root-dir' \
+    --require-parameter \
+    --description 'directory of the project to process'
+complete --command releng-tool --long-option='sbom-format' \
+    --no-files \
+    --require-parameter \
+    --description 'format to generate sbom files'
+complete --command releng-tool --long-option='quirk' \
+    --no-files \
+    --require-parameter \
+    --description 'quirk to apply to a run'
+complete --command releng-tool --long-option='verbose' --short-option=V \
+    --no-files \
+    --description 'show additional messages'
+complete --command releng-tool --long-option='version' \
+    --no-files \
+    --description "print the version and exit"

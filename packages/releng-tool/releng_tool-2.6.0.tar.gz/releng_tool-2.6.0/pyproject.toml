@@ -1,0 +1,66 @@
+[build-system]
+requires = [
+    'setuptools >=61',
+    # The project configuration aims to include a `license` entry with a
+    # SPDX identifier in the future; however, support for this requires
+    # setuptools>=75.6. We are still trying to be build-compatible with
+    # some environments which stable version is an older version of setuptools
+    # (e.g. Debian's stable uses v66.1.1).
+    # 'setuptools >=75.6',
+]
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'releng-tool'
+description = 'A tool to manage the building of packages'
+authors = [
+    {name = 'releng-tool', email = 'releng@releng.io'},
+]
+requires-python = '>=3.9'
+readme = 'README.md'
+# (future: see setuptools requirement above)
+# license = 'BSD-2-Clause'
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Environment :: Console',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Topic :: Software Development',
+    'Topic :: Software Development :: Build Tools',
+]
+dependencies = [
+    'installer >=0.5.0',
+]
+dynamic = [
+    'version',
+]
+
+[project.urls]
+Homepage = 'https://releng.io'
+Documentation = 'https://docs.releng.io'
+Source = 'https://github.com/releng-tool/releng-tool'
+
+[project.scripts]
+releng-tool = 'releng_tool.__main__:main'
+
+[project.optional-dependencies]
+statistics = [
+    'matplotlib',
+]
+
+[tool.setuptools.packages.find]
+include = [
+    'releng-tool*',
+    'releng_tool*',
+]
+namespaces = false
+where = ['.']
+
+[tool.setuptools.dynamic]
+version = {attr = 'releng_tool.__version__'}

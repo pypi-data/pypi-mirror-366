@@ -1,0 +1,187 @@
+__releng_tool_has_action()
+{
+    local opts=(
+        '-build'
+        '-clean'
+        '-configure'
+        '-distclean'
+        '-exec'
+        '-extract'
+        '-fetch'
+        '-fetch-full'
+        '-fresh'
+        '-install'
+        '-license'
+        '-patch'
+        '-rebuild'
+        '-rebuild-only'
+        '-reconfigure'
+        '-reconfigure-only'
+        '-reinstall'
+        'clean'
+        'distclean'
+        'extract'
+        'fetch'
+        'fetch-full'
+        'init'
+        'licenses'
+        'mrproper'
+        'patch'
+        'punch'
+        'sbom'
+        'state'
+    )
+
+    local o w
+    for w in "$@"; do
+        for o in "${opts[@]}"; do
+            [[ $w == *$o ]] && return
+        done
+    done
+
+    return 1
+}
+
+__releng_tool_is_reserved()
+{
+    local opts=(
+        'clean'
+        'distclean'
+        'extract'
+        'fetch'
+        'fetch-full'
+        'init'
+        'licenses'
+        'mrproper'
+        'patch'
+        'punch'
+        'sbom'
+        'state'
+    )
+
+    local o
+    for o in "${opts[@]}"; do
+        [[ $1 == *$o ]] && return
+    done
+
+    return 1
+}
+
+_releng_tool_module()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    case $prev in
+    '--assets-dir' | \
+    '--cache-dir' | \
+    '--dl-dir' | \
+    '--images-dir' | \
+    '--out-dir' | \
+    '--root-dir' )
+        local IFS=$'\n'
+        compopt -o filenames
+        COMPREPLY=($(compgen -A directory -- $cur))
+        return 0
+        ;;
+    '--config')
+        local IFS=$'\n'
+        compopt -o filenames
+        COMPREPLY=($(compgen -A file -- $cur))
+        return 0
+        ;;
+    *-exec | \
+    '--help' | '-h' | \
+    '--help-quirks' | \
+    '--jobs' | '-j' | \
+    '--sbom-format' | \
+    '--quirk' | \
+    '--version' )
+        return 0
+        ;;
+    esac
+    case $cur in
+    -*)
+        opts=(
+            '--assets-dir'
+            '--cache-dir'
+            '--config'
+            '--debug'
+            '--debug-extended'
+            '--development'
+            '--dl-dir'
+            '--force'
+            '--help'
+            '--help-quirks'
+            '--jobs'
+            '--images-dir'
+            '--local-sources'
+            '--nocolorout'
+            '--only-mirror'
+            '--out-dir'
+            '--profile'
+            '--root-dir'
+            '--sbom-format'
+            '--quirk'
+            '--verbose'
+            '--version'
+            '--werror'
+        )
+        ;;
+    *-*)
+        local pkg
+        pkg=${cur%-*}
+
+        if __releng_tool_is_reserved $pkg; then
+            return 0
+        fi
+
+        opts=(
+            '${pkg}-build'
+            '${pkg}-clean'
+            '${pkg}-configure'
+            '${pkg}-distclean'
+            '${pkg}-exec'
+            '${pkg}-extract'
+            '${pkg}-fetch'
+            '${pkg}-fetch-full'
+            '${pkg}-fresh'
+            '${pkg}-install'
+            '${pkg}-patch'
+            '${pkg}-rebuild'
+            '${pkg}-rebuild-only'
+            '${pkg}-reconfigure'
+            '${pkg}-reconfigure-only'
+            '${pkg}-reinstall'
+        )
+        ;;
+    *)
+        if __releng_tool_has_action ${COMP_WORDS[*]}; then
+            return 0
+        fi
+
+        opts=(
+            'clean'
+            'distclean'
+            'extract'
+            'fetch'
+            'fetch-full'
+            'init'
+            'licenses'
+            'mrproper'
+            'patch'
+            'punch'
+            'sbom'
+            'state'
+        )
+        ;;
+    esac
+
+    if [ -n "$opts" ]; then
+        COMPREPLY=($(compgen -W "${opts[*]}" -- $cur))
+    fi
+
+    return 0
+}
+complete -F _releng_tool_module releng-tool

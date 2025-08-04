@@ -1,0 +1,12 @@
+packages = [
+    'test',
+]
+
+# check to see if `TEST_OVERRIDE` is set
+# (see `test_cli_overrides`)
+try:
+    if TEST_OVERRIDE == '123':
+        file_flag = TARGET_DIR / 'override-detected'
+        releng_touch(file_flag)
+except NameError:
+    pass

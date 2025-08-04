@@ -1,0 +1,11 @@
+import json
+import os
+
+data = {}
+
+# invoke method injected in from extension
+data['custom-invoke'] = custom_method()
+
+fname = os.path.join(TARGET_DIR, 'status.json')
+with open(fname, 'w') as f:
+    json.dump(data, f)

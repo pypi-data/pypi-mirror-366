@@ -1,0 +1,6 @@
+import json
+import os
+
+fname = os.path.join(TARGET_DIR, 'nested.json')
+with open(fname, 'w') as f:
+    json.dump(dict(os.environ), f)

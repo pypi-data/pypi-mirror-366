@@ -1,0 +1,194 @@
+.\" releng-tool man page
+.\"
+.\" Content in this page results from content from:
+.\" https://github.com/releng-tool/releng-tool/blob/main/releng_tool/__main__.py
+.\" https://github.com/releng-tool/releng-tool-docs/tree/main/content
+
+.TH releng-tool 1 "August 2025" "2.6" "releng-tool man page"
+
+.SH NAME
+releng-tool - Tool to tailor the building of packages
+
+.SH SYNOPSIS
+releng-tool <options> [action]
+
+.SH DESCRIPTION
+releng-tool aims to provide a way for developers to tailor the building
+of multiple software components to help prepare packages for desired
+runtime environments (e.g. cross-platform portable packages, embedded
+targets, etc.). When building a package, assets may be located in
+multiple locations and may require various methods to extract, build
+and more. releng-tool allows developers to define a set of packages,
+specifying where resources should be fetched from, how packages should
+be extracted and the processes for patching, configuring, building and
+installing each package for a target sysroot.
+
+.SH ACTIONS
+.TP
+\fBclean\fP
+Clean the output directory.
+.TP
+\fBdistclean\fP
+Pristine clean including cache/download content.
+.TP
+\fBextract\fP
+Extract all packages.
+.TP
+\fBfetch\fP
+Fetch all packages.
+.TP
+\fBfetch-full\fP
+Fetch all packages including post-fetch dependencies.
+.TP
+\fBinit\fP
+Initialize a root with an example structure.
+.TP
+\fBlicenses\fP
+Generate license information for a project.
+.TP
+\fBmrproper\fP
+Pristine clean of the releng project.
+.TP
+\fBpatch\fP
+Ensure all packages have done a patch stage.
+.TP
+\fBpunch\fP
+Full run with a forced re-run on all packages.
+.TP
+\fBsbom\fP
+Generate a software bill of materials.
+.TP
+\fB<pkg>\fP
+Perform all stages for the package.
+.TP
+\fB<pkg>\-build\fP
+Perform build stage for the package.
+.TP
+\fB<pkg>\-clean\fP
+Clean build directory for package.
+.TP
+\fB<pkg>\-configure\fP
+Perform configure stage for the package.
+.TP
+\fB<pkg>\-distclean\fP
+Pristine clean for package.
+.TP
+\fB<pkg>\-exec <cmd>\fP
+Invoke a command in the package's directory.
+.TP
+\fB<pkg>\-extract\fP
+Perform extract stage for the package.
+.TP
+\fB<pkg>\-fetch\fP
+Perform fetch stage for the package.
+.TP
+\fB<pkg>\-fetch\-full\fP
+Perform fetch stage for the package (with post-fetch).
+.TP
+\fB<pkg>\-fresh\fP
+Freshly prepare a package output.
+.TP
+\fB<pkg>\-install\fP
+Perform install stage for the package.
+.TP
+\fB<pkg>\-license\fP
+Generate license information for the package.
+.TP
+\fB<pkg>\-patch\fP
+Perform patch stage for the package.
+.TP
+\fB<pkg>\-rebuild\fP
+Force a re-build of a specific package.
+.TP
+\fB<pkg>\-rebuild\-only\fP
+Force a re-build of a specific package and stop.
+.TP
+\fB<pkg>\-reconfigure\fP
+Force a re-configure of a specific package.
+.TP
+\fB<pkg>\-reconfigure\-only\fP
+Force a re-configure of a specific package and stop.
+.TP
+\fB<pkg>\-reinstall\fP
+Force a re-install of a specific package.
+
+.SH OPTIONS
+.TP
+\fB\-\-assets-dir <dir>\fP
+Container directory for download and VCS-cache directories
+(e.g. <ASSETS_DIR>/cache).
+.TP
+\fB\-\-cache-dir <dir>\fP
+Directory for VCS-cache (default: <ROOT>/cache).
+.TP
+\fB\-\-config <file>\fP
+Configuration to use (default: <ROOT>/releng-tool.rt).
+.TP
+\fB\-\-debug\fP
+Show debug-related messages.
+.TP
+\fB\-\-debug-extended\fP
+Show even more debug-related messages.
+.TP
+\fB\-\-development [<mode>], \-D [<mode>]\fP
+Enable development mode.
+.TP
+\fB\-\-dl-dir <dir>\fP
+Directory for download archives (default: <ROOT>/dl).
+.TP
+\fB\-\-force, \-F\fP
+Trigger a forced request.
+.TP
+\fB\-\-help, \-h\fP
+Show this help.
+.TP
+\fB\-\-help-quirks\fP
+Show available quirks.
+.TP
+\fB\-\-images-dir <dir>\fP
+Directory for generated images (default: <ROOT>/output/images).
+.TP
+\fB\-\-jobs\ <jobs>, \-j <jobs>\fP
+Numbers of jobs to handle (default: 0; automatic).
+.TP
+\fB\-\-local-sources\ [[<pkg>@]<dir>], \-L [[<pkg>@]<dir>]\fP
+Use development sources from a local path, defaults to the parent of the
+root directory; users can use the format "<pkg>@<path>" to set/override
+specific local paths per package; this argument can be provided multiple
+times.
+.TP
+\fB\-\-nocolorout\fP
+Explicitly disable colorized output.
+.TP
+\fB\-\-only-mirror\fP
+Only fetch external projects with configured mirror.
+.TP
+\fB\-\-out-dir <dir>\fP
+Directory for output (builds, images, etc.) (default: <ROOT>/output).
+.TP
+\fB\-\-profile <profile>, \-P <profile>\fP
+Run with a profile. Only applicable if a project accepts profile options.
+.TP
+\fB\-\-quirk <value>\fP
+Inject in quirk into this run.
+.TP
+\fB\-\-relaxed-args\fP
+Permit the use of unknown arguments.
+.TP
+\fB\-\-root-dir <dir>\fP
+Directory to process a releng project (default: working directory).
+.TP
+\fB\-\-sbom-format <format>\fP
+Specify the output format for a software build of materials (e.g. csv, json).
+.TP
+\fB\-\-verbose, \-V\fP
+Show additional messages.
+.TP
+\fB\-\-version\fP
+Show the version.
+.TP
+\fB\-\-werror, \-Werror\fP
+Treat warnings as errors.
+
+.SH SEE ALSO
+Full documentation <https://docs.releng.io/>

@@ -1,0 +1,6 @@
+import json
+import os
+
+invoke_env_json = PKG_BUILD_OUTPUT_DIR / 'invoke-env.json'
+with open(invoke_env_json, 'w') as f:
+    json.dump(dict(os.environ), f)

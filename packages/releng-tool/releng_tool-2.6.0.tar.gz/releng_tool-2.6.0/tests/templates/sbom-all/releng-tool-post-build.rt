@@ -1,0 +1,7 @@
+import json
+import os
+
+
+fname = os.path.join(OUTPUT_DIR, 'generated-sbom.json')
+with open(fname, 'w') as f:
+    json.dump(RELENG_GENERATED_SBOMS, f)

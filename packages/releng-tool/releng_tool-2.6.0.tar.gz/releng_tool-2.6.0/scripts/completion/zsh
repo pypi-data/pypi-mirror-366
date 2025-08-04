@@ -1,0 +1,46 @@
+#compdef _releng_tool releng-tool
+
+function _releng_tool {
+    local opts=(
+        'clean'
+        'distclean'
+        'extract'
+        'fetch'
+        'fetch-full'
+        'init'
+        'licenses'
+        'mrproper'
+        'patch'
+        'punch'
+        'sbom'
+        'state'
+    )
+
+    _arguments -C \
+        '--assets-dir[directory to hold cache/download directories]: :_files' \
+        '--cache-dir[directory for distributed version control cache]: :_files' \
+        '--config[configuration file to load]: :_files' \
+        '--debug[show debug-related messages]' \
+        '--debug-extended[show extended debug-related messages]' \
+        '--development[enables development mode]' \
+        '--dl-dir[directory for download archives]: :_files' \
+        {--force,-F}'[trigger a forced request]' \
+        {--help,-h}'[show help]' \
+        '--help-quirks[show available quirks]' \
+        '--images-dir[directory for generated images]: :_files' \
+        {--jobs,-j}'[numbers of jobs to handle]: ' \
+        '--local-sources[enables local-sources mode]' \
+        '--nocolorout[explicitly disable colorized output]' \
+        '--only-mirror[only fetch external projects with configured mirror]' \
+        '--out-dir[directory for output]: :_files' \
+        '--profile[run with a profile]' \
+        '--root-dir[directory of the project to process]: :_files' \
+        '--sbom-format[format to generate sbom files]: ' \
+        '--quirk[quirk to apply to a run]: ' \
+        {--verbose,-V}'[show additional messages]' \
+        '--version[print the version and exit]' \
+        '--werror[treat warnings as errors]' \
+        "1: :($opts)"
+}
+
+_releng_tool "$@"

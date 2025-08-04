@@ -1,0 +1,3 @@
+if releng_exists('tar-file-container.txt'):
+    file_flag = TARGET_DIR / 'invoked-build'
+    releng_touch(file_flag)
