@@ -1,0 +1,24 @@
+[project]
+name = "dash-ai-chat"
+version = "0.0.3"
+description = "A customizable LLM chat UI framework built on Plotly Dash"
+readme = "README.md"
+authors = [
+    { name = "Elias Dabbas", email = "eliasdabbas@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "dash>=3.1.1",
+    "dash-bootstrap-components>=2.0.3",
+    "openai>=1.97.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+]
