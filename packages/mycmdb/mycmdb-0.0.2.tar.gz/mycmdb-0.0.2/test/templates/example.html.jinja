@@ -1,0 +1,74 @@
+<h1>Introduction</h1>
+
+<p>
+Hello World!
+</p>
+
+<h2>Render a query easily.</h2>
+
+{{
+  configuration.utils.render_query(
+      [ { "name": "Column A", "classes": [ "red-cell" ] }, 'Column B', { "name": "Column C", "function": configuration.parameters['some_parameters_here']['green_background_cell_function'] } ],
+      'SELECT COALESCE(_A, "Not informed"), COALESCE(_B, "Missing"), _C '
+      'FROM _example_table '
+      'ORDER BY _order'
+    )
+}}
+
+<h2>And a Markdown section</h2>
+
+<markdown>
+Example of some _Markdown_ contents.
+
+> Some quoted text.
+>
+> More quoted text.
+
+Trailing contents.
+</markdown>
+
+<h1>Subdocuments</h1>
+
+<p>Include a subdocument here.</p>
+
+{{ configuration.utils.include_html('subdocument.html', { "h1_to_h": 2 }) }}
+
+<h2>Include the subdocument again, but at a different depth</h2>
+
+{{ configuration.utils.include_html('subdocument.html', { "h1_to_h": 3 }) }}
+
+<h1>Other features</h1>
+
+<h2>Different orientation pages</h2>
+
+{{ configuration.utils.include_html('multiple_page_orientation.html', { "h1_to_h": 3 }) }}
+
+<h2>Embed images</h2>
+
+<p>
+This image has been embedded in the HTML document.
+</p>
+
+<img src="{{ configuration.utils.static_base64('example.png', 'image/png') }}" style="width: 15em;"/>
+
+<h2>Include raw templates</h2>
+
+<p>
+Include a document as raw (no HTML) processing
+</p>
+
+{{ configuration.utils.include('_include', { "message": "Included message #1" }) }}
+{{ configuration.utils.include('_include', { "message": "Included message #2" }) }}
+{{ configuration.utils.include('_include') }}
+
+<h1>Another Markdown section</h1>
+
+<markdown>
+End **Markdown** section.
+
+Another paragraph.
+
+## Even a subsection
+
+This is a _Markdown_ subsection.
+</markdown>
