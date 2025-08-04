@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "colbertfinance"
+version = "0.4.9"
+authors = [{name="Jesús Colbert"}]
+description = "Librería paso-a-paso para enseñar Markowitz"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pandas",
+    "numpy",
+    "yfinance",
+    "openpyxl",
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/colbertfinance"
