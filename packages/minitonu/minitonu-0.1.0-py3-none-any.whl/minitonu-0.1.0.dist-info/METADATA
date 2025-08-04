@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: minitonu
+Version: 0.1.0
+Summary: Microbiblioteca sin dependencias inspirada en torch y numpy.
+Author-email: Luis Fernando Montaño <tucorreo@example.com>
+License: MIT
+Project-URL: Homepage, https://pypi.org/project/minitonu/
+Keywords: tensor,neuralnet,educational,minimal,python-puro
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# minitonu
+
+**minitonu** es una biblioteca minimalista que mezcla las ideas de `torch` y `numpy`, pero sin ninguna dependencia. Funciona en Termux, Pydroid3, Replit, Linux, Windows, Android y más.
+
+## Características
+- Tensores básicos (`add`, `mul`, `dot`, `sum`, `mean`)
+- Red neuronal simple (`Neuron`, `Layer`, `Network`)
+- Cero dependencias externas.
+- Python puro y educativo.
+
+## Instalación
+```bash
+pip install minitonu
