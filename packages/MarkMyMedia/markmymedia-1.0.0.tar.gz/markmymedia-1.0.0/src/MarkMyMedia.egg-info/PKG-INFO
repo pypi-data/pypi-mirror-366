@@ -1,0 +1,185 @@
+Metadata-Version: 2.4
+Name: MarkMyMedia
+Version: 1.0.0
+Summary: A fast, simple utility to visually stamp media files with their filenames, preparing them for multimodal LLM training and analysis.
+Author-email: laVashik <me@lavashik.dev>
+License: MIT
+Project-URL: Homepage, https://github.com/LaVashikk/MarkMyMedia-LLM
+Project-URL: Bug Tracker, https://github.com/IaVashik/MarkMyMedia-LLM/issues
+Keywords: multimodal,llm,ffmpeg,media,image-processing,video-processing,audio-processing,utilities
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Multimedia :: Graphics
+Classifier: Topic :: Multimedia :: Sound/Audio
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Utilities
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Pillow
+Dynamic: license-file
+
+# MarkMyMedia
+
+[![PyPI version](https://img.shields.io/pypi/v/MarkMyMedia.svg)](https://pypi.org/project/MarkMyMedia/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A fast, simple utility to visually stamp media files with their filenames, preparing them for multimodal LLM training and analysis.
+
+## The Problem: Lost Context in Multimodal Sequences
+
+When you feed a sequence of media files (e.g., `portal 2 mod.jpg`, `intro.mp3`, `my homework.mp4`) to a Large Language Model, the model sees a continuous stream of data. It lacks explicit, built-in separators or context about where one file ends and another begins, or what the original source of a particular frame or soundbite was.
+
+This ambiguity makes it difficult to:
+-   Analyze which specific file triggered a response.
+-   Train the model on tasks that require knowledge of file boundaries.
+-   Debug model behavior on complex, mixed-media inputs.
+
+## The Solution: Visibly Embedded Markers
+
+**MarkMyMedia** solves this by "stamping" each file with its own name, creating an unambiguous visual or auditory marker directly within the data.
+
+-   **Images:** Get a clean text overlay with the filename.
+-   **Audio:** Are converted into a video with the filename displayed on a black background.
+-   **Videos:** Get a short, 0.5-second marker clip prepended, showing the filename without re-encoding the entire video.
+
+This way, the context is never lost. The model "sees" the filename associated with the content that follows.
+
+## Key Features
+
+-   **Multimodal Support:** Works out-of-the-box for images, audio, and video.
+-   **Blazing Fast:** Uses parallel processing to handle large datasets quickly.
+-   **Efficient Video Processing:** Prepends markers to videos **without re-encoding**, saving massive amounts of time and preserving original quality.
+-   **Flexible Usage:** Can be used as a simple command-line tool or as a Python library.
+-   **Recursive Search:** Point it at a directory, and it can process all nested media files.
+-   **Simple & Focused:** Does one job and does it well.
+
+### How It Looks
+
+**MarkMyMedia** provides clear, unambiguous markers for each file type.
+
+#### 🖼️ Images
+
+A clean, readable marker with the filename is embedded directly onto the image. This ensures that even in a long sequence, the source of each image is immediately visible.
+
+![marked_img](https://github.com/LaVashikk/MarkMyMedia-LLM/blob/main/media//marked_img.jpg)
+
+*<p align="center">Example: A screenshot of a Discord message marked with its filename.</p>*
+
+#### 🎧 Audio
+
+Audio files are converted into a static video format. This clever workaround makes them visually identifiable in multimodal timelines and tools like Google AI Studio, where audio-only files might not provide visual cues. The entire audio track is preserved under a single, persistent frame showing its original filename.
+
+![markered_audio](https://github.com/LaVashikk/MarkMyMedia-LLM/blob/main/media//markered_audio.jpg)
+
+*<p align="center">The result is a standard video file, making the audio's presence known visually.</p>*
+
+![AI Studio](https://github.com/LaVashikk/MarkMyMedia-LLM/blob/main/media//markered_audio_gemini.jpg)
+
+#### 🎬 Video
+
+A short, 0.5-second marker clip is prepended to the video. This process is nearly instant because it **avoids re-encoding** the entire file, preserving the original quality and saving significant time.
+
+![some](https://github.com/LaVashikk/MarkMyMedia-LLM/blob/main/media//markered_vid.gif)
+
+*<p align="center">The model sees the filename right before the video content begins.</p>*
+
+
+## Technical Constraints
+
+1. This tool relies on **FFmpeg** for all audio and video operations. You must have `ffmpeg` and `ffprobe` installed and available in your system's PATH.
+2. To achieve high speed by avoiding full re-encoding, `MarkMyMedia` relies on **stream copying**. This approach is extremely fast but requires input files to meet specific format criteria.
+
+| Modality | Requirement | Reason & Details |
+| :--- | :--- | :--- |
+| **Video (`mark_video`)** | <ul><li>Video Codec: `h264` or `hevc`</li><li>Audio Codec: `aac` (if present)</li></ul> | **For preserving quality and speed.** Processing other codecs (like VP9 in `.webm`) will fail, as they cannot be directly concatenated in this workflow. |
+| **Audio (`mark_audio`)** | <ul><li>Always outputs a `.mp4` video file.</li><li>Audio Format: `mp3`, `flac`, `aac`, `m4a`, `ogg` or `opus`</li></ul> | **To create a visual marker.** The original audio stream is copied losslessly into the new video container, ensuring no quality is lost. |
+
+## Installation
+
+Install `MarkMyMedia` directly from PyPI:
+
+```bash
+pip install MarkMyMedia
+```
+
+## Usage
+
+### As a Command-Line Tool (CLI)
+
+The CLI is designed for batch processing entire directories.
+
+**Mark all media in the current directory (output to `markered_modals/`):**
+```bash
+markmymedia 
+```
+
+**Recursively process a dataset and specify an output folder:**
+```bash
+markmymedia ./my_dataset -r -o ./processed_data
+```
+
+**See all available options:**
+`markmymedia --help`
+```
+usage: markmymedia [-h] [-r] [-o OUTPUT] [-j JOBS] [-p] [--version] [inputs ...]
+
+Batch mark images, audio, and video with filename overlays.
+
+positional arguments:
+  inputs                Files or directories to process. If omitted, current directory is used.
+
+options:
+  -h, --help            show this help message and exit
+  -r, --recursive       Recursively traverse directories.
+  -o, --output OUTPUT   Base output directory (default: markered_modals).
+  -j, --jobs JOBS       Number of worker threads to use per modality (default: number of CPUs).
+  -p, --preserve-structure
+                        Preserve the directory structure of input files in the output directory.
+  --version             show program's version number and exit
+
+```
+
+### As a Python Library
+
+You can also use the core functions directly in your Python scripts for more granular control.
+
+```python
+from markmymedia import mark_image, mark_audio, mark_video
+
+# Mark a single image
+mark_image(
+    input_path='data/cat.jpg',
+    output_path='processed/cat_marked.jpg'
+)
+
+# Create a marked video from an audio file
+mark_audio(
+    input_path='data/intro.mp3',
+    output_path='processed/intro.mp4'
+)
+
+# Prepend a marker to a video file
+mark_video(
+    input_path='data/dog_on_beach.mp4',
+    output_path='processed/dog_on_beach.mp4',
+    overlay_text="Some cool video!!",
+)
+```
+
+## Contributing
+
+Contributions are welcome! If you find a bug or have a feature request, please [open an issue](https://github.com/LaVashikk/MarkMyMedia-LLM/blob/main/media//issues).
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
