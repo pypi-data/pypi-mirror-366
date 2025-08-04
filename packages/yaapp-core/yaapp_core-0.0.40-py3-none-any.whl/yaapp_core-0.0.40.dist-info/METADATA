@@ -1,0 +1,106 @@
+Metadata-Version: 2.4
+Name: yaapp-core
+Version: 0.0.40
+Summary: yaapp-core - Minimal core functionality for yaapp framework
+Author: yaapp Team
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yaapp-team/yaapp-core
+Project-URL: Repository, https://github.com/yaapp-team/yaapp-core
+Project-URL: Issues, https://github.com/yaapp-team/yaapp-core/issues
+Keywords: cli,framework,plugin,core
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click>=8.0.0
+Requires-Dist: pyyaml>=6.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Dynamic: license-file
+
+# yaapp-core
+
+**Minimal core functionality for yaapp framework**
+
+## What's included:
+
+### ✅ Core Framework
+- `app.py` - Main Yaapp class
+- `core.py` - YaappCore functionality  
+- `expose.py` - @expose decorator
+- `result.py` - Result type (Ok/Err)
+- `async_compat.py` - Async compatibility
+- `execution_strategy.py` - Execution strategies
+- `context_tree.py` - Context management
+- `exposers/` - Complete exposer system
+- `reflection.py` - CLI reflection system
+- `config.py` - Configuration management
+- `discovery.py` - Plugin discovery
+- `run.py` - Main run function
+
+### ✅ Example Runner
+- `runners/click/` - Click CLI runner
+
+### ✅ Example Plugin  
+- `plugins/calculator/` - Simple calculator plugin
+
+## Usage:
+
+### Basic Example:
+```python
+from yaapp import run
+run()  # Auto-discovers plugins and runs CLI
+```
+
+### Manual Example:
+```python
+from yaapp.app import Yaapp
+
+app = Yaapp(auto_discover=False)
+
+# Load calculator plugin manually
+import yaapp.plugins.calculator.plugin
+from yaapp.expose import apply_pending_registrations
+apply_pending_registrations(app)
+
+# Use programmatically
+result = app._execute_from_registry("calculator")
+calc = result.unwrap()
+print(calc.add(2, 3))  # 5
+```
+
+### CLI Usage:
+```bash
+python cli_example.py calculator add --x 5 --y 3
+python cli_example.py calculator get-history --limit 5
+```
+
+## Dependencies:
+- `click` (for CLI runner)
+- `pyyaml` (for config)
+
+## What's NOT included:
+- Other runners (prompt, rich, server, etc.)
+- Other plugins (storage, docker, etc.)
+- CLI builders and complex discovery
+- Non-essential utilities
+
+This is the **minimal working core** that demonstrates:
+1. ✅ Plugin system working
+2. ✅ Runner system working  
+3. ✅ Exposer system working
+4. ✅ CLI generation working
