@@ -1,0 +1,85 @@
+_BASE_URL: "https://thredds.nci.org.au/thredds/dodsC/ob53/output/reanalysis/AUS-11/BOM/ERA5/historical/hres/BARRA-R2/v1/1hr"
+_INFO_URL: http://www.bom.gov.au/research/publications/researchreports/BRR-067.pdf
+
+# BARRA2 is a THREDDS server dataset. Each variable is stored in suburls from the main dataset url above.
+# The data covers 1979 to near present (~5 month lag?)
+# No short or long wave radiation components are provided - leaving it as a wind and pressure dataset for now.
+
+# Dataset FNAME is read from the _DATASETS param below. <VAR> and <DATE> should be replaced:
+# - VAR = variable name, e.g., uasmean, vasmean, psl
+# - DATE = Date string in %Y%m format. It should be the same (e.g., 197901-197901)
+
+_SOURCE_XLIMS: [88.48, 207.39]
+_SOURCE_YLIMS: [-57.97, 12.98]
+_SOURCE_TIMELIMS: ["1979-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+_VARIABLES: [
+    "uasmean",
+    "vasmean",
+    "psl",
+    "tasmean",
+    "hurs",
+    "rsds",
+    "rlds",
+    "pr",
+  ] # u10, v10, mslp, temp, relhum, swr, lwr
+_DATASETS:
+  {
+    1979-01-01:
+      {
+        <VAR>_AUS-11_ERA5_historical_hres_BOM_BARRA-R2_v1_1hr_<DATE>-<DATE>.nc: default,
+      },
+  }
+
+# KEY: The standard NC Variable for merged data (and per _standard_attrs.py)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+u10:
+  source_var: "uasmean"
+  tfv_var: "W10_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+v10:
+  source_var: "vasmean"
+  tfv_var: "W10_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+mslp:
+  source_var: "psl"
+  tfv_var: "MSLP_GRID"
+  bc_scale: 0.01
+  bc_offset: 0
+
+dlwrf:
+  source_var: "rlds"
+  tfv_var: "LW_RAD_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+dswrf:
+  source_var: "rsds"
+  tfv_var: "SW_RAD_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+t2m:
+  source_var: "tasmean"
+  tfv_var: "AIR_TEMP_GRID"
+  bc_scale: 1
+  bc_offset: -273.15
+
+relhum:
+  source_var: "hurs"
+  tfv_var: "REL_HUM_GRID"
+  bc_scale: 1
+  bc_offset: 0
+
+prate:
+  source_var: "pr"
+  tfv_var: "PRECIP_GRID"
+  bc_scale: 86.4 # Convert from kg/m2/s to mm/day
+  bc_offset: 0.

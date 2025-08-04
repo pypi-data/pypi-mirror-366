@@ -1,0 +1,67 @@
+_BASE_URL: "N/A"
+
+_SOURCE_XLIMS: [-180, 360]
+_SOURCE_YLIMS: [-90, 90]
+_SOURCE_ZLIMS: [null, null]
+_SOURCE_TIMELIMS: ["1993-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: monthly
+
+# Default copernicus ocean variables for global
+_VARIABLES: ["zos", "uo", "vo", "so", "thetao"]
+
+# Variable mapping for individual datasets
+_DATASETS:
+  {
+    1993-01-01:
+      {
+        cmems_mod_glo_phy_my_0.083deg_P1D-m:
+          ["zos", "uo", "vo", "so", "thetao"],
+      },
+    2021-07-01:
+      {
+        cmems_mod_glo_phy_myint_0.083deg_P1D-m:
+          ["zos", "uo", "vo", "so", "thetao"],
+      },
+    forecast:
+      {
+        cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i: ["uo", "vo"],
+        cmems_mod_glo_phy-so_anfc_0.083deg_PT6H-i: ["so"],
+        cmems_mod_glo_phy-thetao_anfc_0.083deg_PT6H-i: ["thetao"],
+        cmems_mod_glo_phy_anfc_0.083deg_PT1H-m: ["zos"],
+      },
+  }
+
+# KEY: The standard NC Variable for merged data (and per _standard_attrs.py)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+surf_el:
+  source_var: "zos"
+  tfv_var: "H"
+  bc_scale: 1
+  bc_offset: 0
+
+water_u:
+  source_var: "uo"
+  tfv_var: "V_x"
+  bc_scale: 1
+  bc_offset: 0
+
+water_v:
+  source_var: "vo"
+  tfv_var: "V_y"
+  bc_scale: 1
+  bc_offset: 0
+
+salinity:
+  source_var: "so"
+  tfv_var: "SAL"
+  bc_scale: 1
+  bc_offset: 0
+
+water_temp:
+  source_var: "thetao"
+  tfv_var: "TEMP"
+  bc_scale: 1
+  bc_offset: 0

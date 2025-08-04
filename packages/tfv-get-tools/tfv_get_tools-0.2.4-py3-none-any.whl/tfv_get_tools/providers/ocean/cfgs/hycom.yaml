@@ -1,0 +1,73 @@
+# HYCOM GOFS 3.1 Configuration File
+_BASE_URL: "https://tds.hycom.org/thredds/dodsC"
+_INFO_URL: https://www.hycom.org/
+
+_SOURCE_XLIMS: [-180, 360]
+_SOURCE_YLIMS: [-90, 90]
+_SOURCE_ZLIMS: [0, 5000]
+_SOURCE_TIMELIMS: ["1994-01-01 00:00:00", null]
+
+_DOWNLOAD_INTERVAL: daily
+
+# Default variables to download
+_VARIABLES: ["surf_el", "water_u", "water_v", "water_temp", "salinity"]
+
+_DATASETS:
+  "1994-01-01":
+    "GLBv0.08/expt_53.X/data/{year}": default
+  "2016-01-01":
+    "GLBv0.08/expt_56.3": default
+  "2016-05-01":
+    "GLBv0.08/expt_57.2": default
+  "2017-02-01":
+    "GLBv0.08/expt_92.8": default
+  "2017-06-01":
+    "GLBv0.08/expt_57.7": default
+  "2017-10-01":
+    "GLBv0.08/expt_92.9": default
+  "2018-01-01":
+    "GLBv0.08/expt_93.0": default
+  "2018-12-04":
+    "GLBy0.08/expt_93.0": default
+  "2024-08-10":
+    {
+      ESPC-D-V02/u3z: ["water_u"],
+      ESPC-D-V02/v3z: ["water_v"],
+      ESPC-D-V02/t3z: ["water_temp"],
+      ESPC-D-V02/s3z: ["salinity"],
+      ESPC-D-V02/ssh: ["surf_el"],
+    }
+
+# KEY: The standard NC Variable for merged data (and per `_standard_attrs.py`)
+# source var == var as in the original dataset
+# tfv_var == standard tuflow fv var name (for FVC writer template)
+
+surf_el:
+  source_var: surf_el
+  tfv_var: "H"
+  bc_scale: 1
+  bc_offset: 0
+
+water_u:
+  source_var: water_u
+  tfv_var: "V_x"
+  bc_scale: 1
+  bc_offset: 0
+
+water_v:
+  source_var: water_v
+  tfv_var: "V_y"
+  bc_scale: 1
+  bc_offset: 0
+
+salinity:
+  source_var: salinity
+  tfv_var: "SAL"
+  bc_scale: 1
+  bc_offset: 0
+
+water_temp:
+  source_var: water_temp
+  tfv_var: "TEMP"
+  bc_scale: 1
+  bc_offset: 0
