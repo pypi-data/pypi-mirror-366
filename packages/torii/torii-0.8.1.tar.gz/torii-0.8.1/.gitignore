@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+/*.egg-info
+/.eggs
+/dist
+/.venv
+/.env
+.nox/
+.mypy_cache/
+
+# coverage
+/.coverage
+/htmlcov
+
+# tests
+/tests/**/spec_*/
+*.vcd
+*.gtkw
+
+# misc user-created
+/*.il
+/*.v
+/*.sv
+/*.vhd
+/*.vhdl
+/build
+
+# Code Editors/IDEs
+/.vs
+/.vscode
