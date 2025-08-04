@@ -1,0 +1,217 @@
+# Linux Parsers
+
+## 🤵‍♂️ 🐧 🤵‍♀️ 🐧 🤵 🐧
+
+    ^________________________________________________________
+    |                                                        |
+    | Simplest library for parsing linux commands and files  |
+    \________________________________________________________/
+
+## How to use
+
+Let's say you want to parse `ps aux` command to get the processes in a better form.
+
+```python
+import subprocess
+
+from linux_parsers.parsers.process.ps import parse_ps_aux
+
+completed_process_result = subprocess.run(['ps', 'aux'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+command_output = completed_process_result.stdout
+parsed_command_output = parse_ps_aux(command_output)
+```
+
+### 🔍 Auto-Detection of Parsers
+
+The package includes an auto-detection system that selects the correct parser based on the command used to
+generate the output.
+
+#### ✅ Supported Detection
+
+Auto-detection works for standard Linux binaries such as: `iptables`, `ss`, `ping`, `ac`, `ip` etc...
+
+and many more...
+
+You provide the command that was used to generate the output, and the library will choose the appropriate parser
+based on known binary + flags/signatures.
+
+```python
+from linux_parsers import auto_parse_output
+
+command = "ac -pd"
+command_output = "..."
+result = auto_parse_output(command, command_output)
+```
+
+> **_NOTE:_** Please provide the command without any pipes (e.g., avoid ss -tulpn | grep LISTEN). Detection is based on
+> the original binary and flags only.
+
+If the command is known to the package and parseable, the function will detect the command output and return the command
+parsed back to you.
+
+#### ⚠️ Not Supported: File-Reader Commands
+
+Auto-detection **does not work** for commands like: `cat`, `head`, `tail`, `less`, `more` etc...
+
+These commands read files, and auto-detection does **not** try to guess which file was read or what format it contains.
+For
+such cases, you must call the appropriate parser directly based on the file content:
+
+```python
+from linux_parsers.parsers.users.etc_passwd import parse_etc_passwd_file
+
+with open("/etc/passwd") as f:
+    output = f.read()
+result = parse_etc_passwd_file(output)
+```
+
+## Available Parsers
+
+#### Filesystem parsers
+
+- [df.py](linux_parsers/parsers/filesystem/df.py) - parse commands: `df`.
+- [dpkg.py](linux_parsers/parsers/filesystem/dpkg.py) - parse commands: `dpkg -l`.
+- [du.py](linux_parsers/parsers/filesystem/du.py) - parse commands: `du -ab <path>`.
+- [fdisk.py](linux_parsers/parsers/filesystem/fdisk.py) - parse commands: `fdisk -l`.
+- [ls.py](linux_parsers/parsers/filesystem/ls.py) - parse commands: `ls -la`.
+- [mount.py](linux_parsers/parsers/filesystem/mount.py) - parse file `/proc/mounts` or command `mount`.
+- [etc_fstab.py](linux_parsers/parsers/filesystem/etc_fstab.py) - parse file: `/etc/fstab`.
+- [stat.py](linux_parsers/parsers/filesystem/stat.py) - parse commands: `stat`.
+
+#### Network parsers
+
+- [arp.py](linux_parsers/parsers/network/arp.py) - parse commands: `arp -i <interface>`, `arp -en`, `arp -e`.
+- [etc_resolve_conf.py](linux_parsers/parsers/network/etc_resolve_conf.py) - parse file: `/etc/resolve.conf`.
+- [ip.py](linux_parsers/parsers/network/ip.py) - parse commands: `ip a`, `ip r`, `ip n`.
+- [iptables.py](linux_parsers/parsers/network/iptables.py) - parse commands: `iptables -L -n -v`.
+- [netstat.py](linux_parsers/parsers/network/netstat.py) - parse commands: `netstat -tulpan`.
+- [ping.py](linux_parsers/parsers/network/ping.py) - parse commands: `ping <address>`.
+- [ss.py](linux_parsers/parsers/network/ss.py) - parse commands: `ss -tulnap`, `ss -s`.
+- [ufw.py](linux_parsers/parsers/network/ufw.py) - parse commands: `ufw app list`, `ufw status`.
+
+#### Process parsers
+
+- [cgroups.py](linux_parsers/parsers/process/cgroups.py) - parse commands & files: `/proc/cgroups`,
+  `/proc/<pid>/cgroups`,
+  `/sys/fs/cgroup/<controller>/<cgroup_path>/cgroup.procs`, `systemd-cgls -al`.
+- [jobs.py](linux_parsers/parsers/process/jobs.py) - parse commands: `jobs`.
+- [ps.py](linux_parsers/parsers/process/ps.py) - parse commands: `ps aux`, `ps -ax`,`ps -caweL`, `ps -fadel`.
+- [top.py](linux_parsers/parsers/process/top.py) - parse commands: `top`.
+- [lsipc.py](linux_parsers/parsers/process/lsipc.py) - parse commands: `lsipc`.
+- [proc_modules.py](linux_parsers/parsers/process/proc_modules.py) - parse files: `/proc/modules`.
+
+#### Session parsers
+
+- [last.py](linux_parsers/parsers/session/last.py) - parse commands: `last`.
+- [w.py](linux_parsers/parsers/session/w.py) - parse commands: `w`.
+- [who.py](linux_parsers/parsers/session/who.py) - parse commands: `who -a`.
+- [ac.py](linux_parsers/parsers/session/ac.py) - parse commands: `ac -d`, `ac -p`, `ac -pd`.
+
+#### System parsers
+
+- [etc_os_release.py](linux_parsers/parsers/system/etc_os_release.py) - parse file: `/etc/os-release`.
+- [free.py](linux_parsers/parsers/system/free.py) - parse commands: `free -btlv`.
+- [hwinfo.py](linux_parsers/parsers/system/hwinfo.py) - parse commands: `hwinfo --<action>`.
+- [iostat.py](linux_parsers/parsers/system/iostat.py) - parse commands: `iostat -x`.
+- [mpstat.py](linux_parsers/parsers/system/mpstat.py) - parse commands: `mpstat -P ALL`.
+- [proc_cpuinfo.py](linux_parsers/parsers/system/proc_cpuinfo.py) - parse file: `/proc/cpuinfo`.
+- [proc_meminfo.py](linux_parsers/parsers/system/proc_meminfo.py) - parse file: `/proc/meminfo`.
+- [proc_version.py](linux_parsers/parsers/system/proc_version.py) - parse file: `/proc/version`.
+- [proc_devices.py](linux_parsers/parsers/system/proc_devices.py) - parse file: `/proc/devices`
+- [proc_uptime.py](linux_parsers/parsers/system/proc_uptime.py) - parse file: `/proc/uptime`
+- [service.py](linux_parsers/parsers/system/service.py) - parse commands: `service --status-all`.
+- [etc_systemd_file_conf.py](linux_parsers/parsers/system/etc_systemd_file_conf.py) - parse files:
+  `/etc/systemd/*.conf`.
+- [uname.py](linux_parsers/parsers/system/uname.py) - parse commands: `uname -a`.
+- [vmstat.py](linux_parsers/parsers/system/vmstat.py) - parse commands: `vmstat`, `vmstat -adt`.
+- [ldd.py](linux_parsers/parsers/system/ldd.py) - parse commands: `ldd --version`, `ldd -v <program>`, `ldd <program>`.
+- [lsmod.py](linux_parsers/parsers/system/lsmod.py) - parse commands: `lsmod`.
+
+#### Users parsers
+
+- [chage.py](linux_parsers/parsers/users/chage.py) - parse commands: `chage -l <username>`.
+- [etc_group.py](linux_parsers/parsers/users/etc_group.py) - parse file: `/etc/group`.
+- [etc_gshadow.py](linux_parsers/parsers/users/etc_gshadow.py) - parse file: `/etc/gshadow`.
+- [etc_passwd.py](linux_parsers/parsers/users/etc_passwd.py) - parse file: `/etc/passwd`.
+- [etc_shadow.py](linux_parsers/parsers/users/etc_shadow.py) - parse file: `/etc/shadow`.
+- [useradd.py](linux_parsers/parsers/users/useradd.py) - parse commands: `useradd -D`.
+
+#### Logs parsers
+
+- [var_log_secure.py](linux_parsers/parsers/logs/var_log_secure.py) - parse logfile: `/var/log/secure`.
+- [var_log_dpkg.py](linux_parsers/parsers/logs/var_log_dpkg.py) - parse logfile: `/var/log/dpkg.log`.
+- [var_log_auth.py](linux_parsers/parsers/logs/var_log_auth.py) - parse logfile: `/var/log/auth.log`.
+- [var_log_cron.py](linux_parsers/parsers/logs/var_log_cron.py) - parse logfile: `/var/log/cron`.
+- [var_log_syslog.py](linux_parsers/parsers/logs/var_log_syslog.py) - parse logfile: `/var/log/syslog`.
+- [var_log_wtmp_btmp_utmp.py](linux_parsers/parsers/logs/var_log_wtmp_btmp_utmp.py) - parse logfiles: `/var/log/utmp`,
+  `/var/log/wtmp`, `/var/log/btmp`.
+- [var_log_udev.py](linux_parsers/parsers/logs/var_log_udev.py) - parse logfile: `/var/log/udev`.
+- [var_log_messages.py](linux_parsers/parsers/logs/var_log_messages.py) - parse logfile `/var/log/messages`.
+
+## Contribute
+
+Thank you for considering contributing to this project! Whether you want to add parsers, fix bugs, or enhance the
+project, your contributions are welcome. Follow the instructions below to get started.
+
+### How to Contribute
+
+1. **Fork the Repository**  
+   Click the "Fork" button on the top-right of this repository to create your own copy.
+
+2. **Clone Your Fork**  
+   Clone the repository to your local machine:
+   ```shell
+   git clone https://github.com/yechielb2000/linux-parsers.git
+   ```
+
+3. **Set Up the Project**  
+   Navigate into the project directory:
+   ```shell
+   cd linux-parsers
+   ```
+
+   Install dependencies and set up pre-commit hooks:
+   ```shell
+   uv sync
+   uv run pre-commit run --all-files
+   ```
+
+   This will ensure everything is up to date and that the code is formatted according to the project's standards.
+
+4. **Create a New Branch**  
+   Always create a new branch for your changes. The branch name should follow this convention:
+    - **Bug fixes**: `bugfix/parsername`
+    - **New parsers**: `feature/parsername`
+    - **Refactors**: `refactor/parsername`
+
+   Example:
+   ```shell
+   git checkout -b feature/new-parser
+   ```
+
+5. **Make Your Changes**  
+   Add your parser or make any changes to the code. Ensure your changes are thoroughly tested and adhere to the
+   project's guidelines.
+
+6. **Commit Your Changes**  
+   After making your changes, commit them with a clear message:
+   ```shell
+   git commit -m "Add new parser for XYZ"
+   ```
+
+7. **Push Your Changes**  
+   Push your changes to your fork:
+   ```shell
+   git push origin feature/new-parser
+   ```
+
+8. **Create a Pull Request**  
+   Go to the original repository on GitHub and create a pull request (PR) from your fork. Make sure to target the `main`
+   branch. Provide a clear description of the changes in your PR, referencing any relevant issues.
+
+---
+
+### Thank You!
+
+We greatly appreciate your contributions to this project! Your work helps improve the project for everyone. If you have
+any questions or need help, don't hesitate to reach out.
