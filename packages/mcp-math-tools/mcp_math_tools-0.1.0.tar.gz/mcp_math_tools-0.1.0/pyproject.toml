@@ -1,0 +1,16 @@
+[project]
+name = "mcp_math_tools"
+version = "0.1.0"
+description = "A collection of MCP-compatible math tools (matrix, quadratic, eigen)"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "Poojitha29", email = "poojitha.mm@thoughtclan.com"}]
+dependencies = [
+    "numpy",
+    "sympy"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
