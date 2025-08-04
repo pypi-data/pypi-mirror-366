@@ -1,0 +1,250 @@
+# ZMP Knowledge Store MCP Server
+
+![Platform Badge](https://img.shields.io/badge/platform-zmp-red)
+![Component Badge](https://img.shields.io/badge/component-knowledge_store_mcp_server-red)
+![CI Badge](https://img.shields.io/badge/ci-github_action-green)
+![License Badge](https://img.shields.io/badge/license-MIT-green)
+
+A high-performance MCP (Model Context Protocol) server for managing knowledge store content with multi-modal RAG capabilities, supporting both Qdrant and ChromaDB vector stores, chat history logging, and advanced image analysis features.
+
+---
+
+## Python File Structure
+
+```
+zmp_knowledge_store/
+├── __init__.py              # Package initialization & metadata
+├── config.py                # Configuration management
+├── knowledge_store.py       # Main knowledge store logic (ingestion, search, backend selection)
+├── qdrant_adapter.py        # Qdrant vector DB integration
+├── chromadb_adapter.py      # ChromaDB vector DB integration
+├── keyword_extractor.py     # Advanced keyword extraction
+├── utils.py                 # Utility functions
+├── server_main.py           # FastMCP server main entry point
+
+tests/
+├── test_client.py           # Test client for validation
+├── test_mcp_ingest_*.py     # Various ingestion & search tests
+├── test_*_chat_history.py   # Chat history logging and search tests
+├── test_*_image_*.py        # Image analysis and enhancement tests
+├── test_*_vision_*.py       # Vision model integration tests
+└── ...                      # Other tests (100+ test files)
+
+examples/
+├── zcp/                     # ZCP (CloudZ Container Platform) documentation
+├── amdp/                    # AMDP (Application Modernization & Development Platform) docs
+├── apim/                    # APIM (API Management) documentation
+└── assets/                  # Shared assets and images
+```
+
+---
+
+## Key Features
+
+### 1. Multi-Modal Knowledge Store (`knowledge_store.py`)
+- Handles ingestion, chunking, and search for multi-modal documentation (text + images)
+- Supports both Qdrant and ChromaDB as vector stores with hybrid search
+- SmolDocling integration for document parsing and layout understanding
+- Advanced image analysis with vision language model integration
+- Automatic image description generation and enhancement
+- Robust metadata enrichment and error handling
+
+### 2. Chat History Management
+- Chat history logging with deduplication
+- Hybrid search over chat history with clustering and semantic similarity
+- User and session-based filtering
+- Analytics and debugging support
+
+### 3. Vector Store Adapters
+- `qdrant_adapter.py`: Qdrant integration with hybrid search (dense + sparse vectors)
+- `chromadb_adapter.py`: ChromaDB integration with cosine similarity search
+- Both support collection management, upsert operations, and metadata filtering
+
+### 4. Advanced Text Processing
+- `keyword_extractor.py`: Multi-method keyword extraction (KeyBERT, spaCy, NLTK)
+- Solution-specific optimization for ZCP, AMDP, and APIM platforms
+- Adaptive keyword counts and domain vocabulary boosting
+
+### 5. Configuration & Utilities
+- `config.py`: Environment-based configuration with S3 integration
+- `utils.py`: Chunking, document creation, and helper functions
+- `server_main.py`: FastMCP server with tool endpoints
+
+### 6. Comprehensive Testing
+- 100+ test files covering all functionality
+- Vision model integration tests
+- Image analysis and enhancement validation
+- Multi-platform compatibility testing
+
+---
+
+## MCP Tools Implemented
+
+| Tool Name           | Request Schema                | Response Schema                        | Description |
+|---------------------|------------------------------|----------------------------------------|-------------|
+| ingest_documents    | `{documents: list, solution?: str}`   | `{ success: bool, results: list, total_page_count?: int }`              | Ingest documents with metadata, keyword extraction, and automatic image enhancement. |
+| search_knowledge    | `{query: str, n_results?: int}`       | `{ query: str, results: list }`    | Hybrid search (dense + sparse) over the knowledge store. |
+| log_chat_history    | `{query: str, response: str, user_id?: str, session_id?: str}` | `{ success: bool, id?: str, error?: str }` | Log query/response pairs with deduplication by (query, user_id). |
+| search_chat_history | `{query: str, user_id?: str, n_results?: int}` | `{ query: str, user_id?: str, results: list }` | Hybrid search over chat history with optional user filtering. |
+
+---
+
+## Usage Examples
+
+```python
+# Ingest documents (see examples/ for sample MDX and images)
+result = await client.call_tool("ingest_documents", {
+    "documents": [...],
+    "solution": "zcp"
+})
+
+# Search knowledge
+result = await client.call_tool("search_knowledge", {
+    "query": "Group Management",
+    "n_results": 3
+})
+
+# Log chat history
+result = await client.call_tool("log_chat_history", {
+    "query": "What is a group?",
+    "response": "A group is ...",
+    "user_id": "user1"
+})
+
+# Search chat history
+result = await client.call_tool("search_chat_history", {
+    "query": "Delete a group",
+    "n_results": 5
+})
+```
+
+---
+
+## Example Documentation Sets
+
+- `examples/zcp/`: CloudZ Container Platform documentation with tutorials and guides
+- `examples/amdp/`: Application Modernization & Development Platform documentation
+- `examples/apim/`: API Management platform documentation and tutorials
+- Each directory contains MDX files with embedded images and comprehensive documentation
+
+---
+
+## Running the Tests
+
+The project includes 100+ comprehensive tests covering all functionality:
+
+```bash
+# Run all tests
+pytest tests/
+
+# Run specific test categories
+pytest tests/test_mcp_ingest_*.py          # Ingestion tests
+pytest tests/test_*_chat_history.py        # Chat history tests
+pytest tests/test_*_vision_*.py            # Vision model tests
+pytest tests/test_*_image_*.py             # Image analysis tests
+```
+
+Key test files:
+- `test_mcp_ingest_*.py`: Document ingestion validation
+- `test_*_chat_history.py`: Chat history logging and retrieval
+- `test_*_vision_*.py`: Vision language model integration
+- `test_*_image_*.py`: Image analysis and enhancement features
+
+---
+
+## Troubleshooting: Embedding Dimension Mismatch
+
+If you see errors like:
+
+```
+Collection expecting embedding with dimension of 384, got 768
+```
+
+- This means your embedding model (e.g., `all-mpnet-base-v2`) outputs a different dimension than the collection was created with (e.g., `all-MiniLM-L6-v2`).
+- **Solution:** Delete the ChromaDB collection and re-ingest, or update your config to match the expected dimension.
+
+---
+
+## Platform Compatibility & Configuration
+
+### SmolDocling Backend Selection
+Controlled by the `SMOLDOCLING_BACKEND` environment variable:
+- `mlx`: MLX backend (Apple Silicon optimized)
+- `transformers`: HuggingFace Transformers backend (cross-platform)
+- `auto`: Auto-select based on platform (recommended)
+
+### Vision Model Integration
+- Supports vision language models for automatic image description generation
+- Uses transformers library with vision models for AI-generated descriptions
+- Fallback mechanisms when vision models are unavailable
+
+### Vector Store Configuration
+- Qdrant: Hybrid search with dense + sparse vectors
+- ChromaDB: Dense vector search with cosine similarity
+- Both support collection management and metadata filtering
+
+---
+
+## Environment Configuration
+
+Key environment variables (set in `.env` file):
+
+```bash
+# Vector Store Configuration
+QDRANT_URL=http://localhost:6333
+CHROMA_HOST=localhost
+CHROMA_PORT=8000
+
+# Model Configuration
+SMOLDOCLING_BACKEND=auto  # auto, mlx, or transformers
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+
+# S3 Configuration (for asset storage)
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_REGION=us-east-1
+S3_BUCKET_NAME=your_bucket_name
+
+# Server Configuration
+PORT=8000
+HOST=0.0.0.0
+```
+
+---
+
+## Installation & Deployment
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd zmp-knowledge-store-mcp-server
+
+# Install dependencies with Poetry
+poetry install
+
+# Or install with pip
+pip install -e .
+```
+
+### Running the Server
+
+```bash
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your configuration
+
+# Run the FastMCP server
+python zmp_knowledge_store/server_main.py
+```
+
+### Docker Deployment
+
+```bash
+# Build Docker image
+docker build -t zmp-knowledge-store-mcp-server .
+
+# Run with Docker
+docker run -p 8000:8000 --env-file .env zmp-knowledge-store-mcp-server
+```
