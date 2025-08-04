@@ -1,0 +1,9 @@
+{% extends 'base/layout.html' %}
+{% load helpers %}
+
+{% block content %}
+  <div class="container">
+    <h1>CVE Übersicht</h1>
+    {% include 'inc/table.html' with table=table %}
+  </div>
+{% endblock %}
