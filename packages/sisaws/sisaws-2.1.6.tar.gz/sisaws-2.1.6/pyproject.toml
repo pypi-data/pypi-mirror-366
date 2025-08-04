@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sisaws"
+version = "2.1.6"
+description = "Librería oficial para interactuar con la API REST del SISA."
+authors = [
+    { name = "Conde", email = "billordowiyi@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.6"
+dependencies = [
+    "requests>=2.0"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License"
+]
+keywords = ["security", "api", "requests"]
