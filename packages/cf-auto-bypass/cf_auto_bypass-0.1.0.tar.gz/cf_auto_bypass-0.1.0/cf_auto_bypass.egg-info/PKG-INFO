@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: cf-auto-bypass
+Version: 0.1.0
+Summary: A Python library to automatically bypass Cloudflare protection
+Home-page: https://github.com/yourusername/cf-auto-bypass
+Author: AreYouDev
+Author-email: your.email@example.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: playwright>=1.54.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# CF Auto Bypass
+
+A Python library to automatically bypass Cloudflare's JavaScript challenges and protection mechanisms.
+
+## Features
+
+- Automatic Cloudflare JavaScript challenge solving
+- Support for proxy configuration
+- Browser fingerprint customization
+- Cookie management
+- Detailed error handling and logging
+
+## Installation
+
+```bash
+pip install cf-auto-bypass
+```
+
+## Quick Start
+
+```python
+from cf_auto_bypass import CloudflareBypass
+
+# Create a bypass instance
+bypass = CloudflareBypass(headless=False)
+
+# Bypass Cloudflare protection
+result = bypass.bypass("https://example.com")
+
+if result.success:
+    print(f"Title: {result.title}")
+    print(f"Cookies: {result.cookies}")
+    print(f"HTML content length: {len(result.html)}")
+else:
+    print(f"Error: {result.error}")
+```
+
+## Advanced Usage
+
+```python
+# Using with proxy
+bypass = CloudflareBypass(
+    headless=True,
+    timeout=60000,
+    wait_time=15
+)
+
+result = bypass.bypass(
+    url="https://example.com",
+    proxy="http://user:pass@proxy.example.com:8080"
+)
+```
+
+## License
+
+MIT License - see LICENSE file for details.
