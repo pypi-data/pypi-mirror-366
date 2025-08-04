@@ -1,0 +1,31 @@
+[project]
+name = "sysinfo-collector"
+version = "0.1.0"
+description = "一个获取电脑系统信息的Python包"
+authors = [
+    { name = "yuanni", email = "1911398892@qq.com" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "psutil>=7.0.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Systems Administration",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/sysinfo-collector"
+Repository = "https://github.com/yourusername/sysinfo-collector"
+Documentation = "https://yourusername.github.io/sysinfo-collector"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
