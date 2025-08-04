@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ap-mcp-server"
+version = "0.1.0"
+description = "AP Materials leave MCP server & client"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+    "httpx",
+    "pydantic",
+]
+
+[project.scripts]
+ap-mcp = "ap_mcp_server.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourname/ap-mcp-server"
