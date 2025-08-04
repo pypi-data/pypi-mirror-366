@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "benchloop"
+version = "0.1.0"
+description = "A Python library for managing, processing, and benchmarking datasets in SQLite databases for AI pipelines and LLM prompt engineering."
+readme = "README.md"
+authors = [
+    { name="Elias Tsoukatos", email="elias@merlinaifoundation.org" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+dependencies = [
+    "openai"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+[project.urls]
+Homepage = "https://github.com/merlinaifoundation/benchloop"
+Documentation = "https://github.com/merlinaifoundation/benchloop/blob/main/docs/benchloop.md"
+Source = "https://github.com/merlinaifoundation/benchloop"
+
+[tool.setuptools.packages.find]
+where = ["benchloop"]
+include = ["benchloop*"]
