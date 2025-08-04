@@ -1,0 +1,149 @@
+Metadata-Version: 2.4
+Name: linkai-aion
+Version: 0.1.6
+Summary: 🚀 LinkAI-Aion v0.1.6 — Enhanced AI Utilities with File Management, Code Parsing, and Real-time Monitoring
+Home-page: https://linkaiapps.com/#linkai-aion
+Author: Aksel
+Author-email: Aksel <aksel@linkaiapps.com>
+Project-URL: Homepage, https://linkaiapps.com/#linkai-aion
+Project-URL: PyPI, https://pypi.org/project/linkai-aion/
+Keywords: utilities,text-processing,file-handling,cli,developer-tools,linkai
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# linkai-aion
+
+**🚀 LinkAI-Aion v0.1.6 — Enhanced AI Utilities with File Management, Code Parsing, and Real-time Monitoring**
+
+✨ **New update, new look — and packed with power!**
+
+AIon is an open-source Python utility library by LinkAI, designed to empower AI projects, automation tools, and productivity workflows. With this new version, we're bringing smarter tools, better performance, and more developer-friendly features than ever.
+
+---
+
+## ✅ What's New in v0.1.6
+
+- 🗂️ **Updated files management** with improved upload and organization
+- 🧩 **Enhanced code parser** with better multi-language and syntax error support  
+- 🔄 **Real-time file change monitoring** for auto-refresh and instant updates
+- ✂️ **Code snippet extraction** for reuse, sharing, and clean documentation
+- ⚙️ **Extended CLI support** with new power commands
+- 📚 **Full documentation site** with guides, examples, and API references
+- 🌍 **Comprehensive language detection** for 30+ programming languages
+- 🛡️ **Enhanced security scanning** with improved pattern detection
+- 🧠 **Advanced text intelligence** with better analysis capabilities
+
+---
+
+## 📦 Installation
+
+```bash
+pip install linkai-aion
+```
+
+## 🚀 Quick Start
+
+```python
+from aion import text, files, parser, watcher
+
+# File management
+files.create_empty_file("test.txt")
+files.write_file("test.txt", "Hello Aion v0.1.6!")
+content = files.read_file("test.txt")
+
+# Code parsing with 30+ language support
+code = """
+def greet(name):
+    return f"Hello, {name}!"
+"""
+lang = parser.detect_language(code)  # Detects Python
+analysis = parser.parse_code(code, lang)
+
+# Real-time file monitoring
+def on_change(filepath):
+    print(f"File changed: {filepath}")
+
+watcher.watch_file_for_changes("test.txt", on_change)
+```
+
+## 🌍 Supported Languages
+
+**Programming Languages:**
+- Python, JavaScript, TypeScript, Java, C/C++, C#
+- Go, Rust, Swift, Kotlin, Scala, Haskell
+- PHP, Ruby, Perl, Lua, Julia, R, MATLAB
+- Clojure, PowerShell, Bash
+
+**Markup & Data:**
+- HTML, CSS, SQL, JSON, XML, YAML, Markdown
+- Dockerfile, Terraform, Ansible
+
+**Enhanced Features:**
+- 🧩 **Multi-language code parsing** with detailed analysis
+- 🔍 **Syntax highlighting** for all supported languages
+- 📊 **Code complexity analysis** and metrics
+- ✂️ **Smart snippet extraction** with metadata
+- 🔄 **Real-time monitoring** with change detection
+- 📁 **Advanced file management** with organization tools
+
+---
+
+## 🌐 Website
+
+Learn more, view docs, and explore what's coming next:  
+🔗 https://linkaiapps.com/#linkai-aion
+
+## 📦 PyPI
+
+Install or explore directly via PyPI:  
+🔗 https://pypi.org/project/linkai-aion/
+
+---
+
+## 🔮 Coming Soon in v0.1.7
+
+🎉 **We're just getting started — here's what's next (and doable in a week!):**
+
+- 🔗 **Git integration (basic)**  
+  View commit history, diffs, and branches using GitPython or CLI wrappers.
+
+- 🎯 **Project scaffolding templates**  
+  Instantly generate ready-to-code boilerplates for Python, AI, or web apps.
+
+- 📁 **Extended CLI tools**  
+  More terminal commands for scanning, formatting, or watching code.
+
+- 🔍 **Initial security scanning support**  
+  Integrate with tools like bandit to detect common Python vulnerabilities.
+
+- 🌐 **Simple web interface prototype**  
+  Launch a local dashboard to explore files, view highlights, and analyze snippets.
+
+- 📊 **Token counter & code summarizer**  
+  Built-in tools to analyze length and provide TL;DR of source files.
+
+---
+
+**🚀 AIon helps developers move faster, build smarter, and automate more — all with less code.**  
+From quick utilities to deep integration into AI workflows, v0.1.6 is just the beginning.
+
+**From LinkAI — crafting tools for tomorrow's developers, today.** ❤️

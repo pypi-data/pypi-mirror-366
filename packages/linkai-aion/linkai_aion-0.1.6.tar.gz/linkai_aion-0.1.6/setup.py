@@ -1,0 +1,36 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="linkai-aion",
+    version="0.1.6",
+    author="Aksel",
+    author_email="aksel@linkaiapps.com",
+    description="🚀 LinkAI-Aion v0.1.6 — Enhanced AI Utilities with File Management, Code Parsing, and Real-time Monitoring",
+    long_description=open("README.md", encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
+    url="https://linkaiapps.com/#linkai-aion",
+    packages=find_packages(),
+    include_package_data=True,
+    python_requires=">=3.8",
+    license="Apache License 2.0",
+    keywords=["utilities", "text-processing", "file-handling", "cli", "developer-tools", "linkai"],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Text Processing",
+        "Topic :: Utilities",
+        "License :: OSI Approved :: Apache Software License",
+    ],
+    project_urls={
+        "Homepage": "https://linkaiapps.com/#linkai-aion",
+        "PyPI": "https://pypi.org/project/linkai-aion/",
+    },
+) 
