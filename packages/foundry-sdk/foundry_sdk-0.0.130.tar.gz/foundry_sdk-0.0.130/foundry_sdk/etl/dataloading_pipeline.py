@@ -1,0 +1,252 @@
+import typing as t
+
+from kedro.pipeline import node
+from kedro.pipeline.node import Node
+
+from .dataloading_nodes import (
+    check_data_inputs,
+    node_write_categories,
+    node_write_company,
+    node_write_datapoints,
+    node_write_flags,
+    node_write_product_categories,
+    node_write_product_data,
+    node_write_products,
+    node_write_sku_data,
+    node_write_skus,
+    node_write_store_data,
+    node_write_stores,
+    node_write_time_product_data,
+    node_write_time_region_data,
+    node_write_time_sku_data,
+    node_write_time_store_data,
+)
+
+
+def create_writing_sub_pipeline() -> list[Node]:
+    sub_pipeline = [
+        #################################### Data input validation ########################################
+        node(
+            func=check_data_inputs,
+            inputs=[
+                "params:company_name",
+                "params:dataset_type",
+                "min_date",
+                "max_date",
+                "frequency",
+                "store_region_map",
+                "categories_dict",
+                "categories_level_description",
+                "products",
+                "time_sku_data",
+                "time_sku_feature_description_map",
+                "flags",
+                "store_feature_description_map",
+                "store_feature_map",
+                "product_feature_description_map",
+                "product_feature_map",
+                "sku_feature_description_map",
+                "sku_feature_map",
+                "time_product_feature_description_map",
+                "time_product_feature_map",
+                "time_region_feature_description_map",
+                "time_region_feature_map",
+                "time_store_feature_description_map",
+                "time_store_feature_map",
+            ],
+            outputs="check_passed",
+            name="check_data_inputs",
+        ),
+        #################################### Write mandatory data #######################################
+        node(
+            func=node_write_company,
+            inputs={
+                "data_loader": "data_loader",
+                "company_name": "params:company_name",
+                "dataset_type": "params:dataset_type",
+                "description": "params:description",
+                "min_date": "min_date",
+                "max_date": "max_date",
+                "frequency": "frequency",
+                "check_passed": "check_passed",
+            },
+            outputs="company_object",
+            name="write_company",
+        ),
+        node(
+            func=node_write_stores,
+            inputs={
+                "data_loader": "data_loader",
+                "store_region_map": "store_region_map",
+                "company": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs="store_object",
+            name="write_stores",
+        ),
+        node(
+            func=node_write_categories,
+            inputs={
+                "data_loader": "data_loader",
+                "company": "company_object",
+                "categories_dict": "categories_dict",
+                "level_names": "categories_level_description",
+                "check_passed": "check_passed",
+            },
+            outputs="category_object",
+            name="write_categories",
+        ),
+        node(
+            func=node_write_products,
+            inputs={
+                "data_loader": "data_loader",
+                "products": "products",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["product_object", "unique_products_df"],
+            name="write_products",
+        ),
+        node(
+            func=node_write_product_categories,
+            inputs={
+                "data_loader": "data_loader",
+                "products": "products",
+                "unique_products_df": "unique_products_df",
+                "company_object": "company_object",
+                "category_object": "category_object",
+                "product_object": "product_object",
+                "check_passed": "check_passed",
+            },
+            outputs="product_category_object",
+            name="write_product_categories",
+        ),
+        node(
+            func=node_write_skus,
+            inputs={
+                "data_loader": "data_loader",
+                "time_sku_data": "time_sku_data",
+                "store_object": "store_object",
+                "product_object": "product_object",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["sku_object", "time_sku_data_with_sku_id"],
+            name="write_skus",
+        ),
+        node(
+            func=node_write_datapoints,
+            inputs={
+                "data_loader": "data_loader",
+                "time_sku_data_with_sku_id": "time_sku_data_with_sku_id",
+                "check_passed": "check_passed",
+            },
+            outputs=["datapoint_object", "time_sku_data_with_datapoint_id"],
+            name="write_datapoints",
+        ),
+        node(
+            func=node_write_time_sku_data,
+            inputs={
+                "data_loader": "data_loader",
+                "time_sku_feature_description_map": "time_sku_feature_description_map",
+                "time_sku_data_with_datapoint_id": "time_sku_data_with_datapoint_id",
+                "company_object": "company_object",
+                "create_new_time_sku_table": "params:create_new_time_sku_table",
+                "check_passed": "check_passed",
+            },
+            outputs="time_sku_data_object",
+            name="write_time_sku_data",
+        ),
+        node(
+            func=node_write_flags,
+            inputs={
+                "data_loader": "data_loader",
+                "flags": "flags",
+                "company_object": "company_object",
+                "time_sku_data_with_datapoint_id": "time_sku_data_with_datapoint_id",
+                "check_passed": "check_passed",
+            },
+            outputs="flags_object",
+            name="write_flags",
+        ),
+        #################################### Write optional data ########################################
+        node(
+            func=node_write_store_data,
+            inputs={
+                "data_loader": "data_loader",
+                "store_feature_description_map": "store_feature_description_map",
+                "store_feature_map": "store_feature_map",
+                "store_object": "store_object",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["store_description_object", "store_feature_object"],
+            name="write_store_data",
+        ),
+        node(
+            func=node_write_product_data,
+            inputs={
+                "data_loader": "data_loader",
+                "product_feature_description_map": "product_feature_description_map",
+                "product_feature_map": "product_feature_map",
+                "product_object": "product_object",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["product_description_object", "product_feature_object"],
+            name="write_product_data",
+        ),
+        node(
+            func=node_write_sku_data,
+            inputs={
+                "data_loader": "data_loader",
+                "sku_feature_description_map": "sku_feature_description_map",
+                "sku_feature_map": "sku_feature_map",
+                "sku_object": "sku_object",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["sku_description_object", "sku_feature_object"],
+            name="write_sku_data",
+        ),
+        node(
+            func=node_write_time_product_data,
+            inputs={
+                "data_loader": "data_loader",
+                "time_product_feature_description_map": "time_product_feature_description_map",
+                "time_product_feature_map": "time_product_feature_map",
+                "product_object": "product_object",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["time_product_description_object", "time_product_feature_object"],
+            name="write_time_product_data",
+        ),
+        node(
+            func=node_write_time_region_data,
+            inputs={
+                "data_loader": "data_loader",
+                "time_region_feature_description_map": "time_region_feature_description_map",
+                "time_region_feature_map": "time_region_feature_map",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["time_region_description_object", "time_region_feature_object"],
+            name="write_time_region_data",
+        ),
+        node(
+            func=node_write_time_store_data,
+            inputs={
+                "data_loader": "data_loader",
+                "time_store_feature_description_map": "time_store_feature_description_map",
+                "time_store_feature_map": "time_store_feature_map",
+                "store_object": "store_object",
+                "company_object": "company_object",
+                "check_passed": "check_passed",
+            },
+            outputs=["time_store_description_object", "time_store_feature_object"],
+            name="write_time_store_data",
+        ),
+    ]
+
+    return sub_pipeline
