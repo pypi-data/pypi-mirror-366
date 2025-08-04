@@ -1,0 +1,325 @@
+# memofai - MOA Python SDK
+
+A comprehensive Python SDK for the MOA (Memory Of Agents) API - Revolutionary dual-track AI memory infrastructure with zero information loss.
+
+[![PyPI version](https://badge.fury.io/py/memofai.svg)](https://badge.fury.io/py/memofai)
+[![Python Support](https://img.shields.io/pypi/pyversions/memofai.svg)](https://pypi.org/project/memofai/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Features
+
+- 🧠 **Memory Operations**: Create, read, update, delete memories with rich metadata
+- 🔍 **Hybrid Search**: Vector similarity, keyword matching, fuzzy search, temporal relevance
+- 🕸️ **Graph Search**: Advanced graph-based search with multiple algorithms
+- 🔗 **Relationship Management**: AI-powered relationship generation and cleanup
+- 🌍 **Multi-Environment**: Support for alpha, beta, and production environments
+- 📊 **Analytics**: Memory and relationship statistics
+- ⚡ **Async Support**: Full async/await support for high-performance applications
+- 🔄 **Retry Logic**: Built-in retry mechanisms with exponential backoff
+- 🛡️ **Type Safety**: Complete type hints and Pydantic models
+- 📝 **Rich Documentation**: Comprehensive examples and API reference
+
+## Installation
+
+```bash
+pip install memofai
+```
+
+For development with all optional dependencies:
+
+```bash
+pip install memofai[dev,docs]
+```
+
+## Quick Start
+
+### Basic Usage
+
+```python
+from memofai import MOAClient, Environment
+
+# Initialize client
+client = MOAClient(
+    api_key="your-api-key",
+    environment=Environment.BETA
+)
+
+# Create a memory
+response = client.memory.create_memory({
+    "content": "Important meeting notes from today",
+    "tags": ["meeting", "important"],
+    "metadata": {"source": "daily-standup", "attendees": 5}
+})
+
+print(f"Created memory: {response.memory_id}")
+
+# Search memories
+results = client.memory.search_memories(
+    query="meeting notes",
+    max_results=10,
+    vector_weight=0.7,  # Emphasize semantic similarity
+    keyword_weight=0.3
+)
+
+for result in results.results:
+    print(f"Score: {result.score:.2f} - {result.memory.content[:100]}")
+
+# Close the client
+client.close()
+```
+
+### Environment-Specific Clients
+
+```python
+from memofai import MOAClient
+
+# Direct environment methods
+alpha_client = MOAClient.for_alpha("your-alpha-key")
+beta_client = MOAClient.for_beta("your-beta-key") 
+prod_client = MOAClient.for_production("your-prod-key")
+
+# Or using environment variables
+# Set MOA_API_KEY, MOA_ENVIRONMENT, etc.
+client = MOAClient.from_env()
+```
+
+### Async Usage
+
+```python
+import asyncio
+from memofai import MOAClient
+
+async def main():
+    async with MOAClient(api_key="your-api-key") as client:
+        # Async memory operations
+        response = await client.memory.acreate_memory({
+            "content": "Async memory creation",
+            "tags": ["async", "example"]
+        })
+        
+        # Async search
+        results = await client.memory.asearch_memories(
+            query="async example",
+            max_results=5
+        )
+        
+        print(f"Found {len(results.results)} memories")
+
+asyncio.run(main())
+```
+
+### Graph Search
+
+```python
+# Find shortest paths between memories
+graph_results = client.graph.search_shortest_path(
+    query="project updates",
+    max_depth=3,
+    min_relationship_strength=0.5
+)
+
+# Find semantic clusters
+clusters = client.graph.search_similarity_cluster(
+    query="machine learning concepts",
+    max_depth=2,
+    min_concept_relevance=0.6
+)
+
+# Temporal flow analysis
+temporal_results = client.graph.search_temporal_flow(
+    query="product development timeline",
+    weight_by_recency=True
+)
+```
+
+### Relationship Management
+
+```python
+# Generate relationships for all memories
+response = client.relationships.generate_all_relationships(
+    force_regenerate=False,
+    batch_size=10
+)
+
+print(f"Generated {response.stats['created']} new relationships")
+
+# Get relationship statistics
+stats = client.relationships.get_relationship_stats()
+print(f"Total relationships: {stats.total_relationships}")
+print(f"Average strength: {stats.average_strength:.2f}")
+
+# Clean up weak relationships
+cleanup = client.relationships.cleanup_weak_relationships(
+    min_strength=0.3
+)
+print(f"Removed {cleanup.removed_count} weak relationships")
+```
+
+## Configuration
+
+### Environment Variables
+
+Set these environment variables to configure the SDK:
+
+```bash
+export MOA_API_KEY="your-api-key"
+export MOA_ENVIRONMENT="beta"  # alpha, beta, production
+export MOA_API_VERSION="v1"
+export MOA_TIMEOUT="30.0"
+export MOA_MAX_RETRIES="3"
+export MOA_RETRY_DELAY="1.0"
+export MOA_DEBUG="false"
+```
+
+### Programmatic Configuration
+
+```python
+from memofai import MOAClient, Environment
+
+client = MOAClient(
+    api_key="your-api-key",
+    environment=Environment.PRODUCTION,
+    api_version="v1",
+    timeout=60.0,
+    max_retries=5,
+    retry_delay=2.0,
+    debug=True
+)
+```
+
+## API Reference
+
+### Memory Operations
+
+- `create_memory(request)` - Create a new memory
+- `get_memory(memory_id)` - Retrieve a specific memory
+- `update_memory(memory_id, request)` - Update an existing memory
+- `delete_memory(memory_id)` - Delete a memory
+- `search_memories(query, **params)` - Search memories with hybrid approach
+- `get_analytics()` - Get memory analytics
+
+### Graph Search Operations
+
+- `graph_search(request)` - Perform advanced graph search
+- `search_shortest_path(query, **params)` - Find shortest paths
+- `search_similarity_cluster(query, **params)` - Find semantic clusters
+- `search_concept_traversal(query, **params)` - Concept-based search
+- `search_temporal_flow(query, **params)` - Temporal sequence search
+- `search_causal_chain(query, **params)` - Causal relationship discovery
+- `get_search_types()` - Get available search types
+
+### Relationship Operations
+
+- `generate_relationships(request)` - Generate relationships with AI
+- `generate_all_relationships(**params)` - Generate for all memories
+- `generate_relationships_for_memories(memory_ids, **params)` - Generate for specific memories
+- `get_relationship_stats()` - Get relationship statistics
+- `cleanup_relationships(min_strength)` - Clean up weak relationships
+- `optimize_graph(**params)` - Full graph optimization
+
+## Examples
+
+Check out the [examples](examples/) directory for more comprehensive examples:
+
+- [basic_usage.py](examples/basic_usage.py) - Basic memory operations
+- [graph_search_example.py](examples/graph_search_example.py) - Graph search patterns
+- [memory_management.py](examples/memory_management.py) - Advanced memory management
+
+## Error Handling
+
+The SDK provides specific exception types for different error scenarios:
+
+```python
+from memofai import MOAClient
+from memofai.exceptions import (
+    MOAAuthError,
+    MOANotFoundError,
+    MOARateLimitError,
+    MOAValidationError,
+    MOAConnectionError,
+    MOATimeoutError
+)
+
+try:
+    client = MOAClient(api_key="invalid-key")
+    response = client.memory.create_memory({"content": "test"})
+except MOAAuthError:
+    print("Authentication failed - check your API key")
+except MOAValidationError as e:
+    print(f"Validation error: {e.message}")
+    print(f"Details: {e.details}")
+except MOARateLimitError as e:
+    print(f"Rate limited - retry after {e.retry_after} seconds")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+```
+
+## Development
+
+### Setup Development Environment
+
+```bash
+git clone https://github.com/memof-ai/moa-sdk-python.git
+cd moa-sdk-python
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install development dependencies
+pip install -e ".[dev,docs]"
+
+# Install pre-commit hooks
+pre-commit install
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=moa --cov-report=html
+
+# Run specific test file
+pytest tests/test_memory.py -v
+```
+
+### Code Quality
+
+```bash
+# Format code
+black moa/ tests/ examples/
+
+# Lint code
+ruff check moa/ tests/ examples/
+
+# Type checking
+mypy moa/
+```
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes and add tests
+4. Ensure tests pass: `pytest`
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- 📧 Email: [hello@memof.ai](mailto:hello@memof.ai)
+- 🌐 Website: [https://memof.ai](https://memof.ai)
+- 📖 Documentation: [https://docs.memof.ai](https://docs.memof.ai)
+- 🐛 Issues: [GitHub Issues](https://github.com/memof-ai/moa-sdk-python/issues)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
