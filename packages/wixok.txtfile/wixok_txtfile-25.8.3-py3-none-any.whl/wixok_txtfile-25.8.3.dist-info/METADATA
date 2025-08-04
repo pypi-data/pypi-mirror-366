@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: wixok.txtfile
+Version: 25.8.3
+Summary: Simple Python package for text file operations.
+Author-email: Wixok <contact@wixok.com>
+Maintainer-email: Mohammed Dellihr <mohammeddellihr@maildoo.com>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2025 Mohammed Dellihr
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+Project-URL: Repository, https://github.com/wixok/txtfile
+Project-URL: Issues, https://github.com/wixok/txtfile/issues
+Keywords: text,file,io,toolkit,txtfile
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
+
+# TXTFile
+
+Simple Python package for text file operations.
+
+## Install
+
+```bash
+pip install wixok.txtfile
+```
+
+## Usage
+
+```python
+from wixok.txtfile import TXTFile
+
+# Read entire file content as a string
+content = TXTFile.load("data.txt")
+print(content)  # 'line 1\nline 2\nline 3\nline 4\n'
+
+# Read file lines into a list
+lines = TXTFile.load_lines("data.txt")
+print(lines)  # ['line 1', 'line 2', 'line 3', 'line 4']
+
+# Add a line to the file
+success = TXTFile.add_line("data.txt", "line 5")
+print(success)  # True
+
+# Clear file contents
+cleared = TXTFile.clear("data.txt")
+print(cleared)  # True
+```
+
+## Methods
+
+| Method | Description | Returns |
+|--------|-------------|---------|
+| `load(path)` | Read entire file content as a single string | `str` |
+| `load_lines(path)` | Read file lines into a list of strings | `list[str]` |
+| `add_line(path, text)` | Append a line to the file (with newline) | `bool` |
+| `clear(path)` | Empty the file | `bool` |
+
+## Debug Mode
+
+```python
+TXTFile.debug = True  # Enable error messages
+```
