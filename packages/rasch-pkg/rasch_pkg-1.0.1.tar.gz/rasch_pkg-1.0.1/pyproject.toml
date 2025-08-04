@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rasch-pkg"
+version = "1.0.1"
+description = "Rasch modeli asosida o'quvchilarni baholash tizimi - Student assessment system based on Rasch model"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Muhammad Ali", email = "muhammadali@example.com"},
+]
+maintainers = [
+    {name = "Muhammad Ali", email = "muhammadali@example.com"},
+]
+keywords = [
+    "rasch-model",
+    "student-assessment", 
+    "educational-measurement",
+    "psychometrics",
+    "item-response-theory",
+    "uzbekistan",
+    "education"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "numpy>=1.21.0",
+    "pandas>=1.3.0",
+    "openpyxl>=3.0.0",
+    "psycopg2-binary>=2.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/muhammadali/rasch-pkg"
+Documentation = "https://github.com/muhammadali/rasch-pkg#readme"
+Repository = "https://github.com/muhammadali/rasch-pkg.git"
+"Bug Tracker" = "https://github.com/muhammadali/rasch-pkg/issues"
+
+[tool.setuptools]
+packages = ["rasch_pkg"]
+
+[tool.setuptools.package-dir]
+"rasch_pkg" = "src"
+
+[tool.ruff]
+line-length = 79
+select = ["E", "F", "W", "I"]
+
+[tool.mypy]
+strict = true
+
+[tool.black]
+line-length = 79
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=src --cov-report=html --cov-report=term-missing"
