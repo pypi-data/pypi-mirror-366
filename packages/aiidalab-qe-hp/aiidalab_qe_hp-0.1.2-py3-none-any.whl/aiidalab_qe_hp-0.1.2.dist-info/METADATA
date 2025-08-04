@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: aiidalab-qe-hp
+Version: 0.1.2
+Summary: Web GUI for Quantum ESPRESSO and hp calculations in AiiDA.
+Keywords: aiida,workflows,core-level,spectroscopy
+Author-email: Xing Wang <xingwang1991@gmail.com>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 4 - Beta
+Classifier: Framework :: AiiDA
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+License-File: LICENSE
+Requires-Dist: aiida-core>=2.3
+Requires-Dist: aiida-quantumespresso>=4.8
+Requires-Dist: aiida-hubbard>=0.1.0
+Requires-Dist: weas-widget>=0.1.24
+Requires-Dist: table-widget>=0.0.3
+Requires-Dist: mypy==1.6.1 ; extra == "dev"
+Requires-Dist: pre-commit ; extra == "dev"
+Requires-Dist: pytest~=6.2 ; extra == "dev"
+Requires-Dist: pytest-regressions ; extra == "dev"
+Requires-Dist: myst-parser ; extra == "docs"
+Requires-Dist: pydata-sphinx-theme~=0.14.3 ; extra == "docs"
+Requires-Dist: sphinx~=7.2 ; extra == "docs"
+Requires-Dist: sphinx-copybutton~=0.5.0 ; extra == "docs"
+Requires-Dist: sphinx-click~=4.0 ; extra == "docs"
+Requires-Dist: sphinx-design~=0.5.0 ; extra == "docs"
+Requires-Dist: sphinx-favicon ; extra == "docs"
+Project-URL: documentation, https://aiidalab-qe-hp.readthedocs.io/
+Project-URL: homepage, https://github.com/superstar54/aiidalab-qe-hp
+Project-URL: source, https://github.com/superstar54/aiidalab-qe-hp
+Project-URL: tracker, https://github.com/superstar54/aiidalab-qe-hp/issues
+Provides-Extra: dev
+Provides-Extra: docs
+
+# aiidalab-qe-hp
+
+A plugin for running hp calculations inside the AiiDAlab Quantum ESPRESSO App.
+
+
+## Installation
+
+First install the `aiida-quantumespresso-hp` plugin, then clone this repository and install it with pip:
+
+```shell
+git clone https://github.com/aiidateam/aiida-quantumespresso-hp.git
+cd aiida-quantumespresso-hp
+pip install -e .
+```
+
