@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="narvi/narvi.js"></script>
+    <script src="monitor_app.js"></script>
+    <style>
+        table, tr, td, th {
+            border-collapse: collapse;
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        canvas {
+            box-sizing: border-box;
+            padding: 5px;
+        }
+
+        table {
+            margin: 0px auto;
+        }
+
+        .app_link {
+            display: block;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <script>
+        window.addEventListener("load",(evt) => {
+            start_narvi(MonitorApp);
+        });
+    </script>
+    <table>
+        <thead>
+            <tr>
+                <th>Workspace</th><th>App Service Name</th><th>Instance Service ID</th><th>Apps</th><th>#Sessions</th><th>Uptime (secs)</th><th>Metrics</th>
+            </tr>
+        </thead>
+        <tbody id="status_table">
+        </tbody>
+    </table>
+</body>
+</html>
