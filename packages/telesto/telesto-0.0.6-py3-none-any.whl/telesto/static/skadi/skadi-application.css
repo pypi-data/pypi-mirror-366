@@ -1,0 +1,95 @@
+/* src/css/application.css */
+
+.pages_container {
+    position: relative;
+}
+
+.status_label {
+    margin-left:30px;
+    float: right;
+}
+
+.page_container {
+    box-sizing: border-box;
+    border: 1px solid #DDD;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+.page_iframe {
+    border-width: 0px;
+    width: 100%;
+    height: 99%;
+    background-color: white;
+}
+
+.titlebar.pending { border-color:blue; }
+.titlebar.executing { border-color:purple; }
+.titlebar.executed { border-color:green; transition: border-color 1s ease-in; }
+.titlebar.failed { border-color:red; }
+
+.titlebar {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    padding-top: 3px;
+    padding-bottom: 10px;
+    background-color: #DDD;
+    min-height: 32px;
+    border-style: solid;
+    border-color: yellow;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 10px;
+}
+
+.titletext {
+    color: black;
+    vertical-align: center;
+}
+
+.footerbar {
+    background-color: #DDD;
+    flex-shrink: 0;
+    width: 100%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    min-height: 32px;
+}
+
+
+
+
+/* src/css/common.css */
+.skadi_header {
+    background-color: #DDD;
+    min-height: 40px;
+}
+
+.skadi_header_title {
+    display: inline;
+    margin-left: 20px;
+    font-size: 32px;
+}
+
+.skadi_header_icon {
+    height: 32px;
+    margin-top: 4px;
+    margin-right: 20px;
+}
+
+.skadi_header_right {
+    float: right;
+}
+
+.skadi_header_text {
+    margin-left: 20px;
+}
+
+.skadi_header_link {
+    vertical-align: super;
+    margin-right: 20px;
+}
+
+

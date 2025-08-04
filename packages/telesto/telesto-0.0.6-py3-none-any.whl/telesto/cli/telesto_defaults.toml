@@ -1,0 +1,89 @@
+# configuration for a set of telesto applications
+
+base_url = ""
+host = "localhost"
+port = 8889
+
+workspace_id = "primary_workspace"
+workspace_name="Primary Workspace"
+workspace_description="Primary Workspace Description"
+workspace_path="primary_workspace_folder"
+
+# specify import paths for each topology package to load
+# if empty, look for all packages defining the entrypoint "telesto_package"
+packages = []
+
+# command automatically open the page in chromium, stop the server when the page is closed, run if using -l/--launch-ui
+launch_ui_command="chromium --app=URL"
+
+[narvi_options]
+
+# specify the webserver, either tornado or builtin
+webserver="tornado"
+
+# close topologies when no sessions are connected after this many seconds
+idle_timeout=30
+
+# primary workspace
+
+
+[hyrrokkin_options]
+
+execution_limit = 4
+in_process = false
+
+
+[skadi_options]
+
+directory_title = "Telesto Directory"
+
+[skadi_options.directory_splash]
+
+title = "Telesto Directory - Loading..."
+image_url = "static/icons/telesto.svg"
+
+[skadi_options.designer_splash]
+
+title = "Telesto Designer"
+image_url = "static/icons/telesto.svg"
+
+[workspaces.test_workspace]
+
+workspace_name="Test Workspace"
+workspace_description="Test Workspace Description"
+workspace_path="test_workspace_folder"
+
+# specify import paths for each topology package to load
+packages = ["telesto.example_packages.textgraph"]
+
+[workspaces.test_workspace.templates.demo]
+
+name = "Demo Topology"
+description = "A simple demonstration topology"
+import_path = "telesto.example_packages.numbergraph.topologies.demo_topology.zip"
+
+[workspaces.test_workspace.skadi_options]
+
+directory_title = "Telesto Directory"
+
+[workspaces.test_workspace.skadi_options.directory_splash]
+
+title = "Telesto Directory - Loading..."
+image_url = "static/icons/telesto.svg"
+
+[workspaces.test_workspace.skadi_options.designer_splash]
+
+title = "Telesto Designer"
+image_url = "static/icons/telesto.svg"
+
+
+# [application.abc]
+# name="Test Application"
+# description="Test Application Description"
+# topology_id="example-topology"
+# shared=false
+# application_package="telesto.custom_apps.demo_auto_tile"
+
+
+
+
