@@ -1,0 +1,82 @@
+Metadata-Version: 2.2
+Name: brepmatching
+Version: 0.1.10
+Summary: Topology matching using brepmatching and Femtet.
+Author-email: pyfemtet <148934231+pyfemtet@users.noreply.github.com>
+License: Software License Agreement (MIT License)
+        
+        Copyright 2024- pyfemtet All rights reserved.
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+License-File: LICENSES_OSS.txt
+Requires-Dist: torch<3,>=2.5.1
+Requires-Dist: torch-geometric<3,>=2.6.1
+Requires-Dist: pytorch-lightning<3,>=2.4.0
+Requires-Dist: numpy<3.0.0,>=2.0.0
+Requires-Dist: pandas<3.0.0,>=2.2.3
+Requires-Dist: scipy<2.0.0,>=1.14.1
+Requires-Dist: scikit-learn<2.0.0,>=1.6.0
+Requires-Dist: tqdm<5.0.0,>=4.66.5
+Requires-Dist: dotmap<2.0.0,>=1.3.30
+Requires-Dist: xxhash<4.0.0,>=3.5.0
+Requires-Dist: parse<2.0.0,>=1.20.2
+Requires-Dist: pywin32<307; sys_platform == "win32" and python_version < "3.13"
+Requires-Dist: pywin32>=309; sys_platform == "win32" and python_version >= "3.13"
+Requires-Dist: femtetutils>=1.0.0; sys_platform == "win32"
+
+# BRepMatching-Femtet
+
+## About This Library
+BRepMatching-Femtet is a library that assigns permanent IDs to the topology of two Parasolid files and estimates their correspondence. This library is derived from [BRepMatching](https://github.com/deGravity/BRepMatching) (written by deGravity (Ben Jones)) that is the implementation of the paper[1].
+
+
+## Installation
+You can install it via pip:
+
+```pip install brepmatching-femtet```
+
+Please note that a licensed version of Femtet is required for this library to function properly.
+
+
+## License
+This library is licensed under the MIT License.
+It utilizes Eigen 3.4.0, which can be obtained from [this site](https://eigen.tuxfamily.org/index.php?title=Main_Page).
+
+
+## Usage
+
+```python
+from brepmatching.pyfemtet_scripts import Predictor
+from win32com.client import Dispatch
+
+# get Femtet control
+Femtet = Dispatch('FemtetMacro.Femtet')
+
+# initialize (create temporary foldere and child process)
+predictor = Predictor(Femtet)
+
+# predict
+id_map: dict = predictor.predict(
+    'orig.x_t',
+    'var.x_t',
+)
+
+# finalize (delete temporary folder and terminate child process)
+del predictor
+
+```
+
+## Development
+The editable mode install is currently not supported.
+Please run `pip install -U .` to apply your code to the environment.
+
+
+## References
+[1] B-rep Matching for Collaborating Across CAD Systems,  
+[https://doi.org/10.48550/arXiv.2306.03169](https://doi.org/10.48550/arXiv.2306.03169)
