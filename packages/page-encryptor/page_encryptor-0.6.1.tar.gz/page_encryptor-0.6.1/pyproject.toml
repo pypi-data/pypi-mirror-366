@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "page-encryptor"
+version = "0.6.1"
+description = "Offline HTML encryption with in-browser decryption, inspired by PageCrypt"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+  {name = "Carlos Asmat"},
+]
+dependencies = [
+  "pycryptodome>=3.23.0"
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/sotilrac/page-encryptor"
+
+[project.scripts]
+page-encryptor = "page_encryptor.encryptor:main"
+
+[tool.setuptools.package-data]
+"page_encryptor" = ["templates/decryptor_template.html"]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pre-commit",
+    "ruff",
+    "pytest",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+fixable = ["ALL"]
+
+[tool.ruff]
+line-length = 109
+target-version = "py311"
