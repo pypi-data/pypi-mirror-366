@@ -1,0 +1,20 @@
+[project]
+name = "minitonupot"
+version = "0.0.1"
+description = "Mini potenciador de Minitonu que mejora capacidades clave en un 15-20%."
+authors = [
+    { name = "Luis Fernando Montaño", email = "gachaprimosxd128@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+dependencies = [
+    "minitonu>=0.0.1.1b1", # minipot depende de minitonu
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/minipot"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
