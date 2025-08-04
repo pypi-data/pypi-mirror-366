@@ -1,0 +1,112 @@
+Metadata-Version: 2.4
+Name: machine-sdk
+Version: 0.1.2
+Summary: SDK for interacting with Machine AI platform
+Author-email: Your Name <your.email@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/rossman22590/machine-sdk
+Project-URL: Documentation, https://github.com/rossman22590/machine-sdk#readme
+Project-URL: Bug_Tracker, https://github.com/rossman22590/machine-sdk/issues
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: asyncio>=3.4.3
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: fastmcp>=2.10.6
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: fastapi>=0.68.0
+Requires-Dist: uvicorn>=0.15.0
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: python-multipart>=0.0.5
+Requires-Dist: sqlalchemy>=1.4.0
+Requires-Dist: alembic>=1.7.0
+Requires-Dist: asyncpg>=0.24.0
+Requires-Dist: sqlmodel>=0.0.6
+Requires-Dist: python-jose[cryptography]>=3.3.0
+Requires-Dist: passlib[bcrypt]>=1.7.4
+Provides-Extra: dev
+Requires-Dist: pytest>=6.2.5; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.15.1; extra == "dev"
+Requires-Dist: black>=21.12b0; extra == "dev"
+Requires-Dist: isort>=5.10.1; extra == "dev"
+Requires-Dist: mypy>=0.910; extra == "dev"
+
+# Machine SDK
+
+[![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://python.org)
+
+A Python SDK that enables you to create, manage, and interact with AI agents on [Suna](https://suna.so).
+
+## 📦 Installation
+
+Install directly from the GitHub repository:
+
+```bash
+pip install "machine-sdk @ git+https://github.com/rossman22590/machine-sdk.git@main#subdirectory=sdk"
+```
+
+Or using uv:
+
+```bash
+uv add "machine-sdk @ git+https://github.com/rossman22590/machine-sdk.git@main#subdirectory=sdk"
+```
+
+## 🔧 Quick Start
+
+```python
+import asyncio
+from Machine import Machine
+
+async def main():
+    mcp_tools = Machine.MCPTools(
+        "http://localhost:4000/mcp/",  # Point to any HTTP MCP server
+        "Machine",
+    )
+    await mcp_tools.initialize()
+
+    # Initialize the client
+    client = Machine.Machine(api_key="your-api-key")
+
+    # Create an agent
+    agent = await client.Agent.create(
+        name="My Assistant",
+        system_prompt="You are a helpful AI assistant.",
+        mcp_tools=[mcp_tools],
+        allowed_tools=["get_wind_direction"],
+    )
+
+    # Create a conversation thread
+    thread = await client.Thread.create()
+
+    # Run the agent
+    run = await agent.run("Hello, how are you?", thread)
+
+    # Stream the response
+    stream = await run.get_stream()
+    async for chunk in stream:
+        print(chunk, end="")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## 🔑 Environment Setup
+
+Get your API key from [https://machine.myapps.ai/settings/api-keys](https://machine.myapps.ai/settings/api-keys)
+
+## 🧪 Running Examples
+
+```bash
+# Install dependencies
+uv sync
+
+# Run the main example
+PYTHONPATH=$(pwd) uv run example/example.py
+```
