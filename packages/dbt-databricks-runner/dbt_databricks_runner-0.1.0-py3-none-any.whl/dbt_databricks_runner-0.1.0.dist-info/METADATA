@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: dbt-databricks-runner
+Version: 0.1.0
+Summary: Add your description here
+Author-email: Lance Aven Sy <lpsy@smart.com.ph>
+Requires-Python: >=3.12
+Requires-Dist: click>=8.2.1
+Requires-Dist: databricks-connect==16.4.0
+Requires-Dist: databricks-sdk[notebook]>=0.58.0
+Requires-Dist: dbt-core>=1.10.6
+Requires-Dist: dbt-spark-dbx-compat==1.9.2
+Requires-Dist: dotenv>=0.9.9
+Requires-Dist: ipykernel>=6.29.5
+Requires-Dist: pip>=25.1.1
+Description-Content-Type: text/markdown
+
+## Overview
+
+This repository contains the dbt-runner to run dbt-spark on Databricks through:
+- VSCode extension for local development
+- Deployed with Databricks Job Clusters using spark session.
+
+---
+
+## Prerequisites
+
+Before setting up, ensure you have the following tools installed:
+
+- **Databricks CLI:** [Installation Guide](https://docs.databricks.com/aws/en/dev-tools/cli/install)
+- **VSCode Databricks Extension:** Available via VSCode marketplace.
+- **uv:** [Installation Guide](https://docs.astral.sh/uv/getting-started/installation/)
+
+---
+## Set-Up Instructions
+
+1. **Install this repository with pip/uv**
+
+3. **Configure Databricks CLI:**
+    - Run `databricks configure --token` and follow prompts to set up authentication.
+4. **Set up DBT profiles:**
+    - Create or update your `~/.dbt/profiles.yml` with your Databricks connection details.
+5. **Run feature preparation pipelines:**
+    - Use `uv run dbt run` to execute pipelines.
+    - Use `uv run dbt test` to validate models.
+
+---
