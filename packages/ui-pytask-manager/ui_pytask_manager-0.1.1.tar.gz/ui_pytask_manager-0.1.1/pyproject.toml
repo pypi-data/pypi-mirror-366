@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ui-pytask-manager"
+version = "0.1.1"
+description = "A GUI application for scheduling Python scripts"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "apscheduler>=3.0",
+    "tkcalendar>=1.0",
+    "sv-ttk>=1.0",
+    "darkdetect>=0.2",
+]
+
+[project.scripts]
+script-scheduler = "script_scheduler.scheduler_ui:main"
+scheduler_ui = "script_scheduler.scheduler_ui:main"
