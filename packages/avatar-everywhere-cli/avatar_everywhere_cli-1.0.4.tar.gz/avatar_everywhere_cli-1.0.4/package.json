@@ -1,0 +1,42 @@
+{
+    "name": "avatar-everywhere-cli",
+    "version": "1.0.4",
+    "description": "Avatar Everywhere CLI - Portable Sandbox Identity Toolkit",
+    "main": "wallet/verify_owner.js",
+    "scripts": {
+      "install-deps": "npm install",
+      "verify": "node wallet/verify_owner.js",
+      "verify-wc": "node wallet/verify_walletconnect.js",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "echo \"Building Avatar Everywhere CLI\"",
+      "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+      "sandbox",
+      "avatar",
+      "nft",
+      "vrm",
+      "metaverse",
+      "polygon",
+      "walletconnect"
+    ],
+    "author": "Abdulkareem Oyeneye/Dapps over Apps.",
+    "license": "MIT",
+    "dependencies": {
+      "ethers": "^6.8.1",
+      "@walletconnect/modal": "^2.6.2",
+      "@web3modal/ethereum": "^2.7.1",
+      "@web3modal/wagmi": "^3.5.7",
+      "wagmi": "^1.4.13"
+    },
+    "devDependencies": {
+      "@types/node": "^20.8.0"
+    },
+    "engines": {
+      "node": ">=16.0.0"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Supercoolkayy/avatar-everywhere-cli"
+    }
+}
