@@ -1,0 +1,148 @@
+{% load static %}
+
+<style>
+/*--------------------------------------------------------------
+# Contact
+--------------------------------------------------------------*/
+.contact {
+  padding-top: 5px;
+}
+.contact .info {
+  width: 100%;
+  background: #fff;
+}
+.contact .info i {
+  font-size: 20px;
+  color: #5fcf80;
+  float: left;
+  width: 44px;
+  height: 44px;
+  background: #ecf9f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+}
+.contact .info h4 {
+  padding: 0 0 0 60px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #37423b;
+}
+.contact .info p {
+  padding: 0 0 0 60px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #657a6d;
+}
+.contact .info .noti, .contact .info .phone {
+  margin-top: 40px;
+}
+.contact .info .noti:hover i, .contact .info .address:hover i, .contact .info .phone:hover i {
+  background: #5fcf80;
+  color: #fff;
+}
+</style>
+
+<!-- ======= Breadcrumbs ======= -->
+<div class="breadcrumbs" data-aos="fade-in">
+  <div class="container">
+    <h2>Contact Us</h2>
+    {% autoescape off %}
+    <p>{{ contact.desc }}</p>
+    {% endautoescape %}
+  </div>
+</div>
+<!-- End Breadcrumbs -->
+
+<section id="contact" class="contact">
+  {% if contact.google_map %}
+  <div data-aos="fade-up">
+    <iframe style="border:0; width: 100%; height: 350px;" src="{{ contact.google_map }}" frameborder="0" allowfullscreen></iframe>
+  </div>
+  {% endif %}
+
+  <div class="container" data-aos="fade-up">
+    <div class="row mt-5">
+      <div class="col-lg-4">
+        <div class="info">
+          <div class="address">
+            <i class="bi bi-geo-alt"></i>
+            <h4>Location:</h4>
+            {% autoescape off%}
+            <p>{{ contact.address }}</p>
+            {% endautoescape %}
+          </div>
+          <div class="phone">
+            <i class="bi bi-phone"></i>
+            <h4>Call:</h4>
+            <a href='tel:{{ contact.phone }}' onclick="call_gtag_report_conversion('tel:{{ contact.phone }}')"><p>{{ contact.phone }}</p></a>
+          </div>
+          <div class="noti">
+            {% if contact.noti.title|capfirst == "Email" %}
+            <i class="bi bi-envelope"></i>
+            {% else %}
+            <i class="bi bi-chat-square-text"></i>
+            {% endif %}
+            <h4>{{ contact.noti.title }}:</h4>
+            {% for desc in contact.noti.desc %}
+              <p>{{ desc | safe }}</p>
+            {% endfor %}
+            {% if contact.noti.image %}
+            <img src="{% static 'mentor/img/contact/'|add:contact.noti.image %}" class="img-fluid rounded" alt="">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8 mt-5 mt-lg-0">
+        {% block appointment %}
+        <style>
+          .naver-btn {
+          background: #2DB400;
+          border: 0;
+          padding: 10px 25px;
+
+          color: #ffffff;
+          transition: 0.45s;
+          border-radius: 50px;
+        }
+        </style>
+
+        <form action="{% url 'mentor:home' %}" method="POST" role="form" class="php-email-form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-4 form-group">
+              {{ form.name }}
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+              {{ form.phone }}
+            </div>
+            <div class="col-md-4 form-group mt-3 mt-md-0">
+              {{ form.date }}
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            {{ form.message }}
+          </div>
+          {% if post_message %}
+          <div class="mb-3">
+            <div class="alert alert-success alert-dismissible fade show " role="alert">
+              {{ post_message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          {% endif %}
+          <div class="d-flex justify-content-end">
+            <button type="submit">예약하기</button>
+          </div>
+        </form>
+        <!-- End Appointment Section -->
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</section>
+

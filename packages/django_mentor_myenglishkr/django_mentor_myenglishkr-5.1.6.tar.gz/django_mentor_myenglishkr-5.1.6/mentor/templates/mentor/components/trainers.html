@@ -1,0 +1,34 @@
+{% load static %}
+
+<section id="trainers" class="trainers">
+  <div class="container" data-aos="fade-up">
+    <div class="row" data-aos="zoom-in" data-aos-delay="100">
+    {% for member in trainers.members %}
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <div class="member">
+          {% cycle 'member1' 'member2' 'member3' 'member4' 'member5' 'member6' as member_dir silent %}
+          <img src="{% static 'mentor/img/members/'|add:member_dir|add:'/profile.jpg' %}" class="img-fluid" alt="">
+          <div class="member-content">
+            <h4>{{ member.name }}</h4>
+            <span>{{ member.title }}</span>
+            {% if trainers.type == "desc" %}
+              <p>{{ member.desc }}</p>
+            {% else %}
+              {% for p in member.career %}
+                <p>{{ p }}</p>
+              {% endfor %}
+            {% endif %}
+            <div class="social">
+              {% for name, addr in member.social.items %}
+                {% if addr != "" %}
+                <a href="{{ addr }}"><i class="bi bi-{{ name }}"></i></a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
