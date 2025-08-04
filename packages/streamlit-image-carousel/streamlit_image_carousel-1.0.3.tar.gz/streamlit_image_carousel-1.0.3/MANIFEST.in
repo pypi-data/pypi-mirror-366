@@ -1,0 +1,17 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include requirements.txt
+include pyproject.toml
+
+recursive-include streamlit_image_carousel/frontend/build *
+
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude node_modules
+global-exclude .git
+global-exclude .gitignore
+global-exclude .env
+global-exclude .venv
+global-exclude venv 
