@@ -1,0 +1,33 @@
+Metadata-Version: 2.2
+Name: maxtorch
+Version: 0.1.0
+Summary: High-level PyTorch modules
+Home-page: https://github.com/Bosegluon2/maxtorch
+Author: Bosegluon
+Author-email: bosegluon@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=2.6.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# maxtorch
+
+maxtorch is a high-level module library based on PyTorch 2.6, collecting commonly used modules in deep learning such as ResidualBlock and UNet that are not directly provided by official PyTorch. It helps you quickly build complex neural network architectures.
+
+## Installation
+
+```bash
+pip install maxtorch
+```
