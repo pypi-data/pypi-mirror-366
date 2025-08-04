@@ -1,0 +1,430 @@
+Metadata-Version: 2.4
+Name: rs_audio_stats
+Version: 1.3.9
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Multimedia :: Sound/Audio :: Analysis
+Summary: High-performance audio analysis library with EBU R128 loudness measurement, powered by Rust
+Keywords: audio,loudness,ebu-r128,analysis,normalization
+Home-Page: https://pypi.org/project/rs-audio-stats/
+Author: Hiroshi Tamura
+Requires-Python: >=3.10, <3.13
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://pypi.org/project/rs-audio-stats/
+Project-URL: Documentation, https://github.com/hiroshi-tamura/rs_audio_stats/blob/main/lib_python/API_REFERENCE_JP.md
+Project-URL: GitHub, https://github.com/hiroshi-tamura/rs_audio_stats
+
+# rs_audio_stats
+
+高性能オーディオ分析ライブラリ - EBU R128ラウドネス測定、Rustによる高速処理
+
+## 概要
+
+rs_audio_statsは、プロフェッショナルグレードのオーディオ分析ツールです。EBU R128標準に準拠したラウドネス測定と、高精度なオーディオノーマライゼーション機能を提供します。Rustで実装されており、高速かつ効率的な処理が可能です。
+
+### 主な特徴
+
+- **EBU R128準拠**: 業界標準のラウドネス測定アルゴリズム
+- **高速処理**: Rustによる最適化された実装
+- **包括的な分析**: 統合ラウドネス、短期ラウドネス、瞬間ラウドネス、ラウドネスレンジ、トゥルーピーク、RMS値の測定
+- **ノーマライゼーション**: 様々な基準でのオーディオノーマライゼーション
+- **バッチ処理**: 複数ファイルの一括分析
+- **多形式対応**: WAV、MP3、FLAC、AAC、OGG等、様々なオーディオフォーマットをサポート
+- **エクスポート機能**: CSV、TSV、JSON、XML形式での結果エクスポート
+
+## インストール
+
+### pipを使用したインストール
+
+```bash
+pip install rs-audio-stats
+```
+
+### 要件
+
+- Python 3.10以上、3.12以下
+- Windows、macOS、Linuxをサポート
+
+## クイックスタート
+
+### 基本的な使用方法
+
+```python
+import rs_audio_stats
+
+# オーディオファイルの分析
+audio_info, results = rs_audio_stats.analyze_audio(
+    "audio.wav",
+    integrated_loudness=True,
+    true_peak=True
+)
+
+print(f"統合ラウドネス: {results.integrated_loudness} LUFS")
+print(f"トゥルーピーク: {results.true_peak} dBFS")
+
+# ターゲットLUFSレベルへのノーマライゼーション
+rs_audio_stats.normalize_to_lufs("input.wav", -16.0, "output.wav")
+
+# ディレクトリ内の全オーディオファイルを分析
+results = rs_audio_stats.batch_analyze_directory(
+    "audio_folder",
+    integrated_loudness=True,
+    true_peak=True
+)
+```
+
+## 主要機能
+
+### 1. オーディオ分析
+
+#### analyze_audio()
+個別のオーディオファイルを分析します。
+
+```python
+audio_info, results = rs_audio_stats.analyze_audio(
+    file_path="audio.wav",
+    integrated_loudness=True,  # 統合ラウドネス測定
+    short_term_loudness=True,  # 短期ラウドネス測定
+    momentary_loudness=True,   # 瞬間ラウドネス測定
+    loudness_range=True,       # ラウドネスレンジ測定
+    true_peak=True,            # トゥルーピーク測定
+    rms_max=True,              # 最大RMS測定
+    rms_average=True           # 平均RMS測定
+)
+```
+
+#### analyze_audio_all()
+全ての測定項目を一度に分析します。
+
+```python
+audio_info, results = rs_audio_stats.analyze_audio_all("audio.wav")
+```
+
+### 2. ノーマライゼーション
+
+#### 統合ラウドネスノーマライゼーション
+```python
+rs_audio_stats.normalize_integrated_loudness(
+    input_path="input.wav",
+    target_lufs=-16.0,  # ターゲットLUFS
+    output_path="output.wav"
+)
+```
+
+#### トゥルーピークノーマライゼーション
+```python
+rs_audio_stats.normalize_true_peak(
+    input_path="input.wav",
+    target_dbfs=-1.0,  # ターゲットdBFS
+    output_path="output.wav"
+)
+```
+
+#### 短期ラウドネスノーマライゼーション
+```python
+rs_audio_stats.normalize_short_term_loudness(
+    input_path="input.wav",
+    target_lufs=-18.0,
+    output_path="output.wav"
+)
+```
+
+#### 瞬間ラウドネスノーマライゼーション
+```python
+rs_audio_stats.normalize_momentary_loudness(
+    input_path="input.wav",
+    target_lufs=-15.0,
+    output_path="output.wav"
+)
+```
+
+### 3. バッチ処理
+
+#### ディレクトリ一括分析
+```python
+results = rs_audio_stats.batch_analyze_directory(
+    directory_path="audio_folder",
+    integrated_loudness=True,
+    short_term_loudness=True,
+    true_peak=True
+)
+
+for file_path, (audio_info, analysis_results) in results.items():
+    print(f"{file_path}:")
+    print(f"  ラウドネス: {analysis_results.integrated_loudness} LUFS")
+    print(f"  ピーク: {analysis_results.true_peak} dBFS")
+```
+
+#### 複数ファイルの分析
+```python
+files = ["file1.wav", "file2.mp3", "file3.flac"]
+results = rs_audio_stats.batch_analyze(
+    file_paths=files,
+    integrated_loudness=True,
+    true_peak=True
+)
+```
+
+### 4. エクスポート機能
+
+#### CSV形式でエクスポート
+```python
+rs_audio_stats.export_to_csv(
+    file_paths=["audio1.wav", "audio2.wav"],
+    output_path="results.csv",
+    integrated_loudness=True,
+    true_peak=True
+)
+```
+
+#### JSON形式でエクスポート
+```python
+rs_audio_stats.export_to_json(
+    file_paths=["audio.wav"],
+    output_path="results.json",
+    integrated_loudness=True,
+    short_term_loudness=True,
+    momentary_loudness=True,
+    loudness_range=True,
+    true_peak=True
+)
+```
+
+### 5. ユーティリティ関数
+
+#### オーディオ情報の取得
+```python
+audio_info = rs_audio_stats.get_audio_info_py("audio.wav")
+print(f"サンプルレート: {audio_info.sample_rate} Hz")
+print(f"チャンネル数: {audio_info.channels}")
+print(f"ビット深度: {audio_info.bit_depth}")
+print(f"長さ: {audio_info.duration_seconds} 秒")
+```
+
+#### ラウドネスの取得（簡易版）
+```python
+loudness = rs_audio_stats.get_loudness("audio.wav")
+print(f"ラウドネス: {loudness} LUFS")
+```
+
+#### トゥルーピークの取得（簡易版）
+```python
+peak = rs_audio_stats.get_true_peak("audio.wav")
+print(f"トゥルーピーク: {peak} dBFS")
+```
+
+#### オーディオファイルの検索
+```python
+audio_files = rs_audio_stats.find_audio_files("audio_directory")
+print(f"見つかったオーディオファイル: {len(audio_files)}個")
+```
+
+## 実用例
+
+### 例1: ポッドキャスト用オーディオの準備
+
+```python
+import rs_audio_stats
+
+# ポッドキャストの推奨レベル: -16 LUFS
+input_file = "podcast_raw.wav"
+output_file = "podcast_normalized.wav"
+
+# 現在のラウドネスを確認
+_, results = rs_audio_stats.analyze_audio(
+    input_file,
+    integrated_loudness=True,
+    true_peak=True
+)
+print(f"現在のラウドネス: {results.integrated_loudness} LUFS")
+
+# -16 LUFSにノーマライズ（トゥルーピークは-1dBFS以下を維持）
+rs_audio_stats.normalize_integrated_loudness(
+    input_file,
+    -16.0,
+    output_file
+)
+
+# ノーマライズ後の確認
+_, results = rs_audio_stats.analyze_audio(
+    output_file,
+    integrated_loudness=True,
+    true_peak=True
+)
+print(f"ノーマライズ後: {results.integrated_loudness} LUFS")
+print(f"トゥルーピーク: {results.true_peak} dBFS")
+```
+
+### 例2: アルバムのマスタリング分析
+
+```python
+import rs_audio_stats
+import os
+
+album_directory = "album_masters"
+
+# アルバム全体の分析
+results = rs_audio_stats.batch_analyze_directory(
+    album_directory,
+    integrated_loudness=True,
+    loudness_range=True,
+    true_peak=True
+)
+
+# 統計情報の計算
+loudness_values = []
+peak_values = []
+
+for file_path, (info, analysis) in results.items():
+    if analysis.integrated_loudness is not None:
+        loudness_values.append(analysis.integrated_loudness)
+    if analysis.true_peak is not None:
+        peak_values.append(analysis.true_peak)
+    
+    print(f"{os.path.basename(file_path)}:")
+    print(f"  ラウドネス: {analysis.integrated_loudness} LUFS")
+    print(f"  レンジ: {analysis.loudness_range} LU")
+    print(f"  ピーク: {analysis.true_peak} dBFS")
+
+# アルバム全体の平均
+if loudness_values:
+    avg_loudness = sum(loudness_values) / len(loudness_values)
+    max_peak = max(peak_values)
+    print(f"\nアルバム平均ラウドネス: {avg_loudness:.1f} LUFS")
+    print(f"アルバム最大ピーク: {max_peak:.1f} dBFS")
+```
+
+### 例3: ストリーミング配信用の一括処理
+
+```python
+import rs_audio_stats
+import os
+
+# Spotify推奨: -14 LUFS
+# Apple Music推奨: -16 LUFS
+# YouTube推奨: -14 LUFS
+
+def prepare_for_streaming(input_dir, output_dir, platform="spotify"):
+    targets = {
+        "spotify": -14.0,
+        "apple": -16.0,
+        "youtube": -14.0
+    }
+    
+    target_lufs = targets.get(platform, -14.0)
+    
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    # オーディオファイルを検索
+    audio_files = rs_audio_stats.find_audio_files(input_dir)
+    
+    for file_path in audio_files:
+        filename = os.path.basename(file_path)
+        output_path = os.path.join(output_dir, filename)
+        
+        print(f"処理中: {filename}")
+        
+        # ノーマライズ
+        rs_audio_stats.normalize_integrated_loudness(
+            file_path,
+            target_lufs,
+            output_path
+        )
+        
+        # 結果確認
+        _, results = rs_audio_stats.analyze_audio(
+            output_path,
+            integrated_loudness=True,
+            true_peak=True
+        )
+        
+        print(f"  → {results.integrated_loudness} LUFS, {results.true_peak} dBFS")
+    
+    print(f"\n{len(audio_files)}個のファイルを{platform}用に最適化しました")
+
+# 使用例
+prepare_for_streaming("original_audio", "spotify_ready", "spotify")
+```
+
+## データ構造
+
+### AudioInfo
+オーディオファイルの基本情報を格納します。
+
+```python
+class AudioInfo:
+    sample_rate: int        # サンプルレート (Hz)
+    channels: int           # チャンネル数
+    bit_depth: int          # ビット深度
+    duration_seconds: float # 長さ（秒）
+```
+
+### AnalysisResults
+分析結果を格納します。
+
+```python
+class AnalysisResults:
+    integrated_loudness: float | None  # 統合ラウドネス (LUFS)
+    short_term_loudness: float | None  # 短期ラウドネス (LUFS)
+    momentary_loudness: float | None   # 瞬間ラウドネス (LUFS)
+    loudness_range: float | None       # ラウドネスレンジ (LU)
+    true_peak: float | None            # トゥルーピーク (dBFS)
+    rms_max: float | None              # 最大RMS (dB)
+    rms_average: float | None          # 平均RMS (dB)
+```
+
+## サポートフォーマット
+
+- **ロスレス**: WAV, FLAC, AIFF, ALAC
+- **ロッシー**: MP3, AAC, OGG Vorbis, WMA
+- **その他**: M4A, MP4 (audio), WebM (audio)
+
+## パフォーマンス
+
+rs_audio_statsは高速処理を重視して設計されています：
+
+- **WAVファイル**: 超高速モード使用で最大10倍の処理速度
+- **並列処理**: マルチコアCPUを活用した効率的な処理
+- **メモリ効率**: ストリーミング処理による低メモリ使用量
+- **SIMD最適化**: 可能な場合はSIMD命令を使用
+
+## トラブルシューティング
+
+### インストールエラー
+```bash
+# Rustコンパイラが必要な場合
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+### メモリ不足エラー
+大きなファイルを処理する際は、チャンク処理を使用：
+
+```python
+# 大きなファイルの場合は分割処理を推奨
+# バッチ処理を使用して複数のファイルを順次処理
+```
+
+## ライセンス
+
+MITライセンス
+
+## 作者
+
+Hiroshi Tamura
+
+## リンク
+
+- [PyPI](https://pypi.org/project/rs-audio-stats/)
+- [GitHub](https://github.com/hiroshi-tamura/rs_audio_stats)
+- [ドキュメント](https://pypi.org/project/rs-audio-stats/)
+
+## サポート
+
+問題や質問がある場合は、GitHubのIssueページでお知らせください。
