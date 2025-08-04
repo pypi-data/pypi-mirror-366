@@ -1,0 +1,157 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cryptopix"
+version = "8.0.0"
+description = "Revolutionary Post-Quantum Cryptographic Library using Color Lattice Learning with Errors (CLWE)"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "CryptoPIX Team", email = "founder@cryptopix.in"}
+]
+maintainers = [
+    {name = "CryptoPIX Team", email = "founder@cryptopix.in"}
+]
+keywords = ["cryptography", "post-quantum", "lattice", "color-based", "encryption", "signatures"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20.0",
+    "pillow>=8.0.0",
+    "cryptography>=3.4.0",
+    "setuptools>=75.3.2",
+    "scipy>=1.10.1",
+    "matplotlib>=3.7.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "pytest-benchmark>=3.4.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+    "sphinx>=4.0",
+    "sphinx-rtd-theme>=1.0",
+]
+fast = [
+    "numba>=0.53.0",
+    "scipy>=1.7.0",
+]
+gpu = [
+    "cupy>=9.0.0",
+    "numba>=0.53.0",
+]
+all = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "pytest-benchmark>=3.4.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+    "sphinx>=4.0",
+    "sphinx-rtd-theme>=1.0",
+    "numba>=0.53.0",
+    "scipy>=1.7.0",
+    "cupy>=9.0.0",
+]
+
+[project.urls]
+Homepage = "https://www.cryptopix.in"
+Repository = "https://github.com/cryptopix-official/cryptopix"
+Documentation = "https://www.cryptopix.in/docs"
+"Bug Tracker" = "https://github.com/cryptopix-official/cryptopix/issues"
+Changelog = "https://github.com/cryptopix-official/cryptopix/blob/main/CHANGELOG.md"
+"Support" = "https://www.cryptopix.in/support"
+
+[project.scripts]
+cryptopix = "cryptopix.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["cryptopix*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+cryptopix = ["*.md", "examples/*.py"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "benchmark: marks tests as benchmarks",
+]
+
+[tool.coverage.run]
+source = ["cryptopix"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
