@@ -1,0 +1,17 @@
+PyYAML>=5.1
+
+[dev]
+pytest
+coverage[toml]
+psutil
+flake8
+flake8-pyproject
+pep8-naming
+
+[docs]
+Sphinx<8.2
+sphinx-notfound-page
+sphinx_autodoc_typehints==1.25.2
+sphinx-substitution-extensions
+mypy
+types-PyYAML
