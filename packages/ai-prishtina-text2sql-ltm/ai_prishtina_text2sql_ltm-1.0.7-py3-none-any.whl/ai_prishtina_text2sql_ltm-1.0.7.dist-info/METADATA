@@ -1,0 +1,524 @@
+Metadata-Version: 2.4
+Name: ai-prishtina-text2sql-ltm
+Version: 1.0.7
+Summary: Advanced Text-to-SQL library with AI features
+Home-page: https://github.com/albanmaxhuni/text2sql-ltm
+Author: Alban Maxhuni, PhD
+Author-email: info@albanmaxhuni.com
+License: Commercial
+Project-URL: Documentation, https://text2sql-ltm.readthedocs.io/
+Project-URL: Source, https://github.com/albanmaxhuni/text2sql-ltm
+Project-URL: Tracker, https://github.com/albanmaxhuni/text2sql-ltm/issues
+Project-URL: Contact, https://albanmaxhuni.com
+Keywords: text2sql,sql,natural language processing,artificial intelligence,machine learning,database,query generation,rag,multimodal,voice to sql,image to sql,sql validation,sql security,sql explanation,schema discovery,query translation,automated testing,long term memory,enterprise,production ready
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Database
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: aiofiles>=23.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: configparser>=5.3.0
+Requires-Dist: typing-extensions>=4.5.0
+Provides-Extra: ai
+Requires-Dist: openai>=1.0.0; extra == "ai"
+Requires-Dist: anthropic>=0.7.0; extra == "ai"
+Requires-Dist: tiktoken>=0.5.0; extra == "ai"
+Requires-Dist: numpy>=1.24.0; extra == "ai"
+Requires-Dist: scipy>=1.10.0; extra == "ai"
+Provides-Extra: vector
+Requires-Dist: chromadb>=0.4.0; extra == "vector"
+Requires-Dist: pinecone-client>=2.2.0; extra == "vector"
+Requires-Dist: weaviate-client>=3.20.0; extra == "vector"
+Requires-Dist: qdrant-client>=1.4.0; extra == "vector"
+Requires-Dist: faiss-cpu>=1.7.0; extra == "vector"
+Provides-Extra: memory
+Requires-Dist: mem0ai>=0.1.0; extra == "memory"
+Requires-Dist: redis>=4.5.0; extra == "memory"
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "memory"
+Requires-Dist: pymongo>=4.4.0; extra == "memory"
+Requires-Dist: sqlalchemy>=2.0.0; extra == "memory"
+Provides-Extra: multimodal
+Requires-Dist: Pillow>=10.0.0; extra == "multimodal"
+Requires-Dist: opencv-python>=4.8.0; extra == "multimodal"
+Requires-Dist: pytesseract>=0.3.10; extra == "multimodal"
+Requires-Dist: google-cloud-vision>=3.4.0; extra == "multimodal"
+Requires-Dist: azure-cognitiveservices-vision-computervision>=0.9.0; extra == "multimodal"
+Requires-Dist: boto3>=1.28.0; extra == "multimodal"
+Requires-Dist: speechrecognition>=3.10.0; extra == "multimodal"
+Requires-Dist: pydub>=0.25.0; extra == "multimodal"
+Provides-Extra: security
+Requires-Dist: cryptography>=41.0.0; extra == "security"
+Requires-Dist: PyJWT>=2.8.0; extra == "security"
+Requires-Dist: bcrypt>=4.0.0; extra == "security"
+Requires-Dist: passlib>=1.7.0; extra == "security"
+Provides-Extra: monitoring
+Requires-Dist: prometheus-client>=0.17.0; extra == "monitoring"
+Requires-Dist: structlog>=23.1.0; extra == "monitoring"
+Requires-Dist: opentelemetry-api>=1.18.0; extra == "monitoring"
+Requires-Dist: opentelemetry-sdk>=1.18.0; extra == "monitoring"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.11.0; extra == "dev"
+Requires-Dist: black>=23.7.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.5.0; extra == "dev"
+Requires-Dist: pre-commit>=3.3.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs>=1.5.0; extra == "docs"
+Requires-Dist: mkdocs-material>=9.1.0; extra == "docs"
+Requires-Dist: mkdocstrings>=0.22.0; extra == "docs"
+Requires-Dist: mkdocs-jupyter>=0.24.0; extra == "docs"
+Provides-Extra: all
+Requires-Dist: openai>=1.0.0; extra == "all"
+Requires-Dist: anthropic>=0.7.0; extra == "all"
+Requires-Dist: tiktoken>=0.5.0; extra == "all"
+Requires-Dist: numpy>=1.24.0; extra == "all"
+Requires-Dist: scipy>=1.10.0; extra == "all"
+Requires-Dist: chromadb>=0.4.0; extra == "all"
+Requires-Dist: pinecone-client>=2.2.0; extra == "all"
+Requires-Dist: weaviate-client>=3.20.0; extra == "all"
+Requires-Dist: qdrant-client>=1.4.0; extra == "all"
+Requires-Dist: faiss-cpu>=1.7.0; extra == "all"
+Requires-Dist: mem0ai>=0.1.0; extra == "all"
+Requires-Dist: redis>=4.5.0; extra == "all"
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "all"
+Requires-Dist: pymongo>=4.4.0; extra == "all"
+Requires-Dist: sqlalchemy>=2.0.0; extra == "all"
+Requires-Dist: Pillow>=10.0.0; extra == "all"
+Requires-Dist: opencv-python>=4.8.0; extra == "all"
+Requires-Dist: pytesseract>=0.3.10; extra == "all"
+Requires-Dist: google-cloud-vision>=3.4.0; extra == "all"
+Requires-Dist: azure-cognitiveservices-vision-computervision>=0.9.0; extra == "all"
+Requires-Dist: boto3>=1.28.0; extra == "all"
+Requires-Dist: speechrecognition>=3.10.0; extra == "all"
+Requires-Dist: pydub>=0.25.0; extra == "all"
+Requires-Dist: cryptography>=41.0.0; extra == "all"
+Requires-Dist: PyJWT>=2.8.0; extra == "all"
+Requires-Dist: bcrypt>=4.0.0; extra == "all"
+Requires-Dist: passlib>=1.7.0; extra == "all"
+Requires-Dist: prometheus-client>=0.17.0; extra == "all"
+Requires-Dist: structlog>=23.1.0; extra == "all"
+Requires-Dist: opentelemetry-api>=1.18.0; extra == "all"
+Requires-Dist: opentelemetry-sdk>=1.18.0; extra == "all"
+Provides-Extra: full
+Requires-Dist: openai>=1.0.0; extra == "full"
+Requires-Dist: anthropic>=0.7.0; extra == "full"
+Requires-Dist: tiktoken>=0.5.0; extra == "full"
+Requires-Dist: numpy>=1.24.0; extra == "full"
+Requires-Dist: scipy>=1.10.0; extra == "full"
+Requires-Dist: chromadb>=0.4.0; extra == "full"
+Requires-Dist: pinecone-client>=2.2.0; extra == "full"
+Requires-Dist: weaviate-client>=3.20.0; extra == "full"
+Requires-Dist: qdrant-client>=1.4.0; extra == "full"
+Requires-Dist: faiss-cpu>=1.7.0; extra == "full"
+Requires-Dist: mem0ai>=0.1.0; extra == "full"
+Requires-Dist: redis>=4.5.0; extra == "full"
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "full"
+Requires-Dist: pymongo>=4.4.0; extra == "full"
+Requires-Dist: sqlalchemy>=2.0.0; extra == "full"
+Requires-Dist: Pillow>=10.0.0; extra == "full"
+Requires-Dist: opencv-python>=4.8.0; extra == "full"
+Requires-Dist: pytesseract>=0.3.10; extra == "full"
+Requires-Dist: google-cloud-vision>=3.4.0; extra == "full"
+Requires-Dist: azure-cognitiveservices-vision-computervision>=0.9.0; extra == "full"
+Requires-Dist: boto3>=1.28.0; extra == "full"
+Requires-Dist: speechrecognition>=3.10.0; extra == "full"
+Requires-Dist: pydub>=0.25.0; extra == "full"
+Requires-Dist: cryptography>=41.0.0; extra == "full"
+Requires-Dist: PyJWT>=2.8.0; extra == "full"
+Requires-Dist: bcrypt>=4.0.0; extra == "full"
+Requires-Dist: passlib>=1.7.0; extra == "full"
+Requires-Dist: prometheus-client>=0.17.0; extra == "full"
+Requires-Dist: structlog>=23.1.0; extra == "full"
+Requires-Dist: opentelemetry-api>=1.18.0; extra == "full"
+Requires-Dist: opentelemetry-sdk>=1.18.0; extra == "full"
+Requires-Dist: pytest>=7.4.0; extra == "full"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "full"
+Requires-Dist: pytest-cov>=4.1.0; extra == "full"
+Requires-Dist: pytest-mock>=3.11.0; extra == "full"
+Requires-Dist: black>=23.7.0; extra == "full"
+Requires-Dist: isort>=5.12.0; extra == "full"
+Requires-Dist: flake8>=6.0.0; extra == "full"
+Requires-Dist: mypy>=1.5.0; extra == "full"
+Requires-Dist: pre-commit>=3.3.0; extra == "full"
+Requires-Dist: mkdocs>=1.5.0; extra == "full"
+Requires-Dist: mkdocs-material>=9.1.0; extra == "full"
+Requires-Dist: mkdocstrings>=0.22.0; extra == "full"
+Requires-Dist: mkdocs-jupyter>=0.24.0; extra == "full"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: platform
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# AI Prishtina - Text2SQL-LTM: a Professional Text-to-SQL Library
+
+[![PyPI version](https://badge.fury.io/py/ai-prishtina-text2sql-ltm.svg)](https://badge.fury.io/py/ai-prishtina-text2sql-ltm)
+[![Total Downloads](https://static.pepy.tech/badge/ai-prishtina-text2sql-ltm)](https://pepy.tech/project/ai-prishtina-text2sql-ltm)
+[![Monthly Downloads](https://static.pepy.tech/badge/ai-prishtina-text2sql-ltm/month)](https://pepy.tech/project/ai-prishtina-text2sql-ltm)
+[![Weekly Downloads](https://static.pepy.tech/badge/ai-prishtina-text2sql-ltm/week)](https://pepy.tech/project/ai-prishtina-text2sql-ltm)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/ai-prishtina-text2sql-ltm.svg)](https://pypi.org/project/ai-prishtina-text2sql-ltm/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: Commercial](https://img.shields.io/badge/License-Commercial-red.svg)](#license)
+[![Tests](https://img.shields.io/badge/tests-passing-green.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)](tests/)
+
+## 📊 Download Statistics
+
+![Total Downloads](https://img.shields.io/badge/dynamic/json?color=blue&label=Total%20Downloads&query=total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fv2%2Fprojects%2Fai-prishtina-text2sql-ltm)
+![Monthly Downloads](https://img.shields.io/badge/dynamic/json?color=green&label=Monthly%20Downloads&query=downloads.last_month&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fv2%2Fprojects%2Fai-prishtina-text2sql-ltm)
+
+**Growing adoption by developers worldwide!** 🌍
+
+## ☕ Support This Project
+
+If you find this project helpful, please consider supporting it:
+
+[![Donate](https://img.shields.io/badge/Donate-coff.ee%2Falbanmaxhuni-yellow.svg)](https://coff.ee/albanmaxhuni)
+
+**AI PRISHTINA - Text2SQL-LTM** is a comprehensive Text-to-SQL library, featuring cutting-edge AI capabilities. Built with production-ready architecture and to push the boundaries of what's possible in natural language to SQL conversion.
+
+## 🌟 Revolutionary Features
+
+### 🧠 **RAG-Enhanced Query Generation**
+- **Vector-based knowledge retrieval** with semantic search
+- **Schema-aware context augmentation** for intelligent SQL generation  
+- **Query pattern learning** from successful executions
+- **Adaptive retrieval strategies** that improve over time
+- **Knowledge fusion** across different data sources
+
+### 🔍 **AI-Powered SQL Validation & Auto-Correction**
+- **Intelligent syntax validation** with automatic error fixing
+- **Security vulnerability detection** and prevention
+- **Performance optimization suggestions** with impact analysis
+- **Cross-platform compatibility checking**
+- **Best practice enforcement** with educational feedback
+
+### 🎓 **Intelligent Query Explanation & Teaching System**
+- **Step-by-step query breakdown** with visual execution flow
+- **Adaptive explanations** based on user expertise level
+- **Interactive learning modes** with guided practice
+- **Personalized learning paths** with progress tracking
+- **Real-time teaching assistance** for SQL education
+
+### 🔍 **Automated Schema Discovery & Documentation**
+- **AI-powered relationship inference** between tables
+- **Column purpose detection** using pattern recognition
+- **Data quality assessment** with improvement suggestions
+- **Auto-generated documentation** in multiple formats
+- **Business rule extraction** from data patterns
+
+### 🔒 **Advanced Security Analysis**
+- **SQL injection detection** with real-time prevention
+- **Privilege escalation monitoring** and alerts
+- **Data exposure analysis** with compliance checking (GDPR, PCI DSS, SOX)
+- **Vulnerability scanning** with remediation guidance
+- **Security best practice validation**
+
+### 🌐 **Cross-Platform Query Translation**
+- **Intelligent dialect conversion** between 8+ database platforms
+- **Syntax optimization** for target platforms
+- **Compatibility analysis** with migration guidance
+- **Performance tuning** for specific database engines
+- **Feature mapping** across different SQL dialects
+
+### 🧪 **Automated Test Case Generation**
+- **Comprehensive test suite creation** for SQL queries
+- **Edge case detection** and test generation
+- **Performance test automation** with benchmarking
+- **Security test scenarios** for vulnerability assessment
+- **Data validation testing** with constraint checking
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+pip install ai-prishtina-text2sql-ltm
+```
+
+### 30-Second Setup
+
+```python
+import asyncio
+from text2sql_ltm import create_simple_agent, Text2SQLSession
+
+async def main():
+    # Just provide your API key - everything else uses smart defaults
+    agent = create_simple_agent(api_key="your_openai_key")
+    
+    async with Text2SQLSession(agent) as session:
+        result = await session.query(
+            "Show me the top 10 customers by revenue this year",
+            user_id="user123"
+        )
+        
+        print(f"Generated SQL: {result.sql}")
+        print(f"Confidence: {result.confidence}")
+        print(f"Explanation: {result.explanation}")
+
+asyncio.run(main())
+```
+
+### Feature-Rich Setup
+
+```python
+# Enable advanced features with simple flags
+agent = create_simple_agent(
+    api_key="your_openai_key",
+    enable_rag=True,                    # Vector-enhanced generation
+    enable_security_analysis=True,      # Security scanning
+    enable_explanation=True,            # AI teaching
+    enable_test_generation=True         # Automated testing
+)
+```
+
+### Production Configuration
+
+```python
+from text2sql_ltm import create_integrated_agent
+
+# Load from configuration file
+agent = create_integrated_agent(config_file="config/production.yaml")
+
+# Or use configuration dictionary
+agent = create_integrated_agent(config_dict={
+    "memory": {
+        "storage_backend": "postgresql",
+        "storage_url": "postgresql://user:pass@localhost/db"
+    },
+    "agent": {
+        "llm_provider": "openai",
+        "llm_model": "gpt-4",
+        "llm_api_key": "your_api_key"
+    },
+    "ai_features": {
+        "enable_rag": True,
+        "enable_validation": True,
+        "enable_multimodal": True,
+        "enable_security_analysis": True
+    }
+})
+```
+
+## 🎯 Advanced Examples
+
+### Security Analysis
+
+```python
+# Comprehensive security analysis
+security_result = await agent.security_analyzer.analyze_security(
+    query="SELECT * FROM users WHERE id = ?",
+    user_id="user123",
+    context={"user_input": True}
+)
+
+print(f"Security Score: {security_result.risk_score}/10")
+print(f"Vulnerabilities: {len(security_result.vulnerabilities)}")
+print(f"Compliance: {security_result.compliance_status}")
+```
+
+### Cross-Platform Translation
+
+```python
+# Translate between database dialects
+translation_result = await agent.query_translator.translate_query(
+    query="SELECT TOP 10 * FROM users",
+    source_dialect="sqlserver",
+    target_dialect="postgresql",
+    optimize_for_target=True
+)
+
+print(f"Original: {translation_result.original_query}")
+print(f"Translated: {translation_result.translated_query}")
+print(f"Compatibility: {translation_result.compatibility}")
+```
+
+### Automated Testing
+
+```python
+# Generate comprehensive test suite
+test_suite = await agent.test_generator.generate_test_suite(
+    query="SELECT name, COUNT(*) FROM users GROUP BY name",
+    schema=schema_info,
+    test_types=["functional", "edge_case", "performance", "security"]
+)
+
+print(f"Generated {len(test_suite.test_cases)} test cases")
+```
+
+## 🏗️ Architecture
+
+Text2SQL-LTM features a modular, production-ready architecture:
+
+```
+text2sql_ltm/
+├── core/                 # Core engine and interfaces
+├── memory/              # Long-term memory system
+├── rag/                 # RAG components
+│   ├── retriever.py     # Main RAG retriever
+│   ├── schema_rag.py    # Schema-specific RAG
+│   ├── query_rag.py     # Query pattern RAG
+│   └── adaptive_rag.py  # Self-improving RAG
+├── ai_features/         # Advanced AI features
+│   ├── sql_validator.py      # AI-powered validation
+
+│   ├── explainer.py          # Intelligent explanation
+│   ├── schema_discovery.py   # Schema analysis
+│   ├── query_translator.py   # Cross-platform translation
+│   ├── security_analyzer.py  # Security analysis
+│   └── test_generator.py     # Test automation
+└── integrations/        # External integrations
+```
+
+## 🔧 Configuration
+
+### YAML Configuration
+
+```yaml
+# config/production.yaml
+memory:
+  storage_backend: "postgresql"
+  storage_url: "${DATABASE_URL}"
+
+agent:
+  llm_provider: "openai"
+  llm_model: "gpt-4"
+  llm_api_key: "${OPENAI_API_KEY}"
+
+ai_features:
+  enable_rag: true
+  enable_validation: true
+  enable_multimodal: true
+  enable_security_analysis: true
+  
+  rag:
+    vector_store:
+      provider: "pinecone"
+      api_key: "${PINECONE_API_KEY}"
+    embedding:
+      provider: "openai"
+      api_key: "${OPENAI_API_KEY}"
+
+security:
+  require_authentication: true
+  rate_limiting_enabled: true
+```
+
+### Environment Variables
+
+```bash
+# Core API Keys
+OPENAI_API_KEY=your_openai_key
+DATABASE_URL=postgresql://user:pass@localhost/db
+
+# Optional Services
+PINECONE_API_KEY=your_pinecone_key
+GOOGLE_VISION_API_KEY=your_google_key
+REDIS_URL=redis://localhost:6379
+```
+
+## 🧪 Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Install with test dependencies
+pip install text2sql-ltm[test]
+
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=text2sql_ltm --cov-report=html
+
+# Run specific test categories
+pytest tests/test_rag_system.py -v
+pytest tests/test_multimodal.py -v
+pytest tests/test_security.py -v
+```
+
+## 📚 Examples
+
+Comprehensive examples are available in the `examples/` directory:
+
+- **[Basic Usage](examples/basic_usage.py)** - Getting started guide
+- **[Advanced Features](examples/advanced_features.py)** - All AI features
+- **[Production Deployment](examples/production_deployment.py)** - Enterprise setup
+
+- **[Security Analysis](examples/security_examples.py)** - Security features
+
+## 🤝 Support & Licensing
+
+### Commercial License
+
+Text2SQL-LTM is a **commercial product** with advanced enterprise features. 
+
+**For licensing, pricing, and enterprise support, contact:**
+
+**Alban Maxhuni, PhD**
+📧 **Email**: [info@albanmaxhuni.com](mailto:info@albanmaxhuni.com)  
+🌐 **Website**: [albanmaxhuni.com](https://albanmaxhuni.com)
+
+### License Options
+
+- **Individual License**: For personal and small team use
+- **Enterprise License**: For large organizations with advanced features
+- **Custom License**: Tailored solutions for specific requirements
+
+### What's Included
+
+- ✅ **Full source code access**
+- ✅ **Priority technical support**
+- ✅ **Regular updates and new features**
+- ✅ **Custom integration assistance**
+- ✅ **Training and consultation**
+- ✅ **SLA guarantees for enterprise**
+
+## 📞 Getting Started
+
+1. **Install**: `pip install ai-prishtina-text2sql-ltm`
+2. **Contact**: [info@albanmaxhuni.com](mailto:info@albanmaxhuni.com) for licensing
+3. **Configure**: Set up your API keys and configuration
+4. **Deploy**: Use our production-ready templates
+5. **Scale**: Leverage enterprise features for your organization
+
+---
+
+**AI-Prishtina-Text2SQL-LTM: Revolutionizing database interaction through advanced AI.** 🚀
+
+*© 2024 AI Prishtina, Inc. All rights reserved.*
