@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools==68.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "supertime"
+version = "0.0.1"
+authors = [
+  { name="Evgeniy Blinov", email="zheni-b@yandex.ru" },
+]
+description = 'A living example of superfunctions'
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    'transfunctions==0.0.7',
+    'typing_extensions ; python_version <= "3.9"',
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    'Operating System :: MacOS :: MacOS X',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: POSIX :: Linux',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'License :: OSI Approved :: MIT License',
+    'Intended Audience :: Developers',
+    'Topic :: Software Development :: Libraries',
+]
+keywords = [
+    'context-aware functions',
+    'superfunctions',
+    'transfunctions',
+    'example',
+]
+
+[tool.setuptools.package-data]
+"supertime" = ["py.typed"]
+
+[tool.mutmut]
+paths_to_mutate="supertime"
+runner="pytest"
+
+[project.urls]
+'Source' = 'https://github.com/pomponchik/supertime'
+'Tracker' = 'https://github.com/pomponchik/supertime/issues'
