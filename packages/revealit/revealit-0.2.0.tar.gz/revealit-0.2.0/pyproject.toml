@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "revealit"
+dynamic = ["version"]
+authors = [
+  { name="Prajwel Joseph", email="prajwel.pj@gmail.com" },
+]
+description = "Reveal variable sources in UVIT data"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "Apache-2.0"
+license-files = ["LICEN[CS]E*"]
+
+
+dependencies = ["numpy", 
+                "matplotlib", 
+                "astropy"]
+
+[project.urls]
+Homepage = "https://github.com/prajwel/revealit"
+Issues = "https://github.com/prajwel/revealit/issues"
+
+[tool.hatch.version]
+path = "src/revealit/revealit.py"
+
