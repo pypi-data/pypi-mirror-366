@@ -1,0 +1,59 @@
+<article xmlns:ali="http://www.niso.org/schemas/ali/1.0/" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <front>
+    <article-meta>
+$if(title)$
+      <title-group>
+        <article-title>$title$</article-title>
+      </title-group>
+$endif$
+$if(author)$
+      <contrib-group>
+$for(author)$
+        <contrib contrib-type="author">
+$if(author.orcid)$
+          <contrib-id contrib-id-type="orcid">$author.orcid$</contrib-id>
+$endif$
+$if(author.surname)$
+          <name>
+            <surname>${author.surname}</surname>
+            <given-names>${author.given-names}</given-names>
+          </name>
+$elseif(author.name)$
+          <string-name>$author.name$</string-name>
+$else$
+          <string-name>$author$</string-name>
+$endif$
+$if(author.email)$
+          <email>$author.email$</email>
+$endif$
+        </contrib>
+$endfor$
+      </contrib-group>
+$endif$
+      <permissions>
+$for(copyright.statement)$
+        <copyright-statement>$copyright.statement$</copyright-statement>
+$endfor$
+$for(license)$
+      <license>
+$if(it.link)$
+        <ali:license_ref$if(it.type)$ content-type="${it.type}"$endif$>${it.link}</ali:license_ref>
+$endif$
+        <license-p>$if(it.text)$${it.text}$else$${it}$endif$</license-p>
+      </license>
+$endfor$
+      </permissions>
+      <abstract>
+$abstract$
+      </abstract>
+    </article-meta>
+  </front>
+  <body>
+$body$
+  </body>
+  <back>
+$if(back)$
+$back$
+$endif$
+  </back>
+</article>
