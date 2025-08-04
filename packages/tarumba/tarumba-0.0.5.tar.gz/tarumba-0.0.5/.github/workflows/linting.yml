@@ -1,0 +1,29 @@
+name: Code linting
+run-name: Code linting
+
+on:
+  push: {}
+  pull_request: {}
+  release:
+    types:
+      - created
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v4
+      - name: Install hatch
+        uses: pypa/hatch@install
+      - name: Lint code using ruff
+        run: hatch fmt --check
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v4
+      - name: Install hatch
+        uses: pypa/hatch@install
+      - name: Lint code using pylint
+        run: hatch run pylint src tests

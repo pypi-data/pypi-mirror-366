@@ -1,0 +1,20 @@
+name: Build project
+run-name: Build project
+
+on:
+  push: {}
+  pull_request: {}
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v4
+      - name: Install hatch
+        uses: pypa/hatch@install
+      - name: Build project
+        run: hatch build

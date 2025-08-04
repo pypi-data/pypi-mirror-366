@@ -1,0 +1,28 @@
+name: Unit testing
+run-name: Unit testing
+
+on:
+  push: {}
+  pull_request: {}
+  release:
+    types:
+      - created
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - name: Install backends
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: 7zip 7zip-standalone p7zip-full bzip2 gzip rar tar xz-utils zip unzip
+          version: 1.0
+      - name: Fetch code
+        uses: actions/checkout@v4
+      - name: Install hatch
+        uses: pypa/hatch@install
+      - name: Run tests
+        run: hatch test -v -py ${{ matrix.python-version }}
