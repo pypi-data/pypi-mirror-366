@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quarkcircuit"
+version = "0.3.6dev"
+authors = [
+  { name="Xiaoxiao Xiao", email="xiaoxx@baqis.ac.cn" }
+]
+description = "Construction, visualization, and transpilation of quantum circuits"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "networkx",
+]
+
+[tool.setuptools]
+packages = ["quark.circuit"]
