@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pinescript-syntax-checker"
+version = "0.1.0"
+description = "A Model Context Protocol (MCP) server for checking PineScript syntax using TradingView's API"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "erevus-cn"},
+]
+maintainers = [
+    {name = "erevus-cn"},
+]
+keywords = ["pinescript", "tradingview", "mcp", "syntax-checker", "trading"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.12.3",
+    "openai>=1.98.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/erevus-cn/pinescript-syntax-checker"
+Documentation = "https://github.com/erevus-cn/pinescript-syntax-checker#readme"
+Repository = "https://github.com/erevus-cn/pinescript-syntax-checker"
+Issues = "https://github.com/erevus-cn/pinescript-syntax-checker/issues"
+Changelog = "https://github.com/erevus-cn/pinescript-syntax-checker/blob/main/CHANGELOG.md"
+
+[project.scripts]
+pinescript-syntax-checker = "pinescript_syntax_checker.server:main"
+
+[tool.mcp]
+servers = [
+    { name = "pinescript-syntax-checker", command = "python", args = ["-m", "pinescript_syntax_checker.server"] }
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pinescript_syntax_checker"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/pinescript_syntax_checker",
+    "/README.md",
+    "/LICENSE",
+]
+
+[dependency-groups]
+dev = [
+    "hatchling>=1.27.0",
+    "twine>=6.1.0",
+]
+
+[tool.uvx]
+entry-points = [
+    "pinescript-syntax-checker = pinescript_syntax_checker.server:main"
+]
