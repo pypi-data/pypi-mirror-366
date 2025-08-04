@@ -1,0 +1,7 @@
+[console_scripts]
+pbreflect=pbreflect.main:cli
+protoc-gen-pbreflect=pbreflect.pbgen.plugins.pbreflect_plugin:main
+
+[protoc_gen_plugins]
+pbreflect=pbreflect.pbgen.plugins.pbreflect_plugin:main
+
