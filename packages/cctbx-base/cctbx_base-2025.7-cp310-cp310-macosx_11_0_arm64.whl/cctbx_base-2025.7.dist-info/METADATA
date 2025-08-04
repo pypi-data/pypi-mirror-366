@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: cctbx-base
+Version: 2025.7
+Summary: The Computational Crystallography Toolbox (cctbx) is being developed as the open source component of the Phenix system. The goal of the Phenix project is to advance automation of macromolecular structure determination. Phenix depends on the cctbx, but not vice versa. This hierarchical approach enforces a clean design as a reusable library. The cctbx is therefore also useful for small-molecule crystallography and even general scientific applications.
+Author: CCTBX developers
+Maintainer-email: CCTBX developers <cctbx@cci.lbl.gov>
+License-Expression: BSD-3-Clause-LBNL AND BSD-3-Clause AND BSL-1.0 AND LGPL-2.0-only AND LGPL-2.1-only AND LGPL-3.0-only AND MIT AND LGPL-2.0-or-later WITH WxWindows-exception-3.1
+Project-URL: homepage, https://github.com/cctbx/cctbx_project
+Project-URL: documentation, https://cci.lbl.gov/docs/cctbx
+Project-URL: source, https://github.com/cctbx/cctbx_project
+Project-URL: download, https://github.com/cctbx/cctbx_project/releases
+Project-URL: tracker, https://github.com/cctbx/cctbx_project/issues
+Project-URL: release notes, https://github.com/cctbx/cctbx_project/releases
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Software Development
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: matplotlib
+Requires-Dist: mrcfile
+Requires-Dist: numpy
+Requires-Dist: requests
+Requires-Dist: scipy
+Requires-Dist: six
