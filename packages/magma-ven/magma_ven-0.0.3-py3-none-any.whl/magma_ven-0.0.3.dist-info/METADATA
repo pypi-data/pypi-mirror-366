@@ -1,0 +1,221 @@
+Metadata-Version: 2.4
+Name: magma-ven
+Version: 0.0.3
+Summary: MAGMA Volcano Eruption Notice (VEN)
+Keywords: magma,indonesia,volcano,eruption,magma indonesia,volcanoes
+Author-email: Martanto <martanto@live.com>, Devy Kamil Syahbana <devy.syahbana@gmail.com>, Syarif Abdul Manaf <riefmof@gmail.com>
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+License-File: LICENSE
+Requires-Dist: openpyxl>=3.1.5
+Requires-Dist: pandas>=2.2.2
+Requires-Dist: numpy>=2.2.5
+Requires-Dist: matplotlib>=3.9.0
+Requires-Dist: magma-database>=1.5.0
+Requires-Dist: magma-auth
+Requires-Dist: black[d] ; extra == "dev"
+Requires-Dist: isort ; extra == "dev"
+Requires-Dist: openpyxl ; extra == "dev"
+Requires-Dist: pandas ; extra == "dev"
+Requires-Dist: numpy ; extra == "dev"
+Requires-Dist: matplotlib ; extra == "dev"
+Requires-Dist: magma-database ; extra == "dev"
+Requires-Dist: magma-auth ; extra == "dev"
+Project-URL: Homepage, https://github.com/martanto/magma-ven
+Project-URL: Issues, https://github.com/martanto/magma-ven/issues
+Provides-Extra: dev
+
+# magma-var
+Python package for MAGMA Volcano Eruption Notice (VEN)
+
+
+# 1. How to use
+Make sure you have MAGMA token. Check [examples directory](https://github.com/martanto/magma-ven/tree/main/examples).
+
+Volcano name and code:  
+
+| Volcano            | Code    |
+|--------------------| ------- |
+| Agung              | AGU     |
+| Ambang             | AMB     |
+| Anak Krakatau      | KRA     |
+| Anak Ranakah       | RAN     |
+| Arjuno Welirang    | WEL     |
+| Awu                | AWU     |
+| Banda Api          | BAN     |
+| Batur              | BAT     |
+| Batutara           | TAR     |
+| Bromo              | BRO     |
+| Bur Ni Telong      | TEL     |
+| Ciremai            | CER     |
+| Colo               | COL     |
+| Dempo              | DEM     |
+| Dieng              | DIE     |
+| Dukono             | DUK     |
+| Ebulobo            | EBU     |
+| Egon               | EGO     |
+| Galunggung         | GAL     |
+| Gamalama           | GML     |
+| Gamkonora          | GMK     |
+| Gede               | GED     |
+| Guntur             | GUN     |
+| Ibu                | IBU     |
+| Ijen               | IJE     |
+| Ile Werung         | WER     |
+| Ili Boleng         | BOL     |
+| Ili Lewotolok      | LEW     |
+| Inielika           | LIK     |
+| Inierie            | RIE     |
+| Iya                | IYA     |
+| Kaba               | KAB     |
+| Karangetang        | KAR     |
+| Kelimutu           | KLM     |
+| Kelud              | KLD     |
+| Kerinci            | KER     |
+| Kie Besi           | KIE     |
+| Lamongan           | LAM     |
+| Lereboleng         | LER     |
+| Lewotobi Laki-laki | LWK     |
+| Lewotobi Perempuan | LWP     |
+| Lokon              | LOK     |
+| Mahawu             | MAH     |
+| Marapi             | MAR     |
+| Merapi             | MER     |
+| Papandayan         | PAP     |
+| Peut Sague         | PEU     |
+| Raung              | RAU     |
+| Rinjani            | RIN     |
+| Rokatenda          | ROK     |
+| Ruang              | RUA     |
+| Salak              | SAL     |
+| Sangeangapi        | SAN     |
+| Semeru             | SMR     |
+| Seulawah Agam      | SEU     |
+| Sinabung           | SIN     |
+| Sirung             | SIR     |
+| Slamet             | SLA     |
+| Soputan            | SOP     |
+| Sorikmarapi        | SOR     |
+| Sumbing            | SBG     |
+| Sundoro            | SUN     |
+| Talang             | TAL     |
+| Tambora            | TAM     |
+| Tandikat           | TAN     |
+| Tangkoko           | TGK     |
+| Tangkuban Parahu   | TPR     |
+| Teon               | TEO     |
+| Wurlali            | WUR     |
+
+
+## 1.1 Install module
+```pip
+pip install magma-ven
+```
+
+Check your version:
+```python
+print(magma_ven.__version__)
+```
+
+## 1.2 Download Volcanic Eruption Notice (VEN)
+To download Volcanic Eruption Notice (VEN):
+
+### Import MAGMA VEN download module
+```python
+from magma_ven import Download
+```
+
+Initiate download:
+```python
+download = Download(
+    token="<token>", # replace with your MAGMA Token
+    volcano_code='IBU', # Volcano code
+    start_date='2025-01-01', 
+    end_date='2025-07-30',
+    locale='en', # Default to "id"
+    verbose=True, # Show detailed information
+    debug=False # For development purpose
+)
+```
+
+Start your download:
+```python
+download.ven()
+```
+
+Check VEN downloaded data:
+```python
+download.data
+```
+
+Check VEN DataFrame:
+```python
+download.df
+```
+
+Save as CSV or Excel:
+```python
+download.to_csv()
+download.to_excel()
+```
+
+**Full code example**
+```python
+from magma_ven import Download
+
+download = Download(
+    token="token",
+    volcano_code='IBU', # Check volcano table code above
+    start_date='2025-01-01',
+    end_date='2025-07-30',
+    locale='en',
+    verbose=True,
+    debug=False
+)
+
+# Starting to download
+download.ven()
+
+# Save into files
+download.to_csv()
+download.to_excel()
+```
+
+# Changelog
+## [0.0.2] 2025-07-31
+
+Update translation to english and add ability to save as file.
+
+### Added
+
+- Add english translation.
+- Add ability to save as an excel or CSV
+
+### Fixed
+
+- Refactoring to source directory.
+
+### Changed
+
+- Add `locale` parameter to init VEN class 
+
+## [0.0.1] 2025-07-22
+
+First release.
+
+### Added
+
+- First release.
+
+### Fixed
+
+- First release.
+
+### Changed
+
+- First release.
+
