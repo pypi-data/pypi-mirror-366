@@ -1,0 +1,82 @@
+[project]
+name = "gflake"
+version = "0.1.3"
+description = "A CLI tool to automatically discover and repeatedly run Google Test (gtest) test cases to identify flaky tests."
+authors = [
+    {name = "Deniz Ariyan",email = "contact@denizariyan.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "typer[all]>=0.16.0",
+    "rich>=14.0.0",
+    "questionary>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.12.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/denizariyan/gflake"
+Issues = "https://github.com/denizariyan/gflake/issues"
+Repository = "https://github.com/denizariyan/gflake.git"
+
+[project.scripts]
+gflake = "gflake.cli:main"
+
+[tool.poetry]
+packages = [{include = "gflake", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+vulture = "^2.14"
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+extend-select = ['E', 'F', 'W', 'A', 'PLC', 'PLE', 'PLW', 'I']
+ignore = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.format]
+line-ending = "auto"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.vulture]
+ignore_decorators = ["@app.command"]
+min_confidence = 1
+paths = ["src/gflake"]
