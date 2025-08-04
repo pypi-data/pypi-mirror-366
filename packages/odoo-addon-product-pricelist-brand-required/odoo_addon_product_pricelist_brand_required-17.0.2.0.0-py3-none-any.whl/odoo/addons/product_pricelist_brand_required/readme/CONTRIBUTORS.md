@@ -1,0 +1,3 @@
+- Ángel Rivas \<angel.rivas@sygel.es\>
+- Valentín Vinagre \<valentin.vinagre@sygel.es\>
+- Manuel Regidor \<manuel.regidor@sygel.es\>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 Angel Rivas <angel.rivas@sygel.es>
+License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).-->
+<odoo>
+    <record id="product_pricelist_item_tree_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.item.tree.inherit</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_tree_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='name']" position="after">
+                <field
+                    name="product_brand_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                </xpath>
+        </field>
+    </record>
+
+    <record id="product_pricelist_item_form_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.item.form.inherit</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='base']" position="after">
+                <field
+                    name="product_brand_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                </xpath>
+        </field>
+    </record>
+</odoo>
