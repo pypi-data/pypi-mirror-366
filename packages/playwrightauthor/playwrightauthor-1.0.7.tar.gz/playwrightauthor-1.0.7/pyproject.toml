@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "playwrightauthor"
+dynamic = ["version"]
+authors = [
+    { name = "Adam Twardoch", email = "adam+github@twardoch.com" },
+]
+description = "Your personal, authenticated browser for Playwright, ready in one line of code."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "playwright",
+    "rich",
+    "fire",
+    "loguru",
+    "platformdirs",
+    "requests",
+    "psutil",
+    "prompt_toolkit>=3.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/twardoch/playwrightauthor"
+"Bug Tracker" = "https://github.com/twardoch/playwrightauthor/issues"
+
+[project.scripts]
+playwrightauthor = "playwrightauthor.cli:main"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+version_scheme = "guess-next-dev"
+write_to = "src/playwrightauthor/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/playwrightauthor"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+extend-exclude = ["_version.py"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by formatter
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+known-first-party = ["playwrightauthor"]

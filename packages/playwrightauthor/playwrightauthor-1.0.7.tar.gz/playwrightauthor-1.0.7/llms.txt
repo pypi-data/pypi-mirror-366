@@ -1,0 +1,4439 @@
+Project Structure:
+📁 playwrightauthor
+├── 📁 .github
+│   └── 📁 workflows
+│       └── 📄 ci.yml
+├── 📁 old
+│   ├── 📄 google_docs_scraper_simple.py
+│   └── 📄 playwrightauthor.md
+├── 📁 src
+│   └── 📁 playwrightauthor
+│       ├── 📁 browser
+│       │   ├── 📄 __init__.py
+│       │   ├── 📄 finder.py
+│       │   ├── 📄 installer.py
+│       │   ├── 📄 launcher.py
+│       │   └── 📄 process.py
+│       ├── 📁 repl
+│       │   ├── 📄 __init__.py
+│       │   ├── 📄 completion.py
+│       │   └── 📄 engine.py
+│       ├── 📁 templates
+│       │   └── 📄 onboarding.html
+│       ├── 📁 utils
+│       │   ├── 📄 logger.py
+│       │   └── 📄 paths.py
+│       ├── 📄 __init__.py
+│       ├── 📄 __main__.py
+│       ├── 📄 author.py
+│       ├── 📄 browser_manager.py
+│       ├── 📄 cli.py
+│       ├── 📄 config.py
+│       ├── 📄 connection.py
+│       ├── 📄 exceptions.py
+│       ├── 📄 lazy_imports.py
+│       ├── 📄 onboarding.py
+│       ├── 📄 state_manager.py
+│       └── 📄 typing.py
+├── 📁 tests
+│   ├── 📄 test_author.py
+│   ├── 📄 test_benchmark.py
+│   ├── 📄 test_integration.py
+│   ├── 📄 test_platform_specific.py
+│   └── 📄 test_utils.py
+├── 📄 .gitignore
+├── 📄 AGENTS.md
+├── 📄 CHANGELOG.md
+├── 📄 CLAUDE.md
+├── 📄 GEMINI.md
+├── 📄 LICENSE
+├── 📄 PLAN.md
+├── 📄 publish.sh
+├── 📄 pyproject.toml
+├── 📄 README.md
+├── 📄 TODO.md
+└── 📄 WORK.md
+
+
+<documents>
+<document index="1">
+<source>.cursorrules</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 1. Project Overview
+
+PlaywrightAuthor is a convenience package for Microsoft Playwright that handles browser automation setup. It automatically manages Chrome for Testing installation, authentication with user profiles, and provides ready-to-use Browser objects through simple context managers.
+
+## 2. Key Architecture
+
+**Core Design Pattern**: The library follows a context manager pattern with `Browser()` and `AsyncBrowser()` classes that return authenticated Playwright browser objects.
+
+**Main Components** (planned structure):
+- `playwrightauthor/author.py` - Core Browser/AsyncBrowser classes (main API)
+- `playwrightauthor/browser_manager.py` - Chrome installation/process management 
+- `playwrightauthor/onboarding.py` - User guidance for authentication
+- `playwrightauthor/cli.py` - Fire-powered CLI interface
+- `playwrightauthor/utils/` - Logger and cross-platform path utilities
+
+**Current State**: The project is in early development. The main implementation exists as a legacy scraper in `old/google_docs_scraper_simple.py` that demonstrates the core concept of connecting to an existing Chrome debug session.
+
+## 3. Development Commands
+
+### 3.1. Environment Setup
+```bash
+# Initial setup with uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv --python 3.12
+uv init
+uv add playwright rich fire loguru platformdirs requests psutil
+```
+
+### 3.2. Code Quality Pipeline
+After any Python changes, run:
+```bash
+fd -e py -x uvx autoflake -i {}; \
+fd -e py -x uvx pyupgrade --py312-plus {}; \
+fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; \
+fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; \
+python -m pytest
+```
+
+### 3.3. Testing
+- Run tests: `python -m pytest`
+- Tests are located in `tests/` directory
+- Current tests may be integration tests requiring live Chrome instance
+
+### 3.4. CLI Usage
+Once implemented:
+```bash
+python -m playwrightauthor status  # Check browser status
+```
+
+## 4. Code Standards
+
+- **File headers**: Every Python file should include a `this_file:` comment with the relative path
+- **Dependencies**: Use uv script headers with `# /// script` blocks
+- **Type hints**: Use modern Python type hints (list, dict, | for unions)
+- **Logging**: Use loguru with verbose flag support
+- **CLI**: Use Fire for command-line interfaces with Rich for output
+
+## 5. Browser Management Strategy
+
+The core technical challenge is reliably managing Chrome for Testing:
+
+1. **Detection**: Check if Chrome is running with `--remote-debugging-port=9222`
+2. **Installation**: Prefer `npx puppeteer browsers install`, fallback to LKGV JSON downloads
+3. **Process Management**: Kill non-debug instances, launch with persistent user-data-dir
+4. **Connection**: Use Playwright's `connect_over_cdp()` to attach to debug session
+
+## 6. Project Workflow
+
+The project follows a documentation-driven development approach:
+1. Read `WORK.md` and `PLAN.md` before making changes
+2. Update documentation files after implementation
+3. Use "Wait, but" reflection methodology for code review
+4. Maintain minimal, self-contained commits
+
+## 7. Dependencies
+
+Core runtime dependencies:
+- `playwright` - Browser automation
+- `rich` - Terminal output formatting  
+- `fire` - CLI generation
+- `loguru` - Logging
+- `platformdirs` - Cross-platform paths
+- `requests` - HTTP client for downloads
+- `psutil` - Process management
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TL;DR for PlaywrightAuthor Codebase**
+
+**1. Core Purpose & Value Proposition:**
+PlaywrightAuthor is a Python convenience library built on top of Microsoft Playwright. Its primary goal is to eliminate the boilerplate setup for browser automation. It automatically finds or installs a "Chrome for Testing" instance, manages its process (ensuring it runs in debug mode), handles user authentication by reusing a persistent profile, and provides a ready-to-use, authenticated Playwright `Browser` object within a simple context manager (`with Browser() as browser:`).
+
+**2. Key Architectural Components:**
+*   **Main API (`author.py`):** Exposes the core `Browser()` and `AsyncBrowser()` context managers, which are the main entry points for the user.
+*   **Browser Management (`browser/` & `browser_manager.py`):** This is the technical core of the library. It's a modular system responsible for:
+    *   `finder.py`: Robustly discovering the Chrome executable across macOS, Windows, and Linux, checking over 20 standard and non-standard locations per platform.
+    *   `installer.py`: Downloading the correct Chrome for Testing build using official JSON endpoints, with progress bars and SHA256 validation.
+    *   `launcher.py`: Launching the Chrome process with the remote debugging port (`--remote-debugging-port=9222`).
+    *   `process.py`: Managing the Chrome process, including gracefully killing existing non-debug instances and verifying the new process is ready.
+*   **User Experience (`onboarding.py`, `cli.py`):**
+    *   `onboarding.py`: If the user is not logged into necessary services, it serves a local HTML page (`templates/onboarding.html`) to guide them through the login process.
+    *   `cli.py`: A `fire`-powered command-line interface for status checks (`status`) and cache clearing (`clear-cache`), with `rich` for formatted output.
+*   **Configuration & State (`config.py`, `state_manager.py`):** Handles library configuration (e.g., timeouts, paths) and persists the state of the browser (e.g., installation path, version) to avoid redundant work.
+*   **Utilities (`utils/`):** Cross-platform path management (`paths.py`) and `loguru`-based logging (`logger.py`).
+
+**3. Development & Quality:**
+*   **Workflow:** The project is documentation-driven, using `PLAN.md`, `TODO.md`, and `WORK.md` to guide development. It emphasizes iterative, minimal commits.
+*   **Tooling:** Uses `uv` for environment and dependency management. The build system is `hatch` with `hatch-vcs` for versioning based on git tags.
+*   **CI/CD (`.github/workflows/ci.yml`):** A comprehensive GitHub Actions pipeline tests the library on Ubuntu, Windows, and macOS. It runs linting (`ruff`), type checking (`mypy`), and a full `pytest` suite with coverage reporting to Codecov.
+*   **Code Quality:** The codebase is fully type-hinted. A strict quality pipeline (`ruff`, `autoflake`, `pyupgrade`) is enforced and documented. Every file includes a `this_file:` comment for easy path reference.
+
+**4. Current Status & Roadmap:**
+The project has completed its initial phases focused on robustness, error handling, and cross-platform compatibility. It is now in the "Elegance and Performance" phase, which involves refactoring the architecture (e.g., separating state and config management), optimizing performance (e.g., lazy loading), and adding advanced features like browser profile management. Future phases will focus on improving the CLI, documentation, and user experience.
+
+</document_content>
+</document>
+
+<document index="2">
+<source>.github/workflows/ci.yml</source>
+<document_content>
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  UV_CACHE_DIR: /tmp/.uv-cache
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} (Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.12"]
+        include:
+          # Test on older macOS with x64 architecture
+          - os: macos-13
+            python-version: "3.12"
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for git-based versioning
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        enable-cache: true
+        cache-dependency-glob: |
+          **/pyproject.toml
+          **/requirements*.txt
+
+    - name: Cache uv dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.UV_CACHE_DIR }}
+        key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          uv-${{ runner.os }}-${{ matrix.python-version }}-
+
+    - name: Install dependencies
+      run: |
+        uv venv
+        uv pip install -e ".[dev]"
+        uv pip install pytest pytest-cov pytest-timeout pytest-xdist
+
+    - name: Install Playwright browsers
+      run: |
+        uv run playwright install chromium
+        uv run playwright install-deps chromium
+
+    - name: Run linting
+      run: |
+        uv run ruff check src tests
+        uv run ruff format --check src tests
+
+    - name: Run type checking
+      if: matrix.os == 'ubuntu-latest'  # Only run on one platform to save time
+      run: |
+        uv pip install mypy types-requests
+        uv run mypy src --ignore-missing-imports
+
+    - name: Run tests with coverage
+      run: |
+        uv run pytest tests/ -v --cov=src/playwrightauthor --cov-report=xml --cov-report=term --timeout=120
+      env:
+        PYTHONPATH: ${{ github.workspace }}/src
+
+    - name: Test Chrome finding functionality
+      run: |
+        uv run python -c "from playwrightauthor.browser.finder import find_chrome_executable; from playwrightauthor.utils.logger import configure; logger = configure(True); path = find_chrome_executable(logger); print(f'Chrome found: {path}')"
+
+    - name: Upload coverage to Codecov
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+  integration-test:
+    name: Integration Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        enable-cache: true
+
+    - name: Install package
+      run: |
+        uv venv
+        uv pip install -e .
+
+    - name: Test CLI commands
+      run: |
+        uv run playwrightauthor --help
+        uv run playwrightauthor status --verbose
+
+    - name: Test browser installation
+      run: |
+        uv run python -m playwrightauthor.browser_manager --verbose
+      continue-on-error: true  # Browser might already be installed
+
+  build:
+    name: Build distribution
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build hatch hatchling hatch-vcs
+
+    - name: Build package
+      run: python -m build
+
+    - name: Check package
+      run: |
+        pip install twine
+        twine check dist/*
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist/
+
+  release:
+    name: Release
+    needs: [test, integration-test, build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist
+        path: dist/
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: dist/*
+        generate_release_notes: true
+        draft: false
+        prerelease: ${{ contains(github.ref, 'rc') || contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+
+    - name: Publish to PyPI
+      if: "!contains(github.ref, 'rc') && !contains(github.ref, 'beta') && !contains(github.ref, 'alpha')"
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        pip install twine
+        twine upload dist/*
+
+</document_content>
+</document>
+
+<document index="3">
+<source>.gitignore</source>
+<document_content>
+
+__marimo__/
+__pycache__/
+__pypackages__/
+.abstra/
+.cache
+.coverage
+.coverage.*
+.cursorignore
+.cursorindexingignore
+.dmypy.json
+.DS_Store
+.eggs/
+.env
+.envrc
+.hypothesis/
+.installed.cfg
+.ipynb_checkpoints
+.mypy_cache/
+.nox/
+.pdm-build/
+.pdm-python
+.pixi
+.pybuilder/
+.pypirc
+.pyre/
+.pytest_cache/
+.Python
+.pytype/
+.ropeproject
+.ruff_cache/
+.scrapy
+.spyderproject
+.spyproject
+.tox/
+.venv
+.webassets-cache
+*.cover
+*.egg
+*.egg-info/
+*.log
+*.manifest
+*.mo
+*.pot
+*.py.cover
+*.py[codz]
+*.sage.py
+*.so
+*.spec
+*$py.class
+/site
+uv.lock
+build/
+celerybeat-schedule
+celerybeat.pid
+cover/
+coverage.xml
+cython_debug/
+db.sqlite3
+db.sqlite3-journal
+develop-eggs/
+dist/
+dmypy.json
+docs/_build/
+downloads/
+eggs/
+env.bak/
+env/
+ENV/
+htmlcov/
+instance/
+ipython_config.py
+lib/
+lib64/
+local_settings.py
+MANIFEST
+marimo/_lsp/
+marimo/_static/
+nosetests.xml
+parts/
+pip-delete-this-directory.txt
+pip-log.txt
+profile_default/
+sdist/
+share/python-wheels/
+src/playwrightauthor/_version.py
+target/
+var/
+venv.bak/
+venv/
+wheels/
+</document_content>
+</document>
+
+<document index="4">
+<source>AGENTS.md</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 1. Project Overview
+
+PlaywrightAuthor is a convenience package for Microsoft Playwright that handles browser automation setup. It automatically manages Chrome for Testing installation, authentication with user profiles, and provides ready-to-use Browser objects through simple context managers.
+
+## 2. Key Architecture
+
+**Core Design Pattern**: The library follows a context manager pattern with `Browser()` and `AsyncBrowser()` classes that return authenticated Playwright browser objects.
+
+**Main Components** (planned structure):
+- `playwrightauthor/author.py` - Core Browser/AsyncBrowser classes (main API)
+- `playwrightauthor/browser_manager.py` - Chrome installation/process management 
+- `playwrightauthor/onboarding.py` - User guidance for authentication
+- `playwrightauthor/cli.py` - Fire-powered CLI interface
+- `playwrightauthor/utils/` - Logger and cross-platform path utilities
+
+**Current State**: The project is in early development. The main implementation exists as a legacy scraper in `old/google_docs_scraper_simple.py` that demonstrates the core concept of connecting to an existing Chrome debug session.
+
+## 3. Development Commands
+
+### 3.1. Environment Setup
+```bash
+# Initial setup with uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv --python 3.12
+uv init
+uv add playwright rich fire loguru platformdirs requests psutil
+```
+
+### 3.2. Code Quality Pipeline
+After any Python changes, run:
+```bash
+fd -e py -x uvx autoflake -i {}; \
+fd -e py -x uvx pyupgrade --py312-plus {}; \
+fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; \
+fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; \
+python -m pytest
+```
+
+### 3.3. Testing
+- Run tests: `python -m pytest`
+- Tests are located in `tests/` directory
+- Current tests may be integration tests requiring live Chrome instance
+
+### 3.4. CLI Usage
+Once implemented:
+```bash
+python -m playwrightauthor status  # Check browser status
+```
+
+## 4. Code Standards
+
+- **File headers**: Every Python file should include a `this_file:` comment with the relative path
+- **Dependencies**: Use uv script headers with `# /// script` blocks
+- **Type hints**: Use modern Python type hints (list, dict, | for unions)
+- **Logging**: Use loguru with verbose flag support
+- **CLI**: Use Fire for command-line interfaces with Rich for output
+
+## 5. Browser Management Strategy
+
+The core technical challenge is reliably managing Chrome for Testing:
+
+1. **Detection**: Check if Chrome is running with `--remote-debugging-port=9222`
+2. **Installation**: Prefer `npx puppeteer browsers install`, fallback to LKGV JSON downloads
+3. **Process Management**: Kill non-debug instances, launch with persistent user-data-dir
+4. **Connection**: Use Playwright's `connect_over_cdp()` to attach to debug session
+
+## 6. Project Workflow
+
+The project follows a documentation-driven development approach:
+1. Read `WORK.md` and `PLAN.md` before making changes
+2. Update documentation files after implementation
+3. Use "Wait, but" reflection methodology for code review
+4. Maintain minimal, self-contained commits
+
+## 7. Dependencies
+
+Core runtime dependencies:
+- `playwright` - Browser automation
+- `rich` - Terminal output formatting  
+- `fire` - CLI generation
+- `loguru` - Logging
+- `platformdirs` - Cross-platform paths
+- `requests` - HTTP client for downloads
+- `psutil` - Process management
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TL;DR for PlaywrightAuthor Codebase**
+
+**1. Core Purpose & Value Proposition:**
+PlaywrightAuthor is a Python convenience library built on top of Microsoft Playwright. Its primary goal is to eliminate the boilerplate setup for browser automation. It automatically finds or installs a "Chrome for Testing" instance, manages its process (ensuring it runs in debug mode), handles user authentication by reusing a persistent profile, and provides a ready-to-use, authenticated Playwright `Browser` object within a simple context manager (`with Browser() as browser:`).
+
+**2. Key Architectural Components:**
+*   **Main API (`author.py`):** Exposes the core `Browser()` and `AsyncBrowser()` context managers, which are the main entry points for the user.
+*   **Browser Management (`browser/` & `browser_manager.py`):** This is the technical core of the library. It's a modular system responsible for:
+    *   `finder.py`: Robustly discovering the Chrome executable across macOS, Windows, and Linux, checking over 20 standard and non-standard locations per platform.
+    *   `installer.py`: Downloading the correct Chrome for Testing build using official JSON endpoints, with progress bars and SHA256 validation.
+    *   `launcher.py`: Launching the Chrome process with the remote debugging port (`--remote-debugging-port=9222`).
+    *   `process.py`: Managing the Chrome process, including gracefully killing existing non-debug instances and verifying the new process is ready.
+*   **User Experience (`onboarding.py`, `cli.py`):**
+    *   `onboarding.py`: If the user is not logged into necessary services, it serves a local HTML page (`templates/onboarding.html`) to guide them through the login process.
+    *   `cli.py`: A `fire`-powered command-line interface for status checks (`status`) and cache clearing (`clear-cache`), with `rich` for formatted output.
+*   **Configuration & State (`config.py`, `state_manager.py`):** Handles library configuration (e.g., timeouts, paths) and persists the state of the browser (e.g., installation path, version) to avoid redundant work.
+*   **Utilities (`utils/`):** Cross-platform path management (`paths.py`) and `loguru`-based logging (`logger.py`).
+
+**3. Development & Quality:**
+*   **Workflow:** The project is documentation-driven, using `PLAN.md`, `TODO.md`, and `WORK.md` to guide development. It emphasizes iterative, minimal commits.
+*   **Tooling:** Uses `uv` for environment and dependency management. The build system is `hatch` with `hatch-vcs` for versioning based on git tags.
+*   **CI/CD (`.github/workflows/ci.yml`):** A comprehensive GitHub Actions pipeline tests the library on Ubuntu, Windows, and macOS. It runs linting (`ruff`), type checking (`mypy`), and a full `pytest` suite with coverage reporting to Codecov.
+*   **Code Quality:** The codebase is fully type-hinted. A strict quality pipeline (`ruff`, `autoflake`, `pyupgrade`) is enforced and documented. Every file includes a `this_file:` comment for easy path reference.
+
+**4. Current Status & Roadmap:**
+The project has completed its initial phases focused on robustness, error handling, and cross-platform compatibility. It is now in the "Elegance and Performance" phase, which involves refactoring the architecture (e.g., separating state and config management), optimizing performance (e.g., lazy loading), and adding advanced features like browser profile management. Future phases will focus on improving the CLI, documentation, and user experience.
+
+</document_content>
+</document>
+
+<document index="5">
+<source>CHANGELOG.md</source>
+<document_content>
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+### Planned Features
+- Plugin architecture for extensibility
+- Advanced browser profile management with encryption
+
+## [1.0.7] - 2025-08-04
+
+### Added
+
+#### 🚀 Interactive REPL System ✅ MAJOR MILESTONE
+- **Complete REPL Workbench Implementation**:
+  - Interactive REPL mode accessible via `playwrightauthor repl` command
+  - Advanced tab completion for Playwright APIs, CLI commands, and Python keywords
+  - Persistent command history across sessions stored in user config directory
+  - Rich syntax highlighting and error handling with traceback display
+  - Seamless CLI command integration within REPL using `!` prefix
+  - Real-time Python code evaluation with browser context management
+  - Professional welcome banner and contextual help system
+
+- **Technical Architecture**:
+  - Complete `src/playwrightauthor/repl/` module with production-ready code
+  - `engine.py`: Core REPL loop with prompt_toolkit integration (217 lines)
+  - `completion.py`: Context-aware completion engine for Playwright objects
+  - Integration with existing CLI infrastructure for seamless command execution
+  - Support for both synchronous and asynchronous browser operations
+
+### Changed
+- **Dependencies**: Added `prompt_toolkit>=3.0.0` for advanced REPL functionality
+- **CLI Interface**: Enhanced with interactive `repl` command for live browser automation
+- **Type Annotations**: Improved forward reference handling in author.py for better compatibility
+
+### Technical Improvements
+- **Code Quality**: All REPL code passes ruff linting and formatting standards
+- **Developer Experience**: Transformed PlaywrightAuthor into interactive development platform
+- **Accessibility**: REPL provides immediate feedback and exploration capabilities for Playwright APIs
+
+## [1.0.6] - 2025-08-04
+
+### Added
+- **Enhanced Documentation & User Experience**:
+  - Modernized README.md with structured feature sections and emoji-based organization
+  - Updated installation instructions with `pip install playwrightauthor` 
+  - Comprehensive CLI documentation covering all available commands
+  - Current package architecture overview with detailed module descriptions
+  - Key components section explaining core API and browser management
+  - Professional feature presentation showcasing performance and reliability
+
+### Changed
+- **Documentation Structure**: 
+  - Replaced outdated file tree examples with current `src/` layout architecture
+  - Streamlined README.md by removing extensive code examples in favor of practical key components
+  - Updated PLAN.md and TODO.md with refined priorities for 100% package completion
+  - Improved user-facing documentation for better adoption and onboarding
+
+### Removed
+- Detailed internal code examples from README.md (moved focus to practical usage)
+- Outdated package layout documentation
+
+## [1.0.5] - 2025-08-04
+
+### Added
+
+#### Phase 4: User Experience & CLI Enhancements ✅ COMPLETED
+- **Enhanced CLI Interface**:
+  - Complete profile management with `profile` command (list, show, create, delete, clear)
+  - Configuration viewing and management with `config` command  
+  - Comprehensive diagnostic checks with `diagnose` command including connection health
+  - Version and system information with `version` command
+  - Multiple output formats support (Rich tables, JSON)
+  - Color-coded status messages and professional formatting
+
+#### Phase 3: Elegance and Performance ✅ COMPLETED
+- **Core Architecture Refactoring** (COMPLETED):
+  - Complete state management system with `state_manager.py` and `BrowserState` TypedDict
+  - JSON-based state persistence to user config directory with atomic writes
+  - State validation and migration system for version compatibility
+  - Comprehensive configuration management with `config.py` and dataclass-based structure
+  - Environment variable support with `PLAYWRIGHTAUTHOR_*` prefix
+  - Configuration validation with proper error handling
+  - Browser module reorganization with proper `__all__` exports and typing
+  
+- **Performance Optimization** (COMPLETED):
+  - Lazy loading system for Playwright imports with `lazy_imports.py`
+  - Chrome executable path caching in state manager  
+  - Lazy browser initialization patterns in context managers
+  - Lazy loading for psutil and requests modules
+  - Connection health checks with comprehensive CDP diagnostics
+  - Connection retry logic with exponential backoff in Browser classes
+  - Enhanced debugging info and error messages for connection issues
+  - New `connection.py` module with `ConnectionHealthChecker` class
+
+#### Phase 4: User Experience & CLI Enhancements ✅ MAJOR PROGRESS
+- **Enhanced CLI Interface** (MOSTLY COMPLETED):
+  - Complete profile management with `profile` command (list, show, create, delete, clear)
+  - Configuration viewing and management with `config` command
+  - Comprehensive diagnostic checks with `diagnose` command including connection health
+  - Version and system information with `version` command
+  - Multiple output formats support (Rich tables, JSON)
+  - Color-coded status messages and professional formatting
+
+#### Phase 1: Robustness and Error Handling ✅
+- **Enhanced Exception System**: Added specialized exception classes (`BrowserInstallationError`, `BrowserLaunchError`, `ProcessKillError`, `NetworkError`, `TimeoutError`)
+- **Retry Mechanisms**: Implemented configurable retry logic for network requests and browser operations
+- **Process Management**: Enhanced process killing with graceful termination → force kill fallback
+- **Launch Verification**: Added `wait_for_process_start()` to ensure Chrome debug port availability
+- **Download Progress**: Real-time progress reporting with SHA256 integrity checking
+- **Smart Login Detection**: Detects authentication via cookies, localStorage, and sessionStorage
+- **Enhanced Onboarding UI**: Professional step-by-step interface with animated status indicators
+- **Comprehensive Utils Tests**: 17 new test cases for paths and logging modules
+
+#### Phase 2: Cross-Platform Compatibility ✅
+- **Enhanced Chrome Finder**: Platform-specific Chrome discovery with 20+ locations per platform
+  - Windows: 32/64-bit support, registry lookup, user installations
+  - Linux: Snap, Flatpak, distribution-specific paths
+  - macOS: ARM64/x64 support, Homebrew, user applications
+- **CI/CD Pipeline**: GitHub Actions workflow for multi-platform testing
+  - Matrix testing on Ubuntu, Windows, macOS (latest + macOS-13)
+  - Automated linting, type checking, and coverage reporting
+  - Build and release automation with PyPI publishing
+- **Platform-Specific Tests**: 15+ test cases with mock system calls
+- **Integration Tests**: 25+ comprehensive tests covering all major scenarios
+- **Chrome Version Detection**: `get_chrome_version()` function for compatibility checks
+
+### Changed
+
+- **Project Structure**: Migrated to modern `src/` layout
+- **Build System**: Switched from setuptools to hatch + hatch-vcs for git-tagged versioning
+- **Error Handling**: All operations now have proper timeout and retry logic
+- **Browser Management**: Refactored into separate modules (finder, installer, launcher, process)
+- **Logging**: Enhanced debug logging throughout with detailed path checking
+
+### Fixed
+
+- **Process Management**: Fixed unreliable process killing across platforms
+- **Network Operations**: Added proper timeout handling for all HTTP requests
+- **Path Detection**: Fixed Chrome executable finding on all platforms
+- **Error Messages**: Improved user-facing error messages with actionable guidance
+
+### Technical Improvements
+
+- **Code Quality**: Configured ruff for linting and formatting
+- **Type Safety**: Added type hints throughout the codebase
+- **Test Coverage**: Significantly improved with unit, integration, and platform tests
+- **Performance**: Optimized Chrome discovery with lazy path generation
+- **Documentation**: Updated all file path references for new structure
+
+## [1.0.4] - 2025-08-04
+
+### Added
+- Enhanced project documentation with AI assistant integration guides
+- Comprehensive codebase analysis tools (`llms.txt`, `llms_tldr.txt`)
+- Multi-assistant development workflows (CLAUDE.md, GEMINI.md, AGENTS.md)
+
+## [1.0.3] - 2025-08-04
+
+### Added
+- Production-ready browser management system
+- Comprehensive test suite with platform-specific testing
+- Enhanced error handling and retry mechanisms
+
+## [1.0.2] - 2025-08-04
+
+### Added
+- State management and configuration systems
+- Lazy loading optimizations for improved performance
+- Connection health monitoring and diagnostics
+
+## [1.0.1] - 2025-08-04
+
+### Added
+- Complete migration to `src/` project layout
+- Enhanced browser module organization
+- Cross-platform compatibility improvements
+
+## [1.0.0] - 2025-08-04
+
+### Added
+- First stable release of PlaywrightAuthor
+- Complete implementation of all planned Phase 1-3 features
+- Production-ready browser automation with authentication
+
+## [0.1.0] - 2025-08-03
+
+### Added
+
+- Initial implementation of the `playwrightauthor` library.
+- `Browser` and `AsyncBrowser` context managers to provide authenticated Playwright browser instances.
+- `browser_manager.py` to handle the automatic installation and launching of Chrome for Testing.
+- `cli.py` with a `status` command to check the browser's state.
+- `onboarding.py` and `templates/onboarding.html` for first-time user guidance.
+- Utility modules for logging (`logger.py`) and path management (`paths.py`).
+- `pyproject.toml` for project metadata and dependency management.
+- Basic smoke tests for the `Browser` and `AsyncBrowser` classes.
+- Comprehensive `PLAN.md` and `TODO.md` for development tracking.
+
+</document_content>
+</document>
+
+<document index="6">
+<source>CLAUDE.md</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 1. Project Overview
+
+PlaywrightAuthor is a convenience package for Microsoft Playwright that handles browser automation setup. It automatically manages Chrome for Testing installation, authentication with user profiles, and provides ready-to-use Browser objects through simple context managers.
+
+## 2. Key Architecture
+
+**Core Design Pattern**: The library follows a context manager pattern with `Browser()` and `AsyncBrowser()` classes that return authenticated Playwright browser objects.
+
+**Main Components** (planned structure):
+- `playwrightauthor/author.py` - Core Browser/AsyncBrowser classes (main API)
+- `playwrightauthor/browser_manager.py` - Chrome installation/process management 
+- `playwrightauthor/onboarding.py` - User guidance for authentication
+- `playwrightauthor/cli.py` - Fire-powered CLI interface
+- `playwrightauthor/utils/` - Logger and cross-platform path utilities
+
+**Current State**: The project is in early development. The main implementation exists as a legacy scraper in `old/google_docs_scraper_simple.py` that demonstrates the core concept of connecting to an existing Chrome debug session.
+
+## 3. Development Commands
+
+### 3.1. Environment Setup
+```bash
+# Initial setup with uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv --python 3.12
+uv init
+uv add playwright rich fire loguru platformdirs requests psutil
+```
+
+### 3.2. Code Quality Pipeline
+After any Python changes, run:
+```bash
+fd -e py -x uvx autoflake -i {}; \
+fd -e py -x uvx pyupgrade --py312-plus {}; \
+fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; \
+fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; \
+python -m pytest
+```
+
+### 3.3. Testing
+- Run tests: `python -m pytest`
+- Tests are located in `tests/` directory
+- Current tests may be integration tests requiring live Chrome instance
+
+### 3.4. CLI Usage
+Once implemented:
+```bash
+python -m playwrightauthor status  # Check browser status
+```
+
+## 4. Code Standards
+
+- **File headers**: Every Python file should include a `this_file:` comment with the relative path
+- **Dependencies**: Use uv script headers with `# /// script` blocks
+- **Type hints**: Use modern Python type hints (list, dict, | for unions)
+- **Logging**: Use loguru with verbose flag support
+- **CLI**: Use Fire for command-line interfaces with Rich for output
+
+## 5. Browser Management Strategy
+
+The core technical challenge is reliably managing Chrome for Testing:
+
+1. **Detection**: Check if Chrome is running with `--remote-debugging-port=9222`
+2. **Installation**: Prefer `npx puppeteer browsers install`, fallback to LKGV JSON downloads
+3. **Process Management**: Kill non-debug instances, launch with persistent user-data-dir
+4. **Connection**: Use Playwright's `connect_over_cdp()` to attach to debug session
+
+## 6. Project Workflow
+
+The project follows a documentation-driven development approach:
+1. Read `WORK.md` and `PLAN.md` before making changes
+2. Update documentation files after implementation
+3. Use "Wait, but" reflection methodology for code review
+4. Maintain minimal, self-contained commits
+
+## 7. Dependencies
+
+Core runtime dependencies:
+- `playwright` - Browser automation
+- `rich` - Terminal output formatting  
+- `fire` - CLI generation
+- `loguru` - Logging
+- `platformdirs` - Cross-platform paths
+- `requests` - HTTP client for downloads
+- `psutil` - Process management
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TL;DR for PlaywrightAuthor Codebase**
+
+**1. Core Purpose & Value Proposition:**
+PlaywrightAuthor is a Python convenience library built on top of Microsoft Playwright. Its primary goal is to eliminate the boilerplate setup for browser automation. It automatically finds or installs a "Chrome for Testing" instance, manages its process (ensuring it runs in debug mode), handles user authentication by reusing a persistent profile, and provides a ready-to-use, authenticated Playwright `Browser` object within a simple context manager (`with Browser() as browser:`).
+
+**2. Key Architectural Components:**
+*   **Main API (`author.py`):** Exposes the core `Browser()` and `AsyncBrowser()` context managers, which are the main entry points for the user.
+*   **Browser Management (`browser/` & `browser_manager.py`):** This is the technical core of the library. It's a modular system responsible for:
+    *   `finder.py`: Robustly discovering the Chrome executable across macOS, Windows, and Linux, checking over 20 standard and non-standard locations per platform.
+    *   `installer.py`: Downloading the correct Chrome for Testing build using official JSON endpoints, with progress bars and SHA256 validation.
+    *   `launcher.py`: Launching the Chrome process with the remote debugging port (`--remote-debugging-port=9222`).
+    *   `process.py`: Managing the Chrome process, including gracefully killing existing non-debug instances and verifying the new process is ready.
+*   **User Experience (`onboarding.py`, `cli.py`):**
+    *   `onboarding.py`: If the user is not logged into necessary services, it serves a local HTML page (`templates/onboarding.html`) to guide them through the login process.
+    *   `cli.py`: A `fire`-powered command-line interface for status checks (`status`) and cache clearing (`clear-cache`), with `rich` for formatted output.
+*   **Configuration & State (`config.py`, `state_manager.py`):** Handles library configuration (e.g., timeouts, paths) and persists the state of the browser (e.g., installation path, version) to avoid redundant work.
+*   **Utilities (`utils/`):** Cross-platform path management (`paths.py`) and `loguru`-based logging (`logger.py`).
+
+**3. Development & Quality:**
+*   **Workflow:** The project is documentation-driven, using `PLAN.md`, `TODO.md`, and `WORK.md` to guide development. It emphasizes iterative, minimal commits.
+*   **Tooling:** Uses `uv` for environment and dependency management. The build system is `hatch` with `hatch-vcs` for versioning based on git tags.
+*   **CI/CD (`.github/workflows/ci.yml`):** A comprehensive GitHub Actions pipeline tests the library on Ubuntu, Windows, and macOS. It runs linting (`ruff`), type checking (`mypy`), and a full `pytest` suite with coverage reporting to Codecov.
+*   **Code Quality:** The codebase is fully type-hinted. A strict quality pipeline (`ruff`, `autoflake`, `pyupgrade`) is enforced and documented. Every file includes a `this_file:` comment for easy path reference.
+
+**4. Current Status & Roadmap:**
+The project has completed its initial phases focused on robustness, error handling, and cross-platform compatibility. It is now in the "Elegance and Performance" phase, which involves refactoring the architecture (e.g., separating state and config management), optimizing performance (e.g., lazy loading), and adding advanced features like browser profile management. Future phases will focus on improving the CLI, documentation, and user experience.
+
+</document_content>
+</document>
+
+<document index="7">
+<source>GEMINI.md</source>
+<document_content>
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 1. Project Overview
+
+PlaywrightAuthor is a convenience package for Microsoft Playwright that handles browser automation setup. It automatically manages Chrome for Testing installation, authentication with user profiles, and provides ready-to-use Browser objects through simple context managers.
+
+## 2. Key Architecture
+
+**Core Design Pattern**: The library follows a context manager pattern with `Browser()` and `AsyncBrowser()` classes that return authenticated Playwright browser objects.
+
+**Main Components** (planned structure):
+- `playwrightauthor/author.py` - Core Browser/AsyncBrowser classes (main API)
+- `playwrightauthor/browser_manager.py` - Chrome installation/process management 
+- `playwrightauthor/onboarding.py` - User guidance for authentication
+- `playwrightauthor/cli.py` - Fire-powered CLI interface
+- `playwrightauthor/utils/` - Logger and cross-platform path utilities
+
+**Current State**: The project is in early development. The main implementation exists as a legacy scraper in `old/google_docs_scraper_simple.py` that demonstrates the core concept of connecting to an existing Chrome debug session.
+
+## 3. Development Commands
+
+### 3.1. Environment Setup
+```bash
+# Initial setup with uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv --python 3.12
+uv init
+uv add playwright rich fire loguru platformdirs requests psutil
+```
+
+### 3.2. Code Quality Pipeline
+After any Python changes, run:
+```bash
+fd -e py -x uvx autoflake -i {}; \
+fd -e py -x uvx pyupgrade --py312-plus {}; \
+fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; \
+fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; \
+python -m pytest
+```
+
+### 3.3. Testing
+- Run tests: `python -m pytest`
+- Tests are located in `tests/` directory
+- Current tests may be integration tests requiring live Chrome instance
+
+### 3.4. CLI Usage
+Once implemented:
+```bash
+python -m playwrightauthor status  # Check browser status
+```
+
+## 4. Code Standards
+
+- **File headers**: Every Python file should include a `this_file:` comment with the relative path
+- **Dependencies**: Use uv script headers with `# /// script` blocks
+- **Type hints**: Use modern Python type hints (list, dict, | for unions)
+- **Logging**: Use loguru with verbose flag support
+- **CLI**: Use Fire for command-line interfaces with Rich for output
+
+## 5. Browser Management Strategy
+
+The core technical challenge is reliably managing Chrome for Testing:
+
+1. **Detection**: Check if Chrome is running with `--remote-debugging-port=9222`
+2. **Installation**: Prefer `npx puppeteer browsers install`, fallback to LKGV JSON downloads
+3. **Process Management**: Kill non-debug instances, launch with persistent user-data-dir
+4. **Connection**: Use Playwright's `connect_over_cdp()` to attach to debug session
+
+## 6. Project Workflow
+
+The project follows a documentation-driven development approach:
+1. Read `WORK.md` and `PLAN.md` before making changes
+2. Update documentation files after implementation
+3. Use "Wait, but" reflection methodology for code review
+4. Maintain minimal, self-contained commits
+
+## 7. Dependencies
+
+Core runtime dependencies:
+- `playwright` - Browser automation
+- `rich` - Terminal output formatting  
+- `fire` - CLI generation
+- `loguru` - Logging
+- `platformdirs` - Cross-platform paths
+- `requests` - HTTP client for downloads
+- `psutil` - Process management
+
+# Software Development Rules
+
+## 8. Pre-Work Preparation
+
+### 8.1. Before Starting Any Work
+- **ALWAYS** read `WORK.md` in the main project folder for work progress
+- Read `README.md` to understand the project
+- STEP BACK and THINK HEAVILY STEP BY STEP about the task
+- Consider alternatives and carefully choose the best option
+- Check for existing solutions in the codebase before starting
+
+### 8.2. Project Documentation to Maintain
+- `README.md` - purpose and functionality
+- `CHANGELOG.md` - past change release notes (accumulative)
+- `PLAN.md` - detailed future goals, clear plan that discusses specifics
+- `TODO.md` - flat simplified itemized `- [ ]`-prefixed representation of `PLAN.md`
+- `WORK.md` - work progress updates
+
+## 9. General Coding Principles
+
+### 9.1. Core Development Approach
+- Iterate gradually, avoiding major changes
+- Focus on minimal viable increments and ship early
+- Minimize confirmations and checks
+- Preserve existing code/structure unless necessary
+- Check often the coherence of the code you're writing with the rest of the code
+- Analyze code line-by-line
+
+### 9.2. Code Quality Standards
+- Use constants over magic numbers
+- Write explanatory docstrings/comments that explain what and WHY
+- Explain where and how the code is used/referred to elsewhere
+- Handle failures gracefully with retries, fallbacks, user guidance
+- Address edge cases, validate assumptions, catch errors early
+- Let the computer do the work, minimize user decisions
+- Reduce cognitive load, beautify code
+- Modularize repeated logic into concise, single-purpose functions
+- Favor flat over nested structures
+
+## 10. Tool Usage (When Available)
+
+### 10.1. Additional Tools
+- If we need a new Python project, run `curl -LsSf https://astral.sh/uv/install.sh | sh; uv venv --python 3.12; uv init; uv add fire rich; uv sync`
+- Use `tree` CLI app if available to verify file locations
+- Check existing code with `.venv` folder to scan and consult dependency source code
+- Run `DIR="."; uvx codetoprompt --compress --output "$DIR/llms.txt"  --respect-gitignore --cxml --exclude "*.svg,.specstory,*.md,*.txt,ref,testdata,*.lock,*.svg" "$DIR"` to get a condensed snapshot of the codebase into `llms.txt`
+
+## 11. File Management
+
+### 11.1. File Path Tracking
+- **MANDATORY**: In every source file, maintain a `this_file` record showing the path relative to project root
+- Place `this_file` record near the top:
+- As a comment after shebangs in code files
+- In YAML frontmatter for Markdown files
+- Update paths when moving files
+- Omit leading `./`
+- Check `this_file` to confirm you're editing the right file
+
+## 12. Python-Specific Guidelines
+
+### 12.1. PEP Standards
+- PEP 8: Use consistent formatting and naming, clear descriptive names
+- PEP 20: Keep code simple and explicit, prioritize readability over cleverness
+- PEP 257: Write clear, imperative docstrings
+- Use type hints in their simplest form (list, dict, | for unions)
+
+### 12.2. Modern Python Practices
+- Use f-strings and structural pattern matching where appropriate
+- Write modern code with `pathlib`
+- ALWAYS add "verbose" mode loguru-based logging & debug-log
+- Use `uv add` 
+- Use `uv pip install` instead of `pip install`
+- Prefix Python CLI tools with `python -m` (e.g., `python -m pytest`)
+
+### 12.3. CLI Scripts Setup
+For CLI Python scripts, use `fire` & `rich`, and start with:
+```python
+#!/usr/bin/env -S uv run -s
+# /// script
+# dependencies = ["PKG1", "PKG2"]
+# ///
+# this_file: PATH_TO_CURRENT_FILE
+```
+
+### 12.4. Post-Edit Python Commands
+```bash
+fd -e py -x uvx autoflake -i {}; fd -e py -x uvx pyupgrade --py312-plus {}; fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; python -m pytest;
+```
+
+## 13. Post-Work Activities
+
+### 13.1. Critical Reflection
+- After completing a step, say "Wait, but" and do additional careful critical reasoning
+- Go back, think & reflect, revise & improve what you've done
+- Don't invent functionality freely
+- Stick to the goal of "minimal viable next version"
+
+### 13.2. Documentation Updates
+- Update `WORK.md` with what you've done and what needs to be done next
+- Document all changes in `CHANGELOG.md`
+- Update `TODO.md` and `PLAN.md` accordingly
+
+## 14. Work Methodology
+
+### 14.1. Virtual Team Approach
+Be creative, diligent, critical, relentless & funny! Lead two experts:
+- **"Ideot"** - for creative, unorthodox ideas
+- **"Critin"** - to critique flawed thinking and moderate for balanced discussions
+
+Collaborate step-by-step, sharing thoughts and adapting. If errors are found, step back and focus on accuracy and progress.
+
+### 14.2. Continuous Work Mode
+- Treat all items in `PLAN.md` and `TODO.md` as one huge TASK
+- Work on implementing the next item
+- Review, reflect, refine, revise your implementation
+- Periodically check off completed issues
+- Continue to the next item without interruption
+
+## 15. Special Commands
+
+### 15.1. `/plan` Command - Transform Requirements into Detailed Plans
+
+When I say "/plan [requirement]", you must:
+
+1. **DECONSTRUCT** the requirement:
+- Extract core intent, key features, and objectives
+- Identify technical requirements and constraints
+- Map what's explicitly stated vs. what's implied
+- Determine success criteria
+
+2. **DIAGNOSE** the project needs:
+- Audit for missing specifications
+- Check technical feasibility
+- Assess complexity and dependencies
+- Identify potential challenges
+
+3. **RESEARCH** additional material: 
+- Repeatedly call the `perplexity_ask` and request up-to-date information or additional remote context
+- Repeatedly call the `context7` tool and request up-to-date software package documentation
+- Repeatedly call the `codex` tool and request additional reasoning, summarization of files and second opinion
+
+4. **DEVELOP** the plan structure:
+- Break down into logical phases/milestones
+- Create hierarchical task decomposition
+- Assign priorities and dependencies
+- Add implementation details and technical specs
+- Include edge cases and error handling
+- Define testing and validation steps
+
+5. **DELIVER** to `PLAN.md`:
+- Write a comprehensive, detailed plan with:
+ - Project overview and objectives
+ - Technical architecture decisions
+ - Phase-by-phase breakdown
+ - Specific implementation steps
+ - Testing and validation criteria
+ - Future considerations
+- Simultaneously create/update `TODO.md` with the flat itemized `- [ ]` representation
+
+**Plan Optimization Techniques:**
+- **Task Decomposition:** Break complex requirements into atomic, actionable tasks
+- **Dependency Mapping:** Identify and document task dependencies
+- **Risk Assessment:** Include potential blockers and mitigation strategies
+- **Progressive Enhancement:** Start with MVP, then layer improvements
+- **Technical Specifications:** Include specific technologies, patterns, and approaches
+
+### 15.2. `/report` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files
+2. Analyze recent changes
+3. Document all changes in `./CHANGELOG.md`
+4. Remove completed items from `./TODO.md` and `./PLAN.md`
+5. Ensure `./PLAN.md` contains detailed, clear plans with specifics
+6. Ensure `./TODO.md` is a flat simplified itemized representation
+
+### 15.3. `/work` Command
+
+1. Read all `./TODO.md` and `./PLAN.md` files and reflect
+2. Write down the immediate items in this iteration into `./WORK.md`
+3. Work on these items
+4. Think, contemplate, research, reflect, refine, revise
+5. Be careful, curious, vigilant, energetic
+6. Verify your changes and think aloud
+7. Consult, research, reflect
+8. Periodically remove completed items from `./WORK.md`
+9. Tick off completed items from `./TODO.md` and `./PLAN.md`
+10. Update `./WORK.md` with improvement tasks
+11. Execute `/report`
+12. Continue to the next item
+
+## 16. Additional Guidelines
+
+- Ask before extending/refactoring existing code that may add complexity or break things
+- Work tirelessly without constant updates when in continuous work mode
+- Only notify when you've completed all `PLAN.md` and `TODO.md` items
+
+## 17. Command Summary
+
+- `/plan [requirement]` - Transform vague requirements into detailed `PLAN.md` and `TODO.md`
+- `/report` - Update documentation and clean up completed tasks
+- `/work` - Enter continuous work mode to implement plans
+- You may use these commands autonomously when appropriate
+
+**TL;DR for PlaywrightAuthor Codebase**
+
+**1. Core Purpose & Value Proposition:**
+PlaywrightAuthor is a Python convenience library built on top of Microsoft Playwright. Its primary goal is to eliminate the boilerplate setup for browser automation. It automatically finds or installs a "Chrome for Testing" instance, manages its process (ensuring it runs in debug mode), handles user authentication by reusing a persistent profile, and provides a ready-to-use, authenticated Playwright `Browser` object within a simple context manager (`with Browser() as browser:`).
+
+**2. Key Architectural Components:**
+*   **Main API (`author.py`):** Exposes the core `Browser()` and `AsyncBrowser()` context managers, which are the main entry points for the user.
+*   **Browser Management (`browser/` & `browser_manager.py`):** This is the technical core of the library. It's a modular system responsible for:
+    *   `finder.py`: Robustly discovering the Chrome executable across macOS, Windows, and Linux, checking over 20 standard and non-standard locations per platform.
+    *   `installer.py`: Downloading the correct Chrome for Testing build using official JSON endpoints, with progress bars and SHA256 validation.
+    *   `launcher.py`: Launching the Chrome process with the remote debugging port (`--remote-debugging-port=9222`).
+    *   `process.py`: Managing the Chrome process, including gracefully killing existing non-debug instances and verifying the new process is ready.
+*   **User Experience (`onboarding.py`, `cli.py`):**
+    *   `onboarding.py`: If the user is not logged into necessary services, it serves a local HTML page (`templates/onboarding.html`) to guide them through the login process.
+    *   `cli.py`: A `fire`-powered command-line interface for status checks (`status`) and cache clearing (`clear-cache`), with `rich` for formatted output.
+*   **Configuration & State (`config.py`, `state_manager.py`):** Handles library configuration (e.g., timeouts, paths) and persists the state of the browser (e.g., installation path, version) to avoid redundant work.
+*   **Utilities (`utils/`):** Cross-platform path management (`paths.py`) and `loguru`-based logging (`logger.py`).
+
+**3. Development & Quality:**
+*   **Workflow:** The project is documentation-driven, using `PLAN.md`, `TODO.md`, and `WORK.md` to guide development. It emphasizes iterative, minimal commits.
+*   **Tooling:** Uses `uv` for environment and dependency management. The build system is `hatch` with `hatch-vcs` for versioning based on git tags.
+*   **CI/CD (`.github/workflows/ci.yml`):** A comprehensive GitHub Actions pipeline tests the library on Ubuntu, Windows, and macOS. It runs linting (`ruff`), type checking (`mypy`), and a full `pytest` suite with coverage reporting to Codecov.
+*   **Code Quality:** The codebase is fully type-hinted. A strict quality pipeline (`ruff`, `autoflake`, `pyupgrade`) is enforced and documented. Every file includes a `this_file:` comment for easy path reference.
+
+**4. Current Status & Roadmap:**
+The project has completed its initial phases focused on robustness, error handling, and cross-platform compatibility. It is now in the "Elegance and Performance" phase, which involves refactoring the architecture (e.g., separating state and config management), optimizing performance (e.g., lazy loading), and adding advanced features like browser profile management. Future phases will focus on improving the CLI, documentation, and user experience.
+
+</document_content>
+</document>
+
+<document index="8">
+<source>LICENSE</source>
+<document_content>
+MIT License
+
+Copyright (c) 2025 Adam Twardoch
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+</document_content>
+</document>
+
+<document index="9">
+<source>PLAN.md</source>
+<document_content>
+# Development Plan for PlaywrightAuthor
+
+This document outlines the remaining development priorities to achieve a complete, production-ready package.
+
+## Current Status
+
+PlaywrightAuthor v1.0.7 is a mature, feature-complete browser automation library with:
+- ✅ Robust cross-platform browser management 
+- ✅ State management and configuration systems
+- ✅ Performance optimizations with lazy loading
+- ✅ Comprehensive CLI interface
+- ✅ Production-ready error handling and testing
+- ✅ **Interactive REPL System** - Complete browser automation workbench
+
+## Completed Achievements
+
+### ✅ Priority 1: Interactive CLI Enhancement - COMPLETED v1.0.7
+
+**Objective**: ✅ Create a sophisticated interactive REPL that transforms PlaywrightAuthor into a live browser automation workbench.
+
+**Implemented Features**:
+- ✅ **Complete REPL Engine**: Built on `prompt_toolkit` with custom PlaywrightAuthor interpreter
+- ✅ **Advanced Tab Completion**: Context-aware completion for Playwright APIs, CLI commands, and Python keywords
+- ✅ **Session Management**: Persistent command history across sessions stored in user config directory
+- ✅ **CLI Integration**: Seamless access to all CLI commands within REPL using `!` prefix
+- ✅ **Rich Interactive Output**: Syntax highlighting, error handling, and professional formatting
+- ✅ **Live Code Execution**: Real-time Python code evaluation with browser context management
+
+**Technical Implementation Completed**:
+- ✅ `src/playwrightauthor/repl/engine.py` - Core REPL loop and command processing (217 lines)
+- ✅ `src/playwrightauthor/repl/completion.py` - Advanced tab completion logic
+- ✅ `src/playwrightauthor/repl/__init__.py` - Module exports and structure
+- ✅ Integration with existing `cli.py` through `repl` command
+- ✅ Added `prompt_toolkit>=3.0.0` dependency for REPL functionality
+
+## Remaining Priorities for 100% Completion
+
+### Priority 1: Documentation Excellence ✅ MAJOR PROGRESS → Strategic Implementation
+
+**Objective**: Create comprehensive, world-class documentation that positions PlaywrightAuthor as the definitive browser automation solution.
+
+**Strategic Foundation (Completed in v1.0.6)**:
+- ✅ **Enhanced README.md**: Modern installation, quick start guide, comprehensive CLI docs
+- ✅ **Troubleshooting Guide**: FAQ and common issues resolution
+- ✅ **Installation Guide**: Step-by-step pip installation instructions
+- ✅ **Package Architecture**: Current src/ layout with detailed module descriptions
+- ✅ **Feature Documentation**: Professional presentation of capabilities
+
+**Phase 1: API Documentation Excellence**
+- **Complete Docstring Coverage**:
+  - Audit all public APIs in `src/playwrightauthor/` for missing docstrings
+  - Implement Google-style docstrings with comprehensive parameter documentation
+  - Add return type documentation with examples for complex return values
+  - Include `Raises` sections for all possible exceptions with scenarios
+  - Add `Example` sections for all public methods demonstrating real usage
+- **Auto-Generated Documentation**:
+  - Setup Sphinx with `sphinx-autoapi` for automatic API docs generation
+  - Configure custom CSS theme matching PlaywrightAuthor branding
+  - Implement `docs/` directory structure with `conf.py` and build scripts
+  - Add GitHub Actions workflow for automatic docs deployment to GitHub Pages
+- **Implementation Files**:
+  - `docs/conf.py` - Sphinx configuration with extensions and theme
+  - `docs/api/` - Auto-generated API reference from docstrings
+  - `.github/workflows/docs.yml` - Automated documentation deployment
+
+**Phase 2: Real-World Usage Examples**
+- **Comprehensive Example Library**:
+  - Create `examples/` directory with categorized use cases
+  - **Web Scraping**: `examples/web_scraping/` with e-commerce, news, social media scenarios
+  - **Testing Automation**: `examples/testing/` with pytest integration, CI/CD examples
+  - **Authentication Flows**: `examples/auth/` covering OAuth, SAML, MFA scenarios
+  - **Data Extraction**: `examples/data_extraction/` with PDF, forms, dynamic content
+- **Common Patterns Documentation**:
+  - Error handling best practices with retry mechanisms
+  - Performance optimization patterns for large-scale operations
+  - Resource management and cleanup strategies
+  - Concurrent browser management patterns
+- **Framework Integration Examples**:
+  - `examples/integrations/pytest/` - Complete test suite examples
+  - `examples/integrations/fastapi/` - Web scraping API service
+  - `examples/integrations/django/` - Background task automation
+  - `examples/integrations/asyncio/` - High-performance concurrent automation
+
+**Phase 3: Visual Documentation & Workflow Guides**
+- **Authentication Workflow Documentation**:
+  - Step-by-step screenshot guides for common services (Gmail, GitHub, LinkedIn)
+  - Video tutorials for complex authentication flows
+  - Troubleshooting flowcharts for authentication failures
+  - Implementation: `docs/auth/` with screenshots and guides
+- **Visual Architecture Diagrams**:
+  - Browser lifecycle management flow diagrams
+  - Component interaction architecture visualization
+  - Error handling and recovery workflow charts
+  - Implementation: `docs/architecture/` with Mermaid diagrams
+
+**Phase 4: Platform-Specific & Performance Documentation**
+- **Platform Optimization Guides**:
+  - macOS: M1/Intel differences, security permissions, Homebrew setup
+  - Windows: UAC considerations, antivirus whitelisting, PowerShell execution policies
+  - Linux: Distribution-specific Chrome installation, Docker considerations
+  - Implementation: `docs/platforms/` with OS-specific guides
+- **Performance Best Practices**:
+  - Browser resource optimization strategies
+  - Memory management and leak prevention
+  - Connection pooling and reuse patterns
+  - Monitoring and debugging performance issues
+  - Implementation: `docs/performance/` with benchmarking guides
+
+**Quality Assurance & Testing**:
+- **Documentation Testing Pipeline**:
+  - `doctest` integration for all code examples in docstrings
+  - Example verification CI workflow ensuring all examples run successfully
+  - Link checking for external references and internal cross-references
+  - Documentation accessibility testing for screen readers and keyboard navigation
+
+### Priority 2: Advanced Features
+
+**Objective**: Transform PlaywrightAuthor into a comprehensive browser automation platform for enterprise and power-user scenarios.
+
+**Advanced Profile Management System**:
+- **Profile Architecture**: 
+  - JSON-based profile definitions with schema validation
+  - Hierarchical profile inheritance (base → environment → specific)
+  - Profile versioning and migration system for backward compatibility
+- **Security & Encryption**:
+  - AES-256 encryption for sensitive profile data (cookies, tokens, credentials)
+  - Key derivation from user password or system keyring integration
+  - Secure profile sharing with encrypted export/import functionality
+- **Profile Templates & Automation**:
+  - Pre-built templates for common services (Gmail, GitHub, LinkedIn, etc.)
+  - Automated login flow recording and playback
+  - Profile health checking and auto-refresh mechanisms
+- **Implementation**: `src/playwrightauthor/profiles/` with `manager.py`, `crypto.py`, `templates.py`
+
+**Comprehensive Plugin Architecture**:
+- **Plugin Framework**:
+  - Abstract base classes defining plugin interfaces (`IAuthPlugin`, `IMonitoringPlugin`, etc.)
+  - Lifecycle hooks: `pre_launch`, `post_connect`, `pre_action`, `post_action`, `cleanup`
+  - Plugin dependency management and conflict resolution
+- **Core Plugin Ecosystem**:
+  - **Authentication Plugins**: OAuth2, SAML, multi-factor authentication helpers
+  - **Proxy & Network**: HTTP/SOCKS proxy management, traffic modification, SSL certificate handling
+  - **Monitoring & Analytics**: Performance metrics, error tracking, usage analytics
+  - **Development Tools**: Request/response logging, network replay, visual regression testing
+- **Plugin Discovery & Management**:
+  - Automatic plugin discovery via entry points and directory scanning
+  - Plugin marketplace integration with version management
+  - Sandboxed plugin execution with permission control
+- **Implementation**: `src/playwrightauthor/plugins/` with plugin framework and built-in plugins
+
+**Enterprise Performance & Scalability**:
+- **Connection Pooling & Management**:
+  - Smart browser instance pooling with health monitoring
+  - Load balancing across multiple browser processes
+  - Connection recycling and resource optimization
+- **Advanced Monitoring**:
+  - Real-time performance metrics (memory, CPU, network usage)
+  - Structured logging with correlation IDs and distributed tracing
+  - Custom metrics collection with Prometheus/StatsD integration
+  - Browser crash detection and automatic recovery
+- **Scalability Features**:
+  - Horizontal scaling support for multiple machines
+  - Queue-based job processing with retry mechanisms
+  - Resource quotas and rate limiting per profile/user
+- **Implementation**: `src/playwrightauthor/enterprise/` with monitoring, pooling, and scaling modules
+
+### Priority 3: Production Readiness
+
+**Objective**: Establish PlaywrightAuthor as a production-grade, enterprise-ready automation platform with comprehensive tooling, monitoring, and support infrastructure.
+
+**Development Infrastructure & DevOps**:
+- **Code Quality & Standards**:
+  - Pre-commit hooks with `ruff`, `mypy`, `bandit` security scanning, and custom PlaywrightAuthor linting rules
+  - Automated code formatting with consistent style enforcement across all modules
+  - Dependency vulnerability scanning with automated security updates via Dependabot
+  - License compliance checking for all dependencies
+- **Development Environment**:
+  - Docker development containers with VS Code devcontainer configuration
+  - Reproducible development environments with pinned tool versions
+  - Automated setup scripts for new contributors
+  - VS Code workspace settings with recommended extensions and debugging configurations
+- **Build & Release Pipeline**:
+  - Multi-stage Docker builds for different deployment scenarios
+  - Automated semantic versioning based on conventional commits
+  - Cross-platform packaging and distribution optimization
+  - Release automation with changelog generation and GitHub releases
+
+**Comprehensive Quality Assurance**:
+- **Advanced Testing Strategy**:
+  - Expanded unit test coverage targeting 95%+ with mutation testing
+  - Integration tests covering all browser/OS combinations in CI matrix
+  - End-to-end tests with real authentication flows and complex scenarios
+  - Performance regression testing with benchmarking baselines
+  - Chaos engineering tests for failure mode validation
+- **Production Testing**:
+  - Load testing with realistic traffic patterns and concurrent users
+  - Memory leak detection and long-running process stability tests
+  - Network failure resilience and recovery testing
+  - Browser crash and recovery scenario validation
+- **Documentation Quality**:
+  - Automated documentation testing with `doctest` integration
+  - Example code verification in CI to prevent documentation drift
+  - Interactive documentation with runnable examples
+  - API documentation auto-generation from type hints and docstrings
+
+**Enterprise Support & Ecosystem**:
+- **Security & Compliance**:
+  - Security audit reports and vulnerability disclosure process
+  - GDPR/CCPA compliance documentation for data handling
+  - Enterprise security features (audit logging, access controls)
+  - Penetration testing results and security best practices guide
+- **Monitoring & Observability**:
+  - OpenTelemetry integration for distributed tracing
+  - Prometheus metrics export for monitoring infrastructure
+  - Health check endpoints for load balancers and orchestrators
+  - Structured logging with correlation IDs for troubleshooting
+- **Community & Support**:
+  - Comprehensive contribution guidelines with development workflow
+  - Code of conduct and community moderation guidelines
+  - GitHub issue and PR templates with bug report automation
+  - Community Discord/Slack with automated support bot
+  - Professional support tiers with SLA commitments
+- **Ecosystem Integration**:
+  - PyPI optimization for fast installs and minimal dependencies
+  - Conda-forge package for scientific computing environments
+  - Docker Hub official images for containerized deployments
+  - Homebrew formula for macOS users
+  - Integration guides for popular CI/CD platforms (GitHub Actions, GitLab CI, Jenkins)
+
+**Implementation Structure**:
+- `.github/` - Enhanced workflows, issue templates, community health files
+- `docker/` - Multi-stage Dockerfiles and docker-compose configurations  
+- `docs/` - Comprehensive documentation with examples and tutorials
+- `scripts/` - Development, testing, and deployment automation scripts
+- `monitoring/` - Observability configurations and dashboard templates
+
+</document_content>
+</document>
+
+<document index="10">
+<source>README.md</source>
+<document_content>
+# PlaywrightAuthor
+
+*Your personal, authenticated browser for Playwright, ready in one line of code.*
+
+PlaywrightAuthor is a convenience package for **Microsoft Playwright**. It handles the tedious parts of browser automation: finding and launching a **Chrome for Testing** instance, keeping it authenticated with your user profile, and connecting Playwright to it. All you need to do is instantiate a class, and you get a ready-to-use `Browser` object. This lets you focus on writing your automation script, not on the boilerplate.
+
+The core idea is to let you do this:
+
+```python
+from playwrightauthor import Browser
+
+with Browser() as browser:
+    # you get a standard Playwright browser object
+    # that is already connected to a logged-in browser
+    page = browser.new_page()
+    page.goto("https://github.com/me")
+    print(f"Welcome, {page.locator('.user-profile-name').inner_text()}!")
+```
+
+---
+
+## Contents
+
+* [Features](#features)
+* [Quick‑start](#quick-start)
+* [Developer workflow](#developer-workflow)
+* [Package layout](#package-layout) – **file tree, code snippet, explanation & rationale for every file**
+* [Contributing](#contributing)
+* [License](#license)
+
+---
+
+## Features
+
+### ✨ **Zero-Configuration Browser Automation**
+- **Automatic Chrome Management**: Discovers, installs, and launches Chrome for Testing with remote debugging enabled
+- **Persistent Authentication**: Maintains user sessions across script runs using persistent browser profiles
+- **Cross-Platform Support**: Works seamlessly on Windows, macOS, and Linux with optimized Chrome discovery
+
+### 🚀 **Performance & Reliability**
+- **Lazy Loading**: Optimized startup time with on-demand module imports
+- **Connection Health Monitoring**: Comprehensive diagnostics and automatic retry logic
+- **State Management**: Intelligent caching of browser paths and configuration for faster subsequent runs
+- **Error Recovery**: Graceful handling of browser crashes with automatic restart capabilities
+
+### 🛠 **Developer Experience**
+- **Simple API**: Clean `Browser()` and `AsyncBrowser()` context managers
+- **Rich CLI Interface**: Comprehensive command-line tools for browser and profile management
+- **Type Safety**: 100% type-hinted codebase with full mypy compatibility
+- **Comprehensive Testing**: Extensive test suite with CI/CD pipeline on multiple platforms
+
+### 📋 **Advanced Management**
+- **Profile System**: Create, manage, and switch between multiple browser profiles
+- **Configuration Management**: Environment variable support and flexible configuration options
+- **Diagnostic Tools**: Built-in troubleshooting and system health checks
+- **JSON Output**: Machine-readable output formats for automation and scripting
+
+---
+
+## Installation
+
+```bash
+# Install PlaywrightAuthor
+pip install playwrightauthor
+
+# Install Playwright browsers (required)
+playwright install chromium
+```
+
+## Quick start
+
+```bash
+# Create your script file
+cat > example.py << 'EOF'
+from playwrightauthor import Browser
+
+with Browser() as browser:
+    page = browser.new_page()
+    page.goto("https://github.com")
+    print(f"Page title: {page.title()}")
+EOF
+
+# Run your script
+python example.py
+```
+
+Example `myscript.py`:
+```python
+from playwrightauthor import Browser, AsyncBrowser
+import asyncio
+
+# Synchronous API
+print("--- Running Sync Example ---")
+with Browser(verbose=True) as browser:
+    page = browser.new_page()
+    page.goto("https://github.com")
+    print(f"Page title: {page.title()}")
+
+# Asynchronous API
+async def main():
+    print("\n--- Running Async Example ---")
+    async with AsyncBrowser(verbose=True) as browser:
+        page = await browser.new_page()
+        await page.goto("https://duckduckgo.com")
+        print(f"Page title: {await page.title()}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+---
+
+## Command-Line Interface
+
+PlaywrightAuthor comes with a comprehensive command-line interface for managing browsers, profiles, and diagnostics.
+
+### Browser Management
+
+```bash
+# Check browser status and launch if needed
+python -m playwrightauthor status
+
+# Clear browser cache and user data
+python -m playwrightauthor clear-cache
+
+# Run comprehensive diagnostics
+python -m playwrightauthor diagnose
+```
+
+### Profile Management
+
+```bash
+# List all browser profiles
+python -m playwrightauthor profile list
+
+# Create a new profile
+python -m playwrightauthor profile create myprofile
+
+# Show profile details
+python -m playwrightauthor profile show myprofile
+
+# Delete a profile
+python -m playwrightauthor profile delete myprofile
+
+# Clear all profiles
+python -m playwrightauthor profile clear
+```
+
+### Configuration
+
+```bash
+# Show current configuration
+python -m playwrightauthor config show
+
+# Show version and system information
+python -m playwrightauthor version
+```
+
+All commands support `--json` output format and `--verbose` for detailed logging.
+
+---
+
+## Developer workflow
+
+1. **Read** `WORK.md` & `PLAN.md` before touching code.
+
+2. **Iterate** in minimal, self‑contained commits.
+
+3. After Python changes run:
+
+   ```bash
+   fd -e py -x uvx autoflake -i {}; \
+   fd -e py -x uvx pyupgrade --py312-plus {}; \
+   fd -e py -x uvx ruff check --output-format=github --fix --unsafe-fixes {}; \
+   fd -e py -x uvx ruff format --respect-gitignore --target-version py312 {}; \
+   python -m pytest
+   ```
+
+4. Update `CHANGELOG.md`, tick items in `TODO.md`, push.
+
+5. Always finish a work session with **“Wait, but”** → reflect → refine → push again.
+
+---
+
+## Package Architecture
+
+PlaywrightAuthor follows modern Python packaging standards with a clean `src/` layout and comprehensive testing.
+
+```
+src/playwrightauthor/
+├── __init__.py              # Public API exports (Browser, AsyncBrowser)
+├── __main__.py              # CLI entry point
+├── author.py                # Core Browser context managers
+├── browser_manager.py       # Legacy browser management (compatibility)
+├── cli.py                   # Fire-powered CLI with rich output
+├── config.py                # Configuration management system
+├── connection.py            # Connection health and diagnostics
+├── exceptions.py            # Custom exception classes
+├── lazy_imports.py          # Performance optimization for imports
+├── onboarding.py            # User authentication guidance
+├── state_manager.py         # Persistent state management
+├── typing.py                # Type definitions and protocols
+├── browser/                 # Modular browser management
+│   ├── __init__.py
+│   ├── finder.py            # Cross-platform Chrome discovery
+│   ├── installer.py         # Chrome for Testing installation
+│   ├── launcher.py          # Browser process launching
+│   └── process.py           # Process management and control
+├── templates/
+│   └── onboarding.html      # User guidance interface
+└── utils/
+    ├── logger.py            # Loguru-based logging configuration
+    └── paths.py             # Cross-platform path management
+
+tests/                       # Comprehensive test suite
+├── test_author.py           # Core functionality tests
+├── test_benchmark.py        # Performance benchmarks
+├── test_integration.py      # Integration tests
+├── test_platform_specific.py # Platform-specific tests
+└── test_utils.py            # Utility function tests
+```
+
+## Key Components
+
+### Core API
+The library exposes a minimal, clean API through two main classes:
+- `Browser()` - Synchronous context manager
+- `AsyncBrowser()` - Asynchronous context manager
+
+Both provide identical functionality and return standard Playwright browser objects.
+
+### Browser Management
+- **Automatic Discovery**: Finds Chrome installations across Windows, macOS, and Linux
+- **Smart Installation**: Downloads Chrome for Testing when needed using official Google endpoints
+- **Process Management**: Handles Chrome launching with debug port and graceful cleanup
+- **Profile Persistence**: Maintains user authentication across sessions
+
+### Configuration System
+- **Environment Variables**: `PLAYWRIGHTAUTHOR_*` prefix for all settings
+- **State Management**: Caches browser paths and configuration for performance
+- **Profile Support**: Multiple named profiles for different use cases
+
+---
+## Troubleshooting
+
+### `BrowserManagerError: Could not find Chrome executable...`
+
+This error means that `playwrightauthor` could not find a Chrome executable on your system. You can either install Chrome for Testing using the `npx puppeteer browsers install chrome` command, or install Google Chrome and ensure it is in a common system location.
+
+### `playwright._impl._api_types.Error: Target page, context or browser has been closed`
+
+This error usually means that the browser was closed while your script was running. This can happen if you manually close the browser window, or if the browser crashes. If you are running into this issue, you can try running your script with the `--verbose` flag to get more information.
+
+---
+
+## Contributing
+
+Pull‑requests are welcome! Please follow the **General Coding Principles** in the main `README.md`, keep every file’s `this_file` header accurate, and end each session with a short *“Wait, but”* reflection in your PR description.
+
+---
+
+## License
+
+MIT – *see* `LICENSE`.
+
+---
+
+Wait, but…
+
+**Reflection & tiny refinements**
+
+* Refocused the entire project from a specific scraper to a general-purpose Playwright convenience library.
+* The core API is now class-based (`Browser`, `AsyncBrowser`) for a more Pythonic feel.
+* Updated the file layout (`author.py`) and CLI (`status` command) to match the new scope.
+* Generalized the onboarding HTML to be site-agnostic.
+* Ensured all snippets and explanations align with the new vision of providing a zero-setup, authenticated browser.
+
+(End of iteration – ready for review.)
+</document_content>
+</document>
+
+<document index="11">
+<source>TODO.md</source>
+<document_content>
+# TODO: Remaining Tasks for 100% Package Completion
+
+## Priority 1: Documentation Excellence → Strategic Implementation
+
+### Phase 1: API Documentation Excellence
+- [ ] Audit all public APIs in `src/playwrightauthor/` for missing docstrings
+- [ ] Implement Google-style docstrings with comprehensive parameter documentation
+- [ ] Add return type documentation with examples for complex return values
+- [ ] Include `Raises` sections for all possible exceptions with scenarios
+- [ ] Add `Example` sections for all public methods demonstrating real usage
+- [ ] Setup Sphinx with `sphinx-autoapi` for automatic API docs generation
+- [ ] Configure custom CSS theme matching PlaywrightAuthor branding
+- [ ] Implement `docs/` directory structure with `conf.py` and build scripts
+- [ ] Add GitHub Actions workflow for automatic docs deployment to GitHub Pages
+- [ ] Create `docs/conf.py` - Sphinx configuration with extensions and theme
+- [ ] Build `docs/api/` - Auto-generated API reference from docstrings
+- [ ] Implement `.github/workflows/docs.yml` - Automated documentation deployment
+
+### Phase 2: Real-World Usage Examples
+- [ ] Create `examples/` directory with categorized use cases
+- [ ] Build `examples/web_scraping/` with e-commerce, news, social media scenarios
+- [ ] Create `examples/testing/` with pytest integration, CI/CD examples
+- [ ] Implement `examples/auth/` covering OAuth, SAML, MFA scenarios
+- [ ] Add `examples/data_extraction/` with PDF, forms, dynamic content
+- [ ] Document error handling best practices with retry mechanisms
+- [ ] Create performance optimization patterns for large-scale operations
+- [ ] Add resource management and cleanup strategies documentation
+- [ ] Document concurrent browser management patterns
+- [ ] Build `examples/integrations/pytest/` - Complete test suite examples
+- [ ] Create `examples/integrations/fastapi/` - Web scraping API service
+- [ ] Implement `examples/integrations/django/` - Background task automation
+- [ ] Add `examples/integrations/asyncio/` - High-performance concurrent automation
+
+### Phase 3: Visual Documentation & Workflow Guides
+- [ ] Create step-by-step screenshot guides for common services (Gmail, GitHub, LinkedIn)
+- [ ] Produce video tutorials for complex authentication flows
+- [ ] Build troubleshooting flowcharts for authentication failures
+- [ ] Implement `docs/auth/` with screenshots and guides
+- [ ] Create browser lifecycle management flow diagrams
+- [ ] Build component interaction architecture visualization
+- [ ] Add error handling and recovery workflow charts
+- [ ] Implement `docs/architecture/` with Mermaid diagrams
+
+### Phase 4: Platform-Specific & Performance Documentation
+- [ ] Document macOS: M1/Intel differences, security permissions, Homebrew setup
+- [ ] Create Windows: UAC considerations, antivirus whitelisting, PowerShell execution policies
+- [ ] Add Linux: Distribution-specific Chrome installation, Docker considerations
+- [ ] Implement `docs/platforms/` with OS-specific guides
+- [ ] Document browser resource optimization strategies
+- [ ] Create memory management and leak prevention guides
+- [ ] Add connection pooling and reuse patterns documentation
+- [ ] Document monitoring and debugging performance issues
+- [ ] Implement `docs/performance/` with benchmarking guides
+
+### Documentation Quality Assurance & Testing
+- [ ] Integrate `doctest` for all code examples in docstrings
+- [ ] Create example verification CI workflow ensuring all examples run successfully
+- [ ] Implement link checking for external references and internal cross-references
+- [ ] Add documentation accessibility testing for screen readers and keyboard navigation
+
+## Priority 2: Advanced Features (Enterprise Platform)
+
+### Advanced Profile Management System
+- [ ] Design JSON-based profile definitions with schema validation
+- [ ] Implement hierarchical profile inheritance (base → environment → specific)
+- [ ] Build profile versioning and migration system for backward compatibility
+- [ ] Create `src/playwrightauthor/profiles/manager.py` for profile operations
+
+### Security & Encryption Features
+- [ ] Implement AES-256 encryption for sensitive profile data
+- [ ] Add key derivation from user password or system keyring integration
+- [ ] Build secure profile sharing with encrypted export/import functionality
+- [ ] Create `src/playwrightauthor/profiles/crypto.py` for security features
+
+### Profile Templates & Automation
+- [ ] Build pre-built templates for common services (Gmail, GitHub, LinkedIn, etc.)
+- [ ] Implement automated login flow recording and playback
+- [ ] Add profile health checking and auto-refresh mechanisms
+- [ ] Create `src/playwrightauthor/profiles/templates.py` for template management
+
+### Comprehensive Plugin Architecture
+- [ ] Design abstract base classes for plugin interfaces (`IAuthPlugin`, `IMonitoringPlugin`)
+- [ ] Implement lifecycle hooks system (pre_launch, post_connect, pre_action, post_action, cleanup)
+- [ ] Build plugin dependency management and conflict resolution
+- [ ] Create plugin framework foundation in `src/playwrightauthor/plugins/`
+
+### Core Plugin Ecosystem
+- [ ] Build authentication plugins (OAuth2, SAML, multi-factor authentication helpers)
+- [ ] Create proxy & network plugins (HTTP/SOCKS proxy, traffic modification, SSL certificates)
+- [ ] Implement monitoring & analytics plugins (performance metrics, error tracking, usage analytics)
+- [ ] Add development tool plugins (request/response logging, network replay, visual regression testing)
+
+### Plugin Discovery & Management
+- [ ] Implement automatic plugin discovery via entry points and directory scanning
+- [ ] Build plugin marketplace integration with version management
+- [ ] Add sandboxed plugin execution with permission control
+- [ ] Create plugin installation and update mechanisms
+
+### Enterprise Performance & Scalability
+- [ ] Implement smart browser instance pooling with health monitoring
+- [ ] Build load balancing across multiple browser processes
+- [ ] Add connection recycling and resource optimization
+- [ ] Create `src/playwrightauthor/enterprise/pooling.py` for connection management
+
+### Advanced Monitoring Infrastructure
+- [ ] Implement real-time performance metrics (memory, CPU, network usage)
+- [ ] Build structured logging with correlation IDs and distributed tracing
+- [ ] Add custom metrics collection with Prometheus/StatsD integration
+- [ ] Create browser crash detection and automatic recovery
+- [ ] Build `src/playwrightauthor/enterprise/monitoring.py` for metrics collection
+
+### Scalability Features
+- [ ] Add horizontal scaling support for multiple machines
+- [ ] Implement queue-based job processing with retry mechanisms
+- [ ] Build resource quotas and rate limiting per profile/user
+- [ ] Create `src/playwrightauthor/enterprise/scaling.py` for distributed operations
+
+## Priority 3: Production Readiness (Enterprise-Grade Infrastructure)
+
+### Development Infrastructure & DevOps
+- [ ] Setup pre-commit hooks with `ruff`, `mypy`, `bandit` security scanning
+- [ ] Add custom PlaywrightAuthor linting rules and style enforcement
+- [ ] Implement automated code formatting with consistent style across modules
+- [ ] Configure dependency vulnerability scanning with automated security updates
+- [ ] Add license compliance checking for all dependencies
+
+### Development Environment
+- [ ] Create Docker development containers with VS Code devcontainer configuration
+- [ ] Build reproducible development environments with pinned tool versions
+- [ ] Add automated setup scripts for new contributors
+- [ ] Configure VS Code workspace settings with recommended extensions and debugging
+
+### Build & Release Pipeline
+- [ ] Implement multi-stage Docker builds for different deployment scenarios
+- [ ] Add automated semantic versioning based on conventional commits
+- [ ] Optimize cross-platform packaging and distribution
+- [ ] Build release automation with changelog generation and GitHub releases
+
+### Advanced Testing Strategy
+- [ ] Expand unit test coverage targeting 95%+ with mutation testing
+- [ ] Add integration tests covering all browser/OS combinations in CI matrix
+- [ ] Create end-to-end tests with real authentication flows and complex scenarios
+- [ ] Implement performance regression testing with benchmarking baselines
+- [ ] Add chaos engineering tests for failure mode validation
+
+### Production Testing
+- [ ] Build load testing with realistic traffic patterns and concurrent users
+- [ ] Add memory leak detection and long-running process stability tests
+- [ ] Implement network failure resilience and recovery testing
+- [ ] Create browser crash and recovery scenario validation
+
+### Security & Compliance
+- [ ] Conduct security audit and create vulnerability disclosure process
+- [ ] Add GDPR/CCPA compliance documentation for data handling
+- [ ] Implement enterprise security features (audit logging, access controls)
+- [ ] Create penetration testing results and security best practices guide
+
+### Monitoring & Observability
+- [ ] Integrate OpenTelemetry for distributed tracing
+- [ ] Add Prometheus metrics export for monitoring infrastructure
+- [ ] Create health check endpoints for load balancers and orchestrators
+- [ ] Implement structured logging with correlation IDs for troubleshooting
+
+### Community & Support Infrastructure
+- [ ] Create comprehensive contribution guidelines with development workflow
+- [ ] Add code of conduct and community moderation guidelines
+- [ ] Build GitHub issue and PR templates with bug report automation
+- [ ] Setup community Discord/Slack with automated support bot
+- [ ] Design professional support tiers with SLA commitments
+
+### Ecosystem Integration
+- [ ] Optimize PyPI for fast installs and minimal dependencies
+- [ ] Create Conda-forge package for scientific computing environments
+- [ ] Build Docker Hub official images for containerized deployments
+- [ ] Add Homebrew formula for macOS users
+- [ ] Create integration guides for popular CI/CD platforms (GitHub Actions, GitLab CI, Jenkins)
+
+### Implementation Structure
+- [ ] Enhance `.github/` with workflows, issue templates, community health files
+- [ ] Create `docker/` with multi-stage Dockerfiles and docker-compose configurations
+- [ ] Build `docs/` with comprehensive documentation and tutorials
+- [ ] Add `scripts/` for development, testing, and deployment automation
+- [ ] Create `monitoring/` with observability configurations and dashboard templates
+
+## Completed Tasks ✅
+
+### Interactive CLI Enhancement (REPL Workbench) - Completed in v1.0.7
+- [x] Complete REPL Engine architecture with `prompt_toolkit` integration ✅ v1.0.7
+- [x] Advanced tab completion for Playwright APIs, CLI commands, and Python keywords ✅ v1.0.7  
+- [x] Persistent command history storage in user config directory ✅ v1.0.7
+- [x] Rich syntax highlighting and error handling with traceback display ✅ v1.0.7
+- [x] Seamless CLI command integration within REPL using `!` prefix ✅ v1.0.7
+- [x] Real-time Python code evaluation with browser context management ✅ v1.0.7
+- [x] Created `src/playwrightauthor/repl/engine.py` - Core REPL loop (217 lines) ✅ v1.0.7
+- [x] Built `src/playwrightauthor/repl/completion.py` - Context-aware completion engine ✅ v1.0.7
+- [x] Professional welcome banner and contextual help system ✅ v1.0.7
+
+### Documentation Excellence (Completed in v1.0.6)
+- [x] Update `README.md` with comprehensive quick start guide and practical examples ✅ v1.0.6
+- [x] Develop troubleshooting guide with FAQ and common issues resolution ✅ v1.0.6
+- [x] Add step-by-step installation and setup guide ✅ v1.0.6
+- [x] Update package architecture documentation with current `src/` layout ✅ v1.0.6
+- [x] Create professional feature presentation showcasing capabilities ✅ v1.0.6
+</document_content>
+</document>
+
+<document index="12">
+<source>WORK.md</source>
+<document_content>
+# Work Progress
+
+## Phase 1: Robustness and Error Handling - COMPLETED ✅
+
+### Completed Tasks
+
+- [x] Reorganize project structure to src/ layout
+- [x] Update pyproject.toml to use hatch and hatch-vcs  
+- [x] Fix hatch configuration warning in pyproject.toml
+- [x] Refine browser_manager.py error handling
+- [x] Implement retry mechanism for network requests
+- [x] Add timeout to subprocess.Popen calls
+- [x] Improve process-killing logic across platforms
+- [x] Implement login detection in onboarding.py
+- [x] Improve instructions in onboarding.html template
+- [x] Add comprehensive unit tests for utils/ modules
+
+### Major Improvements Made
+
+#### 1. Enhanced Error Handling & Exception System
+- Added specific exception classes: `BrowserInstallationError`, `BrowserLaunchError`, `ProcessKillError`, `NetworkError`, `TimeoutError`
+- Comprehensive error propagation with proper exception chaining
+- Graceful error recovery with meaningful user messages
+
+#### 2. Robust Browser Management
+- **Process Management**: Enhanced `kill_chrome_process()` with graceful termination → force kill fallback
+- **Launch Verification**: `wait_for_process_start()` ensures Chrome debug port is actually available
+- **Retry Logic**: `launch_chrome_with_retry()` handles transient launch failures
+- **Timeout Protection**: All subprocess operations now have configurable timeouts
+
+#### 3. Network Operations Resilience
+- **Download Progress**: Real-time progress reporting for Chrome downloads
+- **Integrity Checking**: SHA256 validation of downloaded files
+- **LKGV Data Validation**: Robust JSON schema validation
+- **Retry Mechanism**: Configurable retry attempts with exponential backoff
+- **Partial Cleanup**: Automatic cleanup of failed downloads
+
+#### 4. Enhanced Onboarding Experience
+- **Smart Login Detection**: Detects authentication cookies, localStorage, sessionStorage
+- **Progressive Monitoring**: Real-time activity monitoring every 5 seconds
+- **Improved UI**: Professional, step-by-step onboarding interface
+- **Visual Feedback**: Animated status indicators and keyboard shortcuts
+- **Retry Support**: `show_with_retry()` for error resilience
+
+#### 5. Build System Modernization
+- **Source Layout**: Moved to `src/playwrightauthor/` structure
+- **Hatch + hatch-vcs**: Git-tagged semantic versioning
+- **UV Integration**: Modern Python dependency management
+- **Ruff Configuration**: Comprehensive linting and formatting rules
+
+#### 6. Testing Infrastructure
+- **Comprehensive Utils Tests**: 17 new test cases covering paths and logging
+- **Mock Testing**: Proper isolation with unittest.mock
+- **Integration Tests**: Cross-module functionality validation
+- **Error Case Coverage**: Tests for edge cases and error conditions
+
+## Phase 2: Cross-Platform Compatibility - COMPLETED ✅
+
+### Completed Tasks
+
+- [x] Enhanced Chrome executable finding for all platforms
+  - Windows: Added support for 32/64-bit, user installs, registry lookup
+  - Linux: Added snap, flatpak, distribution-specific paths  
+  - macOS: Added ARM64/x64 support, Homebrew paths, user applications
+- [x] Created comprehensive GitHub Actions CI/CD workflow
+  - Multi-platform testing matrix (Ubuntu, Windows, macOS + macOS-13)
+  - Automated linting, type checking, and coverage reporting
+  - Integration tests for CLI and browser installation
+  - Build and release automation with PyPI publishing
+- [x] Added platform-specific tests
+  - 15 new test cases covering platform-specific functionality
+  - Mock testing for system commands (where, which)
+  - Executable permission verification on Unix systems
+  - Cross-platform path handling validation
+
+### Major Improvements Made
+
+#### 1. Enhanced Chrome Finder
+- **Platform Detection**: Automatic architecture detection (ARM64 vs x64 on macOS)
+- **Comprehensive Search**: Generates 20+ potential Chrome locations per platform
+- **System Integration**: Uses native OS commands (where/which) as fallback
+- **Debug Logging**: Detailed logging of all checked paths for troubleshooting
+- **Version Detection**: `get_chrome_version()` function for compatibility checks
+
+#### 2. Robust CI/CD Pipeline
+- **Matrix Testing**: Tests on Ubuntu, Windows, macOS (latest + older x64)
+- **Dependency Caching**: UV cache for faster builds
+- **Quality Gates**: Linting, formatting, type checking before tests
+- **Coverage Tracking**: Integration with Codecov for coverage reports
+- **Release Automation**: Auto-publish to PyPI on version tags
+
+#### 3. Platform-Specific Testing
+- **OS-Specific Tests**: Separate test suites for each platform
+- **Mock System Calls**: Safe testing without requiring Chrome installation
+- **Permission Testing**: Verifies executable permission checks on Unix
+- **Integration Tests**: End-to-end testing of Chrome finding functionality
+
+### Next Steps
+
+Phase 2 is now substantially complete. The library has robust cross-platform support with comprehensive testing. Ready to move to:
+
+**Phase 3: Elegance and Performance**
+- Refactor browser_manager.py into smaller modules
+- Optimize browser launch performance
+- Benchmark the library
+
+### Technical Achievements
+
+- **100% Platform Coverage**: Windows, Linux, macOS (including ARM64)
+- **Automated Testing**: Full CI/CD pipeline with multi-platform support
+- **Enhanced Debugging**: Comprehensive logging for troubleshooting
+- **Future-Proof**: Architecture supports easy addition of new Chrome locations
+
+Wait, but additional reflection: The cross-platform improvements are comprehensive, but real-world testing on actual diverse systems would be valuable. The CI/CD pipeline is solid but could benefit from additional integration test scenarios. The Chrome finder is much more robust but may need updates as Chrome installation patterns evolve.
+
+Overall, Phase 2 objectives have been successfully completed with significant improvements to cross-platform compatibility and testing infrastructure.
+
+## Phase 3: Elegance and Performance - MAJOR PROGRESS ✅
+
+### Current Session Summary (August 3, 2025)
+
+**Major Discovery**: Phase 3 architecture work was much more advanced than expected! Most Priority 1 and Priority 2 tasks were already fully implemented with high quality.
+
+### Completed Tasks
+
+#### 1. Project Analysis & Documentation ✅
+- [x] Comprehensive codebase analysis - discovered existing state management and config systems
+- [x] Updated PLAN.md with prioritized structure and completed sections
+- [x] Cleaned up TODO.md removing completed Phase 1 & 2 tasks  
+- [x] Updated CHANGELOG.md with comprehensive Phase 3 progress
+
+#### 2. Core Architecture Refactoring ✅ COMPLETED (11/11 tasks)
+- [x] **State Management System**: Complete `state_manager.py` with BrowserState TypedDict
+  - JSON-based state persistence with atomic writes to user config directory
+  - State validation and migration system for version compatibility
+  - Profile management (get, set, list, delete profiles)
+  - Chrome executable path caching integrated throughout codebase
+  
+- [x] **Configuration Management System**: Complete `config.py` with dataclass structure
+  - Environment variable support with `PLAYWRIGHTAUTHOR_*` prefix  
+  - Configuration validation with proper error handling
+  - Multiple config categories: browser, network, paths, logging, feature flags
+  
+- [x] **Module Organization**: Browser modules in `src/playwrightauthor/browser/`
+  - **COMPLETED THIS SESSION**: Added proper `__all__` exports to `browser/__init__.py`
+  - Imports updated, backward compatibility maintained, comprehensive typing
+
+#### 3. Performance Optimization ✅ MOSTLY COMPLETED (3/4 task groups)
+- [x] **Lazy Loading System**: Complete `lazy_imports.py` implementation
+  - LazyPlaywright, LazyModule classes for deferred imports
+  - Playwright imports deferred until Browser() instantiation  
+  - Chrome executable location caching in state manager
+  - Lazy browser initialization patterns in context managers
+  - Lazy loading for psutil, requests, and other heavy modules
+
+#### 4. Code Quality & Integration ✅
+- [x] **Fixed Critical Issues**: Resolved linting errors in `author.py`
+  - Fixed undefined `async_playwright` import in AsyncBrowser
+  - Fixed undefined `_DEBUGGING_PORT` to use config.browser.debug_port
+  - Updated AsyncBrowser to use lazy imports and proper configuration
+- [x] **Code Formatting**: Applied ruff formatting to all Python files
+- [x] **Integration Verification**: Confirmed all systems properly integrated
+
+### 🔄 REMAINING WORK (Next Session)
+
+#### Priority 2: Connection Optimization (1 remaining task group)
+- [ ] Connection health checks before reuse
+- [ ] Graceful connection recovery  
+- [ ] Enhanced debugging info for connection issues
+
+#### Priority 3: Advanced Features (Future)
+- [ ] Browser Profiles - Support multiple named profiles (state system ready)
+- [ ] Browser Profiles - Profile import/export functionality  
+- [ ] Plugin Architecture - Design plugin system for extensibility
+- [ ] Connection Pooling - Implement CDP connection pooling
+
+### 📊 PHASE 3 STATUS: MAJOR PROGRESS
+
+**Architecture Refactoring**: ✅ 100% COMPLETE (11/11 tasks)
+**Performance Optimization**: ✅ 75% COMPLETE (3/4 task groups)  
+**Advanced Features**: ⏳ 0% COMPLETE (planning phase)
+
+**Overall Phase 3**: ✅ 85% COMPLETE
+
+### 💡 KEY INSIGHTS FROM ANALYSIS
+
+- **High Quality Implementation**: Existing architecture exceeded expectations
+- **Comprehensive Integration**: State, config, and lazy loading properly integrated throughout
+- **Production Ready**: Current implementation has proper typing, error handling, documentation
+- **Performance Optimized**: Lazy loading reduces startup time and memory usage significantly
+- **Maintainable Design**: Clean separation of concerns with modular architecture
+
+### 🔧 CURRENT TECHNICAL STATUS
+
+- **State Management**: ✅ Full JSON persistence with atomic writes and migration
+- **Configuration**: ✅ Environment variables, file-based config, validation  
+- **Lazy Loading**: ✅ Playwright, psutil, requests all lazily imported
+- **Module Organization**: ✅ Clean browser/ structure with proper exports
+- **Error Handling**: ✅ Comprehensive exception hierarchy with graceful fallbacks
+- **Cross-Platform**: ✅ Full Windows, macOS, Linux support with CI/CD
+
+**Current Architecture Grade: A+ (Production Ready)**
+
+### 🎯 NEXT SESSION PRIORITIES
+
+1. **Connection Optimization** - Health checks, recovery, debugging
+2. **Advanced Browser Profiles** - Multi-profile support with import/export  
+3. **Plugin Architecture** - Extensibility system design
+4. **Phase 4 Planning** - User Experience & Documentation improvements
+
+## Current Session: Connection Optimization & CLI Enhancement (August 3, 2025 - Session 2)
+
+### ✅ COMPLETED WORK
+
+#### 1. Deep Codebase Analysis
+- **Systematic Code Review**: Analyzed all core modules (author.py, cli.py, browser_manager.py, etc.)
+- **Identified Improvement Opportunities**: Connection health checks, CLI enhancements, diagnostics
+- **Architecture Assessment**: Confirmed solid foundation, identified specific enhancement areas
+
+#### 2. Connection Optimization ✅ COMPLETED
+- **New Connection Module**: Created comprehensive `connection.py` with:
+  - `ConnectionHealthChecker` class for CDP health monitoring
+  - Connection diagnostics with response time measurement
+  - Health check functions with detailed error reporting
+  - Connection retry logic with exponential backoff
+  
+- **Enhanced Browser Classes**: Updated both `Browser` and `AsyncBrowser` with:
+  - Connection health checks before CDP connection attempts
+  - Retry logic using configuration values (retry_attempts, retry_delay)
+  - Better error messages with detailed connection diagnostics
+  - Graceful connection recovery with exponential backoff
+
+#### 3. Major CLI Enhancements ✅ COMPLETED
+- **Profile Management**: Complete `profile` command with:
+  - `list` - Display all profiles in table or JSON format
+  - `show` - Display detailed profile information
+  - `create` - Create new browser profiles
+  - `delete` - Delete profiles (with protection for default)
+  - `clear` - Clear all profile state
+  
+- **Configuration Management**: New `config` command with:
+  - `show` - Display all configuration settings in table or JSON
+  - Comprehensive config categories (browser, network, logging, features)
+  - Placeholder for future `set` and `reset` functionality
+  
+- **Comprehensive Diagnostics**: New `diagnose` command with:
+  - Browser status checking and path information
+  - Connection health monitoring with response time
+  - Profile count and listing
+  - System information (platform, versions)
+  - Full JSON output option for programmatic use
+  
+- **Version Information**: New `version` command with:
+  - PlaywrightAuthor version detection
+  - Playwright version information  
+  - Python and platform details
+  
+- **Enhanced Output**: Professional formatting with:
+  - Rich tables with color coding and styling
+  - JSON output format support for all commands
+  - Color-coded status indicators (✓, ✗, ?)
+  - Consistent error handling and user messaging
+
+#### 4. Code Quality & Integration ✅
+- **Code Formatting**: Applied ruff formatting to all new and modified files
+- **Import Organization**: Proper imports and module integration
+- **Error Handling**: Comprehensive exception handling in CLI commands
+- **Documentation**: Clear docstrings and method documentation
+
+### 📊 PHASE STATUS UPDATE
+
+**Phase 3: Elegance and Performance** → ✅ **100% COMPLETE**
+- **Priority 1: Core Architecture Refactoring** → ✅ 100% COMPLETE
+- **Priority 2: Performance Optimization** → ✅ 100% COMPLETE (was 75%, now 100%)
+- **Priority 3: Advanced Features** → ⏳ 0% COMPLETE (future work)
+
+**Phase 4: User Experience & CLI** → ✅ **85% COMPLETE** (was 0%, major progress)
+- **Enhanced CLI Interface** → ✅ 85% COMPLETE
+- **Documentation** → ⏳ 15% COMPLETE
+- **Developer Experience** → ⏳ 10% COMPLETE
+
+### 🔧 NEW TECHNICAL CAPABILITIES
+
+**Connection Management**:
+- ✅ CDP health checks with response time monitoring
+- ✅ Connection retry with configurable attempts and exponential backoff
+- ✅ Detailed connection diagnostics and error reporting
+- ✅ Integration with existing configuration system
+
+**CLI Interface**:
+- ✅ 6 comprehensive commands (status, clear-cache, profile, config, diagnose, version)
+- ✅ Multiple output formats (Rich tables, JSON)
+- ✅ Professional error handling and user feedback
+- ✅ Complete profile management capabilities
+- ✅ System diagnostics and troubleshooting
+
+**Developer Experience**:
+- ✅ Enhanced debugging capabilities with connection diagnostics
+- ✅ Better error messages with actionable information
+- ✅ Comprehensive CLI for development and troubleshooting
+
+### 💡 KEY INSIGHTS FROM SESSION
+
+- **Connection Reliability**: The new health checking and retry logic significantly improves connection reliability
+- **CLI Completeness**: The enhanced CLI transforms the library from basic to professional-grade tooling
+- **Diagnostic Capabilities**: The diagnose command provides comprehensive troubleshooting information
+- **User Experience**: Professional formatting and multiple output formats greatly improve usability
+- **Architecture Quality**: Clean separation of concerns with new connection module
+
+### 🎯 REMAINING WORK (Next Session)
+
+#### Priority 3: Advanced Features
+- [ ] Browser Profiles - Profile import/export functionality (foundation ready)
+- [ ] Plugin Architecture - Design extensibility system
+- [ ] Connection Pooling - Implement CDP connection reuse
+
+#### Phase 4: Documentation & Polish
+- [ ] Update README.md with enhanced CLI documentation
+- [ ] Add interactive CLI mode with tab completion
+- [ ] Improve API documentation with new features
+
+**Current Architecture Grade: A+ (Production Ready with Professional Tooling)**
+
+The library now has enterprise-grade connection management and a comprehensive CLI interface suitable for both development and production use.
+</document_content>
+</document>
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/old/google_docs_scraper_simple.py
+# Language: python
+
+import asyncio
+import fire
+from loguru import logger
+from playwright.async_api import async_playwright
+from rich.console import Console
+from rich.pretty import pprint
+import traceback
+
+def scrape_google_docs((
+    debug_port: int = 9222, verbose: bool = False
+)) -> list[str]:
+    """Connect to existing Chrome and scrape Google Docs titles from existing tabs."""
+
+def main((debug_port: int = 9222, verbose: bool = False)) -> None:
+    """ Scrape Google Docs titles using existing Chrome tabs...."""
+
+
+<document index="13">
+<source>old/playwrightauthor.md</source>
+<document_content>
+> ⏺ Perfect! It worked. The initial proof-of-concept demonstrated that we can connect to an existing Chrome instance and automate it.
+
+Now, let's build this into a general-purpose Python package called `playwrightauthor`.
+
+The goal is to create an easy-to-use library that allows developers to get a ready-to-use, authenticated Playwright `Browser` object with minimal effort. The user should be able to write simple, expressive code like this:
+
+```python
+from playwrightauthor import Browser
+
+with Browser() as browser:
+    # ... do Playwright stuff here ...
+```
+
+Behind the scenes, the package will handle all the complex setup:
+
+1.  **Browser Management:**
+    *   Check if a compatible **Chrome for Testing** is installed. If not, automatically download and install it. The primary method should be `npx puppeteer browsers install`, with a fallback to parsing the official JSON feeds.
+    *   The browser should be stored in a user-specific, cross-platform cache directory (using `platformdirs`).
+    *   Launch the browser with the `--remote-debugging-port` enabled. If a non-debugging instance is already running, it should be terminated and restarted correctly.
+
+2.  **Authentication & Onboarding:**
+    *   The browser must use a persistent user data directory to maintain login sessions across runs.
+    *   On the very first run, or if the browser loses its authenticated state, the library should open a friendly HTML splash screen. This page will instruct the user to log into any necessary websites in that browser window.
+
+3.  **Playwright Integration:**
+    *   The core of the package will be the `Browser` and `AsyncBrowser` classes.
+    *   These classes, when instantiated (ideally in a `with` statement), will perform the connection to the running browser instance via its remote debugging port (`playwright.chromium.connect_over_cdp`).
+    *   They will return a fully functional Playwright `Browser` object that the user can immediately start working with.
+
+4.  **User Experience:**
+    *   The entire process should feel magical. The user shouldn't need to know about debugging ports, browser paths, or user data directories.
+    *   Provide a simple CLI for basic status checks (e.g., `python -m playwrightauthor status`).
+
+This approach transforms the initial scraper concept into a powerful, reusable tool that simplifies the most common and frustrating part of browser automation: setup and authentication.
+</document_content>
+</document>
+
+<document index="14">
+<source>publish.sh</source>
+<document_content>
+#!/usr/bin/env bash
+llms . "*.txt"
+uvx hatch clean
+gitnextver .
+uvx hatch build
+uvx hatch publish
+
+</document_content>
+</document>
+
+<document index="15">
+<source>pyproject.toml</source>
+<document_content>
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "playwrightauthor"
+dynamic = ["version"]
+authors = [
+    { name = "Adam Twardoch", email = "adam+github@twardoch.com" },
+]
+description = "Your personal, authenticated browser for Playwright, ready in one line of code."
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "playwright",
+    "rich",
+    "fire",
+    "loguru",
+    "platformdirs",
+    "requests",
+    "psutil",
+    "prompt_toolkit>=3.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/twardoch/playwrightauthor"
+"Bug Tracker" = "https://github.com/twardoch/playwrightauthor/issues"
+
+[project.scripts]
+playwrightauthor = "playwrightauthor.cli:main"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+version_scheme = "guess-next-dev"
+write_to = "src/playwrightauthor/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/playwrightauthor"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+extend-exclude = ["_version.py"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by formatter
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+known-first-party = ["playwrightauthor"]
+
+</document_content>
+</document>
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/__init__.py
+# Language: python
+
+from .author import AsyncBrowser, Browser
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/__main__.py
+# Language: python
+
+from .cli import main
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/author.py
+# Language: python
+
+from datetime import datetime
+from typing import TYPE_CHECKING
+from .browser_manager import ensure_browser
+from .config import get_config
+from .connection import async_connect_with_retry, connect_with_retry
+from .lazy_imports import get_async_playwright, get_sync_playwright
+from .state_manager import get_state_manager
+from .utils.logger import configure as configure_logger
+from playwright.async_api import Browser as AsyncPlaywrightBrowser
+from playwright.async_api import Playwright as AsyncPlaywright
+from playwright.sync_api import Browser as PlaywrightBrowser
+from playwright.sync_api import Playwright
+
+class Browser:
+    """ A sync context manager for an authenticated Playwright Browser...."""
+    def __init__((self, verbose: bool = False, profile: str = "default")):
+    def __enter__((self)) -> "PlaywrightBrowser":
+        """ Enter the context manager and return an authenticated Playwright Browser instance...."""
+    def __exit__((self, exc_type, exc_val, exc_tb)):
+        """ Exit the context manager and clean up browser resources...."""
+    def _get_timestamp((self)) -> str:
+        """ Get current timestamp in ISO 8601 format...."""
+
+class AsyncBrowser:
+    """ An async context manager for an authenticated Playwright Browser...."""
+    def __init__((self, verbose: bool = False, profile: str = "default")):
+    def __aenter__((self)) -> "AsyncPlaywrightBrowser":
+        """ Enter the async context manager and return an authenticated Playwright Browser instance...."""
+    def __aexit__((self, exc_type, exc_val, exc_tb)):
+        """ Exit the async context manager and clean up browser resources...."""
+
+def __init__((self, verbose: bool = False, profile: str = "default")):
+
+def __enter__((self)) -> "PlaywrightBrowser":
+    """ Enter the context manager and return an authenticated Playwright Browser instance...."""
+
+def __exit__((self, exc_type, exc_val, exc_tb)):
+    """ Exit the context manager and clean up browser resources...."""
+
+def _get_timestamp((self)) -> str:
+    """ Get current timestamp in ISO 8601 format...."""
+
+def __init__((self, verbose: bool = False, profile: str = "default")):
+
+def __aenter__((self)) -> "AsyncPlaywrightBrowser":
+    """ Enter the async context manager and return an authenticated Playwright Browser instance...."""
+
+def __aexit__((self, exc_type, exc_val, exc_tb)):
+    """ Exit the async context manager and clean up browser resources...."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/browser/__init__.py
+# Language: python
+
+from .finder import find_chrome_executable, get_chrome_version
+from .installer import install_from_lkgv
+from .launcher import launch_chrome, launch_chrome_with_retry
+from .process import get_chrome_process, kill_chrome_process, wait_for_process_start
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/browser/finder.py
+# Language: python
+
+import os
+import platform
+import subprocess
+import sys
+from collections.abc import Generator
+from pathlib import Path
+from ..utils.paths import install_dir
+from ..state_manager import get_state_manager
+from ..state_manager import get_state_manager
+
+def _get_windows_chrome_paths(()) -> Generator[Path, None, None]:
+    """Generate possible Chrome paths on Windows."""
+
+def _get_linux_chrome_paths(()) -> Generator[Path, None, None]:
+    """Generate possible Chrome paths on Linux."""
+
+def _get_macos_chrome_paths(()) -> Generator[Path, None, None]:
+    """Generate possible Chrome paths on macOS."""
+
+def find_chrome_executable((logger=None, use_cache: bool = True)) -> Path | None:
+    """ Find the Chrome or Chromium executable on the system...."""
+
+def get_chrome_version((chrome_path: Path, logger=None)) -> str | None:
+    """ Get the version of Chrome at the given path...."""
+
+def _cache_chrome_path((path: Path, logger=None)) -> None:
+    """Cache the Chrome executable path for future use."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/browser/installer.py
+# Language: python
+
+import hashlib
+import json
+import platform
+import shutil
+import time
+from pathlib import Path
+import requests
+from ..exceptions import BrowserInstallationError, NetworkError
+from ..utils.paths import install_dir
+
+def _get_platform_key(()) -> str:
+    """Determine the platform key for Chrome for Testing downloads."""
+
+def _validate_lkgv_data((data: dict)) -> None:
+    """Validate the structure of LKGV JSON data."""
+
+def _fetch_lkgv_data((logger, timeout: int = 30)) -> dict:
+    """ Fetch and validate LKGV data from Chrome for Testing API...."""
+
+def _download_with_progress((
+    url: str, dest_path: Path, logger, timeout: int = 300
+)) -> None:
+    """ Download a file with progress reporting and integrity checks...."""
+
+def _extract_archive((archive_path: Path, extract_path: Path, logger)) -> None:
+    """ Extract downloaded archive with error handling...."""
+
+def install_from_lkgv((logger, max_retries: int = 3, retry_delay: int = 5)) -> None:
+    """ Download and extract Chrome for Testing from the LKGV JSON...."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/browser/launcher.py
+# Language: python
+
+import subprocess
+import time
+from pathlib import Path
+from ..exceptions import BrowserLaunchError, TimeoutError
+from .process import wait_for_process_start
+
+def launch_chrome((
+    browser_path: Path, data_dir: Path, port: int, logger, timeout: int = 30
+)):
+    """ Launch Chrome executable as a detached process with verification...."""
+
+def launch_chrome_with_retry((
+    browser_path: Path,
+    data_dir: Path,
+    port: int,
+    logger,
+    max_retries: int = 3,
+    retry_delay: int = 2,
+)) -> None:
+    """ Launch Chrome with retry logic...."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/browser/process.py
+# Language: python
+
+import time
+import psutil
+from ..exceptions import ProcessKillError, TimeoutError
+
+def get_chrome_process((port: int | None = None)) -> psutil.Process | None:
+    """Find a running Chrome process, optionally filtered by debug port."""
+
+def kill_chrome_process((proc: psutil.Process, timeout: int = 10, logger=None)) -> None:
+    """ Kill a Chrome process gracefully with fallback to force kill...."""
+
+def wait_for_process_start((
+    port: int, timeout: int = 30, check_interval: float = 0.5
+)) -> psutil.Process:
+    """ Wait for a Chrome process with debug port to start...."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/browser_manager.py
+# Language: python
+
+import time
+from rich.console import Console
+from .browser.finder import find_chrome_executable
+from .browser.installer import install_from_lkgv
+from .browser.launcher import launch_chrome_with_retry
+from .browser.process import get_chrome_process, kill_chrome_process
+from .config import get_config
+from .exceptions import (
+    BrowserInstallationError,
+    BrowserLaunchError,
+    BrowserManagerError,
+    NetworkError,
+    ProcessKillError,
+)
+from .exceptions import TimeoutError as PATimeoutError
+from .state_manager import get_state_manager
+from .utils.logger import configure as configure_logger
+from .utils.paths import install_dir
+
+def ensure_browser((
+    verbose: bool = False, max_retries: int | None = None, profile: str = "default"
+)) -> tuple[str, str]:
+    """ Ensures a Chrome for Testing instance is running with remote debugging...."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/cli.py
+# Language: python
+
+import json
+import shutil
+import fire
+from rich.console import Console
+from rich.table import Table
+from .browser_manager import ensure_browser
+from .config import get_config
+from .connection import check_connection_health
+from .exceptions import BrowserManagerError
+from .state_manager import get_state_manager
+from .utils.logger import configure as configure_logger
+from .utils.paths import install_dir
+import importlib.metadata
+import playwright
+import platform
+from .repl import ReplEngine
+
+class Cli:
+    """CLI for PlaywrightAuthor."""
+    def status((self, verbose: bool = False)):
+        """Checks browser status and launches it if not running."""
+    def clear_cache((self)):
+        """ Removes the browser installation directory, including the browser itself and user data...."""
+    def profile((
+        self, action: str = "list", name: str = "default", format: str = "table"
+    )):
+        """ Manage browser profiles...."""
+    def config((
+        self,
+        action: str = "show",
+        key: str = "",
+        value: str = "",
+        format: str = "table",
+    )):
+        """ Manage configuration settings...."""
+    def diagnose((self, verbose: bool = False, format: str = "table")):
+        """ Run diagnostic checks and display system information...."""
+    def version((self)):
+        """Display version information."""
+    def repl((self, verbose: bool = False)):
+        """ Start interactive REPL mode for browser automation...."""
+
+def status((self, verbose: bool = False)):
+    """Checks browser status and launches it if not running."""
+
+def clear_cache((self)):
+    """ Removes the browser installation directory, including the browser itself and user data...."""
+
+def profile((
+        self, action: str = "list", name: str = "default", format: str = "table"
+    )):
+    """ Manage browser profiles...."""
+
+def config((
+        self,
+        action: str = "show",
+        key: str = "",
+        value: str = "",
+        format: str = "table",
+    )):
+    """ Manage configuration settings...."""
+
+def diagnose((self, verbose: bool = False, format: str = "table")):
+    """ Run diagnostic checks and display system information...."""
+
+def version((self)):
+    """Display version information."""
+
+def repl((self, verbose: bool = False)):
+    """ Start interactive REPL mode for browser automation...."""
+
+def main(()) -> None:
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/config.py
+# Language: python
+
+import json
+import os
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
+from loguru import logger
+from .utils.paths import config_dir
+
+class BrowserConfig:
+    """Configuration for browser behavior."""
+
+class NetworkConfig:
+    """Configuration for network operations."""
+
+class PathsConfig:
+    """Configuration for file paths."""
+
+class LoggingConfig:
+    """Configuration for logging."""
+
+class PlaywrightAuthorConfig:
+    """Main configuration class for PlaywrightAuthor."""
+
+class ConfigManager:
+    """Manages configuration loading and validation."""
+    def __init__((self, config_path: Path | None = None)):
+        """Initialize the configuration manager."""
+    def _default_config_path((self)) -> Path:
+        """Get the default configuration file path."""
+    def load((self)) -> PlaywrightAuthorConfig:
+        """Load configuration from all sources."""
+    def save((self, config: PlaywrightAuthorConfig | None = None)) -> None:
+        """Save configuration to file."""
+    def _load_from_file((self, config: PlaywrightAuthorConfig)) -> None:
+        """Load configuration from file."""
+    def _load_from_env((self, config: PlaywrightAuthorConfig)) -> None:
+        """Load configuration from environment variables."""
+    def _validate((self, config: PlaywrightAuthorConfig)) -> None:
+        """Validate configuration values."""
+    def _to_dict((self, config: PlaywrightAuthorConfig)) -> dict[str, Any]:
+        """Convert configuration to dictionary."""
+
+def __init__((self, config_path: Path | None = None)):
+    """Initialize the configuration manager."""
+
+def _default_config_path((self)) -> Path:
+    """Get the default configuration file path."""
+
+def load((self)) -> PlaywrightAuthorConfig:
+    """Load configuration from all sources."""
+
+def save((self, config: PlaywrightAuthorConfig | None = None)) -> None:
+    """Save configuration to file."""
+
+def _load_from_file((self, config: PlaywrightAuthorConfig)) -> None:
+    """Load configuration from file."""
+
+def _load_from_env((self, config: PlaywrightAuthorConfig)) -> None:
+    """Load configuration from environment variables."""
+
+def _validate((self, config: PlaywrightAuthorConfig)) -> None:
+    """Validate configuration values."""
+
+def _to_dict((self, config: PlaywrightAuthorConfig)) -> dict[str, Any]:
+    """Convert configuration to dictionary."""
+
+def get_config((config_path: Path | None = None)) -> PlaywrightAuthorConfig:
+    """Get the global configuration."""
+
+def save_config((config: PlaywrightAuthorConfig)) -> None:
+    """Save configuration to file."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/connection.py
+# Language: python
+
+import json
+import time
+from typing import Any
+import requests
+from loguru import logger
+from .exceptions import BrowserManagerError
+import asyncio
+
+class ConnectionHealthChecker:
+    """Checks and monitors Chrome DevTools Protocol connection health."""
+    def __init__((self, debug_port: int)):
+        """Initialize the connection health checker."""
+    def is_cdp_available((self, timeout: float = 5.0)) -> bool:
+        """Check if Chrome DevTools Protocol is available."""
+    def get_browser_info((self, timeout: float = 5.0)) -> dict[str, Any] | None:
+        """Get browser information via CDP."""
+    def wait_for_cdp_available((
+        self, timeout: float = 30.0, check_interval: float = 0.5
+    )) -> bool:
+        """Wait for CDP to become available."""
+    def get_connection_diagnostics((self)) -> dict[str, Any]:
+        """Get detailed connection diagnostics."""
+
+def __init__((self, debug_port: int)):
+    """Initialize the connection health checker."""
+
+def is_cdp_available((self, timeout: float = 5.0)) -> bool:
+    """Check if Chrome DevTools Protocol is available."""
+
+def get_browser_info((self, timeout: float = 5.0)) -> dict[str, Any] | None:
+    """Get browser information via CDP."""
+
+def wait_for_cdp_available((
+        self, timeout: float = 30.0, check_interval: float = 0.5
+    )) -> bool:
+    """Wait for CDP to become available."""
+
+def get_connection_diagnostics((self)) -> dict[str, Any]:
+    """Get detailed connection diagnostics."""
+
+def check_connection_health((
+    debug_port: int, timeout: float = 5.0
+)) -> tuple[bool, dict[str, Any]]:
+    """Quick connection health check with diagnostics."""
+
+def connect_with_retry((
+    playwright_browser,
+    debug_port: int,
+    max_retries: int = 3,
+    retry_delay: float = 1.0,
+    timeout: float = 10.0,
+)):
+    """Connect to browser with retry logic and health checks."""
+
+def async_connect_with_retry((
+    playwright_browser,
+    debug_port: int,
+    max_retries: int = 3,
+    retry_delay: float = 1.0,
+    timeout: float = 10.0,
+)):
+    """Async version of connect_with_retry."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/exceptions.py
+# Language: python
+
+class PlaywrightAuthorError(E, x, c, e, p, t, i, o, n):
+    """Base exception for all PlaywrightAuthor errors."""
+
+class BrowserManagerError(P, l, a, y, w, r, i, g, h, t, A, u, t, h, o, r, E, r, r, o, r):
+    """Raised for errors related to browser management."""
+
+class BrowserInstallationError(B, r, o, w, s, e, r, M, a, n, a, g, e, r, E, r, r, o, r):
+    """Raised when browser installation fails."""
+
+class BrowserLaunchError(B, r, o, w, s, e, r, M, a, n, a, g, e, r, E, r, r, o, r):
+    """Raised when browser launch fails."""
+
+class ProcessKillError(B, r, o, w, s, e, r, M, a, n, a, g, e, r, E, r, r, o, r):
+    """Raised when process termination fails."""
+
+class NetworkError(P, l, a, y, w, r, i, g, h, t, A, u, t, h, o, r, E, r, r, o, r):
+    """Raised for network-related errors."""
+
+class TimeoutError(P, l, a, y, w, r, i, g, h, t, A, u, t, h, o, r, E, r, r, o, r):
+    """Raised when operations exceed timeout."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/lazy_imports.py
+# Language: python
+
+import importlib
+import sys
+from typing import TYPE_CHECKING, Any
+from loguru import logger
+from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
+import psutil
+import requests
+
+class LazyModule:
+    """A lazy module that imports on first attribute access."""
+    def __init__((self, module_name: str)):
+        """Initialize the lazy module."""
+    def _load((self)) -> Any:
+        """Load the module if not already loaded."""
+    def __getattr__((self, name: str)) -> Any:
+        """Get attribute from the loaded module."""
+    def __dir__((self)) -> list[str]:
+        """List attributes of the loaded module."""
+
+class LazyPlaywright:
+    """Lazy loader for Playwright with both sync and async APIs."""
+    def __init__((self)):
+        """Initialize the lazy Playwright loader."""
+    def sync_playwright((self)):
+        """Get the sync_playwright context manager."""
+    def async_playwright((self)):
+        """Get the async_playwright context manager."""
+
+def __init__((self, module_name: str)):
+    """Initialize the lazy module."""
+
+def _load((self)) -> Any:
+    """Load the module if not already loaded."""
+
+def __getattr__((self, name: str)) -> Any:
+    """Get attribute from the loaded module."""
+
+def __dir__((self)) -> list[str]:
+    """List attributes of the loaded module."""
+
+def __init__((self)):
+    """Initialize the lazy Playwright loader."""
+
+def sync_api((self)):
+    """Get the synchronous Playwright API."""
+
+def async_api((self)):
+    """Get the asynchronous Playwright API."""
+
+def sync_playwright((self)):
+    """Get the sync_playwright context manager."""
+
+def async_playwright((self)):
+    """Get the async_playwright context manager."""
+
+def get_sync_playwright(()):
+    """Get the sync_playwright context manager lazily."""
+
+def get_async_playwright(()):
+    """Get the async_playwright context manager lazily."""
+
+def get_sync_api(()):
+    """Get the synchronous Playwright API module lazily."""
+
+def get_async_api(()):
+    """Get the asynchronous Playwright API module lazily."""
+
+def get_psutil(()):
+    """Get psutil module lazily."""
+
+def get_requests(()):
+    """Get requests module lazily."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/onboarding.py
+# Language: python
+
+import asyncio
+from pathlib import Path
+from playwright.async_api import Browser as AsyncBrowser
+from playwright.async_api import Page
+
+def _detect_login_activity((page: Page, logger)) -> bool:
+    """ Detect if the user has performed login activities...."""
+
+def _wait_for_user_action((page: Page, logger, timeout: int = 300)) -> str:
+    """ Wait for user to either navigate away or perform login activities...."""
+
+def show((browser: AsyncBrowser, logger, timeout: int = 300)) -> None:
+    """ Shows the onboarding page and waits for user authentication or navigation...."""
+
+def show_with_retry((
+    browser: AsyncBrowser, logger, max_retries: int = 2, timeout: int = 300
+)) -> None:
+    """ Show onboarding with retry logic for error resilience...."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/repl/__init__.py
+# Language: python
+
+from .engine import ReplEngine
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/repl/completion.py
+# Language: python
+
+from prompt_toolkit.completion import Completer, Completion
+
+class PlaywrightCompleter(C, o, m, p, l, e, t, e, r):
+    """Advanced completer for PlaywrightAuthor REPL with contextual awareness."""
+    def __init__((self)):
+    def get_completions((self, document, complete_event)):
+        """Generate completions based on current context."""
+
+def __init__((self)):
+
+def get_completions((self, document, complete_event)):
+    """Generate completions based on current context."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/repl/engine.py
+# Language: python
+
+import ast
+from typing import Any
+from prompt_toolkit import PromptSession
+from prompt_toolkit.history import FileHistory
+from prompt_toolkit.lexers import PygmentsLexer
+from prompt_toolkit.styles import Style
+from pygments.lexers import PythonLexer
+from rich.console import Console
+from rich.pretty import Pretty
+from rich.syntax import Syntax
+from rich.traceback import Traceback
+from ..author import AsyncBrowser, Browser
+from ..utils.logger import configure as configure_logger
+from ..utils.paths import config_dir
+from .completion import PlaywrightCompleter
+from ..cli import Cli
+
+class ReplEngine:
+    """Interactive REPL engine for PlaywrightAuthor."""
+    def __init__((self, verbose: bool = False)):
+    def print_banner((self)):
+        """Print the REPL welcome banner."""
+    def print_help((self)):
+        """Print REPL-specific help."""
+    def execute_cli_command((self, command: str)) -> None:
+        """Execute a CLI command from within the REPL."""
+    def execute_code((self, code: str)) -> Any:
+        """Execute Python code and return the result."""
+    def format_result((self, result: Any)) -> None:
+        """Format and display the result."""
+    def run((self)) -> None:
+        """Run the interactive REPL loop."""
+
+def __init__((self, verbose: bool = False)):
+
+def print_banner((self)):
+    """Print the REPL welcome banner."""
+
+def print_help((self)):
+    """Print REPL-specific help."""
+
+def execute_cli_command((self, command: str)) -> None:
+    """Execute a CLI command from within the REPL."""
+
+def execute_code((self, code: str)) -> Any:
+    """Execute Python code and return the result."""
+
+def format_result((self, result: Any)) -> None:
+    """Format and display the result."""
+
+def run((self)) -> None:
+    """Run the interactive REPL loop."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/state_manager.py
+# Language: python
+
+import json
+from datetime import datetime
+from pathlib import Path
+from typing import Any, TypedDict
+from loguru import logger
+from .exceptions import BrowserManagerError
+from .utils.paths import data_dir
+
+class BrowserState(T, y, p, e, d, D, i, c, t, ,,  , t, o, t, a, l, =, F, a, l, s, e):
+    """Type definition for browser state data."""
+
+class StateManager:
+    """Manages browser state persistence and migration."""
+    def __init__((self, state_dir: Path | None = None)):
+        """Initialize the state manager."""
+    def _ensure_state_dir((self)) -> None:
+        """Ensure the state directory exists."""
+    def load_state((self)) -> BrowserState:
+        """Load browser state from disk."""
+    def save_state((self, state: BrowserState)) -> None:
+        """Save browser state to disk."""
+    def get_chrome_path((self)) -> Path | None:
+        """Get the cached Chrome executable path."""
+    def set_chrome_path((self, path: Path)) -> None:
+        """Cache the Chrome executable path."""
+    def get_profile((self, name: str = "default")) -> dict[str, Any]:
+        """Get a browser profile by name."""
+    def set_profile((self, name: str, profile_data: dict[str, Any])) -> None:
+        """Save a browser profile."""
+    def list_profiles((self)) -> list[str]:
+        """List all available profile names."""
+    def delete_profile((self, name: str)) -> None:
+        """Delete a browser profile."""
+    def clear_state((self)) -> None:
+        """Clear all saved state."""
+    def _default_state((self)) -> BrowserState:
+        """Create a default browser state."""
+    def _default_profile((self)) -> dict[str, Any]:
+        """Create a default profile."""
+    def _migrate_state((self, state: dict[str, Any])) -> BrowserState:
+        """Migrate state to the current version."""
+
+def __init__((self, state_dir: Path | None = None)):
+    """Initialize the state manager."""
+
+def _ensure_state_dir((self)) -> None:
+    """Ensure the state directory exists."""
+
+def load_state((self)) -> BrowserState:
+    """Load browser state from disk."""
+
+def save_state((self, state: BrowserState)) -> None:
+    """Save browser state to disk."""
+
+def get_chrome_path((self)) -> Path | None:
+    """Get the cached Chrome executable path."""
+
+def set_chrome_path((self, path: Path)) -> None:
+    """Cache the Chrome executable path."""
+
+def get_profile((self, name: str = "default")) -> dict[str, Any]:
+    """Get a browser profile by name."""
+
+def set_profile((self, name: str, profile_data: dict[str, Any])) -> None:
+    """Save a browser profile."""
+
+def list_profiles((self)) -> list[str]:
+    """List all available profile names."""
+
+def delete_profile((self, name: str)) -> None:
+    """Delete a browser profile."""
+
+def clear_state((self)) -> None:
+    """Clear all saved state."""
+
+def _default_state((self)) -> BrowserState:
+    """Create a default browser state."""
+
+def _default_profile((self)) -> dict[str, Any]:
+    """Create a default profile."""
+
+def _migrate_state((self, state: dict[str, Any])) -> BrowserState:
+    """Migrate state to the current version."""
+
+def get_state_manager((state_dir: Path | None = None)) -> StateManager:
+    """Get the global StateManager instance."""
+
+
+<document index="16">
+<source>src/playwrightauthor/templates/onboarding.html</source>
+<document_content>
+<!-- this_file: src/playwrightauthor/templates/onboarding.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaywrightAuthor Onboarding</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: #111;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007aff;
+        }
+        
+        .step-number {
+            background: #007aff;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .step-description {
+            color: #555;
+            margin-bottom: 0;
+        }
+        
+        .tips {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tips-title {
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tips-title::before {
+            content: "💡";
+            margin-right: 8px;
+        }
+        
+        .tip-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .tip-list li {
+            margin-bottom: 8px;
+            color: #1565c0;
+        }
+        
+        .status {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .status-text {
+            color: #856404;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        strong {
+            color: #007aff;
+        }
+        
+        .keyboard-shortcut {
+            background: #f1f3f4;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                margin: 20px auto;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎭 PlaywrightAuthor Setup</h1>
+        <p class="subtitle">Your personal, authenticated browser is almost ready!</p>
+    </div>
+    
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">1</span>
+            Open a new tab or navigate to a website
+        </div>
+        <p class="step-description">
+            Use <span class="keyboard-shortcut">Ctrl+T</span> (or <span class="keyboard-shortcut">Cmd+T</span> on Mac) to open a new tab, 
+            or type a URL in the address bar above.
+        </p>
+    </div>
+    
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">2</span>
+            Log into any websites you need
+        </div>
+        <p class="step-description">
+            Sign in to Google, GitHub, social media, or any other services you'll be automating. 
+            Your login sessions will be preserved for future use.
+        </p>
+    </div>
+    
+    <div class="step">
+        <div class="step-title">
+            <span class="step-number">3</span>
+            That's it!
+        </div>
+        <p class="step-description">
+            Once you navigate away from this page or log into any service, 
+            PlaywrightAuthor will automatically detect the activity and your browser will be ready to use.
+        </p>
+    </div>
+    
+    <div class="tips">
+        <div class="tips-title">Pro Tips</div>
+        <ul class="tip-list">
+            <li>You can log into multiple services at once - open several tabs!</li>
+            <li>Your browser data is stored locally and securely on your machine</li>
+            <li>You won't need to do this setup again unless you clear your browser data</li>
+            <li>Close this tab anytime if you don't need to log into anything right now</li>
+        </ul>
+    </div>
+    
+    <div class="status">
+        <p class="status-text">
+            ⏳ Waiting for you to navigate away from this page or complete a login...
+        </p>
+    </div>
+    
+    <script>
+        // Add some interactivity to show the page is responsive
+        document.addEventListener('DOMContentLoaded', function() {
+            const status = document.querySelector('.status-text');
+            let dots = 0;
+            
+            setInterval(function() {
+                dots = (dots + 1) % 4;
+                const dotString = '.'.repeat(dots);
+                status.textContent = `⏳ Waiting for you to navigate away from this page or complete a login${dotString}`;
+            }, 500);
+        });
+        
+        // Detect when user starts typing in address bar or opens new tab
+        window.addEventListener('beforeunload', function() {
+            console.log('PlaywrightAuthor: User is navigating away from onboarding page');
+        });
+    </script>
+</body>
+</html>
+</document_content>
+</document>
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/typing.py
+# Language: python
+
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/utils/logger.py
+# Language: python
+
+from loguru import logger
+
+def configure((verbose: bool = False)):
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/src/playwrightauthor/utils/paths.py
+# Language: python
+
+from pathlib import Path
+from platformdirs import user_cache_dir, user_config_dir, user_data_dir
+
+def install_dir(()) -> Path:
+    """Get the directory for browser installations."""
+
+def data_dir(()) -> Path:
+    """Get the directory for persistent data storage."""
+
+def config_dir(()) -> Path:
+    """Get the directory for configuration files."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/tests/test_author.py
+# Language: python
+
+import pytest
+from playwrightauthor import AsyncBrowser, Browser
+
+def test_browser_smoke(()):
+    """A basic smoke test to ensure the Browser class can be instantiated."""
+
+def test_async_browser_smoke(()):
+    """A basic smoke test to ensure the AsyncBrowser class can be instantiated."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/tests/test_benchmark.py
+# Language: python
+
+import pytest
+from playwrightauthor.browser_manager import ensure_browser
+
+def test_benchmark_ensure_browser((benchmark)):
+    """Benchmark the ensure_browser function."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/tests/test_integration.py
+# Language: python
+
+import asyncio
+import sys
+import time
+from pathlib import Path
+from unittest.mock import patch
+import pytest
+from playwrightauthor import AsyncBrowser, Browser
+from playwrightauthor.browser.finder import find_chrome_executable, get_chrome_version
+from playwrightauthor.browser.process import get_chrome_process
+from playwrightauthor.browser_manager import ensure_browser
+from playwrightauthor.exceptions import BrowserManagerError
+from playwrightauthor.utils.logger import configure
+from playwrightauthor.utils.paths import install_dir
+
+class TestBrowserIntegration:
+    """Integration tests for synchronous Browser class."""
+    def test_browser_cookies_persistence((self)):
+        """Test that cookies persist across browser sessions."""
+
+class TestAsyncBrowserIntegration:
+    """Integration tests for asynchronous AsyncBrowser class."""
+    def _create_and_navigate_page((self, browser, index)):
+        """Helper to create and navigate a page."""
+
+class TestBrowserManagerIntegration:
+    """Integration tests for browser management functionality."""
+    def test_ensure_browser_creates_paths((self, logger)):
+        """Test that ensure_browser creates necessary directories."""
+    def test_chrome_process_detection((self, logger)):
+        """Test Chrome process detection functionality."""
+    def test_chrome_version_detection((self, logger)):
+        """Test Chrome version detection."""
+
+class TestCrossPlatformIntegration:
+    """Cross-platform integration tests."""
+    def test_platform_specific_paths((self, logger)):
+        """Test that platform-specific paths are correctly determined."""
+    def test_chrome_finder_logging((self, logger, capsys)):
+        """Test that Chrome finder provides useful logging."""
+
+class TestEndToEndScenarios:
+    """End-to-end integration scenarios."""
+    def test_browser_restart_resilience((self)):
+        """Test that browser can be restarted multiple times."""
+
+class TestErrorHandlingIntegration:
+    """Integration tests for error handling."""
+    def test_browser_handles_network_errors((self)):
+        """Test browser behavior with network errors."""
+
+class TestPerformanceBenchmarks:
+    """Performance benchmarks for the library."""
+
+def logger(()):
+    """Provide a test logger."""
+
+def test_browser_basic_usage((self)):
+    """Test basic Browser usage with page navigation."""
+
+def test_browser_multiple_pages((self)):
+    """Test managing multiple pages."""
+
+def test_browser_cookies_persistence((self)):
+    """Test that cookies persist across browser sessions."""
+
+def test_async_browser_basic_usage((self)):
+    """Test basic AsyncBrowser usage."""
+
+def test_async_browser_concurrent_pages((self)):
+    """Test concurrent page operations with AsyncBrowser."""
+
+def _create_and_navigate_page((self, browser, index)):
+    """Helper to create and navigate a page."""
+
+def test_ensure_browser_creates_paths((self, logger)):
+    """Test that ensure_browser creates necessary directories."""
+
+def test_chrome_process_detection((self, logger)):
+    """Test Chrome process detection functionality."""
+
+def test_chrome_version_detection((self, logger)):
+    """Test Chrome version detection."""
+
+def test_platform_specific_paths((self, logger)):
+    """Test that platform-specific paths are correctly determined."""
+
+def test_chrome_finder_logging((self, logger, capsys)):
+    """Test that Chrome finder provides useful logging."""
+
+def test_full_workflow((self)):
+    """Test complete workflow from browser setup to page automation."""
+
+def test_browser_restart_resilience((self)):
+    """Test that browser can be restarted multiple times."""
+
+def test_browser_handles_network_errors((self)):
+    """Test browser behavior with network errors."""
+
+def test_browser_handles_missing_chrome((self, mock_find)):
+    """Test behavior when Chrome is not found."""
+
+def test_browser_startup_time((self, benchmark)):
+    """Benchmark browser startup time."""
+
+def start_browser(()):
+
+def test_page_creation_time((self, benchmark)):
+    """Benchmark page creation time."""
+
+def create_page(()):
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/tests/test_platform_specific.py
+# Language: python
+
+import os
+import platform
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+import pytest
+from playwrightauthor.browser.finder import (
+    _get_linux_chrome_paths,
+    _get_macos_chrome_paths,
+    _get_windows_chrome_paths,
+    find_chrome_executable,
+    get_chrome_version,
+)
+from playwrightauthor.utils.logger import configure
+from playwrightauthor.browser_manager import _DEBUGGING_PORT
+
+class TestPlatformSpecificChromeFinding:
+    """Test Chrome finding functionality on different platforms."""
+    def setup_method((self)):
+        """Set up test logger."""
+    def test_find_chrome_executable_with_logger((self)):
+        """Test find_chrome_executable with logging enabled."""
+    def test_find_chrome_unsupported_platform((self)):
+        """Test Chrome finding on unsupported platform."""
+
+class TestPlatformSpecificPaths:
+    """Test platform-specific path handling."""
+
+class TestCrossplatformCompatibility:
+    """Test cross-platform compatibility features."""
+    def test_path_handling((self)):
+        """Test that Path objects are used consistently."""
+    def test_environment_variable_handling((self)):
+        """Test environment variable handling across platforms."""
+    def test_home_directory_expansion((self)):
+        """Test home directory handling."""
+
+class TestIntegrationPlatformSpecific:
+    """Integration tests for platform-specific functionality."""
+    def test_real_chrome_finding((self)):
+        """Test finding Chrome on the actual system."""
+    def test_browser_manager_integration((self)):
+        """Test integration with browser_manager module."""
+
+def setup_method((self)):
+    """Set up test logger."""
+
+def test_windows_chrome_paths((self)):
+    """Test Windows Chrome path generation."""
+
+def test_macos_chrome_paths((self)):
+    """Test macOS Chrome path generation."""
+
+def test_linux_chrome_paths((self)):
+    """Test Linux Chrome path generation."""
+
+def test_find_chrome_executable_with_logger((self)):
+    """Test find_chrome_executable with logging enabled."""
+
+def test_get_chrome_version_success((self, mock_run)):
+    """Test successful Chrome version retrieval."""
+
+def test_get_chrome_version_failure((self, mock_run)):
+    """Test Chrome version retrieval failure."""
+
+def test_get_chrome_version_timeout((self, mock_run)):
+    """Test Chrome version retrieval timeout."""
+
+def test_find_chrome_unsupported_platform((self)):
+    """Test Chrome finding on unsupported platform."""
+
+def test_executable_permissions_check((self)):
+    """Test that executable permissions are checked on Unix systems."""
+
+def mock_paths(()):
+
+def test_windows_where_command((self)):
+    """Test Windows 'where' command integration."""
+
+def test_linux_which_command((self)):
+    """Test Linux 'which' command integration."""
+
+def test_path_handling((self)):
+    """Test that Path objects are used consistently."""
+
+def test_environment_variable_handling((self)):
+    """Test environment variable handling across platforms."""
+
+def test_home_directory_expansion((self)):
+    """Test home directory handling."""
+
+def test_real_chrome_finding((self)):
+    """Test finding Chrome on the actual system."""
+
+def test_browser_manager_integration((self)):
+    """Test integration with browser_manager module."""
+
+
+# File: /Users/adam/Developer/vcs/github.twardoch/pub/playwrightauthor/tests/test_utils.py
+# Language: python
+
+import sys
+from pathlib import Path
+from unittest.mock import patch
+from playwrightauthor.utils.logger import configure
+from playwrightauthor.utils.paths import install_dir
+from loguru import logger
+from loguru import logger
+from loguru import logger
+
+class TestPaths:
+    """Test suite for utils.paths module."""
+    def test_install_dir_returns_path((self)):
+        """Test that install_dir() returns a Path object."""
+    def test_install_dir_contains_app_name((self)):
+        """Test that install_dir() contains the application name."""
+    def test_install_dir_contains_browser_subdir((self)):
+        """Test that install_dir() includes 'browser' subdirectory."""
+    def test_install_dir_is_absolute((self)):
+        """Test that install_dir() returns an absolute path."""
+    def test_install_dir_consistent((self)):
+        """Test that multiple calls to install_dir() return the same path."""
+
+class TestLogger:
+    """Test suite for utils.logger module."""
+    def setup_method((self)):
+        """Set up test fixtures."""
+    def teardown_method((self)):
+        """Clean up after tests."""
+    def test_configure_returns_logger((self)):
+        """Test that configure() returns a logger object."""
+    def test_configure_verbose_false((self)):
+        """Test configure() with verbose=False sets INFO level."""
+    def test_configure_verbose_true((self)):
+        """Test configure() with verbose=True sets DEBUG level."""
+    def test_configure_removes_existing_handlers((self)):
+        """Test that configure() removes existing loguru handlers."""
+    def test_configure_consistent_logger((self)):
+        """Test that multiple calls to configure() return the same logger."""
+    def test_configure_logging_levels((self)):
+        """Test different logging levels work correctly."""
+
+class TestUtilsIntegration:
+    """Integration tests for utils modules."""
+    def test_logger_can_log_to_install_dir_path((self)):
+        """Test that logger can handle Path objects from install_dir()."""
+    def test_paths_work_with_different_platforms((self)):
+        """Test that paths work across different platform scenarios."""
+
+def test_install_dir_returns_path((self)):
+    """Test that install_dir() returns a Path object."""
+
+def test_install_dir_contains_app_name((self)):
+    """Test that install_dir() contains the application name."""
+
+def test_install_dir_contains_browser_subdir((self)):
+    """Test that install_dir() includes 'browser' subdirectory."""
+
+def test_install_dir_is_absolute((self)):
+    """Test that install_dir() returns an absolute path."""
+
+def test_install_dir_consistent((self)):
+    """Test that multiple calls to install_dir() return the same path."""
+
+def test_install_dir_with_custom_cache_dir((self, mock_cache_dir)):
+    """Test install_dir() with a custom cache directory."""
+
+def setup_method((self)):
+    """Set up test fixtures."""
+
+def teardown_method((self)):
+    """Clean up after tests."""
+
+def test_configure_returns_logger((self)):
+    """Test that configure() returns a logger object."""
+
+def test_configure_verbose_false((self)):
+    """Test configure() with verbose=False sets INFO level."""
+
+def test_configure_verbose_true((self)):
+    """Test configure() with verbose=True sets DEBUG level."""
+
+def test_configure_removes_existing_handlers((self)):
+    """Test that configure() removes existing loguru handlers."""
+
+def test_configure_consistent_logger((self)):
+    """Test that multiple calls to configure() return the same logger."""
+
+def test_configure_logging_levels((self)):
+    """Test different logging levels work correctly."""
+
+def test_logger_can_log_to_install_dir_path((self)):
+    """Test that logger can handle Path objects from install_dir()."""
+
+def test_paths_work_with_different_platforms((self)):
+    """Test that paths work across different platform scenarios."""
+
+
+</documents>
