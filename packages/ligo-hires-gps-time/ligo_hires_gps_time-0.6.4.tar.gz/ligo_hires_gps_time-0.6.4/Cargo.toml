@@ -1,0 +1,19 @@
+[workspace]
+members = ["ligo_hires_gps_time", "ligo_hires_gps_time_macros"]
+resolver = "2"
+
+[workspace.package]
+version = "0.6.4"
+edition = "2021"
+description = "A high-resolution time library with instants taken from the GPS epoch."
+license = "GPL-3.0-or-later"
+authors = ["Erik von Reis <erik.vonreis@ligo.org>"]
+homepage = "https://git.ligo.org/cds/software/cr_tools/ligo_hires_gps_time"
+repository = "https://git.ligo.org/cds/software/cr_tools/ligo_hires_gps_time.git"
+readme = "README.md"
+
+[workspace.dependencies]
+
+[patch.crates-io]
+#pyo3-stub-gen={git="https://github.com/evonreis/pyo3-stub-gen", branch="rich_enum"}
+

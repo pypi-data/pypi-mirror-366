@@ -1,0 +1,29 @@
+[project]
+name = "ligo_hires_gps_time"
+requires-python = ">=3.8"
+
+dynamic = [
+    "version",
+    "description",
+    "authors",
+    "readme",
+    "license",
+    "keywords",
+]
+
+dependencies = [
+    "cffi"
+]
+
+[project.optional-dependencies]
+test = ["gpstime", "pytest"]
+
+[build-system]
+requires = ["setuptools", "wheel>0.36.2", "patchelf", "maturin>=1.8,<2.0", "gpstime"]
+build-backend = "maturin"
+
+[tool.maturin]
+features = ["python", "hifitime",
+    "pyo3/extension-module"
+]
+manifest-path = "ligo_hires_gps_time/Cargo.toml"

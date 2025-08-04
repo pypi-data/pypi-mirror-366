@@ -1,0 +1,39 @@
+[package]
+name = "ligo_hires_gps_time"
+version.workspace = true
+edition.workspace = true
+description.workspace = true
+license = {workspace = true}
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "stub_gen"
+doc = false
+required-features = ["python"]
+
+[dependencies]
+pyo3-stub-gen = {version = "0.11", optional=true}
+hifitime = { version = "4", optional=true}
+pyo3 = { version="0.24", features=["num-complex"], optional=true}
+num-traits = "0.2"
+ligo_hires_gps_time_macros = {path = "../ligo_hires_gps_time_macros", version="0.6"}
+serde = { version = "1.0", features = ["derive"] }
+thiserror = { version = "2.0" }
+
+[features]
+# conversion to and from some hifitime types
+hifitime = ["dep:hifitime"]
+python = ["dep:pyo3",
+    "pyo3/num-complex", "pyo3/multiple-pymethods",
+    "pyo3-stub-gen",
+]
+all = ["hifitime", "python"]
+
+# hifitime now default because we depend on it for "Instant::now()"
+default = ["hifitime"]
