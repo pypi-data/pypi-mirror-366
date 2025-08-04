@@ -1,0 +1,1 @@
+# Telemetry hooks for gdmongolite
