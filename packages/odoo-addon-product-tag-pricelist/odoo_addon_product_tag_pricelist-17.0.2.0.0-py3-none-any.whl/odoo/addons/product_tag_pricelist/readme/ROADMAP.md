@@ -1,0 +1,1 @@
+- Product pricelist item's applied on keys values have been added again to edit its order on the views. It could cause minor conflicts with other modules that does the same.
