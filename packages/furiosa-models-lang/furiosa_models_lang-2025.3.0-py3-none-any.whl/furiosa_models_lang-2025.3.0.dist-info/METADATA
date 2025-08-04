@@ -1,0 +1,66 @@
+Metadata-Version: 2.4
+Name: furiosa-models-lang
+Version: 2025.3.0
+Summary: Furiosa Language Models – A leading optimization framework for LLM compilation and serving
+Author-email: "FuriosaAI Inc." <pkg@furiosa.ai>
+License: Apache-2.0
+License-File: LICENSE
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: <3.13,>=3.9
+Requires-Dist: torch==2.5.1
+Requires-Dist: transformers==4.48.1
+Provides-Extra: lint
+Requires-Dist: mypy; extra == 'lint'
+Requires-Dist: pre-commit; extra == 'lint'
+Requires-Dist: pydoclint; extra == 'lint'
+Requires-Dist: ruff; extra == 'lint'
+Provides-Extra: release
+Requires-Dist: git-cliff; extra == 'release'
+Requires-Dist: hatch; extra == 'release'
+Requires-Dist: mdformat; extra == 'release'
+Requires-Dist: mdformat-tables; extra == 'release'
+Requires-Dist: toml-sort; extra == 'release'
+Provides-Extra: test
+Requires-Dist: pytest; extra == 'test'
+Requires-Dist: vllm>=0.7.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# Furiosa Models Lang
+
+**Furiosa Models Lang** is a software library for language model compilation and optimization. It enables scalable model development and adaptive refinement through a modularized framework and principled validation.
+
+## Getting Started
+
+Get started by setting up the environment and running essential checks.
+
+```bash
+# Installation
+make install  # or simply `make`
+
+# Run tests
+make test
+
+# Linting & formatting
+make do-lint
+```
+
+### Preview features
+
+To install dependencies required for **preview** models.
+
+```bash
+make install-preview
+```
+
+**Note:** This command may override officially supported versions.
+
+## License
+
+This project is licensed under the Apache 2.0 License.
