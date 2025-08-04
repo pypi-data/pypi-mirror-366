@@ -1,0 +1,50 @@
+{
+  "name": "K* planner",
+  "description": "New implementation of K* search based on Fast Downward.",
+  "homepage": "https://github.com/ibm/kstar",
+  "install-size": "203M",
+  "dependencies": [],
+  "endpoint": {
+    "services": {
+      "solve": {
+        "template": "planner",
+        "args":[
+          {
+            "name": "number_of_plans",
+            "type": "int",
+            "description": "Number of Plans",
+            "default": 10
+          },
+          {
+            "name": "quality",
+            "type": "string",
+            "description": "Quality bound",
+            "default": "1.0"
+          },
+          {
+            "name": "unordered",
+            "type": "categorical",
+            "description": "Unordered top-quality",
+            "choices":[
+              {
+                "display_value":"Unordered top-quality planner",
+                "value":"--unordered"
+              },
+              {
+                "display_value":"Top-quality planner",
+                "value":""
+              }
+            ],
+            "default":"--unordered"
+          }
+
+        ],
+        "call":"{package_name} -k {number_of_plans} -q {quality} -H lmcut {unordered} {domain} {problem} >> plan",
+        "return": {
+          "type": "log",
+          "files": "*plan*"
+        }
+      }
+    }
+  }
+}
