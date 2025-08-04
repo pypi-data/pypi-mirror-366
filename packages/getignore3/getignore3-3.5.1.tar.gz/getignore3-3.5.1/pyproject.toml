@@ -1,0 +1,26 @@
+[project]
+name = "getignore3"
+version = "3.5.1"
+description = "A tool to fetch and manage `.gitignore` templates from GitHub with minimal effort"
+authors = [
+    { name = "ashkanfeyzollahi@gmail.com", email = "ashkanfeyzollahi@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["requests (>=2.32.4,<3.0.0)", "appdirs (>=1.4.4,<2.0.0)"]
+
+[project.scripts]
+getignore = "getignore:getignore"
+
+[project.urls]
+repository = "https://github.com/ashkanfeyzollahi/getignore3"
+
+[tool.poetry]
+packages = [{ include = "getignore.py", from = "src" }]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.12.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
