@@ -1,0 +1,69 @@
+Metadata-Version: 2.4
+Name: mcp-mux
+Version: 0.1.0
+Summary: MCP router that simplifies tool access through semantic search
+Author: Logan Donley
+License: MIT
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.13
+Requires-Dist: click>=8.1.8
+Requires-Dist: fastapi>=0.115.6
+Requires-Dist: fastembed>=0.4.2
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: mcp[cli]>=1.12.3
+Requires-Dist: numpy>=2.2.2
+Requires-Dist: pydantic-settings>=2.7.1
+Requires-Dist: pydantic>=2.10.5
+Requires-Dist: rich>=13.9.5
+Requires-Dist: uvicorn[standard]>=0.34.0
+Requires-Dist: websockets>=14.2
+Description-Content-Type: text/markdown
+
+# mcp-mux
+
+A Model Context Protocol (MCP) multiplexer that simplifies tool access through semantic search.
+
+## Overview
+
+mcp-mux acts as a router between MCP clients and servers, providing a simplified interface that exposes only two tools (`search` and `execute`) instead of potentially hundreds. It uses semantic search to dynamically find and execute the right tools based on natural language queries.
+
+## Quick Start
+
+1. Initialize configuration:
+
+```bash
+uvx mcp-mux init
+```
+
+2. Add to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "mux": {
+      "command": "uvx",
+      "args": ["mcp-mux"]
+    }
+  }
+}
+```
+
+## How It Works
+
+Instead of exposing hundreds of tools from multiple servers, mcp-mux exposes just two:
+
+1. **`search`** - Find tools using natural language
+2. **`execute`** - Run a specific tool
+
+## License
+
+MIT
+
+## Development Status
+
+This project is in early development. Features may change.
