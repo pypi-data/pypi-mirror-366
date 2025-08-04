@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: kiwoom-restful
+Version: 0.0.2
+Summary: Simple Python Wrapper for Kiwoom REST API+
+Keywords: 키움증권,Kiwoom,Heroes,REST API
+Author-Email: breadum <breadum.kr@gmail.com>
+License-Expression: MIT
+Classifier: Topic :: Office/Business :: Financial :: Investment
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Project-URL: Homepage, https://github.com/breadum/kiwoom-restful
+Project-URL: Documentation, https://github.com/breadum/kiwoom-restful/blob/main/README.md
+Project-URL: Repository, https://github.com/breadum/kiwoom-restful
+Project-URL: Download,  https://pypi.org/project/kiwoom-restful
+Project-URL: Issues, https://github.com/breadum/kiwoom-restful/issues
+Requires-Python: >=3.10
+Requires-Dist: pandas>=2
+Requires-Dist: requests>=2.32
+Description-Content-Type: text/markdown
+
+ Kiwoom REST API
+* 토큰 만료시 필요에 의해 자동 재발급  
+
+
+```
+import asyncio
+from kiwoom import Kiwoom, REAL
+from kiwoom.config import candle
+
+bot = Kiwoom(
+    host=REAL,
+    appkey='path/to/appkey',  # or raw appkey
+    secretkey='path/to/secretkey'  # or raw secretkey
+)
+
+# Download
+code = '005930_AL'  # 거래소 통합코드
+df = asyncio.run(
+    bot.candle(
+        code=code, 
+        period='min',   # 'tick' | 'min' | 'day'
+        ctype='stock',  # 'stock' | 'sector'
+        start='20250801',
+        end='',
+))
+# Save
+asyncio.run(candle.to_csv(file=code, path='.', df))
+```
