@@ -1,0 +1,147 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.5.2] - 2025-08-03
+
+### Fixed
+- Fixed streaming read logic to prevent text truncation in `lui.text`
+  - Track last activity time instead of total elapsed time for timeouts
+  - Only timeout after periods of inactivity, not during active streaming
+  - Accept responses with at least one line (thread ID) instead of requiring 2
+  - Merge incremental text updates instead of overwriting elements
+  - Improve logging with warnings about potential truncation
+
+### Added
+- Comprehensive "Vibes Investigation Tutorial" notebook
+  - Installation, setup, and basic usage examples
+  - Agent usage examples (DatabricksPassthroughAgent, DatabricksAgent, LouieAgent)
+  - DataFrame access patterns and investigation workflows
+  - Prompt template examples for reusable investigations
+
+### Changed
+- Configure ruff to ignore F821 (undefined names) in tutorial notebooks for intentional placeholders
+
+## [0.5.1] - 2025-08-03
+
+### Fixed
+- Fixed Databricks DataFrame population bug where `lui.df` returned None after DatabricksPassthroughAgent queries
+- Enhanced DataFrame ID extraction to support nested `data.df_id` structures from various agents
+- Added support for more DataFrame element type variations (DataFrame, dataframe)
+- Improved error logging with thread ID, URL, and full element context for better debugging
+
+## [0.5.0] - 2025-08-03
+
+### Added
+- Python 3.13 support with CI matrix testing
+- CI scripts for formatting, linting, type checking, and testing
+- Comprehensive test coverage improvements (from ~30% to 86%)
+- Additional unit tests for edge cases and error handling
+- Session-scoped fixture to prevent global cursor initialization in tests
+
+### Changed
+- Improved test isolation to prevent network connections during CI runs
+- Enhanced mock patterns for httpx.Client to handle both direct instantiation and context manager usage
+- Simplified CallableModule test for Python 3.13 compatibility
+
+### Fixed
+- Fixed httpx.Client mocking pattern across multiple test files
+- Fixed integration tests that were attempting real network connections
+- Fixed performance test thresholds for CI environment
+- Fixed test_client_callable.py mock reference errors
+- Fixed dataframe fetching test to properly test "no df_id" case
+- Fixed documentation example test that required authentication
+
+## [0.4.0] - 2025-08-02
+
+### Added
+- AI collaboration framework with comprehensive guidelines
+- Task planning template for structured AI-assisted development
+- Publishing guide for PyPI releases
+- ReadTheDocs configuration validation scripts
+- GitHub Actions workflow for automated PyPI publishing
+- Testing section in README with quick start instructions
+- Configurable timeout settings for long-running agentic workflows:
+  - `timeout` parameter in LouieClient (default: 300s)
+  - `streaming_timeout` parameter for per-chunk timeouts (default: 120s)
+  - Environment variables: `LOUIE_TIMEOUT` and `LOUIE_STREAMING_TIMEOUT`
+- Clear timeout error messages with guidance for increasing limits
+- Warning messages for requests taking longer than 30 seconds
+- Real-time streaming display for Jupyter notebooks:
+  - Progressive response updates as content is generated
+  - Automatic display refresh without flicker
+  - Faster time-to-first-content for better user experience
+  - Works seamlessly with text, dataframes, and error responses
+- Arrow dataframe fetching support:
+  - Automatic fetching via `/api/dthread/{thread_id}/df/block/{block_id}/arrow` endpoint
+  - Support for both `df_id` and `block_id` fields
+  - Graceful error handling when dataframe fetch fails
+- Comprehensive agent guides for 40+ specialized agents with hierarchical navigation
+- Response Types documentation rewritten for 95% accuracy matching implementation
+
+### Changed
+- Updated documentation dependencies to latest versions
+- Enhanced CI pipeline with ReadTheDocs validation
+- Improved development documentation with RTD validation info
+- LouieClient now uses streaming API for chat endpoint
+- Improved error handling for server-sent events (SSE) streaming
+- Reorganized documentation navigation with hierarchical agent guide structure
+- Server URL standardized to production endpoint (https://den.louie.ai)
+
+### Fixed
+- Fixed ReadTheDocs configuration with proper build.jobs structure
+- Fixed timeout issues with streaming responses from Louie API
+- Fixed integration tests to handle both PyGraphistry and direct Louie authentication
+- Fixed Response Types documentation accuracy (was 30% accurate, now 95% accurate)
+- Fixed import syntax errors in authentication guide
+- Fixed CallableModule initialization to handle None module
+- Fixed error handling notebook to use real error patterns instead of fictional exceptions
+
+## [0.1.0] - 2025-07-26
+
+### Added
+- Initial release of LouieAI Python client library
+- `LouieClient` class for interacting with Louie.ai API
+- Robust error handling with detailed HTTP and network error messages
+- JSON error message extraction from API responses
+- Bearer token authentication via PyGraphistry integration
+- Comprehensive test suite with 4 tests covering success and error scenarios
+- Type hints throughout codebase with `py.typed` marker
+- User documentation with usage examples and architecture guide
+- Developer documentation with setup, tool usage, and troubleshooting
+- Contributing guidelines with workflow examples and PR templates
+- Modern development tooling:
+  - Ruff for linting and formatting (replaces Black + separate linter)
+  - MyPy for strict type checking
+  - Pre-commit hooks for automated code quality
+  - pytest with parallel testing support (pytest-xdist)
+- Dynamic versioning with setuptools_scm (git tag-based)
+- GitHub Actions CI/CD with Python 3.11, 3.12, 3.13 testing
+- MkDocs documentation site with Material theme
+- Professional project structure with all standard OSS files
+
+### Changed
+- Minimum Python version requirement from 3.8 to 3.11
+- Dependencies modernized to 2025 versions:
+  - graphistry 0.34 → 0.40.0
+  - pandas 1.0 → 2.0.0  
+  - pyarrow 8.0 → 21.0.0
+  - httpx 0.28 → 0.28.0
+- Development dependencies updated to latest stable versions
+- Code style modernized to use Python 3.11+ features (union types, modern dict/list)
+
+### Fixed
+- Resolved pytest collection errors in development environment
+- Fixed mypy configuration for external dependencies
+- Corrected type annotations for better IDE support
+- Streamlined import organization and code formatting
+
+### Security
+- Added security policy with responsible disclosure guidelines
+- Configured strict type checking to prevent common runtime errors
+- Implemented comprehensive error handling to avoid information leaks
