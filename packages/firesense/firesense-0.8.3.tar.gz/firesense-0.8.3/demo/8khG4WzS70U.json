@@ -1,0 +1,298 @@
+{
+  "video_id": "8khG4WzS70U",
+  "url": "https://www.youtube.com/watch?v=8khG4WzS70U",
+  "video_info": {
+    "title": "Garden Fire Video Demo",
+    "uploader": "Firesense AI",
+    "duration": 11,
+    "upload_date": "20250730"
+  },
+  "processing_info": {
+    "timestamp": "2025-07-31T06:04:25.048870",
+    "interval_seconds": 1,
+    "total_frames": 12,
+    "frames_directory": "8khG4WzS70U_frames"
+  },
+  "inference_performance": {
+    "total_inference_time": 79.7,
+    "average_time_per_frame": 6.641,
+    "min_time": 6.538,
+    "max_time": 6.798
+  },
+  "inference_results": [
+    {
+      "frame_number": 0,
+      "timestamp": 0.0,
+      "filename": "frame_0000_t0.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.721
+    },
+    {
+      "frame_number": 1,
+      "timestamp": 1.0,
+      "filename": "frame_0001_t1.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.562
+    },
+    {
+      "frame_number": 2,
+      "timestamp": 2.0,
+      "filename": "frame_0002_t2.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.661
+    },
+    {
+      "frame_number": 3,
+      "timestamp": 3.0,
+      "filename": "frame_0003_t3.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.798
+    },
+    {
+      "frame_number": 4,
+      "timestamp": 4.0,
+      "filename": "frame_0004_t4.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.778
+    },
+    {
+      "frame_number": 5,
+      "timestamp": 5.0,
+      "filename": "frame_0005_t5.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.647
+    },
+    {
+      "frame_number": 6,
+      "timestamp": 6.0,
+      "filename": "frame_0006_t6.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.684
+    },
+    {
+      "frame_number": 7,
+      "timestamp": 7.0,
+      "filename": "frame_0007_t7.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.57
+    },
+    {
+      "frame_number": 8,
+      "timestamp": 8.0,
+      "filename": "frame_0008_t8.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.538
+    },
+    {
+      "frame_number": 9,
+      "timestamp": 9.0,
+      "filename": "frame_0009_t9.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.546
+    },
+    {
+      "frame_number": 10,
+      "timestamp": 10.0,
+      "filename": "frame_0010_t10.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": false
+      },
+      "inference_time_seconds": 6.618
+    },
+    {
+      "frame_number": 11,
+      "timestamp": 11.0,
+      "filename": "frame_0011_t11.0s.jpg",
+      "inference": {
+        "has_flame": true,
+        "has_out_of_control_fire": true
+      },
+      "inference_time_seconds": 6.574
+    }
+  ],
+  "detections": [
+    {
+      "timestamp": 0.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 1.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 2.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 3.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 4.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 5.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 6.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 7.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 8.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 9.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 10.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": false,
+      "fire_characteristics": {
+        "intensity": "medium",
+        "spread_rate": "controlled",
+        "size": "small",
+        "type": "controlled flame"
+      }
+    },
+    {
+      "timestamp": 11.0,
+      "fire_detected": true,
+      "confidence": 0.95,
+      "is_dangerous": true,
+      "fire_characteristics": {
+        "intensity": "high",
+        "spread_rate": "rapid",
+        "size": "large",
+        "type": "out of control fire"
+      }
+    }
+  ],
+  "summary": {
+    "total_frames_analyzed": 12,
+    "fire_detections": 12,
+    "dangerous_fire_detections": 1,
+    "max_confidence": 0.95,
+    "first_detection_time": 0.0,
+    "dangerous_threshold_time": 11.0
+  }
+}
