@@ -1,0 +1,20 @@
+[package]
+name = "ligo_hires_gps_time_macros"
+description = "Macros needed for ligo_hires_gps_time"
+version.workspace = true
+edition.workspace = true
+license = {workspace = true}
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "README.md"
+
+[dependencies]
+quote = { version = "1.0"}
+syn = { version = "2.0", features = ["extra-traits", "full"]}
+proc-macro2 = {version="1.0"}
+
+[lib]
+proc-macro = true
+
+[features]
