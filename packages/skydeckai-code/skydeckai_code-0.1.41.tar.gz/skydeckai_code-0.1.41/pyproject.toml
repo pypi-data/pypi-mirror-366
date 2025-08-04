@@ -1,0 +1,66 @@
+[project]
+name = "skydeckai-code"
+version = "0.1.41"
+description = "This MCP server provides a comprehensive set of tools for AI-driven Development workflows including file operations, code analysis, multi-language execution, web content fetching with HTML-to-markdown conversion, multi-engine web search, code content searching, persistent task management, and system information retrieval."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "SkyDeck.ai", email = "support@skydeck.ai"}]
+license = {text = "Apache 2.0"}
+keywords = ["mcp", "development", "ai", "aidd", "code-analysis", "code"]
+
+dependencies = [
+    "mcp>=1.6.0",
+    "tree-sitter>=0.24.0",
+    "tree-sitter-c-sharp>=0.23.1",
+    "tree-sitter-cpp>=0.23.4",
+    "tree-sitter-go>=0.23.4",
+    "tree-sitter-java>=0.23.5",
+    "tree-sitter-javascript>=0.23.1",
+    "tree-sitter-kotlin>=1.1.0",
+    "tree-sitter-php>=0.23.11",
+    "tree-sitter-python>=0.23.6",
+    "tree-sitter-ruby>=0.23.1",
+    "tree-sitter-rust==0.23.2",
+    "tree-sitter-typescript>=0.23.2",
+    "psutil>=7.0.0",
+    "mss>=10.0.0",
+    "pillow>=11.1.0",
+    "requests>=2.32.3",
+    "html2text>=2025.4.15",
+    "beautifulsoup4>=4.13.3",
+    "pyobjc-framework-Quartz>=11.0; sys_platform == 'darwin'",
+    "pygetwindow>=0.0.9; sys_platform == 'win32'",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "build",
+    "ruff>=0.9.1",
+]
+
+[tool.ruff]
+line-length = 250
+target-version = "py311"
+
+# Enable rules
+lint.select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+]
+
+[project.urls]
+Homepage = "https://github.com/skydeckai/skydeckai-code"
+Repository = "https://github.com/skydeckai/skydeckai-code"
+Documentation = "https://github.com/skydeckai/skydeckai-code/blob/main/README.md"
+
+[build-system]
+requires = [ "hatchling",]
+build-backend = "hatchling.build"
+
+[project.scripts]
+skydeckai-code = "src.aidd:main"
+skydeckai-code-cli = "src.aidd.cli:main"
