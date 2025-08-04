@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Clone Analytics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-text">GitHub Analytics Dashboard</span>
+            </div>
+            <h1 class="hero-title">Clone Analytics</h1>
+            <p class="hero-subtitle">
+                <span class="subtitle-line">Capture insights into your repository traffic</span>
+                <span class="subtitle-accent">Powered by real-time GitHub data</span>
+            </p>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 3v18h18"/>
+                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-repos">-</div>
+                    <div class="stat-label">Repositories</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-clones">-</div>
+                    <div class="stat-label">Total Clones</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-uniques">-</div>
+                    <div class="stat-label">Unique Cloners</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-views">-</div>
+                    <div class="stat-label">Total Views</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="total-unique-views">-</div>
+                    <div class="stat-label">Unique Visitors</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <div class="view-toggle">
+                <button id="card-view-btn" class="view-btn active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Cards</span>
+                </button>
+                <button id="chart-view-btn" class="view-btn">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Charts</span>
+                </button>
+            </div>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search repositories..." />
+            </div>
+            <div class="sort-container">
+                <select id="sort-select">
+                    <option value="name">Sort by Name</option>
+                    <option value="clones-desc">Most Clones</option>
+                    <option value="clones-asc">Least Clones</option>
+                    <option value="uniques-desc">Most Unique Clones</option>
+                    <option value="uniques-asc">Least Unique Clones</option>
+                    <option value="views-desc">Most Views</option>
+                    <option value="views-asc">Least Views</option>
+                    <option value="unique-views-desc">Most Unique Views</option>
+                    <option value="unique-views-asc">Least Unique Views</option>
+                </select>
+            </div>
+            <button id="sync-button" class="btn btn-primary sync-btn">
+                <i class="fas fa-sync-alt"></i>
+                <span>Sync Data</span>
+            </button>
+            <button id="manage-repos-button" class="btn btn-primary manage-repos-btn">
+                <i class="fas fa-cog"></i>
+                <span>Manage Repos</span>
+            </button>
+        </div>
+
+        <div id="chart-controls" class="chart-controls" style="display: none;">
+            <div class="chart-filters">
+                <div class="filter-group">
+                    <label for="time-filter">Time Period:</label>
+                    <select id="time-filter">
+                        <option value="7">Last 7 days</option>
+                        <option value="30" selected>Last 30 days</option>
+                        <option value="90">Last 3 months</option>
+                        <option value="0">All time</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="repo-filter">Repository:</label>
+                    <select id="repo-filter">
+                        <option value="">All repositories</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button id="refresh-chart-btn" class="btn btn-primary btn-sm refresh-chart-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh Chart
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading repository data...</p>
+        </div>
+
+        <div id="chart-container" class="chart-container" style="display: none;">
+            <div id="chart-loading" class="chart-loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Loading chart data...</p>
+            </div>
+            <div id="charts-wrapper" class="charts-wrapper"></div>
+        </div>
+
+        <div id="repos-container" class="repos-grid"></div>
+    </main>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Repository Management Modal -->
+    <div id="repo-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Tracked Repositories</h2>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="add-repo-section">
+                    <h3>Add New Repository</h3>
+                    <div class="add-repo-form">
+                        <div class="form-group">
+                            <input type="text" id="new-repo-input" placeholder="Enter repository name (e.g., my-repo)" />
+                        </div>
+                        <div class="form-group owner-type-group" id="owner-type-group" style="display: none;">
+                            <label for="owner-type-select">Owner Type:</label>
+                            <select id="owner-type-select">
+                                <option value="user">Personal Repository</option>
+                                <option value="org">Organization Repository</option>
+                            </select>
+                        </div>
+                        <button id="add-repo-btn" class="btn btn-primary add-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Repository
+                        </button>
+                    </div>
+                </div>
+                <div class="tracked-repos-section">
+                    <h3>Currently Tracked Repositories</h3>
+                    <div id="tracked-repos-list" class="tracked-repos-list">
+                        <div class="loading-repos">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Loading tracked repositories...
+                        </div>
+                    </div>
+                </div>
+                <div class="backup-section">
+                    <h3>Backup & Restore</h3>
+                    <div class="backup-controls">
+                        <button id="export-btn" class="btn btn-primary backup-btn export-btn">
+                            <i class="fas fa-download"></i>
+                            Export Data
+                        </button>
+                        <div class="import-section">
+                            <input type="file" id="import-file" accept=".json" style="display: none;">
+                            <button id="import-btn" class="btn btn-success backup-btn import-btn">
+                                <i class="fas fa-upload"></i>
+                                Import Data
+                            </button>
+                            <div class="import-options">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="replace-existing">
+                                    <span class="checkmark"></span>
+                                    Replace existing data
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
