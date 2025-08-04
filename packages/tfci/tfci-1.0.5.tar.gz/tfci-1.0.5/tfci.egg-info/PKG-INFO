@@ -1,0 +1,45 @@
+Metadata-Version: 2.4
+Name: tfci
+Version: 1.0.5
+Summary: Time Forecasting CI - 간단한 시계열 예측 라이브러리
+Author-email: TFCI Team <rosci671233@gmail.com>
+Maintainer-email: TFCI Team <rosci671233@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/rosci671233/tfci
+Project-URL: Documentation, https://github.com/rosci671233/tfci#readme
+Project-URL: Repository, https://github.com/rosci671233/tfci.git
+Project-URL: Bug Tracker, https://github.com/rosci671233/tfci/issues
+Keywords: time-series,forecasting,prophet,machine-learning,prediction
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: prophet>=1.1.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: tqdm>=4.60.0
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: requests>=2.25.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: db
+Requires-Dist: ibm-db>=3.2.0; extra == "db"
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "db"
+Requires-Dist: pymongo>=4.0.0; extra == "db"
