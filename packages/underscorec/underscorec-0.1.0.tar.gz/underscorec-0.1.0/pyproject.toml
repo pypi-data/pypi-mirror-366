@@ -1,0 +1,59 @@
+[project]
+name = "underscorec"
+version = "0.1.0"
+description = "C-based functional programming library with __ syntax for Python"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.2.6",
+    "pandas>=2.3.1",
+    "torch>=2.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "numpy", "torch"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "setuptools>=80.9.0",
+    "pytest>=7.0.0",
+    "pytest-xdist>=2.5.0", # For parallel test execution
+    "coverage>=7.10.1",
+    "pytest-cov>=6.2.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["archive", ".git", ".pytest_cache", "htmlcov", "build"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--tb=short", 
+    "--strict-markers",
+    "--strict-config",
+    "--cov=underscorec",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-branch",
+    "--cov-fail-under=95"
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "numpy_only: marks tests that require NumPy",
+    "torch_only: marks tests that require PyTorch"
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning"
+]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
