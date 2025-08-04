@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "customer_purchases_final"
+version = "1.0.0"
+description = "Customer purchases large dataset processing pipeline"
+authors = ["Slimane Rhaytou"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "customer_purchases" },
+    { include = "version.py" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+python-dotenv = ">=1.1.1,<2.0.0"
+pandas = ">=2.3.1,<3.0.0"
+numpy = ">=2.3.2,<3.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+jupyterlab = "^4.4.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+
+
+
+
