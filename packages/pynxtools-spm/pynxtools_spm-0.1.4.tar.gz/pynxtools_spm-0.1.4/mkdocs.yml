@@ -1,0 +1,85 @@
+site_name: Documentation
+site_description: |
+  The documentation for NOMAD.
+site_author: The NOMAD Authors
+repo_url: https://github.com/FAIRmat-NFDI/pynxtools-spm
+site_url: https://nomad-lab.eu/prod/v1/docs/index.html
+edit_uri: ""
+use_directory_urls: false
+nav:
+  - Home: index.md
+  - Explanation: 
+      - explanation/reader-explanation.md
+  - Tutorial:
+      - tutorial/nomad-tutorial.md
+      - tutorial/reader-tutorial.md
+  - How-To-Guide : 
+      - how-to-guides/how-to-interact-with-reader.md
+  - Reference: 
+      - reference/reference.md
+plugins:
+  # - mkdocstrings
+  # - mermaid2
+  - search
+  - macros:
+      module_name: docs/macros
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - toc:
+      permalink: True
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji
+  - pymdownx.extra
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+use_directory_urls: false
+theme:
+  name: material
+  pallet:
+    primary: "#2A4CDF"
+  font:
+    text: 'Titillium Web'
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - navigation.path
+    - navigation.footer
+    - navigation.top
+  favicon: assets/favicon.png
+  logo: assets/nomad-logo.png
+  icon:
+    repo: fontawesome/brands/github
+extra: 
+  generator: false
+  homepage: https://nomad-lab.eu
+# theme:
+#   name: "material"
+#   features:
+#   - navigation.tabs
+#   - navigation.sections
+#   - navigation.top
+#   - navigation.bottom
+#   - toc.integrate
+#   - search.suggest
+#   - search.highlight
+#   - content.tabs.link
+#   - content.tabs.copy
+#   - content.code.annotation
+  # icon:
+  #   admonition:
+  #     note: octicons/tag-16
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - javascript.js
