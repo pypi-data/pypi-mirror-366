@@ -1,0 +1,1 @@
+from memorylane.mem_profile import profile
