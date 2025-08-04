@@ -1,0 +1,1 @@
+from .__gen_response_pattern import generate_response_pattern
