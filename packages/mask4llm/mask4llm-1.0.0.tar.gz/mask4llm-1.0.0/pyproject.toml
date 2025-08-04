@@ -1,0 +1,56 @@
+[project]
+name = "mask4llm"
+version = "1.0.0"
+description = "A terminal user interface (TUI) app built with Textual to easily mask and unmask sensitive information."
+readme = "README.md"
+requires-python = ">=3.12"
+keywords = ["TUI", "Textual", "masking", "unmasking", "privacy"]
+license = {text = "MIT"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Environment :: Console",
+    "Environment :: Console :: Curses",
+    "Natural Language :: English",
+]
+authors = [
+    {name = "Hemanth Kumar", email = "hemanthhari2000@gmail.com"},
+]
+
+dependencies = [
+    "pyperclip>=1.9.0",
+    "textual[syntax]>=3.7.1",
+]
+
+[project.scripts]
+mask4llm = "mask4llm:app.main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.29.4",
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.0",
+    "ruff>=0.11.12",
+]
+
+[tool.ruff]
+lint.ignore = ["E501"]
+lint.select = ["E", "F", "I", "W"]
+lint.fixable = ["I"]
+line-length = 79
+exclude = [".env", ".venv", "venv"]
+output-format = "full"
+
+[tool.pyright]
+include = ["src"]
