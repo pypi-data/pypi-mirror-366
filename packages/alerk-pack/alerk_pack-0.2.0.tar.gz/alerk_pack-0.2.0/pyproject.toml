@@ -1,0 +1,35 @@
+# python3 -m pip install --upgrade pip build setuptools twine
+# python3 -m build
+# # python3 -m twine upload --repository testpypi dist/*
+# # pip3 install --no-deps --index-url https://test.pypi.org/simple {package_name}
+# python3 -m twine upload dist/*
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alerk_pack"
+dynamic = ["version"]
+authors = [
+  { name="The220th", email="The220th@gmail.com" },
+]
+description = "alerk functions and utilities."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+dependencies = [
+    "cryptography",
+    "pydantic",
+]
+
+[project.urls]
+Homepage = "https://github.com/The220th/alerk_pack"
+Issues = "https://github.com/The220th/alerk_pack/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "alerk_pack.__version__"}
