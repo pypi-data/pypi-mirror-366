@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: ewoks3dxrd
+Version: 0.4.0
+Summary: Ewoks 3DXRD workflows
+Author-email: ESRF <dau-pydev@esrf.fr>
+License: # MIT License
+        
+        **Copyright (c) 2021 European Synchrotron Radiation Facility**
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of
+        this software and associated documentation files (the "Software"), to deal in
+        the Software without restriction, including without limitation the rights to
+        use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+        the Software, and to permit persons to whom the Software is furnished to do so,
+        subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+        FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+        COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+        IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+        CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        
+Project-URL: Homepage, https://gitlab.esrf.fr/workflow/ewoksapps/ewoks3dxrd/
+Project-URL: Documentation, https://ewoks3dxrd.readthedocs.io/
+Project-URL: Repository, https://gitlab.esrf.fr/workflow/ewoksapps/ewoks3dxrd/
+Project-URL: Issues, https://gitlab.esrf.fr/workflow/ewoksapps/ewoks3dxrd/issues
+Project-URL: Changelog, https://gitlab.esrf.fr/workflow/ewoksapps/ewoks3dxrd/-/blob/main/CHANGELOG.md
+Keywords: orange3 add-on,ewoks
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: ewoks[orange]>=1.1.0
+Requires-Dist: ewokscore>=1.5.0
+Requires-Dist: pydantic>=2
+Requires-Dist: silx>=2.2.0
+Requires-Dist: ImageD11==2.1.2
+Requires-Dist: qtawesome
+Provides-Extra: full
+Requires-Dist: pyqt6; extra == "full"
+Provides-Extra: test
+Requires-Dist: ewoks3dxrd[full]; extra == "test"
+Requires-Dist: pytest>=8; extra == "test"
+Requires-Dist: pyqt6; extra == "test"
+Provides-Extra: dev
+Requires-Dist: ewoks3dxrd[test]; extra == "dev"
+Requires-Dist: black>=25; extra == "dev"
+Requires-Dist: flake8>=7; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: ewoks3dxrd[test]; extra == "doc"
+Requires-Dist: sphinx>=8; extra == "doc"
+Requires-Dist: pydata_sphinx_theme; extra == "doc"
+Requires-Dist: myst-parser; extra == "doc"
+Requires-Dist: ewokssphinx>=1.0.0; extra == "doc"
+Requires-Dist: sphinxcontrib-mermaid; extra == "doc"
+Dynamic: license-file
+
+# ewoks3dxrd
+
+**ewoks3dxrd** is a project to process 3DXRD data using [ImageD11](https://github.com/FABLE-3DXRD/ImageD11). It provides an [Orange3](https://github.com/biolab/orange3) graphical user interface to process data with ImageD11 under the form of computational data pipelines composed of several tasks, also called workflows. It can also run the workflows in batch via headless processing by using [Ewoks](https://ewoks.esrf.fr/en/latest/).
+
+## Quick start
+
+```code
+pip install ewoks3dxrd[full]
+```
+
+Then, launch the Orange canvas with
+
+```bash
+ewoks-canvas
+```
+
+Open the tutorial workflow or drag widgets from the left panel to the canvas to make a workflow
+
+## Documentation
+
+https://ewoks3dxrd.readthedocs.io/

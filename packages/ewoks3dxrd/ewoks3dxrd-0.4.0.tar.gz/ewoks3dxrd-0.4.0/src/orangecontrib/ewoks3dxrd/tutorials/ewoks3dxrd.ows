@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scheme version="2.0" title="3DXRD workflow" description="A workflow to process 3DXRD data with ewoks3dxrd">
+	<nodes>
+		<node id="0" name="Peaks Segmentation" qualified_name="orangecontrib.ewoks3dxrd.segmenter_frame.OWFrameSegmenter" project_name="ewoks3dxrd" version="" title="Peaks Segmentation" position="(292.0, 689.0)" />
+		<node id="1" name="Detector Correction" qualified_name="orangecontrib.ewoks3dxrd.detector_correction.OWDetectorCorrection" project_name="ewoks3dxrd" version="" title="Detector Correction" position="(411.75, 391.25)" />
+		<node id="2" name="Geometry Transformation" qualified_name="orangecontrib.ewoks3dxrd.geometry_transformation.OWGeometryTransformation" project_name="ewoks3dxrd" version="" title="Geometry Transformation" position="(518.75, 391.5)" />
+		<node id="3" name="Lattice Filter" qualified_name="orangecontrib.ewoks3dxrd.lattice_filter.OWLatticeFilter" project_name="ewoks3dxrd" version="" title="Lattice Filtering" position="(639.25, 439.0)" />
+		<node id="4" name="Intensity Filter" qualified_name="orangecontrib.ewoks3dxrd.intensity_filter.OWIntensityFilter" project_name="ewoks3dxrd" version="" title="Intensity Filtering" position="(794.25, 443.75)" />
+		<node id="5" name="Index Filter" qualified_name="orangecontrib.ewoks3dxrd.indexer_filter.OWIndexerFilter" project_name="ewoks3dxrd" version="" title="Index Filtering" position="(922.7727272727273, 251.88636363636374)" />
+		<node id="6" name="Grid Indexing" qualified_name="orangecontrib.ewoks3dxrd.grid_indexing.OWGridIndexing" project_name="ewoks3dxrd" version="" title="Grid Indexing" position="(1095.0, 242.0)" />
+		<node id="7" name="Refine Grain Mapping" qualified_name="orangecontrib.ewoks3dxrd.make_map_grains.OWMakeGrainMap" project_name="ewoks3dxrd" version="" title="Refine Grain Mapping" position="(1231.8838383838388, 696.8459595959596)" />
+	</nodes>
+	<links>
+		<link id="0" source_node_id="0" sink_node_id="1" source_channel="segmented_peaks_url" sink_channel="segmented_peaks_url" enabled="true" source_channel_id="segmented_peaks_url" sink_channel_id="segmented_peaks_url" />
+		<link id="1" source_node_id="1" sink_node_id="2" source_channel="spatial_corrected_data_url" sink_channel="spatial_corrected_data_url" enabled="true" source_channel_id="spatial_corrected_data_url" sink_channel_id="spatial_corrected_data_url" />
+		<link id="2" source_node_id="2" sink_node_id="3" source_channel="geometry_updated_data_url" sink_channel="geometry_updated_data_url" enabled="true" source_channel_id="geometry_updated_data_url" sink_channel_id="geometry_updated_data_url" />
+		<link id="3" source_node_id="2" sink_node_id="5" source_channel="wavelength" sink_channel="wavelength" enabled="true" source_channel_id="wavelength" sink_channel_id="wavelength" />
+		<link id="4" source_node_id="3" sink_node_id="4" source_channel="lattice_filtered_data_url" sink_channel="lattice_filtered_data_url" enabled="true" source_channel_id="lattice_filtered_data_url" sink_channel_id="lattice_filtered_data_url" />
+		<link id="5" source_node_id="3" sink_node_id="5" source_channel="copied_lattice_file" sink_channel="lattice_file" enabled="true" source_channel_id="copied_lattice_file" sink_channel_id="lattice_file" />
+		<link id="6" source_node_id="3" sink_node_id="5" source_channel="ds_tol" sink_channel="ds_tol" enabled="true" source_channel_id="ds_tol" sink_channel_id="ds_tol" />
+		<link id="7" source_node_id="3" sink_node_id="7" source_channel="copied_lattice_file" sink_channel="lattice_file" enabled="true" source_channel_id="copied_lattice_file" sink_channel_id="lattice_file" />
+		<link id="8" source_node_id="4" sink_node_id="5" source_channel="intensity_filtered_data_url" sink_channel="intensity_filtered_data_url" enabled="true" source_channel_id="intensity_filtered_data_url" sink_channel_id="intensity_filtered_data_url" />
+		<link id="9" source_node_id="5" sink_node_id="6" source_channel="indexer_filtered_data_url" sink_channel="indexer_filtered_data_url" enabled="true" source_channel_id="indexer_filtered_data_url" sink_channel_id="indexer_filtered_data_url" />
+		<link id="10" source_node_id="6" sink_node_id="7" source_channel="grid_indexed_grain_data_url" sink_channel="indexed_grain_data_url" enabled="true" source_channel_id="grid_indexed_grain_data_url" sink_channel_id="indexed_grain_data_url" />
+		<link id="11" source_node_id="0" sink_node_id="7" source_channel="sample_folder_info" sink_channel="folder_file_config" enabled="true" source_channel_id="sample_folder_info" sink_channel_id="folder_file_config" />
+		<link id="12" source_node_id="5" sink_node_id="7" source_channel="indexer_filtered_data_url" sink_channel="intensity_filtered_data_url" enabled="true" source_channel_id="indexer_filtered_data_url" sink_channel_id="intensity_filtered_data_url" />
+	</links>
+	<annotations />
+	<thumbnail />
+	<session_state>
+		<window_groups />
+	</session_state>
+</scheme>

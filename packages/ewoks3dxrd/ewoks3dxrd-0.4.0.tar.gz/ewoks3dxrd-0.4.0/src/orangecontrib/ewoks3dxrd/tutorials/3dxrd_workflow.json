@@ -1,0 +1,248 @@
+{
+    "graph": {
+      "id": "3dxrd_workflow"
+    },
+    "nodes": [
+      {
+        "id": "segScan",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.segment_scan.SegmentScan",
+        "uiProps": {
+          "position": {
+            "x": 720,
+            "y": 375
+          }
+        }
+      },
+      {
+        "id": "DetCor",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.detector_spatial_correction.DetectorSpatialCorrection",
+        "uiProps": {
+          "position": {
+            "x": 870,
+            "y": 375
+          }
+        }
+      },
+      {
+        "id": "GeoUp",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.geometry_transformation.GeometryTransformation",
+        "uiProps": {
+          "position": {
+            "x": 1005,
+            "y": 375
+          }
+        }
+      },
+      {
+        "id": "LatFilt",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.filter_by_lattice.FilterByLattice",
+        "uiProps": {
+          "position": {
+            "x": 1155,
+            "y": 270
+          }
+        }
+      },
+      {
+        "id": "IntFilt",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.filter_by_intensity.FilterByIntensity",
+        "uiProps": {
+          "position": {
+            "x": 1290,
+            "y": 270
+          }
+        }
+      },
+      {
+        "id": "Indexer",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.index_grains.IndexGrains",
+        "uiProps": {
+          "position": {
+            "x": 1530,
+            "y": 270
+          }
+        }
+      },
+      {
+        "id": "GrainMap",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.make_grain_map.MakeGrainMap",
+        "uiProps": {
+          "position": {
+            "x": 1695,
+            "y": 615
+          }
+        }
+      },
+      {
+        "id": "AllLatFilt",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.filter_by_lattice.FilterByLattice",
+        "uiProps": {
+          "position": {
+            "x": 1155,
+            "y": 510
+          }
+        }
+      },
+      {
+        "id": "AllIntFilt",
+        "task_type": "class",
+        "task_identifier": "ewoks3dxrd.tasks.filter_by_intensity.FilterByIntensity",
+        "uiProps": {
+          "position": {
+            "x": 1290,
+            "y": 510
+          }
+        }
+      }
+    ],
+    "links": [
+      {
+        "source": "segScan",
+        "target": "GrainMap",
+        "data_mapping": [
+          {
+            "source_output": "sample_folder_info",
+            "target_input": "folder_file_config"
+          }
+        ]
+      },
+      {
+        "source": "segScan",
+        "target": "DetCor",
+        "data_mapping": [
+          {
+            "source_output": "segmented_peaks_url",
+            "target_input": "segmented_peaks_url"
+          }
+        ]
+      },
+      {
+        "source": "DetCor",
+        "target": "GeoUp",
+        "data_mapping": [
+          {
+            "source_output": "spatial_corrected_data_url",
+            "target_input": "spatial_corrected_data_url"
+          }
+        ]
+      },
+      {
+        "source": "GeoUp",
+        "target": "LatFilt",
+        "data_mapping": [
+          {
+            "source_output": "geometry_updated_data_url",
+            "target_input": "geometry_updated_data_url"
+          }
+        ]
+      },
+      {
+        "source": "GeoUp",
+        "target": "AllLatFilt",
+        "data_mapping": [
+          {
+            "source_output": "geometry_updated_data_url",
+            "target_input": "geometry_updated_data_url"
+          }
+        ]
+      },
+      {
+        "source": "LatFilt",
+        "target": "IntFilt",
+        "data_mapping": [
+          {
+            "source_output": "lattice_filtered_data_url",
+            "target_input": "lattice_filtered_data_url"
+          }
+        ]
+      },
+      {
+        "source": "IntFilt",
+        "target": "Indexer",
+        "data_mapping": [
+          {
+            "source_output": "intensity_filtered_data_url",
+            "target_input": "intensity_filtered_data_url"
+          }
+        ]
+      },
+      {
+        "source": "GeoUp",
+        "target": "Indexer",
+        "data_mapping": [
+          {
+            "source_output": "wavelength",
+            "target_input": "wavelength"
+          }
+        ]
+      },
+      {
+        "source": "LatFilt",
+        "target": "Indexer",
+        "data_mapping": [
+          {
+            "source_output": "copied_lattice_file",
+            "target_input": "lattice_file"
+          }
+        ]
+      },
+      {
+        "source": "IntFilt",
+        "target": "GrainMap",
+        "data_mapping": [
+          {
+            "source_output": "intensity_filtered_data_url",
+            "target_input": "intensity_fine_filtered_data_url"
+          }
+        ]
+      },
+      {
+        "source": "Indexer",
+        "target": "GrainMap",
+        "data_mapping": [
+          {
+            "source_output": "indexed_grain_data_url",
+            "target_input": "indexed_grain_data_url"
+          }
+        ]
+      },
+      {
+        "source": "AllLatFilt",
+        "target": "AllIntFilt",
+        "data_mapping": [
+          {
+            "source_output": "lattice_filtered_data_url",
+            "target_input": "lattice_filtered_data_url"
+          }
+        ]
+      },
+      {
+        "source": "AllIntFilt",
+        "target": "GrainMap",
+        "data_mapping": [
+          {
+            "source_output": "intensity_filtered_data_url",
+            "target_input": "intensity_filtered_data_url"
+          }
+        ]
+      },
+      {
+        "source": "LatFilt",
+        "target": "GrainMap",
+        "data_mapping": [
+          {
+            "source_output": "copied_lattice_file",
+            "target_input": "lattice_file"
+          }
+        ]
+      }
+    ]
+  }
