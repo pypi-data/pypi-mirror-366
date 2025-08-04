@@ -1,0 +1,17 @@
+[project]
+name = "biomarker"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "DeYing Zhang",email = "legendzdy@dingtalk.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer (>=0.16.0,<0.17.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
