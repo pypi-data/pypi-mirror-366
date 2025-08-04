@@ -1,0 +1,119 @@
+[project]
+name = "napari-noise2vst"
+dynamic = ["version"]
+description = "A plugin for denoising microscopy images using Noise2VST"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Ibrahima Alain Gueye", email = "gueyeibrahimaalain@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: napari",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Image Processing",
+]
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "matplotlib",
+  "torch",
+  "magicgui",
+  "qtpy",
+  "scikit-image",
+  "napari",
+  "torchvision",
+  "Noise2VST",
+]
+
+[project.optional-dependencies]
+all = ["napari[all]"]
+testing = [
+  "tox",
+  "pytest",
+  "pytest-cov",
+  "pytest-qt",
+  "napari[qt]",
+]
+
+[project.entry-points."napari.manifest"]
+napari-noise2vst = "napari_noise2vst:napari.yaml"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/IbrahimaAlain/napari-noise2vst/issues"
+"Documentation" = "https://github.com/IbrahimaAlain/napari-noise2vst"
+"Source Code" = "https://github.com/IbrahimaAlain/napari-noise2vst"
+"User Support" = "https://github.com/IbrahimaAlain/napari-noise2vst/issues"
+
+[build-system]
+requires = ["setuptools>=42.0.0", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml"]
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"
+
+[tool.black]
+line-length = 79
+target-version = ["py310", "py311", "py312", "py313"]
+
+[tool.ruff]
+line-length = 79
+lint.select = [
+  "E", "F", "W",
+  "UP",
+  "I",
+  "BLE",
+  "B",
+  "A",
+  "C4",
+  "ISC",
+  "G",
+  "PIE",
+  "SIM",
+]
+lint.ignore = [
+  "E501",
+  "UP006", "UP007",
+]
+
+exclude = [
+  ".bzr",
+  ".direnv",
+  ".eggs",
+  ".git",
+  ".ruff_cache",
+  ".svn",
+  ".tox",
+  ".venv",
+  "__pypackages__",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "node_modules",
+  "venv",
+  "*vendored*",
+  "*_vendor*",
+]
+
+target-version = "py310"
+fix = true
