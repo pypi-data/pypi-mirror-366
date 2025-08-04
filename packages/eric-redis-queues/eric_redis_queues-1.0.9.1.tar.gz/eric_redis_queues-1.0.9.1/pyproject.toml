@@ -1,0 +1,32 @@
+[project]
+name = "eric-redis-queues"
+description = "Redis support for eric-sse"
+requires-python = ">=3.10, <3.12"
+version = "1.0.9.1"
+authors = [
+    {name = "Luca Stretti", email = "laxertu@gmail.com"}
+]
+keywords = ["sse", "server sent events", "queue", "concurrency"]
+license = "MIT"
+readme = "README.md"
+
+dependencies = [
+    "asyncio (>=3.4.3, <3.4.4)",
+    "redis == 6.2.0",
+    "eric-sse == 1.5.2.1"
+]
+
+[project.urls]
+Homepage = "https://laxertu.github.io/eric-redis-queues"
+Repository = "https://github.com/laxertu/eric-redis-queues"
+Issues = "https://github.com/laxertu/eric/issues"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.doctools]
+[tool.poetry.group.doctools.dependencies]
+sphinx = "^8.1.1"
+sphinx-markdown-builder = "^0.6.7"
+sphinx-book-theme = "^1.1.3"
