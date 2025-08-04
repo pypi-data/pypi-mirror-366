@@ -1,0 +1,156 @@
+{
+  "languages": {
+    "python": {
+      "extensions": [".py"],
+      "line_comment": "#",
+      "block_comment_start": "\"\"\"",
+      "block_comment_end": "\"\"\""
+    },
+    "javascript": {
+      "extensions": [".js", ".jsx"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "typescript": {
+      "extensions": [".ts", ".tsx"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "java": {
+      "extensions": [".java"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "c": {
+      "extensions": [".c", ".h"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "cpp": {
+      "extensions": [".cpp", ".cxx", ".cc", ".hpp", ".hxx", ".hh"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "csharp": {
+      "extensions": [".cs"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "go": {
+      "extensions": [".go"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "rust": {
+      "extensions": [".rs"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "php": {
+      "extensions": [".php"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "ruby": {
+      "extensions": [".rb"],
+      "line_comment": "#",
+      "block_comment_start": "=begin",
+      "block_comment_end": "=end"
+    },
+    "shell": {
+      "extensions": [".sh", ".bash"],
+      "line_comment": "#",
+      "block_comment_start": null,
+      "block_comment_end": null
+    },
+    "perl": {
+      "extensions": [".pl", ".pm"],
+      "line_comment": "#",
+      "block_comment_start": "=pod",
+      "block_comment_end": "=cut"
+    },
+    "r": {
+      "extensions": [".r", ".R"],
+      "line_comment": "#",
+      "block_comment_start": null,
+      "block_comment_end": null
+    },
+    "matlab": {
+      "extensions": [".m"],
+      "line_comment": "%",
+      "block_comment_start": "%{",
+      "block_comment_end": "%}"
+    },
+    "sql": {
+      "extensions": [".sql"],
+      "line_comment": "--",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "html": {
+      "extensions": [".html", ".htm"],
+      "line_comment": null,
+      "block_comment_start": "<!--",
+      "block_comment_end": "-->"
+    },
+    "css": {
+      "extensions": [".css"],
+      "line_comment": null,
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "scss": {
+      "extensions": [".scss"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "sass": {
+      "extensions": [".sass"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "lua": {
+      "extensions": [".lua"],
+      "line_comment": "--",
+      "block_comment_start": "--[[",
+      "block_comment_end": "]]"
+    },
+    "swift": {
+      "extensions": [".swift"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    },
+    "kotlin": {
+      "extensions": [".kt", ".kts"],
+      "line_comment": "//",
+      "block_comment_start": "/*",
+      "block_comment_end": "*/"
+    }
+  },
+  "backup_enabled": true,
+  "backup_directory": ".backup",
+  "skip_patterns": [
+    "node_modules/",
+    ".git/",
+    "__pycache__/",
+    ".svn/",
+    ".hg/",
+    "*.min.js",
+    "*.min.css",
+    "dist/",
+    "build/",
+    ".backup/"
+  ]
+}

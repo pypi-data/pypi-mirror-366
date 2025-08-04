@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include config.json
+recursive-include comms *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
