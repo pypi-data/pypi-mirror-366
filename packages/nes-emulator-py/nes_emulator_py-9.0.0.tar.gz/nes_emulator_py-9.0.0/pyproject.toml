@@ -1,0 +1,76 @@
+[build-system]
+requires = [
+    "setuptools>=45",
+    "wheel",
+    "scons",
+    "numpy>=1.18.5",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nes-emulator-py"
+dynamic = ["version"]
+description = "An NES Emulator and OpenAI Gym interface"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Christian Kauten", email = "kautencreations@gmail.com"},
+]
+keywords = ["NES", "Emulator", "OpenAI-Gym"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Emulators",
+]
+dependencies = [
+    "gymnasium>=0.28.0",
+    "numpy>=1.21.0",
+    "pyglet<=2.0.10,>=1.4.0",
+    "tqdm>=4.48.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/Kautenja/nes-py"
+Repository = "https://github.com/Kautenja/nes-py"
+Issues = "https://github.com/Kautenja/nes-py/issues"
+
+[project.scripts]
+nes_py = "nes_py.app.cli:main"
+
+[tool.setuptools]
+packages = ["nes_py"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "nes_py.__version__"}
+
+[tool.cibuildwheel]
+build = "cp311-* cp312-*"
+skip = "*-win32 *-manylinux_i686"
+
+[tool.cibuildwheel.linux]
+archs = ["x86_64"]
+before-build = [
+    "yum install -y SDL-devel SDL_image-devel SDL_mixer-devel SDL_ttf-devel smpeg-devel portmidi-devel libavformat-devel libavcodec-devel libswscale-devel libtiff-devel freetype-devel || apt-get update && apt-get install -y libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev libportmidi-dev libavformat-dev libavcodec-dev libswscale-dev libtiff5-dev libfreetype6-dev || apk add sdl-dev sdl_image-dev sdl_mixer-dev sdl_ttf-dev smpeg-dev portmidi-dev ffmpeg-dev tiff-dev freetype-dev",
+    "pip install scons numpy>=1.21.0"
+]
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64"]
+before-build = ["pip install scons numpy>=1.21.0"]
+
+[tool.cibuildwheel.windows]
+archs = ["AMD64"]
+before-build = ["pip install scons numpy>=1.21.0"]

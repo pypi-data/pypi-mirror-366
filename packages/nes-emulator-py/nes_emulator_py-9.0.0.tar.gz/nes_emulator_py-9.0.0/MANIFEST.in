@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+graft nes_py/nes
+recursive-include nes_py/nes/include *.hpp
+recursive-include nes_py/nes/src *.cpp
+global-exclude *.pyc
+global-exclude __pycache__
