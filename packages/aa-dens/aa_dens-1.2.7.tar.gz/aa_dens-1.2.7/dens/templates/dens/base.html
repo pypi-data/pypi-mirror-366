@@ -1,0 +1,31 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% load i18n %}
+
+{% block page_title %}{% translate "Dens" %}{% endblock %}
+
+{% block header_nav_collapse_left %}
+	{% include 'dens/partials/menu.html' %}
+{% endblock %}
+
+{% block header_nav_collapse_right %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'dens:add_owner' %}">
+            <i class="fas fa-tent"></i>
+            <span class="d-md-inline m-2">{% translate 'Add owner' %}</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block extra_javascript %}
+    {% include "dens/partials/global_js.html" %}
+{% endblock %}
+
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}
