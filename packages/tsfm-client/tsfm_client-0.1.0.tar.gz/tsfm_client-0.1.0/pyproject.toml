@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "tsfm-client"
+version = "0.1.0"
+description = "Python client library for TSFM Inference Platform"
+authors = ["Andrei Chernov <chernov.andrey.998@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/S-FM/tsfm-python-client"
+repository = "https://github.com/S-FM/tsfm-python-client"
+keywords = ["time-series", "forecasting", "foundation-models", "api-client"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+httpx = "^0.25.0"
+pydantic = "^2.5.0"
+pandas = "^2.0.0"
+numpy = "^1.24.0"
+typing-extensions = "^4.8.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.0"
+black = "^23.0.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+mypy = "^1.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
