@@ -1,0 +1,306 @@
+{% extends base_template %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fa fa-database"></i> DBT Metadata Upload
+                    </h3>
+                    <p class="card-subtitle text-muted">Upload your DBT manifest.json and catalog.json files to populate the knowledge graph</p>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Graph DB Info Alert -->
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-info-circle"></i>
+                        <strong>Target Graph Database:</strong> {{ graph_db|upper }}
+                    </div>
+                    
+                    <!-- Requirements -->
+                    <div class="alert alert-warning" role="alert">
+                        <h5><i class="fa fa-exclamation-triangle"></i> Requirements</h5>
+                        <ul class="mb-0">
+                            <li>Upload both <strong>manifest.json</strong> and <strong>catalog.json</strong> files</li>
+                            <li>Files should be from the same DBT project run</li>
+                            <li>Maximum file size: 50MB per file</li>
+                            <li>Files must be valid JSON format</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Upload Form -->
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="manifestFile" class="form-label">
+                                        <strong><i class="fa fa-file-code-o"></i> Manifest File</strong>
+                                    </label>
+                                    <div class="file-upload-area border border-dashed p-4 text-center bg-light" 
+                                         onclick="document.getElementById('manifestFile').click()" 
+                                         style="cursor: pointer; border-radius: 8px;">
+                                        <i class="fa fa-cloud-upload fa-3x text-muted mb-3"></i>
+                                        <p class="mb-1">Click to select manifest.json</p>
+                                        <small class="text-muted">or drag and drop here</small>
+                                    </div>
+                                    <input type="file" id="manifestFile" name="manifest_file" 
+                                           class="form-control d-none" accept=".json" required>
+                                    <div class="file-info mt-2" id="manifestInfo" style="display: none;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="catalogFile" class="form-label">
+                                        <strong><i class="fa fa-file-text-o"></i> Catalog File</strong>
+                                    </label>
+                                    <div class="file-upload-area border border-dashed p-4 text-center bg-light" 
+                                         onclick="document.getElementById('catalogFile').click()" 
+                                         style="cursor: pointer; border-radius: 8px;">
+                                        <i class="fa fa-cloud-upload fa-3x text-muted mb-3"></i>
+                                        <p class="mb-1">Click to select catalog.json</p>
+                                        <small class="text-muted">or drag and drop here</small>
+                                    </div>
+                                    <input type="file" id="catalogFile" name="catalog_file" 
+                                           class="form-control d-none" accept=".json" required>
+                                    <div class="file-info mt-2" id="catalogInfo" style="display: none;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="progress-container mt-3" id="progressContainer" style="display: none;">
+                            <label class="form-label"><strong>Upload Progress</strong></label>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" 
+                                     role="progressbar" style="width: 0%" id="progressBar">0%</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg" id="uploadButton">
+                                <i class="fa fa-upload"></i> Upload DBT Metadata
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Status Messages -->
+                    <div class="status-container mt-3">
+                        <div class="alert" id="statusMessage" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.file-upload-area {
+    transition: all 0.3s ease;
+}
+
+.file-upload-area:hover {
+    border-color: #337ab7 !important;
+    background-color: #f8f9fa !important;
+}
+
+.file-upload-area.dragover {
+    border-color: #5cb85c !important;
+    background-color: #dff0d8 !important;
+}
+
+.file-info {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 0.75rem;
+}
+
+.progress-container.show {
+    display: block !important;
+}
+
+.btn-upload:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+</style>
+
+<script>
+// File upload handling
+function setupFileUpload(fileInputId, infoElementId) {
+    const fileInput = document.getElementById(fileInputId);
+    const fileInfo = document.getElementById(infoElementId);
+    const uploadArea = fileInput.closest('.col-md-6').querySelector('.file-upload-area');
+    
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            displayFileInfo(file, fileInfo);
+        }
+    });
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.type === 'application/json' || file.name.endsWith('.json')) {
+                fileInput.files = files;
+                displayFileInfo(file, fileInfo);
+            } else {
+                showStatus('Please drop a JSON file only.', 'danger');
+            }
+        }
+    });
+}
+
+function displayFileInfo(file, infoElement) {
+    const fileSize = (file.size / 1024 / 1024).toFixed(2);
+    infoElement.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fa fa-check-circle text-success"></i>
+                <strong>${file.name}</strong>
+            </div>
+            <span class="badge badge-primary">${fileSize} MB</span>
+        </div>
+    `;
+    infoElement.style.display = 'block';
+}
+
+function showStatus(message, type = 'info') {
+    const statusElement = document.getElementById('statusMessage');
+    statusElement.className = `alert alert-${type}`;
+    statusElement.innerHTML = `
+        <i class="fa fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'times-circle' : 'info-circle'}"></i>
+        ${message}
+    `;
+    statusElement.style.display = 'block';
+}
+
+function updateProgress(percentage) {
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    
+    progressContainer.style.display = 'block';
+    progressBar.style.width = percentage + '%';
+    progressBar.textContent = percentage + '%';
+}
+
+// Initialize file upload areas
+setupFileUpload('manifestFile', 'manifestInfo');
+setupFileUpload('catalogFile', 'catalogInfo');
+
+// Form submission
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const manifestFile = document.getElementById('manifestFile').files[0];
+    const catalogFile = document.getElementById('catalogFile').files[0];
+    const uploadButton = document.getElementById('uploadButton');
+    
+    if (!manifestFile || !catalogFile) {
+        showStatus('Please select both manifest.json and catalog.json files.', 'danger');
+        return;
+    }
+    
+    // Validate file types
+    if (!manifestFile.name.endsWith('.json') || !catalogFile.name.endsWith('.json')) {
+        showStatus('Both files must be JSON files.', 'danger');
+        return;
+    }
+    
+    // Check file sizes (50MB limit)
+    const maxSize = 50 * 1024 * 1024; // 50MB in bytes
+    if (manifestFile.size > maxSize || catalogFile.size > maxSize) {
+        showStatus('File size must be less than 50MB.', 'danger');
+        return;
+    }
+    
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('manifest_file', manifestFile);
+    formData.append('catalog_file', catalogFile);
+    
+    // Disable upload button
+    uploadButton.disabled = true;
+    uploadButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Uploading...';
+    
+    // Start progress simulation
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        if (progress < 90) {
+            progress += Math.random() * 10;
+            updateProgress(Math.min(90, Math.round(progress)));
+        }
+    }, 200);
+    
+    // Upload files
+    fetch('/airflow_chat/api/dbt_upload', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token() }}'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        clearInterval(progressInterval);
+        updateProgress(100);
+        
+        if (data.error) {
+            showStatus(`Upload failed: ${data.error}`, 'danger');
+        } else {
+            showStatus(`
+                <strong>Upload successful!</strong><br>
+                Graph Database: ${data.graph_db}<br>
+                Manifest: ${data.manifest_file}<br>
+                Catalog: ${data.catalog_file}
+            `, 'success');
+        }
+    })
+    .catch(error => {
+        clearInterval(progressInterval);
+        showStatus(`Upload failed: ${error.message}`, 'danger');
+    })
+    .finally(() => {
+        // Re-enable upload button
+        uploadButton.disabled = false;
+        uploadButton.innerHTML = '<i class="fa fa-upload"></i> Upload DBT Metadata';
+    });
+});
+
+// Check graph database status on page load
+fetch('/airflow_chat/api/graph_db_status', {
+    headers: {
+        'X-CSRFToken': '{{ csrf_token() }}'
+    }
+})
+.then(response => response.json())
+.then(data => {
+    if (!data.graph_db_enabled) {
+        showStatus('Warning: Graph database is not properly configured. Please check environment variables.', 'warning');
+    } else if (!data.graph_user || !data.graph_password) {
+        showStatus('Warning: Graph database credentials are not set. Upload may fail.', 'warning');
+    }
+})
+.catch(error => {
+    console.warn('Could not check graph database status:', error);
+});
+</script>
+{% endblock %}
