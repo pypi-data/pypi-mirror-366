@@ -1,0 +1,213 @@
+[tool.poetry]
+name = "gdmongolite"
+version = "1.0.1"
+description = "🚀 The World's Most Powerful and Easiest MongoDB Toolkit - Zero-boilerplate, schema-first MongoDB operations with automatic sync/async detection, advanced queries, real-time features, comprehensive security, caching, monitoring, FastAPI integration, and production-ready deployment tools."
+authors = ["Ganesh Datta Padamata <ganeshdattapadamata@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/ganeshdatta23/gdmongolite"
+repository = "https://github.com/ganeshdatta23/gdmongolite"
+documentation = "https://gdmongolite.readthedocs.io"
+keywords = [
+    "mongodb", "database", "orm", "async", "pydantic", "fastapi", "websockets",
+    "caching", "security", "monitoring", "migrations", "real-time", "analytics",
+    "aggregation", "joins", "cli", "production", "microservices", "api"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: System :: Monitoring",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Framework :: AsyncIO",
+    "Framework :: Pydantic",
+    "Framework :: FastAPI",
+    "Environment :: Web Environment",
+    "Operating System :: OS Independent"
+]
+packages = [{include = "gdmongolite", from = "src"}]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/ganeshdatta23/gdmongolite/issues"
+"Changelog" = "https://github.com/ganeshdatta23/gdmongolite/blob/main/CHANGELOG.md"
+"Documentation" = "https://gdmongolite.readthedocs.io"
+"Funding" = "https://github.com/sponsors/ganeshdatta23"
+
+[tool.poetry.dependencies]
+python = ">=3.8, <4.0"
+
+# Core MongoDB and async support
+click = "^8.1.0"
+motor = "^3.3.2"
+pymongo = "^4.6.0"
+python-dotenv = "^1.0.0"
+pydantic = {version = "^2.5.3", extras = ["email"]}
+
+# Web framework integration
+fastapi = "^0.104.0"
+uvicorn = {version = "^0.24.0", extras = ["standard"]}
+websockets = "^12.0"
+
+# Data processing and formats
+pyyaml = "^6.0.1"
+aiohttp = "^3.9.0"
+
+# Security features
+passlib = {version = "^1.7.4", extras = ["bcrypt"]}
+python-jose = {version = "^3.3.0", extras = ["cryptography"]}
+cryptography = "^41.0.0"
+pyjwt = "^2.8.0"
+
+# Caching support
+aioredis = {version = "^2.0.1", optional = true}
+
+# Monitoring and system metrics
+psutil = "^5.9.0"
+
+# CLI and UI
+aioconsole = "^0.6.1"
+rich = "^13.7.0"
+
+# Utilities (bson is included with pymongo)
+
+[tool.poetry.extras]
+redis = ["aioredis"]
+all = ["aioredis"]
+
+[tool.poetry.group.dev.dependencies]
+# Testing
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.11.0"
+pytest-benchmark = "^4.0.0"
+
+# Code quality
+black = "^23.0.0"
+ruff = "^0.1.0"
+mypy = "^1.7.0"
+pre-commit = "^3.5.0"
+
+# Documentation
+mkdocs = "^1.5.0"
+mkdocs-material = "^9.4.0"
+mkdocstrings = "^0.24.0"
+
+# Development tools
+jupyter = "^1.0.0"
+ipython = "^8.0.0"
+
+[tool.poetry.scripts]
+gdmongolite = "gdmongolite.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Tool configurations
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.mypy]
+python_version = "3.8"
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "motor.*",
+    "pymongo.*",
+    "bson.*",
+    "aioconsole.*",
+    "rich.*",
+    "aioredis.*",
+    "psutil.*",
+    "passlib.*",
+    "jose.*",
+    "jwt.*"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "security: marks tests as security tests",
+    "performance: marks tests as performance tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
