@@ -1,0 +1,307 @@
+# GitHub PR MCP Server - MCP&Agent Challenge
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://badge.fury.io/py/github-pr-mcp-server.svg)](https://badge.fury.io/py/github-pr-mcp-server)
+
+## 项目简介
+
+GitHub PR MCP Server 是一个基于 Gradio 和 Flask 的 MCP（Model Context Protocol）服务器，专门用于自动化处理 GitHub Pull Request 事件。当 GitHub Webhook 检测到 PR 时，系统会自动将 PR 内容转发给 AI 进行分析，生成结构化的日志摘要，并发送到飞书知识库。
+
+### 核心功能
+
+- **MCP 协议支持**: 完全兼容 MCP 协议，可作为工具供 LLM 使用
+- **自动化 Webhook 处理**: 自动接收和处理 GitHub PR 事件
+- **AI 驱动分析**: 使用 OpenAI API 智能分析代码变更
+- **飞书知识库集成**: 自动将分析结果发送到飞书
+- **双界面支持**: 提供 Gradio Web UI 和 Flask API 两种接口
+- **安全验证**: 支持 GitHub Webhook 签名验证
+- **丰富信息**: 提取完整的 PR 信息（标题、作者、链接等）
+
+### 技术架构
+
+```
+GitHub Webhook → MCP Server → AI Analysis → 飞书知识库
+     ↓              ↓            ↓            ↓
+  PR 事件      自动处理     智能摘要     结构化存储
+```
+
+## 部署指南
+
+### 环境要求
+
+- Python 3.8 或更高版本
+- OpenAI API 密钥
+- GitHub 个人访问令牌（可选）
+- 飞书 Webhook URL（可选）
+
+### 安装方法
+
+#### 方法一：使用 uvx（推荐）
+
+```bash
+# 安装 uvx（如果尚未安装）
+pip install uvx
+
+# 直接运行
+uvx github-pr-mcp-server@latest
+```
+
+#### 方法二：从 PyPI 安装
+
+```bash
+pip install github-pr-mcp-server
+```
+
+#### 方法三：从源码安装
+
+```bash
+git clone https://github.com/your-username/github-pr-mcp-server.git
+cd github-pr-mcp-server
+pip install -e .
+```
+
+### 环境变量配置
+
+创建 `.env` 文件或设置环境变量：
+
+```bash
+# 必需配置
+OPENAI_API_KEY=your_openai_api_key_here
+
+# 可选配置
+WEBHOOK_SECRET=your_github_webhook_secret
+FEISHU_WEBHOOK_URL=your_feishu_webhook_url
+GITHUB_TOKEN=your_github_token
+MCP_SERVER_TYPE=gradio  # 或 flask
+WEBHOOK_PORT=5000
+GRADIO_PORT=8080
+```
+
+### 启动服务器
+
+```bash
+# 启动 Gradio MCP 服务器（默认）
+github-pr-mcp-server
+
+# 或指定服务器类型
+MCP_SERVER_TYPE=flask github-pr-mcp-server
+```
+
+### MCP 客户端配置
+
+#### 支持 SSE 的客户端（如 Claude Desktop）
+
+```json
+{
+  "mcpServers": {
+    "github-pr-mcp-server": {
+      "command": "uvx",
+      "args": ["github-pr-mcp-server@latest"],
+      "env": {
+        "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY",
+        "WEBHOOK_SECRET": "YOUR_WEBHOOK_SECRET",
+        "FEISHU_WEBHOOK_URL": "YOUR_FEISHU_WEBHOOK_URL",
+        "GITHUB_TOKEN": "YOUR_GITHUB_TOKEN"
+      }
+    }
+  }
+}
+```
+
+#### 不支持 SSE 的客户端
+
+```json
+{
+  "mcpServers": {
+    "github-pr-mcp-server": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://your-server:port/gradio_api/mcp/sse"
+      ]
+    }
+  }
+}
+```
+
+## 使用示例
+
+### 自动化 PR 处理流程
+
+1. **配置 GitHub Webhook**
+   - 在 GitHub 仓库设置中添加 Webhook
+   - URL: `http://your-server:5000/webhook/github`
+   - 事件类型: 选择 "Pull requests"
+   - 密钥: 设置 `WEBHOOK_SECRET`
+
+2. **创建 Pull Request**
+   - 在 GitHub 上创建新的 PR
+   - 系统自动接收 Webhook 事件
+
+3. **AI 分析处理**
+   - 系统自动获取 PR 差异内容
+   - 使用 OpenAI API 分析代码变更
+   - 生成结构化摘要
+
+4. **飞书通知**
+   - 自动将摘要发送到飞书知识库
+   - 包含 PR 链接、作者、变更详情等信息
+
+### MCP 函数使用
+
+#### 1. 分析 PR 差异
+
+```python
+# 在 MCP 客户端中调用
+result = mcp_analyze_pr(
+    diff_content="diff --git a/file.py b/file.py...",
+    openai_api_key="your_key"
+)
+print(result)  # 输出 AI 生成的摘要
+```
+
+#### 2. 处理 Webhook 载荷
+
+```python
+# 处理 GitHub Webhook 事件
+result = mcp_process_webhook(
+    webhook_payload='{"action": "opened", "pull_request": {...}}',
+    openai_api_key="your_key",
+    feishu_webhook_url="your_webhook_url"
+)
+print(result)  # 输出处理结果
+```
+
+#### 3. 手动分析
+
+```python
+# 手动分析代码变更
+summary = mcp_manual_analysis(
+    diff_content="your_diff_content",
+    openai_api_key="your_key",
+    feishu_webhook_url="your_webhook_url"
+)
+print(summary)
+```
+
+### 输出示例
+
+#### AI 分析结果
+
+```
+## 变更摘要
+本次 PR 主要添加了用户认证功能和错误处理机制。
+
+## 详细分析
+1. 新增了用户登录模块 (auth.py)
+   - 实现了 JWT 令牌生成和验证
+   - 添加了密码加密功能
+   
+2. 改进了错误处理 (error_handler.py)
+   - 统一了错误响应格式
+   - 添加了详细的错误日志记录
+
+3. 更新了 API 文档
+   - 添加了新的端点说明
+   - 更新了认证流程文档
+
+## 建议
+- 建议添加单元测试覆盖新功能
+- 考虑添加速率限制防止暴力攻击
+- 建议在生产环境使用 HTTPS
+```
+
+#### 飞书消息格式
+
+```json
+{
+  "msg_type": "post",
+  "content": {
+    "post": {
+      "zh_cn": {
+        "title": "PR #123: 添加用户认证功能",
+        "content": [
+          [{"tag": "text", "text": "📋 **PR 摘要**\n\n"}],
+          [{"tag": "text", "text": "🔗 **链接**: https://github.com/repo/pull/123\n"}],
+          [{"tag": "text", "text": "👤 **作者**: username\n"}],
+          [{"tag": "text", "text": "📝 **变更摘要**: 添加了用户认证功能...\n"}],
+          [{"tag": "text", "text": "📅 **处理时间**: 2024-01-15 14:30:00\n"}]
+        ]
+      }
+    }
+  }
+}
+```
+
+## API 端点
+
+### Gradio MCP 服务器
+
+- **Web 界面**: `http://localhost:8080`
+- **MCP 端点**: `http://localhost:8080/gradio_api/mcp/sse`
+- **Webhook**: `http://localhost:8080/webhook/github`
+
+### Flask MCP 服务器
+
+- **Webhook**: `http://localhost:5000/webhook/github`
+- **MCP 分析**: `POST /mcp/analyze`
+- **MCP Webhook**: `POST /mcp/process_webhook`
+- **健康检查**: `GET /health`
+
+## 配置验证
+
+系统启动时会自动验证配置：
+
+```bash
+🔍 验证环境配置...
+✅ 所有环境变量已配置
+```
+
+## 错误处理
+
+- **API 密钥错误**: 显示友好的错误信息
+- **网络连接失败**: 自动重试机制
+- **Webhook 验证失败**: 返回 401 状态码
+- **AI 分析失败**: 提供详细的错误原因
+
+## 监控
+
+- **健康检查端点**: `/health`
+- **实时日志**: 控制台输出详细处理信息
+- **错误追踪**: 完整的异常堆栈信息
+
+## 安全考虑
+
+- **Webhook 签名验证**: 防止伪造请求
+- **API 密钥保护**: 支持环境变量配置
+- **HTTPS 支持**: 生产环境建议使用 HTTPS
+- **访问控制**: 可配置 IP 白名单
+
+## MCP 协议合规性
+
+- **标准工具格式**: 符合 MCP 工具规范
+- **类型注解**: 完整的参数类型定义
+- **文档字符串**: 详细的函数说明
+- **错误处理**: 标准的错误响应格式
+
+## 开发信息
+
+- **项目地址**: https://github.com/your-username/github-pr-mcp-server
+- **问题反馈**: https://github.com/your-username/github-pr-mcp-server/issues
+- **文档**: https://github.com/your-username/github-pr-mcp-server#readme
+- **许可证**: MIT License
+
+## 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 项目
+2. 创建功能分支
+3. 提交更改
+4. 推送到分支
+5. 创建 Pull Request
+
+## 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。 

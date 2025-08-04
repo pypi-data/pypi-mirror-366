@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-pr-mcp-server"
+version = "1.0.3"
+description = "GitHub PR MCP Server - MCP&Agent Challenge"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "MCP&Agent Challenge", email = "challenge@example.com"}
+]
+keywords = ["mcp", "github", "pr", "webhook", "ai", "gradio", "flask"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "gradio[mcp]==5.39.0",
+    "mcp==1.10.1",
+    "flask==3.0.3",
+    "openai==1.93.0",
+    "requests==2.32.3",
+    "python-dotenv==1.1.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/github-pr-mcp-server"
+Repository = "https://github.com/your-username/github-pr-mcp-server"
+Documentation = "https://github.com/your-username/github-pr-mcp-server#readme"
+Issues = "https://github.com/your-username/github-pr-mcp-server/issues"
+
+[project.scripts]
+github-pr-mcp-server = "github_pr_mcp_server.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"github_pr_mcp_server" = ["*.json", "*.md", "*.txt"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88 
