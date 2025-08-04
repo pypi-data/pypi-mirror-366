@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keprompt"
+dynamic = ["version"]
+description = "A prompt engineering tool for large language models"
+readme = "README.md"
+authors = [
+    {name = "Jerry Westrick", email = "jerry@westrick.com"}
+]
+requires-python = ">=3.8"
+dependencies = [
+    "keyring>=24.0.0",
+    "rich>=13.0.0",
+    "requests>=2.31.0"
+]
+
+[project.scripts]
+keprompt = "keprompt.keprompt:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "keprompt.version.__version__"}
