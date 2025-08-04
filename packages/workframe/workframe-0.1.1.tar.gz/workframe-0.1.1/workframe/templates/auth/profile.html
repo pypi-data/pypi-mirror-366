@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - {{ app_name }}{% endblock %}
+
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" class="bg-light">
+    <div class="container-fluid">
+        <ol class="breadcrumb py-2 mb-0">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('dashboard') }}">
+                    <i class="bi bi-house me-1"></i>Dashboard
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <i class="bi bi-person me-1"></i>Profile
+            </li>
+        </ol>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-person-circle me-2"></i>User Profile
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Profile Avatar -->
+                    <div class="col-12 text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 100px; height: 100px;">
+                            <i class="bi bi-person-fill text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="mt-3 mb-1">{{ user.full_name }}</h4>
+                        {% if user.is_admin %}
+                            <span class="badge bg-warning text-dark">Administrator</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Profile Information -->
+                <div class="row g-3">
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">Username</label>
+                        <div class="form-control-plaintext">{{ user.username }}</div>
+                    </div>
+                    
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">Email</label>
+                        <div class="form-control-plaintext">{{ user.email }}</div>
+                    </div>
+                    
+                    {% if user.first_name %}
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">First Name</label>
+                        <div class="form-control-plaintext">{{ user.first_name }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.last_name %}
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">Last Name</label>
+                        <div class="form-control-plaintext">{{ user.last_name }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">Account Status</label>
+                        <div class="form-control-plaintext">
+                            {% if user.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inactive</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">Account Created</label>
+                        <div class="form-control-plaintext">
+                            {{ user.created_at.strftime('%B %d, %Y') if user.created_at else 'Unknown' }}
+                        </div>
+                    </div>
+                    
+                    {% if user.last_login %}
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label text-muted">Last Login</label>
+                        <div class="form-control-plaintext">
+                            {{ user.last_login.strftime('%B %d, %Y at %I:%M %p') }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.groups %}
+                    <div class="col-12">
+                        <label class="form-label text-muted">Groups</label>
+                        <div class="form-control-plaintext">
+                            {% for group in user.groups %}
+                                <span class="badge bg-secondary me-1">{{ group.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-outline-primary" disabled>
+                                <i class="bi bi-pencil me-1"></i>Edit Profile
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" disabled>
+                                <i class="bi bi-key me-1"></i>Change Password
+                            </button>
+                        </div>
+                        <small class="text-muted mt-2 d-block">
+                            Profile editing will be available in future versions.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

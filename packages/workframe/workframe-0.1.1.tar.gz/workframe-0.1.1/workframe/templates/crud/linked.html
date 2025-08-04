@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block title %}{{ detail_table.name.title() }} - {{ master_table.name.title() }} Management - WorkFrame{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">{{ detail_table.name.title() }} - {{ master_table.name.title() }} Management</h1>
+            <p class="text-muted mb-0">Manage linked {{ detail_table.name }} and {{ master_table.name }}</p>
+        </div>
+    </div>
+
+    <!-- Master Table Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-building me-2"></i>{{ master_table.name.title() }}
+                            </h5>
+                            <small class="text-muted d-none d-md-block">Click a row to filter {{ detail_table.name }}</small>
+                        </div>
+                        <a href="master/new" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-plus-lg me-1"></i>Add {{ master_table.name.title().rstrip('s') }}
+                        </a>
+                    </div>
+                    <small class="text-muted d-md-none mt-2 d-block">Click a row to filter {{ detail_table.name }}</small>
+                </div>
+                <div class="card-body p-0">
+                    <!-- Master Table Desktop View -->
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table table-hover mb-0" id="masterTable">
+                            <thead class="table-light">
+                                <tr>
+                                    {% for field in master_data.display_fields %}
+                                    <th scope="col">{{ field.title }}</th>
+                                    {% endfor %}
+                                    <th scope="col" width="120">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in master_data.records %}
+                                <tr class="master-row cursor-pointer" data-master-id="{{ record.id }}" data-master-name="{{ record.name }}">
+                                    {% for field in master_data.display_fields %}
+                                    <td>{{ record[field.name] }}</td>
+                                    {% endfor %}
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="master/{{ record.id }}/edit" class="btn btn-outline-secondary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form method="POST" action="master/{{ record.id }}/delete" class="d-inline" 
+                                                  onsubmit="return confirm('Are you sure you want to delete this {{ master_table.name }}?')">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Master Table Mobile View -->
+                    <div class="d-md-none">
+                        {% for record in master_data.records %}
+                        <div class="card mb-2 border-0 border-bottom master-row cursor-pointer" 
+                             data-master-id="{{ record.id }}" data-master-name="{{ record.name }}">
+                            <div class="card-body py-3">
+                                {% for field in master_data.display_fields[:3] %}
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">{{ field.title }}:</span>
+                                    <span>{{ record[field.name] }}</span>
+                                </div>
+                                {% endfor %}
+                                <div class="mt-2">
+                                    <a href="master/{{ record.id }}/edit" class="btn btn-sm btn-outline-secondary me-1">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <form method="POST" action="master/{{ record.id }}/delete" class="d-inline" 
+                                          onsubmit="return confirm('Are you sure you want to delete this {{ master_table.name }}?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Table Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-person-lines-fill me-2"></i>
+                            <span id="detailTitle">{{ detail_table.name.title() }}</span>
+                        </h5>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="clearFilterBtn" style="display: none;">
+                                <i class="bi bi-x-circle me-1"></i>Clear Filter
+                            </button>
+                            <a href="export.csv" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-download me-1"></i>Export CSV
+                            </a>
+                            <a href="new" class="btn btn-primary btn-sm" id="addDetailBtn">
+                                <i class="bi bi-plus-lg me-1"></i>Add {{ detail_table.name.title().rstrip('s') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="detailTableContainer">
+                    <!-- Detail Table Content (will be updated via AJAX) -->
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table table-hover" id="detailTable">
+                            <thead class="table-light">
+                                <tr>
+                                    {% for field in detail_data.display_fields %}
+                                    <th scope="col">{{ field.title }}</th>
+                                    {% endfor %}
+                                    <th scope="col" width="120">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in detail_data.records %}
+                                <tr>
+                                    {% for field in detail_data.display_fields %}
+                                    <td>{{ record[field.name] }}</td>
+                                    {% endfor %}
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ record.id }}/" class="btn btn-outline-primary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{{ record.id }}/edit" class="btn btn-outline-secondary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form method="POST" action="{{ record.id }}/delete" class="d-inline" 
+                                                  onsubmit="return confirm('Are you sure you want to delete this {{ detail_table.name }}?')">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Detail Table Mobile View -->
+                    <div class="d-md-none" id="detailMobileCards">
+                        {% for record in detail_data.records %}
+                        <div class="card mb-2 border-0 border-bottom">
+                            <div class="card-body py-3">
+                                {% for field in detail_data.display_fields[:3] %}
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">{{ field.title }}:</span>
+                                    <span>{{ record[field.name] }}</span>
+                                </div>
+                                {% endfor %}
+                                <div class="mt-2">
+                                    <a href="{{ record.id }}/" class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                    <a href="{{ record.id }}/edit" class="btn btn-sm btn-outline-secondary me-1">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <form method="POST" action="{{ record.id }}/delete" class="d-inline" 
+                                          onsubmit="return confirm('Are you sure you want to delete this {{ detail_table.name }}?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Loading indicator -->
+                    <div class="text-center py-4 d-none" id="loadingIndicator">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div class="text-center text-muted py-4 d-none" id="emptyState">
+                        <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                        <p>No {{ detail_table.name }} found.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Master row selection styles */
+.master-row {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.master-row:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+}
+
+.master-row.selected {
+    background-color: rgba(var(--bs-primary-rgb), 0.15) !important;
+    border-left: 4px solid var(--bs-primary);
+}
+
+.master-row.selected td:first-child {
+    border-left: none;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 767px) {
+    .master-row.selected {
+        border-left: 4px solid var(--bs-primary);
+        border-radius: 0;
+    }
+}
+
+/* Cursor pointer for clickable rows */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Smooth transitions for table updates */
+#detailTableContainer {
+    transition: opacity 0.3s ease;
+}
+
+#detailTableContainer.loading {
+    opacity: 0.5;
+}
+
+/* Button spacing */
+.btn-group .btn + .btn {
+    margin-left: -1px;
+}
+
+/* Card hover effects for mobile */
+.card:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transform: translateY(-1px);
+    transition: all 0.2s ease-in-out;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let selectedMasterId = null;
+    let selectedMasterName = null;
+
+    // Master row click handlers
+    const masterRows = document.querySelectorAll('.master-row');
+    const detailTitle = document.getElementById('detailTitle');
+    const clearFilterBtn = document.getElementById('clearFilterBtn');
+    const addDetailBtn = document.getElementById('addDetailBtn');
+    const detailTableContainer = document.getElementById('detailTableContainer');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const emptyState = document.getElementById('emptyState');
+
+    masterRows.forEach(row => {
+        row.addEventListener('click', function(e) {
+            // Don't trigger if clicking on action buttons
+            if (e.target.closest('.btn') || e.target.closest('form')) {
+                return;
+            }
+
+            const masterId = this.dataset.masterId;
+            const masterName = this.dataset.masterName;
+
+            // Update visual selection
+            masterRows.forEach(r => r.classList.remove('selected'));
+            this.classList.add('selected');
+
+            // Store selection
+            selectedMasterId = masterId;
+            selectedMasterName = masterName;
+
+            // Update UI
+            updateDetailTable(masterId, masterName);
+            updateAddDetailButton(masterId);
+            
+            // Show clear filter button
+            clearFilterBtn.style.display = 'inline-block';
+        });
+    });
+
+    // Clear filter button
+    clearFilterBtn.addEventListener('click', function() {
+        clearFilter();
+    });
+
+    function updateDetailTable(masterId, masterName) {
+        // Show loading state
+        showLoading();
+
+        // Update title
+        detailTitle.textContent = `{{ detail_table.name.title() }} for: ${masterName}`;
+
+        // Make AJAX request to filter detail table
+        fetch(`filter_detail/${masterId}`)
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    renderDetailTable(data.data.records, data.data.display_fields);
+                    
+                    if (data.data.records.length === 0) {
+                        showEmptyState();
+                    }
+                } else {
+                    console.error('Error filtering details:', data.error);
+                    // Show error message or fallback
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                console.error('Error:', error);
+                // Show error message or fallback
+            });
+    }
+
+    function updateAddDetailButton(masterId) {
+        const currentHref = addDetailBtn.getAttribute('href');
+        const baseHref = currentHref.split('?')[0]; // Remove existing query params
+        addDetailBtn.setAttribute('href', `${baseHref}?master_id=${masterId}`);
+    }
+
+    function clearFilter() {
+        // Clear visual selection
+        masterRows.forEach(r => r.classList.remove('selected'));
+        
+        // Reset variables
+        selectedMasterId = null;
+        selectedMasterName = null;
+        
+        // Reset UI
+        detailTitle.textContent = '{{ detail_table.name.title() }}';
+        clearFilterBtn.style.display = 'none';
+        
+        // Reset add button
+        const currentHref = addDetailBtn.getAttribute('href');
+        const baseHref = currentHref.split('?')[0];
+        addDetailBtn.setAttribute('href', baseHref);
+        
+        // Reload all detail records
+        location.reload(); // Simple approach - could be optimized with AJAX
+    }
+
+    function showLoading() {
+        detailTableContainer.classList.add('loading');
+        loadingIndicator.classList.remove('d-none');
+        emptyState.classList.add('d-none');
+    }
+
+    function hideLoading() {
+        detailTableContainer.classList.remove('loading');
+        loadingIndicator.classList.add('d-none');
+    }
+
+    function showEmptyState() {
+        emptyState.classList.remove('d-none');
+    }
+
+    function renderDetailTable(records, displayFields) {
+        // Update desktop table
+        const detailTableBody = document.querySelector('#detailTable tbody');
+        if (detailTableBody) {
+            detailTableBody.innerHTML = '';
+            
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                
+                // Add field cells
+                displayFields.forEach(field => {
+                    const cell = document.createElement('td');
+                    cell.textContent = record[field.name] || '';
+                    row.appendChild(cell);
+                });
+                
+                // Add actions cell
+                const actionsCell = document.createElement('td');
+                actionsCell.innerHTML = `
+                    <div class="btn-group btn-group-sm">
+                        <a href="${record.id}/" class="btn btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="${record.id}/edit" class="btn btn-outline-secondary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <form method="POST" action="${record.id}/delete" class="d-inline" 
+                              onsubmit="return confirm('Are you sure you want to delete this {{ detail_table.name }}?')">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                `;
+                row.appendChild(actionsCell);
+                
+                detailTableBody.appendChild(row);
+            });
+        }
+
+        // Update mobile cards
+        const detailMobileCards = document.getElementById('detailMobileCards');
+        if (detailMobileCards) {
+            detailMobileCards.innerHTML = '';
+            
+            records.forEach(record => {
+                const card = document.createElement('div');
+                card.className = 'card mb-2 border-0 border-bottom';
+                
+                let fieldsHtml = '';
+                displayFields.slice(0, 3).forEach(field => {
+                    fieldsHtml += `
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">${field.title}:</span>
+                            <span>${record[field.name] || ''}</span>
+                        </div>
+                    `;
+                });
+                
+                card.innerHTML = `
+                    <div class="card-body py-3">
+                        ${fieldsHtml}
+                        <div class="mt-2">
+                            <a href="${record.id}/" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                            <a href="${record.id}/edit" class="btn btn-sm btn-outline-secondary me-1">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <form method="POST" action="${record.id}/delete" class="d-inline" 
+                                  onsubmit="return confirm('Are you sure you want to delete this {{ detail_table.name }}?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                
+                detailMobileCards.appendChild(card);
+            });
+        }
+    }
+});
+</script>
+{% endblock %}
