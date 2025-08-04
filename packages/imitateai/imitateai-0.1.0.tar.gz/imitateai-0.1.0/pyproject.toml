@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imitateai"
+version = "0.1.0"
+authors = [
+  { name="Your Name", email="your@email.com" },
+]
+description = "Inverse Reinforcement Learning for LLMs. Infer rewards and refine models."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "accelerate",
+    "peft",
+    "tqdm",
+    "datasets"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/imitateai"
+Issues = "https://github.com/your-username/imitateai/issues"
