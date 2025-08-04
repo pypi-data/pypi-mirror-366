@@ -1,0 +1,34 @@
+[project]
+name = "my_package_byteorium"
+version = "0.1.1"
+description = "Python project template for building robust, modern, and clean Python projects."
+authors = [
+    {name = "mab0189"}
+]
+license = {text = "MIT License"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers"
+]
+keywords = ["template", "example"]
+urls = {repository = "https://github.com/mab0189/python_project_template_byteorium"}
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.6"
+tox = "^4.24.1"
+mypy = "^1.15.0"
+pytest = "^8.3.4"
+sphinx = "^8.2.1"
+myst-parser = "^4.0.1"
+sphinx-rtd-theme = "^3.0.2"
