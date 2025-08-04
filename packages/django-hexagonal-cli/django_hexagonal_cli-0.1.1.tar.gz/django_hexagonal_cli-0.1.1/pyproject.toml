@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "django-hexagonal-cli"
+version = "0.1.1"
+description = "A command-line tool to generate Django projects and apps following the hexagonal (ports and adapters) architecture."
+authors = ["brunogonzalezlla <brunogllaga@icloud.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "django_hexagonal_cli", from = "src" }]
+keywords = ["django", "hexagonal", "cli", "codegen"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.scripts]
+django-admin-hex = "django_hexagonal_cli.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 100

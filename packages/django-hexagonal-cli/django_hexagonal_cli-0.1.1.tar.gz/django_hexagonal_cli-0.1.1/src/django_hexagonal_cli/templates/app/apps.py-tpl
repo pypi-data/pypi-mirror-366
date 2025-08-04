@@ -1,0 +1,14 @@
+from django.apps import AppConfig
+from django.conf import settings
+
+
+class {{ app_name|capfirst }}Config(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.{{ app_name }}"
+
+    def ready(self):
+        """
+        Import ORM models, set migration path and container wiring on app ready
+        """
+        models_module = f"{self.name}.infrastructure.orm.models"
+        __import__(models_module)

@@ -1,0 +1,12 @@
+[project]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = "Django project with hexagonal architecture"
+authors = [
+    { name = "Your Name", email = "your@email.com" }
+]
+readme = "README.md"
+dependencies = [
+    "Django>=__django_version__"
+]
+requires-python = ">=__python_version__"
