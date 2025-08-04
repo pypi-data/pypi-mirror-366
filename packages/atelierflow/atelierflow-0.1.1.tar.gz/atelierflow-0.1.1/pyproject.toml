@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atelierflow"
+dynamic = ["version"]
+authors = [
+  { name="Marcelo Brito", email="mhbcoelho99@gmail.com" },
+]
+description = "A lightweight Python framework for creating clear, reproducible, and scalable machine learning pipelines."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["mlops", "pipeline", "machine-learning", "orchestration", "reproducibility"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License", 
+  "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "pandas",
+  "fastavro"
+]
+
+[project.optional-dependencies]
+torch = ["torch"]
+sklearn = ["scikit-learn"]
+tensorflow = ["tensorflow"]
+all = [
+  "atelierflow[torch]",
+  "atelierflow[sklearn]",
+  "atelierflow[tensorflow]",
+]
+
+[project.urls]
+Homepage = "https://github.com/IoTDataAtelier/pipeflow" 
+
+[tool.setuptools.packages.find]
+include = ["atelierflow", "atelierflow.*"]
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "node-and-date"
