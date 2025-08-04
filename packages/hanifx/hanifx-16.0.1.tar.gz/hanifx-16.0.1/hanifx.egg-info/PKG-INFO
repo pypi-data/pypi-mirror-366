@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: hanifx
+Version: 16.0.1
+Summary: A future-proof encryption module with advanced features
+Author: Hanif
+Author-email: sajim4653@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cryptography>=3.4.7
+Requires-Dist: qrcode>=7.3.1
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# hanifx
+
+A modern encryption module designed with future features like fake decrypt, geo lock, telegram unlock, self-destruct, and QR-based unlock.
+
+## Installation
+
+```bash
+pip install hanifx
+
+# from hanifx import HanifxCore 
+
+h = HanifxCore()
+print(h.get_key())
+
+h.encrypt_file("file.txt", "file.enc")
+h.decrypt_file("file.enc", "file.dec.txt")
