@@ -1,0 +1,219 @@
+Metadata-Version: 2.4
+Name: servicenow-bulk
+Version: 0.0.1
+Summary: An MCP server for exporting large datasets from ServiceNow.
+Author-email: veera reddy <mallikarjun.servicenow@gmail.com>
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: mcp[cli]>=1.12.3
+
+<div align="center">
+
+# 🚀 ServiceNow Bulk Data Exporter (MCP Server)
+**Created by [Veera Reddy](http://github.com/mallikarjunservicenow/)**
+
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green?style=for-the-badge)](https://modelcontextprotocol.io/)
+[![ServiceNow](https://img.shields.io/badge/ServiceNow-Table%20API-red?style=for-the-badge&logo=servicenow)](https://developer.servicenow.com/dev.do#!/reference/api/vancouver/rest/c_TableAPI)
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
+
+**🎯 Export massive ServiceNow datasets using simple, natural language commands directly from your chat client.**
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [🌟 Overview](#-overview)
+- [✨ Key Features](#-key-features)
+- [🏗️ Architecture](#️-architecture)
+- [⚡ Quick Start](#-quick-start)
+- [🔧 Installation & Configuration](#-installation--configuration)
+- [💬 How to Use](#-how-to-use)
+- [🎛️ Available Tools](#️-available-tools)
+- [🐛 Troubleshooting](#-troubleshooting)
+
+## 🌟 Overview
+
+The **ServiceNow MCP Exporter** transforms the tedious task of data extraction into a simple conversation. By integrating with an AI chat client like Claude Desktop, this tool allows you to run massive, long-running export jobs in the background without worrying about timeouts or complex scripts.
+
+Just ask for the data you need, and the server handles the rest, saving the completed CSV file directly to your computer.
+
+## ✨ Key Features
+
+<table>
+<tr>
+<td>
+
+### 🚀 Asynchronous by Design
+- Kicks off export jobs in the background, so your chat client gets an instant response and never times out.
+- Perfect for datasets that take minutes or even hours to export.
+
+</td>
+<td>
+
+### 🗂️ Handles Massive Datasets
+- Uses efficient, paginated API calls to reliably download tables with millions of records.
+- Avoids memory overloads and performance hits on your ServiceNow instance.
+
+</td>
+</tr>
+<tr>
+<td>
+
+### 📊 Real-Time Progress Tracking
+- A simple, two-step process lets you start a job and check its status on demand.
+- Get clear updates on how many records have been downloaded.
+
+</td>
+<td>
+
+### 🔒 Secure & Simple
+- Configure your ServiceNow credentials once in a secure local file.
+- No need to mention sensitive usernames or passwords in your prompts.
+
+</td>
+</tr>
+</table>
+
+## 🏗️ Architecture
+
+The tool acts as a smart assistant for your data export tasks. When you ask it to perform an export, it connects to ServiceNow on your behalf, downloads the data in manageable chunks, and assembles it into a single CSV file on your computer.
+
+```mermaid
+graph TD
+    subgraph "Your Computer"
+        A[You via Claude Desktop] -->|1. "Export the incident table"| B(MCP Server);
+        B -->|4. Saves File| D[Downloads Folder];
+    end
+    
+    subgraph "The Cloud"
+        C[ServiceNow Instance]
+    end
+
+    B -->|2. Fetches Data in Batches| C;
+    C -->|3. Sends Data Back| B;
+    A -->|5. "What's the status?"| B;
+    B -->|6. "Almost done!"| A;
+```
+
+---
+
+## ⚡ Quick Start
+
+1.  **Clone the repository** and navigate into the directory.
+2.  **Run `uv venv`** to create a Python virtual environment.
+3.  **Run `uv pip install httpx "mcp[cli]"`** to install dependencies.
+4.  **Configure Claude Desktop** by following the detailed steps in the section below.
+5.  **Restart Claude Desktop** and start exporting!
+
+> **💬 First Command:** "Using the servicenow-exporter, please export the `incident` table. My request ID is `first-test-01`."
+
+---
+
+## 🔧 Installation & Configuration
+
+### Step 1: Prepare Your Project
+Make sure the project is on your computer and all its Python dependencies are installed. Open a terminal in the project directory and run:
+
+-   **`uv venv`** (This creates a local, isolated Python environment)
+-   **`uv pip install httpx "mcp[cli]"`** (This installs the necessary libraries)
+-  **`powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`**
+
+### Step 2: Configure Claude Desktop
+You need to tell Claude Desktop how to find and run the exporter. This involves editing a single configuration file.
+
+-   **Find the configuration file:**
+    -   **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+    -   **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+-   **Add the server configuration:** Copy the JSON block below into the file. **You must update the placeholder paths and your ServiceNow credentials** to match your system.
+
+<details>
+<summary><strong>Click to see JSON configuration template</strong></summary>
+
+```json
+{
+    "mcpServers": {
+        "servicenow-agent": {
+            "command": "C:\\Users\\<YourUser>\\.local\\bin\\uv.exe",
+            "args": [
+                "--directory",
+                "D:\\path\\to\\your\\project\\mcp-servicenow-exporter",
+                "run",
+                "python",
+                "revised.py",
+                "--instance-name", "YOUR_INSTANCE_NAME",
+                "--username", "YOUR_SERVICENOW_USERNAME",
+                "--password", "YOUR_SERVICENOW_PASSWORD"
+            ]
+        }
+    }
+}
+```
+</details>
+
+### Step 3: Restart Claude Desktop
+Completely quit and restart the Claude Desktop application. This loads the new configuration and automatically starts your exporter server in the background.
+
+---
+
+## 💬 How to Use
+
+Exporting data is a simple, two-step conversation. You start the job, and then you ask for the result when you're ready.
+
+### The Workflow
+
+```mermaid
+sequenceDiagram
+    participant You
+    participant Claude
+    participant "Exporter Server" as Server
+
+    You->>Claude: "Start export for 'incident' table with ID 'job-123'"
+    Claude->>Server: Calls `export_table(...)`
+    Server-->>Claude: "Acknowledged. Job started."
+    Claude-->>You: "OK, I've started the export with ID 'job-123'."
+
+    Note right of You: You can wait a few minutes...
+
+    You->>Claude: "What is the status of job 'job-123'?"
+    Claude->>Server: Calls `get_export_status(...)`
+    Server-->>Claude: "Complete. File saved at C:\\Users\\...\\export.csv"
+    Claude-->>You: "The export is finished! The file is in your Downloads folder at C:\\Users\\...\\export.csv"
+```
+
+### Step 1: Start the Export
+To begin, you must provide a unique **`request_id`** (to track your job) and the **`table`** name.
+
+> **Your Prompt:** "Using the servicenow-exporter, please export the `incident` table. My request ID is `incident-export-2025-08-03`."
+
+Claude will confirm that the job has started.
+
+### Step 2: Check the Status and Get the File
+After waiting a bit, ask for the status using the same `request_id`.
+
+> **Your Prompt:** "What is the status of export job `incident-export-2025-08-03`?"
+
+-   **If the job is still running,** you'll get a progress update.
+-   **Once it's complete,** Claude will give you a confirmation message with the full path to the file in your Downloads folder.
+
+### Advanced Example
+You can also add a `query` and specify `fields` in your first prompt to customize the export.
+
+> **Your Prompt:** "Start an export from the `cmdb_ci_server` table with request ID `active-linux-servers`. I only want records where `operational_status=1` and `os` is `Linux`. Please only include the `name` and `ip_address` fields."
+
+## 🎛️ Available Tools
+
+The MCP server provides two main tools for Claude to use:
+
+-   **`export_table`**: Starts a new, asynchronous export job.
+-   **`get_export_status`**: Checks the progress of an existing job and provides the file path upon completion.
+
+## 🐛 Troubleshooting
+
+-   **`ModuleNotFoundError: No module named 'httpx'`**: This means the required libraries are not installed in the environment the server is using. Ensure you have run `uv pip install httpx "mcp[cli]"` in your project's virtual environment and that the `--directory` path in your `claude_desktop_config.json` is correct.
+-   **Server Fails to Start**: Double-check all paths in your `claude_desktop_config.json`. They must be absolute paths, and the `command` path must point directly to your `uv.exe` file.
+-   **Permission Denied Errors**: If the export fails with a `401` or `403` error in the logs, verify that the username and password in your `claude_desktop_config.json` are correct and that the user has read permissions for the target table in ServiceNow.

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "servicenow-bulk"
+version = "0.0.1"
+authors = [
+  { name="veera reddy", email="mallikarjun.servicenow@gmail.com" },
+]
+description = "An MCP server for exporting large datasets from ServiceNow."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.12.3",
+]
+
+
+[project.scripts]
+servicenow-bulk = "servicenow_exporter.main:start_server"
