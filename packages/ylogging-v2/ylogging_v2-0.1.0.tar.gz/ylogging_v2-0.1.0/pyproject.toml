@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ylogging-v2"
+version = "0.1.0"
+description = "A Python logging package"
+authors = [{name = "Yacine Touati", email = "yactouat@yactouat.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "google-auth",
+    "google-cloud-error-reporting",
+    "google-cloud-logging",
+    "pydantic",
+    "pytz",
+]
+
+[project.urls]
+Homepage = "https://github.com/yactouat/ylogging_v2"
+Repository = "https://github.com/yactouat/ylogging_v2"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

@@ -1,0 +1,71 @@
+# ylogging-v2
+
+A Python logging package that is designed to log stuff both on the GCP and to local stdout/stderr.
+
+## Installation
+
+```bash
+pip install ylogging-v2
+```
+
+## GCP integration
+
+You'll need `GOOGLE_APPLICATION_CREDENTIALS` env var filled if you want to use the GCP loggers and error reporting client. And whatever authenticated abstraction using these objects need to have the following permissions:
+
+- `errorreporting.errorEvents.create`
+- `logging.logEntries.create`
+
+This means you need a GCP project with these APIs enabled:
+
+- Error Reporting
+- Google Cloud Logging
+
+## Development
+
+### Building the Package
+
+1. Install build dependencies:
+```bash
+python3 -m venv venv && source venv/bin/activate && pip install --upgrade -r requirements.txt
+pip install build twine
+```
+
+2. Build the package:
+```bash
+python -m build
+```
+
+This creates distribution files in the `dist/` directory.
+
+### Deploying to PyPI
+
+1. Create an account at [pypi.org](https://pypi.org)
+
+2. Upload to PyPI:
+```bash
+twine upload dist/*
+```
+
+#### Using API Tokens (Recommended)
+
+For better security, use API tokens instead of username/password:
+
+1. Generate an API token in your PyPI account settings
+2. Create `~/.pypirc`:
+```ini
+[distutils]
+index-servers = pypi
+
+[pypi]
+username = __token__
+password = pypi-your-api-token-here
+```
+
+3. Upload without entering credentials:
+```bash
+twine upload dist/*
+```
+
+## License
+
+MIT
